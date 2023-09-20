@@ -73,7 +73,7 @@ namespace TaleWorlds.SaveSystem
 					try
 					{
 						GameData gameData;
-						if (this.GetApplicationVersionOfMetaData(metaData) < ApplicationVersion.FromString("v1.1.0", 17949))
+						if (this.GetApplicationVersionOfMetaData(metaData) < ApplicationVersion.FromString("v1.1.0", 21456))
 						{
 							gameData = (GameData)new BinaryFormatter().Deserialize(deflateStream);
 							return new LoadData(metaData, gameData);
@@ -123,7 +123,7 @@ namespace TaleWorlds.SaveSystem
 			{
 				return ApplicationVersion.Empty;
 			}
-			return ApplicationVersion.FromString(text, 17949);
+			return ApplicationVersion.FromString(text, 21456);
 		}
 
 		public string[] GetSaveGameFileNames()

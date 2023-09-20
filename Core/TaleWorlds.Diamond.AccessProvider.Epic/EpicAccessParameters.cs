@@ -6,7 +6,7 @@ namespace TaleWorlds.Diamond.AccessProvider.Epic
 	{
 		public const string ProductName = "Bannerlord";
 
-		public const string ProductVersion = "1.1.4.17949";
+		public const string ProductVersion = "1.0";
 
 		public const string ClientId = "e2cf3228b2914793b9a5e5570bad92b3";
 

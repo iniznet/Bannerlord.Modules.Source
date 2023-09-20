@@ -347,68 +347,76 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<PollRequestRejected>(new GameNetworkMessage.ServerMessageHandlerDelegate<PollRequestRejected>(this.HandleServerEventPollRequestRejected));
-				registerer.Register<PollProgress>(new GameNetworkMessage.ServerMessageHandlerDelegate<PollProgress>(this.HandleServerEventUpdatePollProgress));
-				registerer.Register<PollCancelled>(new GameNetworkMessage.ServerMessageHandlerDelegate<PollCancelled>(this.HandleServerEventPollCancelled));
-				registerer.Register<KickPlayerPollOpened>(new GameNetworkMessage.ServerMessageHandlerDelegate<KickPlayerPollOpened>(this.HandleServerEventKickPlayerPollOpened));
-				registerer.Register<KickPlayerPollClosed>(new GameNetworkMessage.ServerMessageHandlerDelegate<KickPlayerPollClosed>(this.HandleServerEventKickPlayerPollClosed));
-				registerer.Register<NetworkMessages.FromServer.ChangeGamePoll>(new GameNetworkMessage.ServerMessageHandlerDelegate<NetworkMessages.FromServer.ChangeGamePoll>(this.HandleServerEventChangeGamePoll));
+				registerer.RegisterBaseHandler<PollRequestRejected>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventPollRequestRejected));
+				registerer.RegisterBaseHandler<PollProgress>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventUpdatePollProgress));
+				registerer.RegisterBaseHandler<PollCancelled>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventPollCancelled));
+				registerer.RegisterBaseHandler<KickPlayerPollOpened>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventKickPlayerPollOpened));
+				registerer.RegisterBaseHandler<KickPlayerPollClosed>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventKickPlayerPollClosed));
+				registerer.RegisterBaseHandler<NetworkMessages.FromServer.ChangeGamePoll>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventChangeGamePoll));
 				return;
 			}
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<PollResponse>(new GameNetworkMessage.ClientMessageHandlerDelegate<PollResponse>(this.HandleClientEventPollResponse));
-				registerer.Register<KickPlayerPollRequested>(new GameNetworkMessage.ClientMessageHandlerDelegate<KickPlayerPollRequested>(this.HandleClientEventKickPlayerPollRequested));
-				registerer.Register<NetworkMessages.FromClient.ChangeGamePoll>(new GameNetworkMessage.ClientMessageHandlerDelegate<NetworkMessages.FromClient.ChangeGamePoll>(this.HandleClientEventChangeGamePoll));
+				registerer.RegisterBaseHandler<PollResponse>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventPollResponse));
+				registerer.RegisterBaseHandler<KickPlayerPollRequested>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventKickPlayerPollRequested));
+				registerer.RegisterBaseHandler<NetworkMessages.FromClient.ChangeGamePoll>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventChangeGamePoll));
 			}
 		}
 
-		private bool HandleClientEventChangeGamePoll(NetworkCommunicator peer, NetworkMessages.FromClient.ChangeGamePoll message)
+		private bool HandleClientEventChangeGamePoll(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
-			this.StartChangeGamePollOnServer(peer, message.GameType, message.Map);
+			NetworkMessages.FromClient.ChangeGamePoll changeGamePoll = (NetworkMessages.FromClient.ChangeGamePoll)baseMessage;
+			this.StartChangeGamePollOnServer(peer, changeGamePoll.GameType, changeGamePoll.Map);
 			return true;
 		}
 
-		private bool HandleClientEventKickPlayerPollRequested(NetworkCommunicator peer, KickPlayerPollRequested message)
+		private bool HandleClientEventKickPlayerPollRequested(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
-			this.OpenKickPlayerPollOnServer(peer, message.PlayerPeer, message.BanPlayer);
+			KickPlayerPollRequested kickPlayerPollRequested = (KickPlayerPollRequested)baseMessage;
+			this.OpenKickPlayerPollOnServer(peer, kickPlayerPollRequested.PlayerPeer, kickPlayerPollRequested.BanPlayer);
 			return true;
 		}
 
-		private bool HandleClientEventPollResponse(NetworkCommunicator peer, PollResponse message)
+		private bool HandleClientEventPollResponse(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
-			this.ApplyVote(peer, message.Accepted);
+			PollResponse pollResponse = (PollResponse)baseMessage;
+			this.ApplyVote(peer, pollResponse.Accepted);
 			return true;
 		}
 
-		private void HandleServerEventChangeGamePoll(NetworkMessages.FromServer.ChangeGamePoll message)
+		private void HandleServerEventChangeGamePoll(GameNetworkMessage baseMessage)
 		{
-			this.ShowChangeGamePoll(message.GameType, message.Map);
+			NetworkMessages.FromServer.ChangeGamePoll changeGamePoll = (NetworkMessages.FromServer.ChangeGamePoll)baseMessage;
+			this.ShowChangeGamePoll(changeGamePoll.GameType, changeGamePoll.Map);
 		}
 
-		private void HandleServerEventKickPlayerPollOpened(KickPlayerPollOpened message)
+		private void HandleServerEventKickPlayerPollOpened(GameNetworkMessage baseMessage)
 		{
-			this.OpenKickPlayerPoll(message.PlayerPeer, message.InitiatorPeer, message.BanPlayer, null);
+			KickPlayerPollOpened kickPlayerPollOpened = (KickPlayerPollOpened)baseMessage;
+			this.OpenKickPlayerPoll(kickPlayerPollOpened.PlayerPeer, kickPlayerPollOpened.InitiatorPeer, kickPlayerPollOpened.BanPlayer, null);
 		}
 
-		private void HandleServerEventUpdatePollProgress(PollProgress message)
+		private void HandleServerEventUpdatePollProgress(GameNetworkMessage baseMessage)
 		{
-			this.UpdatePollProgress(message.VotesAccepted, message.VotesRejected);
+			PollProgress pollProgress = (PollProgress)baseMessage;
+			this.UpdatePollProgress(pollProgress.VotesAccepted, pollProgress.VotesRejected);
 		}
 
-		private void HandleServerEventPollCancelled(PollCancelled message)
+		private void HandleServerEventPollCancelled(GameNetworkMessage baseMessage)
 		{
 			this.CancelPoll();
 		}
 
-		private void HandleServerEventKickPlayerPollClosed(KickPlayerPollClosed message)
+		private void HandleServerEventKickPlayerPollClosed(GameNetworkMessage baseMessage)
 		{
-			this.CloseKickPlayerPoll(message.Accepted, message.PlayerPeer);
+			KickPlayerPollClosed kickPlayerPollClosed = (KickPlayerPollClosed)baseMessage;
+			this.CloseKickPlayerPoll(kickPlayerPollClosed.Accepted, kickPlayerPollClosed.PlayerPeer);
 		}
 
-		private void HandleServerEventPollRequestRejected(PollRequestRejected message)
+		private void HandleServerEventPollRequestRejected(GameNetworkMessage baseMessage)
 		{
-			this.RejectPoll((MultiplayerPollRejectReason)message.Reason);
+			PollRequestRejected pollRequestRejected = (PollRequestRejected)baseMessage;
+			this.RejectPoll((MultiplayerPollRejectReason)pollRequestRejected.Reason);
 		}
 
 		public const int MinimumParticipantCountRequired = 3;

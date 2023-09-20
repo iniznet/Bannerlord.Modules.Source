@@ -288,13 +288,14 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<NotificationMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<NotificationMessage>(this.HandleServerEventServerMessage));
+				registerer.RegisterBaseHandler<NotificationMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventServerMessage));
 			}
 		}
 
-		private void HandleServerEventServerMessage(NotificationMessage message)
+		private void HandleServerEventServerMessage(GameNetworkMessage baseMessage)
 		{
-			this.ShowNotification((MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum)message.Message, new int[] { message.ParameterOne, message.ParameterTwo });
+			NotificationMessage notificationMessage = (NotificationMessage)baseMessage;
+			this.ShowNotification((MultiplayerGameNotificationsComponent.MultiplayerNotificationEnum)notificationMessage.Message, new int[] { notificationMessage.ParameterOne, notificationMessage.ParameterTwo });
 		}
 
 		protected override void HandleNewClientConnect(PlayerConnectionInfo clientConnectionInfo)

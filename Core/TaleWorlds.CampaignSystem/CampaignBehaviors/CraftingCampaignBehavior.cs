@@ -51,7 +51,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<List<WeaponDesign>>("_craftingHistory", ref this._craftingHistory);
 			dataStore.SyncData<Dictionary<CraftingTemplate, List<CraftingPiece>>>("_openedPartsDictionary", ref this._openedPartsDictionary);
 			dataStore.SyncData<Dictionary<CraftingTemplate, float>>("_openNewPartXpDictionary", ref this._openNewPartXpDictionary);
-			if (dataStore.IsLoading && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 17949))
+			if (dataStore.IsLoading && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 21456))
 			{
 				List<CraftingPiece> list = new List<CraftingPiece>();
 				dataStore.SyncData<List<CraftingPiece>>("_openedParts", ref list);
@@ -289,7 +289,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			foreach (KeyValuePair<ItemObject, CraftingCampaignBehavior.CraftedItemInitializationData> keyValuePair in this._craftedItemDictionary)
 			{
 				WeaponDesign weaponDesign = keyValuePair.Value.CraftedData;
-				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 17949))
+				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 21456))
 				{
 					WeaponDesignElement[] array = new WeaponDesignElement[keyValuePair.Value.CraftedData.UsedPieces.Length];
 					for (int i = 0; i < keyValuePair.Value.CraftedData.UsedPieces.Length; i++)

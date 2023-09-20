@@ -690,6 +690,16 @@ namespace TaleWorlds.MountAndBlade
 
 		public WorldPosition CreateNewOrderWorldPosition(WorldPosition.WorldPositionEnforcedCache worldPositionEnforcedCache)
 		{
+			if (!this.OrderPositionIsValid)
+			{
+				Debug.Print(string.Concat(new object[]
+				{
+					"Formation order position is not valid. Team: ",
+					this.Team.TeamIndex,
+					", Formation: ",
+					(int)this.FormationIndex
+				}), 0, Debug.DebugColor.Yellow, 17592186044416UL);
+			}
 			if (worldPositionEnforcedCache != WorldPosition.WorldPositionEnforcedCache.NavMeshVec3)
 			{
 				if (worldPositionEnforcedCache == WorldPosition.WorldPositionEnforcedCache.GroundVec3)
@@ -1153,12 +1163,27 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return worldPositionOfUnitOrDefault.Value;
 			}
-			WorldPosition worldPosition = this._movementOrder.CreateNewOrderWorldPosition(this, WorldPosition.WorldPositionEnforcedCache.NavMeshVec3);
-			if (worldPosition.GetNavMesh() == UIntPtr.Zero || !Mission.Current.IsPositionInsideBoundaries(worldPosition.AsVec2))
+			if (!this.OrderPositionIsValid)
+			{
+				WorldPosition worldPosition = unit.GetWorldPosition();
+				Debug.Print(string.Concat(new object[]
+				{
+					"Formation order position is not valid. Team: ",
+					this.Team.TeamIndex,
+					", Formation: ",
+					(int)this.FormationIndex,
+					"Unit Pos: ",
+					worldPosition.GetGroundVec3(),
+					"Mission Mode: ",
+					Mission.Current.Mode.ToString()
+				}), 0, Debug.DebugColor.Yellow, 17592186044416UL);
+			}
+			WorldPosition worldPosition2 = this._movementOrder.CreateNewOrderWorldPosition(this, WorldPosition.WorldPositionEnforcedCache.NavMeshVec3);
+			if (worldPosition2.GetNavMesh() == UIntPtr.Zero || !Mission.Current.IsPositionInsideBoundaries(worldPosition2.AsVec2))
 			{
 				return unit.GetWorldPosition();
 			}
-			return worldPosition;
+			return worldPosition2;
 		}
 
 		public WorldPosition GetOrderPositionOfUnit(Agent unit)
@@ -1181,6 +1206,19 @@ namespace TaleWorlds.MountAndBlade
 					{
 						return this.GetOrderPositionOfUnitAux(unit);
 					}
+					if (!this.OrderPositionIsValid)
+					{
+						WorldPosition worldPosition = unit.GetWorldPosition();
+						Debug.Print(string.Concat(new object[]
+						{
+							"Formation order position is not valid. Team: ",
+							this.Team.TeamIndex,
+							", Formation: ",
+							(int)this.FormationIndex,
+							"Unit Pos: ",
+							worldPosition.GetGroundVec3()
+						}), 0, Debug.DebugColor.Yellow, 17592186044416UL);
+					}
 					return this._movementOrder.CreateNewOrderWorldPosition(this, WorldPosition.WorldPositionEnforcedCache.None);
 				case MovementOrder.MovementStateEnum.Hold:
 					return this.GetOrderPositionOfUnitAux(unit);
@@ -1189,7 +1227,7 @@ namespace TaleWorlds.MountAndBlade
 				case MovementOrder.MovementStateEnum.StandGround:
 					return unit.GetWorldPosition();
 				default:
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Formation.cs", "GetOrderPositionOfUnit", 1408);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Formation.cs", "GetOrderPositionOfUnit", 1438);
 					return WorldPosition.Invalid;
 				}
 			}

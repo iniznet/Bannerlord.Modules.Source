@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{EE0B7271-0F72-456A-800C-3BE0D2E0AE45}</ProjectGuid>
+    <ProjectGuid>{610693D8-C30F-45EA-88C6-E1FD21AC4993}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SandBox.ViewModelCollection</RootNamespace>
     <AssemblyName>SandBox.ViewModelCollection</AssemblyName>
@@ -117,7 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SandBox\SandBox.csproj">
-      <Project>{ee0b7271-0f72-456a-800c-3be0d2e0ae42}</Project>
+      <Project>{610693d8-c30f-45ea-88c6-e1fd21ac4990}</Project>
       <Name>SandBox</Name>
     </ProjectReference>
   </ItemGroup>

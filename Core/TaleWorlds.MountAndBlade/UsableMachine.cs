@@ -853,11 +853,27 @@ namespace TaleWorlds.MountAndBlade
 					}
 				}
 			}
-			((IDetachment)this).AddAgent(agent, slotIndex);
-			Formation formation2 = agent.Formation;
-			if (formation2 != null)
+			if (standingPoint.HasDefendingAgent)
 			{
-				formation2.DetachUnit(agent, false);
+				for (int i = standingPoint.DefendingAgents.Count - 1; i >= 0; i--)
+				{
+					Agent agent2 = standingPoint.DefendingAgents[i];
+					if (agent2 != null)
+					{
+						((IDetachment)this).RemoveAgent(agent2);
+						Formation formation2 = agent2.Formation;
+						if (formation2 != null)
+						{
+							formation2.AttachUnit(agent2);
+						}
+					}
+				}
+			}
+			((IDetachment)this).AddAgent(agent, slotIndex);
+			Formation formation3 = agent.Formation;
+			if (formation3 != null)
+			{
+				formation3.DetachUnit(agent, false);
 			}
 			agent.Detachment = this;
 			agent.DetachmentWeight = 1f;
@@ -1076,7 +1092,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMachine.cs", "AddAgent", 1355);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMachine.cs", "AddAgent", 1371);
 			}
 		}
 

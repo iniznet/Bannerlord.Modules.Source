@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-311642108204}</ProjectGuid>
+    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F98F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.ScreenSystem</RootNamespace>
     <AssemblyName>TaleWorlds.ScreenSystem</AssemblyName>
@@ -53,11 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ee}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f979}</Project>
       <Name>TaleWorlds.InputSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97a}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{EE0B7271-0F72-456A-800C-3BE0D2E0AE43}</ProjectGuid>
+    <ProjectGuid>{610693D8-C30F-45EA-88C6-E1FD21AC4991}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SandBox.GauntletUI</RootNamespace>
     <AssemblyName>SandBox.GauntletUI</AssemblyName>
@@ -48,12 +48,8 @@
     <Reference Include="TaleWorlds.Localization" />
     <Reference Include="TaleWorlds.ModuleManager" />
     <Reference Include="TaleWorlds.MountAndBlade" />
-    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI">
-      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.GauntletUI.dll</HintPath>
-    </Reference>
-    <Reference Include="TaleWorlds.MountAndBlade.View">
-      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.View.dll</HintPath>
-    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI" />
+    <Reference Include="TaleWorlds.MountAndBlade.View" />
     <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
     <Reference Include="TaleWorlds.ObjectSystem" />
     <Reference Include="TaleWorlds.ScreenSystem" />
@@ -129,15 +125,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SandBox.ViewModelCollection\SandBox.ViewModelCollection.csproj">
-      <Project>{ee0b7271-0f72-456a-800c-3be0d2e0ae45}</Project>
+      <Project>{610693d8-c30f-45ea-88c6-e1fd21ac4993}</Project>
       <Name>SandBox.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\SandBox.View\SandBox.View.csproj">
-      <Project>{ee0b7271-0f72-456a-800c-3be0d2e0ae44}</Project>
+      <Project>{610693d8-c30f-45ea-88c6-e1fd21ac4992}</Project>
       <Name>SandBox.View</Name>
     </ProjectReference>
     <ProjectReference Include="..\SandBox\SandBox.csproj">
-      <Project>{ee0b7271-0f72-456a-800c-3be0d2e0ae42}</Project>
+      <Project>{610693d8-c30f-45ea-88c6-e1fd21ac4990}</Project>
       <Name>SandBox</Name>
     </ProjectReference>
   </ItemGroup>

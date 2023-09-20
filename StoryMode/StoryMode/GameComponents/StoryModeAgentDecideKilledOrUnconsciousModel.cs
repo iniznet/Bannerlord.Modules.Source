@@ -19,7 +19,7 @@ namespace StoryMode.GameComponents
 			{
 				return 0f;
 			}
-			return base.GetAgentStateProbability(affectorAgent, effectedAgent, damageType, out useSurgeryProbability);
+			return base.GetAgentStateProbability(affectorAgent, effectedAgent, damageType, ref useSurgeryProbability);
 		}
 	}
 }

@@ -116,13 +116,13 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<BotsControlledChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<BotsControlledChange>(this.HandleServerEventBotsControlledChangeEvent));
-				registerer.Register<FlagDominationMoraleChangeMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<FlagDominationMoraleChangeMessage>(this.HandleMoraleChangedMessage));
-				registerer.Register<SyncGoldsForSkirmish>(new GameNetworkMessage.ServerMessageHandlerDelegate<SyncGoldsForSkirmish>(this.HandleServerEventUpdateGold));
-				registerer.Register<FlagDominationFlagsRemovedMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<FlagDominationFlagsRemovedMessage>(this.HandleFlagsRemovedMessage));
-				registerer.Register<FlagDominationCapturePointMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<FlagDominationCapturePointMessage>(this.HandleServerEventPointCapturedMessage));
-				registerer.Register<FormationWipedMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<FormationWipedMessage>(this.HandleServerEventFormationWipedMessage));
-				registerer.Register<GoldGain>(new GameNetworkMessage.ServerMessageHandlerDelegate<GoldGain>(this.HandleServerEventPersonalGoldGain));
+				registerer.RegisterBaseHandler<BotsControlledChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventBotsControlledChangeEvent));
+				registerer.RegisterBaseHandler<FlagDominationMoraleChangeMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleMoraleChangedMessage));
+				registerer.RegisterBaseHandler<SyncGoldsForSkirmish>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventUpdateGold));
+				registerer.RegisterBaseHandler<FlagDominationFlagsRemovedMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleFlagsRemovedMessage));
+				registerer.RegisterBaseHandler<FlagDominationCapturePointMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventPointCapturedMessage));
+				registerer.RegisterBaseHandler<FormationWipedMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventFormationWipedMessage));
+				registerer.RegisterBaseHandler<GoldGain>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventPersonalGoldGain));
 			}
 		}
 
@@ -244,55 +244,60 @@ namespace TaleWorlds.MountAndBlade
 			return this._capturePointOwners[flag.FlagIndex];
 		}
 
-		private void HandleServerEventBotsControlledChangeEvent(BotsControlledChange message)
+		private void HandleServerEventBotsControlledChangeEvent(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
-			this.OnBotsControlledChanged(component, message.AliveCount, message.TotalCount);
+			BotsControlledChange botsControlledChange = (BotsControlledChange)baseMessage;
+			MissionPeer component = botsControlledChange.Peer.GetComponent<MissionPeer>();
+			this.OnBotsControlledChanged(component, botsControlledChange.AliveCount, botsControlledChange.TotalCount);
 		}
 
-		private void HandleMoraleChangedMessage(FlagDominationMoraleChangeMessage message)
+		private void HandleMoraleChangedMessage(GameNetworkMessage baseMessage)
 		{
-			this.OnMoraleChanged(message.Morale);
+			FlagDominationMoraleChangeMessage flagDominationMoraleChangeMessage = (FlagDominationMoraleChangeMessage)baseMessage;
+			this.OnMoraleChanged(flagDominationMoraleChangeMessage.Morale);
 		}
 
-		private void HandleServerEventUpdateGold(SyncGoldsForSkirmish message)
+		private void HandleServerEventUpdateGold(GameNetworkMessage baseMessage)
 		{
-			FlagDominationMissionRepresentative component = message.VirtualPlayer.GetComponent<FlagDominationMissionRepresentative>();
-			this.OnGoldAmountChangedForRepresentative(component, message.GoldAmount);
+			SyncGoldsForSkirmish syncGoldsForSkirmish = (SyncGoldsForSkirmish)baseMessage;
+			FlagDominationMissionRepresentative component = syncGoldsForSkirmish.VirtualPlayer.GetComponent<FlagDominationMissionRepresentative>();
+			this.OnGoldAmountChangedForRepresentative(component, syncGoldsForSkirmish.GoldAmount);
 		}
 
-		private void HandleFlagsRemovedMessage(FlagDominationFlagsRemovedMessage message)
+		private void HandleFlagsRemovedMessage(GameNetworkMessage baseMessage)
 		{
 			this.OnNumberOfFlagsChanged();
 		}
 
-		private void HandleServerEventPointCapturedMessage(FlagDominationCapturePointMessage message)
+		private void HandleServerEventPointCapturedMessage(GameNetworkMessage baseMessage)
 		{
+			FlagDominationCapturePointMessage flagDominationCapturePointMessage = (FlagDominationCapturePointMessage)baseMessage;
 			foreach (FlagCapturePoint flagCapturePoint in this.AllCapturePoints)
 			{
-				if (flagCapturePoint.FlagIndex == message.FlagIndex)
+				if (flagCapturePoint.FlagIndex == flagDominationCapturePointMessage.FlagIndex)
 				{
-					this.OnCapturePointOwnerChanged(flagCapturePoint, message.OwnerTeam);
+					this.OnCapturePointOwnerChanged(flagCapturePoint, flagDominationCapturePointMessage.OwnerTeam);
 					break;
 				}
 			}
 		}
 
-		private void HandleServerEventFormationWipedMessage(FormationWipedMessage message)
+		private void HandleServerEventFormationWipedMessage(GameNetworkMessage baseMessage)
 		{
 			MatrixFrame cameraFrame = Mission.Current.GetCameraFrame();
 			Vec3 vec = cameraFrame.origin + cameraFrame.rotation.u;
 			MBSoundEvent.PlaySound(SoundEvent.GetEventIdFromString("event:/alerts/report/squad_wiped"), vec);
 		}
 
-		private void HandleServerEventPersonalGoldGain(GoldGain message)
+		private void HandleServerEventPersonalGoldGain(GameNetworkMessage baseMessage)
 		{
+			GoldGain goldGain = (GoldGain)baseMessage;
 			Action<GoldGain> onGoldGainEvent = this.OnGoldGainEvent;
 			if (onGoldGainEvent == null)
 			{
 				return;
 			}
-			onGoldGainEvent(message);
+			onGoldGainEvent(goldGain);
 		}
 
 		public void OnTeamPowerChanged(BattleSideEnum teamSide, float power)

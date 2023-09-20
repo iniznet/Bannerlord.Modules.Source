@@ -64,9 +64,9 @@ namespace TaleWorlds.MountAndBlade
 
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
-			registerer.Register<NetworkMessages.FromClient.DuelRequest>(new GameNetworkMessage.ClientMessageHandlerDelegate<NetworkMessages.FromClient.DuelRequest>(this.HandleClientEventDuelRequest));
-			registerer.Register<DuelResponse>(new GameNetworkMessage.ClientMessageHandlerDelegate<DuelResponse>(this.HandleClientEventDuelRequestAccepted));
-			registerer.Register<RequestChangePreferredTroopType>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestChangePreferredTroopType>(this.HandleClientEventDuelRequestChangePreferredTroopType));
+			registerer.RegisterBaseHandler<NetworkMessages.FromClient.DuelRequest>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventDuelRequest));
+			registerer.RegisterBaseHandler<DuelResponse>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventDuelRequestAccepted));
+			registerer.RegisterBaseHandler<RequestChangePreferredTroopType>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventDuelRequestChangePreferredTroopType));
 		}
 
 		protected override void HandleEarlyNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)
@@ -81,31 +81,34 @@ namespace TaleWorlds.MountAndBlade
 			this._peersAndSelections.Add(new KeyValuePair<MissionPeer, TroopType>(component, TroopType.Invalid));
 		}
 
-		private bool HandleClientEventDuelRequest(NetworkCommunicator peer, NetworkMessages.FromClient.DuelRequest message)
+		private bool HandleClientEventDuelRequest(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
-			if (peer != null && peer.GetComponent<MissionPeer>() != null && peer.GetComponent<MissionPeer>().ControlledAgent != null && message.RequestedAgent != null && message.RequestedAgent.IsActive())
+			NetworkMessages.FromClient.DuelRequest duelRequest = (NetworkMessages.FromClient.DuelRequest)baseMessage;
+			if (peer != null && peer.GetComponent<MissionPeer>() != null && peer.GetComponent<MissionPeer>().ControlledAgent != null && duelRequest.RequestedAgent != null && duelRequest.RequestedAgent.IsActive())
 			{
-				this.DuelRequestReceived(peer.GetComponent<MissionPeer>(), message.RequestedAgent.MissionPeer);
+				this.DuelRequestReceived(peer.GetComponent<MissionPeer>(), duelRequest.RequestedAgent.MissionPeer);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventDuelRequestAccepted(NetworkCommunicator peer, DuelResponse message)
+		private bool HandleClientEventDuelRequestAccepted(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			DuelResponse duelResponse = (DuelResponse)baseMessage;
 			if (((peer != null) ? peer.GetComponent<MissionPeer>() : null) != null && peer.GetComponent<MissionPeer>().ControlledAgent != null)
 			{
-				NetworkCommunicator peer2 = message.Peer;
-				if (((peer2 != null) ? peer2.GetComponent<MissionPeer>() : null) != null && message.Peer.GetComponent<MissionPeer>().ControlledAgent != null)
+				NetworkCommunicator peer2 = duelResponse.Peer;
+				if (((peer2 != null) ? peer2.GetComponent<MissionPeer>() : null) != null && duelResponse.Peer.GetComponent<MissionPeer>().ControlledAgent != null)
 				{
-					this.DuelRequestAccepted(message.Peer.GetComponent<DuelMissionRepresentative>().ControlledAgent, peer.GetComponent<DuelMissionRepresentative>().ControlledAgent);
+					this.DuelRequestAccepted(duelResponse.Peer.GetComponent<DuelMissionRepresentative>().ControlledAgent, peer.GetComponent<DuelMissionRepresentative>().ControlledAgent);
 				}
 			}
 			return true;
 		}
 
-		private bool HandleClientEventDuelRequestChangePreferredTroopType(NetworkCommunicator peer, RequestChangePreferredTroopType message)
+		private bool HandleClientEventDuelRequestChangePreferredTroopType(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
-			this.OnPeerSelectedPreferredTroopType(peer.GetComponent<MissionPeer>(), message.TroopType);
+			RequestChangePreferredTroopType requestChangePreferredTroopType = (RequestChangePreferredTroopType)baseMessage;
+			this.OnPeerSelectedPreferredTroopType(peer.GetComponent<MissionPeer>(), requestChangePreferredTroopType.TroopType);
 			return true;
 		}
 
@@ -348,7 +351,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				return;
 			}
-			Debug.FailedAssert("IsHavingDuel(duel.RequesteePeer) || IsHavingDuel(duel.RequesterPeer)", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerGameModeLogics\\ServerGameModeLogics\\MissionMultiplayerDuel.cs", "PrepareDuel", 697);
+			Debug.FailedAssert("IsHavingDuel(duel.RequesteePeer) || IsHavingDuel(duel.RequesterPeer)", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerGameModeLogics\\ServerGameModeLogics\\MissionMultiplayerDuel.cs", "PrepareDuel", 700);
 		}
 
 		private void StartDuel(MissionMultiplayerDuel.DuelInfo duel)

@@ -260,7 +260,7 @@ namespace SandBox.View.Map
 							ulong shaderFlags = tableauMaterial.GetShaderFlags();
 							tableauMaterial.SetShaderFlags(shaderFlags | (ulong)num);
 						};
-						banner.GetTableauTextureLarge(action);
+						BannerVisualExtensions.GetTableauTextureLarge(banner, action);
 						MapScreen.Instance._characterBannerMaterialCache[tuple] = tableauMaterial;
 					}
 					meshAtIndex.SetMaterial(tableauMaterial);

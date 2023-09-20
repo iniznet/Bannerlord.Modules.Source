@@ -68,7 +68,7 @@ namespace SandBox.View.Missions.Tournaments
 					}
 					banner0.SetMaterialForAllMeshes(material);
 				};
-				banner.GetTableauTextureLarge(action);
+				BannerVisualExtensions.GetTableauTextureLarge(banner, action);
 			}
 			if (banner1 != null)
 			{
@@ -81,7 +81,7 @@ namespace SandBox.View.Missions.Tournaments
 					}
 					banner1.SetMaterialForAllMeshes(material2);
 				};
-				banner2.GetTableauTextureLarge(action2);
+				BannerVisualExtensions.GetTableauTextureLarge(banner2, action2);
 			}
 		}
 

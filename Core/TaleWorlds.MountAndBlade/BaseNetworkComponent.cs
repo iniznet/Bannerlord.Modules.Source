@@ -23,26 +23,26 @@ namespace TaleWorlds.MountAndBlade
 			base.AddRemoveMessageHandlers(registerer);
 			if (GameNetwork.IsClientOrReplay)
 			{
-				registerer.Register<AddPeerComponent>(new GameNetworkMessage.ServerMessageHandlerDelegate<AddPeerComponent>(this.HandleServerEventAddPeerComponent));
-				registerer.Register<RemovePeerComponent>(new GameNetworkMessage.ServerMessageHandlerDelegate<RemovePeerComponent>(this.HandleServerEventRemovePeerComponent));
-				registerer.Register<SynchronizingDone>(new GameNetworkMessage.ServerMessageHandlerDelegate<SynchronizingDone>(this.HandleServerEventSynchronizingDone));
-				registerer.Register<LoadMission>(new GameNetworkMessage.ServerMessageHandlerDelegate<LoadMission>(this.HandleServerEventLoadMission));
-				registerer.Register<UnloadMission>(new GameNetworkMessage.ServerMessageHandlerDelegate<UnloadMission>(this.HandleServerEventUnloadMission));
-				registerer.Register<InitializeCustomGameMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<InitializeCustomGameMessage>(this.HandleServerEventInitializeCustomGame));
-				registerer.Register<MultiplayerOptionsInitial>(new GameNetworkMessage.ServerMessageHandlerDelegate<MultiplayerOptionsInitial>(this.HandleServerEventMultiplayerOptionsInitial));
-				registerer.Register<MultiplayerOptionsImmediate>(new GameNetworkMessage.ServerMessageHandlerDelegate<MultiplayerOptionsImmediate>(this.HandleServerEventMultiplayerOptionsImmediate));
-				registerer.Register<MultiplayerIntermissionUpdate>(new GameNetworkMessage.ServerMessageHandlerDelegate<MultiplayerIntermissionUpdate>(this.HandleServerEventMultiplayerIntermissionUpdate));
-				registerer.Register<MultiplayerIntermissionMapItemAdded>(new GameNetworkMessage.ServerMessageHandlerDelegate<MultiplayerIntermissionMapItemAdded>(this.HandleServerEventIntermissionMapItemAdded));
-				registerer.Register<MultiplayerIntermissionCultureItemAdded>(new GameNetworkMessage.ServerMessageHandlerDelegate<MultiplayerIntermissionCultureItemAdded>(this.HandleServerEventIntermissionCultureItemAdded));
-				registerer.Register<MultiplayerIntermissionMapItemVoteCountChanged>(new GameNetworkMessage.ServerMessageHandlerDelegate<MultiplayerIntermissionMapItemVoteCountChanged>(this.HandleServerEventIntermissionMapItemVoteCountChanged));
-				registerer.Register<MultiplayerIntermissionCultureItemVoteCountChanged>(new GameNetworkMessage.ServerMessageHandlerDelegate<MultiplayerIntermissionCultureItemVoteCountChanged>(this.HandleServerEventIntermissionCultureItemVoteCountChanged));
+				registerer.RegisterBaseHandler<AddPeerComponent>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAddPeerComponent));
+				registerer.RegisterBaseHandler<RemovePeerComponent>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventRemovePeerComponent));
+				registerer.RegisterBaseHandler<SynchronizingDone>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSynchronizingDone));
+				registerer.RegisterBaseHandler<LoadMission>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventLoadMission));
+				registerer.RegisterBaseHandler<UnloadMission>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventUnloadMission));
+				registerer.RegisterBaseHandler<InitializeCustomGameMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventInitializeCustomGame));
+				registerer.RegisterBaseHandler<MultiplayerOptionsInitial>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventMultiplayerOptionsInitial));
+				registerer.RegisterBaseHandler<MultiplayerOptionsImmediate>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventMultiplayerOptionsImmediate));
+				registerer.RegisterBaseHandler<MultiplayerIntermissionUpdate>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventMultiplayerIntermissionUpdate));
+				registerer.RegisterBaseHandler<MultiplayerIntermissionMapItemAdded>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventIntermissionMapItemAdded));
+				registerer.RegisterBaseHandler<MultiplayerIntermissionCultureItemAdded>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventIntermissionCultureItemAdded));
+				registerer.RegisterBaseHandler<MultiplayerIntermissionMapItemVoteCountChanged>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventIntermissionMapItemVoteCountChanged));
+				registerer.RegisterBaseHandler<MultiplayerIntermissionCultureItemVoteCountChanged>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventIntermissionCultureItemVoteCountChanged));
 				return;
 			}
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<FinishedLoading>(new GameNetworkMessage.ClientMessageHandlerDelegate<FinishedLoading>(this.HandleClientEventFinishedLoading));
-				registerer.Register<SyncRelevantGameOptionsToServer>(new GameNetworkMessage.ClientMessageHandlerDelegate<SyncRelevantGameOptionsToServer>(this.HandleSyncRelevantGameOptionsToServer));
-				registerer.Register<IntermissionVote>(new GameNetworkMessage.ClientMessageHandlerDelegate<IntermissionVote>(this.HandleIntermissionClientVote));
+				registerer.RegisterBaseHandler<FinishedLoading>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventFinishedLoading));
+				registerer.RegisterBaseHandler<SyncRelevantGameOptionsToServer>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleSyncRelevantGameOptionsToServer));
+				registerer.RegisterBaseHandler<IntermissionVote>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleIntermissionClientVote));
 			}
 		}
 
@@ -142,8 +142,9 @@ namespace TaleWorlds.MountAndBlade
 			this.DisplayingWelcomeMessage = displaying;
 		}
 
-		private void HandleServerEventMultiplayerOptionsInitial(MultiplayerOptionsInitial message)
+		private void HandleServerEventMultiplayerOptionsInitial(GameNetworkMessage baseMessage)
 		{
+			MultiplayerOptionsInitial multiplayerOptionsInitial = (MultiplayerOptionsInitial)baseMessage;
 			for (MultiplayerOptions.OptionType optionType = MultiplayerOptions.OptionType.ServerName; optionType < MultiplayerOptions.OptionType.NumOfSlots; optionType++)
 			{
 				MultiplayerOptionsProperty optionProperty = optionType.GetOptionProperty();
@@ -154,7 +155,7 @@ namespace TaleWorlds.MountAndBlade
 					case MultiplayerOptions.OptionValueType.Bool:
 					{
 						bool flag;
-						message.GetOption(optionType).GetValue(out flag);
+						multiplayerOptionsInitial.GetOption(optionType).GetValue(out flag);
 						optionType.SetValue(flag, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 						break;
 					}
@@ -162,14 +163,14 @@ namespace TaleWorlds.MountAndBlade
 					case MultiplayerOptions.OptionValueType.Enum:
 					{
 						int num;
-						message.GetOption(optionType).GetValue(out num);
+						multiplayerOptionsInitial.GetOption(optionType).GetValue(out num);
 						optionType.SetValue(num, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 						break;
 					}
 					case MultiplayerOptions.OptionValueType.String:
 					{
 						string text;
-						message.GetOption(optionType).GetValue(out text);
+						multiplayerOptionsInitial.GetOption(optionType).GetValue(out text);
 						optionType.SetValue(text, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 						break;
 					}
@@ -190,8 +191,9 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private void HandleServerEventMultiplayerOptionsImmediate(MultiplayerOptionsImmediate message)
+		private void HandleServerEventMultiplayerOptionsImmediate(GameNetworkMessage baseMessage)
 		{
+			MultiplayerOptionsImmediate multiplayerOptionsImmediate = (MultiplayerOptionsImmediate)baseMessage;
 			for (MultiplayerOptions.OptionType optionType = MultiplayerOptions.OptionType.ServerName; optionType < MultiplayerOptions.OptionType.NumOfSlots; optionType++)
 			{
 				MultiplayerOptionsProperty optionProperty = optionType.GetOptionProperty();
@@ -202,7 +204,7 @@ namespace TaleWorlds.MountAndBlade
 					case MultiplayerOptions.OptionValueType.Bool:
 					{
 						bool flag;
-						message.GetOption(optionType).GetValue(out flag);
+						multiplayerOptionsImmediate.GetOption(optionType).GetValue(out flag);
 						optionType.SetValue(flag, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 						break;
 					}
@@ -210,14 +212,14 @@ namespace TaleWorlds.MountAndBlade
 					case MultiplayerOptions.OptionValueType.Enum:
 					{
 						int num;
-						message.GetOption(optionType).GetValue(out num);
+						multiplayerOptionsImmediate.GetOption(optionType).GetValue(out num);
 						optionType.SetValue(num, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 						break;
 					}
 					case MultiplayerOptions.OptionValueType.String:
 					{
 						string text;
-						message.GetOption(optionType).GetValue(out text);
+						multiplayerOptionsImmediate.GetOption(optionType).GetValue(out text);
 						optionType.SetValue(text, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 						break;
 					}
@@ -228,10 +230,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private void HandleServerEventMultiplayerIntermissionUpdate(MultiplayerIntermissionUpdate message)
+		private void HandleServerEventMultiplayerIntermissionUpdate(GameNetworkMessage baseMessage)
 		{
-			this.CurrentIntermissionTimer = message.IntermissionTimer;
-			this.ClientIntermissionState = message.IntermissionState;
+			MultiplayerIntermissionUpdate multiplayerIntermissionUpdate = (MultiplayerIntermissionUpdate)baseMessage;
+			this.CurrentIntermissionTimer = multiplayerIntermissionUpdate.IntermissionTimer;
+			this.ClientIntermissionState = multiplayerIntermissionUpdate.IntermissionState;
 			Action onIntermissionStateUpdated = this.OnIntermissionStateUpdated;
 			if (onIntermissionStateUpdated == null)
 			{
@@ -240,9 +243,10 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		private void HandleServerEventIntermissionMapItemAdded(MultiplayerIntermissionMapItemAdded message)
+		private void HandleServerEventIntermissionMapItemAdded(GameNetworkMessage baseMessage)
 		{
-			MultiplayerIntermissionVotingManager.Instance.AddMapItem(message.MapId);
+			MultiplayerIntermissionMapItemAdded multiplayerIntermissionMapItemAdded = (MultiplayerIntermissionMapItemAdded)baseMessage;
+			MultiplayerIntermissionVotingManager.Instance.AddMapItem(multiplayerIntermissionMapItemAdded.MapId);
 			Action onIntermissionStateUpdated = this.OnIntermissionStateUpdated;
 			if (onIntermissionStateUpdated == null)
 			{
@@ -251,9 +255,10 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		private void HandleServerEventIntermissionCultureItemAdded(MultiplayerIntermissionCultureItemAdded message)
+		private void HandleServerEventIntermissionCultureItemAdded(GameNetworkMessage baseMessage)
 		{
-			MultiplayerIntermissionVotingManager.Instance.AddCultureItem(message.CultureId);
+			MultiplayerIntermissionCultureItemAdded multiplayerIntermissionCultureItemAdded = (MultiplayerIntermissionCultureItemAdded)baseMessage;
+			MultiplayerIntermissionVotingManager.Instance.AddCultureItem(multiplayerIntermissionCultureItemAdded.CultureId);
 			Action onIntermissionStateUpdated = this.OnIntermissionStateUpdated;
 			if (onIntermissionStateUpdated == null)
 			{
@@ -262,9 +267,10 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		private void HandleServerEventIntermissionMapItemVoteCountChanged(MultiplayerIntermissionMapItemVoteCountChanged message)
+		private void HandleServerEventIntermissionMapItemVoteCountChanged(GameNetworkMessage baseMessage)
 		{
-			MultiplayerIntermissionVotingManager.Instance.SetVotesOfMap(message.MapItemIndex, message.VoteCount);
+			MultiplayerIntermissionMapItemVoteCountChanged multiplayerIntermissionMapItemVoteCountChanged = (MultiplayerIntermissionMapItemVoteCountChanged)baseMessage;
+			MultiplayerIntermissionVotingManager.Instance.SetVotesOfMap(multiplayerIntermissionMapItemVoteCountChanged.MapItemIndex, multiplayerIntermissionMapItemVoteCountChanged.VoteCount);
 			Action onIntermissionStateUpdated = this.OnIntermissionStateUpdated;
 			if (onIntermissionStateUpdated == null)
 			{
@@ -273,9 +279,10 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		private void HandleServerEventIntermissionCultureItemVoteCountChanged(MultiplayerIntermissionCultureItemVoteCountChanged message)
+		private void HandleServerEventIntermissionCultureItemVoteCountChanged(GameNetworkMessage baseMessage)
 		{
-			MultiplayerIntermissionVotingManager.Instance.SetVotesOfCulture(message.CultureItemIndex, message.VoteCount);
+			MultiplayerIntermissionCultureItemVoteCountChanged multiplayerIntermissionCultureItemVoteCountChanged = (MultiplayerIntermissionCultureItemVoteCountChanged)baseMessage;
+			MultiplayerIntermissionVotingManager.Instance.SetVotesOfCulture(multiplayerIntermissionCultureItemVoteCountChanged.CultureItemIndex, multiplayerIntermissionCultureItemVoteCountChanged.VoteCount);
 			Action onIntermissionStateUpdated = this.OnIntermissionStateUpdated;
 			if (onIntermissionStateUpdated == null)
 			{
@@ -284,27 +291,30 @@ namespace TaleWorlds.MountAndBlade
 			onIntermissionStateUpdated();
 		}
 
-		private void HandleServerEventAddPeerComponent(AddPeerComponent message)
+		private void HandleServerEventAddPeerComponent(GameNetworkMessage baseMessage)
 		{
-			NetworkCommunicator peer = message.Peer;
-			uint componentId = message.ComponentId;
+			AddPeerComponent addPeerComponent = (AddPeerComponent)baseMessage;
+			NetworkCommunicator peer = addPeerComponent.Peer;
+			uint componentId = addPeerComponent.ComponentId;
 			if (peer.GetComponent(componentId) == null)
 			{
 				peer.AddComponent(componentId);
 			}
 		}
 
-		private void HandleServerEventRemovePeerComponent(RemovePeerComponent message)
+		private void HandleServerEventRemovePeerComponent(GameNetworkMessage baseMessage)
 		{
-			NetworkCommunicator peer = message.Peer;
-			uint componentId = message.ComponentId;
+			RemovePeerComponent removePeerComponent = (RemovePeerComponent)baseMessage;
+			NetworkCommunicator peer = removePeerComponent.Peer;
+			uint componentId = removePeerComponent.ComponentId;
 			PeerComponent component = peer.GetComponent(componentId);
 			peer.RemoveComponent(component);
 		}
 
-		private void HandleServerEventSynchronizingDone(SynchronizingDone message)
+		private void HandleServerEventSynchronizingDone(GameNetworkMessage baseMessage)
 		{
-			NetworkCommunicator peer = message.Peer;
+			SynchronizingDone synchronizingDone = (SynchronizingDone)baseMessage;
+			NetworkCommunicator peer = synchronizingDone.Peer;
 			Mission mission = Mission.Current;
 			MissionNetworkComponent missionNetworkComponent = ((mission != null) ? mission.GetMissionBehavior<MissionNetworkComponent>() : null);
 			if (missionNetworkComponent != null && !peer.IsMine)
@@ -312,8 +322,8 @@ namespace TaleWorlds.MountAndBlade
 				missionNetworkComponent.OnClientSynchronized(peer);
 				return;
 			}
-			peer.IsSynchronized = message.Synchronized;
-			if (missionNetworkComponent != null && message.Synchronized)
+			peer.IsSynchronized = synchronizingDone.Synchronized;
+			if (missionNetworkComponent != null && synchronizingDone.Synchronized)
 			{
 				if (peer.GetComponent<MissionPeer>() == null)
 				{
@@ -338,8 +348,9 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private async void HandleServerEventLoadMission(LoadMission message)
+		private async void HandleServerEventLoadMission(GameNetworkMessage baseMessage)
 		{
+			LoadMission message = (LoadMission)baseMessage;
 			while (GameStateManager.Current.ActiveState is MissionState)
 			{
 				await Task.Delay(1);
@@ -353,18 +364,20 @@ namespace TaleWorlds.MountAndBlade
 			this.UpdateCurrentBattleIndex(message.BattleIndex);
 			if (!Module.CurrentModule.StartMultiplayerGame(message.GameType, message.Map))
 			{
-				Debug.FailedAssert("[DEBUG]Invalid multiplayer game type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Components\\BaseNetworkComponent.cs", "HandleServerEventLoadMission", 359);
+				Debug.FailedAssert("[DEBUG]Invalid multiplayer game type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Components\\BaseNetworkComponent.cs", "HandleServerEventLoadMission", 370);
 			}
 		}
 
-		private void HandleServerEventUnloadMission(UnloadMission message)
+		private void HandleServerEventUnloadMission(GameNetworkMessage baseMessage)
 		{
-			this.HandleServerEventUnloadMissionAux(message);
+			UnloadMission unloadMission = (UnloadMission)baseMessage;
+			this.HandleServerEventUnloadMissionAux(unloadMission);
 		}
 
-		private void HandleServerEventInitializeCustomGame(InitializeCustomGameMessage message)
+		private void HandleServerEventInitializeCustomGame(GameNetworkMessage baseMessage)
 		{
-			this.InitializeCustomGameAux(message);
+			InitializeCustomGameMessage initializeCustomGameMessage = (InitializeCustomGameMessage)baseMessage;
+			this.InitializeCustomGameAux(initializeCustomGameMessage);
 		}
 
 		private async void InitializeCustomGameAux(InitializeCustomGameMessage message)
@@ -380,7 +393,7 @@ namespace TaleWorlds.MountAndBlade
 				this.UpdateCurrentBattleIndex(message.BattleIndex);
 				if (!Module.CurrentModule.StartMultiplayerGame(message.GameType, message.Map))
 				{
-					Debug.FailedAssert("[DEBUG]Invalid multiplayer game type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Components\\BaseNetworkComponent.cs", "InitializeCustomGameAux", 390);
+					Debug.FailedAssert("[DEBUG]Invalid multiplayer game type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Components\\BaseNetworkComponent.cs", "InitializeCustomGameAux", 403);
 				}
 			}
 			else
@@ -412,9 +425,10 @@ namespace TaleWorlds.MountAndBlade
 			LoadingWindow.DisableGlobalLoadingWindow();
 		}
 
-		private bool HandleClientEventFinishedLoading(NetworkCommunicator networkPeer, FinishedLoading message)
+		private bool HandleClientEventFinishedLoading(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
-			this.HandleClientEventFinishedLoadingAux(networkPeer, message);
+			FinishedLoading finishedLoading = (FinishedLoading)baseMessage;
+			this.HandleClientEventFinishedLoadingAux(networkPeer, finishedLoading);
 			return true;
 		}
 
@@ -440,20 +454,22 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private bool HandleSyncRelevantGameOptionsToServer(NetworkCommunicator networkPeer, SyncRelevantGameOptionsToServer message)
+		private bool HandleSyncRelevantGameOptionsToServer(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
-			networkPeer.SetRelevantGameOptions(message.SendMeBloodEvents, message.SendMeSoundEvents);
+			SyncRelevantGameOptionsToServer syncRelevantGameOptionsToServer = (SyncRelevantGameOptionsToServer)baseMessage;
+			networkPeer.SetRelevantGameOptions(syncRelevantGameOptionsToServer.SendMeBloodEvents, syncRelevantGameOptionsToServer.SendMeSoundEvents);
 			return true;
 		}
 
-		private bool HandleIntermissionClientVote(NetworkCommunicator networkPeer, IntermissionVote message)
+		private bool HandleIntermissionClientVote(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
-			int voteCount = message.VoteCount;
+			IntermissionVote intermissionVote = (IntermissionVote)baseMessage;
+			int voteCount = intermissionVote.VoteCount;
 			if (voteCount == -1 || voteCount == 1)
 			{
-				if ((MultiplayerIntermissionVotingManager.Instance.CurrentVoteState == MultiplayerIntermissionState.CountingForMapVote && MultiplayerIntermissionVotingManager.Instance.IsMapItem(message.ItemID)) || (MultiplayerIntermissionVotingManager.Instance.CurrentVoteState == MultiplayerIntermissionState.CountingForCultureVote && MultiplayerIntermissionVotingManager.Instance.IsCultureItem(message.ItemID)))
+				if ((MultiplayerIntermissionVotingManager.Instance.CurrentVoteState == MultiplayerIntermissionState.CountingForMapVote && MultiplayerIntermissionVotingManager.Instance.IsMapItem(intermissionVote.ItemID)) || (MultiplayerIntermissionVotingManager.Instance.CurrentVoteState == MultiplayerIntermissionState.CountingForCultureVote && MultiplayerIntermissionVotingManager.Instance.IsCultureItem(intermissionVote.ItemID)))
 				{
-					MultiplayerIntermissionVotingManager.Instance.AddVote(networkPeer.VirtualPlayer.Id, message.ItemID, message.VoteCount);
+					MultiplayerIntermissionVotingManager.Instance.AddVote(networkPeer.VirtualPlayer.Id, intermissionVote.ItemID, intermissionVote.VoteCount);
 				}
 				return true;
 			}

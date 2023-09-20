@@ -182,7 +182,7 @@ namespace SandBox.GauntletUI.Missions
 
 		private string GetContinueKeyText()
 		{
-			if (TaleWorlds.InputSystem.Input.IsGamepadActive)
+			if (Input.IsGamepadActive)
 			{
 				GameTexts.SetVariable("CONSOLE_KEY_NAME", HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("ConversationHotKeyCategory", "ContinueKey")));
 				return GameTexts.FindText("str_click_to_continue_console", null).ToString();

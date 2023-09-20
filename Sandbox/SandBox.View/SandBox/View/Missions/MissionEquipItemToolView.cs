@@ -575,7 +575,7 @@ namespace SandBox.View.Missions
 				}
 				if (base.DebugInput.IsKeyDown(29) && base.DebugInput.IsKeyPressed(47))
 				{
-					string clipboardText = TaleWorlds.InputSystem.Input.GetClipboardText();
+					string clipboardText = Input.GetClipboardText();
 					this.str += clipboardText;
 					this.underscoreGuard = false;
 					this.yGuard = false;

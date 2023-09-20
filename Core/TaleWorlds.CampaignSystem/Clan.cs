@@ -852,12 +852,12 @@ namespace TaleWorlds.CampaignSystem
 
 		protected override void PreAfterLoad()
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 17949))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 21456))
 			{
 				Hero leader = this.Leader;
 				this.IsNoble = leader != null && leader.IsNobleForOldSaves;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 17949) && this.Leader != null && this.Leader.Clan != this)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 21456) && this.Leader != null && this.Leader.Clan != this)
 			{
 				ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(this);
 			}
@@ -878,11 +878,11 @@ namespace TaleWorlds.CampaignSystem
 		protected override void AfterLoad()
 		{
 			this.UpdateStrength();
-			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("e1.8.0.0", 17949) && this.Kingdom != null)
+			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("e1.8.0.0", 21456) && this.Kingdom != null)
 			{
 				FactionHelper.AdjustFactionStancesForClanJoiningKingdom(this, this.Kingdom);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.3", 17949) && this.Kingdom == null && this.IsUnderMercenaryService)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.3", 21456) && this.Kingdom == null && this.IsUnderMercenaryService)
 			{
 				this.EndMercenaryService(true);
 			}

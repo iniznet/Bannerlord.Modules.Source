@@ -154,7 +154,7 @@ namespace SandBox.GauntletUI.CharacterCreation
 
 		private void UpdateBanners()
 		{
-			this._banner.GetTableauTextureLarge(new Action<Texture>(this.OnNewBannerReadyForBanners));
+			BannerVisualExtensions.GetTableauTextureLarge(this._banner, new Action<Texture>(this.OnNewBannerReadyForBanners));
 		}
 
 		private void OnNewBannerReadyForBanners(Texture newTexture)
@@ -199,7 +199,7 @@ namespace SandBox.GauntletUI.CharacterCreation
 			{
 				shieldWeapon.GetWeaponData(false).TableauMaterial.SetTexture(1, tex);
 			};
-			this._banner.GetTableauTextureLarge(action);
+			BannerVisualExtensions.GetTableauTextureLarge(this._banner, action);
 		}
 
 		private void HandleLayerInput()

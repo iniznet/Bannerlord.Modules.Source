@@ -69,11 +69,11 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<SiegeMoraleChangeMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<SiegeMoraleChangeMessage>(this.HandleMoraleChangedMessage));
-				registerer.Register<SyncGoldsForSkirmish>(new GameNetworkMessage.ServerMessageHandlerDelegate<SyncGoldsForSkirmish>(this.HandleServerEventUpdateGold));
-				registerer.Register<FlagDominationFlagsRemovedMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<FlagDominationFlagsRemovedMessage>(this.HandleFlagsRemovedMessage));
-				registerer.Register<FlagDominationCapturePointMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<FlagDominationCapturePointMessage>(this.HandleServerEventPointCapturedMessage));
-				registerer.Register<GoldGain>(new GameNetworkMessage.ServerMessageHandlerDelegate<GoldGain>(this.HandleServerEventTDMGoldGain));
+				registerer.RegisterBaseHandler<SiegeMoraleChangeMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleMoraleChangedMessage));
+				registerer.RegisterBaseHandler<SyncGoldsForSkirmish>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventUpdateGold));
+				registerer.RegisterBaseHandler<FlagDominationFlagsRemovedMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleFlagsRemovedMessage));
+				registerer.RegisterBaseHandler<FlagDominationCapturePointMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventPointCapturedMessage));
+				registerer.RegisterBaseHandler<GoldGain>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventTDMGoldGain));
 			}
 		}
 
@@ -344,42 +344,46 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		private void HandleMoraleChangedMessage(SiegeMoraleChangeMessage message)
+		private void HandleMoraleChangedMessage(GameNetworkMessage baseMessage)
 		{
-			this.OnMoraleChanged(message.AttackerMorale, message.DefenderMorale, message.CapturePointRemainingMoraleGains);
+			SiegeMoraleChangeMessage siegeMoraleChangeMessage = (SiegeMoraleChangeMessage)baseMessage;
+			this.OnMoraleChanged(siegeMoraleChangeMessage.AttackerMorale, siegeMoraleChangeMessage.DefenderMorale, siegeMoraleChangeMessage.CapturePointRemainingMoraleGains);
 		}
 
-		private void HandleServerEventUpdateGold(SyncGoldsForSkirmish message)
+		private void HandleServerEventUpdateGold(GameNetworkMessage baseMessage)
 		{
-			SiegeMissionRepresentative component = message.VirtualPlayer.GetComponent<SiegeMissionRepresentative>();
-			this.OnGoldAmountChangedForRepresentative(component, message.GoldAmount);
+			SyncGoldsForSkirmish syncGoldsForSkirmish = (SyncGoldsForSkirmish)baseMessage;
+			SiegeMissionRepresentative component = syncGoldsForSkirmish.VirtualPlayer.GetComponent<SiegeMissionRepresentative>();
+			this.OnGoldAmountChangedForRepresentative(component, syncGoldsForSkirmish.GoldAmount);
 		}
 
-		private void HandleFlagsRemovedMessage(FlagDominationFlagsRemovedMessage message)
+		private void HandleFlagsRemovedMessage(GameNetworkMessage baseMessage)
 		{
 			this.OnNumberOfFlagsChanged();
 		}
 
-		private void HandleServerEventPointCapturedMessage(FlagDominationCapturePointMessage message)
+		private void HandleServerEventPointCapturedMessage(GameNetworkMessage baseMessage)
 		{
+			FlagDominationCapturePointMessage flagDominationCapturePointMessage = (FlagDominationCapturePointMessage)baseMessage;
 			foreach (FlagCapturePoint flagCapturePoint in this.AllCapturePoints)
 			{
-				if (flagCapturePoint.FlagIndex == message.FlagIndex)
+				if (flagCapturePoint.FlagIndex == flagDominationCapturePointMessage.FlagIndex)
 				{
-					this.OnCapturePointOwnerChanged(flagCapturePoint, message.OwnerTeam);
+					this.OnCapturePointOwnerChanged(flagCapturePoint, flagDominationCapturePointMessage.OwnerTeam);
 					break;
 				}
 			}
 		}
 
-		private void HandleServerEventTDMGoldGain(GoldGain message)
+		private void HandleServerEventTDMGoldGain(GameNetworkMessage baseMessage)
 		{
+			GoldGain goldGain = (GoldGain)baseMessage;
 			Action<GoldGain> onGoldGainEvent = this.OnGoldGainEvent;
 			if (onGoldGainEvent == null)
 			{
 				return;
 			}
-			onGoldGainEvent(message);
+			onGoldGainEvent(goldGain);
 		}
 
 		private const float DefenderMoraleDropThresholdIncrement = 0.2f;

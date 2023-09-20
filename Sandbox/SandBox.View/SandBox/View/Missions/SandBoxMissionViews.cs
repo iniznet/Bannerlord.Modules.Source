@@ -386,7 +386,7 @@ namespace SandBox.View.Missions
 			list.Add(ViewCreator.CreateMissionAgentLockVisualizerView(mission));
 			list.Add(new MusicBattleMissionView(false));
 			list.Add(new DeploymentMissionView());
-			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType.DynamicDeploymentBoundaries, 2f));
+			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 1, 2f));
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
 			list.Add(new MissionBoundaryWallView());
 			list.Add(ViewCreator.CreateMissionFormationMarkerUIHandler(mission));
@@ -637,7 +637,7 @@ namespace SandBox.View.Missions
 			list.Add(new MissionSingleplayerViewHandler());
 			list.Add(new MusicBattleMissionView(true));
 			list.Add(new DeploymentMissionView());
-			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType.StaticSceneBoundaries, 2f));
+			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 0, 2f));
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
 			list.Add(ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler());
 			list.Add(ViewCreator.CreatePhotoModeView());
@@ -734,7 +734,7 @@ namespace SandBox.View.Missions
 				new MusicMissionBattleComponent()
 			}));
 			list.Add(new DeploymentMissionView());
-			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType.StaticSceneBoundaries, 2f));
+			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 0, 2f));
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
 			list.Add(ViewCreator.CreateSingleplayerMissionKillNotificationUIHandler());
 			list.Add(ViewCreator.CreateMissionAgentStatusUIHandler(mission));
@@ -779,7 +779,7 @@ namespace SandBox.View.Missions
 			list.Add(ViewCreator.CreateMissionSiegeEngineMarkerView(mission));
 			ISiegeDeploymentView siegeDeploymentView = missionView as ISiegeDeploymentView;
 			list.Add(new MissionEntitySelectionUIHandler(new Action<GameEntity>(siegeDeploymentView.OnEntitySelection), new Action<GameEntity>(siegeDeploymentView.OnEntityHover)));
-			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType.StaticSceneBoundaries, 2f));
+			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 0, 2f));
 			list.Add(new MissionCampaignBattleSpectatorView());
 			return list.ToArray();
 		}
@@ -792,7 +792,7 @@ namespace SandBox.View.Missions
 			list.Add(new MissionConversationCameraView());
 			if (mission.GetMissionBehavior<AmbushMissionController>().IsPlayerAmbusher)
 			{
-				list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType.StaticSceneBoundaries, 2f));
+				list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 0, 2f));
 			}
 			list.Add(ViewCreator.CreateMissionSingleplayerEscapeMenu(CampaignOptions.IsIronmanMode));
 			list.Add(ViewCreator.CreateOptionsUIHandler());
@@ -807,7 +807,7 @@ namespace SandBox.View.Missions
 			list.Add(new MissionAmbushView());
 			list.Add(ViewCreator.CreatePhotoModeView());
 			list.Add(new MissionAmbushIntroView());
-			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), MissionDeploymentBoundaryMarker.MissionDeploymentBoundaryType.StaticSceneBoundaries, 2f));
+			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 0, 2f));
 			list.Add(new MissionCampaignBattleSpectatorView());
 			return list.ToArray();
 		}

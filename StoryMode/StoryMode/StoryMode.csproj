@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{A0ACAF46-D640-45BD-A670-5EE0032444FA}</ProjectGuid>
+    <ProjectGuid>{A1AE8B58-11E0-46FF-B9DD-8FD04EC1D7DA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>StoryMode</RootNamespace>
     <AssemblyName>StoryMode</AssemblyName>
@@ -33,9 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="netstandard" />
-    <Reference Include="SandBox">
-      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
-    </Reference>
+    <Reference Include="SandBox" />
     <Reference Include="TaleWorlds.AchievementSystem" />
     <Reference Include="TaleWorlds.ActivitySystem" />
     <Reference Include="TaleWorlds.CampaignSystem" />

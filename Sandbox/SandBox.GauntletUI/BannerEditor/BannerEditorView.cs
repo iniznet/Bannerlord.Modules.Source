@@ -99,7 +99,7 @@ namespace SandBox.GauntletUI.BannerEditor
 			{
 				shieldWeapon.GetWeaponData(false).TableauMaterial.SetTexture(1, tex);
 			};
-			this.Banner.GetTableauTextureLarge(action);
+			BannerVisualExtensions.GetTableauTextureLarge(this.Banner, action);
 			this._agentVisuals[0].SetVisible(false);
 			this._agentVisuals[0].GetEntity().CheckResources(true, true);
 			AgentVisualsData copyAgentVisualsData2 = this._agentVisuals[1].GetCopyAgentVisualsData();
@@ -331,7 +331,7 @@ namespace SandBox.GauntletUI.BannerEditor
 		private void UpdateBanners()
 		{
 			BannerCode currentBannerCode = BannerCode.CreateFrom(this.Banner);
-			this.Banner.GetTableauTextureLarge(delegate(Texture resultTexture)
+			BannerVisualExtensions.GetTableauTextureLarge(this.Banner, delegate(Texture resultTexture)
 			{
 				this.OnNewBannerReadyForBanners(currentBannerCode, resultTexture);
 			});

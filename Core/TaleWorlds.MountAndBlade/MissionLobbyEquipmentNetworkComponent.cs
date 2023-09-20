@@ -50,34 +50,37 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<RequestTroopIndexChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestTroopIndexChange>(this.HandleClientEventLobbyEquipmentUpdated));
-				registerer.Register<TeamInitialPerkInfoMessage>(new GameNetworkMessage.ClientMessageHandlerDelegate<TeamInitialPerkInfoMessage>(this.HandleClientEventTeamInitialPerkInfoMessage));
-				registerer.Register<RequestPerkChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestPerkChange>(this.HandleClientEventRequestPerkChange));
+				registerer.RegisterBaseHandler<RequestTroopIndexChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventLobbyEquipmentUpdated));
+				registerer.RegisterBaseHandler<TeamInitialPerkInfoMessage>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventTeamInitialPerkInfoMessage));
+				registerer.RegisterBaseHandler<RequestPerkChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventRequestPerkChange));
 				return;
 			}
 			if (GameNetwork.IsClientOrReplay)
 			{
-				registerer.Register<UpdateSelectedTroopIndex>(new GameNetworkMessage.ServerMessageHandlerDelegate<UpdateSelectedTroopIndex>(this.HandleServerEventEquipmentIndexUpdated));
-				registerer.Register<SyncPerksForCurrentlySelectedTroop>(new GameNetworkMessage.ServerMessageHandlerDelegate<SyncPerksForCurrentlySelectedTroop>(this.SyncPerksForCurrentlySelectedTroop));
+				registerer.RegisterBaseHandler<UpdateSelectedTroopIndex>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventEquipmentIndexUpdated));
+				registerer.RegisterBaseHandler<SyncPerksForCurrentlySelectedTroop>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.SyncPerksForCurrentlySelectedTroop));
 			}
 		}
 
-		private void HandleServerEventEquipmentIndexUpdated(UpdateSelectedTroopIndex message)
+		private void HandleServerEventEquipmentIndexUpdated(GameNetworkMessage baseMessage)
 		{
-			message.Peer.GetComponent<MissionPeer>().SelectedTroopIndex = message.SelectedTroopIndex;
+			UpdateSelectedTroopIndex updateSelectedTroopIndex = (UpdateSelectedTroopIndex)baseMessage;
+			updateSelectedTroopIndex.Peer.GetComponent<MissionPeer>().SelectedTroopIndex = updateSelectedTroopIndex.SelectedTroopIndex;
 		}
 
-		private void SyncPerksForCurrentlySelectedTroop(SyncPerksForCurrentlySelectedTroop message)
+		private void SyncPerksForCurrentlySelectedTroop(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
+			SyncPerksForCurrentlySelectedTroop syncPerksForCurrentlySelectedTroop = (SyncPerksForCurrentlySelectedTroop)baseMessage;
+			MissionPeer component = syncPerksForCurrentlySelectedTroop.Peer.GetComponent<MissionPeer>();
 			for (int i = 0; i < 3; i++)
 			{
-				component.SelectPerk(i, message.PerkIndices[i], component.SelectedTroopIndex);
+				component.SelectPerk(i, syncPerksForCurrentlySelectedTroop.PerkIndices[i], component.SelectedTroopIndex);
 			}
 		}
 
-		private bool HandleClientEventLobbyEquipmentUpdated(NetworkCommunicator peer, RequestTroopIndexChange message)
+		private bool HandleClientEventLobbyEquipmentUpdated(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			RequestTroopIndexChange requestTroopIndexChange = (RequestTroopIndexChange)baseMessage;
 			MissionPeer component = peer.GetComponent<MissionPeer>();
 			if (component == null)
 			{
@@ -88,15 +91,15 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return false;
 			}
-			if (missionBehavior.AreAgentsSpawning() && component.SelectedTroopIndex != message.SelectedTroopIndex)
+			if (missionBehavior.AreAgentsSpawning() && component.SelectedTroopIndex != requestTroopIndexChange.SelectedTroopIndex)
 			{
-				if (component.Culture == null || message.SelectedTroopIndex < 0 || MultiplayerClassDivisions.GetMPHeroClasses(component.Culture).Count<MultiplayerClassDivisions.MPHeroClass>() <= message.SelectedTroopIndex)
+				if (component.Culture == null || requestTroopIndexChange.SelectedTroopIndex < 0 || MultiplayerClassDivisions.GetMPHeroClasses(component.Culture).Count<MultiplayerClassDivisions.MPHeroClass>() <= requestTroopIndexChange.SelectedTroopIndex)
 				{
 					component.SelectedTroopIndex = 0;
 				}
 				else
 				{
-					component.SelectedTroopIndex = message.SelectedTroopIndex;
+					component.SelectedTroopIndex = requestTroopIndexChange.SelectedTroopIndex;
 				}
 				GameNetwork.BeginBroadcastModuleEvent();
 				GameNetwork.WriteMessage(new UpdateSelectedTroopIndex(peer, component.SelectedTroopIndex));
@@ -109,8 +112,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventTeamInitialPerkInfoMessage(NetworkCommunicator peer, TeamInitialPerkInfoMessage message)
+		private bool HandleClientEventTeamInitialPerkInfoMessage(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			TeamInitialPerkInfoMessage teamInitialPerkInfoMessage = (TeamInitialPerkInfoMessage)baseMessage;
 			MissionPeer component = peer.GetComponent<MissionPeer>();
 			if (component == null)
 			{
@@ -120,12 +124,13 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return false;
 			}
-			component.OnTeamInitialPerkInfoReceived(message.Perks);
+			component.OnTeamInitialPerkInfoReceived(teamInitialPerkInfoMessage.Perks);
 			return true;
 		}
 
-		private bool HandleClientEventRequestPerkChange(NetworkCommunicator peer, RequestPerkChange message)
+		private bool HandleClientEventRequestPerkChange(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			RequestPerkChange requestPerkChange = (RequestPerkChange)baseMessage;
 			MissionPeer component = peer.GetComponent<MissionPeer>();
 			if (component == null)
 			{
@@ -136,7 +141,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return false;
 			}
-			if (component.SelectPerk(message.PerkListIndex, message.PerkIndex, -1) && missionBehavior.AreAgentsSpawning() && this.OnEquipmentRefreshed != null)
+			if (component.SelectPerk(requestPerkChange.PerkListIndex, requestPerkChange.PerkIndex, -1) && missionBehavior.AreAgentsSpawning() && this.OnEquipmentRefreshed != null)
 			{
 				this.OnEquipmentRefreshed(component);
 			}
@@ -249,7 +254,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public bool TransferFromEquipmentSlotToEquipmentSlot(int draggedEquipmentIndex, int droppedEquipmentIndex)
 		{
-			Debug.FailedAssert("OBSOLETE FUNCTION: TransferFromEquipmentSlotToEquipmentSlot", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionLobbyEquipmentNetworkComponent.cs", "TransferFromEquipmentSlotToEquipmentSlot", 493);
+			Debug.FailedAssert("OBSOLETE FUNCTION: TransferFromEquipmentSlotToEquipmentSlot", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionLobbyEquipmentNetworkComponent.cs", "TransferFromEquipmentSlotToEquipmentSlot", 498);
 			return false;
 		}
 

@@ -769,6 +769,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this.LastBattleServerAddressForClient = battleServerInformation.ServerAddress;
 			this.LastBattleServerPortForClient = battleServerInformation.ServerPort;
 			this.CurrentMatchId = battleServerInformation.MatchId;
+			string text2 = "Successful matchmaker game join response\n";
+			text2 = text2 + "Address: " + this.LastBattleServerAddressForClient + "\n";
+			text2 = string.Concat(new object[] { text2, "Port: ", this.LastBattleServerPortForClient, "\n" });
+			text2 = text2 + "Match Id: " + this.CurrentMatchId + "\n";
+			Debug.Print(text2, 0, Debug.DebugColor.White, 17592186044416UL);
 			this._handler.OnBattleServerInformationReceived(battleServerInformation);
 			this.CurrentState = LobbyClient.State.AtBattle;
 		}
@@ -899,6 +904,14 @@ namespace TaleWorlds.MountAndBlade.Diamond
 					this.LastBattleServerAddressForClient = message.JoinGameData.GameServerProperties.Address;
 					this.LastBattleServerPortForClient = (ushort)message.JoinGameData.GameServerProperties.Port;
 					this.CurrentMatchId = message.MatchId;
+					string text = "Successful custom game join response\n";
+					text = text + "Server Name: " + message.JoinGameData.GameServerProperties.Name + "\n";
+					text = text + "Host Name: " + message.JoinGameData.GameServerProperties.HostName + "\n";
+					text = text + "Address: " + this.LastBattleServerAddressForClient + "\n";
+					text = string.Concat(new object[] { text, "Port: ", this.LastBattleServerPortForClient, "\n" });
+					text = text + "Match Id: " + this.CurrentMatchId + "\n";
+					text = text + "Is Official: " + message.JoinGameData.GameServerProperties.IsOfficial.ToString() + "\n";
+					Debug.Print(text, 0, Debug.DebugColor.White, 17592186044416UL);
 				}
 				else
 				{

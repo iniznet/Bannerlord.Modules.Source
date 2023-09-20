@@ -1192,7 +1192,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		[LateLoadInitializationCallback]
 		private void OnLateLoad(MetaData metaData, ObjectLoadData objectLoadData)
 		{
-			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 17949))
+			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 21456))
 			{
 				PartyBase partyBase = (PartyBase)objectLoadData.GetMemberValueBySaveId(1052);
 				IMapEntity mapEntity = null;
@@ -1468,11 +1468,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				this.Army = null;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 17949) && (this.PaymentLimit == 2000 || (this == MobileParty.MainParty && this.PaymentLimit == 0)))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 21456) && (this.PaymentLimit == 2000 || (this == MobileParty.MainParty && this.PaymentLimit == 0)))
 			{
 				this.SetWagePaymentLimit(Campaign.Current.Models.PartyWageModel.MaxWage);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.4", 17949) && ((this.TargetParty != null && !this.TargetParty.MapFaction.IsAtWarWith(this.MapFaction)) || (this.TargetSettlement != null && !this.TargetSettlement.MapFaction.IsAtWarWith(this.MapFaction)) || (this.ShortTermTargetParty != null && !this.ShortTermTargetParty.MapFaction.IsAtWarWith(this.MapFaction))))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.4", 21456) && ((this.TargetParty != null && !this.TargetParty.MapFaction.IsAtWarWith(this.MapFaction)) || (this.TargetSettlement != null && !this.TargetSettlement.MapFaction.IsAtWarWith(this.MapFaction)) || (this.ShortTermTargetParty != null && !this.ShortTermTargetParty.MapFaction.IsAtWarWith(this.MapFaction))))
 			{
 				this.Ai.SetMoveModeHold();
 			}

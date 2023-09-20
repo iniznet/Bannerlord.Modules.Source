@@ -65,7 +65,7 @@ namespace SandBox.View.Missions
 					text = text + "\n Troop Id: " + characterObject.StringId;
 				}
 			}
-			TaleWorlds.InputSystem.Input.SetClipboardText(text);
+			Input.SetClipboardText(text);
 			return "Copied to clipboard:\n" + text;
 		}
 

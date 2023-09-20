@@ -69,8 +69,8 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<SyncGoldsForSkirmish>(new GameNetworkMessage.ServerMessageHandlerDelegate<SyncGoldsForSkirmish>(this.HandleServerEventUpdateGold));
-				registerer.Register<GoldGain>(new GameNetworkMessage.ServerMessageHandlerDelegate<GoldGain>(this.HandleServerEventTDMGoldGain));
+				registerer.RegisterBaseHandler<SyncGoldsForSkirmish>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventUpdateGold));
+				registerer.RegisterBaseHandler<GoldGain>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventTDMGoldGain));
 			}
 		}
 
@@ -79,20 +79,22 @@ namespace TaleWorlds.MountAndBlade
 			this._myRepresentative = GameNetwork.MyPeer.GetComponent<TeamDeathmatchMissionRepresentative>();
 		}
 
-		private void HandleServerEventUpdateGold(SyncGoldsForSkirmish message)
+		private void HandleServerEventUpdateGold(GameNetworkMessage baseMessage)
 		{
-			MissionRepresentativeBase component = message.VirtualPlayer.GetComponent<MissionRepresentativeBase>();
-			this.OnGoldAmountChangedForRepresentative(component, message.GoldAmount);
+			SyncGoldsForSkirmish syncGoldsForSkirmish = (SyncGoldsForSkirmish)baseMessage;
+			MissionRepresentativeBase component = syncGoldsForSkirmish.VirtualPlayer.GetComponent<MissionRepresentativeBase>();
+			this.OnGoldAmountChangedForRepresentative(component, syncGoldsForSkirmish.GoldAmount);
 		}
 
-		private void HandleServerEventTDMGoldGain(GoldGain message)
+		private void HandleServerEventTDMGoldGain(GameNetworkMessage baseMessage)
 		{
+			GoldGain goldGain = (GoldGain)baseMessage;
 			Action<GoldGain> onGoldGainEvent = this.OnGoldGainEvent;
 			if (onGoldGainEvent == null)
 			{
 				return;
 			}
-			onGoldGainEvent(message);
+			onGoldGainEvent(goldGain);
 		}
 
 		public override int GetGoldAmount()

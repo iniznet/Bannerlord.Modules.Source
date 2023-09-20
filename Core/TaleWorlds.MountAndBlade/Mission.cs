@@ -3206,14 +3206,19 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (agentCharacter.IsHero)
 			{
-				ItemObject itemObject = equipment[EquipmentIndex.ExtraWeaponSlot].Item;
-				if (itemObject == null)
+				ItemObject itemObject = null;
+				ItemObject item = equipment[EquipmentIndex.ExtraWeaponSlot].Item;
+				if (item != null && item.IsBannerItem && item.BannerComponent != null)
+				{
+					itemObject = item;
+					equipment[EquipmentIndex.ExtraWeaponSlot] = default(EquipmentElement);
+				}
+				else if (agentBuildData.AgentBannerItem != null)
 				{
 					itemObject = agentBuildData.AgentBannerItem;
 				}
 				if (itemObject != null)
 				{
-					equipment[EquipmentIndex.ExtraWeaponSlot] = default(EquipmentElement);
 					agent.SetFormationBanner(itemObject);
 				}
 			}
@@ -3231,6 +3236,10 @@ namespace TaleWorlds.MountAndBlade
 					equipment[EquipmentIndex.WeaponItemBeginSlot] = default(EquipmentElement);
 				}
 				equipment[EquipmentIndex.ExtraWeaponSlot] = new EquipmentElement(agentBuildData.AgentBannerItem, null, null, false);
+				if (agentBuildData.AgentOverridenSpawnMissionEquipment != null)
+				{
+					agentBuildData.AgentOverridenSpawnMissionEquipment[EquipmentIndex.ExtraWeaponSlot] = new MissionWeapon(agentBuildData.AgentBannerItem, null, agentBuildData.AgentBanner);
+				}
 			}
 			if (agentBuildData.AgentNoArmor)
 			{
@@ -3253,8 +3262,8 @@ namespace TaleWorlds.MountAndBlade
 			{
 				agent.Equipment.SetGlossMultipliersOfWeaponsRandomly(agentBuildData.AgentEquipmentSeed);
 			}
-			ItemObject item = equipment[EquipmentIndex.ArmorItemEndSlot].Item;
-			if (item != null && item.HasHorseComponent && item.HorseComponent.IsRideable)
+			ItemObject item2 = equipment[EquipmentIndex.ArmorItemEndSlot].Item;
+			if (item2 != null && item2.HasHorseComponent && item2.HorseComponent.IsRideable)
 			{
 				int num5 = -1;
 				if (agentBuildData.AgentMountIndexOverriden)
@@ -3374,7 +3383,7 @@ namespace TaleWorlds.MountAndBlade
 				this._initialAgentCountPerSide[(int)side] = agentCount;
 				return;
 			}
-			Debug.FailedAssert("Cannot set initial agent count.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "SetInitialAgentCountForSide", 3759);
+			Debug.FailedAssert("Cannot set initial agent count.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "SetInitialAgentCountForSide", 3771);
 		}
 
 		public void SpawnFormation(Formation formation)
@@ -3460,11 +3469,19 @@ namespace TaleWorlds.MountAndBlade
 			{
 				agentBuildData.IsReinforcement(isReinforcement);
 			}
-			if (bannerItem != null && bannerItem.IsBannerItem && bannerItem.BannerComponent != null)
+			if (bannerItem != null)
 			{
-				agentBuildData.BannerItem(bannerItem);
-				ItemObject bannerBearerReplacementWeapon = MissionGameModels.Current.BattleBannerBearersModel.GetBannerBearerReplacementWeapon(troop);
-				agentBuildData.BannerReplacementWeaponItem(bannerBearerReplacementWeapon);
+				if (bannerItem.IsBannerItem && bannerItem.BannerComponent != null)
+				{
+					agentBuildData.BannerItem(bannerItem);
+					ItemObject bannerBearerReplacementWeapon = MissionGameModels.Current.BattleBannerBearersModel.GetBannerBearerReplacementWeapon(troop);
+					agentBuildData.BannerReplacementWeaponItem(bannerBearerReplacementWeapon);
+				}
+				else
+				{
+					Debug.FailedAssert("Passed banner item with name: " + bannerItem.Name + " is not a proper banner item", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "SpawnTroop", 3909);
+					Debug.Print("Invalid banner item: " + bannerItem.Name + " is passed to a troop to be spawned", 0, Debug.DebugColor.Yellow, 17592186044416UL);
+				}
 			}
 			if (initialPosition != null)
 			{
@@ -3667,7 +3684,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (behaviorType != MissionBehaviorType.Other)
 				{
-					Debug.FailedAssert("Invalid behavior type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "RemoveMissionBehavior", 4181);
+					Debug.FailedAssert("Invalid behavior type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "RemoveMissionBehavior", 4203);
 				}
 				else
 				{
@@ -3714,7 +3731,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				Debug.FailedAssert("Player is neither attacker nor defender.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "JoinEnemyTeam", 4225);
+				Debug.FailedAssert("Player is neither attacker nor defender.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "JoinEnemyTeam", 4247);
 			}
 		}
 
@@ -3783,6 +3800,7 @@ namespace TaleWorlds.MountAndBlade
 				MissionResult missionResult = null;
 				if (missionLogic.MissionEnded(ref missionResult))
 				{
+					Debug.Print("CheckMissionEnded::ended", 0, Debug.DebugColor.White, 17592186044416UL);
 					this.MissionResult = missionResult;
 					this.MissionEnded = true;
 					this.MissionResultReady(missionResult);
@@ -4216,7 +4234,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (Mission.Current == null)
 			{
-				Debug.FailedAssert("Mission current is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "GetAgentTeam", 4913);
+				Debug.FailedAssert("Mission current is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Mission.cs", "GetAgentTeam", 4936);
 				return null;
 			}
 			Team team;

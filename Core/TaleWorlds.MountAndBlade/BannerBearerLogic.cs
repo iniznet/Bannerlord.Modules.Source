@@ -87,7 +87,7 @@ namespace TaleWorlds.MountAndBlade
 		public int GetMissingBannerCount(Formation formation)
 		{
 			BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
-			if (formationControllerFromFormation == null)
+			if (formationControllerFromFormation == null || formationControllerFromFormation.BannerItem == null)
 			{
 				return 0;
 			}

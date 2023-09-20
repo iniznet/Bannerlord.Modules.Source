@@ -64,12 +64,12 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<SendVoiceToPlay>(new GameNetworkMessage.ServerMessageHandlerDelegate<SendVoiceToPlay>(this.HandleServerEventSendVoiceToPlay));
+				registerer.RegisterBaseHandler<SendVoiceToPlay>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSendVoiceToPlay));
 				return;
 			}
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<SendVoiceRecord>(new GameNetworkMessage.ClientMessageHandlerDelegate<SendVoiceRecord>(this.HandleClientEventSendVoiceRecord));
+				registerer.RegisterBaseHandler<SendVoiceRecord>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventSendVoiceRecord));
 			}
 		}
 
@@ -123,18 +123,19 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private bool HandleClientEventSendVoiceRecord(NetworkCommunicator peer, SendVoiceRecord message)
+		private bool HandleClientEventSendVoiceRecord(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			SendVoiceRecord sendVoiceRecord = (SendVoiceRecord)baseMessage;
 			MissionPeer component = peer.GetComponent<MissionPeer>();
-			if (message.BufferLength > 0 && component.Team != null)
+			if (sendVoiceRecord.BufferLength > 0 && component.Team != null)
 			{
 				foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
 				{
 					MissionPeer component2 = networkCommunicator.GetComponent<MissionPeer>();
-					if (networkCommunicator.IsSynchronized && component2 != null && component2.Team == component.Team && (message.ReceiverList == null || message.ReceiverList.Contains(networkCommunicator.VirtualPlayer)) && component2 != component)
+					if (networkCommunicator.IsSynchronized && component2 != null && component2.Team == component.Team && (sendVoiceRecord.ReceiverList == null || sendVoiceRecord.ReceiverList.Contains(networkCommunicator.VirtualPlayer)) && component2 != component)
 					{
 						GameNetwork.BeginModuleEventAsServerUnreliable(component2.Peer);
-						GameNetwork.WriteMessage(new SendVoiceToPlay(peer, message.Buffer, message.BufferLength));
+						GameNetwork.WriteMessage(new SendVoiceToPlay(peer, sendVoiceRecord.Buffer, sendVoiceRecord.BufferLength));
 						GameNetwork.EndModuleEventAsServerUnreliable();
 					}
 				}
@@ -142,12 +143,13 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private void HandleServerEventSendVoiceToPlay(SendVoiceToPlay message)
+		private void HandleServerEventSendVoiceToPlay(GameNetworkMessage baseMessage)
 		{
+			SendVoiceToPlay sendVoiceToPlay = (SendVoiceToPlay)baseMessage;
 			if (!this._isVoiceChatDisabled)
 			{
-				MissionPeer component = message.Peer.GetComponent<MissionPeer>();
-				if (component != null && message.BufferLength > 0 && !component.IsMutedFromGameOrPlatform)
+				MissionPeer component = sendVoiceToPlay.Peer.GetComponent<MissionPeer>();
+				if (component != null && sendVoiceToPlay.BufferLength > 0 && !component.IsMutedFromGameOrPlatform)
 				{
 					for (int i = 0; i < this._playerVoiceDataList.Count; i++)
 					{
@@ -155,7 +157,7 @@ namespace TaleWorlds.MountAndBlade
 						{
 							byte[] array = new byte[8640];
 							int num;
-							this.DecompressVoiceChunk(message.Peer.Index, message.Buffer, message.BufferLength, ref array, out num);
+							this.DecompressVoiceChunk(sendVoiceToPlay.Peer.Index, sendVoiceToPlay.Buffer, sendVoiceToPlay.BufferLength, ref array, out num);
 							this._playerVoiceDataList[i].WriteVoiceData(array, num);
 							return;
 						}

@@ -385,7 +385,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 				for (int i = side.SiegeEngines.DeployedSiegeEngines.Count - 1; i >= 0; i--)
 				{
 					SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress = side.SiegeEngines.DeployedSiegeEngines.ElementAt(i);
-					if (siegeEngineConstructionProgress.IsConstructed)
+					if (siegeEngineConstructionProgress.IsConstructed && !siegeEngineConstructionProgress.IsBeingRedeployed)
 					{
 						IMissionSiegeWeapon missionSiegeWeapon = missionSiegeEngineData.ElementAt(num);
 						num--;

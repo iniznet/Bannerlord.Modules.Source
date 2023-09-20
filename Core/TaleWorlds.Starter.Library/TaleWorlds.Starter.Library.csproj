@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-311642108206}</ProjectGuid>
+    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F991}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Starter.Library</RootNamespace>
     <AssemblyName>TaleWorlds.Starter.Library</AssemblyName>

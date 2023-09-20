@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081F0}</ProjectGuid>
+    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F97B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.LinQuick</RootNamespace>
     <AssemblyName>TaleWorlds.LinQuick</AssemblyName>

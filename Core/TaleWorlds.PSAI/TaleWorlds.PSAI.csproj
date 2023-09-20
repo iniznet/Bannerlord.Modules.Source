@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-311642108202}</ProjectGuid>
+    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F98D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>psai</RootNamespace>
     <AssemblyName>TaleWorlds.PSAI</AssemblyName>
@@ -79,11 +79,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.Engine\TaleWorlds.Engine.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081e6}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f971}</Project>
       <Name>TaleWorlds.Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97a}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
   </ItemGroup>

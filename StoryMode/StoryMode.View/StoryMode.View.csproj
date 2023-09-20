@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{A0ACAF46-D640-45BD-A670-5EE0032444FC}</ProjectGuid>
+    <ProjectGuid>{A1AE8B58-11E0-46FF-B9DD-8FD04EC1D7DC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>StoryMode.View</RootNamespace>
     <AssemblyName>StoryMode.View</AssemblyName>
@@ -33,17 +33,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="netstandard" />
-    <Reference Include="SandBox.View">
-      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.View.dll</HintPath>
-    </Reference>
+    <Reference Include="SandBox.View" />
     <Reference Include="TaleWorlds.CampaignSystem" />
     <Reference Include="TaleWorlds.Engine" />
     <Reference Include="TaleWorlds.Library" />
     <Reference Include="TaleWorlds.Localization" />
     <Reference Include="TaleWorlds.MountAndBlade" />
-    <Reference Include="TaleWorlds.MountAndBlade.View">
-      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.View.dll</HintPath>
-    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade.View" />
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -57,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoryMode\StoryMode.csproj">
-      <Project>{a0acaf46-d640-45bd-a670-5ee0032444fa}</Project>
+      <Project>{a1ae8b58-11e0-46ff-b9dd-8fd04ec1d7da}</Project>
       <Name>StoryMode</Name>
     </ProjectReference>
   </ItemGroup>

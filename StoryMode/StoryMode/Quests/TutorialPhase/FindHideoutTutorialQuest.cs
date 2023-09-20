@@ -343,7 +343,7 @@ namespace StoryMode.Quests.TutorialPhase
 						CharacterObject @object = Campaign.Current.ObjectManager.GetObject<CharacterObject>("storymode_quest_raider");
 						mobileParty.MemberRoster.AddToCounts(@object, 4 - totalManCount, false, 0, 0, true, -1);
 					}
-					if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 17949) && mobileParty.IsBanditBossParty && mobileParty.MemberRoster.GetTroopCount(StoryModeHeroes.Radagos.CharacterObject) <= 0)
+					if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 21456) && mobileParty.IsBanditBossParty && mobileParty.MemberRoster.GetTroopCount(StoryModeHeroes.Radagos.CharacterObject) <= 0)
 					{
 						mobileParty.MemberRoster.AddToCounts(StoryModeHeroes.Radagos.CharacterObject, 1, false, 0, 0, true, -1);
 					}

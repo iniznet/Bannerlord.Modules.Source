@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{681D716C-B5B5-4F02-8205-1EE9579C5FEE}</ProjectGuid>
+    <ProjectGuid>{DC53E8A8-9421-4342-9CA4-3678FC195836}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.DedicatedCustomServer.ClientHelper</AssemblyName>

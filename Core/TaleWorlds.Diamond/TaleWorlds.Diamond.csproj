@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081E4}</ProjectGuid>
+    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F96F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Diamond</RootNamespace>
     <AssemblyName>TaleWorlds.Diamond</AssemblyName>
@@ -136,23 +136,23 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97a}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f1}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97c}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Network\TaleWorlds.Network.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081fb}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f986}</Project>
       <Name>TaleWorlds.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-311642108201}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f98c}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ServiceDiscovery.Client\TaleWorlds.ServiceDiscovery.Client.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-311642108205}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f990}</Project>
       <Name>TaleWorlds.ServiceDiscovery.Client</Name>
     </ProjectReference>
   </ItemGroup>

@@ -649,20 +649,26 @@ namespace SandBox
 				flattenedTroopRoster.Add(mapEventParty.Party.MemberRoster.GetTroopRoster());
 			}
 			flattenedTroopRoster.RemoveIf((FlattenedTroopRosterElement x) => x.IsWounded);
-			List<FlattenedTroopRosterElement> list2 = flattenedTroopRoster.RemoveIf((FlattenedTroopRosterElement x) => x.Troop.IsHero || x.Troop.Culture.BanditBoss == x.Troop).ToList<FlattenedTroopRosterElement>();
-			int num3 = num2 - list2.Count;
-			if (num3 > 0)
+			int count = flattenedTroopRoster.RemoveIf((FlattenedTroopRosterElement x) => x.Troop.IsHero || x.Troop.Culture.BanditBoss == x.Troop).ToList<FlattenedTroopRosterElement>().Count;
+			int num3 = 0;
+			int num4 = num2 - count;
+			if (num4 > 0)
 			{
-				IEnumerable<FlattenedTroopRosterElement> selectedRegularTroops = flattenedTroopRoster.OrderByDescending((FlattenedTroopRosterElement x) => x.Troop.Level).Take(num3);
+				IEnumerable<FlattenedTroopRosterElement> selectedRegularTroops = flattenedTroopRoster.OrderByDescending((FlattenedTroopRosterElement x) => x.Troop.Level).Take(num4);
 				flattenedTroopRoster.RemoveIf((FlattenedTroopRosterElement x) => selectedRegularTroops.Contains(x));
+				num3 += selectedRegularTroops.Count<FlattenedTroopRosterElement>();
 			}
+			Debug.Print("Picking bandit troops for hideout mission...", 0, 9, 256UL);
+			Debug.Print("- First phase troop count: " + firstPhaseTroopCount, 0, 9, 256UL);
+			Debug.Print("- Second phase boss troop count: " + count, 0, 9, 256UL);
+			Debug.Print("- Second phase regular troop count: " + num3, 0, 9, 256UL);
 			return flattenedTroopRoster;
 		}
 
 		[MissionMethod]
 		public static Mission OpenAmbushMission(string scene, MissionResult oldResult)
 		{
-			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenAmbushMission", 845);
+			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenAmbushMission", 858);
 			return MissionState.OpenNew("Ambush", SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, "", false, 3), (Mission mission) => new MissionBehavior[]
 			{
 				new MissionOptionsComponent(),
@@ -981,7 +987,7 @@ namespace SandBox
 		[MissionMethod]
 		public static Mission OpenMeetingMission(string scene, CharacterObject character)
 		{
-			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenMeetingMission", 1268);
+			Debug.FailedAssert("This mission was broken", "C:\\Develop\\MB3\\Source\\Bannerlord\\SandBox\\Missions\\SandBoxMissions.cs", "OpenMeetingMission", 1281);
 			return MissionState.OpenNew("Conversation", SandBoxMissions.CreateSandBoxMissionInitializerRecord(scene, "", false, 3), (Mission mission) => new MissionBehavior[]
 			{
 				new CampaignMissionComponent(),

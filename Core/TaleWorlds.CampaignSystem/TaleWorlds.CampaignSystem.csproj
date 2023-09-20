@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081DA}</ProjectGuid>
+    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F965}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.CampaignSystem</RootNamespace>
     <AssemblyName>TaleWorlds.CampaignSystem</AssemblyName>
@@ -1155,31 +1155,31 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081dc}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f967}</Project>
       <Name>TaleWorlds.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97a}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.LinQuick\TaleWorlds.LinQuick.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f0}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97b}</Project>
       <Name>TaleWorlds.LinQuick</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f1}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97c}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f2}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97d}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081fc}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f987}</Project>
       <Name>TaleWorlds.ObjectSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.SaveSystem\TaleWorlds.SaveSystem.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-311642108203}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f98e}</Project>
       <Name>TaleWorlds.SaveSystem</Name>
     </ProjectReference>
   </ItemGroup>

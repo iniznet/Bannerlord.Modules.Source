@@ -231,9 +231,5 @@ namespace TaleWorlds.MountAndBlade
 		protected readonly UsableMachine UsableMachine;
 
 		private GameEntity _lastActiveWaitStandingPoint;
-
-		private const int MovingAgentReassigningFrequency = 200;
-
-		private const float CurrentMovingAgentBias = 0.9f;
 	}
 }

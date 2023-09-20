@@ -99,7 +99,7 @@ namespace TaleWorlds.PlatformService.Epic
 			Result result = PlatformInterface.Initialize(new InitializeOptions
 			{
 				ProductName = "Bannerlord",
-				ProductVersion = "1.1.4.17949"
+				ProductVersion = "1.0"
 			});
 			if (result != Result.Success)
 			{

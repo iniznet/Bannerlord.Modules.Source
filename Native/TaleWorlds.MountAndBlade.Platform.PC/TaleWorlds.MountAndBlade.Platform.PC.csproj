@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{6556BCCC-43E6-4DB6-9CC3-81BFBB5C092B}</ProjectGuid>
+    <ProjectGuid>{73C49261-7B08-4E59-81CC-B2F0BF5692A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.Platform.PC</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.Platform.PC</AssemblyName>

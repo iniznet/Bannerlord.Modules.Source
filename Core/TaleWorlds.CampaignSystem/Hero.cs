@@ -1520,7 +1520,7 @@ namespace TaleWorlds.CampaignSystem
 		{
 			this.OwnedCaravans = new List<CaravanPartyComponent>();
 			this.OwnedAlleys = new List<Alley>();
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 17949))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 21456))
 			{
 				this.PreferredUpgradeFormation = FormationClass.NumberOfAllFormations;
 			}
@@ -1528,7 +1528,7 @@ namespace TaleWorlds.CampaignSystem
 			{
 				this._firstName = this.Name;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 17949))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 21456))
 			{
 				object memberValueBySaveId;
 				bool flag;
@@ -1569,7 +1569,7 @@ namespace TaleWorlds.CampaignSystem
 			{
 				this.CurrentSettlement.AddHeroWithoutParty(this);
 			}
-			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("v1.1.0", 17949) && this.FirstName != null && this.Name != null && this != Hero.MainHero)
+			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("v1.1.0", 21456) && this.FirstName != null && this.Name != null && this != Hero.MainHero)
 			{
 				if (this.Name.Attributes == null || !this.Name.Attributes.ContainsKey("FIRSTNAME"))
 				{
@@ -1651,7 +1651,7 @@ namespace TaleWorlds.CampaignSystem
 					this.Clan = clan;
 				}
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 17949) && !this.IsDead && this.CurrentSettlement == null && this.IsNotable && this.BornSettlement != null)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 21456) && !this.IsDead && this.CurrentSettlement == null && this.IsNotable && this.BornSettlement != null)
 			{
 				TeleportHeroAction.ApplyImmediateTeleportToSettlement(this, this.BornSettlement);
 				if (!this.IsActive)

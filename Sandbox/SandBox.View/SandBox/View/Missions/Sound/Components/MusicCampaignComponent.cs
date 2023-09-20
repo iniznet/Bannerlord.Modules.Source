@@ -61,7 +61,7 @@ namespace SandBox.View.Missions.Sound.Components
 
 		public override MusicPriority GetPriority()
 		{
-			return MusicPriority.Campaign;
+			return 0;
 		}
 
 		public override bool IsActive()

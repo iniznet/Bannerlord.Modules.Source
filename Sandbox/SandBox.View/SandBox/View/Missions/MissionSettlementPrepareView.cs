@@ -45,7 +45,7 @@ namespace SandBox.View.Missions
 							material.SetShaderFlags(shaderFlags | (ulong)num);
 							material.SetTexture(1, tex);
 						};
-						Settlement.CurrentSettlement.OwnerClan.Banner.GetTableauTextureLarge(action);
+						BannerVisualExtensions.GetTableauTextureLarge(Settlement.CurrentSettlement.OwnerClan.Banner, action);
 						flag2 = true;
 					}
 					if (flag2)

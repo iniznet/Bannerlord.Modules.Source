@@ -52,7 +52,7 @@ namespace TaleWorlds.MountAndBlade
 
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
-			registerer.Register<MissionStateChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<MissionStateChange>(this.HandleServerEventMissionStateChange));
+			registerer.RegisterBaseHandler<MissionStateChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventMissionStateChange));
 		}
 
 		private void TeamChange(NetworkCommunicator player, Team oldTeam, Team nextTeam)
@@ -60,9 +60,9 @@ namespace TaleWorlds.MountAndBlade
 			this._matchInfo.AddOrUpdatePlayer(player.VirtualPlayer.Id.ToString(), player.VirtualPlayer.UserName, player.ForcedAvatarIndex, (int)nextTeam.Side);
 		}
 
-		private void HandleServerEventMissionStateChange(MissionStateChange message)
+		private void HandleServerEventMissionStateChange(GameNetworkMessage baseMessage)
 		{
-			if (message.CurrentState == MissionLobbyComponent.MultiplayerGameState.Ending && !this._recordedHistory)
+			if (((MissionStateChange)baseMessage).CurrentState == MissionLobbyComponent.MultiplayerGameState.Ending && !this._recordedHistory)
 			{
 				MissionScoreboardComponent missionBehavior = base.Mission.GetMissionBehavior<MissionScoreboardComponent>();
 				if (missionBehavior != null && !missionBehavior.IsOneSided)

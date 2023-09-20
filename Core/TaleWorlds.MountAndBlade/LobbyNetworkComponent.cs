@@ -11,27 +11,23 @@ namespace TaleWorlds.MountAndBlade
 	{
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
-			if (GameNetwork.IsClient)
+			if (GameNetwork.IsClientOrReplay)
 			{
-				registerer.Register<InitializeLobbyPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<InitializeLobbyPeer>(this.HandleServerEventInitializeLobbyPeer));
-				return;
-			}
-			if (GameNetwork.IsReplay)
-			{
-				registerer.Register<InitializeLobbyPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<InitializeLobbyPeer>(this.HandleServerEventInitializeLobbyPeer));
+				registerer.RegisterBaseHandler<InitializeLobbyPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventInitializeLobbyPeer));
 			}
 		}
 
-		private void HandleServerEventInitializeLobbyPeer(InitializeLobbyPeer message)
+		private void HandleServerEventInitializeLobbyPeer(GameNetworkMessage baseMessage)
 		{
-			NetworkCommunicator peer = message.Peer;
+			InitializeLobbyPeer initializeLobbyPeer = (InitializeLobbyPeer)baseMessage;
+			NetworkCommunicator peer = initializeLobbyPeer.Peer;
 			VirtualPlayer virtualPlayer = peer.VirtualPlayer;
-			virtualPlayer.Id = message.ProvidedId;
-			virtualPlayer.IsFemale = message.IsFemale;
-			virtualPlayer.BannerCode = message.BannerCode;
-			virtualPlayer.BodyProperties = message.BodyProperties;
-			virtualPlayer.ChosenBadgeIndex = message.ChosenBadgeIndex;
-			peer.ForcedAvatarIndex = message.ForcedAvatarIndex;
+			virtualPlayer.Id = initializeLobbyPeer.ProvidedId;
+			virtualPlayer.IsFemale = initializeLobbyPeer.IsFemale;
+			virtualPlayer.BannerCode = initializeLobbyPeer.BannerCode;
+			virtualPlayer.BodyProperties = initializeLobbyPeer.BodyProperties;
+			virtualPlayer.ChosenBadgeIndex = initializeLobbyPeer.ChosenBadgeIndex;
+			peer.ForcedAvatarIndex = initializeLobbyPeer.ForcedAvatarIndex;
 		}
 
 		public override void HandleEarlyNewClientAfterLoadingFinished(NetworkCommunicator networkPeer)

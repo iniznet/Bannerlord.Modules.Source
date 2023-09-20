@@ -41,7 +41,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<TeamChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<TeamChange>(this.HandleClientEventTeamChange));
+				registerer.RegisterBaseHandler<TeamChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventTeamChange));
 			}
 		}
 
@@ -80,17 +80,18 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		private bool HandleClientEventTeamChange(NetworkCommunicator peer, TeamChange message)
+		private bool HandleClientEventTeamChange(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			TeamChange teamChange = (TeamChange)baseMessage;
 			if (this.TeamSelectionEnabled)
 			{
-				if (message.AutoAssign)
+				if (teamChange.AutoAssign)
 				{
 					this.AutoAssignTeam(peer);
 				}
 				else
 				{
-					this.ChangeTeamServer(peer, message.Team);
+					this.ChangeTeamServer(peer, teamChange.Team);
 				}
 			}
 			return true;
@@ -141,7 +142,7 @@ namespace TaleWorlds.MountAndBlade
 			case AutoTeamBalanceLimits.LimitTo20:
 				return 20;
 			default:
-				Debug.FailedAssert("Unknown auto team balance limit!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerTeamSelectComponent.cs", "GetAutoTeamBalanceDifference", 195);
+				Debug.FailedAssert("Unknown auto team balance limit!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerTeamSelectComponent.cs", "GetAutoTeamBalanceDifference", 196);
 				return 0;
 			}
 		}

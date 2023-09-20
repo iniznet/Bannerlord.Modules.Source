@@ -85,15 +85,16 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<KickPlayer>(new GameNetworkMessage.ClientMessageHandlerDelegate<KickPlayer>(this.HandleClientEventKickPlayer));
+				registerer.RegisterBaseHandler<KickPlayer>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventKickPlayer));
 			}
 		}
 
-		private bool HandleClientEventKickPlayer(NetworkCommunicator peer, KickPlayer message)
+		private bool HandleClientEventKickPlayer(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			KickPlayer kickPlayer = (KickPlayer)baseMessage;
 			if (peer.IsAdmin)
 			{
-				this.KickPlayer(message.PlayerPeer, message.BanPlayer);
+				this.KickPlayer(kickPlayer.PlayerPeer, kickPlayer.BanPlayer);
 			}
 			return true;
 		}

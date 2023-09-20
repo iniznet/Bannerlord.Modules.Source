@@ -21,123 +21,123 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClientOrReplay)
 			{
-				registerer.Register<CreateFreeMountAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<CreateFreeMountAgent>(this.HandleServerEventCreateFreeMountAgentEvent));
-				registerer.Register<CreateAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<CreateAgent>(this.HandleServerEventCreateAgent));
-				registerer.Register<CreateAgentVisuals>(new GameNetworkMessage.ServerMessageHandlerDelegate<CreateAgentVisuals>(this.HandleServerEventCreateAgentVisuals));
-				registerer.Register<RemoveAgentVisualsForPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<RemoveAgentVisualsForPeer>(this.HandleServerEventRemoveAgentVisualsForPeer));
-				registerer.Register<RemoveAgentVisualsFromIndexForPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<RemoveAgentVisualsFromIndexForPeer>(this.HandleServerEventRemoveAgentVisualsFromIndexForPeer));
-				registerer.Register<ReplaceBotWithPlayer>(new GameNetworkMessage.ServerMessageHandlerDelegate<ReplaceBotWithPlayer>(this.HandleServerEventReplaceBotWithPlayer));
-				registerer.Register<SetWieldedItemIndex>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetWieldedItemIndex>(this.HandleServerEventSetWieldedItemIndex));
-				registerer.Register<SetWeaponNetworkData>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetWeaponNetworkData>(this.HandleServerEventSetWeaponNetworkData));
-				registerer.Register<SetWeaponAmmoData>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetWeaponAmmoData>(this.HandleServerEventSetWeaponAmmoData));
-				registerer.Register<SetWeaponReloadPhase>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetWeaponReloadPhase>(this.HandleServerEventSetWeaponReloadPhase));
-				registerer.Register<WeaponUsageIndexChangeMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<WeaponUsageIndexChangeMessage>(this.HandleServerEventWeaponUsageIndexChangeMessage));
-				registerer.Register<StartSwitchingWeaponUsageIndex>(new GameNetworkMessage.ServerMessageHandlerDelegate<StartSwitchingWeaponUsageIndex>(this.HandleServerEventStartSwitchingWeaponUsageIndex));
-				registerer.Register<InitializeFormation>(new GameNetworkMessage.ServerMessageHandlerDelegate<InitializeFormation>(this.HandleServerEventInitializeFormation));
-				registerer.Register<SetSpawnedFormationCount>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetSpawnedFormationCount>(this.HandleServerEventSetSpawnedFormationCount));
-				registerer.Register<AddTeam>(new GameNetworkMessage.ServerMessageHandlerDelegate<AddTeam>(this.HandleServerEventAddTeam));
-				registerer.Register<TeamSetIsEnemyOf>(new GameNetworkMessage.ServerMessageHandlerDelegate<TeamSetIsEnemyOf>(this.HandleServerEventTeamSetIsEnemyOf));
-				registerer.Register<AssignFormationToPlayer>(new GameNetworkMessage.ServerMessageHandlerDelegate<AssignFormationToPlayer>(this.HandleServerEventAssignFormationToPlayer));
-				registerer.Register<ExistingObjectsBegin>(new GameNetworkMessage.ServerMessageHandlerDelegate<ExistingObjectsBegin>(this.HandleServerEventExistingObjectsBegin));
-				registerer.Register<ExistingObjectsEnd>(new GameNetworkMessage.ServerMessageHandlerDelegate<ExistingObjectsEnd>(this.HandleServerEventExistingObjectsEnd));
-				registerer.Register<ClearMission>(new GameNetworkMessage.ServerMessageHandlerDelegate<ClearMission>(this.HandleServerEventClearMission));
-				registerer.Register<CreateMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<CreateMissionObject>(this.HandleServerEventCreateMissionObject));
-				registerer.Register<RemoveMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<RemoveMissionObject>(this.HandleServerEventRemoveMissionObject));
-				registerer.Register<StopPhysicsAndSetFrameOfMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<StopPhysicsAndSetFrameOfMissionObject>(this.HandleServerEventStopPhysicsAndSetFrameOfMissionObject));
-				registerer.Register<BurstMissionObjectParticles>(new GameNetworkMessage.ServerMessageHandlerDelegate<BurstMissionObjectParticles>(this.HandleServerEventBurstMissionObjectParticles));
-				registerer.Register<SetMissionObjectVisibility>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectVisibility>(this.HandleServerEventSetMissionObjectVisibility));
-				registerer.Register<SetMissionObjectDisabled>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectDisabled>(this.HandleServerEventSetMissionObjectDisabled));
-				registerer.Register<SetMissionObjectColors>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectColors>(this.HandleServerEventSetMissionObjectColors));
-				registerer.Register<SetMissionObjectFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectFrame>(this.HandleServerEventSetMissionObjectFrame));
-				registerer.Register<SetMissionObjectGlobalFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectGlobalFrame>(this.HandleServerEventSetMissionObjectGlobalFrame));
-				registerer.Register<SetMissionObjectFrameOverTime>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectFrameOverTime>(this.HandleServerEventSetMissionObjectFrameOverTime));
-				registerer.Register<SetMissionObjectGlobalFrameOverTime>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectGlobalFrameOverTime>(this.HandleServerEventSetMissionObjectGlobalFrameOverTime));
-				registerer.Register<SetMissionObjectAnimationAtChannel>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectAnimationAtChannel>(this.HandleServerEventSetMissionObjectAnimationAtChannel));
-				registerer.Register<SetMissionObjectAnimationChannelParameter>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectAnimationChannelParameter>(this.HandleServerEventSetMissionObjectAnimationChannelParameter));
-				registerer.Register<SetMissionObjectAnimationPaused>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectAnimationPaused>(this.HandleServerEventSetMissionObjectAnimationPaused));
-				registerer.Register<SetMissionObjectVertexAnimation>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectVertexAnimation>(this.HandleServerEventSetMissionObjectVertexAnimation));
-				registerer.Register<SetMissionObjectVertexAnimationProgress>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectVertexAnimationProgress>(this.HandleServerEventSetMissionObjectVertexAnimationProgress));
-				registerer.Register<SetMissionObjectImpulse>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMissionObjectImpulse>(this.HandleServerEventSetMissionObjectImpulse));
-				registerer.Register<AddMissionObjectBodyFlags>(new GameNetworkMessage.ServerMessageHandlerDelegate<AddMissionObjectBodyFlags>(this.HandleServerEventAddMissionObjectBodyFlags));
-				registerer.Register<RemoveMissionObjectBodyFlags>(new GameNetworkMessage.ServerMessageHandlerDelegate<RemoveMissionObjectBodyFlags>(this.HandleServerEventRemoveMissionObjectBodyFlags));
-				registerer.Register<SetMachineTargetRotation>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetMachineTargetRotation>(this.HandleServerEventSetMachineTargetRotation));
-				registerer.Register<SetUsableMissionObjectIsDeactivated>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetUsableMissionObjectIsDeactivated>(this.HandleServerEventSetUsableGameObjectIsDeactivated));
-				registerer.Register<SetUsableMissionObjectIsDisabledForPlayers>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetUsableMissionObjectIsDisabledForPlayers>(this.HandleServerEventSetUsableGameObjectIsDisabledForPlayers));
-				registerer.Register<SetRangedSiegeWeaponState>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetRangedSiegeWeaponState>(this.HandleServerEventSetRangedSiegeWeaponState));
-				registerer.Register<SetRangedSiegeWeaponAmmo>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetRangedSiegeWeaponAmmo>(this.HandleServerEventSetRangedSiegeWeaponAmmo));
-				registerer.Register<RangedSiegeWeaponChangeProjectile>(new GameNetworkMessage.ServerMessageHandlerDelegate<RangedSiegeWeaponChangeProjectile>(this.HandleServerEventRangedSiegeWeaponChangeProjectile));
-				registerer.Register<SetStonePileAmmo>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetStonePileAmmo>(this.HandleServerEventSetStonePileAmmo));
-				registerer.Register<SetSiegeMachineMovementDistance>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetSiegeMachineMovementDistance>(this.HandleServerEventSetSiegeMachineMovementDistance));
-				registerer.Register<SetSiegeLadderState>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetSiegeLadderState>(this.HandleServerEventSetSiegeLadderState));
-				registerer.Register<SetAgentTargetPositionAndDirection>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetAgentTargetPositionAndDirection>(this.HandleServerEventSetAgentTargetPositionAndDirection));
-				registerer.Register<SetAgentTargetPosition>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetAgentTargetPosition>(this.HandleServerEventSetAgentTargetPosition));
-				registerer.Register<ClearAgentTargetFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<ClearAgentTargetFrame>(this.HandleServerEventClearAgentTargetFrame));
-				registerer.Register<AgentTeleportToFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<AgentTeleportToFrame>(this.HandleServerEventAgentTeleportToFrame));
-				registerer.Register<SetSiegeTowerGateState>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetSiegeTowerGateState>(this.HandleServerEventSetSiegeTowerGateState));
-				registerer.Register<SetSiegeTowerHasArrivedAtTarget>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetSiegeTowerHasArrivedAtTarget>(this.HandleServerEventSetSiegeTowerHasArrivedAtTarget));
-				registerer.Register<SetBatteringRamHasArrivedAtTarget>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetBatteringRamHasArrivedAtTarget>(this.HandleServerEventSetBatteringRamHasArrivedAtTarget));
-				registerer.Register<SetPeerTeam>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetPeerTeam>(this.HandleServerEventSetPeerTeam));
-				registerer.Register<SynchronizeMissionTimeTracker>(new GameNetworkMessage.ServerMessageHandlerDelegate<SynchronizeMissionTimeTracker>(this.HandleServerEventSyncMissionTimer));
-				registerer.Register<SetAgentPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetAgentPeer>(this.HandleServerEventSetAgentPeer));
-				registerer.Register<SetAgentIsPlayer>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetAgentIsPlayer>(this.HandleServerEventSetAgentIsPlayer));
-				registerer.Register<SetAgentHealth>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetAgentHealth>(this.HandleServerEventSetAgentHealth));
-				registerer.Register<AgentSetTeam>(new GameNetworkMessage.ServerMessageHandlerDelegate<AgentSetTeam>(this.HandleServerEventAgentSetTeam));
-				registerer.Register<SetAgentActionSet>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetAgentActionSet>(this.HandleServerEventSetAgentActionSet));
-				registerer.Register<MakeAgentDead>(new GameNetworkMessage.ServerMessageHandlerDelegate<MakeAgentDead>(this.HandleServerEventMakeAgentDead));
-				registerer.Register<AgentSetFormation>(new GameNetworkMessage.ServerMessageHandlerDelegate<AgentSetFormation>(this.HandleServerEventAgentSetFormation));
-				registerer.Register<AddPrefabComponentToAgentBone>(new GameNetworkMessage.ServerMessageHandlerDelegate<AddPrefabComponentToAgentBone>(this.HandleServerEventAddPrefabComponentToAgentBone));
-				registerer.Register<SetAgentPrefabComponentVisibility>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetAgentPrefabComponentVisibility>(this.HandleServerEventSetAgentPrefabComponentVisibility));
-				registerer.Register<UseObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<UseObject>(this.HandleServerEventUseObject));
-				registerer.Register<StopUsingObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<StopUsingObject>(this.HandleServerEventStopUsingObject));
-				registerer.Register<SyncObjectHitpoints>(new GameNetworkMessage.ServerMessageHandlerDelegate<SyncObjectHitpoints>(this.HandleServerEventHitSynchronizeObjectHitpoints));
-				registerer.Register<SyncObjectDestructionLevel>(new GameNetworkMessage.ServerMessageHandlerDelegate<SyncObjectDestructionLevel>(this.HandleServerEventHitSynchronizeObjectDestructionLevel));
-				registerer.Register<BurstAllHeavyHitParticles>(new GameNetworkMessage.ServerMessageHandlerDelegate<BurstAllHeavyHitParticles>(this.HandleServerEventHitBurstAllHeavyHitParticles));
-				registerer.Register<SynchronizeMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<SynchronizeMissionObject>(this.HandleServerEventSynchronizeMissionObject));
-				registerer.Register<SpawnWeaponWithNewEntity>(new GameNetworkMessage.ServerMessageHandlerDelegate<SpawnWeaponWithNewEntity>(this.HandleServerEventSpawnWeaponWithNewEntity));
-				registerer.Register<AttachWeaponToSpawnedWeapon>(new GameNetworkMessage.ServerMessageHandlerDelegate<AttachWeaponToSpawnedWeapon>(this.HandleServerEventAttachWeaponToSpawnedWeapon));
-				registerer.Register<AttachWeaponToAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<AttachWeaponToAgent>(this.HandleServerEventAttachWeaponToAgent));
-				registerer.Register<SpawnWeaponAsDropFromAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<SpawnWeaponAsDropFromAgent>(this.HandleServerEventSpawnWeaponAsDropFromAgent));
-				registerer.Register<SpawnAttachedWeaponOnSpawnedWeapon>(new GameNetworkMessage.ServerMessageHandlerDelegate<SpawnAttachedWeaponOnSpawnedWeapon>(this.HandleServerEventSpawnAttachedWeaponOnSpawnedWeapon));
-				registerer.Register<SpawnAttachedWeaponOnCorpse>(new GameNetworkMessage.ServerMessageHandlerDelegate<SpawnAttachedWeaponOnCorpse>(this.HandleServerEventSpawnAttachedWeaponOnCorpse));
-				registerer.Register<HandleMissileCollisionReaction>(new GameNetworkMessage.ServerMessageHandlerDelegate<HandleMissileCollisionReaction>(this.HandleServerEventHandleMissileCollisionReaction));
-				registerer.Register<RemoveEquippedWeapon>(new GameNetworkMessage.ServerMessageHandlerDelegate<RemoveEquippedWeapon>(this.HandleServerEventRemoveEquippedWeapon));
-				registerer.Register<BarkAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<BarkAgent>(this.HandleServerEventBarkAgent));
-				registerer.Register<EquipWeaponWithNewEntity>(new GameNetworkMessage.ServerMessageHandlerDelegate<EquipWeaponWithNewEntity>(this.HandleServerEventEquipWeaponWithNewEntity));
-				registerer.Register<AttachWeaponToWeaponInAgentEquipmentSlot>(new GameNetworkMessage.ServerMessageHandlerDelegate<AttachWeaponToWeaponInAgentEquipmentSlot>(this.HandleServerEventAttachWeaponToWeaponInAgentEquipmentSlot));
-				registerer.Register<EquipWeaponFromSpawnedItemEntity>(new GameNetworkMessage.ServerMessageHandlerDelegate<EquipWeaponFromSpawnedItemEntity>(this.HandleServerEventEquipWeaponFromSpawnedItemEntity));
-				registerer.Register<CreateMissile>(new GameNetworkMessage.ServerMessageHandlerDelegate<CreateMissile>(this.HandleServerEventCreateMissile));
-				registerer.Register<CombatLogNetworkMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<CombatLogNetworkMessage>(this.HandleServerEventAgentHit));
-				registerer.Register<ConsumeWeaponAmount>(new GameNetworkMessage.ServerMessageHandlerDelegate<ConsumeWeaponAmount>(this.HandleServerEventConsumeWeaponAmount));
+				registerer.RegisterBaseHandler<CreateFreeMountAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventCreateFreeMountAgentEvent));
+				registerer.RegisterBaseHandler<CreateAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventCreateAgent));
+				registerer.RegisterBaseHandler<CreateAgentVisuals>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventCreateAgentVisuals));
+				registerer.RegisterBaseHandler<RemoveAgentVisualsForPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventRemoveAgentVisualsForPeer));
+				registerer.RegisterBaseHandler<RemoveAgentVisualsFromIndexForPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventRemoveAgentVisualsFromIndexForPeer));
+				registerer.RegisterBaseHandler<ReplaceBotWithPlayer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventReplaceBotWithPlayer));
+				registerer.RegisterBaseHandler<SetWieldedItemIndex>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetWieldedItemIndex));
+				registerer.RegisterBaseHandler<SetWeaponNetworkData>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetWeaponNetworkData));
+				registerer.RegisterBaseHandler<SetWeaponAmmoData>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetWeaponAmmoData));
+				registerer.RegisterBaseHandler<SetWeaponReloadPhase>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetWeaponReloadPhase));
+				registerer.RegisterBaseHandler<WeaponUsageIndexChangeMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventWeaponUsageIndexChangeMessage));
+				registerer.RegisterBaseHandler<StartSwitchingWeaponUsageIndex>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventStartSwitchingWeaponUsageIndex));
+				registerer.RegisterBaseHandler<InitializeFormation>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventInitializeFormation));
+				registerer.RegisterBaseHandler<SetSpawnedFormationCount>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetSpawnedFormationCount));
+				registerer.RegisterBaseHandler<AddTeam>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAddTeam));
+				registerer.RegisterBaseHandler<TeamSetIsEnemyOf>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventTeamSetIsEnemyOf));
+				registerer.RegisterBaseHandler<AssignFormationToPlayer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAssignFormationToPlayer));
+				registerer.RegisterBaseHandler<ExistingObjectsBegin>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventExistingObjectsBegin));
+				registerer.RegisterBaseHandler<ExistingObjectsEnd>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventExistingObjectsEnd));
+				registerer.RegisterBaseHandler<ClearMission>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventClearMission));
+				registerer.RegisterBaseHandler<CreateMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventCreateMissionObject));
+				registerer.RegisterBaseHandler<RemoveMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventRemoveMissionObject));
+				registerer.RegisterBaseHandler<StopPhysicsAndSetFrameOfMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventStopPhysicsAndSetFrameOfMissionObject));
+				registerer.RegisterBaseHandler<BurstMissionObjectParticles>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventBurstMissionObjectParticles));
+				registerer.RegisterBaseHandler<SetMissionObjectVisibility>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectVisibility));
+				registerer.RegisterBaseHandler<SetMissionObjectDisabled>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectDisabled));
+				registerer.RegisterBaseHandler<SetMissionObjectColors>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectColors));
+				registerer.RegisterBaseHandler<SetMissionObjectFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectFrame));
+				registerer.RegisterBaseHandler<SetMissionObjectGlobalFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectGlobalFrame));
+				registerer.RegisterBaseHandler<SetMissionObjectFrameOverTime>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectFrameOverTime));
+				registerer.RegisterBaseHandler<SetMissionObjectGlobalFrameOverTime>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectGlobalFrameOverTime));
+				registerer.RegisterBaseHandler<SetMissionObjectAnimationAtChannel>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectAnimationAtChannel));
+				registerer.RegisterBaseHandler<SetMissionObjectAnimationChannelParameter>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectAnimationChannelParameter));
+				registerer.RegisterBaseHandler<SetMissionObjectAnimationPaused>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectAnimationPaused));
+				registerer.RegisterBaseHandler<SetMissionObjectVertexAnimation>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectVertexAnimation));
+				registerer.RegisterBaseHandler<SetMissionObjectVertexAnimationProgress>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectVertexAnimationProgress));
+				registerer.RegisterBaseHandler<SetMissionObjectImpulse>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMissionObjectImpulse));
+				registerer.RegisterBaseHandler<AddMissionObjectBodyFlags>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAddMissionObjectBodyFlags));
+				registerer.RegisterBaseHandler<RemoveMissionObjectBodyFlags>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventRemoveMissionObjectBodyFlags));
+				registerer.RegisterBaseHandler<SetMachineTargetRotation>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetMachineTargetRotation));
+				registerer.RegisterBaseHandler<SetUsableMissionObjectIsDeactivated>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetUsableGameObjectIsDeactivated));
+				registerer.RegisterBaseHandler<SetUsableMissionObjectIsDisabledForPlayers>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetUsableGameObjectIsDisabledForPlayers));
+				registerer.RegisterBaseHandler<SetRangedSiegeWeaponState>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetRangedSiegeWeaponState));
+				registerer.RegisterBaseHandler<SetRangedSiegeWeaponAmmo>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetRangedSiegeWeaponAmmo));
+				registerer.RegisterBaseHandler<RangedSiegeWeaponChangeProjectile>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventRangedSiegeWeaponChangeProjectile));
+				registerer.RegisterBaseHandler<SetStonePileAmmo>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetStonePileAmmo));
+				registerer.RegisterBaseHandler<SetSiegeMachineMovementDistance>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetSiegeMachineMovementDistance));
+				registerer.RegisterBaseHandler<SetSiegeLadderState>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetSiegeLadderState));
+				registerer.RegisterBaseHandler<SetAgentTargetPositionAndDirection>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetAgentTargetPositionAndDirection));
+				registerer.RegisterBaseHandler<SetAgentTargetPosition>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetAgentTargetPosition));
+				registerer.RegisterBaseHandler<ClearAgentTargetFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventClearAgentTargetFrame));
+				registerer.RegisterBaseHandler<AgentTeleportToFrame>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAgentTeleportToFrame));
+				registerer.RegisterBaseHandler<SetSiegeTowerGateState>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetSiegeTowerGateState));
+				registerer.RegisterBaseHandler<SetSiegeTowerHasArrivedAtTarget>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetSiegeTowerHasArrivedAtTarget));
+				registerer.RegisterBaseHandler<SetBatteringRamHasArrivedAtTarget>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetBatteringRamHasArrivedAtTarget));
+				registerer.RegisterBaseHandler<SetPeerTeam>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetPeerTeam));
+				registerer.RegisterBaseHandler<SynchronizeMissionTimeTracker>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSyncMissionTimer));
+				registerer.RegisterBaseHandler<SetAgentPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetAgentPeer));
+				registerer.RegisterBaseHandler<SetAgentIsPlayer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetAgentIsPlayer));
+				registerer.RegisterBaseHandler<SetAgentHealth>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetAgentHealth));
+				registerer.RegisterBaseHandler<AgentSetTeam>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAgentSetTeam));
+				registerer.RegisterBaseHandler<SetAgentActionSet>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetAgentActionSet));
+				registerer.RegisterBaseHandler<MakeAgentDead>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventMakeAgentDead));
+				registerer.RegisterBaseHandler<AgentSetFormation>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAgentSetFormation));
+				registerer.RegisterBaseHandler<AddPrefabComponentToAgentBone>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAddPrefabComponentToAgentBone));
+				registerer.RegisterBaseHandler<SetAgentPrefabComponentVisibility>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSetAgentPrefabComponentVisibility));
+				registerer.RegisterBaseHandler<UseObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventUseObject));
+				registerer.RegisterBaseHandler<StopUsingObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventStopUsingObject));
+				registerer.RegisterBaseHandler<SyncObjectHitpoints>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventHitSynchronizeObjectHitpoints));
+				registerer.RegisterBaseHandler<SyncObjectDestructionLevel>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventHitSynchronizeObjectDestructionLevel));
+				registerer.RegisterBaseHandler<BurstAllHeavyHitParticles>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventHitBurstAllHeavyHitParticles));
+				registerer.RegisterBaseHandler<SynchronizeMissionObject>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSynchronizeMissionObject));
+				registerer.RegisterBaseHandler<SpawnWeaponWithNewEntity>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSpawnWeaponWithNewEntity));
+				registerer.RegisterBaseHandler<AttachWeaponToSpawnedWeapon>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAttachWeaponToSpawnedWeapon));
+				registerer.RegisterBaseHandler<AttachWeaponToAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAttachWeaponToAgent));
+				registerer.RegisterBaseHandler<SpawnWeaponAsDropFromAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSpawnWeaponAsDropFromAgent));
+				registerer.RegisterBaseHandler<SpawnAttachedWeaponOnSpawnedWeapon>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSpawnAttachedWeaponOnSpawnedWeapon));
+				registerer.RegisterBaseHandler<SpawnAttachedWeaponOnCorpse>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventSpawnAttachedWeaponOnCorpse));
+				registerer.RegisterBaseHandler<HandleMissileCollisionReaction>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventHandleMissileCollisionReaction));
+				registerer.RegisterBaseHandler<RemoveEquippedWeapon>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventRemoveEquippedWeapon));
+				registerer.RegisterBaseHandler<BarkAgent>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventBarkAgent));
+				registerer.RegisterBaseHandler<EquipWeaponWithNewEntity>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventEquipWeaponWithNewEntity));
+				registerer.RegisterBaseHandler<AttachWeaponToWeaponInAgentEquipmentSlot>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAttachWeaponToWeaponInAgentEquipmentSlot));
+				registerer.RegisterBaseHandler<EquipWeaponFromSpawnedItemEntity>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventEquipWeaponFromSpawnedItemEntity));
+				registerer.RegisterBaseHandler<CreateMissile>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventCreateMissile));
+				registerer.RegisterBaseHandler<CombatLogNetworkMessage>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventAgentHit));
+				registerer.RegisterBaseHandler<ConsumeWeaponAmount>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventConsumeWeaponAmount));
 				return;
 			}
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<SetFollowedAgent>(new GameNetworkMessage.ClientMessageHandlerDelegate<SetFollowedAgent>(this.HandleClientEventSetFollowedAgent));
-				registerer.Register<SetMachineRotation>(new GameNetworkMessage.ClientMessageHandlerDelegate<SetMachineRotation>(this.HandleClientEventSetMachineRotation));
-				registerer.Register<RequestUseObject>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestUseObject>(this.HandleClientEventRequestUseObject));
-				registerer.Register<RequestStopUsingObject>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestStopUsingObject>(this.HandleClientEventRequestStopUsingObject));
-				registerer.Register<ApplyOrder>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrder>(this.HandleClientEventApplyOrder));
-				registerer.Register<ApplySiegeWeaponOrder>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplySiegeWeaponOrder>(this.HandleClientEventApplySiegeWeaponOrder));
-				registerer.Register<ApplyOrderWithPosition>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrderWithPosition>(this.HandleClientEventApplyOrderWithPosition));
-				registerer.Register<ApplyOrderWithFormation>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrderWithFormation>(this.HandleClientEventApplyOrderWithFormation));
-				registerer.Register<ApplyOrderWithFormationAndPercentage>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrderWithFormationAndPercentage>(this.HandleClientEventApplyOrderWithFormationAndPercentage));
-				registerer.Register<ApplyOrderWithFormationAndNumber>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrderWithFormationAndNumber>(this.HandleClientEventApplyOrderWithFormationAndNumber));
-				registerer.Register<ApplyOrderWithTwoPositions>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrderWithTwoPositions>(this.HandleClientEventApplyOrderWithTwoPositions));
-				registerer.Register<ApplyOrderWithMissionObject>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrderWithMissionObject>(this.HandleClientEventApplyOrderWithGameEntity));
-				registerer.Register<ApplyOrderWithAgent>(new GameNetworkMessage.ClientMessageHandlerDelegate<ApplyOrderWithAgent>(this.HandleClientEventApplyOrderWithAgent));
-				registerer.Register<SelectAllFormations>(new GameNetworkMessage.ClientMessageHandlerDelegate<SelectAllFormations>(this.HandleClientEventSelectAllFormations));
-				registerer.Register<SelectAllSiegeWeapons>(new GameNetworkMessage.ClientMessageHandlerDelegate<SelectAllSiegeWeapons>(this.HandleClientEventSelectAllSiegeWeapons));
-				registerer.Register<ClearSelectedFormations>(new GameNetworkMessage.ClientMessageHandlerDelegate<ClearSelectedFormations>(this.HandleClientEventClearSelectedFormations));
-				registerer.Register<SelectFormation>(new GameNetworkMessage.ClientMessageHandlerDelegate<SelectFormation>(this.HandleClientEventSelectFormation));
-				registerer.Register<SelectSiegeWeapon>(new GameNetworkMessage.ClientMessageHandlerDelegate<SelectSiegeWeapon>(this.HandleClientEventSelectSiegeWeapon));
-				registerer.Register<UnselectFormation>(new GameNetworkMessage.ClientMessageHandlerDelegate<UnselectFormation>(this.HandleClientEventUnselectFormation));
-				registerer.Register<UnselectSiegeWeapon>(new GameNetworkMessage.ClientMessageHandlerDelegate<UnselectSiegeWeapon>(this.HandleClientEventUnselectSiegeWeapon));
-				registerer.Register<DropWeapon>(new GameNetworkMessage.ClientMessageHandlerDelegate<DropWeapon>(this.HandleClientEventDropWeapon));
-				registerer.Register<CancelCheering>(new GameNetworkMessage.ClientMessageHandlerDelegate<CancelCheering>(this.HandleClientEventCancelCheering));
-				registerer.Register<CheerSelected>(new GameNetworkMessage.ClientMessageHandlerDelegate<CheerSelected>(this.HandleClientEventCheerSelected));
-				registerer.Register<BarkSelected>(new GameNetworkMessage.ClientMessageHandlerDelegate<BarkSelected>(this.HandleClientEventBarkSelected));
-				registerer.Register<AgentVisualsBreakInvulnerability>(new GameNetworkMessage.ClientMessageHandlerDelegate<AgentVisualsBreakInvulnerability>(this.HandleClientEventBreakAgentVisualsInvulnerability));
-				registerer.Register<RequestToSpawnAsBot>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestToSpawnAsBot>(this.HandleClientEventRequestToSpawnAsBot));
+				registerer.RegisterBaseHandler<SetFollowedAgent>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventSetFollowedAgent));
+				registerer.RegisterBaseHandler<SetMachineRotation>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventSetMachineRotation));
+				registerer.RegisterBaseHandler<RequestUseObject>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventRequestUseObject));
+				registerer.RegisterBaseHandler<RequestStopUsingObject>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventRequestStopUsingObject));
+				registerer.RegisterBaseHandler<ApplyOrder>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrder));
+				registerer.RegisterBaseHandler<ApplySiegeWeaponOrder>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplySiegeWeaponOrder));
+				registerer.RegisterBaseHandler<ApplyOrderWithPosition>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrderWithPosition));
+				registerer.RegisterBaseHandler<ApplyOrderWithFormation>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrderWithFormation));
+				registerer.RegisterBaseHandler<ApplyOrderWithFormationAndPercentage>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrderWithFormationAndPercentage));
+				registerer.RegisterBaseHandler<ApplyOrderWithFormationAndNumber>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrderWithFormationAndNumber));
+				registerer.RegisterBaseHandler<ApplyOrderWithTwoPositions>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrderWithTwoPositions));
+				registerer.RegisterBaseHandler<ApplyOrderWithMissionObject>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrderWithGameEntity));
+				registerer.RegisterBaseHandler<ApplyOrderWithAgent>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventApplyOrderWithAgent));
+				registerer.RegisterBaseHandler<SelectAllFormations>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventSelectAllFormations));
+				registerer.RegisterBaseHandler<SelectAllSiegeWeapons>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventSelectAllSiegeWeapons));
+				registerer.RegisterBaseHandler<ClearSelectedFormations>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventClearSelectedFormations));
+				registerer.RegisterBaseHandler<SelectFormation>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventSelectFormation));
+				registerer.RegisterBaseHandler<SelectSiegeWeapon>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventSelectSiegeWeapon));
+				registerer.RegisterBaseHandler<UnselectFormation>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventUnselectFormation));
+				registerer.RegisterBaseHandler<UnselectSiegeWeapon>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventUnselectSiegeWeapon));
+				registerer.RegisterBaseHandler<DropWeapon>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventDropWeapon));
+				registerer.RegisterBaseHandler<CancelCheering>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventCancelCheering));
+				registerer.RegisterBaseHandler<CheerSelected>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventCheerSelected));
+				registerer.RegisterBaseHandler<BarkSelected>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventBarkSelected));
+				registerer.RegisterBaseHandler<AgentVisualsBreakInvulnerability>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventBreakAgentVisualsInvulnerability));
+				registerer.RegisterBaseHandler<RequestToSpawnAsBot>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventRequestToSpawnAsBot));
 			}
 		}
 
@@ -168,56 +168,60 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
-		private void HandleServerEventSyncMissionTimer(SynchronizeMissionTimeTracker message)
+		private void HandleServerEventSyncMissionTimer(GameNetworkMessage baseMessage)
 		{
-			base.Mission.MissionTimeTracker.UpdateSync(message.CurrentTime);
+			SynchronizeMissionTimeTracker synchronizeMissionTimeTracker = (SynchronizeMissionTimeTracker)baseMessage;
+			base.Mission.MissionTimeTracker.UpdateSync(synchronizeMissionTimeTracker.CurrentTime);
 		}
 
-		private void HandleServerEventSetPeerTeam(SetPeerTeam message)
+		private void HandleServerEventSetPeerTeam(GameNetworkMessage baseMessage)
 		{
-			message.Peer.GetComponent<MissionPeer>().Team = message.Team;
-			if (message.Peer.IsMine)
+			SetPeerTeam setPeerTeam = (SetPeerTeam)baseMessage;
+			setPeerTeam.Peer.GetComponent<MissionPeer>().Team = setPeerTeam.Team;
+			if (setPeerTeam.Peer.IsMine)
 			{
-				base.Mission.PlayerTeam = message.Team;
+				base.Mission.PlayerTeam = setPeerTeam.Team;
 			}
 		}
 
-		private void HandleServerEventCreateFreeMountAgentEvent(CreateFreeMountAgent message)
+		private void HandleServerEventCreateFreeMountAgentEvent(GameNetworkMessage baseMessage)
 		{
+			CreateFreeMountAgent createFreeMountAgent = (CreateFreeMountAgent)baseMessage;
 			Mission mission = base.Mission;
-			EquipmentElement horseItem = message.HorseItem;
-			EquipmentElement horseHarnessItem = message.HorseHarnessItem;
-			Vec3 position = message.Position;
-			Vec2 vec = message.Direction;
+			EquipmentElement horseItem = createFreeMountAgent.HorseItem;
+			EquipmentElement horseHarnessItem = createFreeMountAgent.HorseHarnessItem;
+			Vec3 position = createFreeMountAgent.Position;
+			Vec2 vec = createFreeMountAgent.Direction;
 			vec = vec.Normalized();
-			mission.SpawnMonster(horseItem, horseHarnessItem, position, vec, message.AgentIndex);
+			mission.SpawnMonster(horseItem, horseHarnessItem, position, vec, createFreeMountAgent.AgentIndex);
 		}
 
-		private void HandleServerEventCreateAgent(CreateAgent message)
+		private void HandleServerEventCreateAgent(GameNetworkMessage baseMessage)
 		{
-			BasicCharacterObject character = message.Character;
-			NetworkCommunicator peer = message.Peer;
+			CreateAgent createAgent = (CreateAgent)baseMessage;
+			BasicCharacterObject character = createAgent.Character;
+			NetworkCommunicator peer = createAgent.Peer;
 			MissionPeer missionPeer = ((peer != null) ? peer.GetComponent<MissionPeer>() : null);
-			AgentBuildData agentBuildData = new AgentBuildData(character).MissionPeer(message.IsPlayerAgent ? missionPeer : null).Monster(message.Monster).TroopOrigin(new BasicBattleAgentOrigin(character))
-				.Equipment(message.SpawnEquipment)
-				.EquipmentSeed(message.BodyPropertiesSeed);
-			Vec3 position = message.Position;
+			AgentBuildData agentBuildData = new AgentBuildData(character).MissionPeer(createAgent.IsPlayerAgent ? missionPeer : null).Monster(createAgent.Monster).TroopOrigin(new BasicBattleAgentOrigin(character))
+				.Equipment(createAgent.SpawnEquipment)
+				.EquipmentSeed(createAgent.BodyPropertiesSeed);
+			Vec3 position = createAgent.Position;
 			AgentBuildData agentBuildData2 = agentBuildData.InitialPosition(position);
-			Vec2 vec = message.Direction;
+			Vec2 vec = createAgent.Direction;
 			vec = vec.Normalized();
-			AgentBuildData agentBuildData3 = agentBuildData2.InitialDirection(vec).MissionEquipment(message.SpawnMissionEquipment).Team(message.Team)
-				.Index(message.AgentIndex)
-				.MountIndex(message.MountAgentIndex)
-				.IsFemale(message.IsFemale)
-				.ClothingColor1(message.ClothingColor1)
-				.ClothingColor2(message.ClothingColor2);
+			AgentBuildData agentBuildData3 = agentBuildData2.InitialDirection(vec).MissionEquipment(createAgent.SpawnMissionEquipment).Team(createAgent.Team)
+				.Index(createAgent.AgentIndex)
+				.MountIndex(createAgent.MountAgentIndex)
+				.IsFemale(createAgent.IsFemale)
+				.ClothingColor1(createAgent.ClothingColor1)
+				.ClothingColor2(createAgent.ClothingColor2);
 			Formation formation = null;
-			if (message.Team != null && message.FormationIndex >= 0 && !GameNetwork.IsReplay)
+			if (createAgent.Team != null && createAgent.FormationIndex >= 0 && !GameNetwork.IsReplay)
 			{
-				formation = message.Team.GetFormation((FormationClass)message.FormationIndex);
+				formation = createAgent.Team.GetFormation((FormationClass)createAgent.FormationIndex);
 				agentBuildData3.Formation(formation);
 			}
-			if (message.IsPlayerAgent)
+			if (createAgent.IsPlayerAgent)
 			{
 				agentBuildData3.BodyProperties(missionPeer.Peer.BodyProperties);
 				agentBuildData3.Age((int)agentBuildData3.AgentBodyProperties.Age);
@@ -233,7 +237,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					if (formation.Banner == null)
 					{
-						banner = new Banner(formation.BannerCode, message.Team.Color, message.Team.Color2);
+						banner = new Banner(formation.BannerCode, createAgent.Team.Color, createAgent.Team.Color2);
 						formation.Banner = banner;
 					}
 					else
@@ -244,58 +248,61 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else if (missionPeer != null)
 			{
-				banner = new Banner(missionPeer.Peer.BannerCode, message.Team.Color, message.Team.Color2);
+				banner = new Banner(missionPeer.Peer.BannerCode, createAgent.Team.Color, createAgent.Team.Color2);
 			}
 			agentBuildData3.Banner(banner);
 			Agent mountAgent = base.Mission.SpawnAgent(agentBuildData3, false).MountAgent;
 		}
 
-		private void HandleServerEventCreateAgentVisuals(CreateAgentVisuals message)
+		private void HandleServerEventCreateAgentVisuals(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
+			CreateAgentVisuals createAgentVisuals = (CreateAgentVisuals)baseMessage;
+			MissionPeer component = createAgentVisuals.Peer.GetComponent<MissionPeer>();
 			BattleSideEnum side = component.Team.Side;
-			BasicCharacterObject character = message.Character;
-			AgentBuildData agentBuildData = new AgentBuildData(character).VisualsIndex(message.VisualsIndex).Equipment(message.Equipment).EquipmentSeed(message.BodyPropertiesSeed)
-				.IsFemale(message.IsFemale)
+			BasicCharacterObject character = createAgentVisuals.Character;
+			AgentBuildData agentBuildData = new AgentBuildData(character).VisualsIndex(createAgentVisuals.VisualsIndex).Equipment(createAgentVisuals.Equipment).EquipmentSeed(createAgentVisuals.BodyPropertiesSeed)
+				.IsFemale(createAgentVisuals.IsFemale)
 				.ClothingColor1(character.Culture.Color)
 				.ClothingColor2(character.Culture.Color2);
-			if (message.VisualsIndex == 0)
+			if (createAgentVisuals.VisualsIndex == 0)
 			{
 				agentBuildData.BodyProperties(component.Peer.BodyProperties);
 			}
 			else
 			{
-				agentBuildData.BodyProperties(BodyProperties.GetRandomBodyProperties(agentBuildData.AgentRace, agentBuildData.AgentIsFemale, character.GetBodyPropertiesMin(false), character.GetBodyPropertiesMax(), (int)agentBuildData.AgentOverridenSpawnEquipment.HairCoverType, message.BodyPropertiesSeed, character.HairTags, character.BeardTags, character.TattooTags));
+				agentBuildData.BodyProperties(BodyProperties.GetRandomBodyProperties(agentBuildData.AgentRace, agentBuildData.AgentIsFemale, character.GetBodyPropertiesMin(false), character.GetBodyPropertiesMax(), (int)agentBuildData.AgentOverridenSpawnEquipment.HairCoverType, createAgentVisuals.BodyPropertiesSeed, character.HairTags, character.BeardTags, character.TattooTags));
 			}
-			base.Mission.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>().SpawnAgentVisualsForPeer(component, agentBuildData, message.SelectedEquipmentSetIndex, false, message.TroopCountInFormation);
+			base.Mission.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>().SpawnAgentVisualsForPeer(component, agentBuildData, createAgentVisuals.SelectedEquipmentSetIndex, false, createAgentVisuals.TroopCountInFormation);
 		}
 
-		private void HandleServerEventRemoveAgentVisualsForPeer(RemoveAgentVisualsForPeer message)
+		private void HandleServerEventRemoveAgentVisualsForPeer(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
+			MissionPeer component = ((RemoveAgentVisualsForPeer)baseMessage).Peer.GetComponent<MissionPeer>();
 			base.Mission.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>().RemoveAgentVisuals(component, false);
 		}
 
-		private void HandleServerEventRemoveAgentVisualsFromIndexForPeer(RemoveAgentVisualsFromIndexForPeer message)
+		private void HandleServerEventRemoveAgentVisualsFromIndexForPeer(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
-			base.Mission.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>().RemoveAgentVisualsWithVisualIndex(component, message.VisualsIndex, false);
+			RemoveAgentVisualsFromIndexForPeer removeAgentVisualsFromIndexForPeer = (RemoveAgentVisualsFromIndexForPeer)baseMessage;
+			MissionPeer component = removeAgentVisualsFromIndexForPeer.Peer.GetComponent<MissionPeer>();
+			base.Mission.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>().RemoveAgentVisualsWithVisualIndex(component, removeAgentVisualsFromIndexForPeer.VisualsIndex, false);
 		}
 
-		private void HandleServerEventReplaceBotWithPlayer(ReplaceBotWithPlayer message)
+		private void HandleServerEventReplaceBotWithPlayer(GameNetworkMessage baseMessage)
 		{
-			Agent botAgent = message.BotAgent;
+			ReplaceBotWithPlayer replaceBotWithPlayer = (ReplaceBotWithPlayer)baseMessage;
+			Agent botAgent = replaceBotWithPlayer.BotAgent;
 			if (botAgent.Formation != null)
 			{
 				botAgent.Formation.PlayerOwner = botAgent;
 			}
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
-			botAgent.MissionPeer = message.Peer.GetComponent<MissionPeer>();
+			MissionPeer component = replaceBotWithPlayer.Peer.GetComponent<MissionPeer>();
+			botAgent.MissionPeer = replaceBotWithPlayer.Peer.GetComponent<MissionPeer>();
 			botAgent.Formation = component.ControlledFormation;
-			botAgent.Health = (float)message.Health;
+			botAgent.Health = (float)replaceBotWithPlayer.Health;
 			if (botAgent.MountAgent != null)
 			{
-				botAgent.MountAgent.Health = (float)message.MountHealth;
+				botAgent.MountAgent.Health = (float)replaceBotWithPlayer.MountHealth;
 			}
 			if (botAgent.Formation != null)
 			{
@@ -303,106 +310,118 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private void HandleServerEventSetWieldedItemIndex(SetWieldedItemIndex message)
+		private void HandleServerEventSetWieldedItemIndex(GameNetworkMessage baseMessage)
 		{
-			if (message.Agent != null)
+			SetWieldedItemIndex setWieldedItemIndex = (SetWieldedItemIndex)baseMessage;
+			if (setWieldedItemIndex.Agent != null)
 			{
-				message.Agent.SetWieldedItemIndexAsClient(message.IsLeftHand ? Agent.HandIndex.OffHand : Agent.HandIndex.MainHand, message.WieldedItemIndex, message.IsWieldedInstantly, message.IsWieldedOnSpawn, message.MainHandCurrentUsageIndex);
-				message.Agent.UpdateAgentStats();
+				setWieldedItemIndex.Agent.SetWieldedItemIndexAsClient(setWieldedItemIndex.IsLeftHand ? Agent.HandIndex.OffHand : Agent.HandIndex.MainHand, setWieldedItemIndex.WieldedItemIndex, setWieldedItemIndex.IsWieldedInstantly, setWieldedItemIndex.IsWieldedOnSpawn, setWieldedItemIndex.MainHandCurrentUsageIndex);
+				setWieldedItemIndex.Agent.UpdateAgentStats();
 			}
 		}
 
-		private void HandleServerEventSetWeaponNetworkData(SetWeaponNetworkData message)
+		private void HandleServerEventSetWeaponNetworkData(GameNetworkMessage baseMessage)
 		{
-			ItemObject item = message.Agent.Equipment[message.WeaponEquipmentIndex].Item;
+			SetWeaponNetworkData setWeaponNetworkData = (SetWeaponNetworkData)baseMessage;
+			ItemObject item = setWeaponNetworkData.Agent.Equipment[setWeaponNetworkData.WeaponEquipmentIndex].Item;
 			WeaponComponentData weaponComponentData = ((item != null) ? item.PrimaryWeapon : null);
 			if (weaponComponentData != null)
 			{
 				if (weaponComponentData.WeaponFlags.HasAnyFlag(WeaponFlags.HasHitPoints))
 				{
-					message.Agent.ChangeWeaponHitPoints(message.WeaponEquipmentIndex, message.DataValue);
+					setWeaponNetworkData.Agent.ChangeWeaponHitPoints(setWeaponNetworkData.WeaponEquipmentIndex, setWeaponNetworkData.DataValue);
 					return;
 				}
 				if (weaponComponentData.IsConsumable)
 				{
-					message.Agent.SetWeaponAmountInSlot(message.WeaponEquipmentIndex, message.DataValue, true);
+					setWeaponNetworkData.Agent.SetWeaponAmountInSlot(setWeaponNetworkData.WeaponEquipmentIndex, setWeaponNetworkData.DataValue, true);
 				}
 			}
 		}
 
-		private void HandleServerEventSetWeaponAmmoData(SetWeaponAmmoData message)
+		private void HandleServerEventSetWeaponAmmoData(GameNetworkMessage baseMessage)
 		{
-			if (message.Agent.Equipment[message.WeaponEquipmentIndex].CurrentUsageItem.IsRangedWeapon)
+			SetWeaponAmmoData setWeaponAmmoData = (SetWeaponAmmoData)baseMessage;
+			if (setWeaponAmmoData.Agent.Equipment[setWeaponAmmoData.WeaponEquipmentIndex].CurrentUsageItem.IsRangedWeapon)
 			{
-				message.Agent.SetWeaponAmmoAsClient(message.WeaponEquipmentIndex, message.AmmoEquipmentIndex, message.Ammo);
+				setWeaponAmmoData.Agent.SetWeaponAmmoAsClient(setWeaponAmmoData.WeaponEquipmentIndex, setWeaponAmmoData.AmmoEquipmentIndex, setWeaponAmmoData.Ammo);
 				return;
 			}
-			Debug.FailedAssert("Invalid item type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionNetworkComponent.cs", "HandleServerEventSetWeaponAmmoData", 412);
+			Debug.FailedAssert("Invalid item type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionNetworkComponent.cs", "HandleServerEventSetWeaponAmmoData", 422);
 		}
 
-		private void HandleServerEventSetWeaponReloadPhase(SetWeaponReloadPhase message)
+		private void HandleServerEventSetWeaponReloadPhase(GameNetworkMessage baseMessage)
 		{
-			message.Agent.SetWeaponReloadPhaseAsClient(message.EquipmentIndex, message.ReloadPhase);
+			SetWeaponReloadPhase setWeaponReloadPhase = (SetWeaponReloadPhase)baseMessage;
+			setWeaponReloadPhase.Agent.SetWeaponReloadPhaseAsClient(setWeaponReloadPhase.EquipmentIndex, setWeaponReloadPhase.ReloadPhase);
 		}
 
-		private void HandleServerEventWeaponUsageIndexChangeMessage(WeaponUsageIndexChangeMessage message)
+		private void HandleServerEventWeaponUsageIndexChangeMessage(GameNetworkMessage baseMessage)
 		{
-			message.Agent.SetUsageIndexOfWeaponInSlotAsClient(message.SlotIndex, message.UsageIndex);
+			WeaponUsageIndexChangeMessage weaponUsageIndexChangeMessage = (WeaponUsageIndexChangeMessage)baseMessage;
+			weaponUsageIndexChangeMessage.Agent.SetUsageIndexOfWeaponInSlotAsClient(weaponUsageIndexChangeMessage.SlotIndex, weaponUsageIndexChangeMessage.UsageIndex);
 		}
 
-		private void HandleServerEventStartSwitchingWeaponUsageIndex(StartSwitchingWeaponUsageIndex message)
+		private void HandleServerEventStartSwitchingWeaponUsageIndex(GameNetworkMessage baseMessage)
 		{
-			message.Agent.StartSwitchingWeaponUsageIndexAsClient(message.EquipmentIndex, message.UsageIndex, message.CurrentMovementFlagUsageDirection);
+			StartSwitchingWeaponUsageIndex startSwitchingWeaponUsageIndex = (StartSwitchingWeaponUsageIndex)baseMessage;
+			startSwitchingWeaponUsageIndex.Agent.StartSwitchingWeaponUsageIndexAsClient(startSwitchingWeaponUsageIndex.EquipmentIndex, startSwitchingWeaponUsageIndex.UsageIndex, startSwitchingWeaponUsageIndex.CurrentMovementFlagUsageDirection);
 		}
 
-		private void HandleServerEventInitializeFormation(InitializeFormation message)
+		private void HandleServerEventInitializeFormation(GameNetworkMessage baseMessage)
 		{
-			message.Team.GetFormation((FormationClass)message.FormationIndex).BannerCode = message.BannerCode;
+			InitializeFormation initializeFormation = (InitializeFormation)baseMessage;
+			initializeFormation.Team.GetFormation((FormationClass)initializeFormation.FormationIndex).BannerCode = initializeFormation.BannerCode;
 		}
 
-		private void HandleServerEventSetSpawnedFormationCount(SetSpawnedFormationCount message)
+		private void HandleServerEventSetSpawnedFormationCount(GameNetworkMessage baseMessage)
 		{
-			base.Mission.NumOfFormationsSpawnedTeamOne = message.NumOfFormationsTeamOne;
-			base.Mission.NumOfFormationsSpawnedTeamTwo = message.NumOfFormationsTeamTwo;
+			SetSpawnedFormationCount setSpawnedFormationCount = (SetSpawnedFormationCount)baseMessage;
+			base.Mission.NumOfFormationsSpawnedTeamOne = setSpawnedFormationCount.NumOfFormationsTeamOne;
+			base.Mission.NumOfFormationsSpawnedTeamTwo = setSpawnedFormationCount.NumOfFormationsTeamTwo;
 		}
 
-		private void HandleServerEventAddTeam(AddTeam message)
+		private void HandleServerEventAddTeam(GameNetworkMessage baseMessage)
 		{
-			Banner banner = (string.IsNullOrEmpty(message.BannerCode) ? null : new Banner(message.BannerCode, message.Color, message.Color2));
-			base.Mission.Teams.Add(message.Side, message.Color, message.Color2, banner, message.IsPlayerGeneral, message.IsPlayerSergeant, true);
+			AddTeam addTeam = (AddTeam)baseMessage;
+			Banner banner = (string.IsNullOrEmpty(addTeam.BannerCode) ? null : new Banner(addTeam.BannerCode, addTeam.Color, addTeam.Color2));
+			base.Mission.Teams.Add(addTeam.Side, addTeam.Color, addTeam.Color2, banner, addTeam.IsPlayerGeneral, addTeam.IsPlayerSergeant, true);
 		}
 
-		private void HandleServerEventTeamSetIsEnemyOf(TeamSetIsEnemyOf message)
+		private void HandleServerEventTeamSetIsEnemyOf(GameNetworkMessage baseMessage)
 		{
-			message.Team1.SetIsEnemyOf(message.Team2, message.IsEnemyOf);
+			TeamSetIsEnemyOf teamSetIsEnemyOf = (TeamSetIsEnemyOf)baseMessage;
+			teamSetIsEnemyOf.Team1.SetIsEnemyOf(teamSetIsEnemyOf.Team2, teamSetIsEnemyOf.IsEnemyOf);
 		}
 
-		private void HandleServerEventAssignFormationToPlayer(AssignFormationToPlayer message)
+		private void HandleServerEventAssignFormationToPlayer(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
-			component.Team.AssignPlayerAsSergeantOfFormation(component, message.FormationClass);
+			AssignFormationToPlayer assignFormationToPlayer = (AssignFormationToPlayer)baseMessage;
+			MissionPeer component = assignFormationToPlayer.Peer.GetComponent<MissionPeer>();
+			component.Team.AssignPlayerAsSergeantOfFormation(component, assignFormationToPlayer.FormationClass);
 		}
 
-		private void HandleServerEventExistingObjectsBegin(ExistingObjectsBegin message)
-		{
-		}
-
-		private void HandleServerEventExistingObjectsEnd(ExistingObjectsEnd message)
+		private void HandleServerEventExistingObjectsBegin(GameNetworkMessage baseMessage)
 		{
 		}
 
-		private void HandleServerEventClearMission(ClearMission message)
+		private void HandleServerEventExistingObjectsEnd(GameNetworkMessage baseMessage)
+		{
+		}
+
+		private void HandleServerEventClearMission(GameNetworkMessage baseMessage)
 		{
 			base.Mission.ResetMission();
 		}
 
-		private void HandleServerEventCreateMissionObject(CreateMissionObject message)
+		private void HandleServerEventCreateMissionObject(GameNetworkMessage baseMessage)
 		{
-			GameEntity gameEntity = GameEntity.Instantiate(base.Mission.Scene, message.Prefab, message.Frame);
+			CreateMissionObject createMissionObject = (CreateMissionObject)baseMessage;
+			GameEntity gameEntity = GameEntity.Instantiate(base.Mission.Scene, createMissionObject.Prefab, createMissionObject.Frame);
 			MissionObject firstScriptOfType = gameEntity.GetFirstScriptOfType<MissionObject>();
 			if (firstScriptOfType != null)
 			{
-				firstScriptOfType.Id = message.ObjectId;
+				firstScriptOfType.Id = createMissionObject.ObjectId;
 				int num = 0;
 				using (IEnumerator<GameEntity> enumerator = gameEntity.GetChildren().GetEnumerator())
 				{
@@ -411,15 +430,16 @@ namespace TaleWorlds.MountAndBlade
 						MissionObject firstScriptOfType2;
 						if ((firstScriptOfType2 = enumerator.Current.GetFirstScriptOfType<MissionObject>()) != null)
 						{
-							firstScriptOfType2.Id = message.ChildObjectIds[num++];
+							firstScriptOfType2.Id = createMissionObject.ChildObjectIds[num++];
 						}
 					}
 				}
 			}
 		}
 
-		private void HandleServerEventRemoveMissionObject(RemoveMissionObject message)
+		private void HandleServerEventRemoveMissionObject(GameNetworkMessage baseMessage)
 		{
+			RemoveMissionObject message = (RemoveMissionObject)baseMessage;
 			MissionObject missionObject = base.Mission.MissionObjects.FirstOrDefault((MissionObject mo) => mo.Id == message.ObjectId);
 			if (missionObject == null)
 			{
@@ -428,8 +448,9 @@ namespace TaleWorlds.MountAndBlade
 			missionObject.GameEntity.Remove(82);
 		}
 
-		private void HandleServerEventStopPhysicsAndSetFrameOfMissionObject(StopPhysicsAndSetFrameOfMissionObject message)
+		private void HandleServerEventStopPhysicsAndSetFrameOfMissionObject(GameNetworkMessage baseMessage)
 		{
+			StopPhysicsAndSetFrameOfMissionObject message = (StopPhysicsAndSetFrameOfMissionObject)baseMessage;
 			SpawnedItemEntity spawnedItemEntity = (SpawnedItemEntity)base.Mission.MissionObjects.FirstOrDefault((MissionObject mo) => mo.Id == message.ObjectId);
 			if (spawnedItemEntity == null)
 			{
@@ -440,339 +461,380 @@ namespace TaleWorlds.MountAndBlade
 			spawnedItemEntity.StopPhysicsAndSetFrameForClient(frame, (parent != null) ? parent.GameEntity : null);
 		}
 
-		private void HandleServerEventBurstMissionObjectParticles(BurstMissionObjectParticles message)
+		private void HandleServerEventBurstMissionObjectParticles(GameNetworkMessage baseMessage)
 		{
-			(message.MissionObject as SynchedMissionObject).BurstParticlesSynched(message.DoChildren);
+			BurstMissionObjectParticles burstMissionObjectParticles = (BurstMissionObjectParticles)baseMessage;
+			(burstMissionObjectParticles.MissionObject as SynchedMissionObject).BurstParticlesSynched(burstMissionObjectParticles.DoChildren);
 		}
 
-		private void HandleServerEventSetMissionObjectVisibility(SetMissionObjectVisibility message)
+		private void HandleServerEventSetMissionObjectVisibility(GameNetworkMessage baseMessage)
 		{
-			message.MissionObject.GameEntity.SetVisibilityExcludeParents(message.Visible);
+			SetMissionObjectVisibility setMissionObjectVisibility = (SetMissionObjectVisibility)baseMessage;
+			setMissionObjectVisibility.MissionObject.GameEntity.SetVisibilityExcludeParents(setMissionObjectVisibility.Visible);
 		}
 
-		private void HandleServerEventSetMissionObjectDisabled(SetMissionObjectDisabled message)
+		private void HandleServerEventSetMissionObjectDisabled(GameNetworkMessage baseMessage)
 		{
-			message.MissionObject.SetDisabledAndMakeInvisible(false);
+			((SetMissionObjectDisabled)baseMessage).MissionObject.SetDisabledAndMakeInvisible(false);
 		}
 
-		private void HandleServerEventSetMissionObjectColors(SetMissionObjectColors message)
+		private void HandleServerEventSetMissionObjectColors(GameNetworkMessage baseMessage)
 		{
-			SynchedMissionObject synchedMissionObject = message.MissionObject as SynchedMissionObject;
+			SetMissionObjectColors setMissionObjectColors = (SetMissionObjectColors)baseMessage;
+			SynchedMissionObject synchedMissionObject = setMissionObjectColors.MissionObject as SynchedMissionObject;
 			if (synchedMissionObject != null)
 			{
-				synchedMissionObject.SetTeamColors(message.Color, message.Color2);
+				synchedMissionObject.SetTeamColors(setMissionObjectColors.Color, setMissionObjectColors.Color2);
 			}
 		}
 
-		private void HandleServerEventSetMissionObjectFrame(SetMissionObjectFrame message)
+		private void HandleServerEventSetMissionObjectFrame(GameNetworkMessage baseMessage)
 		{
-			SynchedMissionObject synchedMissionObject = message.MissionObject as SynchedMissionObject;
-			MatrixFrame frame = message.Frame;
+			SetMissionObjectFrame setMissionObjectFrame = (SetMissionObjectFrame)baseMessage;
+			SynchedMissionObject synchedMissionObject = setMissionObjectFrame.MissionObject as SynchedMissionObject;
+			MatrixFrame frame = setMissionObjectFrame.Frame;
 			synchedMissionObject.SetFrameSynched(ref frame, true);
 		}
 
-		private void HandleServerEventSetMissionObjectGlobalFrame(SetMissionObjectGlobalFrame message)
+		private void HandleServerEventSetMissionObjectGlobalFrame(GameNetworkMessage baseMessage)
 		{
-			SynchedMissionObject synchedMissionObject = message.MissionObject as SynchedMissionObject;
-			MatrixFrame frame = message.Frame;
+			SetMissionObjectGlobalFrame setMissionObjectGlobalFrame = (SetMissionObjectGlobalFrame)baseMessage;
+			SynchedMissionObject synchedMissionObject = setMissionObjectGlobalFrame.MissionObject as SynchedMissionObject;
+			MatrixFrame frame = setMissionObjectGlobalFrame.Frame;
 			synchedMissionObject.SetGlobalFrameSynched(ref frame, true);
 		}
 
-		private void HandleServerEventSetMissionObjectFrameOverTime(SetMissionObjectFrameOverTime message)
+		private void HandleServerEventSetMissionObjectFrameOverTime(GameNetworkMessage baseMessage)
 		{
-			SynchedMissionObject synchedMissionObject = message.MissionObject as SynchedMissionObject;
-			MatrixFrame frame = message.Frame;
-			synchedMissionObject.SetFrameSynchedOverTime(ref frame, message.Duration, true);
+			SetMissionObjectFrameOverTime setMissionObjectFrameOverTime = (SetMissionObjectFrameOverTime)baseMessage;
+			SynchedMissionObject synchedMissionObject = setMissionObjectFrameOverTime.MissionObject as SynchedMissionObject;
+			MatrixFrame frame = setMissionObjectFrameOverTime.Frame;
+			synchedMissionObject.SetFrameSynchedOverTime(ref frame, setMissionObjectFrameOverTime.Duration, true);
 		}
 
-		private void HandleServerEventSetMissionObjectGlobalFrameOverTime(SetMissionObjectGlobalFrameOverTime message)
+		private void HandleServerEventSetMissionObjectGlobalFrameOverTime(GameNetworkMessage baseMessage)
 		{
-			SynchedMissionObject synchedMissionObject = message.MissionObject as SynchedMissionObject;
-			MatrixFrame frame = message.Frame;
-			synchedMissionObject.SetGlobalFrameSynchedOverTime(ref frame, message.Duration, true);
+			SetMissionObjectGlobalFrameOverTime setMissionObjectGlobalFrameOverTime = (SetMissionObjectGlobalFrameOverTime)baseMessage;
+			SynchedMissionObject synchedMissionObject = setMissionObjectGlobalFrameOverTime.MissionObject as SynchedMissionObject;
+			MatrixFrame frame = setMissionObjectGlobalFrameOverTime.Frame;
+			synchedMissionObject.SetGlobalFrameSynchedOverTime(ref frame, setMissionObjectGlobalFrameOverTime.Duration, true);
 		}
 
-		private void HandleServerEventSetMissionObjectAnimationAtChannel(SetMissionObjectAnimationAtChannel message)
+		private void HandleServerEventSetMissionObjectAnimationAtChannel(GameNetworkMessage baseMessage)
 		{
-			message.MissionObject.GameEntity.Skeleton.SetAnimationAtChannel(message.AnimationIndex, message.ChannelNo, message.AnimationSpeed, -1f, 0f);
+			SetMissionObjectAnimationAtChannel setMissionObjectAnimationAtChannel = (SetMissionObjectAnimationAtChannel)baseMessage;
+			setMissionObjectAnimationAtChannel.MissionObject.GameEntity.Skeleton.SetAnimationAtChannel(setMissionObjectAnimationAtChannel.AnimationIndex, setMissionObjectAnimationAtChannel.ChannelNo, setMissionObjectAnimationAtChannel.AnimationSpeed, -1f, 0f);
 		}
 
-		private void HandleServerEventSetRangedSiegeWeaponAmmo(SetRangedSiegeWeaponAmmo message)
+		private void HandleServerEventSetRangedSiegeWeaponAmmo(GameNetworkMessage baseMessage)
 		{
-			message.RangedSiegeWeapon.SetAmmo(message.AmmoCount);
+			SetRangedSiegeWeaponAmmo setRangedSiegeWeaponAmmo = (SetRangedSiegeWeaponAmmo)baseMessage;
+			setRangedSiegeWeaponAmmo.RangedSiegeWeapon.SetAmmo(setRangedSiegeWeaponAmmo.AmmoCount);
 		}
 
-		private void HandleServerEventRangedSiegeWeaponChangeProjectile(RangedSiegeWeaponChangeProjectile message)
+		private void HandleServerEventRangedSiegeWeaponChangeProjectile(GameNetworkMessage baseMessage)
 		{
-			message.RangedSiegeWeapon.ChangeProjectileEntityClient(message.Index);
+			RangedSiegeWeaponChangeProjectile rangedSiegeWeaponChangeProjectile = (RangedSiegeWeaponChangeProjectile)baseMessage;
+			rangedSiegeWeaponChangeProjectile.RangedSiegeWeapon.ChangeProjectileEntityClient(rangedSiegeWeaponChangeProjectile.Index);
 		}
 
-		private void HandleServerEventSetStonePileAmmo(SetStonePileAmmo message)
+		private void HandleServerEventSetStonePileAmmo(GameNetworkMessage baseMessage)
 		{
-			message.StonePile.SetAmmo(message.AmmoCount);
+			SetStonePileAmmo setStonePileAmmo = (SetStonePileAmmo)baseMessage;
+			setStonePileAmmo.StonePile.SetAmmo(setStonePileAmmo.AmmoCount);
 		}
 
-		private void HandleServerEventSetRangedSiegeWeaponState(SetRangedSiegeWeaponState message)
+		private void HandleServerEventSetRangedSiegeWeaponState(GameNetworkMessage baseMessage)
 		{
-			message.RangedSiegeWeapon.State = message.State;
+			SetRangedSiegeWeaponState setRangedSiegeWeaponState = (SetRangedSiegeWeaponState)baseMessage;
+			setRangedSiegeWeaponState.RangedSiegeWeapon.State = setRangedSiegeWeaponState.State;
 		}
 
-		private void HandleServerEventSetSiegeLadderState(SetSiegeLadderState message)
+		private void HandleServerEventSetSiegeLadderState(GameNetworkMessage baseMessage)
 		{
-			message.SiegeLadder.State = message.State;
+			SetSiegeLadderState setSiegeLadderState = (SetSiegeLadderState)baseMessage;
+			setSiegeLadderState.SiegeLadder.State = setSiegeLadderState.State;
 		}
 
-		private void HandleServerEventSetSiegeTowerGateState(SetSiegeTowerGateState message)
+		private void HandleServerEventSetSiegeTowerGateState(GameNetworkMessage baseMessage)
 		{
-			message.SiegeTower.State = message.State;
+			SetSiegeTowerGateState setSiegeTowerGateState = (SetSiegeTowerGateState)baseMessage;
+			setSiegeTowerGateState.SiegeTower.State = setSiegeTowerGateState.State;
 		}
 
-		private void HandleServerEventSetSiegeTowerHasArrivedAtTarget(SetSiegeTowerHasArrivedAtTarget message)
+		private void HandleServerEventSetSiegeTowerHasArrivedAtTarget(GameNetworkMessage baseMessage)
 		{
-			message.SiegeTower.HasArrivedAtTarget = true;
+			((SetSiegeTowerHasArrivedAtTarget)baseMessage).SiegeTower.HasArrivedAtTarget = true;
 		}
 
-		private void HandleServerEventSetBatteringRamHasArrivedAtTarget(SetBatteringRamHasArrivedAtTarget message)
+		private void HandleServerEventSetBatteringRamHasArrivedAtTarget(GameNetworkMessage baseMessage)
 		{
-			message.BatteringRam.HasArrivedAtTarget = true;
+			((SetBatteringRamHasArrivedAtTarget)baseMessage).BatteringRam.HasArrivedAtTarget = true;
 		}
 
-		private void HandleServerEventSetSiegeMachineMovementDistance(SetSiegeMachineMovementDistance message)
+		private void HandleServerEventSetSiegeMachineMovementDistance(GameNetworkMessage baseMessage)
 		{
-			if (message.UsableMachine != null)
+			SetSiegeMachineMovementDistance setSiegeMachineMovementDistance = (SetSiegeMachineMovementDistance)baseMessage;
+			if (setSiegeMachineMovementDistance.UsableMachine != null)
 			{
-				if (message.UsableMachine is SiegeTower)
+				if (setSiegeMachineMovementDistance.UsableMachine is SiegeTower)
 				{
-					((SiegeTower)message.UsableMachine).MovementComponent.SetDistanceTraveledAsClient(message.Distance);
+					((SiegeTower)setSiegeMachineMovementDistance.UsableMachine).MovementComponent.SetDistanceTraveledAsClient(setSiegeMachineMovementDistance.Distance);
 					return;
 				}
-				((BatteringRam)message.UsableMachine).MovementComponent.SetDistanceTraveledAsClient(message.Distance);
+				((BatteringRam)setSiegeMachineMovementDistance.UsableMachine).MovementComponent.SetDistanceTraveledAsClient(setSiegeMachineMovementDistance.Distance);
 			}
 		}
 
-		private void HandleServerEventSetMissionObjectAnimationChannelParameter(SetMissionObjectAnimationChannelParameter message)
+		private void HandleServerEventSetMissionObjectAnimationChannelParameter(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			SetMissionObjectAnimationChannelParameter setMissionObjectAnimationChannelParameter = (SetMissionObjectAnimationChannelParameter)baseMessage;
+			if (setMissionObjectAnimationChannelParameter.MissionObject != null)
 			{
-				message.MissionObject.GameEntity.Skeleton.SetAnimationParameterAtChannel(message.ChannelNo, message.Parameter);
+				setMissionObjectAnimationChannelParameter.MissionObject.GameEntity.Skeleton.SetAnimationParameterAtChannel(setMissionObjectAnimationChannelParameter.ChannelNo, setMissionObjectAnimationChannelParameter.Parameter);
 			}
 		}
 
-		private void HandleServerEventSetMissionObjectVertexAnimation(SetMissionObjectVertexAnimation message)
+		private void HandleServerEventSetMissionObjectVertexAnimation(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			SetMissionObjectVertexAnimation setMissionObjectVertexAnimation = (SetMissionObjectVertexAnimation)baseMessage;
+			if (setMissionObjectVertexAnimation.MissionObject != null)
 			{
-				(message.MissionObject as VertexAnimator).SetAnimationSynched(message.BeginKey, message.EndKey, message.Speed);
+				(setMissionObjectVertexAnimation.MissionObject as VertexAnimator).SetAnimationSynched(setMissionObjectVertexAnimation.BeginKey, setMissionObjectVertexAnimation.EndKey, setMissionObjectVertexAnimation.Speed);
 			}
 		}
 
-		private void HandleServerEventSetMissionObjectVertexAnimationProgress(SetMissionObjectVertexAnimationProgress message)
+		private void HandleServerEventSetMissionObjectVertexAnimationProgress(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			SetMissionObjectVertexAnimationProgress setMissionObjectVertexAnimationProgress = (SetMissionObjectVertexAnimationProgress)baseMessage;
+			if (setMissionObjectVertexAnimationProgress.MissionObject != null)
 			{
-				(message.MissionObject as VertexAnimator).SetProgressSynched(message.Progress);
+				(setMissionObjectVertexAnimationProgress.MissionObject as VertexAnimator).SetProgressSynched(setMissionObjectVertexAnimationProgress.Progress);
 			}
 		}
 
-		private void HandleServerEventSetMissionObjectAnimationPaused(SetMissionObjectAnimationPaused message)
+		private void HandleServerEventSetMissionObjectAnimationPaused(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			SetMissionObjectAnimationPaused setMissionObjectAnimationPaused = (SetMissionObjectAnimationPaused)baseMessage;
+			if (setMissionObjectAnimationPaused.MissionObject != null)
 			{
-				if (message.IsPaused)
+				if (setMissionObjectAnimationPaused.IsPaused)
 				{
-					message.MissionObject.GameEntity.PauseSkeletonAnimation();
+					setMissionObjectAnimationPaused.MissionObject.GameEntity.PauseSkeletonAnimation();
 					return;
 				}
-				message.MissionObject.GameEntity.ResumeSkeletonAnimation();
+				setMissionObjectAnimationPaused.MissionObject.GameEntity.ResumeSkeletonAnimation();
 			}
 		}
 
-		private void HandleServerEventAddMissionObjectBodyFlags(AddMissionObjectBodyFlags message)
+		private void HandleServerEventAddMissionObjectBodyFlags(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			AddMissionObjectBodyFlags addMissionObjectBodyFlags = (AddMissionObjectBodyFlags)baseMessage;
+			if (addMissionObjectBodyFlags.MissionObject != null)
 			{
-				message.MissionObject.GameEntity.AddBodyFlags(message.BodyFlags, message.ApplyToChildren);
+				addMissionObjectBodyFlags.MissionObject.GameEntity.AddBodyFlags(addMissionObjectBodyFlags.BodyFlags, addMissionObjectBodyFlags.ApplyToChildren);
 			}
 		}
 
-		private void HandleServerEventRemoveMissionObjectBodyFlags(RemoveMissionObjectBodyFlags message)
+		private void HandleServerEventRemoveMissionObjectBodyFlags(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			RemoveMissionObjectBodyFlags removeMissionObjectBodyFlags = (RemoveMissionObjectBodyFlags)baseMessage;
+			if (removeMissionObjectBodyFlags.MissionObject != null)
 			{
-				message.MissionObject.GameEntity.RemoveBodyFlags(message.BodyFlags, message.ApplyToChildren);
+				removeMissionObjectBodyFlags.MissionObject.GameEntity.RemoveBodyFlags(removeMissionObjectBodyFlags.BodyFlags, removeMissionObjectBodyFlags.ApplyToChildren);
 			}
 		}
 
-		private void HandleServerEventSetMachineTargetRotation(SetMachineTargetRotation message)
+		private void HandleServerEventSetMachineTargetRotation(GameNetworkMessage baseMessage)
 		{
-			if (message.UsableMachine != null && message.UsableMachine.PilotAgent != null)
+			SetMachineTargetRotation setMachineTargetRotation = (SetMachineTargetRotation)baseMessage;
+			if (setMachineTargetRotation.UsableMachine != null && setMachineTargetRotation.UsableMachine.PilotAgent != null)
 			{
-				((RangedSiegeWeapon)message.UsableMachine).AimAtRotation(message.HorizontalRotation, message.VerticalRotation);
+				((RangedSiegeWeapon)setMachineTargetRotation.UsableMachine).AimAtRotation(setMachineTargetRotation.HorizontalRotation, setMachineTargetRotation.VerticalRotation);
 			}
 		}
 
-		private void HandleServerEventSetUsableGameObjectIsDeactivated(SetUsableMissionObjectIsDeactivated message)
+		private void HandleServerEventSetUsableGameObjectIsDeactivated(GameNetworkMessage baseMessage)
 		{
-			if (message.UsableGameObject != null)
+			SetUsableMissionObjectIsDeactivated setUsableMissionObjectIsDeactivated = (SetUsableMissionObjectIsDeactivated)baseMessage;
+			if (setUsableMissionObjectIsDeactivated.UsableGameObject != null)
 			{
-				message.UsableGameObject.IsDeactivated = message.IsDeactivated;
+				setUsableMissionObjectIsDeactivated.UsableGameObject.IsDeactivated = setUsableMissionObjectIsDeactivated.IsDeactivated;
 			}
 		}
 
-		private void HandleServerEventSetUsableGameObjectIsDisabledForPlayers(SetUsableMissionObjectIsDisabledForPlayers message)
+		private void HandleServerEventSetUsableGameObjectIsDisabledForPlayers(GameNetworkMessage baseMessage)
 		{
-			if (message.UsableGameObject != null)
+			SetUsableMissionObjectIsDisabledForPlayers setUsableMissionObjectIsDisabledForPlayers = (SetUsableMissionObjectIsDisabledForPlayers)baseMessage;
+			if (setUsableMissionObjectIsDisabledForPlayers.UsableGameObject != null)
 			{
-				message.UsableGameObject.IsDisabledForPlayers = message.IsDisabledForPlayers;
+				setUsableMissionObjectIsDisabledForPlayers.UsableGameObject.IsDisabledForPlayers = setUsableMissionObjectIsDisabledForPlayers.IsDisabledForPlayers;
 			}
 		}
 
-		private void HandleServerEventSetMissionObjectImpulse(SetMissionObjectImpulse message)
+		private void HandleServerEventSetMissionObjectImpulse(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			SetMissionObjectImpulse setMissionObjectImpulse = (SetMissionObjectImpulse)baseMessage;
+			if (setMissionObjectImpulse.MissionObject != null)
 			{
-				Vec3 position = message.Position;
-				message.MissionObject.GameEntity.ApplyLocalImpulseToDynamicBody(position, message.Impulse);
+				Vec3 position = setMissionObjectImpulse.Position;
+				setMissionObjectImpulse.MissionObject.GameEntity.ApplyLocalImpulseToDynamicBody(position, setMissionObjectImpulse.Impulse);
 			}
 		}
 
-		private void HandleServerEventSetAgentTargetPositionAndDirection(SetAgentTargetPositionAndDirection message)
+		private void HandleServerEventSetAgentTargetPositionAndDirection(GameNetworkMessage baseMessage)
 		{
-			Vec2 position = message.Position;
-			Vec3 direction = message.Direction;
-			message.Agent.SetTargetPositionAndDirectionSynched(ref position, ref direction);
+			SetAgentTargetPositionAndDirection setAgentTargetPositionAndDirection = (SetAgentTargetPositionAndDirection)baseMessage;
+			Vec2 position = setAgentTargetPositionAndDirection.Position;
+			Vec3 direction = setAgentTargetPositionAndDirection.Direction;
+			setAgentTargetPositionAndDirection.Agent.SetTargetPositionAndDirectionSynched(ref position, ref direction);
 		}
 
-		private void HandleServerEventSetAgentTargetPosition(SetAgentTargetPosition message)
+		private void HandleServerEventSetAgentTargetPosition(GameNetworkMessage baseMessage)
 		{
-			Vec2 position = message.Position;
-			message.Agent.SetTargetPositionSynched(ref position);
+			SetAgentTargetPosition setAgentTargetPosition = (SetAgentTargetPosition)baseMessage;
+			Vec2 position = setAgentTargetPosition.Position;
+			setAgentTargetPosition.Agent.SetTargetPositionSynched(ref position);
 		}
 
-		private void HandleServerEventClearAgentTargetFrame(ClearAgentTargetFrame message)
+		private void HandleServerEventClearAgentTargetFrame(GameNetworkMessage baseMessage)
 		{
-			message.Agent.ClearTargetFrame();
+			((ClearAgentTargetFrame)baseMessage).Agent.ClearTargetFrame();
 		}
 
-		private void HandleServerEventAgentTeleportToFrame(AgentTeleportToFrame message)
+		private void HandleServerEventAgentTeleportToFrame(GameNetworkMessage baseMessage)
 		{
-			message.Agent.TeleportToPosition(message.Position);
-			Vec2 vec = message.Direction.Normalized();
-			message.Agent.SetMovementDirection(vec);
-			message.Agent.LookDirection = vec.ToVec3(0f);
+			AgentTeleportToFrame agentTeleportToFrame = (AgentTeleportToFrame)baseMessage;
+			agentTeleportToFrame.Agent.TeleportToPosition(agentTeleportToFrame.Position);
+			Vec2 vec = agentTeleportToFrame.Direction.Normalized();
+			agentTeleportToFrame.Agent.SetMovementDirection(vec);
+			agentTeleportToFrame.Agent.LookDirection = vec.ToVec3(0f);
 		}
 
-		private void HandleServerEventSetAgentPeer(SetAgentPeer message)
+		private void HandleServerEventSetAgentPeer(GameNetworkMessage baseMessage)
 		{
-			if (message.Agent != null)
+			SetAgentPeer setAgentPeer = (SetAgentPeer)baseMessage;
+			if (setAgentPeer.Agent != null)
 			{
-				NetworkCommunicator peer = message.Peer;
+				NetworkCommunicator peer = setAgentPeer.Peer;
 				MissionPeer missionPeer = ((peer != null) ? peer.GetComponent<MissionPeer>() : null);
-				message.Agent.MissionPeer = missionPeer;
+				setAgentPeer.Agent.MissionPeer = missionPeer;
 			}
 		}
 
-		private void HandleServerEventSetAgentIsPlayer(SetAgentIsPlayer message)
+		private void HandleServerEventSetAgentIsPlayer(GameNetworkMessage baseMessage)
 		{
-			if (message.Agent.Controller == Agent.ControllerType.Player != message.IsPlayer)
+			SetAgentIsPlayer setAgentIsPlayer = (SetAgentIsPlayer)baseMessage;
+			if (setAgentIsPlayer.Agent.Controller == Agent.ControllerType.Player != setAgentIsPlayer.IsPlayer)
 			{
-				if (!message.Agent.IsMine)
+				if (!setAgentIsPlayer.Agent.IsMine)
 				{
-					message.Agent.Controller = Agent.ControllerType.None;
+					setAgentIsPlayer.Agent.Controller = Agent.ControllerType.None;
 					return;
 				}
-				message.Agent.Controller = Agent.ControllerType.Player;
+				setAgentIsPlayer.Agent.Controller = Agent.ControllerType.Player;
 			}
 		}
 
-		private void HandleServerEventSetAgentHealth(SetAgentHealth message)
+		private void HandleServerEventSetAgentHealth(GameNetworkMessage baseMessage)
 		{
-			message.Agent.Health = (float)message.Health;
+			SetAgentHealth setAgentHealth = (SetAgentHealth)baseMessage;
+			setAgentHealth.Agent.Health = (float)setAgentHealth.Health;
 		}
 
-		private void HandleServerEventAgentSetTeam(AgentSetTeam message)
+		private void HandleServerEventAgentSetTeam(GameNetworkMessage baseMessage)
 		{
-			message.Agent.SetTeam(base.Mission.Teams.Find(message.Team), false);
+			AgentSetTeam agentSetTeam = (AgentSetTeam)baseMessage;
+			agentSetTeam.Agent.SetTeam(base.Mission.Teams.Find(agentSetTeam.Team), false);
 		}
 
-		private void HandleServerEventSetAgentActionSet(SetAgentActionSet message)
+		private void HandleServerEventSetAgentActionSet(GameNetworkMessage baseMessage)
 		{
-			AnimationSystemData animationSystemData = message.Agent.Monster.FillAnimationSystemData(message.ActionSet, message.StepSize, false);
-			animationSystemData.NumPaces = message.NumPaces;
-			animationSystemData.MonsterUsageSetIndex = message.MonsterUsageSetIndex;
-			animationSystemData.WalkingSpeedLimit = message.WalkingSpeedLimit;
-			animationSystemData.CrouchWalkingSpeedLimit = message.CrouchWalkingSpeedLimit;
-			message.Agent.SetActionSet(ref animationSystemData);
+			SetAgentActionSet setAgentActionSet = (SetAgentActionSet)baseMessage;
+			AnimationSystemData animationSystemData = setAgentActionSet.Agent.Monster.FillAnimationSystemData(setAgentActionSet.ActionSet, setAgentActionSet.StepSize, false);
+			animationSystemData.NumPaces = setAgentActionSet.NumPaces;
+			animationSystemData.MonsterUsageSetIndex = setAgentActionSet.MonsterUsageSetIndex;
+			animationSystemData.WalkingSpeedLimit = setAgentActionSet.WalkingSpeedLimit;
+			animationSystemData.CrouchWalkingSpeedLimit = setAgentActionSet.CrouchWalkingSpeedLimit;
+			setAgentActionSet.Agent.SetActionSet(ref animationSystemData);
 		}
 
-		private void HandleServerEventMakeAgentDead(MakeAgentDead message)
+		private void HandleServerEventMakeAgentDead(GameNetworkMessage baseMessage)
 		{
-			message.Agent.MakeDead(message.IsKilled, message.ActionCodeIndex);
+			MakeAgentDead makeAgentDead = (MakeAgentDead)baseMessage;
+			makeAgentDead.Agent.MakeDead(makeAgentDead.IsKilled, makeAgentDead.ActionCodeIndex);
 		}
 
-		private void HandleServerEventAddPrefabComponentToAgentBone(AddPrefabComponentToAgentBone message)
+		private void HandleServerEventAddPrefabComponentToAgentBone(GameNetworkMessage baseMessage)
 		{
-			message.Agent.AddSynchedPrefabComponentToBone(message.PrefabName, message.BoneIndex);
+			AddPrefabComponentToAgentBone addPrefabComponentToAgentBone = (AddPrefabComponentToAgentBone)baseMessage;
+			addPrefabComponentToAgentBone.Agent.AddSynchedPrefabComponentToBone(addPrefabComponentToAgentBone.PrefabName, addPrefabComponentToAgentBone.BoneIndex);
 		}
 
-		private void HandleServerEventSetAgentPrefabComponentVisibility(SetAgentPrefabComponentVisibility message)
+		private void HandleServerEventSetAgentPrefabComponentVisibility(GameNetworkMessage baseMessage)
 		{
-			message.Agent.SetSynchedPrefabComponentVisibility(message.ComponentIndex, message.Visibility);
+			SetAgentPrefabComponentVisibility setAgentPrefabComponentVisibility = (SetAgentPrefabComponentVisibility)baseMessage;
+			setAgentPrefabComponentVisibility.Agent.SetSynchedPrefabComponentVisibility(setAgentPrefabComponentVisibility.ComponentIndex, setAgentPrefabComponentVisibility.Visibility);
 		}
 
-		private void HandleServerEventAgentSetFormation(AgentSetFormation message)
+		private void HandleServerEventAgentSetFormation(GameNetworkMessage baseMessage)
 		{
-			Agent agent = message.Agent;
+			AgentSetFormation agentSetFormation = (AgentSetFormation)baseMessage;
+			Agent agent = agentSetFormation.Agent;
 			Team team = agent.Team;
 			Formation formation = null;
 			if (team != null)
 			{
-				formation = ((message.FormationIndex >= 0) ? team.GetFormation((FormationClass)message.FormationIndex) : null);
+				formation = ((agentSetFormation.FormationIndex >= 0) ? team.GetFormation((FormationClass)agentSetFormation.FormationIndex) : null);
 			}
 			agent.Formation = formation;
 		}
 
-		private void HandleServerEventUseObject(UseObject message)
+		private void HandleServerEventUseObject(GameNetworkMessage baseMessage)
 		{
-			UsableMissionObject usableGameObject = message.UsableGameObject;
+			UseObject useObject = (UseObject)baseMessage;
+			UsableMissionObject usableGameObject = useObject.UsableGameObject;
 			if (usableGameObject == null)
 			{
 				return;
 			}
-			usableGameObject.SetUserForClient(message.Agent);
+			usableGameObject.SetUserForClient(useObject.Agent);
 		}
 
-		private void HandleServerEventStopUsingObject(StopUsingObject message)
+		private void HandleServerEventStopUsingObject(GameNetworkMessage baseMessage)
 		{
-			Agent agent = message.Agent;
+			StopUsingObject stopUsingObject = (StopUsingObject)baseMessage;
+			Agent agent = stopUsingObject.Agent;
 			if (agent == null)
 			{
 				return;
 			}
-			agent.StopUsingGameObject(message.IsSuccessful, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
+			agent.StopUsingGameObject(stopUsingObject.IsSuccessful, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
 		}
 
-		private void HandleServerEventHitSynchronizeObjectHitpoints(SyncObjectHitpoints message)
+		private void HandleServerEventHitSynchronizeObjectHitpoints(GameNetworkMessage baseMessage)
 		{
-			if (message.MissionObject != null)
+			SyncObjectHitpoints syncObjectHitpoints = (SyncObjectHitpoints)baseMessage;
+			if (syncObjectHitpoints.MissionObject != null)
 			{
-				message.MissionObject.GameEntity.GetFirstScriptOfType<DestructableComponent>().HitPoint = message.Hitpoints;
+				syncObjectHitpoints.MissionObject.GameEntity.GetFirstScriptOfType<DestructableComponent>().HitPoint = syncObjectHitpoints.Hitpoints;
 			}
 		}
 
-		private void HandleServerEventHitSynchronizeObjectDestructionLevel(SyncObjectDestructionLevel message)
+		private void HandleServerEventHitSynchronizeObjectDestructionLevel(GameNetworkMessage baseMessage)
 		{
-			MissionObject missionObject = message.MissionObject;
+			SyncObjectDestructionLevel syncObjectDestructionLevel = (SyncObjectDestructionLevel)baseMessage;
+			MissionObject missionObject = syncObjectDestructionLevel.MissionObject;
 			if (missionObject == null)
 			{
 				return;
 			}
-			missionObject.GameEntity.GetFirstScriptOfType<DestructableComponent>().SetDestructionLevel(message.DestructionLevel, message.ForcedIndex, message.BlowMagnitude, message.BlowPosition, message.BlowDirection, false);
+			missionObject.GameEntity.GetFirstScriptOfType<DestructableComponent>().SetDestructionLevel(syncObjectDestructionLevel.DestructionLevel, syncObjectDestructionLevel.ForcedIndex, syncObjectDestructionLevel.BlowMagnitude, syncObjectDestructionLevel.BlowPosition, syncObjectDestructionLevel.BlowDirection, false);
 		}
 
-		private void HandleServerEventHitBurstAllHeavyHitParticles(BurstAllHeavyHitParticles message)
+		private void HandleServerEventHitBurstAllHeavyHitParticles(GameNetworkMessage baseMessage)
 		{
-			MissionObject missionObject = message.MissionObject;
+			MissionObject missionObject = ((BurstAllHeavyHitParticles)baseMessage).MissionObject;
 			if (missionObject == null)
 			{
 				return;
@@ -780,157 +842,173 @@ namespace TaleWorlds.MountAndBlade
 			missionObject.GameEntity.GetFirstScriptOfType<DestructableComponent>().BurstHeavyHitParticles();
 		}
 
-		private void HandleServerEventSynchronizeMissionObject(SynchronizeMissionObject message)
+		private void HandleServerEventSynchronizeMissionObject(GameNetworkMessage baseMessage)
 		{
 		}
 
-		private void HandleServerEventSpawnWeaponWithNewEntity(SpawnWeaponWithNewEntity message)
+		private void HandleServerEventSpawnWeaponWithNewEntity(GameNetworkMessage baseMessage)
 		{
-			GameEntity gameEntity = base.Mission.SpawnWeaponWithNewEntityAux(message.Weapon, message.WeaponSpawnFlags, message.Frame, message.ForcedIndex, message.ParentMissionObject, message.HasLifeTime);
-			if (!message.IsVisible)
+			SpawnWeaponWithNewEntity spawnWeaponWithNewEntity = (SpawnWeaponWithNewEntity)baseMessage;
+			GameEntity gameEntity = base.Mission.SpawnWeaponWithNewEntityAux(spawnWeaponWithNewEntity.Weapon, spawnWeaponWithNewEntity.WeaponSpawnFlags, spawnWeaponWithNewEntity.Frame, spawnWeaponWithNewEntity.ForcedIndex, spawnWeaponWithNewEntity.ParentMissionObject, spawnWeaponWithNewEntity.HasLifeTime);
+			if (!spawnWeaponWithNewEntity.IsVisible)
 			{
 				gameEntity.SetVisibilityExcludeParents(false);
 			}
 		}
 
-		private void HandleServerEventAttachWeaponToSpawnedWeapon(AttachWeaponToSpawnedWeapon message)
+		private void HandleServerEventAttachWeaponToSpawnedWeapon(GameNetworkMessage baseMessage)
 		{
-			base.Mission.AttachWeaponWithNewEntityToSpawnedWeapon(message.Weapon, message.MissionObject as SpawnedItemEntity, message.AttachLocalFrame);
+			AttachWeaponToSpawnedWeapon attachWeaponToSpawnedWeapon = (AttachWeaponToSpawnedWeapon)baseMessage;
+			base.Mission.AttachWeaponWithNewEntityToSpawnedWeapon(attachWeaponToSpawnedWeapon.Weapon, attachWeaponToSpawnedWeapon.MissionObject as SpawnedItemEntity, attachWeaponToSpawnedWeapon.AttachLocalFrame);
 		}
 
-		private void HandleServerEventAttachWeaponToAgent(AttachWeaponToAgent message)
+		private void HandleServerEventAttachWeaponToAgent(GameNetworkMessage baseMessage)
 		{
-			MatrixFrame attachLocalFrame = message.AttachLocalFrame;
-			message.Agent.AttachWeaponToBone(message.Weapon, null, message.BoneIndex, ref attachLocalFrame);
+			AttachWeaponToAgent attachWeaponToAgent = (AttachWeaponToAgent)baseMessage;
+			MatrixFrame attachLocalFrame = attachWeaponToAgent.AttachLocalFrame;
+			attachWeaponToAgent.Agent.AttachWeaponToBone(attachWeaponToAgent.Weapon, null, attachWeaponToAgent.BoneIndex, ref attachLocalFrame);
 		}
 
-		private void HandleServerEventHandleMissileCollisionReaction(HandleMissileCollisionReaction message)
+		private void HandleServerEventHandleMissileCollisionReaction(GameNetworkMessage baseMessage)
 		{
-			base.Mission.HandleMissileCollisionReaction(message.MissileIndex, message.CollisionReaction, message.AttachLocalFrame, message.IsAttachedFrameLocal, message.AttackerAgent, message.AttachedAgent, message.AttachedToShield, message.AttachedBoneIndex, message.AttachedMissionObject, message.BounceBackVelocity, message.BounceBackAngularVelocity, message.ForcedSpawnIndex);
+			HandleMissileCollisionReaction handleMissileCollisionReaction = (HandleMissileCollisionReaction)baseMessage;
+			base.Mission.HandleMissileCollisionReaction(handleMissileCollisionReaction.MissileIndex, handleMissileCollisionReaction.CollisionReaction, handleMissileCollisionReaction.AttachLocalFrame, handleMissileCollisionReaction.IsAttachedFrameLocal, handleMissileCollisionReaction.AttackerAgent, handleMissileCollisionReaction.AttachedAgent, handleMissileCollisionReaction.AttachedToShield, handleMissileCollisionReaction.AttachedBoneIndex, handleMissileCollisionReaction.AttachedMissionObject, handleMissileCollisionReaction.BounceBackVelocity, handleMissileCollisionReaction.BounceBackAngularVelocity, handleMissileCollisionReaction.ForcedSpawnIndex);
 		}
 
-		private void HandleServerEventSpawnWeaponAsDropFromAgent(SpawnWeaponAsDropFromAgent message)
+		private void HandleServerEventSpawnWeaponAsDropFromAgent(GameNetworkMessage baseMessage)
 		{
-			Debug.Print("HandleServerEventSpawnWeaponAsDropFromAgent started.", 0, Debug.DebugColor.White, 17592186044416UL);
-			Vec3 velocity = message.Velocity;
-			Vec3 angularVelocity = message.AngularVelocity;
-			base.Mission.SpawnWeaponAsDropFromAgentAux(message.Agent, message.EquipmentIndex, ref velocity, ref angularVelocity, message.WeaponSpawnFlags, message.ForcedIndex);
-			Debug.Print("HandleServerEventSpawnWeaponAsDropFromAgent ended.", 0, Debug.DebugColor.White, 17592186044416UL);
+			SpawnWeaponAsDropFromAgent spawnWeaponAsDropFromAgent = (SpawnWeaponAsDropFromAgent)baseMessage;
+			Vec3 velocity = spawnWeaponAsDropFromAgent.Velocity;
+			Vec3 angularVelocity = spawnWeaponAsDropFromAgent.AngularVelocity;
+			base.Mission.SpawnWeaponAsDropFromAgentAux(spawnWeaponAsDropFromAgent.Agent, spawnWeaponAsDropFromAgent.EquipmentIndex, ref velocity, ref angularVelocity, spawnWeaponAsDropFromAgent.WeaponSpawnFlags, spawnWeaponAsDropFromAgent.ForcedIndex);
 		}
 
-		private void HandleServerEventSpawnAttachedWeaponOnSpawnedWeapon(SpawnAttachedWeaponOnSpawnedWeapon message)
+		private void HandleServerEventSpawnAttachedWeaponOnSpawnedWeapon(GameNetworkMessage baseMessage)
 		{
-			base.Mission.SpawnAttachedWeaponOnSpawnedWeapon(message.SpawnedWeapon, message.AttachmentIndex, message.ForcedIndex);
+			SpawnAttachedWeaponOnSpawnedWeapon spawnAttachedWeaponOnSpawnedWeapon = (SpawnAttachedWeaponOnSpawnedWeapon)baseMessage;
+			base.Mission.SpawnAttachedWeaponOnSpawnedWeapon(spawnAttachedWeaponOnSpawnedWeapon.SpawnedWeapon, spawnAttachedWeaponOnSpawnedWeapon.AttachmentIndex, spawnAttachedWeaponOnSpawnedWeapon.ForcedIndex);
 		}
 
-		private void HandleServerEventSpawnAttachedWeaponOnCorpse(SpawnAttachedWeaponOnCorpse message)
+		private void HandleServerEventSpawnAttachedWeaponOnCorpse(GameNetworkMessage baseMessage)
 		{
-			base.Mission.SpawnAttachedWeaponOnCorpse(message.Agent, message.AttachedIndex, message.ForcedIndex);
+			SpawnAttachedWeaponOnCorpse spawnAttachedWeaponOnCorpse = (SpawnAttachedWeaponOnCorpse)baseMessage;
+			base.Mission.SpawnAttachedWeaponOnCorpse(spawnAttachedWeaponOnCorpse.Agent, spawnAttachedWeaponOnCorpse.AttachedIndex, spawnAttachedWeaponOnCorpse.ForcedIndex);
 		}
 
-		private void HandleServerEventRemoveEquippedWeapon(RemoveEquippedWeapon message)
+		private void HandleServerEventRemoveEquippedWeapon(GameNetworkMessage baseMessage)
 		{
-			message.Agent.RemoveEquippedWeapon(message.SlotIndex);
+			RemoveEquippedWeapon removeEquippedWeapon = (RemoveEquippedWeapon)baseMessage;
+			removeEquippedWeapon.Agent.RemoveEquippedWeapon(removeEquippedWeapon.SlotIndex);
 		}
 
-		private void HandleServerEventBarkAgent(BarkAgent message)
+		private void HandleServerEventBarkAgent(GameNetworkMessage baseMessage)
 		{
-			message.Agent.HandleBark(message.IndexOfBark);
-			if (!this._chatBox.IsPlayerMuted(message.Agent.MissionPeer.Peer.Id))
+			BarkAgent barkAgent = (BarkAgent)baseMessage;
+			barkAgent.Agent.HandleBark(barkAgent.IndexOfBark);
+			if (!this._chatBox.IsPlayerMuted(barkAgent.Agent.MissionPeer.Peer.Id))
 			{
-				GameTexts.SetVariable("LEFT", message.Agent.Name);
-				GameTexts.SetVariable("RIGHT", SkinVoiceManager.VoiceType.MpBarks[message.IndexOfBark].GetName());
+				GameTexts.SetVariable("LEFT", barkAgent.Agent.Name);
+				GameTexts.SetVariable("RIGHT", SkinVoiceManager.VoiceType.MpBarks[barkAgent.IndexOfBark].GetName());
 				InformationManager.DisplayMessage(new InformationMessage(GameTexts.FindText("str_LEFT_colon_RIGHT_wSpaceAfterColon", null).ToString(), Color.White, "Bark"));
 			}
 		}
 
-		private void HandleServerEventEquipWeaponWithNewEntity(EquipWeaponWithNewEntity message)
+		private void HandleServerEventEquipWeaponWithNewEntity(GameNetworkMessage baseMessage)
 		{
-			if (message.Agent != null)
+			EquipWeaponWithNewEntity equipWeaponWithNewEntity = (EquipWeaponWithNewEntity)baseMessage;
+			if (equipWeaponWithNewEntity.Agent != null)
 			{
-				MissionWeapon weapon = message.Weapon;
-				message.Agent.EquipWeaponWithNewEntity(message.SlotIndex, ref weapon);
+				MissionWeapon weapon = equipWeaponWithNewEntity.Weapon;
+				equipWeaponWithNewEntity.Agent.EquipWeaponWithNewEntity(equipWeaponWithNewEntity.SlotIndex, ref weapon);
 			}
 		}
 
-		private void HandleServerEventAttachWeaponToWeaponInAgentEquipmentSlot(AttachWeaponToWeaponInAgentEquipmentSlot message)
+		private void HandleServerEventAttachWeaponToWeaponInAgentEquipmentSlot(GameNetworkMessage baseMessage)
 		{
-			MatrixFrame attachLocalFrame = message.AttachLocalFrame;
-			message.Agent.AttachWeaponToWeapon(message.SlotIndex, message.Weapon, null, ref attachLocalFrame);
+			AttachWeaponToWeaponInAgentEquipmentSlot attachWeaponToWeaponInAgentEquipmentSlot = (AttachWeaponToWeaponInAgentEquipmentSlot)baseMessage;
+			MatrixFrame attachLocalFrame = attachWeaponToWeaponInAgentEquipmentSlot.AttachLocalFrame;
+			attachWeaponToWeaponInAgentEquipmentSlot.Agent.AttachWeaponToWeapon(attachWeaponToWeaponInAgentEquipmentSlot.SlotIndex, attachWeaponToWeaponInAgentEquipmentSlot.Weapon, null, ref attachLocalFrame);
 		}
 
-		private void HandleServerEventEquipWeaponFromSpawnedItemEntity(EquipWeaponFromSpawnedItemEntity message)
+		private void HandleServerEventEquipWeaponFromSpawnedItemEntity(GameNetworkMessage baseMessage)
 		{
-			message.Agent.EquipWeaponFromSpawnedItemEntity(message.SlotIndex, message.SpawnedItemEntity, message.RemoveWeapon);
+			EquipWeaponFromSpawnedItemEntity equipWeaponFromSpawnedItemEntity = (EquipWeaponFromSpawnedItemEntity)baseMessage;
+			equipWeaponFromSpawnedItemEntity.Agent.EquipWeaponFromSpawnedItemEntity(equipWeaponFromSpawnedItemEntity.SlotIndex, equipWeaponFromSpawnedItemEntity.SpawnedItemEntity, equipWeaponFromSpawnedItemEntity.RemoveWeapon);
 		}
 
-		private void HandleServerEventCreateMissile(CreateMissile message)
+		private void HandleServerEventCreateMissile(GameNetworkMessage baseMessage)
 		{
-			if (message.WeaponIndex != EquipmentIndex.None)
+			CreateMissile createMissile = (CreateMissile)baseMessage;
+			if (createMissile.WeaponIndex != EquipmentIndex.None)
 			{
-				Vec3 vec = message.Direction * message.Speed;
-				base.Mission.OnAgentShootMissile(message.Agent, message.WeaponIndex, message.Position, vec, message.Orientation, message.HasRigidBody, message.IsPrimaryWeaponShot, message.MissileIndex);
+				Vec3 vec = createMissile.Direction * createMissile.Speed;
+				base.Mission.OnAgentShootMissile(createMissile.Agent, createMissile.WeaponIndex, createMissile.Position, vec, createMissile.Orientation, createMissile.HasRigidBody, createMissile.IsPrimaryWeaponShot, createMissile.MissileIndex);
 				return;
 			}
-			base.Mission.AddCustomMissile(message.Agent, message.Weapon, message.Position, message.Direction, message.Orientation, message.Speed, message.Speed, message.HasRigidBody, message.MissionObjectToIgnore, message.MissileIndex);
+			base.Mission.AddCustomMissile(createMissile.Agent, createMissile.Weapon, createMissile.Position, createMissile.Direction, createMissile.Orientation, createMissile.Speed, createMissile.Speed, createMissile.HasRigidBody, createMissile.MissionObjectToIgnore, createMissile.MissileIndex);
 		}
 
-		private void HandleServerEventAgentHit(CombatLogNetworkMessage networkMessage)
+		private void HandleServerEventAgentHit(GameNetworkMessage baseMessage)
 		{
-			CombatLogManager.GenerateCombatLog(networkMessage.GetData());
+			CombatLogManager.GenerateCombatLog(((CombatLogNetworkMessage)baseMessage).GetData());
 		}
 
-		private void HandleServerEventConsumeWeaponAmount(ConsumeWeaponAmount message)
+		private void HandleServerEventConsumeWeaponAmount(GameNetworkMessage baseMessage)
 		{
-			(message.SpawnedItemEntity as SpawnedItemEntity).ConsumeWeaponAmount(message.ConsumedAmount);
+			ConsumeWeaponAmount consumeWeaponAmount = (ConsumeWeaponAmount)baseMessage;
+			(consumeWeaponAmount.SpawnedItemEntity as SpawnedItemEntity).ConsumeWeaponAmount(consumeWeaponAmount.ConsumedAmount);
 		}
 
-		private bool HandleClientEventSetFollowedAgent(NetworkCommunicator networkPeer, SetFollowedAgent message)
+		private bool HandleClientEventSetFollowedAgent(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
-			networkPeer.GetComponent<MissionPeer>().FollowedAgent = message.Agent;
+			SetFollowedAgent setFollowedAgent = (SetFollowedAgent)baseMessage;
+			networkPeer.GetComponent<MissionPeer>().FollowedAgent = setFollowedAgent.Agent;
 			return true;
 		}
 
-		private bool HandleClientEventSetMachineRotation(NetworkCommunicator networkPeer, SetMachineRotation message)
+		private bool HandleClientEventSetMachineRotation(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			SetMachineRotation setMachineRotation = (SetMachineRotation)baseMessage;
 			MissionPeer component = networkPeer.GetComponent<MissionPeer>();
-			if (component.IsControlledAgentActive && message.UsableMachine is RangedSiegeWeapon)
+			if (component.IsControlledAgentActive && setMachineRotation.UsableMachine is RangedSiegeWeapon)
 			{
-				RangedSiegeWeapon rangedSiegeWeapon = message.UsableMachine as RangedSiegeWeapon;
+				RangedSiegeWeapon rangedSiegeWeapon = setMachineRotation.UsableMachine as RangedSiegeWeapon;
 				if (component.ControlledAgent == rangedSiegeWeapon.PilotAgent && rangedSiegeWeapon.PilotAgent != null)
 				{
-					rangedSiegeWeapon.AimAtRotation(message.HorizontalRotation, message.VerticalRotation);
+					rangedSiegeWeapon.AimAtRotation(setMachineRotation.HorizontalRotation, setMachineRotation.VerticalRotation);
 				}
 			}
 			return true;
 		}
 
-		private bool HandleClientEventRequestUseObject(NetworkCommunicator networkPeer, RequestUseObject message)
+		private bool HandleClientEventRequestUseObject(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			RequestUseObject requestUseObject = (RequestUseObject)baseMessage;
 			MissionPeer component = networkPeer.GetComponent<MissionPeer>();
-			if (message.UsableGameObject != null && component.ControlledAgent != null && component.ControlledAgent.IsActive())
+			if (requestUseObject.UsableGameObject != null && component.ControlledAgent != null && component.ControlledAgent.IsActive())
 			{
 				Vec3 position = component.ControlledAgent.Position;
-				Vec3 globalPosition = message.UsableGameObject.InteractionEntity.GlobalPosition;
+				Vec3 globalPosition = requestUseObject.UsableGameObject.InteractionEntity.GlobalPosition;
 				Vec3 vec;
 				Vec3 vec2;
-				message.UsableGameObject.InteractionEntity.GetPhysicsMinMax(true, out vec, out vec2, false);
+				requestUseObject.UsableGameObject.InteractionEntity.GetPhysicsMinMax(true, out vec, out vec2, false);
 				float num = globalPosition.Distance(vec);
 				float num2 = globalPosition.Distance(vec2);
 				float num3 = MathF.Max(num, num2);
 				float num4 = globalPosition.Distance(new Vec3(position.x, position.y, position.z + component.ControlledAgent.GetEyeGlobalHeight(), -1f));
 				num4 -= num3;
 				num4 = MathF.Max(num4, 0f);
-				if (component.ControlledAgent.CurrentlyUsedGameObject != message.UsableGameObject && component.ControlledAgent.CanReachAndUseObject(message.UsableGameObject, num4 * num4 * 0.9f * 0.9f) && component.ControlledAgent.ObjectHasVacantPosition(message.UsableGameObject))
+				if (component.ControlledAgent.CurrentlyUsedGameObject != requestUseObject.UsableGameObject && component.ControlledAgent.CanReachAndUseObject(requestUseObject.UsableGameObject, num4 * num4 * 0.9f * 0.9f) && component.ControlledAgent.ObjectHasVacantPosition(requestUseObject.UsableGameObject))
 				{
-					component.ControlledAgent.UseGameObject(message.UsableGameObject, message.UsedObjectPreferenceIndex);
+					component.ControlledAgent.UseGameObject(requestUseObject.UsableGameObject, requestUseObject.UsedObjectPreferenceIndex);
 				}
 			}
 			return true;
 		}
 
-		private bool HandleClientEventRequestStopUsingObject(NetworkCommunicator networkPeer, RequestStopUsingObject message)
+		private bool HandleClientEventRequestStopUsingObject(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			RequestStopUsingObject requestStopUsingObject = (RequestStopUsingObject)baseMessage;
 			MissionPeer component = networkPeer.GetComponent<MissionPeer>();
 			Agent controlledAgent = component.ControlledAgent;
 			if (((controlledAgent != null) ? controlledAgent.CurrentlyUsedGameObject : null) != null)
@@ -940,39 +1018,43 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrder(NetworkCommunicator networkPeer, ApplyOrder message)
+		private bool HandleClientEventApplyOrder(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplyOrder applyOrder = (ApplyOrder)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
-				orderControllerOfPeer.SetOrder(message.OrderType);
+				orderControllerOfPeer.SetOrder(applyOrder.OrderType);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventApplySiegeWeaponOrder(NetworkCommunicator networkPeer, ApplySiegeWeaponOrder message)
+		private bool HandleClientEventApplySiegeWeaponOrder(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplySiegeWeaponOrder applySiegeWeaponOrder = (ApplySiegeWeaponOrder)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
-				orderControllerOfPeer.SiegeWeaponController.SetOrder(message.OrderType);
+				orderControllerOfPeer.SiegeWeaponController.SetOrder(applySiegeWeaponOrder.OrderType);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrderWithPosition(NetworkCommunicator networkPeer, ApplyOrderWithPosition message)
+		private bool HandleClientEventApplyOrderWithPosition(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplyOrderWithPosition applyOrderWithPosition = (ApplyOrderWithPosition)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
-				WorldPosition worldPosition = new WorldPosition(base.Mission.Scene, UIntPtr.Zero, message.Position, false);
-				orderControllerOfPeer.SetOrderWithPosition(message.OrderType, worldPosition);
+				WorldPosition worldPosition = new WorldPosition(base.Mission.Scene, UIntPtr.Zero, applyOrderWithPosition.Position, false);
+				orderControllerOfPeer.SetOrderWithPosition(applyOrderWithPosition.OrderType, worldPosition);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrderWithFormation(NetworkCommunicator networkPeer, ApplyOrderWithFormation message)
+		private bool HandleClientEventApplyOrderWithFormation(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplyOrderWithFormation message = (ApplyOrderWithFormation)baseMessage;
 			Team teamOfPeer = this.GetTeamOfPeer(networkPeer);
 			OrderController orderController = ((teamOfPeer != null) ? teamOfPeer.GetOrderControllerOf(networkPeer.ControlledAgent) : null);
 			Formation formation = ((teamOfPeer != null) ? teamOfPeer.FormationsIncludingEmpty.SingleOrDefault((Formation f) => f.CountOfUnits > 0 && f.Index == message.FormationIndex) : null);
@@ -983,8 +1065,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrderWithFormationAndPercentage(NetworkCommunicator networkPeer, ApplyOrderWithFormationAndPercentage message)
+		private bool HandleClientEventApplyOrderWithFormationAndPercentage(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplyOrderWithFormationAndPercentage message = (ApplyOrderWithFormationAndPercentage)baseMessage;
 			Team teamOfPeer = this.GetTeamOfPeer(networkPeer);
 			OrderController orderController = ((teamOfPeer != null) ? teamOfPeer.GetOrderControllerOf(networkPeer.ControlledAgent) : null);
 			Formation formation = ((teamOfPeer != null) ? teamOfPeer.FormationsIncludingEmpty.SingleOrDefault((Formation f) => f.CountOfUnits > 0 && f.Index == message.FormationIndex) : null);
@@ -996,8 +1079,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrderWithFormationAndNumber(NetworkCommunicator networkPeer, ApplyOrderWithFormationAndNumber message)
+		private bool HandleClientEventApplyOrderWithFormationAndNumber(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplyOrderWithFormationAndNumber message = (ApplyOrderWithFormationAndNumber)baseMessage;
 			Team teamOfPeer = this.GetTeamOfPeer(networkPeer);
 			OrderController orderController = ((teamOfPeer != null) ? teamOfPeer.GetOrderControllerOf(networkPeer.ControlledAgent) : null);
 			Formation formation = ((teamOfPeer != null) ? teamOfPeer.FormationsIncludingEmpty.SingleOrDefault((Formation f) => f.CountOfUnits > 0 && f.Index == message.FormationIndex) : null);
@@ -1009,21 +1093,22 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrderWithTwoPositions(NetworkCommunicator networkPeer, ApplyOrderWithTwoPositions message)
+		private bool HandleClientEventApplyOrderWithTwoPositions(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplyOrderWithTwoPositions applyOrderWithTwoPositions = (ApplyOrderWithTwoPositions)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
-				WorldPosition worldPosition = new WorldPosition(base.Mission.Scene, UIntPtr.Zero, message.Position1, false);
-				WorldPosition worldPosition2 = new WorldPosition(base.Mission.Scene, UIntPtr.Zero, message.Position2, false);
-				orderControllerOfPeer.SetOrderWithTwoPositions(message.OrderType, worldPosition, worldPosition2);
+				WorldPosition worldPosition = new WorldPosition(base.Mission.Scene, UIntPtr.Zero, applyOrderWithTwoPositions.Position1, false);
+				WorldPosition worldPosition2 = new WorldPosition(base.Mission.Scene, UIntPtr.Zero, applyOrderWithTwoPositions.Position2, false);
+				orderControllerOfPeer.SetOrderWithTwoPositions(applyOrderWithTwoPositions.OrderType, worldPosition, worldPosition2);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrderWithGameEntity(NetworkCommunicator networkPeer, ApplyOrderWithMissionObject message)
+		private bool HandleClientEventApplyOrderWithGameEntity(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
-			IOrderable orderable = message.MissionObject as IOrderable;
+			IOrderable orderable = ((ApplyOrderWithMissionObject)baseMessage).MissionObject as IOrderable;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
@@ -1032,18 +1117,20 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventApplyOrderWithAgent(NetworkCommunicator networkPeer, ApplyOrderWithAgent message)
+		private bool HandleClientEventApplyOrderWithAgent(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ApplyOrderWithAgent applyOrderWithAgent = (ApplyOrderWithAgent)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
-				orderControllerOfPeer.SetOrderWithAgent(message.OrderType, message.Agent);
+				orderControllerOfPeer.SetOrderWithAgent(applyOrderWithAgent.OrderType, applyOrderWithAgent.Agent);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventSelectAllFormations(NetworkCommunicator networkPeer, SelectAllFormations message)
+		private bool HandleClientEventSelectAllFormations(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			SelectAllFormations selectAllFormations = (SelectAllFormations)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
@@ -1052,8 +1139,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventSelectAllSiegeWeapons(NetworkCommunicator networkPeer, SelectAllSiegeWeapons message)
+		private bool HandleClientEventSelectAllSiegeWeapons(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			SelectAllSiegeWeapons selectAllSiegeWeapons = (SelectAllSiegeWeapons)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
@@ -1062,8 +1150,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventClearSelectedFormations(NetworkCommunicator networkPeer, ClearSelectedFormations message)
+		private bool HandleClientEventClearSelectedFormations(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			ClearSelectedFormations clearSelectedFormations = (ClearSelectedFormations)baseMessage;
 			OrderController orderControllerOfPeer = this.GetOrderControllerOfPeer(networkPeer);
 			if (orderControllerOfPeer != null)
 			{
@@ -1072,8 +1161,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventSelectFormation(NetworkCommunicator networkPeer, SelectFormation message)
+		private bool HandleClientEventSelectFormation(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			SelectFormation message = (SelectFormation)baseMessage;
 			Team teamOfPeer = this.GetTeamOfPeer(networkPeer);
 			OrderController orderController = ((teamOfPeer != null) ? teamOfPeer.GetOrderControllerOf(networkPeer.ControlledAgent) : null);
 			Formation formation = ((teamOfPeer != null) ? teamOfPeer.FormationsIncludingEmpty.SingleOrDefault((Formation f) => f.Index == message.FormationIndex && f.CountOfUnits > 0) : null);
@@ -1084,11 +1174,12 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventSelectSiegeWeapon(NetworkCommunicator networkPeer, SelectSiegeWeapon message)
+		private bool HandleClientEventSelectSiegeWeapon(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			SelectSiegeWeapon selectSiegeWeapon = (SelectSiegeWeapon)baseMessage;
 			Team teamOfPeer = this.GetTeamOfPeer(networkPeer);
 			SiegeWeaponController siegeWeaponController = ((teamOfPeer != null) ? teamOfPeer.GetOrderControllerOf(networkPeer.ControlledAgent).SiegeWeaponController : null);
-			SiegeWeapon siegeWeapon = message.SiegeWeapon;
+			SiegeWeapon siegeWeapon = selectSiegeWeapon.SiegeWeapon;
 			if (teamOfPeer != null && siegeWeaponController != null && siegeWeapon != null)
 			{
 				siegeWeaponController.Select(siegeWeapon);
@@ -1096,8 +1187,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventUnselectFormation(NetworkCommunicator networkPeer, UnselectFormation message)
+		private bool HandleClientEventUnselectFormation(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			UnselectFormation message = (UnselectFormation)baseMessage;
 			Team teamOfPeer = this.GetTeamOfPeer(networkPeer);
 			OrderController orderController = ((teamOfPeer != null) ? teamOfPeer.GetOrderControllerOf(networkPeer.ControlledAgent) : null);
 			Formation formation = ((teamOfPeer != null) ? teamOfPeer.FormationsIncludingEmpty.SingleOrDefault((Formation f) => f.CountOfUnits > 0 && f.Index == message.FormationIndex) : null);
@@ -1108,11 +1200,12 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventUnselectSiegeWeapon(NetworkCommunicator networkPeer, UnselectSiegeWeapon message)
+		private bool HandleClientEventUnselectSiegeWeapon(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			UnselectSiegeWeapon unselectSiegeWeapon = (UnselectSiegeWeapon)baseMessage;
 			Team teamOfPeer = this.GetTeamOfPeer(networkPeer);
 			SiegeWeaponController siegeWeaponController = ((teamOfPeer != null) ? teamOfPeer.GetOrderControllerOf(networkPeer.ControlledAgent).SiegeWeaponController : null);
-			SiegeWeapon siegeWeapon = message.SiegeWeapon;
+			SiegeWeapon siegeWeapon = unselectSiegeWeapon.SiegeWeapon;
 			if (teamOfPeer != null && siegeWeaponController != null && siegeWeapon != null)
 			{
 				siegeWeaponController.Deselect(siegeWeapon);
@@ -1120,18 +1213,20 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventDropWeapon(NetworkCommunicator networkPeer, DropWeapon message)
+		private bool HandleClientEventDropWeapon(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			DropWeapon dropWeapon = (DropWeapon)baseMessage;
 			MissionPeer component = networkPeer.GetComponent<MissionPeer>();
 			if (((component != null) ? component.ControlledAgent : null) != null && component.ControlledAgent.IsActive())
 			{
-				component.ControlledAgent.HandleDropWeapon(message.IsDefendPressed, message.ForcedSlotIndexToDropWeaponFrom);
+				component.ControlledAgent.HandleDropWeapon(dropWeapon.IsDefendPressed, dropWeapon.ForcedSlotIndexToDropWeaponFrom);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventCancelCheering(NetworkCommunicator networkPeer, CancelCheering message)
+		private bool HandleClientEventCancelCheering(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			CancelCheering cancelCheering = (CancelCheering)baseMessage;
 			bool flag = false;
 			if (networkPeer.ControlledAgent != null)
 			{
@@ -1141,30 +1236,33 @@ namespace TaleWorlds.MountAndBlade
 			return flag;
 		}
 
-		private bool HandleClientEventCheerSelected(NetworkCommunicator networkPeer, CheerSelected message)
+		private bool HandleClientEventCheerSelected(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			CheerSelected cheerSelected = (CheerSelected)baseMessage;
 			bool flag = false;
 			if (networkPeer.ControlledAgent != null)
 			{
-				networkPeer.ControlledAgent.HandleCheer(message.IndexOfCheer);
+				networkPeer.ControlledAgent.HandleCheer(cheerSelected.IndexOfCheer);
 				flag = true;
 			}
 			return flag;
 		}
 
-		private bool HandleClientEventBarkSelected(NetworkCommunicator networkPeer, BarkSelected message)
+		private bool HandleClientEventBarkSelected(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			BarkSelected barkSelected = (BarkSelected)baseMessage;
 			bool flag = false;
 			if (networkPeer.ControlledAgent != null)
 			{
-				networkPeer.ControlledAgent.HandleBark(message.IndexOfBark);
+				networkPeer.ControlledAgent.HandleBark(barkSelected.IndexOfBark);
 				flag = true;
 			}
 			return flag;
 		}
 
-		private bool HandleClientEventBreakAgentVisualsInvulnerability(NetworkCommunicator networkPeer, AgentVisualsBreakInvulnerability message)
+		private bool HandleClientEventBreakAgentVisualsInvulnerability(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			AgentVisualsBreakInvulnerability agentVisualsBreakInvulnerability = (AgentVisualsBreakInvulnerability)baseMessage;
 			if (base.Mission == null || base.Mission.GetMissionBehavior<SpawnComponent>() == null || networkPeer.GetComponent<MissionPeer>() == null)
 			{
 				return false;
@@ -1173,8 +1271,9 @@ namespace TaleWorlds.MountAndBlade
 			return true;
 		}
 
-		private bool HandleClientEventRequestToSpawnAsBot(NetworkCommunicator networkPeer, RequestToSpawnAsBot message)
+		private bool HandleClientEventRequestToSpawnAsBot(NetworkCommunicator networkPeer, GameNetworkMessage baseMessage)
 		{
+			RequestToSpawnAsBot requestToSpawnAsBot = (RequestToSpawnAsBot)baseMessage;
 			MissionPeer component = networkPeer.GetComponent<MissionPeer>();
 			if (component == null)
 			{

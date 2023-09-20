@@ -359,10 +359,26 @@ namespace TaleWorlds.MountAndBlade
 						flag = gameNetworkMessage.Read();
 						if (flag)
 						{
-							List<object> list;
-							if (GameNetwork._fromClientMessageHandlers.TryGetValue(num, out list))
+							bool flag2 = false;
+							bool flag3 = true;
+							List<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>> list;
+							if (GameNetwork._fromClientBaseMessageHandlers.TryGetValue(num, out list))
 							{
-								foreach (object obj in list)
+								foreach (GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage> clientMessageHandlerDelegate in list)
+								{
+									flag = flag && clientMessageHandlerDelegate(networkPeer, gameNetworkMessage);
+									if (!flag)
+									{
+										break;
+									}
+								}
+								flag3 = false;
+								flag2 = list.Count != 0;
+							}
+							List<object> list2;
+							if (GameNetwork._fromClientMessageHandlers.TryGetValue(num, out list2))
+							{
+								foreach (object obj in list2)
 								{
 									Delegate @delegate = obj as Delegate;
 									flag = flag && (bool)@delegate.DynamicInvokeWithLog(new object[] { networkPeer, gameNetworkMessage });
@@ -371,15 +387,17 @@ namespace TaleWorlds.MountAndBlade
 										break;
 									}
 								}
-								if (list.Count == 0)
-								{
-									Debug.Print("Handler not found for network message " + gameNetworkMessage, 0, Debug.DebugColor.White, 17179869184UL);
-								}
+								flag3 = false;
+								flag2 = flag2 || list2.Count != 0;
 							}
-							else
+							if (flag3)
 							{
-								Debug.FailedAssert("Unknown network messageId " + gameNetworkMessage, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\GameNetwork.cs", "HandleNetworkPacketAsServer", 626);
+								Debug.FailedAssert("Unknown network messageId " + gameNetworkMessage, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\GameNetwork.cs", "HandleNetworkPacketAsServer", 714);
 								flag = false;
+							}
+							else if (!flag2)
+							{
+								Debug.Print("Handler not found for network message " + gameNetworkMessage, 0, Debug.DebugColor.White, 17179869184UL);
 							}
 						}
 					}
@@ -683,6 +701,8 @@ namespace TaleWorlds.MountAndBlade
 					}
 					else
 					{
+						bool flag2 = false;
+						bool flag3 = true;
 						if ((gameNetworkMessage.GetLogFilter() & (MultiplayerMessageFilter)(-1)) != MultiplayerMessageFilter.None)
 						{
 							if (GameNetworkMessage.IsClientMissionOver)
@@ -691,31 +711,34 @@ namespace TaleWorlds.MountAndBlade
 							}
 							Debug.Print("Processing message: " + gameNetworkMessage.GetType().Name + ": " + gameNetworkMessage.GetLogFormat(), 0, Debug.DebugColor.White, 17179869184UL);
 						}
-						List<object> list;
-						if (GameNetwork._fromServerMessageHandlers.TryGetValue(num, out list))
+						List<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>> list;
+						if (GameNetwork._fromServerBaseMessageHandlers.TryGetValue(num, out list))
 						{
-							foreach (object obj in list)
+							foreach (GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage> serverMessageHandlerDelegate in list)
 							{
-								try
-								{
-									(obj as Delegate).DynamicInvokeWithLog(new object[] { gameNetworkMessage });
-								}
-								catch
-								{
-									Debug.Print("Exception in handler of " + num.ToString(), 0, Debug.DebugColor.White, 17179869184UL);
-									Debug.Print("Exception in handler of " + gameNetworkMessage.GetType().Name, 0, Debug.DebugColor.Red, 17179869184UL);
-									throw;
-								}
+								serverMessageHandlerDelegate(gameNetworkMessage);
 							}
-							if (list.Count == 0)
-							{
-								Debug.Print("No message handler found for " + gameNetworkMessage.GetType().Name, 0, Debug.DebugColor.Red, 17179869184UL);
-							}
+							flag3 = false;
+							flag2 = list.Count != 0;
 						}
-						else
+						List<object> list2;
+						if (GameNetwork._fromServerMessageHandlers.TryGetValue(num, out list2))
+						{
+							foreach (object obj in list2)
+							{
+								(obj as Delegate).DynamicInvokeWithLog(new object[] { gameNetworkMessage });
+							}
+							flag3 = false;
+							flag2 = flag2 || list2.Count != 0;
+						}
+						if (flag3)
 						{
 							Debug.Print("Invalid messageId " + num.ToString(), 0, Debug.DebugColor.White, 17179869184UL);
 							Debug.Print("Invalid messageId " + gameNetworkMessage.GetType().Name, 0, Debug.DebugColor.White, 17179869184UL);
+						}
+						else if (!flag2)
+						{
+							Debug.Print("No message handler found for " + gameNetworkMessage.GetType().Name, 0, Debug.DebugColor.Red, 17179869184UL);
 						}
 					}
 				}
@@ -876,10 +899,22 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork._fromServerMessageHandlers[num].Add(handler);
 		}
 
+		private static void AddServerBaseMessageHandler(GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage> handler, Type messageType)
+		{
+			int num = GameNetwork._gameNetworkMessageTypesFromServer[messageType];
+			GameNetwork._fromServerBaseMessageHandlers[num].Add(handler);
+		}
+
 		private static void AddClientMessageHandler<T>(GameNetworkMessage.ClientMessageHandlerDelegate<T> handler) where T : GameNetworkMessage
 		{
 			int num = GameNetwork._gameNetworkMessageTypesFromClient[typeof(T)];
 			GameNetwork._fromClientMessageHandlers[num].Add(handler);
+		}
+
+		private static void AddClientBaseMessageHandler(GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage> handler, Type messageType)
+		{
+			int num = GameNetwork._gameNetworkMessageTypesFromClient[messageType];
+			GameNetwork._fromClientBaseMessageHandlers[num].Add(handler);
 		}
 
 		private static void RemoveServerMessageHandler<T>(GameNetworkMessage.ServerMessageHandlerDelegate<T> handler) where T : GameNetworkMessage
@@ -888,10 +923,22 @@ namespace TaleWorlds.MountAndBlade
 			GameNetwork._fromServerMessageHandlers[num].Remove(handler);
 		}
 
+		private static void RemoveServerBaseMessageHandler(GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage> handler, Type messageType)
+		{
+			int num = GameNetwork._gameNetworkMessageTypesFromServer[messageType];
+			GameNetwork._fromServerBaseMessageHandlers[num].Remove(handler);
+		}
+
 		private static void RemoveClientMessageHandler<T>(GameNetworkMessage.ClientMessageHandlerDelegate<T> handler) where T : GameNetworkMessage
 		{
 			int num = GameNetwork._gameNetworkMessageTypesFromClient[typeof(T)];
 			GameNetwork._fromClientMessageHandlers[num].Remove(handler);
+		}
+
+		private static void RemoveClientBaseMessageHandler(GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage> handler, Type messageType)
+		{
+			int num = GameNetwork._gameNetworkMessageTypesFromClient[messageType];
+			GameNetwork._fromClientBaseMessageHandlers[num].Remove(handler);
 		}
 
 		internal static void FindGameNetworkMessages()
@@ -899,6 +946,8 @@ namespace TaleWorlds.MountAndBlade
 			Debug.Print("Searching Game NetworkMessages Methods", 0, Debug.DebugColor.White, 17179869184UL);
 			GameNetwork._fromClientMessageHandlers = new Dictionary<int, List<object>>();
 			GameNetwork._fromServerMessageHandlers = new Dictionary<int, List<object>>();
+			GameNetwork._fromClientBaseMessageHandlers = new Dictionary<int, List<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>>>();
+			GameNetwork._fromServerBaseMessageHandlers = new Dictionary<int, List<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>>>();
 			GameNetwork._gameNetworkMessageTypesAll = new Dictionary<Type, int>();
 			GameNetwork._gameNetworkMessageTypesFromClient = new Dictionary<Type, int>();
 			GameNetwork._gameNetworkMessageTypesFromServer = new Dictionary<Type, int>();
@@ -922,6 +971,7 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork._gameNetworkMessageTypesFromClient.Add(type, j);
 				GameNetwork._gameNetworkMessageTypesAll.Add(type, j);
 				GameNetwork._fromClientMessageHandlers.Add(j, new List<object>());
+				GameNetwork._fromClientBaseMessageHandlers.Add(j, new List<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>>());
 			}
 			GameNetwork._gameNetworkMessageIdsFromServer = new List<Type>(list2.Count);
 			for (int k = 0; k < list2.Count; k++)
@@ -931,6 +981,7 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork._gameNetworkMessageTypesFromServer.Add(type2, k);
 				GameNetwork._gameNetworkMessageTypesAll.Add(type2, k);
 				GameNetwork._fromServerMessageHandlers.Add(k, new List<object>());
+				GameNetwork._fromServerBaseMessageHandlers.Add(k, new List<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>>());
 			}
 			CompressionBasic.NetworkComponentEventTypeFromClientCompressionInfo = new CompressionInfo.Integer(0, list.Count - 1, true);
 			CompressionBasic.NetworkComponentEventTypeFromServerCompressionInfo = new CompressionInfo.Integer(0, list2.Count - 1, true);
@@ -1110,6 +1161,10 @@ namespace TaleWorlds.MountAndBlade
 
 		private static Dictionary<int, List<object>> _fromServerMessageHandlers;
 
+		private static Dictionary<int, List<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>>> _fromClientBaseMessageHandlers;
+
+		private static Dictionary<int, List<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>>> _fromServerBaseMessageHandlers;
+
 		public class NetworkMessageHandlerRegisterer
 		{
 			public NetworkMessageHandlerRegisterer(GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode definitionMode)
@@ -1127,6 +1182,16 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork.RemoveServerMessageHandler<T>(handler);
 			}
 
+			public void RegisterBaseHandler<T>(GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage> handler) where T : GameNetworkMessage
+			{
+				if (this._registerMode == GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode.Add)
+				{
+					GameNetwork.AddServerBaseMessageHandler(handler, typeof(T));
+					return;
+				}
+				GameNetwork.RemoveServerBaseMessageHandler(handler, typeof(T));
+			}
+
 			public void Register<T>(GameNetworkMessage.ClientMessageHandlerDelegate<T> handler) where T : GameNetworkMessage
 			{
 				if (this._registerMode == GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode.Add)
@@ -1135,6 +1200,16 @@ namespace TaleWorlds.MountAndBlade
 					return;
 				}
 				GameNetwork.RemoveClientMessageHandler<T>(handler);
+			}
+
+			public void RegisterBaseHandler<T>(GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage> handler) where T : GameNetworkMessage
+			{
+				if (this._registerMode == GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode.Add)
+				{
+					GameNetwork.AddClientBaseMessageHandler(handler, typeof(T));
+					return;
+				}
+				GameNetwork.RemoveClientBaseMessageHandler(handler, typeof(T));
 			}
 
 			private readonly GameNetwork.NetworkMessageHandlerRegisterer.RegisterMode _registerMode;
@@ -1152,11 +1227,23 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this._fromClientHandlers = new List<Delegate>();
 				this._fromServerHandlers = new List<Delegate>();
+				this._fromServerBaseHandlers = new List<Tuple<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>, Type>>();
+				this._fromClientBaseHandlers = new List<Tuple<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>, Type>>();
+			}
+
+			public void RegisterBaseHandler<T>(GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage> handler) where T : GameNetworkMessage
+			{
+				this._fromServerBaseHandlers.Add(new Tuple<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>, Type>(handler, typeof(T)));
 			}
 
 			public void Register<T>(GameNetworkMessage.ServerMessageHandlerDelegate<T> handler) where T : GameNetworkMessage
 			{
 				this._fromServerHandlers.Add(handler);
+			}
+
+			public void RegisterBaseHandler<T>(GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage> handler)
+			{
+				this._fromClientBaseHandlers.Add(new Tuple<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>, Type>(handler, typeof(T)));
 			}
 
 			public void Register<T>(GameNetworkMessage.ClientMessageHandlerDelegate<T> handler) where T : GameNetworkMessage
@@ -1166,16 +1253,21 @@ namespace TaleWorlds.MountAndBlade
 
 			public void RegisterMessages()
 			{
-				if (this._fromServerHandlers.Count > 0)
+				if (this._fromServerHandlers.Count > 0 || this._fromServerBaseHandlers.Count > 0)
 				{
-					using (List<Delegate>.Enumerator enumerator = this._fromServerHandlers.GetEnumerator())
+					foreach (Delegate @delegate in this._fromServerHandlers)
 					{
-						while (enumerator.MoveNext())
+						Type type = @delegate.GetType().GenericTypeArguments[0];
+						int num = GameNetwork._gameNetworkMessageTypesFromServer[type];
+						GameNetwork._fromServerMessageHandlers[num].Add(@delegate);
+					}
+					using (List<Tuple<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>, Type>>.Enumerator enumerator2 = this._fromServerBaseHandlers.GetEnumerator())
+					{
+						while (enumerator2.MoveNext())
 						{
-							Delegate @delegate = enumerator.Current;
-							Type type = @delegate.GetType().GenericTypeArguments[0];
-							int num = GameNetwork._gameNetworkMessageTypesFromServer[type];
-							GameNetwork._fromServerMessageHandlers[num].Add(@delegate);
+							Tuple<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>, Type> tuple = enumerator2.Current;
+							int num2 = GameNetwork._gameNetworkMessageTypesFromServer[tuple.Item2];
+							GameNetwork._fromServerBaseMessageHandlers[num2].Add(tuple.Item1);
 						}
 						return;
 					}
@@ -1183,23 +1275,33 @@ namespace TaleWorlds.MountAndBlade
 				foreach (Delegate delegate2 in this._fromClientHandlers)
 				{
 					Type type2 = delegate2.GetType().GenericTypeArguments[0];
-					int num2 = GameNetwork._gameNetworkMessageTypesFromClient[type2];
-					GameNetwork._fromClientMessageHandlers[num2].Add(delegate2);
+					int num3 = GameNetwork._gameNetworkMessageTypesFromClient[type2];
+					GameNetwork._fromClientMessageHandlers[num3].Add(delegate2);
+				}
+				foreach (Tuple<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>, Type> tuple2 in this._fromClientBaseHandlers)
+				{
+					int num4 = GameNetwork._gameNetworkMessageTypesFromClient[tuple2.Item2];
+					GameNetwork._fromClientBaseMessageHandlers[num4].Add(tuple2.Item1);
 				}
 			}
 
 			public void UnregisterMessages()
 			{
-				if (this._fromServerHandlers.Count > 0)
+				if (this._fromServerHandlers.Count > 0 || this._fromServerBaseHandlers.Count > 0)
 				{
-					using (List<Delegate>.Enumerator enumerator = this._fromServerHandlers.GetEnumerator())
+					foreach (Delegate @delegate in this._fromServerHandlers)
 					{
-						while (enumerator.MoveNext())
+						Type type = @delegate.GetType().GenericTypeArguments[0];
+						int num = GameNetwork._gameNetworkMessageTypesFromServer[type];
+						GameNetwork._fromServerMessageHandlers[num].Remove(@delegate);
+					}
+					using (List<Tuple<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>, Type>>.Enumerator enumerator2 = this._fromServerBaseHandlers.GetEnumerator())
+					{
+						while (enumerator2.MoveNext())
 						{
-							Delegate @delegate = enumerator.Current;
-							Type type = @delegate.GetType().GenericTypeArguments[0];
-							int num = GameNetwork._gameNetworkMessageTypesFromServer[type];
-							GameNetwork._fromServerMessageHandlers[num].Remove(@delegate);
+							Tuple<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>, Type> tuple = enumerator2.Current;
+							int num2 = GameNetwork._gameNetworkMessageTypesFromServer[tuple.Item2];
+							GameNetwork._fromServerBaseMessageHandlers[num2].Remove(tuple.Item1);
 						}
 						return;
 					}
@@ -1207,14 +1309,23 @@ namespace TaleWorlds.MountAndBlade
 				foreach (Delegate delegate2 in this._fromClientHandlers)
 				{
 					Type type2 = delegate2.GetType().GenericTypeArguments[0];
-					int num2 = GameNetwork._gameNetworkMessageTypesFromClient[type2];
-					GameNetwork._fromClientMessageHandlers[num2].Remove(delegate2);
+					int num3 = GameNetwork._gameNetworkMessageTypesFromClient[type2];
+					GameNetwork._fromClientMessageHandlers[num3].Remove(delegate2);
+				}
+				foreach (Tuple<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>, Type> tuple2 in this._fromClientBaseHandlers)
+				{
+					int num4 = GameNetwork._gameNetworkMessageTypesFromClient[tuple2.Item2];
+					GameNetwork._fromClientBaseMessageHandlers[num4].Remove(tuple2.Item1);
 				}
 			}
 
 			private List<Delegate> _fromClientHandlers;
 
 			private List<Delegate> _fromServerHandlers;
+
+			private List<Tuple<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>, Type>> _fromServerBaseHandlers;
+
+			private List<Tuple<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>, Type>> _fromClientBaseHandlers;
 		}
 
 		[Flags]

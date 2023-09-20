@@ -2173,13 +2173,18 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 			if (!GameNetwork.IsSessionActive)
 			{
-				if (this.InputManager.IsHotKeyPressed("MissionScreenHotkeySwitchAgentToAi") && this.Mission.MainAgent != null && this.Mission.MainAgent.IsActive())
+				if (this.InputManager.IsHotKeyPressed("MissionScreenHotkeySwitchAgentToAi"))
 				{
-					this.Mission.MainAgent.Controller = ((this.Mission.MainAgent.Controller == 2) ? 1 : 2);
-					flag = true;
+					Debug.Print("Cheat: SwitchAgentToAi", 0, 12, 17592186044416UL);
+					if (this.Mission.MainAgent != null && this.Mission.MainAgent.IsActive())
+					{
+						this.Mission.MainAgent.Controller = ((this.Mission.MainAgent.Controller == 2) ? 1 : 2);
+						flag = true;
+					}
 				}
 				if (this.InputManager.IsHotKeyPressed("MissionScreenHotkeyControlFollowedAgent"))
 				{
+					Debug.Print("Cheat: ControlFollowedAgent", 0, 12, 17592186044416UL);
 					if (this.Mission.MainAgent != null)
 					{
 						if (this.Mission.MainAgent.Controller == 2)

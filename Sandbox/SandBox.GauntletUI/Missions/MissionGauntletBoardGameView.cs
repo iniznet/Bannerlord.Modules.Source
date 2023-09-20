@@ -196,7 +196,7 @@ namespace SandBox.GauntletUI.Missions
 					{
 						Vec3 vec;
 						Vec3 vec2;
-						base.MissionScreen.ScreenPointToWorldRay(base.Input.GetMousePositionRanged(), out vec, out vec2);
+						base.MissionScreen.ScreenPointToWorldRay(base.Input.GetMousePositionRanged(), ref vec, ref vec2);
 						this._missionBoardGameHandler.Board.SetUserRay(vec, vec2);
 					}
 					return;

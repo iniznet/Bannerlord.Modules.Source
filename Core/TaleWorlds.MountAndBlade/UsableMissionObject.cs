@@ -672,7 +672,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					if (usableMissionObjectComponent is IVisible)
 					{
-						Debug.FailedAssert("Unexpected component in UsableMissionObject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMissionObject.cs", "IsVisible", 751);
+						Debug.FailedAssert("Unexpected component in UsableMissionObject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMissionObject.cs", "IsVisible", 763);
 						((IVisible)usableMissionObjectComponent).IsVisible = value;
 					}
 				}

@@ -754,7 +754,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (side != BattleSideEnum.Attacker)
 			{
-				Debug.FailedAssert("Wrong Side", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\MissionAgentSpawnLogic.cs", "GetActivePhaseForSide", 1507);
+				Debug.FailedAssert("Wrong Side", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\MissionAgentSpawnLogic.cs", "GetActivePhaseForSide", 1508);
 				return null;
 			}
 			return this.AttackerActivePhase;
@@ -1180,7 +1180,7 @@ namespace TaleWorlds.MountAndBlade
 										mission.SpawnFormation(formation);
 										this._spawnedFormations.Add(formation);
 									}
-									if (this._bannerBearerLogic != null && mission.Mode != MissionMode.Deployment && this._bannerBearerLogic.GetMissingBannerCount(formation) > 0)
+									if (!agentOriginBase5.Troop.IsHero && this._bannerBearerLogic != null && mission.Mode != MissionMode.Deployment && this._bannerBearerLogic.GetMissingBannerCount(formation) > 0)
 									{
 										this._bannerBearerLogic.SpawnBannerBearer(agentOriginBase5, this.IsPlayerSide, formation, this._spawnWithHorses, isReinforcement, num10, num9, true, true, false, null, null, null, mission.IsSallyOutBattle);
 									}

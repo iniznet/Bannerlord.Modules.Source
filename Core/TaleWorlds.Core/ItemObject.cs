@@ -648,6 +648,11 @@ namespace TaleWorlds.Core
 						this.Type = itemType;
 					}
 				}
+				if (this.Type == ItemObject.ItemTypeEnum.Banner && !(this.ItemComponent is BannerComponent) && !(base.StringId == "campaign_banner_small"))
+				{
+					Debug.FailedAssert("Banner item with name: " + this.Name + " is not properly set. It must either be a campaign banner or it must have a banner component.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "Deserialize", 739);
+					Debug.Print("Banner item with name: " + this.Name + " is not properly set. It must either be a campaign banner or it must have a banner component.", 0, Debug.DebugColor.Yellow, 17592186044416UL);
+				}
 				XmlAttribute xmlAttribute9 = node.Attributes["AmmoOffset"];
 				if (xmlAttribute9 != null)
 				{
@@ -659,17 +664,17 @@ namespace TaleWorlds.Core
 						{
 							Vec3 vec = new Vec3(float.Parse(array2[0], CultureInfo.InvariantCulture), float.Parse(array2[1], CultureInfo.InvariantCulture), float.Parse(array2[2], CultureInfo.InvariantCulture), -1f);
 							this.WeaponComponent.PrimaryWeapon.SetAmmoOffset(vec);
-							goto IL_D87;
+							goto IL_E02;
 						}
 						catch (Exception)
 						{
-							Debug.FailedAssert("[DEBUG]Throw Base Offset is not valid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "Deserialize", 753);
-							goto IL_D87;
+							Debug.FailedAssert("[DEBUG]Throw Base Offset is not valid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "Deserialize", 766);
+							goto IL_E02;
 						}
 					}
-					Debug.FailedAssert("[DEBUG]Throw Base Offset is not valid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "Deserialize", 758);
+					Debug.FailedAssert("[DEBUG]Throw Base Offset is not valid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "Deserialize", 771);
 				}
-				IL_D87:
+				IL_E02:
 				this.Effectiveness = this.CalculateEffectiveness();
 				if (node.Attributes["value"] != null)
 				{
@@ -790,17 +795,17 @@ namespace TaleWorlds.Core
 			{
 				if ((this.Type == ItemObject.ItemTypeEnum.Bow || this.Type == ItemObject.ItemTypeEnum.Crossbow || this.Type == ItemObject.ItemTypeEnum.TwoHandedWeapon) && !this.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.NotUsableWithOneHand))
 				{
-					Debug.FailedAssert(this.Name + ": Two Handed Item does not have NotUsableWithOneHand flag!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "MakeSureProperFlagsSetForOneAndTwoHandedWeapons", 928);
+					Debug.FailedAssert(this.Name + ": Two Handed Item does not have NotUsableWithOneHand flag!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "MakeSureProperFlagsSetForOneAndTwoHandedWeapons", 941);
 					this.PrimaryWeapon.WeaponFlags |= WeaponFlags.NotUsableWithOneHand;
 				}
 				if ((this.Type == ItemObject.ItemTypeEnum.Bow || this.Type == ItemObject.ItemTypeEnum.Crossbow) && !this.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.TwoHandIdleOnMount))
 				{
-					Debug.FailedAssert(this.Name + ": Two Handed Item does not have TwoHandIdleOnMount flag!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "MakeSureProperFlagsSetForOneAndTwoHandedWeapons", 937);
+					Debug.FailedAssert(this.Name + ": Two Handed Item does not have TwoHandIdleOnMount flag!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "MakeSureProperFlagsSetForOneAndTwoHandedWeapons", 950);
 					this.PrimaryWeapon.WeaponFlags |= WeaponFlags.TwoHandIdleOnMount;
 				}
 				if ((this.Type == ItemObject.ItemTypeEnum.OneHandedWeapon || this.Type == ItemObject.ItemTypeEnum.Shield) && this.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.NotUsableWithOneHand))
 				{
-					Debug.FailedAssert(this.Name + ": One Handed Item has TwoHanded flag!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "MakeSureProperFlagsSetForOneAndTwoHandedWeapons", 946);
+					Debug.FailedAssert(this.Name + ": One Handed Item has TwoHanded flag!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\ItemObject.cs", "MakeSureProperFlagsSetForOneAndTwoHandedWeapons", 959);
 					this.PrimaryWeapon.WeaponFlags &= ~WeaponFlags.NotUsableWithOneHand;
 				}
 			}

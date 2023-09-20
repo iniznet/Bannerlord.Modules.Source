@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081E6}</ProjectGuid>
+    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F971}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Engine</RootNamespace>
     <AssemblyName>TaleWorlds.Engine</AssemblyName>
@@ -210,23 +210,23 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.DotNet\TaleWorlds.DotNet.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081e5}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f970}</Project>
       <Name>TaleWorlds.DotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ee}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f979}</Project>
       <Name>TaleWorlds.InputSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97a}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f2}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f97d}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ScreenSystem\TaleWorlds.ScreenSystem.csproj">
-      <Project>{34c3f40d-c8c1-426b-bc73-311642108204}</Project>
+      <Project>{5a194119-597e-4968-aabb-baa5c557f98f}</Project>
       <Name>TaleWorlds.ScreenSystem</Name>
     </ProjectReference>
   </ItemGroup>

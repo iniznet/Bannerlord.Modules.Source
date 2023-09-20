@@ -133,7 +133,7 @@ namespace TaleWorlds.MountAndBlade
 
 		protected override void AddRemoveMessageHandlers(GameNetwork.NetworkMessageHandlerRegistererContainer registerer)
 		{
-			registerer.Register<RequestForfeitSpawn>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestForfeitSpawn>(this.HandleClientEventRequestForfeitSpawn));
+			registerer.RegisterBaseHandler<RequestForfeitSpawn>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventRequestForfeitSpawn));
 		}
 
 		public override void OnRemoveBehavior()
@@ -824,7 +824,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private bool HandleClientEventRequestForfeitSpawn(NetworkCommunicator peer, RequestForfeitSpawn message)
+		private bool HandleClientEventRequestForfeitSpawn(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
 			this.ForfeitSpawning(peer);
 			return true;

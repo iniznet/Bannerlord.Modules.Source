@@ -100,9 +100,9 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<UpdateRoundScores>(new GameNetworkMessage.ServerMessageHandlerDelegate<UpdateRoundScores>(this.HandleServerUpdateRoundScoresMessage));
-				registerer.Register<SetRoundMVP>(new GameNetworkMessage.ServerMessageHandlerDelegate<SetRoundMVP>(this.HandleServerSetRoundMVP));
-				registerer.Register<BotData>(new GameNetworkMessage.ServerMessageHandlerDelegate<BotData>(this.HandleServerEventBotDataMessage));
+				registerer.RegisterBaseHandler<UpdateRoundScores>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerUpdateRoundScoresMessage));
+				registerer.RegisterBaseHandler<SetRoundMVP>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerSetRoundMVP));
+				registerer.RegisterBaseHandler<BotData>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventBotDataMessage));
 			}
 		}
 
@@ -217,12 +217,13 @@ namespace TaleWorlds.MountAndBlade
 			return this.GetSideSafe(side).SideScore;
 		}
 
-		public void HandleServerUpdateRoundScoresMessage(UpdateRoundScores message)
+		public void HandleServerUpdateRoundScoresMessage(GameNetworkMessage baseMessage)
 		{
-			this._sides[1].SideScore = message.AttackerTeamScore;
+			UpdateRoundScores updateRoundScores = (UpdateRoundScores)baseMessage;
+			this._sides[1].SideScore = updateRoundScores.AttackerTeamScore;
 			if (this._scoreboardSides != MissionScoreboardComponent.ScoreboardSides.OneSide)
 			{
-				this._sides[0].SideScore = message.DefenderTeamScore;
+				this._sides[0].SideScore = updateRoundScores.DefenderTeamScore;
 			}
 			if (this.OnRoundPropertiesChanged != null)
 			{
@@ -230,14 +231,15 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public void HandleServerSetRoundMVP(SetRoundMVP message)
+		public void HandleServerSetRoundMVP(GameNetworkMessage baseMessage)
 		{
+			SetRoundMVP setRoundMVP = (SetRoundMVP)baseMessage;
 			Action<MissionPeer, int> onMVPSelected = this.OnMVPSelected;
 			if (onMVPSelected != null)
 			{
-				onMVPSelected(message.MVPPeer.GetComponent<MissionPeer>(), message.MVPCount);
+				onMVPSelected(setRoundMVP.MVPPeer.GetComponent<MissionPeer>(), setRoundMVP.MVPCount);
 			}
-			this.PlayerPropertiesChanged(message.MVPPeer);
+			this.PlayerPropertiesChanged(setRoundMVP.MVPPeer);
 		}
 
 		public void CalculateTotalNumbers()
@@ -452,14 +454,15 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public void HandleServerEventBotDataMessage(BotData message)
+		public void HandleServerEventBotDataMessage(GameNetworkMessage baseMessage)
 		{
-			MissionScoreboardComponent.MissionScoreboardSide sideSafe = this.GetSideSafe(message.Side);
-			sideSafe.BotScores.KillCount = message.KillCount;
-			sideSafe.BotScores.AssistCount = message.AssistCount;
-			sideSafe.BotScores.DeathCount = message.DeathCount;
-			sideSafe.BotScores.AliveCount = message.AliveBotCount;
-			this.BotPropertiesChanged(message.Side);
+			BotData botData = (BotData)baseMessage;
+			MissionScoreboardComponent.MissionScoreboardSide sideSafe = this.GetSideSafe(botData.Side);
+			sideSafe.BotScores.KillCount = botData.KillCount;
+			sideSafe.BotScores.AssistCount = botData.AssistCount;
+			sideSafe.BotScores.DeathCount = botData.DeathCount;
+			sideSafe.BotScores.AliveCount = botData.AliveBotCount;
+			this.BotPropertiesChanged(botData.Side);
 		}
 
 		public BattleSideEnum RoundWinner

@@ -58,22 +58,22 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<KillDeathCountChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<KillDeathCountChange>(this.HandleServerEventKillDeathCountChangeEvent));
-				registerer.Register<MissionStateChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<MissionStateChange>(this.HandleServerEventMissionStateChange));
-				registerer.Register<NetworkMessages.FromServer.CreateBanner>(new GameNetworkMessage.ServerMessageHandlerDelegate<NetworkMessages.FromServer.CreateBanner>(this.HandleServerEventCreateBannerForPeer));
-				registerer.Register<ChangeCulture>(new GameNetworkMessage.ServerMessageHandlerDelegate<ChangeCulture>(this.HandleServerEventChangeCulture));
+				registerer.RegisterBaseHandler<KillDeathCountChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventKillDeathCountChangeEvent));
+				registerer.RegisterBaseHandler<MissionStateChange>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventMissionStateChange));
+				registerer.RegisterBaseHandler<NetworkMessages.FromServer.CreateBanner>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventCreateBannerForPeer));
+				registerer.RegisterBaseHandler<ChangeCulture>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventChangeCulture));
 				return;
 			}
 			if (GameNetwork.IsClientOrReplay)
 			{
-				registerer.Register<ChangeCulture>(new GameNetworkMessage.ServerMessageHandlerDelegate<ChangeCulture>(this.HandleServerEventChangeCulture));
+				registerer.RegisterBaseHandler<ChangeCulture>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventChangeCulture));
 				return;
 			}
 			if (GameNetwork.IsServer)
 			{
-				registerer.Register<NetworkMessages.FromClient.CreateBanner>(new GameNetworkMessage.ClientMessageHandlerDelegate<NetworkMessages.FromClient.CreateBanner>(this.HandleClientEventCreateBannerForPeer));
-				registerer.Register<RequestCultureChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestCultureChange>(this.HandleClientEventRequestCultureChange));
-				registerer.Register<RequestChangeCharacterMessage>(new GameNetworkMessage.ClientMessageHandlerDelegate<RequestChangeCharacterMessage>(this.HandleClientEventRequestChangeCharacterMessage));
+				registerer.RegisterBaseHandler<NetworkMessages.FromClient.CreateBanner>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventCreateBannerForPeer));
+				registerer.RegisterBaseHandler<RequestCultureChange>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventRequestCultureChange));
+				registerer.RegisterBaseHandler<RequestChangeCharacterMessage>(new GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>(this.HandleClientEventRequestChangeCharacterMessage));
 			}
 		}
 
@@ -174,9 +174,10 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		private void HandleServerEventMissionStateChange(MissionStateChange message)
+		private void HandleServerEventMissionStateChange(GameNetworkMessage baseMessage)
 		{
-			this.CurrentMultiplayerState = message.CurrentState;
+			MissionStateChange missionStateChange = (MissionStateChange)baseMessage;
+			this.CurrentMultiplayerState = missionStateChange.CurrentState;
 			if (this.CurrentMultiplayerState != MissionLobbyComponent.MultiplayerGameState.WaitingFirstPlayers)
 			{
 				if (this.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Playing && this._warmupComponent != null)
@@ -185,7 +186,7 @@ namespace TaleWorlds.MountAndBlade
 					this._warmupComponent = null;
 				}
 				float num = ((this.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Playing) ? ((float)(MultiplayerOptions.OptionType.MapTimeLimit.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) * 60)) : MissionLobbyComponent.PostMatchWaitDuration);
-				this._timerComponent.StartTimerAsClient(message.StateStartTimeInSeconds, num);
+				this._timerComponent.StartTimerAsClient(missionStateChange.StateStartTimeInSeconds, num);
 			}
 			if (this.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Ending)
 			{
@@ -193,66 +194,71 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private void HandleServerEventKillDeathCountChangeEvent(KillDeathCountChange message)
+		private void HandleServerEventKillDeathCountChangeEvent(GameNetworkMessage baseMessage)
 		{
-			if (message.VictimPeer != null)
+			KillDeathCountChange killDeathCountChange = (KillDeathCountChange)baseMessage;
+			if (killDeathCountChange.VictimPeer != null)
 			{
-				MissionPeer component = message.VictimPeer.GetComponent<MissionPeer>();
-				NetworkCommunicator attackerPeer = message.AttackerPeer;
+				MissionPeer component = killDeathCountChange.VictimPeer.GetComponent<MissionPeer>();
+				NetworkCommunicator attackerPeer = killDeathCountChange.AttackerPeer;
 				MissionPeer missionPeer = ((attackerPeer != null) ? attackerPeer.GetComponent<MissionPeer>() : null);
 				if (component != null)
 				{
-					component.KillCount = message.KillCount;
-					component.AssistCount = message.AssistCount;
-					component.DeathCount = message.DeathCount;
-					component.Score = message.Score;
+					component.KillCount = killDeathCountChange.KillCount;
+					component.AssistCount = killDeathCountChange.AssistCount;
+					component.DeathCount = killDeathCountChange.DeathCount;
+					component.Score = killDeathCountChange.Score;
 					if (missionPeer != null)
 					{
 						missionPeer.OnKillAnotherPeer(component);
 					}
-					if (message.KillCount == 0 && message.AssistCount == 0 && message.DeathCount == 0 && message.Score == 0)
+					if (killDeathCountChange.KillCount == 0 && killDeathCountChange.AssistCount == 0 && killDeathCountChange.DeathCount == 0 && killDeathCountChange.Score == 0)
 					{
 						component.ResetKillRegistry();
 					}
 				}
 				if (this._missionScoreboardComponent != null)
 				{
-					this._missionScoreboardComponent.PlayerPropertiesChanged(message.VictimPeer);
+					this._missionScoreboardComponent.PlayerPropertiesChanged(killDeathCountChange.VictimPeer);
 				}
 			}
 		}
 
-		private void HandleServerEventCreateBannerForPeer(NetworkMessages.FromServer.CreateBanner message)
+		private void HandleServerEventCreateBannerForPeer(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
+			NetworkMessages.FromServer.CreateBanner createBanner = (NetworkMessages.FromServer.CreateBanner)baseMessage;
+			MissionPeer component = createBanner.Peer.GetComponent<MissionPeer>();
 			if (component != null)
 			{
-				component.Peer.BannerCode = message.BannerCode;
+				component.Peer.BannerCode = createBanner.BannerCode;
 			}
 		}
 
-		private void HandleServerEventChangeCulture(ChangeCulture message)
+		private void HandleServerEventChangeCulture(GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.Peer.GetComponent<MissionPeer>();
+			ChangeCulture changeCulture = (ChangeCulture)baseMessage;
+			MissionPeer component = changeCulture.Peer.GetComponent<MissionPeer>();
 			if (component != null)
 			{
-				component.Culture = message.Culture;
+				component.Culture = changeCulture.Culture;
 			}
 		}
 
-		private bool HandleClientEventRequestCultureChange(NetworkCommunicator peer, RequestCultureChange message)
+		private bool HandleClientEventRequestCultureChange(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			RequestCultureChange requestCultureChange = (RequestCultureChange)baseMessage;
 			MissionPeer component = peer.GetComponent<MissionPeer>();
 			if (component != null && this._gameMode.CheckIfPlayerCanDespawn(component))
 			{
-				component.Culture = message.Culture;
+				component.Culture = requestCultureChange.Culture;
 				this.DespawnPlayer(component);
 			}
 			return true;
 		}
 
-		private bool HandleClientEventCreateBannerForPeer(NetworkCommunicator peer, NetworkMessages.FromClient.CreateBanner message)
+		private bool HandleClientEventCreateBannerForPeer(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
+			NetworkMessages.FromClient.CreateBanner createBanner = (NetworkMessages.FromClient.CreateBanner)baseMessage;
 			MissionMultiplayerGameModeBase missionBehavior = Mission.Current.GetMissionBehavior<MissionMultiplayerGameModeBase>();
 			if (missionBehavior == null || !missionBehavior.AllowCustomPlayerBanners())
 			{
@@ -263,14 +269,14 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return false;
 			}
-			component.Peer.BannerCode = message.BannerCode;
-			MissionLobbyComponent.SyncBannersToAllClients(message.BannerCode, component.GetNetworkPeer());
+			component.Peer.BannerCode = createBanner.BannerCode;
+			MissionLobbyComponent.SyncBannersToAllClients(createBanner.BannerCode, component.GetNetworkPeer());
 			return true;
 		}
 
-		private bool HandleClientEventRequestChangeCharacterMessage(NetworkCommunicator peer, RequestChangeCharacterMessage message)
+		private bool HandleClientEventRequestChangeCharacterMessage(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
-			MissionPeer component = message.NetworkPeer.GetComponent<MissionPeer>();
+			MissionPeer component = ((RequestChangeCharacterMessage)baseMessage).NetworkPeer.GetComponent<MissionPeer>();
 			if (component != null && this._gameMode.CheckIfPlayerCanDespawn(component))
 			{
 				this.DespawnPlayer(component);

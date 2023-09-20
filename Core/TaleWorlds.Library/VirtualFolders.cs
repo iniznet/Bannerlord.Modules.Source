@@ -71,10 +71,10 @@ namespace TaleWorlds.Library
 				[VirtualDirectory("Parameters")]
 				public class Parameters
 				{
-					[VirtualFile("Environment", "Yjzjzz0mVwx2addMF.BpsPZnsrAIzbcAgIc9QK7P2ctoKRAGiv4wNCZdffAtcqpIgV41Zo0O._5PX3F89mFJ4_k18G9lErN2T2NBF7z21n3jyW_7HE1ZkS7Nju.pz5mbj.Kco5ObsZZPhJT7mjCRQKR3.84Hbxegc9v4LhwfrFE-")]
+					[VirtualFile("Environment", "AS_irYb6U6uI24y.HucZCv7CvahQ79hhN3W_.q.Tl5LD7nSWfpD1q1UaZt_if5tnwE42NFiGpgBSZvt9IfZKdnNRMxN8YBsZkq3F8rByvPNBEJTPS7kkoCqbj9mQK9w8KSsxBSAh4V8FUl_QMOvtq3y.37CaHiQ5hsrAzuok5g0-")]
 					public string Environment;
 
-					[VirtualFile("Version.xml", "<Version>\t<Singleplayer Value=\"v1.1.4\"/></Version>")]
+					[VirtualFile("Version.xml", "<Version>\t<Singleplayer Value=\"v1.1.5\"/></Version>")]
 					public string Version;
 
 					[VirtualFile("ClientProfile.xml", "<ClientProfile Value=\"DigitalOcean.Discovery\"/>")]

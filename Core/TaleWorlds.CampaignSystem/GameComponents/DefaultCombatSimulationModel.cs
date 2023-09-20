@@ -282,7 +282,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			if (party.LeaderHero != null)
 			{
 				int skillValue = party.LeaderHero.GetSkillValue(DefaultSkills.Tactics);
-				float num2 = DefaultSkillEffects.TacticsAdvantage.PrimaryBonus * (float)skillValue;
+				float num2 = DefaultSkillEffects.TacticsAdvantage.PrimaryBonus * (float)skillValue * 0.01f;
 				num += num2;
 				if (party.LeaderHero.GetPerkValue(DefaultPerks.Scouting.Patrols) && opposingParty.Culture.IsBandit)
 				{

@@ -15,7 +15,7 @@ namespace StoryMode
 		{
 			if (gameManagerLoadingStep != 3)
 			{
-				base.DoLoadingForGameManager(gameManagerLoadingStep, out nextStep);
+				base.DoLoadingForGameManager(gameManagerLoadingStep, ref nextStep);
 				return;
 			}
 			MBGlobals.InitializeReferences();

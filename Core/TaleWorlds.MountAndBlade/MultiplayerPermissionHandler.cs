@@ -38,21 +38,22 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (GameNetwork.IsClient)
 			{
-				registerer.Register<InitializeLobbyPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<InitializeLobbyPeer>(this.HandleServerEventInitializeLobbyPeer));
+				registerer.RegisterBaseHandler<InitializeLobbyPeer>(new GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>(this.HandleServerEventInitializeLobbyPeer));
 			}
 		}
 
-		private void HandleServerEventInitializeLobbyPeer(InitializeLobbyPeer message)
+		private void HandleServerEventInitializeLobbyPeer(GameNetworkMessage baseMessage)
 		{
-			if (GameNetwork.MyPeer != null && message.Peer != GameNetwork.MyPeer)
+			InitializeLobbyPeer initializeLobbyPeer = (InitializeLobbyPeer)baseMessage;
+			if (GameNetwork.MyPeer != null && initializeLobbyPeer.Peer != GameNetwork.MyPeer)
 			{
-				if (PlatformServices.Instance.RegisterPermissionChangeEvent(message.ProvidedId, Permission.CommunicateUsingText, new PermissionChanged(this.TextPermissionChanged)))
+				if (PlatformServices.Instance.RegisterPermissionChangeEvent(initializeLobbyPeer.ProvidedId, Permission.CommunicateUsingText, new PermissionChanged(this.TextPermissionChanged)))
 				{
-					this._registeredEvents[new ValueTuple<PlayerId, Permission>(message.ProvidedId, Permission.CommunicateUsingText)] = true;
+					this._registeredEvents[new ValueTuple<PlayerId, Permission>(initializeLobbyPeer.ProvidedId, Permission.CommunicateUsingText)] = true;
 				}
-				if (PlatformServices.Instance.RegisterPermissionChangeEvent(message.ProvidedId, Permission.CommunicateUsingVoice, new PermissionChanged(this.VoicePermissionChanged)))
+				if (PlatformServices.Instance.RegisterPermissionChangeEvent(initializeLobbyPeer.ProvidedId, Permission.CommunicateUsingVoice, new PermissionChanged(this.VoicePermissionChanged)))
 				{
-					this._registeredEvents[new ValueTuple<PlayerId, Permission>(message.ProvidedId, Permission.CommunicateUsingVoice)] = true;
+					this._registeredEvents[new ValueTuple<PlayerId, Permission>(initializeLobbyPeer.ProvidedId, Permission.CommunicateUsingVoice)] = true;
 				}
 			}
 		}
