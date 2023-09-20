@@ -2,7 +2,6 @@
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
@@ -29,7 +28,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 			{
 				prisonerCharacter.StayingInSettlement = null;
 			}
-			Debug.Print(string.Format("{0} has taken prisoner by {1}.", prisonerCharacter.Name, capturerParty.Name), 0, Debug.DebugColor.White, 17592186044416UL);
 			if (isEventCalled)
 			{
 				CampaignEventDispatcher.Instance.OnHeroPrisonerTaken(capturerParty, prisonerCharacter);

@@ -87,9 +87,9 @@ namespace TaleWorlds.MountAndBlade
 							this.MovingAgent.StopUsingGameObject(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
 							flag = true;
 						}
-						if (this.HasDefendingAgent)
+						while (this.HasDefendingAgent)
 						{
-							this.StopAllDefenderAgents();
+							this.DefendingAgents[0].StopUsingGameObject(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
 							flag = true;
 						}
 						if (flag)
@@ -127,7 +127,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetUsableMissionObjectIsDeactivated(this, value));
+					GameNetwork.WriteMessage(new SetUsableMissionObjectIsDeactivated(base.Id, value));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 				}
 				this.IsDeactivated = value;
@@ -141,7 +141,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetUsableMissionObjectIsDisabledForPlayers(this, value));
+					GameNetwork.WriteMessage(new SetUsableMissionObjectIsDisabledForPlayers(base.Id, value));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 				}
 				this.IsDisabledForPlayers = value;
@@ -299,7 +299,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new UseObject(userAgent, this));
+					GameNetwork.WriteMessage(new UseObject(userAgent.Index, base.Id));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 					return;
 				}
@@ -419,27 +419,9 @@ namespace TaleWorlds.MountAndBlade
 			this.DefendingAgents.Remove(agent);
 		}
 
-		public void RemoveDefendingAgentAtIndex(int index)
-		{
-			this.DefendingAgents.RemoveAt(index);
-		}
-
 		public bool IsAgentDefending(Agent agent)
 		{
 			return this.DefendingAgents.Contains(agent);
-		}
-
-		private void StopAllDefenderAgents()
-		{
-			this.RemoveAllDefenderAgents();
-		}
-
-		private void RemoveAllDefenderAgents()
-		{
-			for (int i = this.GetDefendingAgentCount() - 1; i >= 0; i--)
-			{
-				this.RemoveDefendingAgentAtIndex(i);
-			}
 		}
 
 		public virtual void SimulateTick(float dt)
@@ -628,30 +610,8 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteBoolToPacket(this.UserAgent != null);
 			if (this.UserAgent != null)
 			{
-				GameNetworkMessage.WriteAgentReferenceToPacket(this.UserAgent);
+				GameNetworkMessage.WriteAgentIndexToPacket(this.UserAgent.Index);
 			}
-		}
-
-		public override bool ReadFromNetwork()
-		{
-			bool flag = base.ReadFromNetwork();
-			bool flag2 = GameNetworkMessage.ReadBoolFromPacket(ref flag);
-			bool flag3 = GameNetworkMessage.ReadBoolFromPacket(ref flag);
-			Agent agent = null;
-			if (GameNetworkMessage.ReadBoolFromPacket(ref flag))
-			{
-				agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
-			}
-			if (flag)
-			{
-				this.IsDeactivated = flag2;
-				this.IsDisabledForPlayers = flag3;
-				if (agent != null)
-				{
-					this.SetUserForClient(agent);
-				}
-			}
-			return flag;
 		}
 
 		public virtual bool IsUsableByAgent(Agent userAgent)
@@ -672,7 +632,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					if (usableMissionObjectComponent is IVisible)
 					{
-						Debug.FailedAssert("Unexpected component in UsableMissionObject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMissionObject.cs", "IsVisible", 763);
+						Debug.FailedAssert("Unexpected component in UsableMissionObject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMissionObject.cs", "IsVisible", 746);
 						((IVisible)usableMissionObjectComponent).IsVisible = value;
 					}
 				}
@@ -688,9 +648,28 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (this.HasDefendingAgent)
 			{
-				this.RemoveAllDefenderAgents();
+				for (int j = this.GetDefendingAgentCount() - 1; j >= 0; j--)
+				{
+					this.DefendingAgents.RemoveAt(j);
+				}
 			}
 			base.SetScriptComponentToTick(this.GetTickRequirement());
+		}
+
+		public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+		{
+			base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+			UsableMissionObject.UsableMissionObjectRecord usableMissionObjectRecord = (UsableMissionObject.UsableMissionObjectRecord)synchedMissionObjectReadableRecord.Item2;
+			this.IsDeactivated = usableMissionObjectRecord.IsDeactivated;
+			this.IsDisabledForPlayers = usableMissionObjectRecord.IsDisabledForPlayers;
+			if (usableMissionObjectRecord.IsUserAgentExists)
+			{
+				Agent agentFromIndex = Mission.MissionNetworkHelper.GetAgentFromIndex(usableMissionObjectRecord.AgentIndex, false);
+				if (agentFromIndex != null)
+				{
+					this.SetUserForClient(agentFromIndex);
+				}
+			}
 		}
 
 		public abstract string GetDescriptionText(GameEntity gameEntity = null);
@@ -710,5 +689,37 @@ namespace TaleWorlds.MountAndBlade
 		private bool _isDeactivated;
 
 		private bool _isDisabledForPlayers;
+
+		[DefineSynchedMissionObjectType(typeof(UsableMissionObject))]
+		public struct UsableMissionObjectRecord : ISynchedMissionObjectReadableRecord
+		{
+			public bool IsDeactivated { get; private set; }
+
+			public bool IsDisabledForPlayers { get; private set; }
+
+			public bool IsUserAgentExists { get; private set; }
+
+			public int AgentIndex { get; private set; }
+
+			public UsableMissionObjectRecord(bool isDeactivated, bool isDisabledForPlayers, bool isUserAgentExists, int agentIndex)
+			{
+				this.IsDeactivated = isDeactivated;
+				this.IsDisabledForPlayers = isDisabledForPlayers;
+				this.IsUserAgentExists = isUserAgentExists;
+				this.AgentIndex = agentIndex;
+			}
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.IsDeactivated = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+				this.IsDisabledForPlayers = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+				this.IsUserAgentExists = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+				if (this.IsUserAgentExists)
+				{
+					this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref bufferReadValid);
+				}
+				return bufferReadValid;
+			}
+		}
 	}
 }

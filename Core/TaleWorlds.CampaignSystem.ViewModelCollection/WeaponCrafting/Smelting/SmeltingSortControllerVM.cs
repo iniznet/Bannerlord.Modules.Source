@@ -49,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.Smelting
 		public void ExecuteSortByName()
 		{
 			int nameState = this.NameState;
-			this.SetAllStates(SmeltingSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.NameState = (nameState + 1) % 3;
 			if (this.NameState == 0)
 			{
@@ -63,7 +63,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.Smelting
 		public void ExecuteSortByYield()
 		{
 			int yieldState = this.YieldState;
-			this.SetAllStates(SmeltingSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.YieldState = (yieldState + 1) % 3;
 			if (this.YieldState == 0)
 			{
@@ -77,7 +77,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.Smelting
 		public void ExecuteSortByType()
 		{
 			int typeState = this.TypeState;
-			this.SetAllStates(SmeltingSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.TypeState = (typeState + 1) % 3;
 			if (this.TypeState == 0)
 			{
@@ -88,7 +88,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.Smelting
 			this.IsTypeSelected = true;
 		}
 
-		private void SetAllStates(SmeltingSortControllerVM.SortState state)
+		private void SetAllStates(CampaignUIHelper.SortState state)
 		{
 			this.NameState = (int)state;
 			this.TypeState = (int)state;
@@ -276,13 +276,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.Smelting
 		private string _sortNameText;
 
 		private string _sortYieldText;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 
 		public abstract class ItemComparerBase : IComparer<SmeltingItemVM>
 		{

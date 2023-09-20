@@ -26,6 +26,14 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			return ((MapEventManager)o)._mapEvents;
 		}
 
+		public List<MapEvent> MapEvents
+		{
+			get
+			{
+				return this._mapEvents;
+			}
+		}
+
 		internal MapEventManager()
 		{
 			this._mapEvents = new List<MapEvent>();
@@ -130,26 +138,10 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			PlayerEncounter.Finish(true);
 		}
 
-		public MapEvent StartBattleMapEvent(PartyBase attackerParty, PartyBase defenderParty)
-		{
-			MapEvent mapEvent = new MapEvent();
-			mapEvent.Initialize(attackerParty, defenderParty, null, MapEvent.BattleTypes.FieldBattle);
-			this.OnMapEventCreated(mapEvent);
-			return mapEvent;
-		}
-
 		public MapEvent StartSiegeMapEvent(PartyBase attackerParty, PartyBase defenderParty)
 		{
 			MapEvent mapEvent = new MapEvent();
 			mapEvent.Initialize(attackerParty, defenderParty, null, MapEvent.BattleTypes.Siege);
-			this.OnMapEventCreated(mapEvent);
-			return mapEvent;
-		}
-
-		public MapEvent StartHideoutMapEvent(PartyBase attackerParty, PartyBase defenderParty)
-		{
-			MapEvent mapEvent = new MapEvent();
-			mapEvent.Initialize(attackerParty, defenderParty, null, MapEvent.BattleTypes.Hideout);
 			this.OnMapEventCreated(mapEvent);
 			return mapEvent;
 		}

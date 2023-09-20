@@ -98,7 +98,8 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 				}
 				else if (PlayerEncounter.EncounteredParty.MapFaction == null)
 				{
-					args.MenuContext.SetBackgroundMeshName(CampaignData.NeutralFaction.Culture.EncounterBackgroundMesh);
+					CultureObject @object = Game.Current.ObjectManager.GetObject<CultureObject>("neutral_culture");
+					args.MenuContext.SetBackgroundMeshName(@object.EncounterBackgroundMesh);
 				}
 				else
 				{
@@ -256,7 +257,7 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 					}
 					else
 					{
-						Debug.FailedAssert("settlement encounter, but there is no MapEvent, menu text will be wrong", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameMenus\\GameMenuInitializationHandlers\\DefaultEncounter.cs", "game_menu_encounter_on_init", 290);
+						Debug.FailedAssert("settlement encounter, but there is no MapEvent, menu text will be wrong", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameMenus\\GameMenuInitializationHandlers\\DefaultEncounter.cs", "game_menu_encounter_on_init", 291);
 						TextObject textObject9 = GameTexts.FindText("str_you_have_encountered_settlement_to_siege", null);
 						textObject9.SetTextVariable("SETTLEMENT", currentSettlement.Name);
 						MBTextManager.SetTextVariable("ENCOUNTER_TEXT", textObject9, true);
@@ -345,17 +346,17 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 		private static void game_menu_join_siege_event_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName(PlayerEncounter.EncounteredParty.MapFaction.Culture.EncounterBackgroundMesh);
-			MobileParty besiegerParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty;
-			if (((besiegerParty == MobileParty.MainParty) ? 1 : 0) == 1)
+			MobileParty leaderParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty;
+			if (((leaderParty == MobileParty.MainParty) ? 1 : 0) == 1)
 			{
-				if (besiegerParty.MapEvent != null)
+				if (leaderParty.MapEvent != null)
 				{
-					MBTextManager.SetTextVariable("DEFENDER", besiegerParty.MapEvent.GetLeaderParty(BattleSideEnum.Defender).Name, false);
-					MBTextManager.SetTextVariable("ATTACKER", besiegerParty.MapEvent.GetLeaderParty(BattleSideEnum.Attacker).Name, false);
+					MBTextManager.SetTextVariable("DEFENDER", leaderParty.MapEvent.GetLeaderParty(BattleSideEnum.Defender).Name, false);
+					MBTextManager.SetTextVariable("ATTACKER", leaderParty.MapEvent.GetLeaderParty(BattleSideEnum.Attacker).Name, false);
 					MBTextManager.SetTextVariable("JOIN_SIEGE_TEXT", new TextObject("{=Qx8LaNhC}{DEFENDER} are fighting against {ATTACKER}.", null), false);
 					return;
 				}
-				if (besiegerParty.IsMainParty)
+				if (leaderParty.IsMainParty)
 				{
 					MBTextManager.SetTextVariable("JOIN_SIEGE_TEXT", new TextObject("{=jZ8Eqxbf}You are besieging the settlement.", null), false);
 					return;
@@ -423,7 +424,7 @@ namespace TaleWorlds.CampaignSystem.GameMenus.GameMenuInitializationHandlers
 				args.MenuContext.SetBackgroundMeshName(PlayerEncounter.EncounterSettlement.SettlementComponent.WaitMeshName);
 				return;
 			}
-			Debug.FailedAssert("no menu background to initialize!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameMenus\\GameMenuInitializationHandlers\\DefaultEncounter.cs", "hostile_action_end_by_peace_on_init", 485);
+			Debug.FailedAssert("no menu background to initialize!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameMenus\\GameMenuInitializationHandlers\\DefaultEncounter.cs", "hostile_action_end_by_peace_on_init", 486);
 		}
 
 		[GameMenuInitializationHandler("new_game_begin")]

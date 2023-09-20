@@ -243,6 +243,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public override void OnDeploymentFinished()
+		{
+			base.OnDeploymentFinished();
+			this.ResetOrderPositions();
+		}
+
 		protected override void OnBehaviorActivatedAux()
 		{
 			this.ResetOrderPositions();
@@ -252,7 +258,6 @@ namespace TaleWorlds.MountAndBlade
 			this._hasFormedShieldWall = true;
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderWide;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		protected override float GetAiWeight()

@@ -8,7 +8,7 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class AddTeam : GameNetworkMessage
 	{
-		public MBTeam Team { get; private set; }
+		public int TeamIndex { get; private set; }
 
 		public BattleSideEnum Side { get; private set; }
 
@@ -22,15 +22,15 @@ namespace NetworkMessages.FromServer
 
 		public bool IsPlayerSergeant { get; private set; }
 
-		public AddTeam(Team team)
+		public AddTeam(int teamIndex, BattleSideEnum side, uint color, uint color2, string bannerCode, bool isPlayerGeneral, bool isPlayerSergeant)
 		{
-			this.Team = team.MBTeam;
-			this.Side = team.Side;
-			this.Color = team.Color;
-			this.Color2 = team.Color2;
-			this.BannerCode = ((team.Banner != null) ? TaleWorlds.Core.BannerCode.CreateFrom(team.Banner).Code : string.Empty);
-			this.IsPlayerGeneral = team.IsPlayerGeneral;
-			this.IsPlayerSergeant = team.IsPlayerSergeant;
+			this.TeamIndex = teamIndex;
+			this.Side = side;
+			this.Color = color;
+			this.Color2 = color2;
+			this.BannerCode = bannerCode;
+			this.IsPlayerGeneral = isPlayerGeneral;
+			this.IsPlayerSergeant = isPlayerSergeant;
 		}
 
 		public AddTeam()
@@ -40,10 +40,10 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Team = GameNetworkMessage.ReadMBTeamReferenceFromPacket(CompressionMission.TeamCompressionInfo, ref flag);
+			this.TeamIndex = GameNetworkMessage.ReadTeamIndexFromPacket(ref flag);
 			this.Side = (BattleSideEnum)GameNetworkMessage.ReadIntFromPacket(CompressionMission.TeamSideCompressionInfo, ref flag);
-			this.Color = GameNetworkMessage.ReadUintFromPacket(CompressionGeneric.ColorCompressionInfo, ref flag);
-			this.Color2 = GameNetworkMessage.ReadUintFromPacket(CompressionGeneric.ColorCompressionInfo, ref flag);
+			this.Color = GameNetworkMessage.ReadUintFromPacket(CompressionBasic.ColorCompressionInfo, ref flag);
+			this.Color2 = GameNetworkMessage.ReadUintFromPacket(CompressionBasic.ColorCompressionInfo, ref flag);
 			this.BannerCode = GameNetworkMessage.ReadStringFromPacket(ref flag);
 			this.IsPlayerGeneral = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			this.IsPlayerSergeant = GameNetworkMessage.ReadBoolFromPacket(ref flag);
@@ -52,10 +52,10 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMBTeamReferenceToPacket(this.Team, CompressionMission.TeamCompressionInfo);
+			GameNetworkMessage.WriteTeamIndexToPacket(this.TeamIndex);
 			GameNetworkMessage.WriteIntToPacket((int)this.Side, CompressionMission.TeamSideCompressionInfo);
-			GameNetworkMessage.WriteUintToPacket(this.Color, CompressionGeneric.ColorCompressionInfo);
-			GameNetworkMessage.WriteUintToPacket(this.Color2, CompressionGeneric.ColorCompressionInfo);
+			GameNetworkMessage.WriteUintToPacket(this.Color, CompressionBasic.ColorCompressionInfo);
+			GameNetworkMessage.WriteUintToPacket(this.Color2, CompressionBasic.ColorCompressionInfo);
 			GameNetworkMessage.WriteStringToPacket(this.BannerCode);
 			GameNetworkMessage.WriteBoolToPacket(this.IsPlayerGeneral);
 			GameNetworkMessage.WriteBoolToPacket(this.IsPlayerSergeant);

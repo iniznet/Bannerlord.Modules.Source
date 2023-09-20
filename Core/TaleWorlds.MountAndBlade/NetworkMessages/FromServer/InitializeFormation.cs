@@ -9,14 +9,14 @@ namespace NetworkMessages.FromServer
 	{
 		public int FormationIndex { get; private set; }
 
-		public Team Team { get; private set; }
+		public int TeamIndex { get; private set; }
 
 		public string BannerCode { get; private set; }
 
-		public InitializeFormation(Formation formation, Team team, string bannerCode)
+		public InitializeFormation(Formation formation, int teamIndex, string bannerCode)
 		{
 			this.FormationIndex = (int)formation.FormationIndex;
-			this.Team = team;
+			this.TeamIndex = teamIndex;
 			this.BannerCode = ((!string.IsNullOrEmpty(bannerCode)) ? bannerCode : string.Empty);
 		}
 
@@ -27,16 +27,16 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.FormationIndex = GameNetworkMessage.ReadIntFromPacket(CompressionOrder.FormationClassCompressionInfo, ref flag);
-			this.Team = GameNetworkMessage.ReadTeamReferenceFromPacket(ref flag);
+			this.FormationIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.FormationClassCompressionInfo, ref flag);
+			this.TeamIndex = GameNetworkMessage.ReadTeamIndexFromPacket(ref flag);
 			this.BannerCode = GameNetworkMessage.ReadStringFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteIntToPacket(this.FormationIndex, CompressionOrder.FormationClassCompressionInfo);
-			GameNetworkMessage.WriteTeamReferenceToPacket(this.Team);
+			GameNetworkMessage.WriteIntToPacket(this.FormationIndex, CompressionMission.FormationClassCompressionInfo);
+			GameNetworkMessage.WriteTeamIndexToPacket(this.TeamIndex);
 			GameNetworkMessage.WriteStringToPacket(this.BannerCode);
 		}
 
@@ -47,13 +47,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Initialize formation with index: ",
-				this.FormationIndex,
-				", for team: ",
-				this.Team.Side
-			});
+			return string.Concat(new object[] { "Initialize formation with index: ", this.FormationIndex, ", for team: ", this.TeamIndex });
 		}
 	}
 }

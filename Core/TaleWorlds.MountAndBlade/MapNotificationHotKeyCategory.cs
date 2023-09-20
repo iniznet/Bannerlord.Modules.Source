@@ -3,7 +3,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class MapNotificationHotKeyCategory : GameKeyContext
+	public sealed class MapNotificationHotKeyCategory : GameKeyContext
 	{
 		public MapNotificationHotKeyCategory()
 			: base("MapNotificationHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)

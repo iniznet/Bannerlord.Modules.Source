@@ -36,7 +36,6 @@ namespace TaleWorlds.MountAndBlade
 		protected override void OnBehaviorActivatedAux()
 		{
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 			if (base.Formation.ArrangementOrder.OrderEnum == ArrangementOrder.ArrangementOrderEnum.ShieldWall)
 			{
 				base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;

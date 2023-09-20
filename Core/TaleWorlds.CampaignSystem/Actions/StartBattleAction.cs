@@ -10,31 +10,11 @@ namespace TaleWorlds.CampaignSystem.Actions
 {
 	public static class StartBattleAction
 	{
-		private static void ApplyInternal(PartyBase attackerParty, PartyBase defenderParty, object subject, StartBattleAction.StartBattleActionDetails detail)
+		private static void ApplyInternal(PartyBase attackerParty, PartyBase defenderParty, object subject, MapEvent.BattleTypes battleType)
 		{
 			if (defenderParty.MapEvent == null)
 			{
-				switch (detail)
-				{
-				case StartBattleAction.StartBattleActionDetails.Battle:
-					Campaign.Current.MapEventManager.StartBattleMapEvent(attackerParty, defenderParty);
-					break;
-				case StartBattleAction.StartBattleActionDetails.Raid:
-					RaidEventComponent.CreateRaidEvent(attackerParty, defenderParty);
-					break;
-				case StartBattleAction.StartBattleActionDetails.Siege:
-					Campaign.Current.MapEventManager.StartSiegeMapEvent(attackerParty, defenderParty);
-					break;
-				case StartBattleAction.StartBattleActionDetails.Hideout:
-					Campaign.Current.MapEventManager.StartHideoutMapEvent(attackerParty, defenderParty);
-					break;
-				case StartBattleAction.StartBattleActionDetails.SallyOut:
-					Campaign.Current.MapEventManager.StartSallyOutMapEvent(attackerParty, defenderParty);
-					break;
-				case StartBattleAction.StartBattleActionDetails.SiegeOutside:
-					Campaign.Current.MapEventManager.StartSiegeOutsideMapEvent(attackerParty, defenderParty);
-					break;
-				}
+				Campaign.Current.Models.EncounterModel.CreateMapEventComponentForEncounter(attackerParty, defenderParty, battleType);
 			}
 			else
 			{
@@ -57,7 +37,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				if (((mobileParty2 != null) ? mobileParty2.Army.LeaderParty : null) != attackerParty.MobileParty)
 				{
 					flag = false;
-					goto IL_165;
+					goto IL_E9;
 				}
 			}
 			MobileParty mobileParty3 = defenderParty.MobileParty;
@@ -70,7 +50,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			{
 				flag = true;
 			}
-			IL_165:
+			IL_E9:
 			bool flag2 = flag;
 			if (flag2 && defenderParty.IsSettlement && defenderParty.MapEvent != null && defenderParty.MapEvent.DefenderSide.Parties.Count > 1)
 			{
@@ -81,7 +61,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 
 		public static void Apply(PartyBase attackerParty, PartyBase defenderParty)
 		{
-			StartBattleAction.StartBattleActionDetails startBattleActionDetails = StartBattleAction.StartBattleActionDetails.None;
+			MapEvent.BattleTypes battleTypes = MapEvent.BattleTypes.None;
 			object obj = null;
 			Settlement settlement;
 			if (defenderParty.MapEvent == null)
@@ -89,7 +69,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				if (attackerParty.MobileParty != null && attackerParty.MobileParty.IsGarrison)
 				{
 					settlement = attackerParty.MobileParty.CurrentSettlement;
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.SallyOut;
+					battleTypes = MapEvent.BattleTypes.SallyOut;
 				}
 				else if (attackerParty.MobileParty.CurrentSettlement != null)
 				{
@@ -104,36 +84,36 @@ namespace TaleWorlds.CampaignSystem.Actions
 					settlement = attackerParty.MobileParty.BesiegedSettlement;
 					if (!defenderParty.IsSettlement)
 					{
-						startBattleActionDetails = StartBattleAction.StartBattleActionDetails.SiegeOutside;
+						battleTypes = MapEvent.BattleTypes.SiegeOutside;
 					}
 				}
 				else if (defenderParty.MobileParty.BesiegedSettlement != null)
 				{
 					settlement = defenderParty.MobileParty.BesiegedSettlement;
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.SiegeOutside;
+					battleTypes = MapEvent.BattleTypes.SiegeOutside;
 				}
 				else
 				{
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.Battle;
+					battleTypes = MapEvent.BattleTypes.FieldBattle;
 					settlement = null;
 				}
-				if (settlement != null && startBattleActionDetails == StartBattleAction.StartBattleActionDetails.None)
+				if (settlement != null && battleTypes == MapEvent.BattleTypes.None)
 				{
 					if (settlement.IsTown)
 					{
-						startBattleActionDetails = StartBattleAction.StartBattleActionDetails.Siege;
+						battleTypes = MapEvent.BattleTypes.Siege;
 					}
 					else if (settlement.IsHideout)
 					{
-						startBattleActionDetails = StartBattleAction.StartBattleActionDetails.Hideout;
+						battleTypes = MapEvent.BattleTypes.Hideout;
 					}
 					else if (settlement.IsVillage)
 					{
-						Debug.FailedAssert("Since villages can be raided or sieged, this block cannot decide if the battle is raid or siege.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Actions\\StartBattleAction.cs", "Apply", 147);
+						Debug.FailedAssert("Since villages can be raided or sieged, this block cannot decide if the battle is raid or siege.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Actions\\StartBattleAction.cs", "Apply", 116);
 					}
 					else
 					{
-						Debug.FailedAssert("Missing settlement type in StartBattleAction.GetGameAction", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Actions\\StartBattleAction.cs", "Apply", 151);
+						Debug.FailedAssert("Missing settlement type in StartBattleAction.GetGameAction", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Actions\\StartBattleAction.cs", "Apply", 120);
 					}
 				}
 			}
@@ -141,63 +121,52 @@ namespace TaleWorlds.CampaignSystem.Actions
 			{
 				if (defenderParty.MapEvent.IsFieldBattle)
 				{
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.Battle;
+					battleTypes = MapEvent.BattleTypes.FieldBattle;
 				}
 				else if (defenderParty.MapEvent.IsRaid)
 				{
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.Raid;
+					battleTypes = MapEvent.BattleTypes.Raid;
 				}
 				else if (defenderParty.MapEvent.IsSiegeAssault)
 				{
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.Siege;
+					battleTypes = MapEvent.BattleTypes.Siege;
 				}
 				else if (defenderParty.MapEvent.IsSallyOut)
 				{
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.SallyOut;
+					battleTypes = MapEvent.BattleTypes.SallyOut;
 				}
 				else if (defenderParty.MapEvent.IsSiegeOutside)
 				{
-					startBattleActionDetails = StartBattleAction.StartBattleActionDetails.SiegeOutside;
+					battleTypes = MapEvent.BattleTypes.SiegeOutside;
 				}
 				else
 				{
-					Debug.FailedAssert("Missing mapEventType?", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Actions\\StartBattleAction.cs", "Apply", 179);
+					Debug.FailedAssert("Missing mapEventType?", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Actions\\StartBattleAction.cs", "Apply", 148);
 				}
 				settlement = defenderParty.MapEvent.MapEventSettlement;
 			}
 			obj = obj ?? settlement;
-			StartBattleAction.ApplyInternal(attackerParty, defenderParty, obj, startBattleActionDetails);
+			StartBattleAction.ApplyInternal(attackerParty, defenderParty, obj, battleTypes);
 		}
 
 		public static void ApplyStartBattle(MobileParty attackerParty, MobileParty defenderParty)
 		{
-			StartBattleAction.ApplyInternal(attackerParty.Party, defenderParty.Party, null, StartBattleAction.StartBattleActionDetails.Battle);
+			StartBattleAction.ApplyInternal(attackerParty.Party, defenderParty.Party, null, MapEvent.BattleTypes.FieldBattle);
 		}
 
 		public static void ApplyStartRaid(MobileParty attackerParty, Settlement settlement)
 		{
-			StartBattleAction.ApplyInternal(attackerParty.Party, settlement.Party, settlement, StartBattleAction.StartBattleActionDetails.Raid);
+			StartBattleAction.ApplyInternal(attackerParty.Party, settlement.Party, settlement, MapEvent.BattleTypes.Raid);
 		}
 
 		public static void ApplyStartSallyOut(Settlement settlement, MobileParty defenderParty)
 		{
-			StartBattleAction.ApplyInternal(settlement.Town.GarrisonParty.Party, defenderParty.Party, settlement, StartBattleAction.StartBattleActionDetails.SallyOut);
+			StartBattleAction.ApplyInternal(settlement.Town.GarrisonParty.Party, defenderParty.Party, settlement, MapEvent.BattleTypes.SallyOut);
 		}
 
 		public static void ApplyStartAssaultAgainstWalls(MobileParty attackerParty, Settlement settlement)
 		{
-			StartBattleAction.ApplyInternal(attackerParty.Party, settlement.Party, settlement, StartBattleAction.StartBattleActionDetails.Siege);
-		}
-
-		private enum StartBattleActionDetails
-		{
-			None,
-			Battle,
-			Raid,
-			Siege,
-			Hideout,
-			SallyOut,
-			SiegeOutside
+			StartBattleAction.ApplyInternal(attackerParty.Party, settlement.Party, settlement, MapEvent.BattleTypes.Siege);
 		}
 	}
 }

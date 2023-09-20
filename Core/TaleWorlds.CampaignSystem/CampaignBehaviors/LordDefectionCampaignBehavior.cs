@@ -356,7 +356,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private bool conversation_player_start_defection_with_prisoner_on_condition()
 		{
-			if (Hero.OneToOneConversationHero != null && Clan.PlayerClan.Kingdom != null && Hero.MainHero.IsFactionLeader)
+			if (Hero.OneToOneConversationHero != null && Clan.PlayerClan.Kingdom != null && Hero.MainHero.IsKingdomLeader)
 			{
 				Clan clan = Hero.OneToOneConversationHero.Clan;
 				if (((clan != null) ? clan.Leader : null) == Hero.OneToOneConversationHero && Hero.OneToOneConversationHero.HeroState == Hero.CharacterStates.Prisoner && Campaign.Current.CurrentConversationContext != ConversationContext.CapturedLord && Campaign.Current.CurrentConversationContext != ConversationContext.FreedHero && Hero.OneToOneConversationHero.Clan != Hero.OneToOneConversationHero.MapFaction.Leader.Clan)
@@ -369,7 +369,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private bool conversation_lord_persuade_option_reaction_pre_reject_on_condition()
 		{
-			return (float)new JoinKingdomAsClanBarterable(Hero.OneToOneConversationHero, (Kingdom)Hero.MainHero.MapFaction, false).GetValueForFaction(Hero.OneToOneConversationHero.Clan) < -MathF.Min(2000000f, MathF.Max(500000f, 250000f + (float)Hero.MainHero.Gold / 3f));
+			return Hero.OneToOneConversationHero.Clan.Leader == Hero.OneToOneConversationHero && (float)new JoinKingdomAsClanBarterable(Hero.OneToOneConversationHero, (Kingdom)Hero.MainHero.MapFaction, false).GetValueForFaction(Hero.OneToOneConversationHero.Clan) < -MathF.Min(2000000f, MathF.Max(500000f, 250000f + (float)Hero.MainHero.Gold / 3f));
 		}
 
 		private bool conversation_lord_persuade_option_reaction_on_condition()
@@ -993,7 +993,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private float _failValue;
 
-		public class LordDefectionCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class LordDefectionCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public LordDefectionCampaignBehaviorTypeDefiner()
 				: base(100000)

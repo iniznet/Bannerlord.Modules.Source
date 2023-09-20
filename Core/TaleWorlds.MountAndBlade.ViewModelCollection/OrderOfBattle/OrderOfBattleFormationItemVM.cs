@@ -100,22 +100,27 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				}
 				else
 				{
-					switch (formation.PrimaryClass)
+					FormationClass formationClass = formation.SecondaryLogicalClasses.FirstOrDefault<FormationClass>();
+					if (formation.GetCountOfUnitsBelongingToLogicalClass(formationClass) == 0)
+					{
+						formationClass = FormationClass.NumberOfAllFormations;
+					}
+					switch (formation.LogicalClass)
 					{
 					case FormationClass.Infantry:
-						formationTypeToSet = DeploymentFormationClass.Infantry;
+						formationTypeToSet = ((formationClass == FormationClass.Ranged) ? DeploymentFormationClass.InfantryAndRanged : DeploymentFormationClass.Infantry);
 						break;
 					case FormationClass.Ranged:
-						formationTypeToSet = DeploymentFormationClass.Ranged;
+						formationTypeToSet = ((formationClass == FormationClass.Infantry) ? DeploymentFormationClass.InfantryAndRanged : DeploymentFormationClass.Ranged);
 						break;
 					case FormationClass.Cavalry:
-						formationTypeToSet = DeploymentFormationClass.Cavalry;
+						formationTypeToSet = ((formationClass == FormationClass.HorseArcher) ? DeploymentFormationClass.CavalryAndHorseArcher : DeploymentFormationClass.Cavalry);
 						break;
 					case FormationClass.HorseArcher:
-						formationTypeToSet = DeploymentFormationClass.HorseArcher;
+						formationTypeToSet = ((formationClass == FormationClass.Cavalry) ? DeploymentFormationClass.CavalryAndHorseArcher : DeploymentFormationClass.HorseArcher);
 						break;
 					default:
-						Debug.FailedAssert("Formation doesn't have a proper primary class. Value : " + formation.PrimaryClass.GetName(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleFormationItemVM.cs", "RefreshFormation", 163);
+						Debug.FailedAssert("Formation doesn't have a proper primary class. Value : " + formation.PhysicalClass.GetName(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleFormationItemVM.cs", "RefreshFormation", 171);
 						break;
 					}
 				}
@@ -444,7 +449,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			List<Agent> formationBannerBearers = this._bannerBearerLogic.GetFormationBannerBearers(this.Formation);
 			if (formationBannerBearers.Count > 0)
 			{
-				list.Add(new TooltipProperty(new TextObject("{=*}Banner Bearers", null).ToString(), formationBannerBearers.Count.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				list.Add(new TooltipProperty(new TextObject("{=scnSXrYC}Banner Bearers", null).ToString(), formationBannerBearers.Count.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
 			}
 			if (this.HasAnyActiveFilter())
 			{

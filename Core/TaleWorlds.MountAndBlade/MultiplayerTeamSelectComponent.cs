@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NetworkMessages.FromClient;
+using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
@@ -91,7 +92,8 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else
 				{
-					this.ChangeTeamServer(peer, teamChange.Team);
+					Team teamFromTeamIndex = Mission.MissionNetworkHelper.GetTeamFromTeamIndex(teamChange.TeamIndex);
+					this.ChangeTeamServer(peer, teamFromTeamIndex);
 				}
 			}
 			return true;
@@ -122,28 +124,6 @@ namespace TaleWorlds.MountAndBlade
 				component.SelectedTroopIndex = 0;
 				component.NextSelectedTroopIndex = 0;
 				component.OverrideCultureWithTeamCulture();
-			}
-		}
-
-		public static int GetAutoTeamBalanceDifference(AutoTeamBalanceLimits limit)
-		{
-			switch (limit)
-			{
-			case AutoTeamBalanceLimits.Off:
-				return 0;
-			case AutoTeamBalanceLimits.LimitTo2:
-				return 2;
-			case AutoTeamBalanceLimits.LimitTo3:
-				return 3;
-			case AutoTeamBalanceLimits.LimitTo5:
-				return 5;
-			case AutoTeamBalanceLimits.LimitTo10:
-				return 10;
-			case AutoTeamBalanceLimits.LimitTo20:
-				return 20;
-			default:
-				Debug.FailedAssert("Unknown auto team balance limit!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerTeamSelectComponent.cs", "GetAutoTeamBalanceDifference", 196);
-				return 0;
 			}
 		}
 
@@ -179,7 +159,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					num2--;
 				}
-				if (num - num2 >= MultiplayerTeamSelectComponent.GetAutoTeamBalanceDifference((AutoTeamBalanceLimits)MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)))
+				if (num - num2 >= MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions))
 				{
 					list.Add(team);
 				}
@@ -196,7 +176,7 @@ namespace TaleWorlds.MountAndBlade
 				Blow blow = new Blow(component.ControlledAgent.Index);
 				blow.DamageType = DamageTypes.Invalid;
 				blow.BaseMagnitude = 10000f;
-				blow.Position = component.ControlledAgent.Position;
+				blow.GlobalPosition = component.ControlledAgent.Position;
 				blow.DamagedPercentage = 1f;
 				component.ControlledAgent.Die(blow, Agent.KillInfo.TeamSwitch);
 			}
@@ -211,6 +191,13 @@ namespace TaleWorlds.MountAndBlade
 					MBDebug.Print("HasSpawnedAgentVisuals = false for peer: " + component.Name + " because he just changed his team", 0, Debug.DebugColor.White, 17592186044416UL);
 					component.SpawnCountThisRound = 0;
 					Mission.Current.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>().RemoveAgentVisuals(component, true);
+					if (GameNetwork.IsServerOrRecorder)
+					{
+						GameNetwork.BeginBroadcastModuleEvent();
+						GameNetwork.WriteMessage(new RemoveAgentVisualsForPeer(component.GetNetworkPeer()));
+						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
+					}
+					component.HasSpawnedAgentVisuals = false;
 				}
 				if (!this._gameModeServer.IsGameModeHidingAllAgentVisuals && !networkPeer.IsServerPeer)
 				{
@@ -248,7 +235,7 @@ namespace TaleWorlds.MountAndBlade
 						}
 					}
 					GameNetwork.BeginModuleEventAsClient();
-					GameNetwork.WriteMessage(new TeamChange(false, team));
+					GameNetwork.WriteMessage(new TeamChange(false, team.TeamIndex));
 					GameNetwork.EndModuleEventAsClient();
 				}
 				if (this.OnMyTeamChange != null)
@@ -321,7 +308,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				int i = this.GetPlayerCountForTeam(Mission.Current.AttackerTeam);
 				int j = this.GetPlayerCountForTeam(Mission.Current.DefenderTeam);
-				while (i > j + MultiplayerTeamSelectComponent.GetAutoTeamBalanceDifference((AutoTeamBalanceLimits)MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)))
+				while (i > j + MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions))
 				{
 					MissionPeer missionPeer = null;
 					foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -339,7 +326,7 @@ namespace TaleWorlds.MountAndBlade
 					i--;
 					j++;
 				}
-				while (j > i + MultiplayerTeamSelectComponent.GetAutoTeamBalanceDifference((AutoTeamBalanceLimits)MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)))
+				while (j > i + MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions))
 				{
 					MissionPeer missionPeer2 = null;
 					foreach (NetworkCommunicator networkCommunicator2 in GameNetwork.NetworkPeers)
@@ -365,7 +352,7 @@ namespace TaleWorlds.MountAndBlade
 			if (!GameNetwork.IsServer)
 			{
 				GameNetwork.BeginModuleEventAsClient();
-				GameNetwork.WriteMessage(new TeamChange(true, null));
+				GameNetwork.WriteMessage(new TeamChange(true, -1));
 				GameNetwork.EndModuleEventAsClient();
 				if (this.OnMyTeamChange != null)
 				{

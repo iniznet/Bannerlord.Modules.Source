@@ -26,11 +26,6 @@ namespace TaleWorlds.MountAndBlade
 			MBAPI.IMBMapScene.GetFaceIndexForMultiplePositions(mapScene.Pointer, movedPartyCount, positionArray, resultArray, check_if_disabled, check_height);
 		}
 
-		public static void SetSoundParameters(Scene mapScene, float tod, int season, float cameraHeight)
-		{
-			MBAPI.IMBMapScene.SetSoundParameters(mapScene.Pointer, tod, season, cameraHeight);
-		}
-
 		public static void TickStepSound(Scene mapScene, MBAgentVisuals visuals, int terrainType, int soundType)
 		{
 			MBAPI.IMBMapScene.TickStepSound(mapScene.Pointer, visuals.Pointer, terrainType, soundType);
@@ -44,6 +39,11 @@ namespace TaleWorlds.MountAndBlade
 		public static bool GetMouseVisible()
 		{
 			return MBAPI.IMBMapScene.GetMouseVisible();
+		}
+
+		public static bool GetApplyRainColorGrade()
+		{
+			return MBMapScene.ApplyRainColorGrade;
 		}
 
 		public static void SendMouseKeyEvent(int mouseKeyId, bool isDown)
@@ -110,6 +110,8 @@ namespace TaleWorlds.MountAndBlade
 		{
 			return MBAPI.IMBMapScene.GetSeasonTimeFactor(mapScene.Pointer);
 		}
+
+		public static bool ApplyRainColorGrade;
 
 		private static UIntPtr[] _tickedMapMeshesCachedArray = new UIntPtr[1024];
 	}

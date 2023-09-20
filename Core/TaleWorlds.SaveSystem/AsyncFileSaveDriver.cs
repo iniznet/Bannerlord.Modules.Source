@@ -35,23 +35,13 @@ namespace TaleWorlds.SaveSystem
 		Task<SaveResultWithMessage> ISaveDriver.Save(string saveName, int version, MetaData metaData, GameData gameData)
 		{
 			this.WaitPreviousTask();
-			Task<SaveResultWithMessage> currentSaveTask;
-			using (new PerformanceTestBlock("AsyncFileSaveDriver::Save"))
+			this._currentSaveTask = Task.Run<SaveResultWithMessage>(delegate
 			{
-				this._currentSaveTask = Task.Run<SaveResultWithMessage>(delegate
-				{
-					Task<SaveResultWithMessage> task2;
-					using (new PerformanceTestBlock("AsyncFileSaveDriver::Save - Task itself"))
-					{
-						Task<SaveResultWithMessage> task = this._saveDriver.Save(saveName, version, metaData, gameData);
-						this._currentNonSaveTask = null;
-						task2 = task;
-					}
-					return task2;
-				});
-				currentSaveTask = this._currentSaveTask;
-			}
-			return currentSaveTask;
+				Task<SaveResultWithMessage> task = this._saveDriver.Save(saveName, version, metaData, gameData);
+				this._currentNonSaveTask = null;
+				return task;
+			});
+			return this._currentSaveTask;
 		}
 
 		SaveGameFileInfo[] ISaveDriver.GetSaveGameFileInfos()

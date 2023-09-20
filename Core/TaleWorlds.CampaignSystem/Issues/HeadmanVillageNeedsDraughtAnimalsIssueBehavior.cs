@@ -145,7 +145,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=9nxTUZkO}We do have a problem. Last winter was hard on our animals. A number died from disease, and others were taken by wolves. We'd go to town to buy more, but, well, herds make a tempting target for bandits and we're not really suited to fight them. We can't afford to slaughter even the oldest and weakest of our animals because we need them to pull the plough. Maybe you can help us?", null);
+					return new TextObject("{=9nxTUZkO}We do have a problem. Last winter was hard on our animals. A number died from disease, and others were taken by wolves. We'd go to town to buy more, but, well, herds make a tempting target for bandits and we're not really suited to fight them. We can't afford to slaughter even the oldest and weakest of our animals because we need them to pull the plough. Maybe you can help us?[if:convo_grave][ib:demure2]", null);
 				}
 			}
 
@@ -164,12 +164,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 					TextObject textObject = TextObject.Empty;
 					if (this._isQuestWithMeatOffer)
 					{
-						textObject = new TextObject("{=aExKdXmx}We need {REQUESTED_ANIMAL_AMOUNT} {.%}{?(REQUESTED_ANIMAL_AMOUNT > 1)}{PLURAL(SELECTED_ANIMAL)}{?}{SELECTED_ANIMAL}{\\?}{.%}. To be honest our village is poor and our coffers are empty. We can make payment only as meat - the meat of the old animals that we'll slaughter as soon as you bring us the new ones. We can offer {MEAT_AMOUNT} loads of meat, will you accept that, {?PLAYER.GENDER}madam{?}sir{\\?}?", null);
+						textObject = new TextObject("{=aExKdXmx}We need {REQUESTED_ANIMAL_AMOUNT} {.%}{?(REQUESTED_ANIMAL_AMOUNT > 1)}{PLURAL(SELECTED_ANIMAL)}{?}{SELECTED_ANIMAL}{\\?}{.%}.[if:convo_normal][ib:demure] To be honest our village is poor and our coffers are empty. We can make payment only as meat - the meat of the old animals that we'll slaughter as soon as you bring us the new ones. We can offer {MEAT_AMOUNT} loads of meat, will you accept that, {?PLAYER.GENDER}madam{?}sir{\\?}?", null);
 						textObject.SetTextVariable("MEAT_AMOUNT", this.OfferedMeatAmount);
 					}
 					else
 					{
-						textObject = new TextObject("{=TEhwK74M}We are willing to pay {REWARD}{GOLD_ICON} denars for {REQUESTED_ANIMAL_AMOUNT} healthy and strong {.%}{?(REQUESTED_ANIMAL_AMOUNT > 1)}{PLURAL(SELECTED_ANIMAL)}{?}{SELECTED_ANIMAL}{\\?}{.%}. Unlike us, I'm sure you can travel distant villages easily and find the finest and cheapest ones there.", null);
+						textObject = new TextObject("{=TEhwK74M}We are willing to pay {REWARD}{GOLD_ICON} denars for {REQUESTED_ANIMAL_AMOUNT} healthy and strong [if:convo_normal][ib:demure]{.%}{?(REQUESTED_ANIMAL_AMOUNT > 1)}{PLURAL(SELECTED_ANIMAL)}{?}{SELECTED_ANIMAL}{\\?}{.%}. Unlike us, I'm sure you can travel distant villages easily and find the finest and cheapest ones there.", null);
 						textObject.SetTextVariable("REWARD", this.RewardGold);
 					}
 					textObject.SetTextVariable("REQUESTED_ANIMAL_AMOUNT", this._requestedAnimalAmount);
@@ -191,7 +191,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=bvEOmHWd}I think a man who knows how to trade alongside {ALTERNATIVE_TROOP_AMOUNT} fighters can get the job done without trouble. they will need {GOLD_REQUIRED_FOR_ALTERNATIVE_SOLUTION}{GOLD_ICON} denars to buy the animals. You or one of your companions, {?PLAYER.GENDER}madam{?}sir{\\?} - it doesn't matter for us as long as you find the animals we need...", null);
+					TextObject textObject = new TextObject("{=bvEOmHWd}I think a man who knows how to trade alongside {ALTERNATIVE_TROOP_AMOUNT} [if:convo_undecided_open]fighters can get the job done without trouble. they will need {GOLD_REQUIRED_FOR_ALTERNATIVE_SOLUTION}{GOLD_ICON} denars to buy the animals. You or one of your companions, {?PLAYER.GENDER}madam{?}sir{\\?} - it doesn't matter for us as long as you find the animals we need...", null);
 					textObject.SetTextVariable("ALTERNATIVE_TROOP_AMOUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("GOLD_REQUIRED_FOR_ALTERNATIVE_SOLUTION", this.GoldRequiredForAlternativeSolution);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -219,7 +219,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=D9LxQxNa}Thank you for your help {?PLAYER.GENDER}madam{?}sir{\\?}. We will be waiting for your men. Good luck to you all.", null);
+					return new TextObject("{=D9LxQxNa}Thank you for your help {?PLAYER.GENDER}madam{?}sir{\\?}.[if:convo_bemused][ib:demure2] We will be waiting for your men. Good luck to you all.", null);
 				}
 			}
 
@@ -356,6 +356,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -595,12 +599,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=msDCQIY7}Thank you, {?PLAYER.GENDER}madam{?}sir{\\?}. In these hard times, people like you are a gift from Heaven… The village will never forget that you were willing to help. Good luck.", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=msDCQIY7}Thank you, {?PLAYER.GENDER}madam{?}sir{\\?}. [if:convo_grateful][ib:confident]In these hard times, people like you are a gift from Heaven… The village will never forget that you were willing to help. Good luck.", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				TextObject textObject = new TextObject("{=rRGbn0Sm}Thank you {?PLAYER.GENDER}madam{?}sir{\\?}. You did a great favor to people of {ISSUE_VILLAGE}.", null);
+				TextObject textObject = new TextObject("{=rRGbn0Sm}Thank you {?PLAYER.GENDER}madam{?}sir{\\?}. [if:convo_focused_happy][ib:normal]You did a great favor to people of {ISSUE_VILLAGE}.", null);
 				textObject.SetTextVariable("ISSUE_VILLAGE", base.QuestGiver.CurrentSettlement.EncyclopediaLinkWithName);
-				TextObject npcDiscountLine = new TextObject("{=p9rzYV4T}Things have gotten worse for the village, since we last met {?PLAYER.GENDER}madam{?}sir{\\?}. Is it possible that we could pay you a bit less, what about {DISCOUNTED_REWARD}{GOLD_ICON} denars?", null);
+				TextObject npcDiscountLine = new TextObject("{=p9rzYV4T}Things have gotten worse for the village, [if:convo_dismayed][ib:nervous2]since we last met {?PLAYER.GENDER}madam{?}sir{\\?}. Is it possible that we could pay you a bit less, what about {DISCOUNTED_REWARD}{GOLD_ICON} denars?", null);
 				TextObject textObject2 = new TextObject("{=4kealpZK}Have you brought the animals {?PLAYER.GENDER}madam{?}sir{\\?}?", null);
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(textObject2, null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
 					.BeginPlayerOptions()
@@ -623,11 +627,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestSuccessPlayerDeliveredAnimalsWithAcceptingDiscount))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=kYc90hEl}Sorry, but the price is what we agreed on. I can't lower it.", null), null)
-					.NpcLine(new TextObject("{=r4pLtP5V}You're right. We agreed on this price. Thank you for your efforts.", null), null, null)
+					.NpcLine(new TextObject("{=r4pLtP5V}You're right. We agreed on this price. Thank you for your efforts.[if:convo_nervous][ib:normal]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestSuccessPlayerDeliveredAnimalsWithoutAcceptingDiscount))
 					.CloseDialog()
 					.EndPlayerOptions()
-					.NpcOption(new TextObject("{=l8ezl95j}Thank you {?PLAYER.GENDER}madam{?}sir{\\?}. Here is what we promised.", null), null, null, null)
+					.NpcOption(new TextObject("{=l8ezl95j}Thank you {?PLAYER.GENDER}madam{?}sir{\\?}.[if:convo_calm_friendly] Here is what we promised.", null), null, null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestSuccessPlayerDeliveredAnimalsNormal))
 					.CloseDialog()
 					.EndNpcOptions()
@@ -722,12 +726,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.AddLog(this.QuestSuccessLogText, false);
 				MobileParty.MainParty.ItemRoster.FindIndexOfItem(this._requestedAnimal);
 				int num = 0;
-				foreach (ItemRosterElement itemRosterElement in MobileParty.MainParty.ItemRoster)
+				for (int i = MobileParty.MainParty.ItemRoster.Count - 1; i >= 0; i--)
 				{
+					ItemRosterElement itemRosterElement = MobileParty.MainParty.ItemRoster[i];
 					if (itemRosterElement.EquipmentElement.Item == this._requestedAnimal)
 					{
 						int num2 = ((itemRosterElement.Amount >= this._requestedAnimalAmount) ? (this._requestedAnimalAmount - num) : itemRosterElement.Amount);
-						MobileParty.MainParty.ItemRoster.AddToCounts(itemRosterElement.EquipmentElement.Item, -num2);
+						EquipmentElement equipmentElement = new EquipmentElement(itemRosterElement.EquipmentElement.Item, itemRosterElement.EquipmentElement.ItemModifier, null, false);
+						MobileParty.MainParty.ItemRoster.AddToCounts(equipmentElement, -num2);
 						num += itemRosterElement.Amount;
 						if (num >= this._requestedAnimalAmount)
 						{
@@ -748,6 +754,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.QuestGiver.AddPower(-10f);
 				ChangeRelationAction.ApplyPlayerRelation(base.QuestGiver, -5, true, true);
 				base.QuestGiver.CurrentSettlement.Village.Hearth -= 30f;
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override void RegisterEvents()
@@ -814,7 +824,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog, false);
 			}
 
 			protected override void OnFinalize()

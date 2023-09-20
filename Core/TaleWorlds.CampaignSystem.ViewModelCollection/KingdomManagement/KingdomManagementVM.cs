@@ -37,6 +37,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement
 			this.GiftFief = new KingdomGiftFiefPopupVM(new Action(this.OnSettlementGranted));
 			this.Decision = new KingdomDecisionsVM(new Action(this.OnRefresh));
 			this._categoryCount = 5;
+			this._leaveKingdomPermissionEvent = new LeaveKingdomPermissionEvent(new Action<bool, TextObject>(this.OnLeaveKingdomRequest));
 			this.SetSelectedCategory(1);
 			this.RefreshValues();
 		}
@@ -118,6 +119,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement
 				disabledReasons.Add(new TextObject("{=4Y8u4JKO}You can't leave the kingdom while in an army", null));
 				return false;
 			}
+			Game.Current.EventManager.TriggerEvent<LeaveKingdomPermissionEvent>(this._leaveKingdomPermissionEvent);
+			if (this._mostRecentLeaveKingdomPermission != null && !this._mostRecentLeaveKingdomPermission.GetValueOrDefault().Item1)
+			{
+				disabledReasons.Add((this._mostRecentLeaveKingdomPermission != null) ? this._mostRecentLeaveKingdomPermission.GetValueOrDefault().Item2 : null);
+				return false;
+			}
 			return true;
 		}
 
@@ -143,7 +150,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement
 
 		private void OnRefreshDecision()
 		{
-			this.Decision.QueryForNextDecision();
+			this.Decision.HandleNextDecision();
 		}
 
 		private void ForceDecideDecision(KingdomDecision decision)
@@ -212,6 +219,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement
 		{
 			if (this.IsKingdomActionEnabled)
 			{
+				if (this._mostRecentLeaveKingdomPermission != null && this._mostRecentLeaveKingdomPermission.GetValueOrDefault().Item1 && ((this._mostRecentLeaveKingdomPermission != null) ? this._mostRecentLeaveKingdomPermission.GetValueOrDefault().Item2 : null) != null)
+				{
+					InformationManager.ShowInquiry(new InquiryData(new TextObject("{=3sxtCWPe}Leaving Kingdom", null).ToString(), (this._mostRecentLeaveKingdomPermission != null) ? this._mostRecentLeaveKingdomPermission.GetValueOrDefault().Item2.ToString() : null, true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.OnConfirmLeaveKingdom), null, "", 0f, null, null, null), false, false);
+					return;
+				}
 				if (this._isPlayerTheRuler)
 				{
 					GameTexts.SetVariable("WILL_DESTROY", (this.Kingdom.Clans.Count == 1) ? 1 : 0);
@@ -228,8 +240,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement
 					new InquiryElement("keep", new TextObject("{=z8h0BRAb}Keep all holdings", null).ToString(), null, true, new TextObject("{=lkJfq1ap}Owned settlements remain under your control but nobles will dislike this dishonorable act and the kingdom will declare war on you.", null).ToString()),
 					new InquiryElement("dontkeep", new TextObject("{=JIr3Jc7b}Relinquish all holdings", null).ToString(), null, true, new TextObject("{=ZjaSde0X}Owned settlements are returned to the kingdom. This will avert a war and nobles will dislike you less for abandoning your fealty.", null).ToString())
 				};
-				MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=3sxtCWPe}Leaving Kingdom", null).ToString(), new TextObject("{=xtlIFKaa}Are you sure you want to leave the Kingdom?{newline}If so, choose how you want to leave the kingdom.", null).ToString(), list, true, 1, new TextObject("{=5Unqsx3N}Confirm", null).ToString(), string.Empty, new Action<List<InquiryElement>>(this.OnConfirmLeaveKingdomWithOption), null, ""), false, false);
+				MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=3sxtCWPe}Leaving Kingdom", null).ToString(), new TextObject("{=xtlIFKaa}Are you sure you want to leave the Kingdom?{newline}If so, choose how you want to leave the kingdom.", null).ToString(), list, true, 1, 1, new TextObject("{=5Unqsx3N}Confirm", null).ToString(), string.Empty, new Action<List<InquiryElement>>(this.OnConfirmLeaveKingdomWithOption), null, ""), false, false);
 			}
+		}
+
+		private void OnLeaveKingdomRequest(bool isPossible, TextObject disabledReasonOrWarning)
+		{
+			this._mostRecentLeaveKingdomPermission = new ValueTuple<bool, TextObject>?(new ValueTuple<bool, TextObject>(isPossible, disabledReasonOrWarning));
 		}
 
 		private void OnConfirmAbdicateLeadership()
@@ -853,6 +870,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement
 		private readonly Action<Army> _onShowArmyOnMap;
 
 		private readonly int _categoryCount;
+
+		private readonly LeaveKingdomPermissionEvent _leaveKingdomPermissionEvent;
+
+		private ValueTuple<bool, TextObject>? _mostRecentLeaveKingdomPermission;
 
 		private int _currentCategory;
 

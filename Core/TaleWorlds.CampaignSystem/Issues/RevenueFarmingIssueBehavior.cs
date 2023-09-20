@@ -252,7 +252,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					TextObject textObject9 = new TextObject("{=mosHZG3b}The mutineers ambushed and killed {KILLED_NUMBER} of your men.", null);
 					textObject9.SetTextVariable("KILLED_NUMBER", num6);
 					MBInformationManager.AddQuickInformation(textObject9, 0, null, "");
-					MobileParty.MainParty.MemberRoster.KillNumberOfMenRandomly(num6, false);
+					MobileParty.MainParty.MemberRoster.KillNumberOfNonHeroTroopsRandomly(num6);
 					return;
 				}
 				RevenueFarmingIssueBehavior.Instance.AddLog(new TextObject("{=KQ8AU8Bz}You told the notable that this was not your affair. He did not like to hear this.", null), false);
@@ -418,7 +418,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					TextObject textObject13 = new TextObject("{=MGD8Ka2o}The residents attacked and killed {KILLED_NUMBER} of your troops who were separated from the rest.", null);
 					textObject13.SetTextVariable("KILLED_NUMBER", num10);
 					MBInformationManager.AddQuickInformation(textObject13, 0, null, "");
-					MobileParty.MainParty.MemberRoster.KillNumberOfMenRandomly(num10, false);
+					MobileParty.MainParty.MemberRoster.KillNumberOfNonHeroTroopsRandomly(num10);
 				}
 				else
 				{
@@ -589,7 +589,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 		private bool ConditionsHold(Hero issueGiver, out Settlement targetSettlement)
 		{
 			targetSettlement = null;
-			if (issueGiver.IsLord && issueGiver.Clan.Leader == issueGiver && issueGiver.Clan.Settlements.Count > 0)
+			if (issueGiver.IsLord && issueGiver.Clan.Leader == issueGiver && issueGiver.GetTraitLevel(DefaultTraits.Mercy) <= 0 && issueGiver.Clan.Settlements.Count > 0)
 			{
 				targetSettlement = issueGiver.Clan.Settlements.Where((Settlement x) => x.IsTown).GetRandomElementInefficiently<Settlement>();
 			}
@@ -667,7 +667,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=j5fS9zaa}Yes, there is something. I have been on campaign for much of this year, and I have not been able to go around to my estates collecting the rents that are owed to me and the taxes that are owed to the realm. I need some help collecting these revenues.", null);
+					return new TextObject("{=j5fS9zaa}Yes, there is something. I have been on campaign for much of this year, and I have not been able to go around to my estates collecting the rents that are owed to me and the taxes that are owed to the realm. I need some help collecting these revenues.[ib:confident3][if:convo_nonchalant]", null);
 				}
 			}
 
@@ -683,7 +683,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=F540oIed}I can designate you as my official revenue farmer, and give you a list of everyone's holdings and how much they owe. All you need to do is visit all my villages and collect what you can. I don't expect you to be able to get every denar. Some of the people around here are genuinely hard - up, but they'll all try to get out of paying. Let's just keep it simple: I will take {TOTAL_REQUESTED_DENARS}{GOLD_ICON} denars and you can keep whatever else you can squeeze out of them. Are you interested?", null);
+					TextObject textObject = new TextObject("{=F540oIed}I can designate you as my official revenue farmer, and give you a list of everyone's holdings and how much they owe. All you need to do is visit all my villages and collect what you can. I don't expect you to be able to get every denar. Some of the people around here are genuinely hard - up, but they'll all try to get out of paying. Let's just keep it simple: I will take {TOTAL_REQUESTED_DENARS}{GOLD_ICON} denars and you can keep whatever else you can squeeze out of them. Are you interested?[if:convo_calm_friendly]", null);
 					textObject.SetTextVariable("TOTAL_REQUESTED_DENARS", this.TotalRequestedDenars);
 					return textObject;
 				}
@@ -782,6 +782,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -983,19 +987,19 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=PXigJyMs}Excellent. You are acting in my name now. Try to be polite but you have every right to use force if they don't cough up what's owed. Good luck.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=PXigJyMs}Excellent. You are acting in my name now. Try to be polite but you have every right to use force if they don't cough up what's owed. Good luck.[ib:confident2][if:convo_bored2]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=tthBNejU}Have you collected the revenues?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=tthBNejU}Have you collected the revenues?[if:convo_undecided_open]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=jQsr4vDO}I'm still working on it.", null), null)
-					.NpcLine(new TextObject("{=BI1UnHaB}Good, good. This takes time, I know, but don't keep me waiting too long.", null), null, null)
+					.NpcLine(new TextObject("{=BI1UnHaB}Good, good. This takes time, I know, but don't keep me waiting too long.[if:convo_mocking_aristocratic]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(MapEventHelper.OnConversationEnd))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=ORl6qiOj}Yes, here is your share.", null), null)
 					.Condition(() => this._allRevenuesAreCollected)
 					.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.TurnQuestInClickableCondition))
-					.NpcLine(new TextObject("{=MKYzHFKB}Thank you for your help.", null), null, null)
+					.NpcLine(new TextObject("{=MKYzHFKB}Thank you for your help.[if:convo_delighted]", null), null, null)
 					.Consequence(delegate
 					{
 						this.QuestCompletedWithSuccess();
@@ -1004,7 +1008,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=kj3WQY1V}Maybe I should keep this to myself.", null), null)
 					.Condition(() => this._allRevenuesAreCollected)
-					.NpcLine(new TextObject("{=82aiVoV9}You will regret this in the long run...", null), null, null)
+					.NpcLine(new TextObject("{=82aiVoV9}You will regret this in the long run...[ib:closed2][if:convo_angry]", null), null, null)
 					.Consequence(delegate
 					{
 						this.QuestCompletedWithBetray();
@@ -1012,7 +1016,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=G5tyQj6N}Not yet.", null), null)
-					.NpcLine(new TextObject("{=UXCjNTjF}Hurry up. I don't have that much time.", null), null, null)
+					.NpcLine(new TextObject("{=UXCjNTjF}Hurry up. I don't have that much time.[if:convo_annoyed]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(MapEventHelper.OnConversationEnd))
 					.CloseDialog()
 					.EndPlayerOptions();
@@ -1052,7 +1056,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 				CampaignEvents.VillageBeingRaided.AddNonSerializedListener(this, new Action<Village>(this.OnVillageRaid));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
@@ -1103,7 +1106,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnHourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing)
 				{
@@ -1180,7 +1183,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog, false);
 			}
 
 			protected override void OnFinalize()

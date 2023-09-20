@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -55,7 +54,7 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 		{
 			get
 			{
-				return GameNetwork.IsClient && !NetworkMain.GameClient.IsInGame;
+				return GameNetwork.IsClient && !NetworkMain.GameClient.IsInGame && !NetworkMain.CommunityClient.IsInGame;
 			}
 		}
 
@@ -152,6 +151,11 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 			GameNetworkMessage.WriteByteArrayToPacket(array, 0, array.Length);
 		}
 
+		public static int ReadByteArrayFromPacket(byte[] buffer, int offset, int bufferCapacity, ref bool bufferReadValid)
+		{
+			return MBAPI.IMBNetwork.ReadByteArrayFromPacket(buffer, offset, bufferCapacity, ref bufferReadValid);
+		}
+
 		public static void WriteBannerCodeToPacket(string bannerCode)
 		{
 			List<BannerData> bannerDataFromBannerCode = Banner.GetBannerDataFromBannerCode(bannerCode);
@@ -184,11 +188,6 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 			return Banner.GetBannerCodeFromBannerDataList(mblist);
 		}
 
-		public static int ReadByteArrayFromPacket(byte[] buffer, int offset, int bufferCapacity, ref bool bufferReadValid)
-		{
-			return MBAPI.IMBNetwork.ReadByteArrayFromPacket(buffer, offset, bufferCapacity, ref bufferReadValid);
-		}
-
 		public static void WriteByteArrayToPacket(byte[] value, int offset, int size)
 		{
 			MBAPI.IMBNetwork.WriteByteArrayToPacket(value, offset, size);
@@ -212,33 +211,18 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 			DebugNetworkEventStatistics.AddDataToStatistic(compressionInfo.GetNumBits());
 		}
 
-		public static int ReadAgentIndexFromPacket(CompressionInfo.Integer compressionInfo, ref bool bufferReadValid)
+		public static int ReadAgentIndexFromPacket(ref bool bufferReadValid)
 		{
+			CompressionInfo.Integer agentCompressionInfo = CompressionMission.AgentCompressionInfo;
 			int num = -1;
-			bufferReadValid = bufferReadValid && MBAPI.IMBNetwork.ReadIntFromPacket(ref compressionInfo, out num);
+			bufferReadValid = bufferReadValid && MBAPI.IMBNetwork.ReadIntFromPacket(ref agentCompressionInfo, out num);
 			return num;
 		}
 
-		public static Agent ReadAgentReferenceFromPacket(ref bool bufferReadValid, bool canBeNull = false)
-		{
-			int num = GameNetworkMessage.ReadAgentIndexFromPacket(CompressionMission.AgentCompressionInfo, ref bufferReadValid);
-			if (!bufferReadValid || GameNetworkMessage.IsClientMissionOver)
-			{
-				return null;
-			}
-			Agent agent = Mission.Current.FindAgentWithIndex(num);
-			if (!canBeNull && agent == null && num >= 0)
-			{
-				Debug.Print("Agent with index: " + num + " could not be found while reading reference from packet.", 0, Debug.DebugColor.White, 17592186044416UL);
-				throw new MBNotFoundException("Agent with index: " + num + " could not be found while reading reference from packet.");
-			}
-			return agent;
-		}
-
-		public static void WriteAgentReferenceToPacket(Agent value)
+		public static void WriteAgentIndexToPacket(int agentIndex)
 		{
 			CompressionInfo.Integer agentCompressionInfo = CompressionMission.AgentCompressionInfo;
-			MBAPI.IMBNetwork.WriteIntToPacket((value != null) ? value.Index : (-1), ref agentCompressionInfo);
+			MBAPI.IMBNetwork.WriteIntToPacket(agentIndex, ref agentCompressionInfo);
 			DebugNetworkEventStatistics.AddDataToStatistic(agentCompressionInfo.GetNumBits());
 		}
 
@@ -268,11 +252,11 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 				VirtualPlayer virtualPlayer;
 				if (!flag)
 				{
-					virtualPlayer = MBNetwork.VirtualPlayers[num];
+					virtualPlayer = GameNetwork.VirtualPlayers[num];
 				}
 				else
 				{
-					virtualPlayer = MBNetwork.DisconnectedNetworkPeers[num].VirtualPlayer;
+					virtualPlayer = GameNetwork.DisconnectedNetworkPeers[num].VirtualPlayer;
 				}
 				return virtualPlayer;
 			}
@@ -289,11 +273,11 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 		{
 			bool flag = false;
 			int num = ((virtualPlayer != null) ? virtualPlayer.Index : (-1));
-			if (num >= 0 && MBNetwork.VirtualPlayers[num] != virtualPlayer)
+			if (num >= 0 && GameNetwork.VirtualPlayers[num] != virtualPlayer)
 			{
-				for (int i = 0; i < MBNetwork.DisconnectedNetworkPeers.Count; i++)
+				for (int i = 0; i < GameNetwork.DisconnectedNetworkPeers.Count; i++)
 				{
-					if (MBNetwork.DisconnectedNetworkPeers[i].VirtualPlayer == virtualPlayer)
+					if (GameNetwork.DisconnectedNetworkPeers[i].VirtualPlayer == virtualPlayer)
 					{
 						num = i;
 						flag = true;
@@ -301,9 +285,8 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 					}
 				}
 			}
-			MBAPI.IMBNetwork.WriteIntToPacket(num, ref CompressionBasic.PlayerCompressionInfo);
+			GameNetworkMessage.WriteIntToPacket(num, CompressionBasic.PlayerCompressionInfo);
 			GameNetworkMessage.WriteBoolToPacket(flag);
-			DebugNetworkEventStatistics.AddDataToStatistic(CompressionBasic.PlayerCompressionInfo.GetNumBits());
 		}
 
 		public static void WriteNetworkPeerReferenceToPacket(NetworkCommunicator networkCommunicator)
@@ -311,55 +294,23 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 			GameNetworkMessage.WriteVirtualPlayerReferenceToPacket((networkCommunicator != null) ? networkCommunicator.VirtualPlayer : null);
 		}
 
-		public static MBTeam ReadMBTeamReferenceFromPacket(CompressionInfo.Integer compressionInfo, ref bool bufferReadValid)
+		public static int ReadTeamIndexFromPacket(ref bool bufferReadValid)
 		{
-			int num = GameNetworkMessage.ReadIntFromPacket(compressionInfo, ref bufferReadValid);
-			if (!GameNetworkMessage.IsClientMissionOver & bufferReadValid)
+			return GameNetworkMessage.ReadIntFromPacket(CompressionMission.TeamCompressionInfo, ref bufferReadValid);
+		}
+
+		public static void WriteTeamIndexToPacket(int teamIndex)
+		{
+			GameNetworkMessage.WriteIntToPacket(teamIndex, CompressionMission.TeamCompressionInfo);
+		}
+
+		public static MissionObjectId ReadMissionObjectIdFromPacket(ref bool bufferReadValid)
+		{
+			bool flag = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+			int num = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.MissionObjectIDCompressionInfo, ref bufferReadValid);
+			if (!bufferReadValid || num == -1 || GameNetworkMessage.IsClientMissionOver)
 			{
-				return new MBTeam(Mission.Current, num);
-			}
-			return MBTeam.InvalidTeam;
-		}
-
-		public static Team ReadTeamReferenceFromPacket(ref bool bufferReadValid)
-		{
-			MBTeam mbteam = GameNetworkMessage.ReadMBTeamReferenceFromPacket(CompressionMission.TeamCompressionInfo, ref bufferReadValid);
-			if (mbteam.IsValid & bufferReadValid)
-			{
-				return Mission.Current.Teams.Find(mbteam);
-			}
-			return Team.Invalid;
-		}
-
-		public static void WriteMBTeamReferenceToPacket(MBTeam value, CompressionInfo.Integer compressionInfo)
-		{
-			MBAPI.IMBNetwork.WriteIntToPacket(value.Index, ref compressionInfo);
-			DebugNetworkEventStatistics.AddDataToStatistic(compressionInfo.GetNumBits());
-		}
-
-		public static void WriteTeamReferenceToPacket(Team value)
-		{
-			GameNetworkMessage.WriteMBTeamReferenceToPacket((value == null) ? MBTeam.InvalidTeam : value.MBTeam, CompressionMission.TeamCompressionInfo);
-		}
-
-		public static SynchedMissionObject ReadSynchedMissionObjectFromPacket(ref bool bufferReadValid)
-		{
-			MissionObject missionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref bufferReadValid);
-			if (bufferReadValid && missionObject != null)
-			{
-				SynchedMissionObject synchedMissionObject = (SynchedMissionObject)missionObject;
-				bufferReadValid = synchedMissionObject.ReadFromNetwork();
-				return synchedMissionObject;
-			}
-			return null;
-		}
-
-		public static MissionObject ReadMissionObjectReferenceFromPacket(ref bool bufferReadValid)
-		{
-			MissionObjectId missionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref bufferReadValid);
-			if (!bufferReadValid || missionObjectId.Id == -1 || GameNetworkMessage.IsClientMissionOver)
-			{
-				if (missionObjectId.Id != -1)
+				if (num != -1)
 				{
 					MBDebug.Print(string.Concat(new object[]
 					{
@@ -368,46 +319,14 @@ namespace TaleWorlds.MountAndBlade.Network.Messages
 						" valid read: ",
 						bufferReadValid.ToString(),
 						" MissionObject ID: ",
-						missionObjectId.Id,
+						num,
 						" runtime: ",
-						missionObjectId.CreatedAtRuntime.ToString()
+						flag.ToString()
 					}), 0, Debug.DebugColor.White, 17592186044416UL);
 				}
-				return null;
+				return new MissionObjectId(-1, false);
 			}
-			MissionObject missionObject = Mission.Current.MissionObjects.FirstOrDefault((MissionObject mo) => mo.Id == missionObjectId);
-			if (missionObject == null)
-			{
-				MBDebug.Print(string.Concat(new object[]
-				{
-					"MissionObject with ID: ",
-					missionObjectId.Id,
-					" runtime: ",
-					missionObjectId.CreatedAtRuntime.ToString(),
-					" could not be found."
-				}), 0, Debug.DebugColor.White, 17592186044416UL);
-			}
-			return missionObject;
-		}
-
-		public static MissionObjectId ReadMissionObjectIdFromPacket(ref bool bufferReadValid)
-		{
-			bool flag = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
-			return new MissionObjectId(GameNetworkMessage.ReadIntFromPacket(CompressionBasic.MissionObjectIDCompressionInfo, ref bufferReadValid), flag);
-		}
-
-		public void WriteSynchedMissionObjectToPacket(SynchedMissionObject value)
-		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(value);
-			if (value != null)
-			{
-				value.WriteToNetwork();
-			}
-		}
-
-		public static void WriteMissionObjectReferenceToPacket(MissionObject value)
-		{
-			GameNetworkMessage.WriteMissionObjectIdToPacket((value != null) ? value.Id : new MissionObjectId(-1, false));
+			return new MissionObjectId(num, flag);
 		}
 
 		public static void WriteMissionObjectIdToPacket(MissionObjectId value)

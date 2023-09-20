@@ -84,6 +84,11 @@ namespace TaleWorlds.CampaignSystem.Settlements.Locations
 			return new LocationCharacter(new AgentData(new PartyAgentOrigin(PartyBase.MainParty, hero.CharacterObject, -1, uniqueTroopDescriptor, false)).Monster(monsterWithSuffix).NoHorses(true), addBehaviorsDelegate, null, false, LocationCharacter.CharacterRelations.Friendly, null, !PlayerEncounter.LocationEncounter.Settlement.IsVillage, false, null, false, false, true);
 		}
 
+		public override string ToString()
+		{
+			return this.Character.Name.ToString();
+		}
+
 		public bool IsVisualTracked;
 
 		public Dictionary<sbyte, string> PrefabNamesForBones;

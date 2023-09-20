@@ -36,6 +36,7 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 					Common.PlatformFileHelper = new PlatformFileHelperPC("Mount and Blade II Bannerlord");
 					Common.SetInvariantCulture();
 					LauncherPlatform.Initialize();
+					LauncherPlatform.SetLauncherMode(true);
 					ResourceDepot resourceDepot = new ResourceDepot();
 					resourceDepot.AddLocation(BasePath.Name, "Modules/Native/LauncherGUI/");
 					resourceDepot.CollectResources();
@@ -48,8 +49,9 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 					Program._windowsFramework.Initialize(new FrameworkDomain[] { Program._standaloneUIDomain });
 					Program._windowsFramework.RegisterMessageCommunicator(Program._graphicsForm);
 					Program._windowsFramework.Start();
+					LauncherPlatform.SetLauncherMode(false);
 					LauncherPlatform.Destroy();
-					goto IL_101;
+					goto IL_10D;
 				}
 				catch (Exception ex)
 				{
@@ -59,9 +61,10 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 				}
 			}
 			Program._gameStarted = true;
-			IL_101:
+			IL_10D:
 			if (Program._gameStarted)
 			{
+				LauncherPlatform.SetLauncherMode(false);
 				Program.Main(Program._args.ToArray());
 			}
 		}

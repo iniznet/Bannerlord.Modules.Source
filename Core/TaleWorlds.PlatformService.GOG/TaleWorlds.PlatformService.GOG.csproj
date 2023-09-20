@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D77}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C91}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.PlatformService.GOG</RootNamespace>
     <AssemblyName>TaleWorlds.PlatformService.GOG</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,10 +30,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GalaxyCSharp" />
+    <Reference Include="GalaxyCSharp">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\GalaxyCSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard" />
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -57,40 +58,36 @@
     <Compile Include="UserStatsAndAchievementsRetrieveListener.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.AchievementSystem\TaleWorlds.AchievementSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d50}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c69}</Project>
       <Name>TaleWorlds.AchievementSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ActivitySystem\TaleWorlds.ActivitySystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d51}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6a}</Project>
       <Name>TaleWorlds.ActivitySystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond.AccessProvider.GOG\TaleWorlds.Diamond.AccessProvider.GOG.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d58}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c71}</Project>
       <Name>TaleWorlds.Diamond.AccessProvider.GOG</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond\TaleWorlds.Diamond.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d5c}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c75}</Project>
       <Name>TaleWorlds.Diamond</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d69}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlatformService\TaleWorlds.PlatformService.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d75}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8f}</Project>
       <Name>TaleWorlds.PlatformService</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d79}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
   </ItemGroup>

@@ -5,6 +5,7 @@ namespace TaleWorlds.MountAndBlade
 	public enum LobbyMissionType
 	{
 		Matchmaker,
-		Custom
+		Custom,
+		Community
 	}
 }

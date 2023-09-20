@@ -23,7 +23,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this._craftingBehavior = Campaign.Current.GetCampaignBehavior<ICraftingCampaignBehavior>();
 			this.WeaponFlagIconsList = weaponFlagIconsList;
 			this.DesignResultPropertyList = designResultPropertyList;
-			this.ItemName = itemName;
+			ItemModifier currentItemModifier = this._craftingBehavior.GetCurrentItemModifier();
+			if (currentItemModifier != null)
+			{
+				TextObject textObject = currentItemModifier.Name.CopyTextObject();
+				textObject.SetTextVariable("ITEMNAME", itemName);
+				this.ItemName = textObject.ToString();
+			}
+			else
+			{
+				this.ItemName = itemName;
+			}
 			this.ItemVisualModel = itemVisualModel;
 			Game game = Game.Current;
 			if (game != null)
@@ -58,12 +68,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		private void UpdateConfirmAvailability()
 		{
-			this.CanConfirm = true;
-			if (string.IsNullOrEmpty(this.ItemName))
-			{
-				this.CanConfirm = false;
-				this.ConfirmDisabledReasonHint = new HintViewModel(new TextObject("{=QQ03J6sf}Item name can not be empty.", null), null);
-			}
+			Tuple<bool, TextObject> tuple = CampaignUIHelper.IsStringApplicableForItemName(this.ItemName);
+			this.CanConfirm = tuple.Item1;
+			this.ConfirmDisabledReasonHint = new HintViewModel(tuple.Item2, null);
 		}
 
 		public override void OnFinalize()

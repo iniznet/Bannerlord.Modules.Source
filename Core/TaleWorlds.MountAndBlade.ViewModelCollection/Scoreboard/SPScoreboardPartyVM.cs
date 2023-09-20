@@ -75,11 +75,15 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			if (spscoreboardUnitVM != null)
 			{
 				spscoreboardStatsVM = spscoreboardUnitVM.Score.GetScoreForOneAliveMember();
+				this.UpdateScores(troop, -spscoreboardStatsVM.Remaining, -spscoreboardStatsVM.Dead, -spscoreboardStatsVM.Wounded, -spscoreboardStatsVM.Routed, -spscoreboardStatsVM.Kill, -spscoreboardStatsVM.ReadyToUpgrade);
 				if (!spscoreboardUnitVM.Score.IsAnyStatRelevant())
 				{
 					this.Members.Remove(spscoreboardUnitVM);
+					if (troop == Game.Current.PlayerTroop)
+					{
+						this.Score.IsMainParty = false;
+					}
 				}
-				this.Score.UpdateScores(-spscoreboardStatsVM.Remaining, -spscoreboardStatsVM.Dead, -spscoreboardStatsVM.Wounded, -spscoreboardStatsVM.Routed, -spscoreboardStatsVM.Kill, -spscoreboardStatsVM.ReadyToUpgrade);
 			}
 			return spscoreboardStatsVM;
 		}
@@ -90,10 +94,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 			SPScoreboardUnitVM spscoreboardUnitVM = this.Members.FirstOrDefault((SPScoreboardUnitVM m) => m.Character == unit);
 			if (spscoreboardUnitVM == null)
 			{
-				SPScoreboardUnitVM spscoreboardUnitVM2 = new SPScoreboardUnitVM(unit);
-				this.Members.Add(spscoreboardUnitVM2);
-				spscoreboardUnitVM2.Score.UpdateScores(scoreToBringOver.Remaining, scoreToBringOver.Dead, scoreToBringOver.Wounded, scoreToBringOver.Routed, scoreToBringOver.Kill, scoreToBringOver.ReadyToUpgrade);
-				return;
+				spscoreboardUnitVM = new SPScoreboardUnitVM(unit);
+				this.Members.Add(spscoreboardUnitVM);
+				if (unit == Game.Current.PlayerTroop)
+				{
+					this.Score.IsMainParty = true;
+				}
 			}
 			spscoreboardUnitVM.Score.UpdateScores(scoreToBringOver.Remaining, scoreToBringOver.Dead, scoreToBringOver.Wounded, scoreToBringOver.Routed, scoreToBringOver.Kill, scoreToBringOver.ReadyToUpgrade);
 		}

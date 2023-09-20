@@ -212,8 +212,6 @@ namespace TaleWorlds.Core
 			this.InitializeAll();
 		}
 
-		public const int MaxAssumedValue = 250;
-
 		private SkillObject _skillEngineering;
 
 		private SkillObject _skillMedicine;

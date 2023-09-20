@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D50}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C69}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.AchievementSystem</RootNamespace>
     <AssemblyName>TaleWorlds.AchievementSystem</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,9 +30,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
@@ -43,12 +43,6 @@
     <Compile Include="IAchievementService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestAchievementService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

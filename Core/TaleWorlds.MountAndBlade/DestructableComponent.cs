@@ -33,7 +33,7 @@ namespace TaleWorlds.MountAndBlade
 					if (GameNetwork.IsServerOrRecorder)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SyncObjectHitpoints(this, value));
+						GameNetwork.WriteMessage(new SyncObjectHitpoints(base.Id, value));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 					}
 				}
@@ -57,6 +57,14 @@ namespace TaleWorlds.MountAndBlade
 		}
 
 		public GameEntity CurrentState { get; private set; }
+
+		private bool HasDestructionState
+		{
+			get
+			{
+				return this._destructionStates != null && !this._destructionStates.IsEmpty<string>();
+			}
+		}
 
 		private DestructableComponent()
 		{
@@ -317,7 +325,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new BurstAllHeavyHitParticles(this));
+				GameNetwork.WriteMessage(new BurstAllHeavyHitParticles(base.Id));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 		}
@@ -383,7 +391,7 @@ namespace TaleWorlds.MountAndBlade
 						}
 					}
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SyncObjectDestructionLevel(this, state, forcedId, num, blowPosition, blowDirection));
+					GameNetwork.WriteMessage(new SyncObjectDestructionLevel(base.Id, state, forcedId, num, blowPosition, blowDirection));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 			}
@@ -531,47 +539,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override bool ReadFromNetwork()
-		{
-			bool flag = true;
-			flag = flag && base.ReadFromNetwork();
-			float num = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.UsableGameObjectHealthCompressionInfo, ref flag);
-			int num2 = GameNetworkMessage.ReadIntFromPacket(CompressionMission.UsableGameObjectDestructionStateCompressionInfo, ref flag);
-			if (flag)
-			{
-				int num3 = -1;
-				if (num2 != 0 && GameNetworkMessage.ReadBoolFromPacket(ref flag))
-				{
-					num3 = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag).Id;
-				}
-				if (flag)
-				{
-					this.HitPoint = num;
-					if (num2 != 0)
-					{
-						if (this.IsDestroyed)
-						{
-							DestructableComponent.OnHitTakenAndDestroyedDelegate onDestroyed = this.OnDestroyed;
-							if (onDestroyed != null)
-							{
-								onDestroyed(this, null, MissionWeapon.Invalid, null, 0);
-							}
-						}
-						this.SetDestructionLevel(num2, num3, 0f, Vec3.Zero, Vec3.Zero, true);
-					}
-				}
-			}
-			return flag;
-		}
-
-		private bool HasDestructionState
-		{
-			get
-			{
-				return this._destructionStates != null && !this._destructionStates.IsEmpty<string>();
-			}
-		}
-
 		public override void AddStuckMissile(GameEntity missileEntity)
 		{
 			if (this.CurrentState != null)
@@ -642,6 +609,25 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+		{
+			base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+			DestructableComponent.DestructableComponentRecord destructableComponentRecord = (DestructableComponent.DestructableComponentRecord)synchedMissionObjectReadableRecord.Item2;
+			this.HitPoint = destructableComponentRecord.HitPoint;
+			if (destructableComponentRecord.DestructionState != 0)
+			{
+				if (this.IsDestroyed)
+				{
+					DestructableComponent.OnHitTakenAndDestroyedDelegate onDestroyed = this.OnDestroyed;
+					if (onDestroyed != null)
+					{
+						onDestroyed(this, null, MissionWeapon.Invalid, null, 0);
+					}
+				}
+				this.SetDestructionLevel(destructableComponentRecord.DestructionState, destructableComponentRecord.ForceIndex, 0f, Vec3.Zero, Vec3.Zero, true);
+			}
+		}
+
 		public const string CleanStateTag = "operational";
 
 		public static float MaxBlowMagnitude = 20f;
@@ -692,6 +678,42 @@ namespace TaleWorlds.MountAndBlade
 		private int _currentStateIndex;
 
 		private IEnumerable<GameEntity> _heavyHitParticles;
+
+		[DefineSynchedMissionObjectType(typeof(DestructableComponent))]
+		public struct DestructableComponentRecord : ISynchedMissionObjectReadableRecord
+		{
+			public float HitPoint { get; private set; }
+
+			public int DestructionState { get; private set; }
+
+			public int ForceIndex { get; private set; }
+
+			public bool IsMissionObject { get; private set; }
+
+			public DestructableComponentRecord(float hitPoint, int destructionState, int forceIndex, bool isMissionObject)
+			{
+				this.HitPoint = hitPoint;
+				this.DestructionState = destructionState;
+				this.ForceIndex = forceIndex;
+				this.IsMissionObject = isMissionObject;
+			}
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.HitPoint = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.UsableGameObjectHealthCompressionInfo, ref bufferReadValid);
+				this.DestructionState = GameNetworkMessage.ReadIntFromPacket(CompressionMission.UsableGameObjectDestructionStateCompressionInfo, ref bufferReadValid);
+				this.ForceIndex = -1;
+				if (this.DestructionState != 0)
+				{
+					this.IsMissionObject = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+					if (this.IsMissionObject)
+					{
+						this.ForceIndex = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref bufferReadValid).Id;
+					}
+				}
+				return bufferReadValid;
+			}
+		}
 
 		public delegate void OnHitTakenAndDestroyedDelegate(DestructableComponent target, Agent attackerAgent, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, int inflictedDamage);
 	}

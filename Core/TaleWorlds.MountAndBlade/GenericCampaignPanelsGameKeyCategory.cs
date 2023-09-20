@@ -4,7 +4,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class GenericCampaignPanelsGameKeyCategory : GameKeyContext
+	public sealed class GenericCampaignPanelsGameKeyCategory : GameKeyContext
 	{
 		public static GenericCampaignPanelsGameKeyCategory Current { get; private set; }
 

@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetUsableMissionObjectIsDeactivated : GameNetworkMessage
 	{
-		public UsableMissionObject UsableGameObject { get; private set; }
+		public MissionObjectId UsableGameObjectId { get; private set; }
 
 		public bool IsDeactivated { get; private set; }
 
-		public SetUsableMissionObjectIsDeactivated(UsableMissionObject usableGameObject, bool isDeactivated)
+		public SetUsableMissionObjectIsDeactivated(MissionObjectId usableGameObjectId, bool isDeactivated)
 		{
-			this.UsableGameObject = usableGameObject;
+			this.UsableGameObjectId = usableGameObjectId;
 			this.IsDeactivated = isDeactivated;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.UsableGameObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as UsableMissionObject;
+			this.UsableGameObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.IsDeactivated = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.UsableGameObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.UsableGameObjectId);
 			GameNetworkMessage.WriteBoolToPacket(this.IsDeactivated);
 		}
 
@@ -47,9 +47,7 @@ namespace NetworkMessages.FromServer
 				"Set IsDeactivated: ",
 				this.IsDeactivated ? "True" : "False",
 				" on UsableMissionObject with ID: ",
-				this.UsableGameObject.Id,
-				" and with name: ",
-				this.UsableGameObject.GameEntity.Name
+				this.UsableGameObjectId
 			});
 		}
 	}

@@ -17,6 +17,13 @@ namespace TaleWorlds.Diamond.AccessProvider.Steam
 				this._steamId = SteamUser.GetSteamID().m_SteamID;
 				this._steamUserName = SteamFriends.GetPersonaName();
 				this._initParams = initParams;
+				byte[] array = new byte[1042];
+				SteamAPICall_t steamAPICall_t = SteamUser.RequestEncryptedAppTicket(Encoding.UTF8.GetBytes(""), array.Length);
+				CallResult<EncryptedAppTicketResponse_t>.Create(new CallResult<EncryptedAppTicketResponse_t>.APIDispatchDelegate(this.EncryptedAppTicketResponseReceived)).Set(steamAPICall_t, null);
+				while (this._appTicket == null)
+				{
+					SteamAPI.RunCallbacks();
+				}
 			}
 		}
 
@@ -46,7 +53,7 @@ namespace TaleWorlds.Diamond.AccessProvider.Steam
 			}
 			byte[] array = new byte[1024];
 			uint num;
-			if (SteamUser.GetAuthSessionTicket(array, 1024, ref num) == HAuthTicket.Invalid)
+			if (SteamUser.GetAuthSessionTicket(array, 1024, out num) == HAuthTicket.Invalid)
 			{
 				return AccessObjectResult.CreateFailed(new TextObject("{=XSU8Bbbb}Invalid Steam session.", null));
 			}
@@ -56,7 +63,17 @@ namespace TaleWorlds.Diamond.AccessProvider.Steam
 				stringBuilder.AppendFormat("{0:x2}", b);
 			}
 			string text = stringBuilder.ToString();
-			return AccessObjectResult.CreateSuccess(new SteamAccessObject(this._steamUserName, text, this.AppId));
+			return AccessObjectResult.CreateSuccess(new SteamAccessObject(this._steamUserName, text, this.AppId, this._appTicket));
+		}
+
+		private void EncryptedAppTicketResponseReceived(EncryptedAppTicketResponse_t response, bool bIOFailure)
+		{
+			byte[] array = new byte[2048];
+			uint num;
+			SteamUser.GetEncryptedAppTicket(array, 2048, out num);
+			byte[] array2 = new byte[num];
+			Array.Copy(array, array2, (long)((ulong)num));
+			this._appTicket = BitConverter.ToString(array2).Replace("-", "");
 		}
 
 		private string _steamUserName;
@@ -66,5 +83,7 @@ namespace TaleWorlds.Diamond.AccessProvider.Steam
 		private PlatformInitParams _initParams;
 
 		private uint _appId;
+
+		private string _appTicket;
 	}
 }

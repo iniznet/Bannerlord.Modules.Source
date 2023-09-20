@@ -381,6 +381,12 @@ namespace TaleWorlds.Engine
 		[EngineMethod("get_current_thread_id", false)]
 		ulong GetCurrentThreadId();
 
+		[EngineMethod("set_watchdog_value", false)]
+		void SetWatchdogValue(string fileName, string groupName, string key, string value);
+
+		[EngineMethod("detach_watchdog", false)]
+		void DetachWatchdog();
+
 		[EngineMethod("register_mesh_for_gpu_morph", false)]
 		void RegisterMeshForGPUMorph(string metaMeshName);
 
@@ -404,5 +410,11 @@ namespace TaleWorlds.Engine
 
 		[EngineMethod("get_detailed_xbox_memory_info", false)]
 		string GetDetailedXBOXMemoryInfo();
+
+		[EngineMethod("set_frame_limiter_with_sleep", false)]
+		void SetFrameLimiterWithSleep(bool value);
+
+		[EngineMethod("get_frame_limiter_with_sleep", false)]
+		bool GetFrameLimiterWithSleep();
 	}
 }

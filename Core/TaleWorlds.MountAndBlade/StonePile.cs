@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
+using TaleWorlds.DotNet;
 using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
@@ -22,7 +23,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				foreach (StonePile.ThrowingPoint throwingPoint in this._throwingPoints)
 				{
-					if (throwingPoint.StandingPoint.HasUser || throwingPoint.StandingPoint.HasAIMovingTo)
+					if (throwingPoint.StandingPoint.HasUser || throwingPoint.StandingPoint.HasAIMovingTo || (throwingPoint.WaitingPoint != null && (throwingPoint.WaitingPoint.HasUser || throwingPoint.WaitingPoint.HasAIMovingTo)))
 					{
 						return true;
 					}
@@ -58,7 +59,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetStonePileAmmo(this, this.AmmoCount));
+				GameNetwork.WriteMessage(new SetStonePileAmmo(base.Id, this.AmmoCount));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			this.UpdateAmmoMesh();
@@ -110,6 +111,16 @@ namespace TaleWorlds.MountAndBlade
 					throwingPoint.AmmoPickUpPoint = null;
 					throwingPoint.AttackEntity = null;
 					throwingPoint.AttackEntityNearbyAgentsCheckRadius = 0f;
+					List<StandingPointWithWeaponRequirement> list = standingPointWithWeaponRequirement.GameEntity.CollectObjectsWithTag("wait_to_throw");
+					if (list != null && list.Count > 0)
+					{
+						throwingPoint.WaitingPoint = list[0];
+						throwingPoint.WaitingPoint.InitRequiredWeapon(this._givenItem);
+					}
+					else
+					{
+						throwingPoint.WaitingPoint = null;
+					}
 					bool flag = false;
 					int num = 0;
 					while (num < this._volumeBoxTimerPairs.Count && !flag)
@@ -236,9 +247,14 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (!GameNetwork.IsClientOrReplay)
 			{
-				if (this.IsDisabledForBattleSide(this.Side) || (this.AmmoCount <= 0 && !this.HasThrowingPointUsed))
+				if (this.AmmoCount <= 0 && !this.HasThrowingPointUsed)
 				{
-					this.ReleaseAllUserAgentsAndFormations();
+					this.ReleaseAllUserAgentsAndFormations(BattleSideEnum.None, true);
+					return;
+				}
+				if (this.IsDisabledForBattleSideAI(this.Side))
+				{
+					this.ReleaseAllUserAgentsAndFormations(this.Side, false);
 					return;
 				}
 				bool flag = this._volumeBoxTimerPairs.Count == 0;
@@ -271,7 +287,7 @@ namespace TaleWorlds.MountAndBlade
 								while (enumerator3.MoveNext())
 								{
 									Formation formation = enumerator3.Current;
-									if (formation.CountOfUnits > 0 && formation.CountOfUnitsWithoutLooseDetachedOnes >= this.MaxUserCount)
+									if (formation.CountOfUnits > 0 && formation.CountOfUnitsWithoutLooseDetachedOnes >= this.MaxUserCount && formation.CountOfUnitsWithoutLooseDetachedOnes > 0)
 									{
 										formation.ApplyActionOnEachUnit(delegate(Agent agent)
 										{
@@ -299,7 +315,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					if (userFormations.Count > 0)
 					{
-						this.ReleaseAllUserAgentsAndFormations();
+						this.ReleaseAllUserAgentsAndFormations(BattleSideEnum.None, true);
 						return;
 					}
 				}
@@ -309,106 +325,39 @@ namespace TaleWorlds.MountAndBlade
 					{
 						if (base.StandingPoints.Count((StandingPoint sp) => sp.HasUser || sp.HasAIMovingTo) == 0)
 						{
-							this.ReleaseAllUserAgentsAndFormations();
+							this.ReleaseAllUserAgentsAndFormations(BattleSideEnum.None, true);
 							return;
 						}
 					}
-					bool flag2 = false;
-					List<GameEntity> list = null;
-					foreach (StonePile.ThrowingPoint throwingPoint in this._throwingPoints)
-					{
-						if (throwingPoint.StandingPoint.HasAIUser)
-						{
-							if (!flag2)
-							{
-								list = this.GetEnemySiegeWeapons();
-								flag2 = true;
-								if (list == null)
-								{
-									foreach (StonePile.ThrowingPoint throwingPoint2 in this._throwingPoints)
-									{
-										throwingPoint2.AttackEntity = null;
-										throwingPoint2.AttackEntityNearbyAgentsCheckRadius = 0f;
-									}
-									if (this._throwingTargets.Count == 0)
-									{
-										break;
-									}
-								}
-							}
-							Agent userAgent = throwingPoint.StandingPoint.UserAgent;
-							GameEntity attackEntity = throwingPoint.AttackEntity;
-							if (attackEntity != null)
-							{
-								bool flag3 = false;
-								if (!this.CanShootAtEntity(userAgent, attackEntity, false))
-								{
-									flag3 = true;
-								}
-								else if (this._throwingTargets.Contains(attackEntity))
-								{
-									flag3 = !throwingPoint.CanUseAttackEntity();
-								}
-								else if (!list.Contains(attackEntity))
-								{
-									flag3 = true;
-								}
-								if (flag3)
-								{
-									throwingPoint.AttackEntity = null;
-									throwingPoint.AttackEntityNearbyAgentsCheckRadius = 0f;
-								}
-							}
-							if (!(throwingPoint.AttackEntity == null))
-							{
-								continue;
-							}
-							bool flag4 = false;
-							if (this._throwingTargets.Count > 0)
-							{
-								foreach (GameEntity gameEntity in this._throwingTargets)
-								{
-									if (attackEntity != gameEntity && this.CanShootAtEntity(userAgent, gameEntity, true))
-									{
-										throwingPoint.AttackEntity = gameEntity;
-										throwingPoint.AttackEntityNearbyAgentsCheckRadius = 1.31f;
-										flag4 = true;
-										break;
-									}
-								}
-							}
-							if (flag4 || list == null)
-							{
-								continue;
-							}
-							using (List<GameEntity>.Enumerator enumerator6 = list.GetEnumerator())
-							{
-								while (enumerator6.MoveNext())
-								{
-									GameEntity gameEntity2 = enumerator6.Current;
-									if (attackEntity != gameEntity2 && this.CanShootAtEntity(userAgent, gameEntity2, false))
-									{
-										throwingPoint.AttackEntity = gameEntity2;
-										throwingPoint.AttackEntityNearbyAgentsCheckRadius = 0f;
-										break;
-									}
-								}
-								continue;
-							}
-						}
-						throwingPoint.AttackEntity = null;
-					}
+					this.UpdateThrowingPointAttackEntities();
 				}
 			}
 		}
 
-		private void ReleaseAllUserAgentsAndFormations()
+		private void ReleaseAllUserAgentsAndFormations(BattleSideEnum sideFilterForAIControlledAgents, bool disableForNonAIControlledAgents)
 		{
 			foreach (StandingPoint standingPoint in base.StandingPoints)
 			{
 				Agent agent = (standingPoint.HasUser ? standingPoint.UserAgent : (standingPoint.HasAIMovingTo ? standingPoint.MovingAgent : null));
 				if (agent != null)
 				{
+					if (agent.IsAIControlled)
+					{
+						if (sideFilterForAIControlledAgents == BattleSideEnum.None)
+						{
+							goto IL_6E;
+						}
+						Team team = agent.Team;
+						if (team != null && team.Side == sideFilterForAIControlledAgents)
+						{
+							goto IL_6E;
+						}
+					}
+					if (agent.IsAIControlled || !disableForNonAIControlledAgents)
+					{
+						continue;
+					}
+					IL_6E:
 					if (agent.GetWieldedItemIndex(Agent.HandIndex.MainHand) == EquipmentIndex.ExtraWeaponSlot && agent.Equipment[EquipmentIndex.ExtraWeaponSlot].Item == this._givenItem)
 					{
 						agent.DropItem(EquipmentIndex.ExtraWeaponSlot, WeaponClass.Undefined);
@@ -424,6 +373,95 @@ namespace TaleWorlds.MountAndBlade
 				{
 					formation.StopUsingMachine(this, false);
 				}
+			}
+		}
+
+		private void UpdateThrowingPointAttackEntities()
+		{
+			bool flag = false;
+			List<GameEntity> list = null;
+			foreach (StonePile.ThrowingPoint throwingPoint in this._throwingPoints)
+			{
+				if (throwingPoint.StandingPoint.HasAIUser)
+				{
+					if (!flag)
+					{
+						list = this.GetEnemySiegeWeapons();
+						flag = true;
+						if (list == null)
+						{
+							foreach (StonePile.ThrowingPoint throwingPoint2 in this._throwingPoints)
+							{
+								throwingPoint2.AttackEntity = null;
+								throwingPoint2.AttackEntityNearbyAgentsCheckRadius = 0f;
+							}
+							if (this._throwingTargets.Count == 0)
+							{
+								break;
+							}
+						}
+					}
+					Agent userAgent = throwingPoint.StandingPoint.UserAgent;
+					GameEntity attackEntity = throwingPoint.AttackEntity;
+					if (attackEntity != null)
+					{
+						bool flag2 = false;
+						if (!this.CanShootAtEntity(userAgent, attackEntity, false))
+						{
+							flag2 = true;
+						}
+						else if (this._throwingTargets.Contains(attackEntity))
+						{
+							flag2 = !throwingPoint.CanUseAttackEntity();
+						}
+						else if (!list.Contains(attackEntity))
+						{
+							flag2 = true;
+						}
+						if (flag2)
+						{
+							throwingPoint.AttackEntity = null;
+							throwingPoint.AttackEntityNearbyAgentsCheckRadius = 0f;
+						}
+					}
+					if (!(throwingPoint.AttackEntity == null))
+					{
+						continue;
+					}
+					bool flag3 = false;
+					if (this._throwingTargets.Count > 0)
+					{
+						foreach (GameEntity gameEntity in this._throwingTargets)
+						{
+							if (attackEntity != gameEntity && this.CanShootAtEntity(userAgent, gameEntity, true))
+							{
+								throwingPoint.AttackEntity = gameEntity;
+								throwingPoint.AttackEntityNearbyAgentsCheckRadius = 1.31f;
+								flag3 = true;
+								break;
+							}
+						}
+					}
+					if (flag3 || list == null)
+					{
+						continue;
+					}
+					using (List<GameEntity>.Enumerator enumerator3 = list.GetEnumerator())
+					{
+						while (enumerator3.MoveNext())
+						{
+							GameEntity gameEntity2 = enumerator3.Current;
+							if (attackEntity != gameEntity2 && this.CanShootAtEntity(userAgent, gameEntity2, false))
+							{
+								throwingPoint.AttackEntity = gameEntity2;
+								throwingPoint.AttackEntityNearbyAgentsCheckRadius = 0f;
+								break;
+							}
+						}
+						continue;
+					}
+				}
+				throwingPoint.AttackEntity = null;
 			}
 		}
 
@@ -482,43 +520,7 @@ namespace TaleWorlds.MountAndBlade
 					throwingPoint.AmmoPickUpPoint = null;
 					if (throwingPoint.AttackEntity != null || (throwingPoint.EnemyInRangeTimer.Check(Mission.Current.CurrentTime) && throwingPoint.EnemyInRangeTimer.ElapsedTime() < 3.5f))
 					{
-						throwingPoint.StandingPoint.IsDeactivated = false;
-						if (throwingPoint.StandingPoint.HasAIMovingTo)
-						{
-							Agent movingAgent = throwingPoint.StandingPoint.MovingAgent;
-							EquipmentIndex wieldedItemIndex = movingAgent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
-							if (wieldedItemIndex == EquipmentIndex.None || movingAgent.Equipment[wieldedItemIndex].Item != this._givenItem)
-							{
-								base.Ai.StopUsingStandingPoint(throwingPoint.StandingPoint);
-							}
-						}
-						else if (throwingPoint.StandingPoint.HasUser)
-						{
-							Agent userAgent2 = throwingPoint.StandingPoint.UserAgent;
-							EquipmentIndex wieldedItemIndex2 = userAgent2.GetWieldedItemIndex(Agent.HandIndex.MainHand);
-							if (wieldedItemIndex2 == EquipmentIndex.None || userAgent2.Equipment[wieldedItemIndex2].Item != this._givenItem)
-							{
-								base.Ai.StopUsingStandingPoint(throwingPoint.StandingPoint);
-								if (userAgent2.Controller == Agent.ControllerType.AI)
-								{
-									userAgent2.DisableScriptedCombatMovement();
-								}
-								throwingPoint.AttackEntity = null;
-							}
-							else if (userAgent2.Controller == Agent.ControllerType.AI && throwingPoint.AttackEntity != null)
-							{
-								if (throwingPoint.CanUseAttackEntity())
-								{
-									userAgent2.SetScriptedTargetEntityAndPosition(throwingPoint.AttackEntity, new WorldPosition(userAgent2.Mission.Scene, UIntPtr.Zero, throwingPoint.AttackEntity.GlobalPosition, false), Agent.AISpecialCombatModeFlags.None, true);
-								}
-								else
-								{
-									userAgent2.DisableScriptedCombatMovement();
-									throwingPoint.AttackEntity = null;
-								}
-							}
-						}
-						else
+						if (!this.UpdateThrowingPointIfHasAnyInteractingAgent(throwingPoint))
 						{
 							stackArray8ThrowingPoint[num3++] = throwingPoint;
 						}
@@ -526,13 +528,18 @@ namespace TaleWorlds.MountAndBlade
 					else
 					{
 						throwingPoint.StandingPoint.IsDeactivated = true;
+						if (throwingPoint.WaitingPoint != null)
+						{
+							throwingPoint.WaitingPoint.IsDeactivated = true;
+						}
 					}
 				}
 				for (int i = 0; i < num; i++)
 				{
 					if (num3 > i)
 					{
-						stackArray8ThrowingPoint[i].AmmoPickUpPoint = stackArray8StandingPoint[i] as StandingPointWithWeaponRequirement;
+						StandingPointWithWeaponRequirement standingPointWithWeaponRequirement = stackArray8StandingPoint[i] as StandingPointWithWeaponRequirement;
+						stackArray8ThrowingPoint[i].AmmoPickUpPoint = standingPointWithWeaponRequirement;
 					}
 					else if (stackArray8StandingPoint[i].HasUser || stackArray8StandingPoint[i].HasAIMovingTo)
 					{
@@ -548,15 +555,124 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override bool ReadFromNetwork()
+		private bool ShouldStandAtWaitingPoint(StonePile.ThrowingPoint throwingPoint)
 		{
-			bool flag = base.ReadFromNetwork();
-			int num = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoCompressionInfo, ref flag);
-			if (flag)
+			bool flag = false;
+			if (throwingPoint.WaitingPoint != null)
 			{
-				this.AmmoCount = num;
-				this.CheckAmmo();
-				this.UpdateAmmoMesh();
+				flag = true;
+				Vec2 asVec = throwingPoint.StandingPoint.GameEntity.GlobalPosition.AsVec2;
+				if (AgentProximityMap.CanSearchRadius(this._givenItemRange))
+				{
+					AgentProximityMap.ProximityMapSearchStruct proximityMapSearchStruct = AgentProximityMap.BeginSearch(Mission.Current, asVec, this._givenItemRange, false);
+					while (proximityMapSearchStruct.LastFoundAgent != null)
+					{
+						if (proximityMapSearchStruct.LastFoundAgent.State == AgentState.Active && proximityMapSearchStruct.LastFoundAgent.Team != null && proximityMapSearchStruct.LastFoundAgent.Team.Side == BattleSideEnum.Attacker)
+						{
+							flag = false;
+							break;
+						}
+						AgentProximityMap.FindNext(Mission.Current, ref proximityMapSearchStruct);
+					}
+				}
+				else
+				{
+					float num = this._givenItemRange * this._givenItemRange;
+					if (Mission.Current.AttackerTeam != null)
+					{
+						MBReadOnlyList<Agent> activeAgents = Mission.Current.AttackerTeam.ActiveAgents;
+						int count = activeAgents.Count;
+						for (int i = 0; i < count; i++)
+						{
+							if (activeAgents[i].Position.AsVec2.DistanceSquared(asVec) <= num)
+							{
+								flag = false;
+								break;
+							}
+						}
+					}
+					if (Mission.Current.AttackerAllyTeam != null)
+					{
+						MBReadOnlyList<Agent> activeAgents2 = Mission.Current.AttackerAllyTeam.ActiveAgents;
+						int count2 = activeAgents2.Count;
+						for (int j = 0; j < count2; j++)
+						{
+							if (activeAgents2[j].Position.AsVec2.DistanceSquared(asVec) <= num)
+							{
+								flag = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+			return flag;
+		}
+
+		private bool UpdateThrowingPointIfHasAnyInteractingAgent(StonePile.ThrowingPoint throwingPoint)
+		{
+			Agent agent = null;
+			StandingPoint standingPoint = null;
+			throwingPoint.StandingPoint.IsDeactivated = false;
+			if (throwingPoint.StandingPoint.HasAIMovingTo)
+			{
+				agent = throwingPoint.StandingPoint.MovingAgent;
+				standingPoint = throwingPoint.StandingPoint;
+			}
+			else if (throwingPoint.StandingPoint.HasUser)
+			{
+				agent = throwingPoint.StandingPoint.UserAgent;
+				standingPoint = throwingPoint.StandingPoint;
+			}
+			if (throwingPoint.WaitingPoint != null)
+			{
+				throwingPoint.WaitingPoint.IsDeactivated = false;
+				if (throwingPoint.WaitingPoint.HasAIMovingTo)
+				{
+					agent = throwingPoint.WaitingPoint.MovingAgent;
+					standingPoint = throwingPoint.WaitingPoint;
+				}
+				else if (throwingPoint.WaitingPoint.HasUser)
+				{
+					agent = throwingPoint.WaitingPoint.UserAgent;
+					standingPoint = throwingPoint.WaitingPoint;
+				}
+			}
+			bool flag = agent != null;
+			if (flag && agent.Controller == Agent.ControllerType.AI)
+			{
+				EquipmentIndex wieldedItemIndex = agent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
+				if (wieldedItemIndex == EquipmentIndex.None || agent.Equipment[wieldedItemIndex].Item != this._givenItem)
+				{
+					base.Ai.StopUsingStandingPoint(standingPoint);
+					throwingPoint.AttackEntity = null;
+					return flag;
+				}
+				if (standingPoint == throwingPoint.WaitingPoint)
+				{
+					if (!this.ShouldStandAtWaitingPoint(throwingPoint))
+					{
+						base.Ai.StopUsingStandingPoint(standingPoint);
+						this.AssignAgentToStandingPoint(throwingPoint.StandingPoint, agent);
+						return flag;
+					}
+				}
+				else if (agent.IsUsingGameObject && throwingPoint.AttackEntity != null)
+				{
+					if (throwingPoint.CanUseAttackEntity())
+					{
+						agent.SetScriptedTargetEntityAndPosition(throwingPoint.AttackEntity, new WorldPosition(throwingPoint.AttackEntity.Scene, UIntPtr.Zero, throwingPoint.AttackEntity.GlobalPosition, false), Agent.AISpecialCombatModeFlags.None, true);
+						return flag;
+					}
+					agent.DisableScriptedCombatMovement();
+					throwingPoint.AttackEntity = null;
+					return flag;
+				}
+				else if (this.ShouldStandAtWaitingPoint(throwingPoint))
+				{
+					base.Ai.StopUsingStandingPoint(standingPoint);
+					this.AssignAgentToStandingPoint(throwingPoint.WaitingPoint, agent);
+				}
 			}
 			return flag;
 		}
@@ -625,11 +741,11 @@ namespace TaleWorlds.MountAndBlade
 				if (agent != null)
 				{
 					list.Add(agent);
-					goto IL_59;
+					goto IL_5A;
 				}
 				if (agentValuePairs == null)
 				{
-					goto IL_59;
+					goto IL_5A;
 				}
 				using (List<ValueTuple<Agent, float>>.Enumerator enumerator = agentValuePairs.GetEnumerator())
 				{
@@ -638,32 +754,37 @@ namespace TaleWorlds.MountAndBlade
 						ValueTuple<Agent, float> valueTuple = enumerator.Current;
 						list.Add(valueTuple.Item1);
 					}
-					goto IL_59;
+					goto IL_5A;
 				}
 			}
 			list.AddRange(agents);
-			IL_59:
+			IL_5A:
 			bool flag = false;
+			bool flag2 = false;
 			StandingPoint standingPoint = null;
 			int num = 0;
-			while (num < this._throwingPoints.Count && standingPoint == null)
+			while (num < this._throwingPoints.Count && (standingPoint == null || flag2))
 			{
 				StonePile.ThrowingPoint throwingPoint = this._throwingPoints[num];
-				if (this.IsThrowingPointAssignable(throwingPoint, null))
+				if (this.IsThrowingPointAssignable(throwingPoint))
 				{
-					bool flag2 = false;
-					int num2 = 0;
-					while (!flag2 && num2 < list.Count)
+					StandingPoint standingPoint2 = throwingPoint.StandingPoint;
+					bool flag3 = this.ShouldStandAtWaitingPoint(throwingPoint);
+					if (flag3)
 					{
-						flag2 = !throwingPoint.StandingPoint.IsDisabledForAgent(list[num2]);
+						standingPoint2 = throwingPoint.WaitingPoint;
+					}
+					bool flag4 = false;
+					int num2 = 0;
+					while (!flag4 && num2 < list.Count)
+					{
+						flag4 = !standingPoint2.IsDisabledForAgent(list[num2]);
 						num2++;
 					}
-					if (flag2)
+					if (flag4)
 					{
-						if (standingPoint == null)
-						{
-							standingPoint = throwingPoint.StandingPoint;
-						}
+						flag2 = flag3;
+						standingPoint = standingPoint2;
 					}
 					else
 					{
@@ -675,21 +796,21 @@ namespace TaleWorlds.MountAndBlade
 			int num3 = 0;
 			while (num3 < base.StandingPoints.Count && standingPoint == null)
 			{
-				StandingPoint standingPoint2 = base.StandingPoints[num3];
-				if (!standingPoint2.IsDeactivated && (standingPoint2.IsInstantUse || (!standingPoint2.HasUser && !standingPoint2.HasAIMovingTo)) && !standingPoint2.GameEntity.HasTag("throwing") && (flag || !standingPoint2.GameEntity.HasTag(this.AmmoPickUpTag)))
+				StandingPoint standingPoint3 = base.StandingPoints[num3];
+				if (!standingPoint3.IsDeactivated && (standingPoint3.IsInstantUse || (!standingPoint3.HasUser && !standingPoint3.HasAIMovingTo)) && !standingPoint3.GameEntity.HasTag("throwing") && !standingPoint3.GameEntity.HasTag("wait_to_throw") && (flag || !standingPoint3.GameEntity.HasTag(this.AmmoPickUpTag)))
 				{
 					int num4 = 0;
 					while (num4 < list.Count && standingPoint == null)
 					{
-						if (!standingPoint2.IsDisabledForAgent(list[num4]))
+						if (!standingPoint3.IsDisabledForAgent(list[num4]))
 						{
-							standingPoint = standingPoint2;
+							standingPoint = standingPoint3;
 						}
 						num4++;
 					}
 					if (list.Count == 0)
 					{
-						standingPoint = standingPoint2;
+						standingPoint = standingPoint3;
 					}
 				}
 				num3++;
@@ -707,7 +828,7 @@ namespace TaleWorlds.MountAndBlade
 			int num = 0;
 			foreach (StonePile.ThrowingPoint throwingPoint in this._throwingPoints)
 			{
-				if (this.IsThrowingPointAssignable(throwingPoint, null))
+				if (this.IsThrowingPointAssignable(throwingPoint))
 				{
 					num++;
 				}
@@ -732,13 +853,13 @@ namespace TaleWorlds.MountAndBlade
 						}
 						else if (flag2 || standingPoint.MovingAgent.Formation.Team.Side != side)
 						{
-							goto IL_E9;
+							goto IL_E8;
 						}
 						flag = true;
 						this._usableStandingPoints.Add(new ValueTuple<int, StandingPoint>(i, standingPoint));
 					}
 				}
-				IL_E9:;
+				IL_E8:;
 			}
 			this._areUsableStandingPointsVacant = flag2;
 			if (!flag)
@@ -775,23 +896,26 @@ namespace TaleWorlds.MountAndBlade
 		private bool CanShootAtEntity(Agent agent, GameEntity entity, bool canShootEvenIfRayCastHitsNothing = false)
 		{
 			bool flag = false;
-			float num;
-			GameEntity parent;
-			if (base.Scene.RayCastForClosestEntityOrTerrain(agent.GetEyeGlobalPosition(), entity.GlobalPosition, out num, out parent, 0.01f, BodyFlags.CommonFocusRayCastExcludeFlags))
+			if (agent.GetEyeGlobalPosition().DistanceSquared(entity.GlobalPosition) < this._givenItemRange * this._givenItemRange)
 			{
-				while (parent != null)
+				float num;
+				GameEntity parent;
+				if (base.Scene.RayCastForClosestEntityOrTerrain(agent.GetEyeGlobalPosition(), entity.GlobalPosition, out num, out parent, 0.01f, BodyFlags.CommonFocusRayCastExcludeFlags))
 				{
-					if (parent == entity)
+					while (parent != null)
 					{
-						flag = true;
-						break;
+						if (parent == entity)
+						{
+							flag = true;
+							break;
+						}
+						parent = parent.Parent;
 					}
-					parent = parent.Parent;
 				}
-			}
-			else
-			{
-				flag = canShootEvenIfRayCastHitsNothing;
+				else
+				{
+					flag = canShootEvenIfRayCastHitsNothing;
+				}
 			}
 			return flag;
 		}
@@ -820,9 +944,9 @@ namespace TaleWorlds.MountAndBlade
 			return list;
 		}
 
-		private bool IsThrowingPointAssignable(StonePile.ThrowingPoint throwingPoint, Agent agent = null)
+		private bool IsThrowingPointAssignable(StonePile.ThrowingPoint throwingPoint)
 		{
-			return throwingPoint != null && !throwingPoint.StandingPoint.IsDeactivated && throwingPoint.AmmoPickUpPoint == null && !throwingPoint.StandingPoint.HasUser && !throwingPoint.StandingPoint.HasAIMovingTo && (agent == null || (StonePileAI.IsAgentAssignable(agent) && !throwingPoint.StandingPoint.IsDisabledForAgent(agent)));
+			return throwingPoint.AmmoPickUpPoint == null && !throwingPoint.StandingPoint.IsDeactivated && !throwingPoint.StandingPoint.HasUser && !throwingPoint.StandingPoint.HasAIMovingTo && (throwingPoint.WaitingPoint == null || (!throwingPoint.WaitingPoint.IsDeactivated && !throwingPoint.WaitingPoint.HasUser && !throwingPoint.WaitingPoint.HasAIMovingTo));
 		}
 
 		private bool AssignAgentToStandingPoint(StandingPoint standingPoint, Agent agent)
@@ -850,9 +974,11 @@ namespace TaleWorlds.MountAndBlade
 
 		private static readonly ActionIndexCache act_pickup_boulder_end = ActionIndexCache.Create("act_pickup_boulder_end");
 
-		public const string ThrowingTargetTag = "throwing_target";
+		private const string ThrowingTargetTag = "throwing_target";
 
-		public const string ThrowingPointTag = "throwing";
+		private const string ThrowingPointTag = "throwing";
+
+		private const string WaitingPointTag = "wait_to_throw";
 
 		private const float EnemyInRangeTimerDuration = 0.5f;
 
@@ -864,6 +990,9 @@ namespace TaleWorlds.MountAndBlade
 
 		public string GivenItemID;
 
+		[EditableScriptComponentVariable(true)]
+		private float _givenItemRange = 15f;
+
 		private ItemObject _givenItem;
 
 		private List<GameEntity> _throwingTargets;
@@ -873,6 +1002,23 @@ namespace TaleWorlds.MountAndBlade
 		private List<StonePile.VolumeBoxTimerPair> _volumeBoxTimerPairs;
 
 		private Timer _tickOccasionallyTimer;
+
+		[DefineSynchedMissionObjectType(typeof(StonePile))]
+		public struct StonePileRecord : ISynchedMissionObjectReadableRecord
+		{
+			public int ReadAmmoCount { get; private set; }
+
+			public StonePileRecord(int readAmmoCount)
+			{
+				this.ReadAmmoCount = readAmmoCount;
+			}
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.ReadAmmoCount = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoCompressionInfo, ref bufferReadValid);
+				return bufferReadValid;
+			}
+		}
 
 		private class ThrowingPoint
 		{
@@ -897,6 +1043,8 @@ namespace TaleWorlds.MountAndBlade
 			public StandingPointWithVolumeBox StandingPoint;
 
 			public StandingPointWithWeaponRequirement AmmoPickUpPoint;
+
+			public StandingPointWithWeaponRequirement WaitingPoint;
 
 			public Timer EnemyInRangeTimer;
 

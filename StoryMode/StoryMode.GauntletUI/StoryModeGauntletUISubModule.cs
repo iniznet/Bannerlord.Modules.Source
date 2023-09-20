@@ -14,7 +14,7 @@ namespace StoryMode.GauntletUI
 		public override void OnGameInitializationFinished(Game game)
 		{
 			base.OnGameInitializationFinished(game);
-			if (!(game.GameType is MultiplayerGame))
+			if (game.GameType.RequiresTutorial)
 			{
 				GauntletTutorialSystem.OnInitialize();
 				StoryModePermissionsSystem.OnInitialize();
@@ -35,7 +35,7 @@ namespace StoryMode.GauntletUI
 		public override void OnGameEnd(Game game)
 		{
 			base.OnGameEnd(game);
-			if (!(game.GameType is MultiplayerGame))
+			if (game.GameType.RequiresTutorial)
 			{
 				GauntletTutorialSystem.OnUnload();
 				StoryModePermissionsSystem.OnUnload();

@@ -260,7 +260,10 @@ namespace TaleWorlds.Core
 
 		public void Save(MetaData metaData, string saveName, ISaveDriver driver, Action<SaveResult> onSaveCompleted)
 		{
-			this.SaveAux(metaData, saveName, driver, onSaveCompleted);
+			using (new PerformanceTestBlock("Save Process"))
+			{
+				this.SaveAux(metaData, saveName, driver, onSaveCompleted);
+			}
 		}
 
 		private void InitializeParameters()

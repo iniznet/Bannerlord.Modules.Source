@@ -3,7 +3,7 @@ using TaleWorlds.DotNet;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Hit_particle_result_data")]
+	[EngineStruct("Hit_particle_result_data", false)]
 	public struct HitParticleResultData
 	{
 		public void Reset()

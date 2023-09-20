@@ -6,37 +6,44 @@ namespace TaleWorlds.MountAndBlade.ComponentInterfaces
 {
 	public abstract class BattleInitializationModel : GameModel
 	{
+		public bool BypassPlayerDeployment { get; private set; }
+
 		public abstract List<FormationClass> GetAllAvailableTroopTypes();
 
 		protected abstract bool CanPlayerSideDeployWithOrderOfBattleAux();
 
 		public bool CanPlayerSideDeployWithOrderOfBattle()
 		{
-			if (!BattleInitializationModel._isCanPlayerSideDeployWithOOBCached)
+			if (!this._isCanPlayerSideDeployWithOOBCached)
 			{
-				BattleInitializationModel._cachedCanPlayerSideDeployWithOOB = this.CanPlayerSideDeployWithOrderOfBattleAux();
-				BattleInitializationModel._isCanPlayerSideDeployWithOOBCached = true;
+				this._cachedCanPlayerSideDeployWithOOB = !this.BypassPlayerDeployment && this.CanPlayerSideDeployWithOrderOfBattleAux();
+				this._isCanPlayerSideDeployWithOOBCached = true;
 			}
-			return BattleInitializationModel._cachedCanPlayerSideDeployWithOOB;
+			return this._cachedCanPlayerSideDeployWithOOB;
 		}
 
 		public void InitializeModel()
 		{
-			BattleInitializationModel._isCanPlayerSideDeployWithOOBCached = false;
-			BattleInitializationModel._isInitialized = true;
+			this._isCanPlayerSideDeployWithOOBCached = false;
+			this._isInitialized = true;
 		}
 
 		public void FinalizeModel()
 		{
-			BattleInitializationModel._isInitialized = false;
+			this._isInitialized = false;
+		}
+
+		public void SetBypassPlayerDeployment(bool value)
+		{
+			this.BypassPlayerDeployment = value;
 		}
 
 		public const int MinimumTroopCountForPlayerDeployment = 20;
 
-		private static bool _cachedCanPlayerSideDeployWithOOB;
+		private bool _cachedCanPlayerSideDeployWithOOB;
 
-		private static bool _isCanPlayerSideDeployWithOOBCached;
+		private bool _isCanPlayerSideDeployWithOOBCached;
 
-		private static bool _isInitialized;
+		private bool _isInitialized;
 	}
 }

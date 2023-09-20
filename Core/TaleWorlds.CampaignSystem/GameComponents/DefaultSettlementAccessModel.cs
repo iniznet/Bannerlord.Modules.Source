@@ -152,22 +152,15 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			else if (locationId == "lordshall")
 			{
-				if (settlement.IsCastle)
+				SettlementAccessModel.AccessDetails accessDetails;
+				this.CanMainHeroEnterLordsHall(settlement, out accessDetails);
+				if (accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.LimitedAccess && accessDetails.LimitedAccessSolution == SettlementAccessModel.LimitedAccessSolution.Bribe)
 				{
-					flag = true;
+					flag = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(settlement) == 0;
 				}
 				else
 				{
-					SettlementAccessModel.AccessDetails accessDetails;
-					this.CanMainHeroEnterLordsHall(settlement, out accessDetails);
-					if (accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.LimitedAccess && accessDetails.LimitedAccessSolution == SettlementAccessModel.LimitedAccessSolution.Bribe)
-					{
-						flag = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(settlement) == 0;
-					}
-					else
-					{
-						flag = accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.FullAccess;
-					}
+					flag = accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.FullAccess;
 				}
 			}
 			else if (locationId == "prison")
@@ -190,7 +183,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			else
 			{
-				Debug.FailedAssert("invalid location which is not supported by DefaultSettlementAccessModel", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\DefaultSettlementAccessModel.cs", "CanMainHeroAccessLocation", 207);
+				Debug.FailedAssert("invalid location which is not supported by DefaultSettlementAccessModel", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\DefaultSettlementAccessModel.cs", "CanMainHeroAccessLocation", 199);
 			}
 			return flag;
 		}
@@ -253,7 +246,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			case SettlementAccessModel.SettlementAction.ManageTown:
 				return this.CanMainHeroManageTown(settlement, out disableOption, out disabledText);
 			default:
-				Debug.FailedAssert("Invalid Settlement Action", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\DefaultSettlementAccessModel.cs", "CanMainHeroDoSettlementAction", 276);
+				Debug.FailedAssert("Invalid Settlement Action", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\DefaultSettlementAccessModel.cs", "CanMainHeroDoSettlementAction", 268);
 				disableOption = false;
 				disabledText = TextObject.Empty;
 				return true;
@@ -262,6 +255,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private bool CanMainHeroGoToArena(Settlement settlement, out bool disableOption, out TextObject disabledText)
 		{
+			if (Campaign.Current.IsMainHeroDisguised)
+			{
+				disabledText = new TextObject("{=brzz79Je}You cannot enter arena while in disguise.", null);
+				disableOption = true;
+				return false;
+			}
 			if (Campaign.Current.IsDay)
 			{
 				disabledText = TextObject.Empty;
@@ -282,12 +281,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private bool CanMainHeroEnterArena(Settlement settlement, out bool disableOption, out TextObject disabledText)
 		{
-			if (Campaign.Current.IsMainHeroDisguised)
-			{
-				disableOption = true;
-				disabledText = new TextObject("{=brzz79Je}You cannot enter arena while in disguise.", null);
-				return false;
-			}
 			disableOption = false;
 			disabledText = TextObject.Empty;
 			return true;
@@ -327,16 +320,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		{
 			Hero mainHero = Hero.MainHero;
 			accessDetails = default(SettlementAccessModel.AccessDetails);
-			SettlementComponent settlementComponent = settlement.SettlementComponent;
-			if (settlementComponent != null && settlementComponent.IsTaken && settlementComponent.Owner.MapFaction == Hero.MainHero.MapFaction)
-			{
-				accessDetails = new SettlementAccessModel.AccessDetails
-				{
-					PreliminaryActionObligation = SettlementAccessModel.PreliminaryActionObligation.Must,
-					PreliminaryActionType = SettlementAccessModel.PreliminaryActionType.SettlementIsTaken
-				};
-				return;
-			}
 			if (settlement.OwnerClan == mainHero.Clan)
 			{
 				accessDetails = new SettlementAccessModel.AccessDetails
@@ -395,16 +378,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		{
 			Hero mainHero = Hero.MainHero;
 			accessDetails = default(SettlementAccessModel.AccessDetails);
-			SettlementComponent settlementComponent = settlement.SettlementComponent;
-			if (settlementComponent != null && settlementComponent.IsTaken && settlementComponent.Owner.MapFaction == Hero.MainHero.MapFaction)
-			{
-				accessDetails = new SettlementAccessModel.AccessDetails
-				{
-					PreliminaryActionObligation = SettlementAccessModel.PreliminaryActionObligation.Must,
-					PreliminaryActionType = SettlementAccessModel.PreliminaryActionType.SettlementIsTaken
-				};
-				return;
-			}
 			if (settlement.OwnerClan == mainHero.Clan)
 			{
 				accessDetails = new SettlementAccessModel.AccessDetails

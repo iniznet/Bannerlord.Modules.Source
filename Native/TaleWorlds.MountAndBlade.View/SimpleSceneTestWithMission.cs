@@ -1,6 +1,7 @@
 ﻿using System;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.Source.Missions;
 
 namespace TaleWorlds.MountAndBlade.View
@@ -26,8 +27,8 @@ namespace TaleWorlds.MountAndBlade.View
 			MissionInitializerRecord missionInitializerRecord;
 			missionInitializerRecord..ctor(scene);
 			missionInitializerRecord.PlayingInCampaignMode = false;
-			missionInitializerRecord.AtmosphereOnCampaign = null;
-			missionInitializerRecord.AtlasGroup = this._customDecalGroup;
+			missionInitializerRecord.AtmosphereOnCampaign = AtmosphereInfo.GetInvalidAtmosphereInfo();
+			missionInitializerRecord.DecalAtlasGroup = this._customDecalGroup;
 			missionInitializerRecord.SceneLevels = sceneLevels;
 			return MissionState.OpenNew(text, missionInitializerRecord, (Mission missionController) => new MissionBehavior[]
 			{

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class BuyCosmeticMessage : Message
 	{
-		public string CosmeticId { get; }
+		[JsonProperty]
+		public string CosmeticId { get; private set; }
+
+		public BuyCosmeticMessage()
+		{
+		}
 
 		public BuyCosmeticMessage(string cosmeticId)
 		{

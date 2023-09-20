@@ -7,6 +7,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		Default,
 		Trade,
 		Loot,
-		Stash
+		Stash,
+		Warehouse
 	}
 }

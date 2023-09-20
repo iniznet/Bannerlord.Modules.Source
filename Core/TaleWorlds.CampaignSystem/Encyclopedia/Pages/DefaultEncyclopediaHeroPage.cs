@@ -28,14 +28,13 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 					Hero hero2 = enumerator.Current;
 					if (this.IsValidEncyclopediaItem(hero2) && !hero2.IsNotable && hero2.Age >= (float)comingOfAge)
 					{
-						Clan clan = hero2.Clan;
-						if (clan != null && !clan.IsNeutralClan)
+						if (hero2.Clan != null)
 						{
 							heroName.SetTextVariable("NAME", hero2.FirstName ?? hero2.Name);
 							TextObject textObject = heroName;
 							string text2 = "FACTION";
-							Clan clan2 = hero2.Clan;
-							textObject.SetTextVariable(text2, ((clan2 != null) ? clan2.Name : null) ?? TextObject.Empty);
+							Clan clan = hero2.Clan;
+							textObject.SetTextVariable(text2, ((clan != null) ? clan.Name : null) ?? TextObject.Empty);
 							text = heroName.ToString();
 						}
 						else
@@ -57,14 +56,13 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 					Hero hero = enumerator.Current;
 					if (this.IsValidEncyclopediaItem(hero) && !hero.IsNotable && hero.Age >= (float)comingOfAge)
 					{
-						Clan clan3 = hero.Clan;
-						if (clan3 != null && !clan3.IsNeutralClan)
+						if (hero.Clan != null)
 						{
 							heroName.SetTextVariable("NAME", hero.FirstName ?? hero.Name);
 							TextObject textObject2 = heroName;
 							string text3 = "FACTION";
-							Clan clan4 = hero.Clan;
-							textObject2.SetTextVariable(text3, ((clan4 != null) ? clan4.Name : null) ?? TextObject.Empty);
+							Clan clan2 = hero.Clan;
+							textObject2.SetTextVariable(text3, ((clan2 != null) ? clan2.Name : null) ?? TextObject.Empty);
 							yield return new EncyclopediaListItem(hero, heroName.ToString(), "", hero.StringId, base.GetIdentifier(typeof(Hero)), DefaultEncyclopediaHeroPage.CanPlayerSeeValuesOf(hero), delegate
 							{
 								InformationManager.ShowTooltip(typeof(Hero), new object[] { hero, false });
@@ -115,7 +113,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 			}
 			list.Add(new EncyclopediaFilterGroup(list5, GameTexts.FindText("str_culture", null)));
 			List<EncyclopediaFilterItem> list6 = new List<EncyclopediaFilterItem>();
-			list6.Add(new EncyclopediaFilterItem(new TextObject("{=b9ty57rJ}Faction Leader", null), (object h) => ((Hero)h).IsFactionLeader));
+			list6.Add(new EncyclopediaFilterItem(new TextObject("{=b9ty57rJ}Faction Leader", null), (object h) => ((Hero)h).IsKingdomLeader || ((Hero)h).IsClanLeader));
 			list6.Add(new EncyclopediaFilterItem(new TextObject("{=4vleNtxb}Lord/Lady", null), (object h) => ((Hero)h).IsLord));
 			list6.Add(new EncyclopediaFilterItem(new TextObject("{=vmMqs3Ck}Noble", null), delegate(object h)
 			{

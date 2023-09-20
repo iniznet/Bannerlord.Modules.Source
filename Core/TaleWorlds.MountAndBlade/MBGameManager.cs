@@ -112,7 +112,6 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void OnGameLoaded(Game game, object initializerObject)
 		{
-			NetworkMain.Initialize();
 			foreach (MBSubModuleBase mbsubModuleBase in Module.CurrentModule.SubModules)
 			{
 				mbsubModuleBase.OnGameLoaded(game, initializerObject);
@@ -183,11 +182,6 @@ namespace TaleWorlds.MountAndBlade
 					}
 				}
 			}
-		}
-
-		public override void OnAfterCampaignStart(Game game)
-		{
-			NetworkMain.Initialize();
 		}
 
 		public override void OnLoadFinished()

@@ -56,6 +56,21 @@ namespace TaleWorlds.InputSystem
 			return Input._inputManager.GetMouseMoveY();
 		}
 
+		public static float GetGyroX()
+		{
+			return Input._inputManager.GetGyroX();
+		}
+
+		public static float GetGyroY()
+		{
+			return Input._inputManager.GetGyroY();
+		}
+
+		public static float GetGyroZ()
+		{
+			return Input._inputManager.GetGyroZ();
+		}
+
 		public static Vec2 GetKeyState(InputKey key)
 		{
 			return Input._inputManager.GetKeyState(key);
@@ -119,6 +134,42 @@ namespace TaleWorlds.InputSystem
 						return;
 					}
 					onGamepadActiveStateChanged();
+				}
+			}
+		}
+
+		public static bool IsAnyTouchActive
+		{
+			get
+			{
+				return Input._isAnyTouchActive;
+			}
+			private set
+			{
+				if (value != Input._isAnyTouchActive)
+				{
+					Input._isAnyTouchActive = value;
+				}
+			}
+		}
+
+		public static Input.ControllerTypes ControllerType
+		{
+			get
+			{
+				return Input._controllerType;
+			}
+			private set
+			{
+				if (value != Input._controllerType)
+				{
+					Input._controllerType = value;
+					Action<Input.ControllerTypes> onControllerTypeChanged = Input.OnControllerTypeChanged;
+					if (onControllerTypeChanged == null)
+					{
+						return;
+					}
+					onControllerTypeChanged(value);
 				}
 			}
 		}
@@ -221,6 +272,30 @@ namespace TaleWorlds.InputSystem
 			}
 		}
 
+		public static float GyroX
+		{
+			get
+			{
+				return Input._inputManager.GetGyroX();
+			}
+		}
+
+		public static float GyroY
+		{
+			get
+			{
+				return Input._inputManager.GetGyroY();
+			}
+		}
+
+		public static float GyroZ
+		{
+			get
+			{
+				return Input._inputManager.GetGyroZ();
+			}
+		}
+
 		public static float MouseSensitivity
 		{
 			get
@@ -261,6 +336,8 @@ namespace TaleWorlds.InputSystem
 			Input.IsMousePositionUpdated = Input.InputState.UpdateMousePosition(mousePositionX, mousePositionY);
 			Input.IsMouseScrollChanged = Input.InputState.UpdateMouseScroll(mouseScrollValue);
 			Input.IsGamepadActive = Input.IsControllerConnected && !Input.IsMouseActive;
+			Input.IsAnyTouchActive = Input._inputManager.IsAnyTouchActive();
+			Input.ControllerType = Input._inputManager.GetControllerType();
 			Input.UpdateKeyData(Input.keyData);
 		}
 
@@ -393,9 +470,9 @@ namespace TaleWorlds.InputSystem
 			Input._inputManager.SetCursorFriction(frictionValue);
 		}
 
-		public static InputKey GetControllerClickKey()
+		public static InputKey[] GetClickKeys()
 		{
-			return Input._inputManager.GetControllerClickKey();
+			return Input._inputManager.GetClickKeys();
 		}
 
 		public static void SetRumbleEffect(float[] lowFrequencyLevels, float[] lowFrequencyDurations, int numLowFrequencyElements, float[] highFrequencyLevels, float[] highFrequencyDurations, int numHighFrequencyElements)
@@ -432,5 +509,19 @@ namespace TaleWorlds.InputSystem
 		public static Action OnGamepadActiveStateChanged;
 
 		private static bool _isGamepadActive;
+
+		private static bool _isAnyTouchActive;
+
+		public static Action<Input.ControllerTypes> OnControllerTypeChanged;
+
+		private static Input.ControllerTypes _controllerType;
+
+		public enum ControllerTypes
+		{
+			None,
+			Xbox,
+			PlayStationDualShock,
+			PlayStationDualSense = 4
+		}
 	}
 }

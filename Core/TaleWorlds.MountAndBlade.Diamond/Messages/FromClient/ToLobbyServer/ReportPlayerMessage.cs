@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.PlayerServices;
@@ -9,15 +10,24 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class ReportPlayerMessage : Message
 	{
-		public Guid GameId { get; }
+		[JsonProperty]
+		public Guid GameId { get; private set; }
 
-		public PlayerId ReportedPlayerId { get; }
+		[JsonProperty]
+		public PlayerId ReportedPlayerId { get; private set; }
 
-		public string ReportedPlayerName { get; }
+		[JsonProperty]
+		public string ReportedPlayerName { get; private set; }
 
-		public PlayerReportType Type { get; }
+		[JsonProperty]
+		public PlayerReportType Type { get; private set; }
 
-		public string Message { get; }
+		[JsonProperty]
+		public string Message { get; private set; }
+
+		public ReportPlayerMessage()
+		{
+		}
 
 		public ReportPlayerMessage(Guid gameId, PlayerId reportedPlayerId, string reportedPlayerName, PlayerReportType type, string message)
 		{

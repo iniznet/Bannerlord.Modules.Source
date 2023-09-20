@@ -16,6 +16,7 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.LinQuick;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
@@ -245,7 +246,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=Jk3mDlU6}Yeah... I've got some problems. A few years ago, I needed hides for my tannery and I hired some hunters. I didn't ask too many questions about where they came by the skins they sold me. Well, that was a bit of mistake. Now they've banded together as a gang and are trying to muscle me out of the leather business.", null);
+					return new TextObject("{=Jk3mDlU6}Yeah... I've got some problems. A few years ago, I needed hides for my tannery and I hired some hunters. I didn't ask too many questions about where they came by the skins they sold me. Well, that was a bit of mistake. Now they've banded together as a gang and are trying to muscle me out of the leather business.[ib:closed2][if:convo_thinking]", null);
 				}
 			}
 
@@ -261,7 +262,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=LbTETjZu}I want you to crush them. Go to {VILLAGE} and give them a lesson they won't forget.", null);
+					TextObject textObject = new TextObject("{=LbTETjZu}I want you to crush them. Go to {VILLAGE} and give them a lesson they won't forget.[ib:closed2][if:convo_grave]", null);
 					textObject.SetTextVariable("VILLAGE", this._questVillage.Settlement.EncyclopediaLinkWithName);
 					return textObject;
 				}
@@ -271,7 +272,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=2ELhox6C}If you don't want to get involved in this yourself, leave one of your capable companions and {NUMBER_OF_TROOPS} men for some days.", null);
+					TextObject textObject = new TextObject("{=2ELhox6C}If you don't want to get involved in this yourself, leave one of your capable companions and {NUMBER_OF_TROOPS} men for some days.[ib:closed][if:convo_grave]", null);
 					textObject.SetTextVariable("NUMBER_OF_TROOPS", base.GetTotalAlternativeSolutionNeededMenCount());
 					return textObject;
 				}
@@ -297,7 +298,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=Xmtlrrmf}Thank you. Don't forget to warn your men. These poachers are not ordinary bandits. Good luck.", null);
+					return new TextObject("{=Xmtlrrmf}Thank you.[ib:normal][if:convo_normal]  Don't forget to warn your men. These poachers are not ordinary bandits. Good luck.", null);
 				}
 			}
 
@@ -305,7 +306,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=51ahPi69}I understand that your men are still chasing those poachers. I realize that this mess might take a little time to clean up.", null);
+					return new TextObject("{=51ahPi69}I understand that your men are still chasing those poachers. I realize that this mess might take a little time to clean up.[ib:normal2][if:convo_grave]", null);
 				}
 			}
 
@@ -449,6 +450,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new MerchantArmyOfPoachersIssueBehavior.MerchantArmyOfPoachersIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(20f), this._questVillage, base.IssueDifficultyMultiplier, this.RewardGold);
@@ -470,14 +475,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				this.RelationshipChangeWithIssueOwner = 5;
 				base.IssueOwner.AddPower(30f);
-				base.IssueOwner.CurrentSettlement.Prosperity += 50f;
+				base.IssueOwner.CurrentSettlement.Town.Prosperity += 50f;
 			}
 
 			protected override void AlternativeSolutionEndWithFailureConsequence()
 			{
 				this.RelationshipChangeWithIssueOwner = -5;
 				base.IssueOwner.AddPower(-50f);
-				base.IssueOwner.CurrentSettlement.Prosperity -= 30f;
+				base.IssueOwner.CurrentSettlement.Town.Prosperity -= 30f;
 				base.IssueOwner.CurrentSettlement.Town.Security -= 5f;
 				TraitLevelingHelper.OnIssueFailed(base.IssueOwner, new Tuple<TraitObject, int>[]
 				{
@@ -694,14 +699,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.GotoDialogState("start_poachers_persuasion")
 					.PlayerOption("{=mvw1ayGt}I'm here to do the job I agreed to do, outlaw. Give up or die.", null)
-					.NpcLine("{=hOVr77fd}You will never see the sunrise again!", null, null)
+					.NpcLine("{=hOVr77fd}You will never see the sunrise again![ib:warrior][if:convo_furious]", null, null)
 					.Consequence(delegate
 					{
 						this._talkedToPoachersBattleWillStart = true;
 					})
 					.CloseDialog()
 					.PlayerOption("{=VJYEoOAc}Well... You have a point. Go on. We won't bother you any more.", null)
-					.NpcLine("{=wglTyBbx}Thank you, friend. Go in peace.", null, null)
+					.NpcLine("{=wglTyBbx}Thank you, friend. Go in peace.[ib:normal][if:convo_approving]", null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.GameMenuManager.SetNextMenu("village");
@@ -1037,7 +1042,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				PlayerEncounter.Update();
 				this._talkedToPoachersBattleWillStart = false;
 				GameMenu.ActivateGameMenu("army_of_poachers_village");
-				CampaignMission.OpenBattleMission(this._questVillage.Settlement.LocationComplex.GetScene("village_center", 1));
+				CampaignMission.OpenBattleMission(this._questVillage.Settlement.LocationComplex.GetScene("village_center", 1), false);
 				this._isReadyToBeFinalized = true;
 			}
 
@@ -1048,18 +1053,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=IefM6uAy}Thank you. You'll be paid well. Also you can keep their illegally obtained leather.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
-					.NpcLine(new TextObject("{=NC2VGafO}They skin their beasts in the woods, then go into the village after midnight to stash the hides. The villagers are terrified of them, I believe. If you go into the village late at night, you should be able to track them down.", null), null, null)
-					.NpcLine(new TextObject("{=3pkVKMnA}Most poachers would probably run if they were surprised by armed men. But these ones are bold and desperate. Be ready for a fight.", null), null, null)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=IefM6uAy}Thank you. You'll be paid well. Also you can keep their illegally obtained leather.[ib:normal2][if:convo_bemused]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
+					.NpcLine(new TextObject("{=NC2VGafO}They skin their beasts in the woods, then go into the village after midnight to stash the hides. The villagers are terrified of them, I believe. If you go into the village late at night, you should be able to track them down.[ib:normal][if:convo_thinking]", null), null, null)
+					.NpcLine(new TextObject("{=3pkVKMnA}Most poachers would probably run if they were surprised by armed men. But these ones are bold and desperate. Be ready for a fight.[ib:normal2][if:convo_undecided_closed]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=QNV1b5s5}Are those poachers still in business?", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=QNV1b5s5}Are those poachers still in business?[ib:normal2][if:convo_undecided_open]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=JhJBBWab}They will be gone soon.", null), null)
-					.NpcLine(new TextObject("{=gjGb044I}I hope they will be...", null), null, null)
+					.NpcLine(new TextObject("{=gjGb044I}I hope they will be...[ib:normal2][if:convo_dismayed]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=Gu3jF88V}Any night battle can easily go wrong. I need more time to prepare.", null), null)
-					.NpcLine(new TextObject("{=2EiC1YyZ}Well, if they get wind of what you're up to, things could go very wrong for me. Do be quick.", null), null, null)
+					.NpcLine(new TextObject("{=2EiC1YyZ}Well, if they get wind of what you're up to, things could go very wrong for me. Do be quick.[ib:nervous2][if:convo_dismayed]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 				this.QuestCharacterDialogFlow = this.GetPoacherPartyDialogFlow();
@@ -1071,7 +1076,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				TextObject textObject = new TextObject("{=WQa1R55u}Poachers Party", null);
 				this._poachersParty.InitializeMobilePartyAtPosition(new TroopRoster(this._poachersParty.Party), new TroopRoster(this._poachersParty.Party), this._questVillage.Settlement.GetPosition2D);
 				this._poachersParty.SetCustomName(textObject);
-				EnterSettlementAction.ApplyForParty(this._poachersParty, Settlement.CurrentSettlement);
 				ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>("leather");
 				int num = MathF.Ceiling(this._difficultyMultiplier * 5f) + MBRandom.RandomInt(0, 2);
 				this._poachersParty.ItemRoster.AddToCounts(@object, num * 2);
@@ -1080,6 +1084,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._poachersParty.MemberRoster.AddToCounts(characterObject, num2, false, 0, 0, true, -1);
 				this._poachersParty.SetPartyUsedByQuest(true);
 				this._poachersParty.Ai.DisableAi();
+				Settlement closestHideout = SettlementHelper.FindNearestHideout((Settlement x) => x.IsActive, null);
+				Clan clan = Clan.BanditFactions.FirstOrDefaultQ((Clan t) => t.Culture == closestHideout.Culture);
+				this._poachersParty.ActualClan = clan;
+				EnterSettlementAction.ApplyForParty(this._poachersParty, Settlement.CurrentSettlement);
 			}
 
 			private void QuestAcceptedConsequences()
@@ -1100,7 +1108,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.RelationshipChangeWithQuestGiver = -5;
 				base.QuestGiver.AddPower(-50f);
 				base.QuestGiver.CurrentSettlement.Town.Security -= 5f;
-				base.QuestGiver.CurrentSettlement.Prosperity -= 30f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 30f;
 				base.CompleteQuestWithFail(null);
 			}
 
@@ -1117,7 +1125,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				GainRenownAction.Apply(Hero.MainHero, 1f, false);
 				base.QuestGiver.AddPower(30f);
 				base.QuestGiver.CurrentSettlement.Town.Security -= 5f;
-				base.QuestGiver.CurrentSettlement.Prosperity += 50f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity += 50f;
 				base.CompleteQuestWithSuccess();
 			}
 
@@ -1131,7 +1139,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.RelationshipChangeWithQuestGiver = -5;
 				base.QuestGiver.AddPower(-50f);
 				base.QuestGiver.CurrentSettlement.Town.Security -= 5f;
-				base.QuestGiver.CurrentSettlement.Prosperity -= 30f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 30f;
 				base.CompleteQuestWithFail(null);
 			}
 
@@ -1145,7 +1153,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, this._rewardGold, false);
 				this.RelationshipChangeWithQuestGiver = 5;
 				base.QuestGiver.AddPower(30f);
-				base.QuestGiver.CurrentSettlement.Prosperity += 50f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity += 50f;
 				base.CompleteQuestWithSuccess();
 			}
 
@@ -1158,7 +1166,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				});
 				this.RelationshipChangeWithQuestGiver = -5;
 				base.QuestGiver.AddPower(-50f);
-				base.QuestGiver.CurrentSettlement.Prosperity -= 30f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 30f;
 				base.QuestGiver.CurrentSettlement.Town.Security -= 5f;
 			}
 
@@ -1175,7 +1183,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.GameMenuOpened));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 				CampaignEvents.CanHeroBecomePrisonerEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, bool>(this.OnCanHeroBecomePrisonerInfoIsRequested));
 			}
 
@@ -1187,7 +1194,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnHourlyTick()
+			protected override void HourlyTick()
 			{
 				if (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting && PlayerEncounter.EncounterSettlement == this._questVillage.Settlement && CampaignTime.Now.IsNightTime && !this._isReadyToBeFinalized && base.IsOngoing)
 				{
@@ -1235,7 +1242,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclared);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclared, false);
 			}
 
 			protected override void OnFinalize()

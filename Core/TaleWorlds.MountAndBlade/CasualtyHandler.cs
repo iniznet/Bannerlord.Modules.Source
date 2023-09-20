@@ -8,28 +8,12 @@ namespace TaleWorlds.MountAndBlade
 	{
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
-			if (base.Mission.Mode != MissionMode.Deployment && affectedAgent.IsHuman && affectedAgent.Formation != null)
-			{
-				if (this._casualtyCounts.ContainsKey(affectedAgent.Formation))
-				{
-					Dictionary<Formation, int> casualtyCounts = this._casualtyCounts;
-					Formation formation = affectedAgent.Formation;
-					int num = casualtyCounts[formation];
-					casualtyCounts[formation] = num + 1;
-				}
-				else
-				{
-					this._casualtyCounts[affectedAgent.Formation] = 1;
-				}
-				if (this._powerLoss.ContainsKey(affectedAgent.Formation))
-				{
-					Dictionary<Formation, float> powerLoss = this._powerLoss;
-					Formation formation = affectedAgent.Formation;
-					powerLoss[formation] += affectedAgent.Character.GetPower();
-					return;
-				}
-				this._powerLoss[affectedAgent.Formation] = affectedAgent.Character.GetPower();
-			}
+			this.RegisterCasualty(affectedAgent);
+		}
+
+		public override void OnAgentFleeing(Agent affectedAgent)
+		{
+			this.RegisterCasualty(affectedAgent);
 		}
 
 		public int GetCasualtyCountOfFormation(Formation formation)
@@ -52,6 +36,33 @@ namespace TaleWorlds.MountAndBlade
 				this._powerLoss[formation] = 0f;
 			}
 			return num;
+		}
+
+		private void RegisterCasualty(Agent agent)
+		{
+			Formation formation = agent.Formation;
+			if (formation != null)
+			{
+				if (this._casualtyCounts.ContainsKey(formation))
+				{
+					Dictionary<Formation, int> casualtyCounts = this._casualtyCounts;
+					Formation formation2 = formation;
+					int num = casualtyCounts[formation2];
+					casualtyCounts[formation2] = num + 1;
+				}
+				else
+				{
+					this._casualtyCounts[formation] = 1;
+				}
+				if (this._powerLoss.ContainsKey(formation))
+				{
+					Dictionary<Formation, float> powerLoss = this._powerLoss;
+					Formation formation2 = formation;
+					powerLoss[formation2] += agent.Character.GetPower();
+					return;
+				}
+				this._powerLoss[formation] = agent.Character.GetPower();
+			}
 		}
 
 		private readonly Dictionary<Formation, int> _casualtyCounts = new Dictionary<Formation, int>();

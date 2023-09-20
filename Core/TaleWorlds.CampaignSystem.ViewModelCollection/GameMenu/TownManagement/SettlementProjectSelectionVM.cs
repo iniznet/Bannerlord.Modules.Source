@@ -26,6 +26,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			base.RefreshValues();
 			this.ProjectsText = new TextObject("{=LpsoPtOo}Projects", null).ToString();
 			this.DailyDefaultsText = GameTexts.FindText("str_town_management_daily_defaults", null).ToString();
+			this.DailyDefaultsExplanationText = GameTexts.FindText("str_town_management_daily_defaults_explanation", null).ToString();
 			this.QueueText = GameTexts.FindText("str_town_management_queue", null).ToString();
 			this.Refresh();
 		}
@@ -209,6 +210,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 		}
 
 		[DataSourceProperty]
+		public string DailyDefaultsExplanationText
+		{
+			get
+			{
+				return this._dailyDefaultsExplanationText;
+			}
+			set
+			{
+				if (value != this._dailyDefaultsExplanationText)
+				{
+					this._dailyDefaultsExplanationText = value;
+					base.OnPropertyChangedWithValue<string>(value, "DailyDefaultsExplanationText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public SettlementProjectVM CurrentSelectedProject
 		{
 			get
@@ -314,5 +332,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 		private string _queueText;
 
 		private string _dailyDefaultsText;
+
+		private string _dailyDefaultsExplanationText;
 	}
 }

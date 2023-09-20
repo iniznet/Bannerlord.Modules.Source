@@ -171,10 +171,7 @@ namespace Helpers
 		{
 			MapEvent battle = PlayerEncounter.Battle;
 			PartyBase leaderParty = battle.GetLeaderParty(PartyBase.MainParty.OpponentSide);
-			if (!leaderParty.IsMobile)
-			{
-				BeHostileAction.ApplyEncounterHostileAction(PartyBase.MainParty, leaderParty);
-			}
+			BeHostileAction.ApplyEncounterHostileAction(PartyBase.MainParty, leaderParty);
 			if (PlayerEncounter.Current != null)
 			{
 				Settlement mapEventSettlement = MobileParty.MainParty.MapEvent.MapEventSettlement;
@@ -185,6 +182,10 @@ namespace Helpers
 						if (battle.IsRaid)
 						{
 							PlayerEncounter.StartVillageBattleMission();
+						}
+						else if (battle.IsSiegeAmbush)
+						{
+							PlayerEncounter.StartSiegeAmbushMission();
 						}
 						else if (battle.IsSiegeAssault)
 						{
@@ -221,7 +222,7 @@ namespace Helpers
 								}
 								else
 								{
-									PlayerSiege.StartSiegeMission(PlayerEncounter.Current.IsSallyOutAmbush, mapEventSettlement);
+									PlayerSiege.StartSiegeMission(mapEventSettlement);
 								}
 							}
 						}
@@ -247,9 +248,9 @@ namespace Helpers
 					missionInitializerRecord.NeedsRandomTerrain = false;
 					missionInitializerRecord.PlayingInCampaignMode = true;
 					missionInitializerRecord.RandomTerrainSeed = MBRandom.RandomInt(10000);
-					missionInitializerRecord.AtmosphereOnCampaign = Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(CampaignTime.Now, MobileParty.MainParty.GetLogicalPosition());
+					missionInitializerRecord.AtmosphereOnCampaign = Campaign.Current.Models.MapWeatherModel.GetAtmosphereModel(MobileParty.MainParty.GetLogicalPosition());
 					missionInitializerRecord.SceneHasMapPatch = true;
-					missionInitializerRecord.AtlasGroup = 2;
+					missionInitializerRecord.DecalAtlasGroup = 2;
 					missionInitializerRecord.PatchCoordinates = mapPatchAtPosition.normalizedCoordinates;
 					missionInitializerRecord.PatchEncounterDir = (battle.AttackerSide.LeaderParty.Position2D - battle.DefenderSide.LeaderParty.Position2D).Normalized();
 					float num2 = Campaign.CurrentTime % 24f;
@@ -304,8 +305,20 @@ namespace Helpers
 				{
 					if (!siegeEventSide.GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).Any((PartyBase party) => party.NumberOfHealthyMembers > 0))
 					{
-						PlayerEncounter.Update();
-						return;
+						bool flag;
+						if (battle != null)
+						{
+							flag = !battle.GetMapEventSide(battle.GetOtherSide(battle.PlayerSide)).Parties.Any((MapEventParty party) => party.Party.NumberOfHealthyMembers > 0);
+						}
+						else
+						{
+							flag = true;
+						}
+						if (flag)
+						{
+							PlayerEncounter.Update();
+							return;
+						}
 					}
 				}
 			}
@@ -364,7 +377,7 @@ namespace Helpers
 			PlayerEncounter.Update();
 		}
 
-		public static void EncounterLeaveConsequence(MenuCallbackArgs args)
+		public static void EncounterLeaveConsequence()
 		{
 			Settlement currentSettlement = MobileParty.MainParty.CurrentSettlement;
 			MapEvent mapEvent = ((PlayerEncounter.Battle != null) ? PlayerEncounter.Battle : PlayerEncounter.EncounteredBattle);

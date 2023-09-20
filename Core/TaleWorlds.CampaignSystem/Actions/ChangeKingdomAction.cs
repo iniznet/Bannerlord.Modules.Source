@@ -38,7 +38,6 @@ namespace TaleWorlds.CampaignSystem.Actions
 				{
 					ChangeRulingClanAction.Apply(newKingdom, clan);
 				}
-				CampaignEventDispatcher.Instance.OnClanChangedKingdom(clan, kingdom, newKingdom, detail, showNotification);
 			}
 			else if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.JoinAsMercenary)
 			{
@@ -53,14 +52,12 @@ namespace TaleWorlds.CampaignSystem.Actions
 				{
 					Campaign.Current.KingdomManager.PlayerMercenaryServiceNextRenewDay = Campaign.CurrentTime + 720f;
 				}
-				CampaignEventDispatcher.Instance.OnClanChangedKingdom(clan, kingdom, newKingdom, detail, showNotification);
 			}
-			else if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveKingdom || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByClanDestruction)
+			else if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveKingdom || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByClanDestruction || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByKingdomDestruction)
 			{
 				clan.Kingdom = null;
-				if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary)
+				if (clan.IsUnderMercenaryService)
 				{
-					CampaignEventDispatcher.Instance.OnClanChangedKingdom(clan, kingdom, null, detail, showNotification);
 					clan.EndMercenaryService(true);
 				}
 				if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion)
@@ -73,52 +70,73 @@ namespace TaleWorlds.CampaignSystem.Actions
 						}
 						DeclareWarAction.ApplyByRebellion(kingdom, clan);
 					}
-					CampaignEventDispatcher.Instance.OnClanChangedKingdom(clan, kingdom, null, detail, showNotification);
 				}
-				else if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveKingdom)
+				else
 				{
-					if (clan == Clan.PlayerClan && !clan.IsEliminated)
+					if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveKingdom)
 					{
-						foreach (Clan clan3 in kingdom.Clans)
+						if (clan == Clan.PlayerClan && !clan.IsEliminated)
 						{
-							ChangeRelationAction.ApplyRelationChangeBetweenHeroes(clan.Leader, clan3.Leader, -20, true);
+							foreach (Clan clan3 in kingdom.Clans)
+							{
+								ChangeRelationAction.ApplyRelationChangeBetweenHeroes(clan.Leader, clan3.Leader, -20, true);
+							}
+						}
+						using (List<Settlement>.Enumerator enumerator2 = new List<Settlement>(clan.Settlements).GetEnumerator())
+						{
+							while (enumerator2.MoveNext())
+							{
+								Settlement settlement = enumerator2.Current;
+								ChangeOwnerOfSettlementAction.ApplyByLeaveFaction(kingdom.Leader, settlement);
+								foreach (Hero hero in new List<Hero>(settlement.HeroesWithoutParty))
+								{
+									if (hero.CurrentSettlement != null && hero.Clan == clan)
+									{
+										if (hero.PartyBelongedTo != null)
+										{
+											LeaveSettlementAction.ApplyForParty(hero.PartyBelongedTo);
+											EnterSettlementAction.ApplyForParty(hero.PartyBelongedTo, clan.Leader.HomeSettlement);
+										}
+										else
+										{
+											LeaveSettlementAction.ApplyForCharacterOnly(hero);
+											EnterSettlementAction.ApplyForCharacterOnly(hero, clan.Leader.HomeSettlement);
+										}
+									}
+								}
+							}
+							goto IL_31E;
 						}
 					}
-					foreach (Settlement settlement in new List<Settlement>(clan.Settlements))
+					if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByKingdomDestruction)
 					{
-						ChangeOwnerOfSettlementAction.ApplyByLeaveFaction(kingdom.Leader, settlement);
-						foreach (Hero hero in new List<Hero>(settlement.HeroesWithoutParty))
+						foreach (StanceLink stanceLink in kingdom.Stances)
 						{
-							if (hero.CurrentSettlement != null && hero.Clan == clan)
+							if (stanceLink.IsAtWar && !stanceLink.IsAtConstantWar)
 							{
-								if (hero.PartyBelongedTo != null)
+								IFaction faction = ((stanceLink.Faction1 == kingdom) ? stanceLink.Faction2 : stanceLink.Faction1);
+								if (faction != clan && !clan.GetStanceWith(faction).IsAtWar)
 								{
-									LeaveSettlementAction.ApplyForParty(hero.PartyBelongedTo);
-									EnterSettlementAction.ApplyForParty(hero.PartyBelongedTo, clan.Leader.HomeSettlement);
-								}
-								else
-								{
-									LeaveSettlementAction.ApplyForCharacterOnly(hero);
-									EnterSettlementAction.ApplyForCharacterOnly(hero, clan.Leader.HomeSettlement);
+									DeclareWarAction.ApplyByDefault(clan, faction);
 								}
 							}
 						}
 					}
-					CampaignEventDispatcher.Instance.OnClanChangedKingdom(clan, kingdom, null, detail, showNotification);
 				}
 			}
+			IL_31E:
 			if (detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveAsMercenary || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveKingdom || detail == ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion)
 			{
-				foreach (StanceLink stanceLink in new List<StanceLink>(clan.Stances))
+				foreach (StanceLink stanceLink2 in new List<StanceLink>(clan.Stances))
 				{
-					if (stanceLink.IsAtWar && !stanceLink.IsAtConstantWar)
+					if (stanceLink2.IsAtWar && !stanceLink2.IsAtConstantWar)
 					{
-						IFaction faction = ((stanceLink.Faction1 == clan) ? stanceLink.Faction2 : stanceLink.Faction1);
-						if (detail != ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion || clan != Clan.PlayerClan || faction != kingdom)
+						IFaction faction2 = ((stanceLink2.Faction1 == clan) ? stanceLink2.Faction2 : stanceLink2.Faction1);
+						if (detail != ChangeKingdomAction.ChangeKingdomActionDetail.LeaveWithRebellion || clan != Clan.PlayerClan || faction2 != kingdom)
 						{
-							MakePeaceAction.Apply(clan, faction, 0);
-							FactionHelper.FinishAllRelatedHostileActionsOfFactionToFaction(clan, faction);
-							FactionHelper.FinishAllRelatedHostileActionsOfFactionToFaction(faction, clan);
+							MakePeaceAction.Apply(clan, faction2, 0);
+							FactionHelper.FinishAllRelatedHostileActionsOfFactionToFaction(clan, faction2);
+							FactionHelper.FinishAllRelatedHostileActionsOfFactionToFaction(faction2, clan);
 						}
 					}
 				}
@@ -132,6 +150,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 					warPartyComponent.MobileParty.Ai.SetMoveModeHold();
 				}
 			}
+			CampaignEventDispatcher.Instance.OnClanChangedKingdom(clan, kingdom, newKingdom, detail, showNotification);
 		}
 
 		public static void ApplyByJoinToKingdom(Clan clan, Kingdom newKingdom, bool showNotification = true)
@@ -147,6 +166,11 @@ namespace TaleWorlds.CampaignSystem.Actions
 		public static void ApplyByCreateKingdom(Clan clan, Kingdom newKingdom, bool showNotification = true)
 		{
 			ChangeKingdomAction.ApplyInternal(clan, newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail.CreateKingdom, 0, false, showNotification);
+		}
+
+		public static void ApplyByLeaveByKingdomDestruction(Clan clan, bool showNotification = true)
+		{
+			ChangeKingdomAction.ApplyInternal(clan, null, ChangeKingdomAction.ChangeKingdomActionDetail.LeaveByKingdomDestruction, 0, false, showNotification);
 		}
 
 		public static void ApplyByLeaveKingdom(Clan clan, bool showNotification = true)
@@ -195,14 +219,14 @@ namespace TaleWorlds.CampaignSystem.Actions
 			IFaction faction3 = oldKingdom ?? clan;
 			foreach (MobileParty mobileParty in MobileParty.All)
 			{
-				if (mobileParty.IsVisible && mobileParty.Party.Visuals != null && ((mobileParty.Party.Owner != null && mobileParty.Party.Owner.Clan == clan) || (clan == Clan.PlayerClan && ((!FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction2) && FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction3)) || (FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction2) && !FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction3))))))
+				if (mobileParty.IsVisible && ((mobileParty.Party.Owner != null && mobileParty.Party.Owner.Clan == clan) || (clan == Clan.PlayerClan && ((!FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction2) && FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction3)) || (FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction2) && !FactionManager.IsAtWarAgainstFaction(mobileParty.MapFaction, faction3))))))
 				{
-					mobileParty.Party.Visuals.SetMapIconAsDirty();
+					mobileParty.Party.SetVisualAsDirty();
 				}
 			}
 			foreach (Settlement settlement in clan.Settlements)
 			{
-				settlement.Party.Visuals.SetMapIconAsDirty();
+				settlement.Party.SetVisualAsDirty();
 			}
 		}
 
@@ -241,7 +265,8 @@ namespace TaleWorlds.CampaignSystem.Actions
 			LeaveWithRebellion,
 			LeaveAsMercenary,
 			LeaveByClanDestruction,
-			CreateKingdom
+			CreateKingdom,
+			LeaveByKingdomDestruction
 		}
 	}
 }

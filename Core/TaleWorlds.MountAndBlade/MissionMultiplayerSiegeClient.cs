@@ -37,11 +37,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override MissionLobbyComponent.MultiplayerGameType GameType
+		public override MultiplayerGameType GameType
 		{
 			get
 			{
-				return MissionLobbyComponent.MultiplayerGameType.Siege;
+				return MultiplayerGameType.Siege;
 			}
 		}
 
@@ -369,7 +369,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (flagCapturePoint.FlagIndex == flagDominationCapturePointMessage.FlagIndex)
 				{
-					this.OnCapturePointOwnerChanged(flagCapturePoint, flagDominationCapturePointMessage.OwnerTeam);
+					this.OnCapturePointOwnerChanged(flagCapturePoint, Mission.MissionNetworkHelper.GetTeamFromTeamIndex(flagDominationCapturePointMessage.OwnerTeamIndex));
 					break;
 				}
 			}

@@ -14,7 +14,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void MapEventEnded(MapEvent mapEvent)
 		{
-			if (!mapEvent.AttackerSide.LeaderParty.MapFaction.IsBanditFaction && mapEvent.DefenderSide.LeaderParty.MapFaction != null && !mapEvent.DefenderSide.LeaderParty.MapFaction.IsBanditFaction)
+			if (mapEvent.AttackerSide.LeaderParty.MapFaction != null && !mapEvent.AttackerSide.LeaderParty.MapFaction.IsBanditFaction && mapEvent.DefenderSide.LeaderParty.MapFaction != null && !mapEvent.DefenderSide.LeaderParty.MapFaction.IsBanditFaction)
 			{
 				IFaction mapFaction = mapEvent.AttackerSide.MapFaction;
 				IFaction mapFaction2 = mapEvent.DefenderSide.MapFaction;

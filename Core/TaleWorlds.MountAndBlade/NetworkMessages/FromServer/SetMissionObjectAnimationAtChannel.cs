@@ -7,7 +7,7 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetMissionObjectAnimationAtChannel : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public int ChannelNo { get; private set; }
 
@@ -15,9 +15,9 @@ namespace NetworkMessages.FromServer
 
 		public float AnimationSpeed { get; private set; }
 
-		public SetMissionObjectAnimationAtChannel(MissionObject missionObject, int channelNo, int animationIndex, float animationSpeed)
+		public SetMissionObjectAnimationAtChannel(MissionObjectId missionObjectId, int channelNo, int animationIndex, float animationSpeed)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.ChannelNo = channelNo;
 			this.AnimationIndex = animationIndex;
 			this.AnimationSpeed = animationSpeed;
@@ -30,7 +30,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.ChannelNo = (GameNetworkMessage.ReadBoolFromPacket(ref flag) ? 1 : 0);
 			this.AnimationIndex = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationIndexCompressionInfo, ref flag);
 			this.AnimationSpeed = (GameNetworkMessage.ReadBoolFromPacket(ref flag) ? GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.AnimationSpeedCompressionInfo, ref flag) : 1f);
@@ -39,7 +39,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteBoolToPacket(this.ChannelNo == 1);
 			GameNetworkMessage.WriteIntToPacket(this.AnimationIndex, CompressionBasic.AnimationIndexCompressionInfo);
 			GameNetworkMessage.WriteBoolToPacket(this.AnimationSpeed != 1f);
@@ -56,18 +56,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set animation: ",
-				this.AnimationIndex,
-				" on channel: ",
-				this.ChannelNo,
-				" of MissionObject with ID: ",
-				this.MissionObject.Id.Id,
-				this.MissionObject.Id.CreatedAtRuntime ? " (Created at runtime)" : "",
-				" and with name: ",
-				this.MissionObject.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Set animation: ", this.AnimationIndex, " on channel: ", this.ChannelNo, " of MissionObject with ID: ", this.MissionObjectId });
 		}
 	}
 }

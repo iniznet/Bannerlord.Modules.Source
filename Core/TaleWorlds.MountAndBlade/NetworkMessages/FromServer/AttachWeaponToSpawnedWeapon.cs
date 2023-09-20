@@ -12,14 +12,14 @@ namespace NetworkMessages.FromServer
 	{
 		public MissionWeapon Weapon { get; private set; }
 
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public MatrixFrame AttachLocalFrame { get; private set; }
 
-		public AttachWeaponToSpawnedWeapon(MissionWeapon weapon, MissionObject missionObject, MatrixFrame attachLocalFrame)
+		public AttachWeaponToSpawnedWeapon(MissionWeapon weapon, MissionObjectId missionObjectId, MatrixFrame attachLocalFrame)
 		{
 			this.Weapon = weapon;
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.AttachLocalFrame = attachLocalFrame;
 		}
 
@@ -30,7 +30,7 @@ namespace NetworkMessages.FromServer
 		protected override void OnWrite()
 		{
 			ModuleNetworkData.WriteWeaponReferenceToPacket(this.Weapon);
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteVec3ToPacket(this.AttachLocalFrame.origin, CompressionBasic.LocalPositionCompressionInfo);
 			GameNetworkMessage.WriteRotationMatrixToPacket(this.AttachLocalFrame.rotation);
 		}
@@ -39,7 +39,7 @@ namespace NetworkMessages.FromServer
 		{
 			bool flag = true;
 			this.Weapon = ModuleNetworkData.ReadWeaponReferenceFromPacket(MBObjectManager.Instance, ref flag);
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			Vec3 vec = GameNetworkMessage.ReadVec3FromPacket(CompressionBasic.LocalPositionCompressionInfo, ref flag);
 			Mat3 mat = GameNetworkMessage.ReadRotationMatrixFromPacket(ref flag);
 			if (flag)
@@ -61,7 +61,7 @@ namespace NetworkMessages.FromServer
 				"AttachWeaponToSpawnedWeapon with name: ",
 				(!this.Weapon.IsEmpty) ? this.Weapon.Item.Name : TextObject.Empty,
 				" to MissionObject: ",
-				this.MissionObject.Id.Id
+				this.MissionObjectId
 			});
 		}
 	}

@@ -30,7 +30,7 @@ namespace StoryMode.Quests.SecondPhase
 			}
 		}
 
-		public class AssembleEmpireQuestBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class AssembleEmpireQuestBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public AssembleEmpireQuestBehaviorTypeDefiner()
 				: base(1002000)
@@ -50,6 +50,14 @@ namespace StoryMode.Quests.SecondPhase
 				get
 				{
 					return new TextObject("{=ya8eMCpj}Unify the Empire", null);
+				}
+			}
+
+			private TextObject _questCanceledLogText
+			{
+				get
+				{
+					return new TextObject("{=tVlZTOst}You have chosen a different path.", null);
 				}
 			}
 
@@ -82,7 +90,6 @@ namespace StoryMode.Quests.SecondPhase
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 				StoryModeEvents.OnConspiracyActivatedEvent.AddNonSerializedListener(this, new Action(this.OnConspiracyActivated));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 			}
@@ -91,7 +98,8 @@ namespace StoryMode.Quests.SecondPhase
 			{
 				if (clan == Clan.PlayerClan && oldKingdom == StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom)
 				{
-					base.CompleteQuestWithCancel(null);
+					base.CompleteQuestWithCancel(this._questCanceledLogText);
+					StoryModeManager.Current.MainStoryLine.CancelSecondAndThirdPhase();
 				}
 			}
 
@@ -111,7 +119,7 @@ namespace StoryMode.Quests.SecondPhase
 				}
 			}
 
-			private void HourlyTick()
+			protected override void HourlyTick()
 			{
 				if (this.QuestConditionsHold())
 				{

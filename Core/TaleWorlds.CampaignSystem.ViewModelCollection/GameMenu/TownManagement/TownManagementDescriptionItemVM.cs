@@ -21,6 +21,28 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 		{
 			base.RefreshValues();
 			this.Title = this._titleObj.ToString();
+			this.RefreshIsWarning();
+		}
+
+		private void RefreshIsWarning()
+		{
+			int type = this.Type;
+			if (type == 1)
+			{
+				this.IsWarning = this.Value < 1;
+				return;
+			}
+			if (type == 5)
+			{
+				this.IsWarning = this.Value < Campaign.Current.Models.SettlementLoyaltyModel.RebelliousStateStartLoyaltyThreshold;
+				return;
+			}
+			if (type != 7)
+			{
+				this.IsWarning = false;
+				return;
+			}
+			this.IsWarning = this.Value < 1;
 		}
 
 		[DataSourceProperty]
@@ -108,6 +130,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			}
 		}
 
+		[DataSourceProperty]
+		public bool IsWarning
+		{
+			get
+			{
+				return this._isWarning;
+			}
+			set
+			{
+				if (value != this._isWarning)
+				{
+					this._isWarning = value;
+					base.OnPropertyChangedWithValue(value, "IsWarning");
+				}
+			}
+		}
+
 		private readonly TextObject _titleObj;
 
 		private int _type = -1;
@@ -119,6 +158,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 		private int _valueChange;
 
 		private BasicTooltipViewModel _hint;
+
+		private bool _isWarning;
 
 		public enum DescriptionType
 		{

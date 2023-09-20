@@ -47,10 +47,10 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		public KingdomDestroyedSceneNotificationItem(Kingdom destroyedKingdom)
+		public KingdomDestroyedSceneNotificationItem(Kingdom destroyedKingdom, CampaignTime creationTime)
 		{
 			this.DestroyedKingdom = destroyedKingdom;
-			this._creationCampaignTime = CampaignTime.Now;
+			this._creationCampaignTime = creationTime;
 		}
 
 		private const int NumberOfDeadTroops = 2;

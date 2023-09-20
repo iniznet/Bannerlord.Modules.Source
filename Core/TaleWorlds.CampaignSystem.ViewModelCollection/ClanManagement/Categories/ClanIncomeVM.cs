@@ -20,10 +20,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		{
 			this._onRefresh = onRefresh;
 			this._openCardSelectionPopup = openCardSelectionPopup;
-			this._clan = Hero.MainHero.Clan;
 			this.Incomes = new MBBindingList<ClanFinanceWorkshopItemVM>();
 			this.SupporterGroups = new MBBindingList<ClanSupporterGroupVM>();
 			this.Alleys = new MBBindingList<ClanFinanceAlleyItemVM>();
+			this.SortController = new ClanIncomeSortControllerVM(this._incomes, this._supporterGroups, this._alleys);
 			this.RefreshList();
 		}
 
@@ -39,11 +39,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 				x.RefreshValues();
 			});
 			ClanFinanceWorkshopItemVM currentSelectedIncome = this.CurrentSelectedIncome;
-			if (currentSelectedIncome == null)
+			if (currentSelectedIncome != null)
 			{
-				return;
+				currentSelectedIncome.RefreshValues();
 			}
-			currentSelectedIncome.RefreshValues();
+			this.SortController.RefreshValues();
 		}
 
 		public void RefreshList()
@@ -64,13 +64,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 			this.RefreshSupporters();
 			this.RefreshAlleys();
+			this.SortController.ResetAllStates();
 			GameTexts.SetVariable("STR1", GameTexts.FindText("str_clan_workshops", null));
 			GameTexts.SetVariable("LEFT", Hero.MainHero.OwnedWorkshops.Count);
-			GameTexts.SetVariable("RIGHT", Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForTier(Clan.PlayerClan.Tier));
+			GameTexts.SetVariable("RIGHT", Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForClanTier(Clan.PlayerClan.Tier));
 			GameTexts.SetVariable("STR2", GameTexts.FindText("str_LEFT_over_RIGHT_in_paranthesis", null));
 			this.WorkshopText = GameTexts.FindText("str_STR1_space_STR2", null).ToString();
-			this.SupportersText = new TextObject("{=RzFyGnWJ}Supporters", null).ToString();
-			this.AlleysText = new TextObject("{=7tKjfMSb}Alleys", null).ToString();
+			int num = 0;
+			foreach (ClanSupporterGroupVM clanSupporterGroupVM in this.SupporterGroups)
+			{
+				num += clanSupporterGroupVM.Supporters.Count;
+			}
+			GameTexts.SetVariable("RANK", new TextObject("{=RzFyGnWJ}Supporters", null).ToString());
+			GameTexts.SetVariable("NUMBER", num);
+			this.SupportersText = GameTexts.FindText("str_RANK_with_NUM_between_parenthesis", null).ToString();
+			GameTexts.SetVariable("RANK", new TextObject("{=7tKjfMSb}Alleys", null).ToString());
+			GameTexts.SetVariable("NUMBER", this.Alleys.Count);
+			this.AlleysText = GameTexts.FindText("str_RANK_with_NUM_between_parenthesis", null).ToString();
 			this.RefreshTotalIncome();
 			this.OnIncomeSelection(this.GetDefaultIncome());
 			this.RefreshValues();
@@ -172,7 +182,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 				this.CurrentSelectedAlley = null;
 				return;
 			}
-			this.OnAlleySelection(null);
+			this.OnIncomeSelection(null);
+			this.OnSupporterSelection(null);
 			if (this.CurrentSelectedAlley != null)
 			{
 				this.CurrentSelectedAlley.IsSelected = false;
@@ -196,6 +207,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 				return;
 			}
 			this.OnSupporterSelection(null);
+			this.OnAlleySelection(null);
 			if (this.CurrentSelectedIncome != null)
 			{
 				this.CurrentSelectedIncome.IsSelected = false;
@@ -219,6 +231,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 				return;
 			}
 			this.OnIncomeSelection(null);
+			this.OnAlleySelection(null);
 			if (this.CurrentSelectedSupporterGroup != null)
 			{
 				this.CurrentSelectedSupporterGroup.IsSelected = false;
@@ -543,7 +556,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		private readonly Clan _clan;
+		[DataSourceProperty]
+		public ClanIncomeSortControllerVM SortController
+		{
+			get
+			{
+				return this._sortController;
+			}
+			set
+			{
+				if (value != this._sortController)
+				{
+					this._sortController = value;
+					base.OnPropertyChangedWithValue<ClanIncomeSortControllerVM>(value, "SortController");
+				}
+			}
+		}
 
 		private readonly Action _onRefresh;
 
@@ -582,5 +610,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		private bool _isAnyValidIncomeSelected;
 
 		private bool _isAnyValidSupporterSelected;
+
+		private ClanIncomeSortControllerVM _sortController;
 	}
 }

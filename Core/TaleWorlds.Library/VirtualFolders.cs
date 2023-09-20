@@ -71,22 +71,22 @@ namespace TaleWorlds.Library
 				[VirtualDirectory("Parameters")]
 				public class Parameters
 				{
-					[VirtualFile("Environment", "Hv_Vp7wj3pHzimvCVGckW.tGxD_meNQ2RShr6kjmP3M.aSo8SXmfrtk_iqfYbgiP8SqEFY8WxnOY_9X9MUVMFLyP2aZeUjwQ2NXGsrvabRlpVVYmVpvzlKX1zppg7v8bzs8ffwQK_vfXp7T9sQLSEP5lGcBKnjbqEh97dtf4c.o-")]
+					[VirtualFile("Environment", "ONRPYIZhPC8MuCrW04wwi4D0g5tjueFcL4Euxk0O7.MUBM4bwNYboxtTQ5xL3OOTzqwi__57a0.nRvVJsRebEn1Uk8BLwywXBpo16GppXI982ltcsMslN6I._cVzbVGP63xq1RHplHflXCSAdPdq_yncmChlHYbeJ1vQZ67OOwk-")]
 					public string Environment;
 
-					[VirtualFile("Version.xml", "<Version>\t<Singleplayer Value=\"v1.1.6\"/></Version>")]
+					[VirtualFile("Version.xml", "<Version>\t<Singleplayer Value=\"v1.2.3\"/></Version>")]
 					public string Version;
 
-					[VirtualFile("ClientProfile.xml", "<ClientProfile Value=\"DigitalOcean.Discovery\"/>")]
+					[VirtualFile("ClientProfile.xml", "<ClientProfile Value=\"DigitalOcean.Test6\"/>")]
 					public string ClientProfile;
 
 					[VirtualDirectory("ClientProfiles")]
 					public class ClientProfiles
 					{
-						[VirtualDirectory("DigitalOcean.Discovery")]
-						public class DigitalOceanDiscovery
+						[VirtualDirectory("DigitalOcean.Test6")]
+						public class DigitalOceanTest6
 						{
-							[VirtualFile("LobbyClient.xml", "<Configuration>\t<SessionProvider Type=\"ThreadedRest\" />\t<Clients>\t\t<Client Type=\"LobbyClient\" />\t</Clients>\t<Parameters>\t\t<Parameter Name=\"LobbyClient.ServiceDiscovery.Address\" Value=\"https://bannerlord-service-discovery.bannerlord-services-3.net/\" />\t\t\t\t<Parameter Name=\"LobbyClient.Address\" Value=\"service://bannerlord.lobby/\" />\t\t<Parameter Name=\"LobbyClient.Port\" Value=\"443\" />\t\t<Parameter Name=\"LobbyClient.IsSecure\" Value=\"true\" />\t</Parameters></Configuration>")]
+							[VirtualFile("LobbyClient.xml", "<Configuration>\t<SessionProvider Type=\"ThreadedRest\" />\t<Clients>\t\t<Client Type=\"LobbyClient\" />\t</Clients>\t<Parameters>\t\t<Parameter Name=\"LobbyClient.Address\" Value=\"bannerlord-test6-lobby.bannerlord-services-2.net\" />\t\t<Parameter Name=\"LobbyClient.Port\" Value=\"443\" />\t\t<Parameter Name=\"LobbyClient.IsSecure\" Value=\"true\" />\t</Parameters></Configuration>")]
 							public string LobbyClient;
 						}
 					}

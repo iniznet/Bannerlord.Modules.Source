@@ -15,7 +15,8 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		public override void EnqueueTroopSpawnProbabilitiesAccordingToUnitSpawnPrioritization(MapEventParty battleParty, FlattenedTroopRoster priorityTroops, bool includePlayer, int sizeOfSide, bool forcePriorityTroops, List<ValueTuple<FlattenedTroopRosterElement, MapEventParty, float>> priorityList)
 		{
 			UnitSpawnPrioritizations unitSpawnPrioritizations = UnitSpawnPrioritizations.HighLevel;
-			bool flag = PlayerEncounter.Current != null && PlayerEncounter.Current.IsSallyOutAmbush;
+			MapEvent battle = PlayerEncounter.Battle;
+			bool flag = battle != null && battle.IsSiegeAmbush;
 			if (battleParty.Party == PartyBase.MainParty && !flag)
 			{
 				unitSpawnPrioritizations = Game.Current.UnitSpawnPrioritization;

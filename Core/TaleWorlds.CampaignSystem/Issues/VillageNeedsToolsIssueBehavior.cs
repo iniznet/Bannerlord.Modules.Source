@@ -152,7 +152,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=BGJpwxvm}We do have some problems. A sickness passed through here last month. Praise the Heavens, only a few people died, but many were weakened and we couldn't get much work done. Now we need to hire some laborers from nearby settlements to make up the shortfall, but we don't have the tools for them. We're in a bit of a rush - do you think you could find tools for us?", null);
+					return new TextObject("{=BGJpwxvm}We do have some problems. [ib:demure][if:convo_dismayed] A sickness passed through here last month. Praise the Heavens, only a few people died, but many were weakened and we couldn't get much work done. Now we need to hire some laborers from nearby settlements to make up the shortfall, but we don't have the tools for them. We're in a bit of a rush - do you think you could find tools for us?", null);
 				}
 			}
 
@@ -199,7 +199,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=8llksa4h}If so, you'll need a man with good understanding of trade. Also you will need at least {NUMBER_OF_TROOPS} fighting men to protect the goods while taking them to market and back. Your companion will also probably need around {GOLD_COST}{GOLD_ICON} in order to buy the tools.", null);
+					TextObject textObject = new TextObject("{=8llksa4h}If so, you'll need a man with good understanding of trade. Also you will need at least {NUMBER_OF_TROOPS} fighting men to protect the goods while taking them to market and back. Your companion will also probably need around {GOLD_COST}{GOLD_ICON} in order to buy the tools.[if:convo_confused_normal]", null);
 					textObject.SetTextVariable("NUMBER_OF_TROOPS", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("GOLD_COST", this.CostOfToolsForAlternativeSolution);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -267,7 +267,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=JxUrkzd1}Thank you. I hope your men can get us the tools on time. Good luck.", null);
+					return new TextObject("{=JxUrkzd1}Thank you. I hope your men can get us the tools on time. Good luck.[ib:demure][if:convo_astonished]", null);
 				}
 			}
 
@@ -332,6 +332,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -483,7 +487,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=BOp61V4A}{QUEST_GIVER.LINK} told you that {?QUEST_GIVER.GENDER}she{?}he{\\?} needs {._}{REQUIRED_ITEM} for {?QUEST_GIVER.GENDER}her{?}his{\\?} village. {?QUEST_GIVER.GENDER}She{?}He{\\?} asked you to bring {ITEM_COUNT} {._}{REQUIRED_ITEM} to {?QUEST_GIVER.GENDER}her{?}him{\\?}. {PAYMENT_DESCRIPTION}", null);
+					TextObject textObject = new TextObject("{=BOp61V4A}{QUEST_GIVER.LINK} told you that {?QUEST_GIVER.GENDER}she{?}he{\\?} needs {._}{REQUIRED_ITEM} for {?QUEST_GIVER.GENDER}her{?}his{\\?} village. {?QUEST_GIVER.GENDER}She{?}He{\\?} asked you to bring {ITEM_COUNT} {.%}{?(ITEM_COUNT > 1)}{PLURAL(REQUIRED_ITEM)}{?}{REQUIRED_ITEM}{\\?}{.%}  to {?QUEST_GIVER.GENDER}her{?}him{\\?}. {PAYMENT_DESCRIPTION}", null);
 					textObject.SetTextVariable("REQUIRED_ITEM", this._requestedTradeGood.Name);
 					textObject.SetTextVariable("ITEM_COUNT", this._numberOfRequestedGood);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
@@ -601,6 +605,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				return this.GetCurrentToolsAmountInPlayerRoster() >= this._numberOfRequestedGood;
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
@@ -628,7 +636,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredQuestCancelLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredQuestCancelLog, false);
 			}
 
 			private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
@@ -704,7 +712,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 				if (exchangeItem != null)
 				{
 					questGiver.CurrentSettlement.ItemRoster.AddToCounts(exchangeItem, exchangeItemCount);
-					GiveItemAction.ApplyForParties(questGiver.CurrentSettlement.Party, PartyBase.MainParty, exchangeItem, exchangeItemCount);
+					ItemRosterElement itemRosterElement = new ItemRosterElement(exchangeItem, exchangeItemCount, null);
+					GiveItemAction.ApplyForParties(questGiver.CurrentSettlement.Party, PartyBase.MainParty, itemRosterElement);
 					return;
 				}
 				GiveGoldAction.ApplyForQuestBetweenCharacters(questGiver, Hero.MainHero, gold, false);

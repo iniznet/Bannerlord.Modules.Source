@@ -121,9 +121,9 @@ namespace StoryMode.Quests.FirstPhase
 			return DialogFlow.CreateDialogFlow("hero_main_options", 300).BeginPlayerOptions().PlayerSpecialOption(new TextObject("{=Ke7f4XSC}I present you with the Dragon Banner of Calradios.", null), null)
 				.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.CheckConditionToSupportKingdom))
 				.Condition(() => Hero.OneToOneConversationHero.Clan != null && Hero.OneToOneConversationHero.Clan.Kingdom != null && Hero.OneToOneConversationHero.Clan.Kingdom.Leader == Hero.OneToOneConversationHero && StoryModeData.IsKingdomImperial(Hero.OneToOneConversationHero.Clan.Kingdom))
-				.NpcLine("{=PQgzfHLk}Well now. I had heard rumors that you had obtained this great artifact.", null, null)
-				.NpcLine("{=ULn7iWlz}It will be a powerful tool in our hands. People will believe that the Heavens intend us to restore the Empire of Calradia.", null, null)
-				.NpcLine("{=S1yCTPrL}This is one of the most valuable services anyone has ever done for me. I am very grateful.", null, null)
+				.NpcLine("{=PQgzfHLk}Well now. I had heard rumors that you had obtained this great artifact.[if:convo_nonchalant]", null, null)
+				.NpcLine("{=ULn7iWlz}It will be a powerful tool in our hands. People will believe that the Heavens intend us to restore the Empire of Calradia.[if:convo_pondering]", null, null)
+				.NpcLine("{=S1yCTPrL}This is one of the most valuable services anyone has ever done for me. I am very grateful.[if:convo_grateful]", null, null)
 				.Consequence(delegate
 				{
 					this.OnKingdomSupported(Hero.OneToOneConversationHero.Clan.Kingdom, true);
@@ -145,9 +145,9 @@ namespace StoryMode.Quests.FirstPhase
 			return DialogFlow.CreateDialogFlow("hero_main_options", 300).BeginPlayerOptions().PlayerSpecialOption(new TextObject("{=Ke7f4XSC}I present you with the Dragon Banner of Calradios.", null), null)
 				.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.CheckConditionToSupportKingdom))
 				.Condition(() => Hero.OneToOneConversationHero.Clan != null && Hero.OneToOneConversationHero.Clan.Kingdom != null && Hero.OneToOneConversationHero.Clan.Kingdom.Leader == Hero.OneToOneConversationHero && !StoryModeData.IsKingdomImperial(Hero.OneToOneConversationHero.Clan.Kingdom))
-				.NpcLine("{=PQgzfHLk}Well now. I had heard rumors that you had obtained this great artifact.", null, null)
-				.NpcLine("{=4olAbDTq}It will be a powerful tool in our hands. People will believe that the Heavens have transferred dominion over Calradia from the Empire to us.", null, null)
-				.NpcLine("{=S1yCTPrL}This is one of the most valuable services anyone has ever done for me. I am very grateful.", null, null)
+				.NpcLine("{=PQgzfHLk}Well now. I had heard rumors that you had obtained this great artifact.[if:convo_nonchalant]", null, null)
+				.NpcLine("{=4olAbDTq}It will be a powerful tool in our hands. People will believe that the Heavens have transferred dominion over Calradia from the Empire to us.[if:convo_pondering]", null, null)
+				.NpcLine("{=S1yCTPrL}This is one of the most valuable services anyone has ever done for me. I am very grateful.[if:convo_grateful]", null, null)
 				.Consequence(delegate
 				{
 					this.OnKingdomSupported(Hero.OneToOneConversationHero.Clan.Kingdom, false);
@@ -168,11 +168,11 @@ namespace StoryMode.Quests.FirstPhase
 		{
 			return DialogFlow.CreateDialogFlow("hero_main_options", 300).BeginPlayerOptions().PlayerSpecialOption(new TextObject("{=O2BAcMNO}As the legitimate {?PLAYER.GENDER}Empress{?}Emperor{\\?} of Calradia, I am ready to declare my ownership of the Dragon Banner.", null), null)
 				.Condition(() => base.IsOngoing && Hero.OneToOneConversationHero == StoryModeHeroes.ImperialMentor)
-				.NpcLine("{=ATduKfHu}This will make a great impression. It will attract allies, but also probably make you new enemies. Are you sure you're ready?", null, null)
+				.NpcLine("{=ATduKfHu}This will make a great impression. It will attract allies, but also probably make you new enemies. Are you sure you're ready?[if:convo_undecided_closed]", null, null)
 				.BeginPlayerOptions()
 				.PlayerOption("{=n8pmVHNn}Yes, I am ready.", null)
 				.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.CheckPlayerCanDeclareBannerOwnershipClickableCondition))
-				.NpcLine("{=gL241Hoz}Very nice. Superstitious twaddle, of course, but people will believe you. Very well, oh heir to Calradios, go forth!", null, null)
+				.NpcLine("{=gL241Hoz}Very nice. Superstitious twaddle, of course, but people will believe you. Very well, oh heir to Calradios, go forth![if:convo_nonchalant]", null, null)
 				.Consequence(delegate
 				{
 					this.OnKingdomSupported(Clan.PlayerClan.Kingdom, true);
@@ -184,8 +184,8 @@ namespace StoryMode.Quests.FirstPhase
 				.CloseDialog()
 				.PlayerOption("{=eYXLYgsC}I still am not sure what I will do with it.", null)
 				.Condition(() => base.IsOngoing && Hero.OneToOneConversationHero == StoryModeHeroes.ImperialMentor)
-				.NpcLine("{=UCoOMWaj}As I said before, there's a case for all of the claimants. When this war began, I thought Rhagaea understood best how to rule, Garios was the strongest warrior, and Lucon had the firmest grasp of our traditions.", null, null)
-				.NpcLine("{=uFsMzAuR}Speak to whichever one you choose, or come back to me if you wish to claim the banner for yourself.", null, null)
+				.NpcLine("{=UCoOMWaj}As I said before, there's a case for all of the claimants. When this war began, I thought Rhagaea understood best how to rule, Garios was the strongest warrior, and Lucon had the firmest grasp of our traditions.[if:convo_empathic_voice]", null, null)
+				.NpcLine("{=uFsMzAuR}Speak to whichever one you choose, or come back to me if you wish to claim the banner for yourself.[if:convo_normal]", null, null)
 				.CloseDialog()
 				.EndPlayerOptions()
 				.NpcLine("{=Z54ZrDG9}Until next time, then.", null, null)
@@ -196,18 +196,18 @@ namespace StoryMode.Quests.FirstPhase
 		{
 			return DialogFlow.CreateDialogFlow("hero_main_options", 300).BeginPlayerOptions().PlayerSpecialOption(new TextObject("{=N5jJtZyr}As the Empire's nemesis, I am ready to declare my ownership of the Dragon Banner.", null), null)
 				.Condition(() => base.IsOngoing && Hero.OneToOneConversationHero == StoryModeHeroes.AntiImperialMentor)
-				.NpcLine("{=ATduKfHu}This will make a great impression. It will attract allies, but also probably make you new enemies. Are you sure you're ready?", null, null)
+				.NpcLine("{=BXMKgTXl}This will make a great impression. It will attract allies, but also probably make you new enemies. Are you sure you're ready?[if:convo_astonished]", null, null)
 				.BeginPlayerOptions()
 				.PlayerOption("{=ALWqXMiP}Yes, I am sure.", null)
 				.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.CheckPlayerCanDeclareBannerOwnershipClickableCondition))
-				.NpcLine("{=exoZygYL}Very well. The Dragon Banner in your hands proclaims you the avenger of the Empire's crimes and its successor. Now go forth and claim your destiny!", null, null)
+				.NpcLine("{=exoZygYL}Very well. The Dragon Banner in your hands proclaims you the avenger of the Empire's crimes and its successor. Now go forth and claim your destiny![if:convo_calm_friendly]", null, null)
 				.Consequence(delegate
 				{
 					this.OnKingdomSupported(Clan.PlayerClan.Kingdom, false);
 				})
 				.CloseDialog()
 				.PlayerOption("{=fRMIoPUK}Give me more time.", null)
-				.NpcLine("{=KH07mJ5k}Very well, come back when you are ready.", null, null)
+				.NpcLine("{=YgoxFJSz}Very well, come back when you are ready.[if:convo_nonchalant]", null, null)
 				.EndPlayerOptions()
 				.CloseDialog()
 				.PlayerOption("{=tzsZTcWd}I wonder which kingdom should I support..", null)
@@ -295,9 +295,12 @@ namespace StoryMode.Quests.FirstPhase
 		{
 			if ((this._isImperial && chosenSide != MainStoryLineSide.SupportImperialKingdom && chosenSide != MainStoryLineSide.CreateImperialKingdom) || (!this._isImperial && chosenSide != MainStoryLineSide.SupportAntiImperialKingdom && chosenSide != MainStoryLineSide.CreateAntiImperialKingdom))
 			{
-				base.AddLog(this._questFailedLogText, false);
-				base.CompleteQuestWithFail(null);
+				base.CompleteQuestWithCancel(this._questFailedLogText);
 			}
+		}
+
+		protected override void HourlyTick()
+		{
 		}
 
 		protected override void RegisterEvents()

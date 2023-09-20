@@ -45,6 +45,10 @@ namespace StoryMode.Quests.TutorialPhase
 			this._recruitTroopTutorialQuestTask.InitializeTaskOnLoad(4, new Func<CharacterObject, bool>(this.DoesRecruitedTroopSatifyRecruitTroopTask), Settlement.Find("village_ES3_2"));
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		private bool DoesRecruitedTroopSatifyRecruitTroopTask(CharacterObject troop)
 		{
 			return true;
@@ -71,7 +75,7 @@ namespace StoryMode.Quests.TutorialPhase
 			return ((RecruitTroopsTutorialQuest)o)._recruitTroopTutorialQuestTask;
 		}
 
-		private const int RecruitTroopAmount = 4;
+		public const int RecruitTroopAmount = 4;
 
 		[SaveableField(1)]
 		private readonly RecruitTroopTutorialQuestTask _recruitTroopTutorialQuestTask;

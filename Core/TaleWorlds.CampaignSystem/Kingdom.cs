@@ -602,7 +602,7 @@ namespace TaleWorlds.CampaignSystem
 
 		public Kingdom()
 		{
-			this._activePolicies = new List<PolicyObject>();
+			this._activePolicies = new MBList<PolicyObject>();
 			this._armies = new MBList<Army>();
 			this.InitializeCachedLists();
 			this.EncyclopediaText = TextObject.Empty;
@@ -698,7 +698,6 @@ namespace TaleWorlds.CampaignSystem
 							warPartyComponent.MobileParty.MapEvent.FinalizeEvent();
 						}
 					}
-					ChangeKingdomAction.ApplyByLeaveWithRebellionAgainstKingdom(clan, false);
 				}
 			}
 		}
@@ -745,7 +744,7 @@ namespace TaleWorlds.CampaignSystem
 		{
 			if (!armyLeader.IsActive)
 			{
-				Debug.Print("Failed to create army, leader - " + ((armyLeader != null) ? armyLeader.Name : null) + " is inactive", 0, Debug.DebugColor.White, 17592186044416UL);
+				Debug.Print(string.Format("Failed to create army, leader - {0}: {1} is inactive", (armyLeader != null) ? armyLeader.StringId : null, (armyLeader != null) ? armyLeader.Name : null), 0, Debug.DebugColor.White, 17592186044416UL);
 				return;
 			}
 			if (((armyLeader != null) ? armyLeader.PartyBelongedTo.LeaderHero : null) != null)
@@ -1051,7 +1050,7 @@ namespace TaleWorlds.CampaignSystem
 		public int PoliticalStagnation;
 
 		[SaveableField(26)]
-		private List<PolicyObject> _activePolicies;
+		private MBList<PolicyObject> _activePolicies;
 
 		[SaveableField(29)]
 		private bool _isEliminated;

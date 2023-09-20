@@ -278,14 +278,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 				for (int i = this._issuesWaitingForPlayerCaptivity.Count - 1; i >= 0; i--)
 				{
 					IssueBase item = this._issuesWaitingForPlayerCaptivity[i];
-					this._issuesWaitingForPlayerCaptivity.RemoveAt(i);
 					StringHelpers.SetCharacterProperties("COMPANION", item.AlternativeSolutionHero.CharacterObject, textObject, false);
 					textObject.SetTextVariable("NUMBER", item.AlternativeSolutionSentTroops.TotalManCount);
 					InformationManager.ShowInquiry(new InquiryData(string.Empty, textObject.ToString(), true, false, GameTexts.FindText("str_ok", null).ToString(), null, delegate
 					{
+						this._issuesWaitingForPlayerCaptivity.Remove(item);
 						item.CompleteIssueWithAlternativeSolution();
 					}, null, "", 0f, null, null, null), true, false);
 				}
+			}
+			foreach (KeyValuePair<Hero, IssueBase> keyValuePair in this.Issues)
+			{
+				keyValuePair.Value.HourlyTickWithIssueManager();
 			}
 		}
 
@@ -498,29 +502,28 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		public override void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
-			TextObject textObject;
-			if (killer != null)
+			if (victim.Issue != null)
 			{
-				textObject = GameTexts.FindText("str_responsible_of_death_link_news", null);
-				StringHelpers.SetCharacterProperties("HERO_1", killer.CharacterObject, textObject, false);
-				StringHelpers.SetCharacterProperties("HERO_2", victim.CharacterObject, textObject, false);
-			}
-			else
-			{
-				textObject = GameTexts.FindText("str_murdered_passive_news", null);
-				StringHelpers.SetCharacterProperties("HERO_2", victim.CharacterObject, textObject, false);
-			}
-			List<IssueBase> list = new List<IssueBase>();
-			foreach (KeyValuePair<Hero, IssueBase> keyValuePair in this.Issues)
-			{
-				if (keyValuePair.Key == victim)
+				if (victim.Issue.IssueQuest != null && victim.Issue.IssueQuest.IsOngoing)
 				{
-					list.Add(keyValuePair.Value);
+					TextObject textObject = new TextObject("{=rTvWdMXF}{DIED_HERO.LINK} died and your agreement with {?DIED_HERO.GENDER}her{?}him{\\?} canceled.", null);
+					StringHelpers.SetCharacterProperties("DIED_HERO", victim.CharacterObject, textObject, false);
+					victim.Issue.IssueQuest.CompleteQuestWithCancel(textObject);
+					return;
 				}
-			}
-			foreach (IssueBase issueBase in list)
-			{
-				issueBase.CompleteIssueWithCancel(textObject);
+				TextObject textObject2;
+				if (killer != null)
+				{
+					textObject2 = GameTexts.FindText("str_responsible_of_death_link_news", null);
+					StringHelpers.SetCharacterProperties("HERO_1", killer.CharacterObject, textObject2, false);
+					StringHelpers.SetCharacterProperties("HERO_2", victim.CharacterObject, textObject2, false);
+				}
+				else
+				{
+					textObject2 = GameTexts.FindText("str_murdered_passive_news", null);
+					StringHelpers.SetCharacterProperties("HERO_2", victim.CharacterObject, textObject2, false);
+				}
+				victim.Issue.CompleteIssueWithCancel(textObject2);
 			}
 		}
 

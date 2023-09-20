@@ -69,7 +69,6 @@ namespace TaleWorlds.MountAndBlade
 			int num = (int)MathF.Sqrt((float)base.Formation.CountOfUnits);
 			float num2 = (float)num * base.Formation.UnitDiameter + (float)(num - 1) * base.Formation.Interval;
 			base.Formation.FormOrder = FormOrder.FormOrderCustom(num2);
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		protected override float GetAiWeight()

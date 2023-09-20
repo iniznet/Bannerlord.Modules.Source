@@ -19,6 +19,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			base.OnTick(dt);
 			if (this._data != null)
 			{
+				this.UpdateButtonEnabledStates();
 				if (this._data.ExpireTime > 0f)
 				{
 					if (this._queryTimer > this._data.ExpireTime)
@@ -29,14 +30,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 							timeoutAction();
 						}
 						base.CloseQuery();
+						return;
 					}
-					else
-					{
-						this._queryTimer += dt;
-						this.RemainingQueryTime = this._data.ExpireTime - this._queryTimer;
-					}
+					this._queryTimer += dt;
+					this.RemainingQueryTime = this._data.ExpireTime - this._queryTimer;
 				}
-				this.UpdateButtonEnabledStates();
 			}
 		}
 
@@ -81,6 +79,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			else
 			{
 				base.IsButtonOkEnabled = true;
+				base.ButtonOkHint.HintText = TextObject.Empty;
 				this._lastButtonOkHint = string.Empty;
 			}
 			if (this._data.GetIsNegativeOptionEnabled != null)
@@ -95,6 +94,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 				return;
 			}
 			base.IsButtonCancelEnabled = true;
+			base.ButtonOkHint.HintText = TextObject.Empty;
 			this._lastButtonCancelHint = string.Empty;
 		}
 

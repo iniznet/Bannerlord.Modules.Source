@@ -58,11 +58,21 @@ namespace TaleWorlds.Core
 			return string.Concat(new string[] { "<a style=\"Link\" href=\"event:", link, "\"><b>", name, "</b></a>" });
 		}
 
+		public static string GetGenericImageText(string meshId, int extend = 0)
+		{
+			return string.Format("<img src=\"{0}\" extend=\"{1}\">", meshId, extend);
+		}
+
 		public static string GetKeyHyperlinkText(string keyID)
 		{
 			string text = "None";
 			int num = 16;
 			HyperlinkTexts.ConsoleType consoleType = HyperlinkTexts.ConsoleType.Xbox;
+			Func<bool> isPlayStationGamepadActive = HyperlinkTexts.IsPlayStationGamepadActive;
+			if (isPlayStationGamepadActive != null && isPlayStationGamepadActive())
+			{
+				consoleType = HyperlinkTexts.ConsoleType.Ps5;
+			}
 			uint num2 = <PrivateImplementationDetails>.ComputeStringHash(keyID);
 			if (num2 <= 2083773698U)
 			{
@@ -80,41 +90,41 @@ namespace TaleWorlds.Core
 									{
 										if (num2 != 97396832U)
 										{
-											goto IL_155A;
+											goto IL_156F;
 										}
 										if (!(keyID == "D3"))
 										{
-											goto IL_155A;
+											goto IL_156F;
 										}
 									}
 									else
 									{
 										if (!(keyID == "LeftAlt"))
 										{
-											goto IL_155A;
+											goto IL_156F;
 										}
-										goto IL_1509;
+										goto IL_151E;
 									}
 								}
 								else if (num2 != 100894848U)
 								{
 									if (num2 != 106449248U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "RightMouseButton"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_1404;
+									goto IL_1419;
 								}
 								else
 								{
 									if (!(keyID == "Extended"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (num2 <= 115203180U)
@@ -123,39 +133,39 @@ namespace TaleWorlds.Core
 								{
 									if (num2 != 115203180U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "BackSpace"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_13E6;
+									goto IL_13FB;
 								}
 								else if (!(keyID == "D2"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (num2 != 117964108U)
 							{
 								if (num2 != 130952070U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "D1"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else
 							{
 								if (!(keyID == "NumpadMinus"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								num = 24;
 								text = "-";
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 <= 181284927U)
@@ -166,36 +176,36 @@ namespace TaleWorlds.Core
 								{
 									if (num2 != 147729689U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "D0"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 								}
 								else
 								{
 									if (!(keyID == "OpenBraces"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (num2 != 164507308U)
 							{
 								if (num2 != 181284927U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "D6"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (!(keyID == "D7"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 <= 198356736U)
@@ -204,34 +214,34 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 198356736U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "F9"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_13D7;
+								goto IL_13EC;
 							}
 							else if (!(keyID == "D5"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 != 214840165U)
 						{
 							if (num2 != 215134355U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "F8"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else if (!(keyID == "D4"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 <= 382910545U)
@@ -244,37 +254,37 @@ namespace TaleWorlds.Core
 								{
 									if (num2 != 265173022U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "D9"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 								}
 								else
 								{
 									if (!(keyID == "Insert"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (num2 != 281950641U)
 							{
 								if (num2 != 302657454U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "ControllerRStickUp"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_154A;
+								goto IL_155F;
 							}
 							else if (!(keyID == "D8"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 <= 354454743U)
@@ -283,44 +293,44 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 354454743U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "ControllerRThumb"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								num = ((consoleType == HyperlinkTexts.ConsoleType.Xbox) ? 12 : 10);
 								text = "controllerrthumb";
-								goto IL_155A;
+								goto IL_156F;
 							}
 							else
 							{
 								if (!(keyID == "F1"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_13D7;
+								goto IL_13EC;
 							}
 						}
 						else if (num2 != 366132926U)
 						{
 							if (num2 != 382910545U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "F2"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "F3"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 					}
 					else if (num2 <= 433243402U)
@@ -331,42 +341,42 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 399688164U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "F5"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_13D7;
+								goto IL_13EC;
 							}
 							else
 							{
 								if (!(keyID == "MouseScrollUp"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1404;
+								goto IL_1419;
 							}
 						}
 						else if (num2 != 416465783U)
 						{
 							if (num2 != 433243402U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "F7"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "F4"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 					}
 					else if (num2 <= 513712005U)
@@ -375,42 +385,42 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 513712005U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "Right"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "F6"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 					}
 					else if (num2 != 575450500U)
 					{
 						if (num2 != 1039550435U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "ControllerLDown"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_1413;
+						goto IL_1428;
 					}
 					else
 					{
 						if (!(keyID == "Apostrophe"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else
@@ -427,41 +437,41 @@ namespace TaleWorlds.Core
 									{
 										if (num2 != 1050238388U)
 										{
-											goto IL_155A;
+											goto IL_156F;
 										}
 										if (!(keyID == "Equals"))
 										{
-											goto IL_155A;
+											goto IL_156F;
 										}
-										goto IL_155A;
+										goto IL_156F;
 									}
 									else
 									{
 										if (!(keyID == "PageUp"))
 										{
-											goto IL_155A;
+											goto IL_156F;
 										}
-										goto IL_155A;
+										goto IL_156F;
 									}
 								}
 								else if (num2 != 1081442551U)
 								{
 									if (num2 != 1107541039U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "ControllerRTrigger"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 								}
 								else
 								{
 									if (!(keyID == "CloseBraces"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (num2 <= 1138704245U)
@@ -470,42 +480,42 @@ namespace TaleWorlds.Core
 								{
 									if (num2 != 1138704245U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "X1MouseButton"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_155A;
+									goto IL_156F;
 								}
 								else
 								{
 									if (!(keyID == "Up"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_13D7;
+									goto IL_13EC;
 								}
 							}
 							else if (num2 != 1174120482U)
 							{
 								if (num2 != 1231278590U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "RightControl"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_14FE;
+								goto IL_1513;
 							}
 							else
 							{
 								if (!(keyID == "ControllerLUp"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1413;
+								goto IL_1428;
 							}
 						}
 						else if (num2 <= 1469573738U)
@@ -516,38 +526,38 @@ namespace TaleWorlds.Core
 								{
 									if (num2 != 1391791790U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "Home"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_155A;
+									goto IL_156F;
 								}
 								else if (!(keyID == "ControllerLTrigger"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (num2 != 1428210068U)
 							{
 								if (num2 != 1469573738U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "Delete"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_155A;
+								goto IL_156F;
 							}
 							else
 							{
 								if (!(keyID == "LeftShift"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_14F3;
+								goto IL_1508;
 							}
 						}
 						else if (num2 <= 1537849368U)
@@ -556,48 +566,48 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 1537849368U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "ControllerROption"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								num = 16;
 								text = ((consoleType == HyperlinkTexts.ConsoleType.Ps4) ? (keyID.ToLower() + "_4") : keyID.ToLower());
-								goto IL_155A;
+								goto IL_156F;
 							}
 							else
 							{
 								if (!(keyID == "ControllerLLeft"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1413;
+								goto IL_1428;
 							}
 						}
 						else if (num2 != 1650792303U)
 						{
 							if (num2 != 1702612722U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "ControllerRBumper"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_1438;
+							goto IL_144D;
 						}
 						else
 						{
 							if (!(keyID == "ControllerRStickRight"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_154A;
+							goto IL_155F;
 						}
 						num = 16;
 						text = keyID.ToLower();
-						goto IL_155A;
+						goto IL_156F;
 					}
 					if (num2 <= 1893487785U)
 					{
@@ -609,38 +619,38 @@ namespace TaleWorlds.Core
 								{
 									if (num2 != 1806183147U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "MiddleMouseButton"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_1404;
+									goto IL_1419;
 								}
 								else
 								{
 									if (!(keyID == "Comma"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else if (num2 != 1843154928U)
 							{
 								if (num2 != 1852896292U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "ControllerRLeft"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1429;
+								goto IL_143E;
 							}
 							else if (!(keyID == "Numpad4"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 <= 1868010299U)
@@ -649,33 +659,33 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 1868010299U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "ControllerRStick"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_154A;
+								goto IL_155F;
 							}
 							else if (!(keyID == "Numpad5"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 != 1876710166U)
 						{
 							if (num2 != 1893487785U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "Numpad7"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (!(keyID == "Numpad6"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 <= 1943820642U)
@@ -686,36 +696,36 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 1910265404U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "Numpad0"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else
 							{
 								if (!(keyID == "Slash"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 != 1927043023U)
 						{
 							if (num2 != 1943820642U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "Numpad2"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (!(keyID == "Numpad1"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 <= 2008406340U)
@@ -724,17 +734,17 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 2008406340U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "ControllerLStickUp"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_1526;
+							goto IL_153B;
 						}
 						else if (!(keyID == "Numpad3"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 != 2044486356U)
@@ -743,27 +753,27 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 2083773698U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "ControllerRStickLeft"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_154A;
+							goto IL_155F;
 						}
 						else if (!(keyID == "Numpad9"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (!(keyID == "Numpad8"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				num = 24;
 				text = keyID.Substring(keyID.Length - 1);
-				goto IL_155A;
+				goto IL_156F;
 			}
 			if (num2 <= 3373006507U)
 			{
@@ -779,42 +789,42 @@ namespace TaleWorlds.Core
 								{
 									if (num2 != 2144691513U)
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
 									if (!(keyID == "ControllerRDown"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_1429;
+									goto IL_143E;
 								}
 								else
 								{
 									if (!(keyID == "ControllerRStickDown"))
 									{
-										goto IL_155A;
+										goto IL_156F;
 									}
-									goto IL_154A;
+									goto IL_155F;
 								}
 							}
 							else if (num2 != 2157724748U)
 							{
 								if (num2 != 2267317284U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "Period"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_155A;
+								goto IL_156F;
 							}
 							else
 							{
 								if (!(keyID == "ControllerLStickLeft"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1526;
+								goto IL_153B;
 							}
 						}
 						else if (num2 <= 2365054562U)
@@ -823,43 +833,43 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 2365054562U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "NumpadEnter"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 							}
 							else
 							{
 								if (!(keyID == "Tilde"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								num = 24;
 								text = "tilde";
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 != 2434225852U)
 						{
 							if (num2 != 2457286800U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "Left"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "RightAlt"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_1509;
+							goto IL_151E;
 						}
 					}
 					else if (num2 <= 2761510965U)
@@ -870,44 +880,44 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 2728445041U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "ControllerLStickDown"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1526;
+								goto IL_153B;
 							}
 							else
 							{
 								if (!(keyID == "ControllerLStick"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1526;
+								goto IL_153B;
 							}
 						}
 						else if (num2 != 2746130317U)
 						{
 							if (num2 != 2761510965U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "Down"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "ControllerLThumb"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							num = ((consoleType == HyperlinkTexts.ConsoleType.Xbox) ? 12 : 10);
 							text = "controllerlthumb";
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 <= 2769091631U)
@@ -916,42 +926,42 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 2769091631U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "CapsLock"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13E6;
+							goto IL_13FB;
 						}
 						else
 						{
 							if (!(keyID == "X2MouseButton"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 != 2906557000U)
 					{
 						if (num2 != 2913305049U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "ControllerLStickRight"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_1526;
+						goto IL_153B;
 					}
 					else
 					{
 						if (!(keyID == "ControllerLBumper"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_1438;
+						goto IL_144D;
 					}
 				}
 				else if (num2 <= 3241480638U)
@@ -964,38 +974,38 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 3001337907U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "LeftMouseButton"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_1404;
+								goto IL_1419;
 							}
 							else if (!(keyID == "Enter"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 != 3036628469U)
 						{
 							if (num2 != 3082514982U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "Escape"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "LeftControl"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_14FE;
+							goto IL_1513;
 						}
 					}
 					else if (num2 <= 3222007936U)
@@ -1004,42 +1014,42 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 3222007936U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "E"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "NumpadPeriod"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 != 3238785555U)
 					{
 						if (num2 != 3241480638U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "PageDown"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_155A;
+						goto IL_156F;
 					}
 					else
 					{
 						if (!(keyID == "D"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_13D7;
+						goto IL_13EC;
 					}
 				}
 				else if (num2 <= 3289118412U)
@@ -1050,42 +1060,42 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 3255563174U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "G"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13D7;
+							goto IL_13EC;
 						}
 						else
 						{
 							if (!(keyID == "Space"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_13E6;
+							goto IL_13FB;
 						}
 					}
 					else if (num2 != 3272340793U)
 					{
 						if (num2 != 3289118412U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "A"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_13D7;
+						goto IL_13EC;
 					}
 					else
 					{
 						if (!(keyID == "F"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_13D7;
+						goto IL_13EC;
 					}
 				}
 				else if (num2 <= 3322673650U)
@@ -1094,23 +1104,23 @@ namespace TaleWorlds.Core
 					{
 						if (num2 != 3322673650U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "C"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_13D7;
+						goto IL_13EC;
 					}
 					else
 					{
 						if (!(keyID == "NumpadPlus"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						num = 24;
 						text = "+";
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (num2 != 3339451269U)
@@ -1119,34 +1129,34 @@ namespace TaleWorlds.Core
 					{
 						if (num2 != 3373006507U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "L"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_13D7;
+						goto IL_13EC;
 					}
 					else
 					{
 						if (!(keyID == "M"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_13D7;
+						goto IL_13EC;
 					}
 				}
 				else
 				{
 					if (!(keyID == "B"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
-					goto IL_13D7;
+					goto IL_13EC;
 				}
 				num = 12;
 				text = "enter";
-				goto IL_155A;
+				goto IL_156F;
 			}
 			if (num2 <= 3574337935U)
 			{
@@ -1160,39 +1170,39 @@ namespace TaleWorlds.Core
 							{
 								if (num2 != 3388411298U)
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								if (!(keyID == "ControllerLOption"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
 								num = ((consoleType == HyperlinkTexts.ConsoleType.Xbox) ? 14 : 8);
 								text = ((consoleType == HyperlinkTexts.ConsoleType.Ps4) ? (keyID.ToLower() + "_4") : keyID.ToLower());
-								goto IL_155A;
+								goto IL_156F;
 							}
 							else
 							{
 								if (!(keyID == "Minus"))
 								{
-									goto IL_155A;
+									goto IL_156F;
 								}
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (num2 != 3389784126U)
 						{
 							if (num2 != 3406561745U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "N"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (!(keyID == "O"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 <= 3440116983U)
@@ -1201,32 +1211,32 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 3440116983U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "H"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 						}
 						else if (!(keyID == "I"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 != 3456894602U)
 					{
 						if (num2 != 3473672221U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "J"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (!(keyID == "K"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (num2 <= 3507227459U)
@@ -1237,37 +1247,37 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 3485937324U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "ControllerRUp"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_1429;
+							goto IL_143E;
 						}
 						else
 						{
 							if (!(keyID == "End"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 != 3490449840U)
 					{
 						if (num2 != 3507227459U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "T"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (!(keyID == "U"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (num2 <= 3540782697U)
@@ -1276,32 +1286,32 @@ namespace TaleWorlds.Core
 					{
 						if (num2 != 3540782697U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "V"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (!(keyID == "W"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (num2 != 3557560316U)
 				{
 					if (num2 != 3574337935U)
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 					if (!(keyID == "P"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (!(keyID == "Q"))
 				{
-					goto IL_155A;
+					goto IL_156F;
 				}
 			}
 			else if (num2 <= 3736956062U)
@@ -1314,33 +1324,33 @@ namespace TaleWorlds.Core
 						{
 							if (num2 != 3592460967U)
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
 							if (!(keyID == "RightShift"))
 							{
-								goto IL_155A;
+								goto IL_156F;
 							}
-							goto IL_14F3;
+							goto IL_1508;
 						}
 						else if (!(keyID == "S"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (num2 != 3607893173U)
 					{
 						if (num2 != 3691781268U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "Y"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (!(keyID == "R"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (num2 <= 3708558887U)
@@ -1349,32 +1359,32 @@ namespace TaleWorlds.Core
 					{
 						if (num2 != 3708558887U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "X"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 					}
 					else if (!(keyID == "F10"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (num2 != 3720178443U)
 				{
 					if (num2 != 3736956062U)
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 					if (!(keyID == "F12"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 				}
 				else if (!(keyID == "F11"))
 				{
-					goto IL_155A;
+					goto IL_156F;
 				}
 			}
 			else if (num2 <= 3821858654U)
@@ -1385,38 +1395,38 @@ namespace TaleWorlds.Core
 					{
 						if (num2 != 3737220883U)
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
 						if (!(keyID == "ControllerLRight"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_1413;
+						goto IL_1428;
 					}
 					else
 					{
 						if (!(keyID == "MouseScrollDown"))
 						{
-							goto IL_155A;
+							goto IL_156F;
 						}
-						goto IL_1404;
+						goto IL_1419;
 					}
 				}
 				else if (num2 != 3742114125U)
 				{
 					if (num2 != 3821858654U)
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 					if (!(keyID == "SemiColon"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
-					goto IL_155A;
+					goto IL_156F;
 				}
 				else if (!(keyID == "Z"))
 				{
-					goto IL_155A;
+					goto IL_156F;
 				}
 			}
 			else if (num2 <= 3890594748U)
@@ -1425,21 +1435,21 @@ namespace TaleWorlds.Core
 				{
 					if (num2 != 3890594748U)
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 					if (!(keyID == "NumpadMultiply"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
-					goto IL_155A;
+					goto IL_156F;
 				}
 				else
 				{
 					if (!(keyID == "ControllerRRight"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
-					goto IL_1429;
+					goto IL_143E;
 				}
 			}
 			else if (num2 != 4080261303U)
@@ -1448,77 +1458,77 @@ namespace TaleWorlds.Core
 				{
 					if (num2 != 4219689196U)
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 					if (!(keyID == "Tab"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
 					num = 12;
 					text = keyID.ToLower();
-					goto IL_155A;
+					goto IL_156F;
 				}
 				else
 				{
 					if (!(keyID == "NumpadSlash"))
 					{
-						goto IL_155A;
+						goto IL_156F;
 					}
-					goto IL_155A;
+					goto IL_156F;
 				}
 			}
 			else
 			{
 				if (!(keyID == "BackSlash"))
 				{
-					goto IL_155A;
+					goto IL_156F;
 				}
-				goto IL_155A;
+				goto IL_156F;
 			}
-			IL_13D7:
+			IL_13EC:
 			num = 24;
 			text = keyID.ToLower();
-			goto IL_155A;
-			IL_13E6:
+			goto IL_156F;
+			IL_13FB:
 			num = 10;
 			text = keyID.ToLower();
-			goto IL_155A;
-			IL_1404:
+			goto IL_156F;
+			IL_1419:
 			num = 16;
 			text = keyID.ToLower();
-			goto IL_155A;
-			IL_1413:
+			goto IL_156F;
+			IL_1428:
 			num = ((consoleType == HyperlinkTexts.ConsoleType.Xbox) ? 16 : 10);
 			text = keyID.ToLower();
-			goto IL_155A;
-			IL_1429:
+			goto IL_156F;
+			IL_143E:
 			num = 14;
 			text = keyID.ToLower();
-			goto IL_155A;
-			IL_1438:
+			goto IL_156F;
+			IL_144D:
 			num = ((consoleType == HyperlinkTexts.ConsoleType.Xbox) ? 14 : 20);
 			text = keyID.ToLower();
-			goto IL_155A;
-			IL_14F3:
+			goto IL_156F;
+			IL_1508:
 			num = 14;
 			text = "shift";
-			goto IL_155A;
-			IL_14FE:
+			goto IL_156F;
+			IL_1513:
 			num = 12;
 			text = "control";
-			goto IL_155A;
-			IL_1509:
+			goto IL_156F;
+			IL_151E:
 			num = 24;
 			text = "alt";
-			goto IL_155A;
-			IL_1526:
+			goto IL_156F;
+			IL_153B:
 			num = ((consoleType == HyperlinkTexts.ConsoleType.Xbox) ? 12 : 10);
 			text = "controllerlstick";
-			goto IL_155A;
-			IL_154A:
+			goto IL_156F;
+			IL_155F:
 			num = ((consoleType == HyperlinkTexts.ConsoleType.Xbox) ? 12 : 10);
 			text = "controllerrstick";
-			IL_155A:
+			IL_156F:
 			if (consoleType == HyperlinkTexts.ConsoleType.Ps4 || consoleType == HyperlinkTexts.ConsoleType.Ps5)
 			{
 				text += "_ps";
@@ -1565,6 +1575,8 @@ namespace TaleWorlds.Core
 		public const string CrimeIcon = "{=!}<img src=\"SPGeneral\\MapOverlay\\Settlement\\icon_crime\" extend=\"16\">";
 
 		public const string UpgradeAvailableIcon = "{=!}<img src=\"PartyScreen\\upgrade_icon\" extend=\"5\">";
+
+		public static Func<bool> IsPlayStationGamepadActive;
 
 		private enum ConsoleType
 		{

@@ -5,7 +5,7 @@ namespace TaleWorlds.Core
 {
 	public class MultiSelectionInquiryData
 	{
-		public MultiSelectionInquiryData(string titleText, string descriptionText, List<InquiryElement> inquiryElements, bool isExitShown, int maxSelectableOptionCount, string affirmativeText, string negativeText, Action<List<InquiryElement>> affirmativeAction, Action<List<InquiryElement>> negativeAction, string soundEventPath = "")
+		public MultiSelectionInquiryData(string titleText, string descriptionText, List<InquiryElement> inquiryElements, bool isExitShown, int minSelectableOptionCount, int maxSelectableOptionCount, string affirmativeText, string negativeText, Action<List<InquiryElement>> affirmativeAction, Action<List<InquiryElement>> negativeAction, string soundEventPath = "")
 		{
 			this.TitleText = titleText;
 			this.DescriptionText = descriptionText;
@@ -15,6 +15,7 @@ namespace TaleWorlds.Core
 			this.NegativeText = negativeText;
 			this.AffirmativeAction = affirmativeAction;
 			this.NegativeAction = negativeAction;
+			this.MinSelectableOptionCount = minSelectableOptionCount;
 			this.MaxSelectableOptionCount = maxSelectableOptionCount;
 			this.SoundEventPath = soundEventPath;
 		}

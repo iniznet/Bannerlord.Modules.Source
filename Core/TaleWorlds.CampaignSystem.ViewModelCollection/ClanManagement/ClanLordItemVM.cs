@@ -144,7 +144,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				this._hero.SetName(textObject2, textObject);
 				this.Name = suggestedName;
 				MobileParty partyBelongedTo = this._hero.PartyBelongedTo;
-				if (((partyBelongedTo != null) ? partyBelongedTo.Army : null) != null && this._hero.PartyBelongedTo.Army.LeaderParty.PartyComponent.PartyOwner == this._hero)
+				if (((partyBelongedTo != null) ? partyBelongedTo.Army : null) != null && this._hero.PartyBelongedTo.Army.LeaderParty.Owner == this._hero)
 				{
 					this._hero.PartyBelongedTo.Army.UpdateName();
 					return;

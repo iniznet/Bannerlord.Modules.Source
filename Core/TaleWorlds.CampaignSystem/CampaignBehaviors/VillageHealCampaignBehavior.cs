@@ -20,13 +20,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				float num = (7000f - MathF.Min(7000f, MathF.Max(1000f, settlement.MapFaction.TotalStrength))) / 100000f;
 				ExplainedNumber explainedNumber = new ExplainedNumber(0.06f + num, false, null);
-				if (settlement.IsVillage)
+				if (settlement.IsVillage && settlement.Village.TradeBound != null && PerkHelper.GetPerkValueForTown(DefaultPerks.Medicine.CleanInfrastructure, settlement.Village.TradeBound.Town))
 				{
-					Settlement tradeBound = settlement.Village.TradeBound;
-					if (tradeBound != null && tradeBound.IsTown && PerkHelper.GetPerkValueForTown(DefaultPerks.Medicine.CleanInfrastructure, settlement.Village.TradeBound.Town))
-					{
-						explainedNumber.AddFactor(DefaultPerks.Medicine.CleanInfrastructure.SecondaryBonus, DefaultPerks.Medicine.CleanInfrastructure.Name);
-					}
+					explainedNumber.AddFactor(DefaultPerks.Medicine.CleanInfrastructure.SecondaryBonus, DefaultPerks.Medicine.CleanInfrastructure.Name);
 				}
 				if (settlement.OwnerClan.Leader.GetPerkValue(DefaultPerks.Roguery.InBestLight))
 				{

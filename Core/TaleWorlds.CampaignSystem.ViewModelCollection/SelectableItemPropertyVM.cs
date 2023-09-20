@@ -7,12 +7,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
 	public class SelectableItemPropertyVM : ViewModel
 	{
-		public SelectableItemPropertyVM(string name, string value, BasicTooltipViewModel hint = null)
+		public SelectableItemPropertyVM(string name, string value, bool isWarning = false, BasicTooltipViewModel hint = null)
 		{
 			this.Name = name;
 			this.Value = value;
 			this.Hint = hint;
 			this.Type = 0;
+			this.IsWarning = isWarning;
 			this.RefreshValues();
 		}
 
@@ -40,6 +41,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				{
 					this._type = value;
 					base.OnPropertyChangedWithValue(value, "Type");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsWarning
+		{
+			get
+			{
+				return this._isWarning;
+			}
+			set
+			{
+				if (value != this._isWarning)
+				{
+					this._isWarning = value;
+					base.OnPropertyChangedWithValue(value, "IsWarning");
 				}
 			}
 		}
@@ -113,6 +131,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 		}
 
 		private int _type;
+
+		private bool _isWarning;
 
 		private string _name;
 

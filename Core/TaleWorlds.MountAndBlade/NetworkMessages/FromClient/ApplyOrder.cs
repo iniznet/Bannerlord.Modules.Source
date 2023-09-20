@@ -21,13 +21,13 @@ namespace NetworkMessages.FromClient
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.OrderType = (OrderType)GameNetworkMessage.ReadIntFromPacket(CompressionOrder.OrderTypeCompressionInfo, ref flag);
+			this.OrderType = (OrderType)GameNetworkMessage.ReadIntFromPacket(CompressionMission.OrderTypeCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteIntToPacket((int)this.OrderType, CompressionOrder.OrderTypeCompressionInfo);
+			GameNetworkMessage.WriteIntToPacket((int)this.OrderType, CompressionMission.OrderTypeCompressionInfo);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D5C}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Diamond</RootNamespace>
     <AssemblyName>TaleWorlds.Diamond</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,15 +30,19 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json" />
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccessObject.cs" />
+    <Compile Include="AccessObjectJsonConverter.cs" />
     <Compile Include="AccessObjectResult.cs" />
     <Compile Include="AesHelper.cs" />
     <Compile Include="Client.cs" />
@@ -55,6 +58,7 @@
     <Compile Include="ClientMessageHandler.cs" />
     <Compile Include="EpicAccessObject.cs" />
     <Compile Include="FunctionResult.cs" />
+    <Compile Include="FunctionResultJsonConverter.cs" />
     <Compile Include="GDKAccessObject.cs" />
     <Compile Include="GOGAccessObject.cs" />
     <Compile Include="HandlerResult.cs" />
@@ -80,12 +84,16 @@
     <Compile Include="ISessionlessClient.cs" />
     <Compile Include="ISessionlessClientDriver.cs" />
     <Compile Include="ISessionlessClientDriverProvider.cs" />
+    <Compile Include="LoginErrorCode.cs" />
     <Compile Include="LoginMessage.cs" />
     <Compile Include="LoginResult.cs" />
     <Compile Include="LoginResultObject.cs" />
+    <Compile Include="LoginResultObjectJsonConverter.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="MessageDescription.cs" />
+    <Compile Include="MessageJsonConverter.cs" />
     <Compile Include="PeerId.cs" />
+    <Compile Include="PeerIdJsonConverter.cs" />
     <Compile Include="PlayerIdExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PSAccessObject.cs" />
@@ -119,6 +127,7 @@
     <Compile Include="Socket\ClientSocketSession.cs" />
     <Compile Include="Socket\SocketMessage.cs" />
     <Compile Include="SteamAccessObject.cs" />
+    <Compile Include="TestAccessObject.cs" />
     <Compile Include="ThreadedClient.cs" />
     <Compile Include="ThreadedClientCantConnectTask.cs" />
     <Compile Include="ThreadedClientConnectedTask.cs" />
@@ -134,28 +143,24 @@
     <Compile Include="ThreadedClientTask.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d69}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Network\TaleWorlds.Network.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d73}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8d}</Project>
       <Name>TaleWorlds.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d79}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ServiceDiscovery.Client\TaleWorlds.ServiceDiscovery.Client.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d7d}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c97}</Project>
       <Name>TaleWorlds.ServiceDiscovery.Client</Name>
     </ProjectReference>
   </ItemGroup>

@@ -18,11 +18,20 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.SettlementEntered));
 			CampaignEvents.NewCompanionAdded.AddNonSerializedListener(this, new Action<Hero>(this.CompanionAdded));
 			CampaignEvents.HeroPrisonerReleased.AddNonSerializedListener(this, new Action<Hero, PartyBase, IFaction, EndCaptivityDetail>(this.PrisonerReleased));
+			CampaignEvents.CanBeGovernorOrHavePartyRoleEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, bool>(this.CanBeGovernorOrHavePartyRole));
 		}
 
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<Dictionary<Hero, CampaignTime>>("ScatteredCompanions", ref this.ScatteredCompanions);
+		}
+
+		private void CanBeGovernorOrHavePartyRole(Hero hero, ref bool canBeGovernorOrHavePartyRole)
+		{
+			if (this.ScatteredCompanions.ContainsKey(hero))
+			{
+				canBeGovernorOrHavePartyRole = false;
+			}
 		}
 
 		private void AddHeroToScatteredCompanions(Hero hero)

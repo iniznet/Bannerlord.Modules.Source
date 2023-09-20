@@ -8,19 +8,19 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class EquipWeaponFromSpawnedItemEntity : GameNetworkMessage
 	{
-		public SpawnedItemEntity SpawnedItemEntity { get; private set; }
+		public MissionObjectId SpawnedItemEntityId { get; private set; }
 
 		public EquipmentIndex SlotIndex { get; private set; }
 
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public bool RemoveWeapon { get; private set; }
 
-		public EquipWeaponFromSpawnedItemEntity(Agent a, EquipmentIndex slot, SpawnedItemEntity spawnedItemEntity, bool removeWeapon)
+		public EquipWeaponFromSpawnedItemEntity(int agentIndex, EquipmentIndex slot, MissionObjectId spawnedItemEntityId, bool removeWeapon)
 		{
-			this.Agent = a;
+			this.AgentIndex = agentIndex;
 			this.SlotIndex = slot;
-			this.SpawnedItemEntity = spawnedItemEntity;
+			this.SpawnedItemEntityId = spawnedItemEntityId;
 			this.RemoveWeapon = removeWeapon;
 		}
 
@@ -30,8 +30,8 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.SpawnedItemEntity);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
+			GameNetworkMessage.WriteMissionObjectIdToPacket((this.SpawnedItemEntityId.Id >= 0) ? this.SpawnedItemEntityId : MissionObjectId.Invalid);
 			GameNetworkMessage.WriteIntToPacket((int)this.SlotIndex, CompressionMission.ItemSlotCompressionInfo);
 			GameNetworkMessage.WriteBoolToPacket(this.RemoveWeapon);
 		}
@@ -39,8 +39,8 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
-			this.SpawnedItemEntity = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as SpawnedItemEntity;
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
+			this.SpawnedItemEntityId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.SlotIndex = (EquipmentIndex)GameNetworkMessage.ReadIntFromPacket(CompressionMission.ItemSlotCompressionInfo, ref flag);
 			this.RemoveWeapon = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
@@ -55,14 +55,12 @@ namespace NetworkMessages.FromServer
 		{
 			return string.Concat(new object[]
 			{
-				"EquipWeaponFromSpawnedItemEntity with entity name: ",
-				(this.SpawnedItemEntity != null) ? ((this.SpawnedItemEntity.GameEntity != null) ? this.SpawnedItemEntity.GameEntity.Name : "null entity") : "null spawned item",
+				"EquipWeaponFromSpawnedItemEntity with missionObjectId: ",
+				this.SpawnedItemEntityId,
 				" to SlotIndex: ",
 				this.SlotIndex,
-				" on agent: ",
-				this.Agent.Name,
-				" with index: ",
-				this.Agent.Index,
+				" on agent-index: ",
+				this.AgentIndex,
 				" RemoveWeapon: ",
 				this.RemoveWeapon.ToString()
 			});

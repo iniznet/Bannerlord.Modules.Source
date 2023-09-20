@@ -39,6 +39,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._dataSource.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
 			this._dataSource.SetPreviousTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToPreviousTab"));
 			this._dataSource.SetNextTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToNextTab"));
+			this._dataSource.SetResetInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Reset"));
 			this._dataSource.ExposurePopUp.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
 			this._dataSource.ExposurePopUp.SetConfirmInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Confirm"));
 			this._dataSource.BrightnessPopUp.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
@@ -88,42 +89,46 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			base.OnFrameTick(dt);
 			if (this._gauntletLayer != null && !this._keybindingPopup.IsActive)
 			{
-				if (this._dataSource.ExposurePopUp.Visible)
+				if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 				{
-					if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
-					{
-						this._dataSource.ExposurePopUp.ExecuteConfirm();
-					}
-					else if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					if (this._dataSource.ExposurePopUp.Visible)
 					{
 						this._dataSource.ExposurePopUp.ExecuteCancel();
 					}
-				}
-				else if (this._dataSource.BrightnessPopUp.Visible)
-				{
-					if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
-					{
-						this._dataSource.BrightnessPopUp.ExecuteConfirm();
-					}
-					else if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
+					else if (this._dataSource.BrightnessPopUp.Visible)
 					{
 						this._dataSource.BrightnessPopUp.ExecuteCancel();
 					}
+					else
+					{
+						this._dataSource.ExecuteCancel();
+					}
 				}
-				else if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
+				else if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
 				{
-					this._dataSource.ExecuteCancel();
-				}
-				else if (Input.IsGamepadActive && this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
-				{
-					this._dataSource.ExecuteDone();
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					if (this._dataSource.ExposurePopUp.Visible)
+					{
+						this._dataSource.ExposurePopUp.ExecuteConfirm();
+					}
+					else if (this._dataSource.BrightnessPopUp.Visible)
+					{
+						this._dataSource.BrightnessPopUp.ExecuteConfirm();
+					}
+					else
+					{
+						this._dataSource.ExecuteDone();
+					}
 				}
 				else if (this._gauntletLayer.Input.IsHotKeyPressed("SwitchToPreviousTab"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/tab");
 					this._dataSource.SelectPreviousCategory();
 				}
 				else if (this._gauntletLayer.Input.IsHotKeyPressed("SwitchToNextTab"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/tab");
 					this._dataSource.SelectNextCategory();
 				}
 			}

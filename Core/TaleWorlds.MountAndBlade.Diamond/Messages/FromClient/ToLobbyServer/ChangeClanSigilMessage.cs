@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class ChangeClanSigilMessage : Message
 	{
+		[JsonProperty]
 		public string NewSigil { get; private set; }
+
+		public ChangeClanSigilMessage()
+		{
+		}
 
 		public ChangeClanSigilMessage(string newSigil)
 		{

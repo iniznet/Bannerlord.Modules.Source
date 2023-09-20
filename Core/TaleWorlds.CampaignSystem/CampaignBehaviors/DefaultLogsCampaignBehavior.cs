@@ -159,13 +159,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			LogEntry.AddLogEntry(characterMarriedLogEntry);
 			if (marriedHero.Clan == Clan.PlayerClan || marriedTo.Clan == Clan.PlayerClan)
 			{
-				Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new MarriageMapNotification(marriedHero, marriedTo, characterMarriedLogEntry.GetEncyclopediaText()));
+				Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new MarriageMapNotification(marriedHero, marriedTo, characterMarriedLogEntry.GetEncyclopediaText(), CampaignTime.Now));
 			}
 		}
 
 		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
 		{
-			BesiegeSettlementLogEntry besiegeSettlementLogEntry = new BesiegeSettlementLogEntry(siegeEvent.BesiegerCamp.BesiegerParty, siegeEvent.BesiegedSettlement);
+			BesiegeSettlementLogEntry besiegeSettlementLogEntry = new BesiegeSettlementLogEntry(siegeEvent.BesiegerCamp.LeaderParty, siegeEvent.BesiegedSettlement);
 			LogEntry.AddLogEntry(besiegeSettlementLogEntry);
 			if (siegeEvent.BesiegedSettlement.OwnerClan == Clan.PlayerClan)
 			{

@@ -260,33 +260,6 @@ namespace TaleWorlds.CampaignSystem
 		[SaveableProperty(52)]
 		public TextObject InformalName { get; private set; }
 
-		public TextObject FullName
-		{
-			get
-			{
-				TextObject textObject = TextObject.Empty;
-				int minClanTier = Campaign.Current.Models.ClanTierModel.MinClanTier;
-				if (minClanTier >= this.Tier)
-				{
-					textObject = new TextObject("{=aZne44IB}{CLAN_NAME} Family", null);
-				}
-				else if (minClanTier + 1 == this.Tier)
-				{
-					textObject = new TextObject("{=ztXDDMSI}{CLAN_NAME} Clan", null);
-				}
-				else if (minClanTier + 2 == this.Tier)
-				{
-					textObject = new TextObject("{=UnjmmLFm}{CLAN_NAME} Noble Clan", null);
-				}
-				else
-				{
-					textObject = new TextObject("{=iOrtiVLt}House of {CLAN_NAME}", null);
-				}
-				textObject.SetTextVariable("CLAN_NAME", this.Name);
-				return textObject;
-			}
-		}
-
 		[SaveableProperty(53)]
 		public CultureObject Culture { get; set; }
 
@@ -335,14 +308,6 @@ namespace TaleWorlds.CampaignSystem
 			get
 			{
 				return Campaign.Current.EncyclopediaManager.GetIdentifier(typeof(Clan)) + "-" + base.StringId;
-			}
-		}
-
-		public bool IsNeutralClan
-		{
-			get
-			{
-				return this == CampaignData.NeutralFaction;
 			}
 		}
 
@@ -726,7 +691,7 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		internal void UpdateStrength()
+		public void UpdateStrength()
 		{
 			this.TotalStrength = 0f;
 			foreach (WarPartyComponent warPartyComponent in this._warPartyComponentsCache)
@@ -852,12 +817,60 @@ namespace TaleWorlds.CampaignSystem
 
 		protected override void PreAfterLoad()
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 26219))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202) && base.StringId == "neutral")
+			{
+				foreach (Hero hero in Campaign.Current.AliveHeroes)
+				{
+					if (hero.Clan == this)
+					{
+						hero.ResetClanForOldSave();
+						if (this._lordsCache.Contains(hero))
+						{
+							this._lordsCache.Remove(hero);
+						}
+						if (this._heroesCache.Contains(hero))
+						{
+							this._heroesCache.Remove(hero);
+						}
+					}
+				}
+				foreach (Hero hero2 in Campaign.Current.DeadOrDisabledHeroes)
+				{
+					if (hero2.Clan == this)
+					{
+						hero2.ResetClanForOldSave();
+						if (this._lordsCache.Contains(hero2))
+						{
+							this._lordsCache.Remove(hero2);
+						}
+						if (this._heroesCache.Contains(hero2))
+						{
+							this._heroesCache.Remove(hero2);
+						}
+					}
+				}
+				for (int i = this.Heroes.Count - 1; i >= 0; i--)
+				{
+					Hero hero3 = this.Heroes[i];
+					hero3.ResetClanForOldSave();
+					if (this._lordsCache.Contains(hero3))
+					{
+						this._lordsCache.Remove(hero3);
+					}
+					if (this._heroesCache.Contains(hero3))
+					{
+						this._heroesCache.Remove(hero3);
+					}
+				}
+				DestroyClanAction.Apply(this);
+				Campaign.Current.CampaignObjectManager.RemoveClan(this);
+			}
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 24202))
 			{
 				Hero leader = this.Leader;
 				this.IsNoble = leader != null && leader.IsNobleForOldSaves;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 26219) && !this.IsNeutralClan && this.Leader != null && this.Leader.Clan != this)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202) && this.Leader != null && this.Leader.Clan != this)
 			{
 				ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(this);
 			}
@@ -867,7 +880,7 @@ namespace TaleWorlds.CampaignSystem
 				kingdom.AddClanInternal(this);
 			}
 			this._midPointCalculated = this._clanMidSettlement != null;
-			if (this.HomeSettlement == null && !this.IsBanditFaction && !this.IsNeutralClan)
+			if (this.HomeSettlement == null && !this.IsBanditFaction)
 			{
 				this.UpdateHomeSettlement(null);
 			}
@@ -878,13 +891,17 @@ namespace TaleWorlds.CampaignSystem
 		protected override void AfterLoad()
 		{
 			this.UpdateStrength();
-			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("e1.8.0.0", 26219) && this.Kingdom != null)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 24202) && this.Kingdom != null)
 			{
 				FactionHelper.AdjustFactionStancesForClanJoiningKingdom(this, this.Kingdom);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.3", 26219) && this.Kingdom == null && this.IsUnderMercenaryService)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.3", 24202) && this.Kingdom == null && this.IsUnderMercenaryService)
 			{
 				this.EndMercenaryService(true);
+			}
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && this.IsEliminated && this.Leader != null && this.Leader.IsAlive)
+			{
+				DestroyClanAction.Apply(this);
 			}
 		}
 
@@ -932,7 +949,7 @@ namespace TaleWorlds.CampaignSystem
 			this.BannerBackgroundColorSecondary = this._banner.GetSecondaryColor();
 			this.BannerIconColor = this._banner.GetFirstIconColor();
 			this.UpdateBannerColorsAccordingToKingdom();
-			this._minorFactionCharacterTemplates = new List<CharacterObject>();
+			this._minorFactionCharacterTemplates = new MBList<CharacterObject>();
 			foreach (object obj in node.ChildNodes)
 			{
 				XmlNode xmlNode2 = (XmlNode)obj;
@@ -1013,10 +1030,10 @@ namespace TaleWorlds.CampaignSystem
 
 		private float FindSettlementScoreForBeingHomeSettlement(Settlement settlement)
 		{
-			int num = (int)settlement.Prosperity;
+			int num = (int)settlement.Town.Prosperity;
 			foreach (Village village in settlement.BoundVillages)
 			{
-				num += (int)village.Settlement.Prosperity;
+				num += (int)village.Hearth;
 			}
 			float num2 = (settlement.IsTown ? 1f : 0.5f);
 			float num3 = MathF.Sqrt(1000f + (float)num) / 50f;
@@ -1132,7 +1149,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 			this.UpdateBannerColorsAccordingToKingdom();
 			this.LastFactionChangeTime = CampaignTime.Now;
-			this.ConsiderSiegesAndMapEvents(this._kingdom);
+			if (this._kingdom != null)
+			{
+				this.ConsiderSiegesAndMapEvents(this._kingdom);
+				this._kingdom.ConsiderSiegesAndMapEvents(this._kingdom);
+			}
 		}
 
 		public void ConsiderSiegesAndMapEvents(IFaction factionToConsiderAgainst)
@@ -1255,7 +1276,7 @@ namespace TaleWorlds.CampaignSystem
 			{
 				foreach (Clan clan in Campaign.Current.Clans)
 				{
-					if (!clan.IsBanditFaction && CampaignData.NeutralFaction != clan)
+					if (!clan.IsBanditFaction)
 					{
 						yield return clan;
 					}
@@ -1452,16 +1473,22 @@ namespace TaleWorlds.CampaignSystem
 
 		public static Clan CreateSettlementRebelClan(Settlement settlement, Hero owner, int iconMeshId = -1)
 		{
-			Clan clan = Clan.CreateClan(settlement.StringId + "_rebel_clan");
 			TextObject textObject = new TextObject("{=2LIV2cy7}{SETTLEMENT}{.o} rebels", null);
 			textObject.SetTextVariable("SETTLEMENT", settlement.Name);
-			clan.InitializeClan(textObject, textObject, settlement.Culture, Banner.CreateOneColoredBannerWithOneIcon(settlement.MapFaction.Banner.GetFirstIconColor(), settlement.MapFaction.Banner.GetPrimaryColor(), iconMeshId), settlement.GatePosition, false);
-			clan.SetLeader(owner);
-			clan.LabelColor = settlement.MapFaction.LabelColor;
-			clan.Color = settlement.MapFaction.Color2;
-			clan.Color2 = settlement.MapFaction.Color;
+			Clan clan = Clan.CreateClan(settlement.StringId + "_rebel_clan", settlement, owner, settlement.MapFaction, settlement.Culture, textObject, Campaign.Current.Models.ClanTierModel.RebelClanStartingTier, iconMeshId);
 			clan.IsRebelClan = true;
-			clan.Tier = Campaign.Current.Models.ClanTierModel.RebelClanStartingTier;
+			return clan;
+		}
+
+		public static Clan CreateClan(string stringId, Settlement settlement, Hero owner, IFaction inheritingFaction, CultureObject culture, TextObject clanName, int tier, int iconMeshId = -1)
+		{
+			Clan clan = Clan.CreateClan(stringId);
+			clan.InitializeClan(clanName, clanName, culture, Banner.CreateOneColoredBannerWithOneIcon(inheritingFaction.Banner.GetFirstIconColor(), inheritingFaction.Banner.GetPrimaryColor(), iconMeshId), settlement.GatePosition, false);
+			clan.SetLeader(owner);
+			clan.LabelColor = inheritingFaction.LabelColor;
+			clan.Color = inheritingFaction.Color2;
+			clan.Color2 = inheritingFaction.Color;
+			clan.Tier = tier;
 			clan.BannerBackgroundColorPrimary = settlement.MapFaction.Banner.GetFirstIconColor();
 			clan.BannerBackgroundColorSecondary = settlement.MapFaction.Banner.GetFirstIconColor();
 			clan.BannerIconColor = settlement.MapFaction.Banner.GetPrimaryColor();
@@ -1626,7 +1653,7 @@ namespace TaleWorlds.CampaignSystem
 		private bool _isEliminated;
 
 		[SaveableField(99)]
-		private List<CharacterObject> _minorFactionCharacterTemplates;
+		private MBList<CharacterObject> _minorFactionCharacterTemplates;
 
 		[CachedData]
 		private MBList<Hero> _supporterNotablesCache;

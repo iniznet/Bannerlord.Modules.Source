@@ -88,9 +88,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (mapEvent.MapEventSettlement.SiegeEvent != null)
 					{
-						MobileParty besiegerParty = mapEvent.MapEventSettlement.SiegeEvent.BesiegerCamp.BesiegerParty;
-						SiegeAftermathAction.SiegeAftermath siegeAftermath = this.DetermineAISiegeAftermath(besiegerParty, mapEvent.MapEventSettlement);
-						SiegeAftermathAction.ApplyAftermath(besiegerParty, mapEvent.MapEventSettlement, siegeAftermath, mapEvent.MapEventSettlement.OwnerClan, this._siegeEventPartyContributions);
+						MobileParty leaderParty = mapEvent.MapEventSettlement.SiegeEvent.BesiegerCamp.LeaderParty;
+						SiegeAftermathAction.SiegeAftermath siegeAftermath = this.DetermineAISiegeAftermath(leaderParty, mapEvent.MapEventSettlement);
+						SiegeAftermathAction.ApplyAftermath(leaderParty, mapEvent.MapEventSettlement, siegeAftermath, mapEvent.MapEventSettlement.OwnerClan, this._siegeEventPartyContributions);
 						return;
 					}
 					Debug.FailedAssert("Siege event is null in siege aftermath", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\SiegeAftermathCampaignBehavior.cs", "OnMapEventEnded", 116);
@@ -105,8 +105,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				ChangeClanInfluenceAction.Apply(attackerParty.ActualClan, -siegeAftermathInfluenceCost);
 			}
-			this._settlementProsperityCache = settlement.Prosperity;
-			settlement.Prosperity += this.GetSiegeAftermathProsperityPenalty(attackerParty, settlement, aftermathType);
+			this._settlementProsperityCache = settlement.Town.Prosperity;
+			settlement.Town.Prosperity += this.GetSiegeAftermathProsperityPenalty(attackerParty, settlement, aftermathType);
 			if (aftermathType != SiegeAftermathAction.SiegeAftermath.ShowMercy)
 			{
 				int siegeAftermathProjectsLoss = this.GetSiegeAftermathProjectsLoss(attackerParty, aftermathType);
@@ -124,8 +124,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 				if (previousSettlementOwner.Leader == null)
 				{
-					Debug.Print(string.Format("{0} leader was null", previousSettlementOwner), 0, Debug.DebugColor.White, 17592186044416UL);
-					Debug.FailedAssert(string.Format("{0} leader was null", previousSettlementOwner), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\SiegeAftermathCampaignBehavior.cs", "OnSiegeAftermathApplied", 158);
+					Debug.Print(string.Format("{0}: {1} leader was null", previousSettlementOwner.StringId, previousSettlementOwner), 0, Debug.DebugColor.White, 17592186044416UL);
+					Debug.FailedAssert(string.Format("{0}: {1} leader was null", previousSettlementOwner.StringId, previousSettlementOwner), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\SiegeAftermathCampaignBehavior.cs", "OnSiegeAftermathApplied", 158);
 				}
 				if (attackerParty.LeaderHero != null)
 				{
@@ -271,23 +271,20 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				if (this.IsMobilePartyLeaderAliveForSiegeAftermath(besiegerParty))
 				{
 					GameMenu.SwitchToMenu("menu_settlement_taken_player_leader");
+					return;
 				}
-				else
-				{
-					this.HandlePlayerDeathDuringSiegeAftermath();
-				}
-			}
-			else if (this._wasPlayerArmyMember)
-			{
-				GameMenu.SwitchToMenu("menu_settlement_taken_player_army_member");
+				this.HandlePlayerDeathDuringSiegeAftermath();
+				return;
 			}
 			else
 			{
+				if (this._wasPlayerArmyMember)
+				{
+					GameMenu.SwitchToMenu("menu_settlement_taken_player_army_member");
+					return;
+				}
 				GameMenu.SwitchToMenu("menu_settlement_taken_player_participant");
-			}
-			if (Settlement.CurrentSettlement.Town != null)
-			{
-				Settlement.CurrentSettlement.Town.IsTaken = false;
+				return;
 			}
 		}
 
@@ -323,7 +320,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 				else if (this._wasPlayerArmyMember)
 				{
-					Debug.FailedAssert("_wasPlayerArmyMember", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\SiegeAftermathCampaignBehavior.cs", "menu_settlement_taken_player_army_member_on_init", 406);
+					Debug.FailedAssert("_wasPlayerArmyMember", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\SiegeAftermathCampaignBehavior.cs", "menu_settlement_taken_player_army_member_on_init", 401);
 					textObject = new TextObject("{=99v8GTTe}{DEFAULT_TEXT}Before {?ARMY_LEADER.GENDER}she{?}he{\\?} fell, {ARMY_LEADER.LINK} granted {?ARMY_LEADER.GENDER}her{?}his{\\?} men their customary right of pillage after a successful siege. They may take property but must spare the townsfolk's lives.", null);
 				}
 			}
@@ -346,7 +343,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 			else if (this._wasPlayerArmyMember)
 			{
-				Debug.FailedAssert("_wasPlayerArmyMember", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\SiegeAftermathCampaignBehavior.cs", "menu_settlement_taken_player_army_member_on_init", 433);
+				Debug.FailedAssert("_wasPlayerArmyMember", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\SiegeAftermathCampaignBehavior.cs", "menu_settlement_taken_player_army_member_on_init", 428);
 				textObject = new TextObject("{=ULtzLvXi}{DEFAULT_TEXT}Before {?ARMY_LEADER.GENDER}she{?}he{\\?} fell, {ARMY_LEADER.LINK} gave orders that mercy should be shown to the people of {SETTLEMENT}.", null);
 			}
 			TextObject text = args.MenuContext.GameMenu.GetText();
@@ -621,7 +618,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				num = attackerParty.Army.TotalHealthyMembers;
 			}
-			float num2 = -1f * ((MathF.Log((float)num * 0.04f + 2f, 2f) * 2.5f + 2.5f) * 0.01f * ((this._settlementProsperityCache < 0f) ? settlement.Prosperity : this._settlementProsperityCache));
+			float num2 = -1f * ((MathF.Log((float)num * 0.04f + 2f, 2f) * 2.5f + 2.5f) * 0.01f * ((this._settlementProsperityCache < 0f) ? settlement.Town.Prosperity : this._settlementProsperityCache));
 			float num3 = num2;
 			if (aftermathType == SiegeAftermathAction.SiegeAftermath.Devastate)
 			{
@@ -766,11 +763,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				int num3 = attackerParty.Army.Parties.Count((MobileParty t) => t != attackerParty && t.LeaderHero != null && t.LeaderHero.GetTraitLevel(DefaultTraits.Mercy) < 0);
 				if (aftermathType == SiegeAftermathAction.SiegeAftermath.Devastate)
 				{
-					num = settlement.Prosperity / 400f * (float)num2;
+					num = settlement.Town.Prosperity / 400f * (float)num2;
 				}
 				else if (aftermathType == SiegeAftermathAction.SiegeAftermath.ShowMercy && attackerParty.MapFaction.Culture != settlement.Culture)
 				{
-					num = settlement.Prosperity / 400f * (float)num3;
+					num = settlement.Town.Prosperity / 400f * (float)num3;
 				}
 			}
 			return num;

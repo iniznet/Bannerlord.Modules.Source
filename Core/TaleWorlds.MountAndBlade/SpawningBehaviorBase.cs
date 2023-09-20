@@ -5,12 +5,13 @@ using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.Diamond;
+using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
 	public abstract class SpawningBehaviorBase
 	{
-		public MultiplayerMissionAgentVisualSpawnComponent AgentVisualSpawnComponent { get; private set; }
+		private protected MultiplayerMissionAgentVisualSpawnComponent AgentVisualSpawnComponent { protected get; private set; }
 
 		protected Mission Mission
 		{
@@ -35,15 +36,22 @@ namespace TaleWorlds.MountAndBlade
 			this.MissionLobbyEquipmentNetworkComponent = this.Mission.GetMissionBehavior<MissionLobbyEquipmentNetworkComponent>();
 			this.MissionLobbyEquipmentNetworkComponent.OnEquipmentRefreshed += this.OnPeerEquipmentUpdated;
 			this._spawnCheckTimer = new Timer(Mission.Current.CurrentTime, 0.2f, true);
+			this._agentsToBeSpawnedCache = new List<AgentBuildData>();
+			this._nextTimeToCleanUpMounts = MissionTime.Now;
+			this._botsCountForSides = new int[2];
 		}
 
 		public virtual void Clear()
 		{
 			this.MissionLobbyEquipmentNetworkComponent.OnEquipmentRefreshed -= this.OnPeerEquipmentUpdated;
+			this._agentsToBeSpawnedCache = null;
 		}
 
 		public virtual void OnTick(float dt)
 		{
+			int count = Mission.Current.AllAgents.Count;
+			int num = 0;
+			this._agentsToBeSpawnedCache.Clear();
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
 			{
 				if (networkCommunicator.IsSynchronized)
@@ -56,11 +64,12 @@ namespace TaleWorlds.MountAndBlade
 						GameNetwork.BeginBroadcastModuleEvent();
 						GameNetwork.WriteMessage(new SyncPerksForCurrentlySelectedTroop(networkCommunicator, component.Perks[component.SelectedTroopIndex]));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.ExcludeOtherTeamPlayers, networkCommunicator);
-						int num = 0;
+						int num2 = 0;
 						bool flag = false;
-						if (MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) > 0 && (this.GameMode.WarmupComponent == null || !this.GameMode.WarmupComponent.IsInWarmup))
+						int intValue = MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
+						if (intValue > 0 && (this.GameMode.WarmupComponent == null || !this.GameMode.WarmupComponent.IsInWarmup))
 						{
-							num = MPPerkObject.GetTroopCount(mpheroClassForPeer, onSpawnPerkHandler);
+							num2 = MPPerkObject.GetTroopCount(mpheroClassForPeer, intValue, onSpawnPerkHandler);
 							using (List<MPPerkObject>.Enumerator enumerator2 = component.SelectedPerks.GetEnumerator())
 							{
 								while (enumerator2.MoveNext())
@@ -73,27 +82,27 @@ namespace TaleWorlds.MountAndBlade
 								}
 							}
 						}
-						if (num > 0)
+						if (num2 > 0)
 						{
-							num = (int)((float)num * this.GameMode.GetTroopNumberMultiplierForMissingPlayer(component));
+							num2 = (int)((float)num2 * this.GameMode.GetTroopNumberMultiplierForMissingPlayer(component));
 						}
-						num += (flag ? 2 : 1);
+						num2 += (flag ? 2 : 1);
 						IEnumerable<ValueTuple<EquipmentIndex, EquipmentElement>> enumerable = ((onSpawnPerkHandler != null) ? onSpawnPerkHandler.GetAlternativeEquipments(false) : null);
 						int i = 0;
-						while (i < num)
+						while (i < num2)
 						{
 							bool flag2 = i == 0;
 							BasicCharacterObject basicCharacterObject = (flag2 ? mpheroClassForPeer.HeroCharacter : ((flag && i == 1) ? mpheroClassForPeer.BannerBearerCharacter : mpheroClassForPeer.TroopCharacter));
-							uint num2 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.Color : component.Culture.ClothAlternativeColor);
-							uint num3 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.Color2 : component.Culture.ClothAlternativeColor2);
-							uint num4 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.BackgroundColor1 : component.Culture.BackgroundColor2);
-							uint num5 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.ForegroundColor1 : component.Culture.ForegroundColor2);
-							Banner banner = new Banner(component.Peer.BannerCode, num4, num5);
+							uint num3 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.Color : component.Culture.ClothAlternativeColor);
+							uint num4 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.Color2 : component.Culture.ClothAlternativeColor2);
+							uint num5 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.BackgroundColor1 : component.Culture.BackgroundColor2);
+							uint num6 = ((!this.GameMode.IsGameModeUsingOpposingTeams || component.Team == this.Mission.AttackerTeam) ? component.Culture.ForegroundColor1 : component.Culture.ForegroundColor2);
+							Banner banner = new Banner(component.Peer.BannerCode, num5, num6);
 							AgentBuildData agentBuildData = new AgentBuildData(basicCharacterObject).VisualsIndex(i).Team(component.Team).TroopOrigin(new BasicBattleAgentOrigin(basicCharacterObject))
 								.Formation(component.ControlledFormation)
 								.IsFemale(flag2 ? component.Peer.IsFemale : basicCharacterObject.IsFemale)
-								.ClothingColor1(num2)
-								.ClothingColor2(num3)
+								.ClothingColor1(num3)
+								.ClothingColor2(num4)
 								.Banner(banner);
 							if (flag2)
 							{
@@ -115,7 +124,7 @@ namespace TaleWorlds.MountAndBlade
 							agentBuildData.Equipment(equipment);
 							if (flag2)
 							{
-								this.AgentVisualSpawnComponent.AddCosmeticItemsToEquipment(equipment, this.AgentVisualSpawnComponent.GetUsedCosmeticsFromPeer(component, basicCharacterObject));
+								this.GameMode.AddCosmeticItemsToEquipment(equipment, this.GameMode.GetUsedCosmeticsFromPeer(component, basicCharacterObject));
 							}
 							if (flag2)
 							{
@@ -134,7 +143,7 @@ namespace TaleWorlds.MountAndBlade
 							MatrixFrame spawnFrame = this.SpawnComponent.GetSpawnFrame(component.Team, equipment[EquipmentIndex.ArmorItemEndSlot].Item != null, component.SpawnCountThisRound == 0);
 							if (spawnFrame.IsIdentity)
 							{
-								goto IL_533;
+								goto IL_587;
 							}
 							Vec2 vec;
 							if (!(spawnFrame.origin != agentBuildData.AgentInitialPosition))
@@ -143,7 +152,7 @@ namespace TaleWorlds.MountAndBlade
 								Vec2? agentInitialDirection = agentBuildData.AgentInitialDirection;
 								if (!(vec != agentInitialDirection))
 								{
-									goto IL_533;
+									goto IL_587;
 								}
 							}
 							agentBuildData.InitialPosition(spawnFrame.origin);
@@ -151,7 +160,7 @@ namespace TaleWorlds.MountAndBlade
 							vec = spawnFrame.rotation.f.AsVec2;
 							vec = vec.Normalized();
 							agentBuildData2.InitialDirection(vec);
-							IL_54C:
+							IL_5A0:
 							if (component.ControlledAgent != null && !flag2)
 							{
 								MatrixFrame frame = component.ControlledAgent.Frame;
@@ -161,56 +170,110 @@ namespace TaleWorlds.MountAndBlade
 								Mat3 rotation = matrixFrame.rotation;
 								rotation.MakeUnit();
 								bool flag3 = !basicCharacterObject.Equipment[EquipmentIndex.ArmorItemEndSlot].IsEmpty;
-								int num6 = MathF.Min(num, 10);
-								MatrixFrame matrixFrame2 = Formation.GetFormationFramesForBeforeFormationCreation((float)num6 * Formation.GetDefaultUnitDiameter(flag3) + (float)(num6 - 1) * Formation.GetDefaultMinimumInterval(flag3), num, flag3, new WorldPosition(Mission.Current.Scene, matrixFrame.origin), rotation)[i - 1].ToGroundMatrixFrame();
+								int num7 = MathF.Min(num2, 10);
+								MatrixFrame matrixFrame2 = Formation.GetFormationFramesForBeforeFormationCreation((float)num7 * Formation.GetDefaultUnitDiameter(flag3) + (float)(num7 - 1) * Formation.GetDefaultMinimumInterval(flag3), num2, flag3, new WorldPosition(Mission.Current.Scene, matrixFrame.origin), rotation)[i - 1].ToGroundMatrixFrame();
 								agentBuildData.InitialPosition(matrixFrame2.origin);
 								AgentBuildData agentBuildData3 = agentBuildData;
 								vec = matrixFrame2.rotation.f.AsVec2;
 								vec = vec.Normalized();
 								agentBuildData3.InitialDirection(vec);
 							}
-							Agent agent = this.Mission.SpawnAgent(agentBuildData, true);
-							agent.AddComponent(new MPPerksAgentComponent(agent));
-							Agent mountAgent = agent.MountAgent;
-							if (mountAgent != null)
+							this._agentsToBeSpawnedCache.Add(agentBuildData);
+							num++;
+							if (!agentBuildData.AgentOverridenSpawnEquipment[EquipmentIndex.ArmorItemEndSlot].IsEmpty)
 							{
-								mountAgent.UpdateAgentProperties();
-							}
-							float num7 = ((onSpawnPerkHandler != null) ? onSpawnPerkHandler.GetHitpoints(flag2) : 0f);
-							agent.HealthLimit += num7;
-							agent.Health = agent.HealthLimit;
-							if (!flag2)
-							{
-								agent.SetWatchState(Agent.WatchState.Alarmed);
-							}
-							agent.WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp);
-							if (flag2)
-							{
-								Action<MissionPeer> onPeerSpawnedFromVisuals = this.OnPeerSpawnedFromVisuals;
-								if (onPeerSpawnedFromVisuals != null)
-								{
-									onPeerSpawnedFromVisuals(component);
-								}
+								num++;
 							}
 							i++;
 							continue;
-							IL_533:
-							Debug.FailedAssert("Spawn frame could not be found.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\SpawnBehaviors\\SpawningBehaviors\\SpawningBehaviorBase.cs", "OnTick", 194);
-							goto IL_54C;
+							IL_587:
+							Debug.FailedAssert("Spawn frame could not be found.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\SpawnBehaviors\\SpawningBehaviors\\SpawningBehaviorBase.cs", "OnTick", 216);
+							goto IL_5A0;
 						}
-						MissionPeer missionPeer = component;
-						int spawnCountThisRound = missionPeer.SpawnCountThisRound;
-						missionPeer.SpawnCountThisRound = spawnCountThisRound + 1;
+					}
+				}
+			}
+			int num8 = num + count;
+			if (num8 > SpawningBehaviorBase.AgentCountThreshold && this._nextTimeToCleanUpMounts.IsPast)
+			{
+				this._nextTimeToCleanUpMounts = MissionTime.SecondsFromNow(5f);
+				for (int j = Mission.Current.MountsWithoutRiders.Count - 1; j >= 0; j--)
+				{
+					KeyValuePair<Agent, MissionTime> keyValuePair = Mission.Current.MountsWithoutRiders[j];
+					Agent key = keyValuePair.Key;
+					if (keyValuePair.Value.ElapsedSeconds > 30f)
+					{
+						key.FadeOut(false, false);
+					}
+				}
+			}
+			int num9 = SpawningBehaviorBase.MaxAgentCount - num8;
+			if (num9 >= 0)
+			{
+				for (int k = this._agentsToBeSpawnedCache.Count - 1; k >= 0; k--)
+				{
+					AgentBuildData agentBuildData4 = this._agentsToBeSpawnedCache[k];
+					bool flag4 = agentBuildData4.AgentMissionPeer != null;
+					MissionPeer missionPeer = (flag4 ? agentBuildData4.AgentMissionPeer : agentBuildData4.OwningAgentMissionPeer);
+					MPPerkObject.MPOnSpawnPerkHandler onSpawnPerkHandler2 = MPPerkObject.GetOnSpawnPerkHandler(missionPeer);
+					Agent agent = this.Mission.SpawnAgent(agentBuildData4, true);
+					agent.AddComponent(new MPPerksAgentComponent(agent));
+					Agent mountAgent = agent.MountAgent;
+					if (mountAgent != null)
+					{
+						mountAgent.UpdateAgentProperties();
+					}
+					agent.HealthLimit += ((onSpawnPerkHandler2 != null) ? onSpawnPerkHandler2.GetHitpoints(flag4) : 0f);
+					agent.Health = agent.HealthLimit;
+					if (!flag4)
+					{
+						agent.SetWatchState(Agent.WatchState.Alarmed);
+					}
+					agent.WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp, Equipment.InitialWeaponEquipPreference.Any);
+					if (flag4)
+					{
+						MissionPeer missionPeer2 = missionPeer;
+						int spawnCountThisRound = missionPeer2.SpawnCountThisRound;
+						missionPeer2.SpawnCountThisRound = spawnCountThisRound + 1;
+						Action<MissionPeer> onPeerSpawnedFromVisuals = this.OnPeerSpawnedFromVisuals;
+						if (onPeerSpawnedFromVisuals != null)
+						{
+							onPeerSpawnedFromVisuals(missionPeer);
+						}
 						Action<MissionPeer> onAllAgentsFromPeerSpawnedFromVisuals = this.OnAllAgentsFromPeerSpawnedFromVisuals;
 						if (onAllAgentsFromPeerSpawnedFromVisuals != null)
 						{
-							onAllAgentsFromPeerSpawnedFromVisuals(component);
+							onAllAgentsFromPeerSpawnedFromVisuals(missionPeer);
 						}
-						this.AgentVisualSpawnComponent.RemoveAgentVisuals(component, true);
-						MPPerkObject.MPPerkHandler perkHandler = MPPerkObject.GetPerkHandler(component);
+						this.AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, true);
+						if (GameNetwork.IsServerOrRecorder)
+						{
+							GameNetwork.BeginBroadcastModuleEvent();
+							GameNetwork.WriteMessage(new RemoveAgentVisualsForPeer(missionPeer.GetNetworkPeer()));
+							GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
+						}
+						missionPeer.HasSpawnedAgentVisuals = false;
+						MPPerkObject.MPPerkHandler perkHandler = MPPerkObject.GetPerkHandler(missionPeer);
 						if (perkHandler != null)
 						{
 							perkHandler.OnEvent(MPPerkCondition.PerkEventFlags.SpawnEnd);
+						}
+					}
+				}
+				int intValue2 = MultiplayerOptions.OptionType.NumberOfBotsTeam1.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
+				int intValue3 = MultiplayerOptions.OptionType.NumberOfBotsTeam2.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
+				if (this.GameMode.IsGameModeUsingOpposingTeams && (intValue2 > 0 || intValue3 > 0))
+				{
+					ValueTuple<Team, BasicCultureObject, int>[] array = new ValueTuple<Team, BasicCultureObject, int>[]
+					{
+						new ValueTuple<Team, BasicCultureObject, int>(this.Mission.DefenderTeam, MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam2.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)), intValue3 - this._botsCountForSides[0]),
+						new ValueTuple<Team, BasicCultureObject, int>(this.Mission.AttackerTeam, MBObjectManager.Instance.GetObject<BasicCultureObject>(MultiplayerOptions.OptionType.CultureTeam1.GetStrValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions)), intValue2 - this._botsCountForSides[1])
+					};
+					if (num9 >= 4)
+					{
+						for (int l = 0; l < Math.Min(num9 / 2, array[0].Item3 + array[1].Item3); l++)
+						{
+							this.SpawnBot(array[l % 2].Item1, array[l % 2].Item2);
 						}
 					}
 				}
@@ -278,15 +341,28 @@ namespace TaleWorlds.MountAndBlade
 				if (component != null)
 				{
 					this.AgentVisualSpawnComponent.RemoveAgentVisuals(component, true);
+					if (GameNetwork.IsServerOrRecorder)
+					{
+						GameNetwork.BeginBroadcastModuleEvent();
+						GameNetwork.WriteMessage(new RemoveAgentVisualsForPeer(component.GetNetworkPeer()));
+						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
+					}
+					component.HasSpawnedAgentVisuals = false;
 				}
 			}
-			foreach (ICommunicator communicator in MBNetwork.DisconnectedNetworkPeers)
+			foreach (NetworkCommunicator networkCommunicator2 in GameNetwork.DisconnectedNetworkPeers)
 			{
-				NetworkCommunicator networkCommunicator2 = communicator as NetworkCommunicator;
 				MissionPeer missionPeer = ((networkCommunicator2 != null) ? networkCommunicator2.GetComponent<MissionPeer>() : null);
 				if (missionPeer != null)
 				{
 					this.AgentVisualSpawnComponent.RemoveAgentVisuals(missionPeer, false);
+					if (GameNetwork.IsServerOrRecorder)
+					{
+						GameNetwork.BeginBroadcastModuleEvent();
+						GameNetwork.WriteMessage(new RemoveAgentVisualsForPeer(missionPeer.GetNetworkPeer()));
+						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
+					}
+					missionPeer.HasSpawnedAgentVisuals = false;
 				}
 			}
 		}
@@ -308,7 +384,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return networkPeer.PlayerConnectionInfo.GetParameter<PlayerData>("PlayerData").BodyProperties;
 			}
-			Debug.FailedAssert("networkCommunicator != null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\SpawnBehaviors\\SpawningBehaviors\\SpawningBehaviorBase.cs", "GetBodyProperties", 366);
+			Debug.FailedAssert("networkCommunicator != null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\SpawnBehaviors\\SpawningBehaviors\\SpawningBehaviorBase.cs", "GetBodyProperties", 510);
 			Team team = missionPeer.Team;
 			BasicCharacterObject troopCharacter = MultiplayerClassDivisions.GetMPHeroClasses(cultureLimit).ToMBList<MultiplayerClassDivisions.MPHeroClass>().GetRandomElement<MultiplayerClassDivisions.MPHeroClass>()
 				.TroopCharacter;
@@ -320,7 +396,7 @@ namespace TaleWorlds.MountAndBlade
 				.ClothingColor1((team.Side == BattleSideEnum.Attacker) ? cultureLimit.Color : cultureLimit.ClothAlternativeColor)
 				.ClothingColor2((team.Side == BattleSideEnum.Attacker) ? cultureLimit.Color2 : cultureLimit.ClothAlternativeColor2)
 				.IsFemale(troopCharacter.IsFemale);
-			agentBuildData2.Equipment(Equipment.GetRandomEquipmentElements(troopCharacter, !(Game.Current.GameType is MultiplayerGame), false, agentBuildData2.AgentEquipmentSeed));
+			agentBuildData2.Equipment(Equipment.GetRandomEquipmentElements(troopCharacter, !GameNetwork.IsMultiplayer, false, agentBuildData2.AgentEquipmentSeed));
 			agentBuildData2.BodyProperties(BodyProperties.GetRandomBodyProperties(agentBuildData2.AgentRace, agentBuildData2.AgentIsFemale, troopCharacter.GetBodyPropertiesMin(false), troopCharacter.GetBodyPropertiesMax(), (int)agentBuildData2.AgentOverridenSpawnEquipment.HairCoverType, agentBuildData2.AgentEquipmentSeed, troopCharacter.HairTags, troopCharacter.BeardTags, troopCharacter.TattooTags));
 			return agentBuildData2.AgentBodyProperties;
 		}
@@ -337,9 +413,11 @@ namespace TaleWorlds.MountAndBlade
 				.ClothingColor1((agentTeam.Side == BattleSideEnum.Attacker) ? cultureLimit.Color : cultureLimit.ClothAlternativeColor)
 				.ClothingColor2((agentTeam.Side == BattleSideEnum.Attacker) ? cultureLimit.Color2 : cultureLimit.ClothAlternativeColor2)
 				.IsFemale(troopCharacter.IsFemale);
-			agentBuildData2.Equipment(Equipment.GetRandomEquipmentElements(troopCharacter, !(Game.Current.GameType is MultiplayerGame), false, agentBuildData2.AgentEquipmentSeed));
+			agentBuildData2.Equipment(Equipment.GetRandomEquipmentElements(troopCharacter, !GameNetwork.IsMultiplayer, false, agentBuildData2.AgentEquipmentSeed));
 			agentBuildData2.BodyProperties(BodyProperties.GetRandomBodyProperties(agentBuildData2.AgentRace, agentBuildData2.AgentIsFemale, troopCharacter.GetBodyPropertiesMin(false), troopCharacter.GetBodyPropertiesMax(), (int)agentBuildData2.AgentOverridenSpawnEquipment.HairCoverType, agentBuildData2.AgentEquipmentSeed, troopCharacter.HairTags, troopCharacter.BeardTags, troopCharacter.TattooTags));
-			this.Mission.SpawnAgent(agentBuildData2, false).AIStateFlags |= Agent.AIStateFlag.Alarmed;
+			Agent agent = this.Mission.SpawnAgent(agentBuildData2, false);
+			agent.AIStateFlags |= Agent.AIStateFlag.Alarmed;
+			this._botsCountForSides[(int)agent.Team.Side]++;
 		}
 
 		private void OnPeerEquipmentUpdated(MissionPeer peer)
@@ -377,7 +455,27 @@ namespace TaleWorlds.MountAndBlade
 
 		public virtual void OnClearScene()
 		{
+			for (int i = 0; i < this._botsCountForSides.Length; i++)
+			{
+				this._botsCountForSides[i] = 0;
+			}
 		}
+
+		public void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
+		{
+			if (affectedAgent.IsHuman && affectedAgent.MissionPeer == null && affectedAgent.OwningAgentMissionPeer == null)
+			{
+				this._botsCountForSides[(int)affectedAgent.Team.Side]--;
+			}
+		}
+
+		private static int MaxAgentCount = MBAPI.IMBAgent.GetMaximumNumberOfAgents();
+
+		private static int AgentCountThreshold = (int)((float)SpawningBehaviorBase.MaxAgentCount * 0.9f);
+
+		private const float SecondsToWaitForEachMountBeforeSelectingToFadeOut = 30f;
+
+		private const float SecondsToWaitBeforeNextMountCleanup = 5f;
 
 		protected MissionMultiplayerGameModeBase GameMode;
 
@@ -402,6 +500,12 @@ namespace TaleWorlds.MountAndBlade
 		public static readonly ActionIndexCache PoseActionInfantry = ActionIndexCache.Create("act_walk_idle_unarmed");
 
 		public static readonly ActionIndexCache PoseActionCavalry = ActionIndexCache.Create("act_horse_stand_1");
+
+		private List<AgentBuildData> _agentsToBeSpawnedCache;
+
+		private MissionTime _nextTimeToCleanUpMounts;
+
+		private int[] _botsCountForSides;
 
 		public delegate void OnSpawningEndedEventDelegate();
 	}

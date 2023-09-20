@@ -9,15 +9,19 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	[Serializable]
 	public class LobbyNotification
 	{
-		public int Id { get; }
+		public int Id { get; set; }
 
-		public NotificationType Type { get; }
+		public NotificationType Type { get; set; }
 
-		public DateTime Date { get; }
+		public DateTime Date { get; set; }
 
-		public string Message { get; }
+		public string Message { get; set; }
 
-		public Dictionary<string, string> Parameters { get; }
+		public Dictionary<string, string> Parameters { get; set; }
+
+		public LobbyNotification()
+		{
+		}
 
 		public LobbyNotification(NotificationType type, DateTime date, string message)
 		{
@@ -49,7 +53,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			string text = "{}";
 			try
 			{
-				text = JsonConvert.SerializeObject(this.Parameters, 0);
+				text = JsonConvert.SerializeObject(this.Parameters, Formatting.None);
 			}
 			catch (Exception)
 			{

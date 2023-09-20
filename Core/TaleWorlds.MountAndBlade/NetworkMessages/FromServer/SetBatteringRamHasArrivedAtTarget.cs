@@ -7,11 +7,11 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetBatteringRamHasArrivedAtTarget : GameNetworkMessage
 	{
-		public BatteringRam BatteringRam { get; private set; }
+		public MissionObjectId BatteringRamId { get; private set; }
 
-		public SetBatteringRamHasArrivedAtTarget(BatteringRam batteringRam)
+		public SetBatteringRamHasArrivedAtTarget(MissionObjectId batteringRamId)
 		{
-			this.BatteringRam = batteringRam;
+			this.BatteringRamId = batteringRamId;
 		}
 
 		public SetBatteringRamHasArrivedAtTarget()
@@ -21,14 +21,13 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			MissionObject missionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
-			this.BatteringRam = missionObject as BatteringRam;
+			this.BatteringRamId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.BatteringRam);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.BatteringRamId);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -38,14 +37,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Battering Ram with ID: ",
-				this.BatteringRam.Id,
-				" and name: ",
-				this.BatteringRam.GameEntity.Name,
-				" has arrived at its target."
-			});
+			return "Battering Ram with ID: " + this.BatteringRamId + " has arrived at its target.";
 		}
 	}
 }

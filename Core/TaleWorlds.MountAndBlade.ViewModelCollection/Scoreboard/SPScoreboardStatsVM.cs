@@ -39,7 +39,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 
 		public bool IsAnyStatRelevant()
 		{
-			return this.Kill > 1 || this.Dead > 1 || this.Wounded > 1 || this.Routed > 1 || this.Remaining > 1 || this.ReadyToUpgrade > 1;
+			return this.Remaining >= 1 || this.Routed >= 1;
 		}
 
 		public SPScoreboardStatsVM GetScoreForOneAliveMember()

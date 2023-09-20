@@ -47,10 +47,5 @@ namespace TaleWorlds.MountAndBlade
 		{
 			MBAPI.IMBGameEntityExtensions.HideIfNotFadingOut(gameEntity.Pointer);
 		}
-
-		public static void UpdateRestrictedTrajectoryBuilder(this GameEntity gameEntity, float maxShootSpeed, float minShootSpeed, float maxAngle, float minAngle, float turnAngle, float frictionCoefficient)
-		{
-			MBAPI.IMBGameEntityExtensions.UpdateTrajectoryVisualizerForSpawner(gameEntity.Pointer, maxShootSpeed, minShootSpeed, maxAngle, minAngle, turnAngle, frictionCoefficient);
-		}
 	}
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using StoryMode.StoryModeObjects;
 using StoryMode.StoryModePhases;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -65,7 +64,7 @@ namespace StoryMode.Quests.FirstPhase
 			StoryModeManager.Current.MainStoryLine.BusyHideouts.Remove(this._hideout.Hideout);
 		}
 
-		protected override void OnStartQuest()
+		protected override void HourlyTick()
 		{
 		}
 
@@ -114,16 +113,16 @@ namespace StoryMode.Quests.FirstPhase
 
 		private MobileParty CreateRaiderParty(int number)
 		{
-			MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("arzagos_banner_piece_quest_raider_party_" + number, StoryModeHeroes.RadiersClan, this._hideout.Hideout, false);
+			MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("arzagos_banner_piece_quest_raider_party_" + number, this._hideout.OwnerClan, this._hideout.Hideout, false);
 			TroopRoster troopRoster = new TroopRoster(mobileParty.Party);
 			CharacterObject @object = Campaign.Current.ObjectManager.GetObject<CharacterObject>(this._hideout.Culture.StringId + "_bandit");
 			troopRoster.AddToCounts(@object, 5, false, 0, 0, true, -1);
 			TroopRoster troopRoster2 = new TroopRoster(mobileParty.Party);
 			mobileParty.InitializeMobilePartyAtPosition(troopRoster, troopRoster2, this._hideout.Position2D);
 			mobileParty.SetCustomName(new TextObject("{=u1Pkt4HC}Raiders", null));
-			mobileParty.ActualClan = StoryModeHeroes.RadiersClan;
+			mobileParty.ActualClan = this._hideout.OwnerClan;
 			mobileParty.Position2D = this._hideout.Position2D;
-			mobileParty.Party.Visuals.SetMapIconAsDirty();
+			mobileParty.Party.SetVisualAsDirty();
 			float totalStrength = mobileParty.Party.TotalStrength;
 			int num = (int)(1f * MBRandom.RandomFloat * 20f * totalStrength + 50f);
 			mobileParty.InitializePartyTrade(num);
@@ -168,7 +167,7 @@ namespace StoryMode.Quests.FirstPhase
 
 		private void OnGameMenuOpened(MenuCallbackArgs args)
 		{
-			if (Settlement.CurrentSettlement == this._hideout && !this._hideout.Hideout.IsInfested)
+			if (this._hideoutBattleEndState != ArzagosBannerPieceQuest.HideoutBattleEndState.Victory && Settlement.CurrentSettlement == this._hideout && !this._hideout.Hideout.IsInfested)
 			{
 				this.InitializeHideout();
 			}
@@ -189,10 +188,10 @@ namespace StoryMode.Quests.FirstPhase
 						Hero.MainHero.Heal(50 - Hero.MainHero.HitPoints, false);
 					}
 					InformationManager.ShowInquiry(new InquiryData(new TextObject("{=FPhWhjq7}Defeated", null).ToString(), new TextObject("{=btAV7mmq}You are defeated by the raiders in the hideout but you managed to escape. You need to wait a while before attacking again.", null).ToString(), true, false, new TextObject("{=yQtzabbe}Close", null).ToString(), null, null, null, "", 0f, null, null, null), false, false);
-				}
-				if (this._hideout.Parties.Count == 0)
-				{
-					this.InitializeHideout();
+					if (this._hideout.Parties.Count == 0)
+					{
+						this.InitializeHideout();
+					}
 				}
 				this._hideoutBattleEndState = ArzagosBannerPieceQuest.HideoutBattleEndState.None;
 			}

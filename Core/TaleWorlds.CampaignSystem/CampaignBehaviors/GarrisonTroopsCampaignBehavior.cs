@@ -42,7 +42,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				return;
 			}
-			if (mobileParty != null && mobileParty != MobileParty.MainParty && mobileParty.IsLordParty && !mobileParty.IsDisbanding && mobileParty.LeaderHero != null && FactionManager.IsAlliedWithFaction(mobileParty.MapFaction, settlement.MapFaction) && (settlement.OwnerClan != Clan.PlayerClan || Hero.MainHero == Hero.MainHero.MapFaction.Leader) && settlement.IsFortification)
+			if (mobileParty != null && mobileParty != MobileParty.MainParty && mobileParty.IsLordParty && !mobileParty.IsDisbanding && mobileParty.LeaderHero != null && settlement.IsFortification && FactionManager.IsAlliedWithFaction(mobileParty.MapFaction, settlement.MapFaction) && (settlement.OwnerClan != Clan.PlayerClan || settlement.Town.IsOwnerUnassigned))
 			{
 				int num = Campaign.Current.Models.SettlementGarrisonModel.FindNumberOfTroopsToLeaveToGarrison(mobileParty, mobileParty.CurrentSettlement);
 				if (num > 0)

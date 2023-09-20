@@ -65,7 +65,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=M3af4N66}If you follow tournaments in this region, you'll know that I am a great devotee. I attend as many as I can - I love the spectacle, the tension... Despite this, I've never had a champion fight in my name, which is quite the fashion these days. Would you consider being my champion, {PLAYER.NAME} I'm sure you could win glory for both of us.", null);
+					TextObject textObject = new TextObject("{=M3af4N66}If you follow tournaments in this region, you'll know that I am a great devotee. I attend as many as I can - I love the spectacle, the tension... Despite this, I've never had a champion fight in my name, which is quite the fashion these days. Would you consider being my champion, {PLAYER.NAME}? I'm sure you could win glory for both of us.[if:convo_merry][ib:confident3]", null);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					return textObject;
 				}
@@ -83,7 +83,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=SzIPvqLk}Of course not. If you don't wish to fight yourself - and I understand you might be quite busy - you could use your influence to convince one of the nobles of this realm to hold their next tournament in my honor.", null);
+					return new TextObject("{=SzIPvqLk}Of course not. If you don't wish to fight yourself - and I understand you might be quite busy - you could use your influence to convince one of the nobles of this realm to hold their next tournament in my honor.[ib:demure2][if:convo_merry]", null);
 				}
 			}
 
@@ -99,14 +99,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=Pnc8ToV1}Just participate in a future tournament in this realm, and say you dedicate your victories to me. {TOURNAMENT_ROUND_GOAL}", null);
+					TextObject textObject = new TextObject("{=Pnc8ToV1}Just participate in a future tournament in this realm, and say you dedicate your victories to me. {TOURNAMENT_ROUND_GOAL}[ib:hip]", null);
 					if (this.TournamentRoundGoal == 5)
 					{
-						textObject.SetTextVariable("TOURNAMENT_ROUND_GOAL", new TextObject("{=2Rzw16OX}If you can advance to win the tournament, I'm sure that will do us both honor.", null));
+						textObject.SetTextVariable("TOURNAMENT_ROUND_GOAL", new TextObject("{=2Rzw16OX}If you can advance to win the tournament, I'm sure that will do us both honor.[ib:hip2][if:convo_relaxed_happy]", null));
 					}
 					else
 					{
-						TextObject textObject2 = new TextObject("{=al27CmYV}If you can advance to reach round {ROUND_COUNT}, I'm sure that will do us both honor.", null);
+						TextObject textObject2 = new TextObject("{=al27CmYV}If you can advance to reach round {ROUND_COUNT}, I'm sure that will do us both honor.[if:convo_calm_friendly][ib:demure]", null);
 						textObject2.SetTextVariable("ROUND_COUNT", this.TournamentRoundGoal);
 						textObject.SetTextVariable("TOURNAMENT_ROUND_GOAL", textObject2);
 					}
@@ -258,6 +258,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -497,6 +501,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.PlayerStartedTournamentMatch.AddNonSerializedListener(this, new Action<Town>(this.OnPlayerStartedTournamentMatch));
@@ -610,7 +618,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredOnQuestGiversFactionCancelLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredOnQuestGiversFactionCancelLog, false);
 			}
 
 			private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
@@ -678,7 +686,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private Town _tournamentTown;
 		}
 
-		public class LadysKnightOutIssueTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class LadysKnightOutIssueTypeDefiner : SaveableTypeDefiner
 		{
 			public LadysKnightOutIssueTypeDefiner()
 				: base(585700)

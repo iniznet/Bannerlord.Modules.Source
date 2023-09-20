@@ -55,7 +55,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override bool IsClanSuitableForMarriage(Clan clan)
 		{
-			return clan != null && !clan.IsBanditFaction && clan != CampaignData.NeutralFaction && !clan.IsRebelClan;
+			return clan != null && !clan.IsBanditFaction && !clan.IsRebelClan;
 		}
 
 		public override float NpcCoupleMarriageChance(Hero firstHero, Hero secondHero)

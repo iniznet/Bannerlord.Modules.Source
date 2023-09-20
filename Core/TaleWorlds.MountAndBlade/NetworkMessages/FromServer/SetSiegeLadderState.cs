@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetSiegeLadderState : GameNetworkMessage
 	{
-		public SiegeLadder SiegeLadder { get; private set; }
+		public MissionObjectId SiegeLadderId { get; private set; }
 
 		public SiegeLadder.LadderState State { get; private set; }
 
-		public SetSiegeLadderState(SiegeLadder siegeLadder, SiegeLadder.LadderState state)
+		public SetSiegeLadderState(MissionObjectId siegeLadderId, SiegeLadder.LadderState state)
 		{
-			this.SiegeLadder = siegeLadder;
+			this.SiegeLadderId = siegeLadderId;
 			this.State = state;
 		}
 
@@ -24,15 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			MissionObject missionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
-			this.SiegeLadder = missionObject as SiegeLadder;
+			this.SiegeLadderId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.State = (SiegeLadder.LadderState)GameNetworkMessage.ReadIntFromPacket(CompressionMission.SiegeLadderStateCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.SiegeLadder);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.SiegeLadderId);
 			GameNetworkMessage.WriteIntToPacket((int)this.State, CompressionMission.SiegeLadderStateCompressionInfo);
 		}
 
@@ -43,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set SiegeLadder State to: ",
-				this.State,
-				" on SiegeLadderState with ID: ",
-				this.SiegeLadder.Id,
-				" and name: ",
-				this.SiegeLadder.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Set SiegeLadder State to: ", this.State, " on SiegeLadderState with ID: ", this.SiegeLadderId });
 		}
 	}
 }

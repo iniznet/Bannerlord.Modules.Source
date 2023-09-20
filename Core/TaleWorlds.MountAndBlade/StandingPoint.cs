@@ -138,7 +138,7 @@ namespace TaleWorlds.MountAndBlade
 						this._needsSingleThreadTickOnce = true;
 						return;
 					}
-					base.UserAgent.WieldInitialWeapons(Agent.WeaponWieldActionType.Instant);
+					base.UserAgent.WieldInitialWeapons(Agent.WeaponWieldActionType.Instant, Equipment.InitialWeaponEquipPreference.Any);
 				}
 			}
 		}

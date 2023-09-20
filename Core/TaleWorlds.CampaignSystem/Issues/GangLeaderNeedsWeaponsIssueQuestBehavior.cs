@@ -69,7 +69,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 		{
 			if (requestedWeaponClass == WeaponClass.OneHandedAxe)
 			{
-				return new TextObject("{=pbmqIN8E}One handed axes", null);
+				return new TextObject("{=tza4micZ}one-handed axes", null);
 			}
 			return new TextObject("{=!}Undefined!", null);
 		}
@@ -179,7 +179,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=m24bXmOD}Yes, you can help me. Do you want to make some easy money? I need some 'tools' for my private business. Are you interested?", null);
+					return new TextObject("{=m24bXmOD}Yes, you can help me. Do you want to make some easy money? I need some 'tools' for my private business. Are you interested?[if:convo_bored][ib:confident2]", null);
 				}
 			}
 
@@ -195,7 +195,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=xBaL3RM4}Well, as you know we're not farmers or artisans. I need {NEEDED_AMOUNT} pieces of {.%}{NEEDED_TYPE}{.%}. Don't mind the quality, just buy the weapons. Bring them to me and {REWARD_GOLD}{GOLD_ICON} is yours. Got it?", null);
+					TextObject textObject = new TextObject("{=xBaL3RM4}Well, as you know we're not farmers or artisans. I need {NEEDED_AMOUNT} {.%}{NEEDED_TYPE}{.%}. Don't mind the quality, just buy the weapons. Bring them to me and {REWARD_GOLD}{GOLD_ICON} is yours. Got it?[if:convo_bored]", null);
 					textObject.SetTextVariable("NEEDED_AMOUNT", this.RequestedWeaponAmount);
 					textObject.SetTextVariable("REWARD_GOLD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -208,7 +208,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=0i8RgslK}Or, maybe one of your trusted companions can take {COMPANION_NEED_GOLD_AMOUNT}{GOLD_ICON} denars and some {ALTERNATIVE_TROOP_AMOUNT} men can bring me {PLURAL(ITEM_TYPE)}. Your companion better have his pockets full, since all that should cost around {COMPANION_NEED_GOLD_AMOUNT}{GOLD_ICON}.", null);
+					TextObject textObject = new TextObject("{=0i8RgslK}Or, maybe one of your trusted companions can buy the {ITEM_TYPE}. I reckon they'll cost {COMPANION_NEED_GOLD_AMOUNT}{GOLD_ICON} denars, and they'd best take at least {ALTERNATIVE_TROOP_AMOUNT} men for protection.[if:convo_bored]", null);
 					textObject.SetTextVariable("COMPANION_NEED_GOLD_AMOUNT", this.CompanionGoldNeedForAlternativeSolution);
 					textObject.SetTextVariable("ITEM_TYPE", GangLeaderNeedsWeaponsIssueQuestBehavior.GetNeededClassTextObject(this.RequestedWeaponClass));
 					textObject.SetTextVariable("ALTERNATIVE_TROOP_AMOUNT", base.GetTotalAlternativeSolutionNeededMenCount());
@@ -434,6 +434,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new GangLeaderNeedsWeaponsIssueQuestBehavior.GangLeaderNeedsWeaponsIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(25f), this.RewardGold, this._requiredWeaponClassIndex, this.RequestedWeaponAmount, base.IssueDifficultyMultiplier, this._averagePriceForItem);
@@ -552,7 +556,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=B3WyJjBx}{QUEST_GIVER.LINK}, a gang leader from {SETTLEMENT}, asked you to buy some weapons for {?QUEST_GIVER.GENDER}her{?}his{\\?} private business. {?QUEST_GIVER.GENDER}She{?}He{\\?} offered you {REWARD_GOLD}{GOLD_ICON} for their delivery. {?QUEST_GIVER.GENDER}She{?}He{\\?} asked you to buy {NEEDED_AMOUNT} pieces of {NEEDED_TYPE} and deliver them to {SETTLEMENT} where {QUEST_GIVER.LINK}'s men will be waiting for you. {?QUEST_GIVER.GENDER}She{?}He{\\?} promised to give you {REWARD_GOLD}{GOLD_ICON} for your troubles.", null);
+					TextObject textObject = new TextObject("{=B3WyJjBx}{QUEST_GIVER.LINK}, a gang leader from {SETTLEMENT}, asked you to buy some weapons for {?QUEST_GIVER.GENDER}her{?}his{\\?} private business. {?QUEST_GIVER.GENDER}She{?}He{\\?} offered you {REWARD_GOLD}{GOLD_ICON} for their delivery. {?QUEST_GIVER.GENDER}She{?}He{\\?} asked you to buy {NEEDED_AMOUNT} {NEEDED_TYPE} and deliver them to {SETTLEMENT} where {QUEST_GIVER.LINK}'s men will be waiting for you. {?QUEST_GIVER.GENDER}She{?}He{\\?} promised to give you {REWARD_GOLD}{GOLD_ICON} for your troubles.", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					textObject.SetTextVariable("SETTLEMENT", base.QuestGiver.CurrentSettlement.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("NEEDED_AMOUNT", this._requestedWeaponAmount);
@@ -624,12 +628,16 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._requestedWeaponClass = GangLeaderNeedsWeaponsIssueQuestBehavior._canBeRequestedWeaponClassList[this._randomForRequiredWeaponClass];
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEnter));
 				CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
 				CampaignEvents.PlayerInventoryExchangeEvent.AddNonSerializedListener(this, new Action<List<ValueTuple<ItemRosterElement, int>>, List<ValueTuple<ItemRosterElement, int>>, bool>(this.OnPlayerInventoryChanged));
-				CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, Crafting.OverrideData, bool>(this.OnItemCrafted));
+				CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, ItemModifier, bool>(this.OnItemCrafted));
 				CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.OnGameMenuOpened));
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
 				CampaignEvents.OnEquipmentSmeltedByHeroEvent.AddNonSerializedListener(this, new Action<Hero, EquipmentElement>(this.OnEquipmentSmeltedByHero));
@@ -668,7 +676,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
+			private void OnItemCrafted(ItemObject itemObject, ItemModifier overriddenItemModifier, bool isCraftingOrderItem)
 			{
 				if (!isCraftingOrderItem && itemObject.WeaponComponent != null && itemObject.WeaponComponent.PrimaryWeapon.WeaponClass == this._requestedWeaponClass)
 				{
@@ -813,6 +821,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._guardsParty.MemberRoster.AddToCounts(this._guardsParty.HomeSettlement.Culture.MeleeMilitiaTroop, (int)num, false, 0, 0, true, -1);
 				EnterSettlementAction.ApplyForParty(this._guardsParty, base.QuestGiver.CurrentSettlement);
 				this._guardsParty.IsVisible = false;
+				this._guardsParty.ActualClan = base.QuestGiver.CurrentSettlement.OwnerClan;
 			}
 
 			protected override void SetDialogs()
@@ -821,18 +830,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=nQoAsBZY}When you enter the town my men will take the weapons from you. Good luck.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=CQH7E6Gr}What about my weapons?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=CQH7E6Gr}What about my weapons?[if:convo_confused_normal][ib:hip]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=RbToDs0n}Here is your cargo. Now it's time for payment.", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.CheckIfPlayerHasEnoughRequestedWeapons))
-					.NpcLine(new TextObject("{=nixINYwE}Yes of course. It was a pleasure doing business with you.", null), null, null)
+					.NpcLine(new TextObject("{=nixINYwE}Yes of course. It was a pleasure doing business with you.[if:convo_mocking_aristocratic]", null), null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.PlayerSuccessfullyDeliveredWeapons;
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=bj49Bq15}It's not that easy to find what you wanted. Be patient, please.", null), null)
-					.NpcLine(new TextObject("{=avFXbBLV}I know how it is. Just bring me the weapons.", null), null, null)
+					.NpcLine(new TextObject("{=avFXbBLV}I know how it is. Just bring me the weapons.[if:convo_bored2]", null), null, null)
 					.EndPlayerOptions()
 					.CloseDialog();
 			}
@@ -865,13 +874,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetGuardDialogFlow()
 			{
-				TextObject textObject = new TextObject("{=wBBidWVw}What have we here? You can't enter the town with so many weapons. Hand them over! You can retrieve them when you leave.", null);
+				TextObject textObject = new TextObject("{=wBBidWVw}What have we here? You can't enter the town with so many weapons. Hand them over! You can retrieve them when you leave.[if:convo_thinking][closed2]", null);
 				TextObject textObject2 = new TextObject("{=oVAtPtsu}Clear the way! We don't want to use force!", null);
 				TextObject textObject3 = new TextObject("{=JL204Kc0}Sure... sure. We'll hand them over..", null);
 				TextObject textObject4 = new TextObject("{=nlCa3tW8}You seem like a reasonable man. What is your price?", null);
 				TextObject textObject5 = new TextObject("{=VUjaLmIH}Relax. We have permission. Let us pass. ", null);
 				TextObject textObject6 = new TextObject("{=tGFgar0U}Fine. We won't enter at all, then. Good bye.", null);
-				TextObject textObject7 = new TextObject("{=Qb7N6txQ}Mmm. For {BRIBE_COST}{GOLD_ICON} denars, I could be persuaded that this is just harmless scrap metal...", null);
+				TextObject textObject7 = new TextObject("{=Qb7N6txQ}Mmm. For {BRIBE_COST}{GOLD_ICON} denars, I could be persuaded that this is just harmless scrap metal...[if:convo_mocking_aristocratic][ib:confident]", null);
 				textObject7.SetTextVariable("BRIBE_COST", this._bribeGold);
 				textObject7.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).NpcLine(textObject, null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogStartCondition))
@@ -883,34 +892,34 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.PlayerOption(textObject2, null)
 					.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.CheckPlayerHealth))
 					.BeginNpcOptions()
-					.NpcOption(new TextObject("{=NcQZz4N2}This is my last warning! It would be better for both sides if you don't resist.[ib:closed]", null), new ConversationSentence.OnConditionDelegate(this.CheckPlayersPartySize), null, null)
+					.NpcOption(new TextObject("{=NcQZz4N2}This is my last warning! It would be better for both sides if you don't resist.[if:convo_grave][ib:closed]", null), new ConversationSentence.OnConditionDelegate(this.CheckPlayersPartySize), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=NTlbbrwB}If there will be a fight, then we will fight", null), null)
-					.NpcLine(new TextObject("{=h5np5kcC}All right, all right... We don't want any trouble here, okay? Go on.", null), null, null)
+					.NpcLine(new TextObject("{=h5np5kcC}All right, all right... We don't want any trouble here, okay? Go on.[if:convo_contemptuous]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerDodgeGuardsLowCrimeRating))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=pfxG5Ubu}Fine, fine. Take our weapons.", null), null)
-					.NpcLine(new TextObject("{=A8lvIDVw}Wise decision! Now move along! ", null), null, null)
+					.NpcLine(new TextObject("{=A8lvIDVw}Wise decision! Now move along![if:convo_angry] ", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.DeleteAllWeaponsFromPlayer))
 					.CloseDialog()
 					.EndPlayerOptions()
-					.NpcOption(new TextObject("{=G632MneX}This is my last warning! Hand over your weapons![ib:closed]", null), null, null, null)
+					.NpcOption(new TextObject("{=G632MneX}This is my last warning! Hand over your weapons![if:convo_thinking][ib:closed]", null), null, null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=NTlbbrwB}If there will be a fight, then we will fight", null), null)
-					.NpcLine(new TextObject("{=8WaoQpYn}Oh there will be one, all right.[ib:aggressive]", null), null, null)
+					.NpcLine(new TextObject("{=8WaoQpYn}Oh there will be one, all right.[if:convo_predatory][ib:warrior]", null), null, null)
 					.Consequence(delegate
 					{
 						this._startBattleMission = true;
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=pfxG5Ubu}Fine, fine. Take our weapons.", null), null)
-					.NpcLine(new TextObject("{=3xyd2Dxu}Good. That saves us all trouble.", null), null, null)
+					.NpcLine(new TextObject("{=3xyd2Dxu}Good. That saves us all trouble.[if:convo_grave][ib:warrior2]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.DeleteAllWeaponsFromPlayer))
 					.CloseDialog()
 					.EndPlayerOptions()
 					.EndNpcOptions()
 					.PlayerOption(textObject3, null)
-					.NpcLine(new TextObject("{=GyI86plp}Don't worry. I guarantee your property will be returned, if everything's in order like you say...[ib:closed]", null), null, null)
+					.NpcLine(new TextObject("{=GyI86plp}Don't worry. I guarantee your property will be returned, if everything's in order like you say...[if:convo_calm_friendly][ib:closed]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.DeleteAllWeaponsFromPlayer))
 					.CloseDialog()
 					.PlayerOption(textObject4, null)
@@ -919,10 +928,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.PlayerOption(new TextObject("{=Obk7j3ai}Here it is. Now let us pass", null), null)
 					.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.HasPlayerEnoughMoneyToBribe))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerBribeGuard))
-					.NpcLine(new TextObject("{=musbt5Hm}Sorry for the interruption. Go on please...", null), null, null)
+					.NpcLine(new TextObject("{=musbt5Hm}Sorry for the interruption. Go on please...[if:convo_bored2]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=d5ztuP3P}That's too much.", null), null)
-					.NpcLine(new TextObject("{=49IwOe5E}As you wish...", null), null, null)
+					.NpcLine(new TextObject("{=49IwOe5E}As you wish...[if:convo_normal]", null), null, null)
 					.GotoDialogState("start")
 					.EndPlayerOptions()
 					.PlayerOption(textObject5, null)
@@ -933,7 +942,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.GotoDialogState("start_guard_persuasion")
 					.PlayerOption(textObject6, null)
-					.NpcLine(new TextObject("{=xvYDbEUa}All right. Go on.", null), null, null)
+					.NpcLine(new TextObject("{=xvYDbEUa}All right. Go on.[if:convo_bored]", null), null, null)
 					.Consequence(delegate
 					{
 						this._playerGoBack = true;
@@ -1027,7 +1036,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private PersuasionTask GetPersuasionTask()
 			{
 				PersuasionTask persuasionTask = new PersuasionTask(0);
-				persuasionTask.FinalFailLine = new TextObject("{=XCJGl82o}Do you think you can pull one over on me? Now hand over the weapons!", null);
+				persuasionTask.FinalFailLine = new TextObject("{=XCJGl82o}Do you think you can pull one over on me? Now hand over the weapons![if:convo_furious][ib:aggressive]", null);
 				persuasionTask.TryLaterLine = new TextObject("{=!}TODO", null);
 				persuasionTask.SpokenLine = new TextObject("{=6P1ruzsC}Maybe...", null);
 				PersuasionOptionArgs persuasionOptionArgs = new PersuasionOptionArgs(DefaultSkills.Roguery, DefaultTraits.RogueSkills, TraitEffect.Positive, PersuasionArgumentStrength.Hard, false, new TextObject("{=1hbos200}Here are some documents from the chancellery.", null), null, false, false, false);

@@ -55,14 +55,12 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 		public enum PreliminaryActionObligation
 		{
 			None,
-			Optional,
-			Must
+			Optional
 		}
 
 		public enum PreliminaryActionType
 		{
 			None,
-			SettlementIsTaken,
 			FaceCharges
 		}
 

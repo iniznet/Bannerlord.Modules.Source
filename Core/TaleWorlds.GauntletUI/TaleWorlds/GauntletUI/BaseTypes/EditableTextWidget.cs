@@ -414,7 +414,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			{
 				this._keyboardAction = EditableTextWidget.KeyboardAction.None;
 			}
-			if (Input.IsKeyReleased(InputKey.Enter))
+			if (Input.IsKeyReleased(InputKey.Enter) || Input.IsKeyReleased(InputKey.NumpadEnter))
 			{
 				base.EventFired("TextEntered", Array.Empty<object>());
 				return;

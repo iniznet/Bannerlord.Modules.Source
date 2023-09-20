@@ -67,7 +67,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderScatter;
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderWider;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		public override float NavmeshlessTargetPositionPenalty

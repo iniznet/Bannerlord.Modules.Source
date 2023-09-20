@@ -15,5 +15,10 @@ namespace TaleWorlds.Library
 		{
 			return HttpDriverManager.GetDefaultHttpDriver().HttpDownloadData(url);
 		}
+
+		public static Task<string> PostStringAsync(string url, string postData, string mediaType = "application/json")
+		{
+			return HttpDriverManager.GetDefaultHttpDriver().HttpPostString(url, postData, mediaType, false);
+		}
 	}
 }

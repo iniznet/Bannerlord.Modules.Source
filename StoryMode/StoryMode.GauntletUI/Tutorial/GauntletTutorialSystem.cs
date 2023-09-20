@@ -60,7 +60,7 @@ namespace StoryMode.GauntletUI.Tutorial
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
-			if (BannerlordConfig.EnableTutorialHints && this._isInitialized)
+			if (this._isInitialized)
 			{
 				if (this._currentlyAvailableTutorialItemsCopy.Length != this._currentlyAvailableTutorialItems.Capacity)
 				{
@@ -135,11 +135,11 @@ namespace StoryMode.GauntletUI.Tutorial
 					TutorialContexts currentContext = this.CurrentContext;
 					if ((tutorialContexts.GetValueOrDefault() == currentContext) & (tutorialContexts != null))
 					{
-						goto IL_28B;
+						goto IL_281;
 					}
 				}
 				this.ResetCurrentTutorial();
-				IL_28B:
+				IL_281:
 				TutorialVM dataSource = this._dataSource;
 				TutorialItemBase currentTutorialVisualItem3 = this._currentTutorialVisualItem;
 				dataSource.IsVisible = currentTutorialVisualItem3 != null && currentTutorialVisualItem3.IsConditionsMetForVisibility();
@@ -151,11 +151,14 @@ namespace StoryMode.GauntletUI.Tutorial
 		{
 			this._currentTutorial = tutorial;
 			this._currentTutorialVisualItem = tutorialItem;
-			Game.Current.EventManager.TriggerEvent<TutorialNotificationElementChangeEvent>(new TutorialNotificationElementChangeEvent(this._currentTutorialVisualItem.HighlightedVisualElementID));
-			this._dataSource.SetCurrentTutorial(tutorialItem.Placement, tutorial.TutorialTypeId, tutorialItem.MouseRequired);
-			if (tutorialItem.MouseRequired)
+			if (BannerlordConfig.EnableTutorialHints)
 			{
-				base.Layer.InputRestrictions.SetInputRestrictions(false, 1);
+				Game.Current.EventManager.TriggerEvent<TutorialNotificationElementChangeEvent>(new TutorialNotificationElementChangeEvent(this._currentTutorialVisualItem.HighlightedVisualElementID));
+				this._dataSource.SetCurrentTutorial(tutorialItem.Placement, tutorial.TutorialTypeId, tutorialItem.MouseRequired);
+				if (tutorialItem.MouseRequired)
+				{
+					base.Layer.InputRestrictions.SetInputRestrictions(false, 1);
+				}
 			}
 		}
 
@@ -365,6 +368,22 @@ namespace StoryMode.GauntletUI.Tutorial
 			});
 		}
 
+		private void OnPlayerRecruitUnit(CharacterObject obj, int count)
+		{
+			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
+			{
+				t.OnPlayerRecruitedUnit(obj, count);
+			});
+		}
+
+		private void OnPlayerInventoryExchange(List<ValueTuple<ItemRosterElement, int>> purchasedItems, List<ValueTuple<ItemRosterElement, int>> soldItems, bool isTrading)
+		{
+			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
+			{
+				t.OnPlayerInventoryExchange(purchasedItems, soldItems, isTrading);
+			});
+		}
+
 		private void OnPlayerUpgradeTroop(PlayerRequestUpgradeTroopEvent obj)
 		{
 			this._currentlyAvailableTutorialItems.ForEach(delegate(TutorialItemBase t)
@@ -491,7 +510,7 @@ namespace StoryMode.GauntletUI.Tutorial
 			this.RegisterTutorialTypes();
 		}
 
-		private void OnGamepadActiveChange(GamepadActiveStateChangedEvent obj)
+		private void OnGamepadActiveStateChanged()
 		{
 			this.UpdateKeytexts();
 		}
@@ -565,6 +584,7 @@ namespace StoryMode.GauntletUI.Tutorial
 
 		private void RegisterEvents()
 		{
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Combine(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 			Game.Current.EventManager.RegisterEvent<InventoryTransferItemEvent>(new Action<InventoryTransferItemEvent>(this.OnInventoryTransferItem));
 			Game.Current.EventManager.RegisterEvent<InventoryEquipmentTypeChangedEvent>(new Action<InventoryEquipmentTypeChangedEvent>(this.OnInventoryEquipmentTypeChange));
 			Game.Current.EventManager.RegisterEvent<FocusAddedByPlayerEvent>(new Action<FocusAddedByPlayerEvent>(this.OnFocusAddedByPlayer));
@@ -584,7 +604,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			Game.Current.EventManager.RegisterEvent<PlayerMoveTroopEvent>(new Action<PlayerMoveTroopEvent>(this.OnPlayerMoveTroop));
 			Game.Current.EventManager.RegisterEvent<MissionPlayerMovementFlagsChangeEvent>(new Action<MissionPlayerMovementFlagsChangeEvent>(this.OnPlayerMovementFlagsChanged));
 			Game.Current.EventManager.RegisterEvent<ResetAllTutorialsEvent>(new Action<ResetAllTutorialsEvent>(this.OnResetAllTutorials));
-			Game.Current.EventManager.RegisterEvent<GamepadActiveStateChangedEvent>(new Action<GamepadActiveStateChangedEvent>(this.OnGamepadActiveChange));
 			Game.Current.EventManager.RegisterEvent<PlayerToggledUpgradePopupEvent>(new Action<PlayerToggledUpgradePopupEvent>(this.OnPlayerToggledUpgradePopup));
 			Game.Current.EventManager.RegisterEvent<OrderOfBattleHeroAssignedToFormationEvent>(new Action<OrderOfBattleHeroAssignedToFormationEvent>(this.OnOrderOfBattleHeroAssignedToFormation));
 			Game.Current.EventManager.RegisterEvent<OrderOfBattleFormationClassChangedEvent>(new Action<OrderOfBattleFormationClassChangedEvent>(this.OnOrderOfBattleFormationClassChanged));
@@ -606,11 +625,14 @@ namespace StoryMode.GauntletUI.Tutorial
 				CampaignEvents.GameMenuOptionSelectedEvent.AddNonSerializedListener(this, new Action<GameMenuOption>(this.OnGameMenuOptionSelected));
 				CampaignEvents.PlayerStartRecruitmentEvent.AddNonSerializedListener(this, new Action<CharacterObject>(this.OnPlayerStartRecruitment));
 				CampaignEvents.NewCompanionAdded.AddNonSerializedListener(this, new Action<Hero>(this.OnNewCompanionAdded));
+				CampaignEvents.OnUnitRecruitedEvent.AddNonSerializedListener(this, new Action<CharacterObject, int>(this.OnPlayerRecruitUnit));
+				CampaignEvents.PlayerInventoryExchangeEvent.AddNonSerializedListener(this, new Action<List<ValueTuple<ItemRosterElement, int>>, List<ValueTuple<ItemRosterElement, int>>, bool>(this.OnPlayerInventoryExchange));
 			}
 		}
 
 		private void UnregisterEvents()
 		{
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 			Game game = Game.Current;
 			if (game != null)
 			{
@@ -709,17 +731,12 @@ namespace StoryMode.GauntletUI.Tutorial
 			Game game20 = Game.Current;
 			if (game20 != null)
 			{
-				game20.EventManager.UnregisterEvent<GamepadActiveStateChangedEvent>(new Action<GamepadActiveStateChangedEvent>(this.OnGamepadActiveChange));
+				game20.EventManager.UnregisterEvent<PlayerToggledUpgradePopupEvent>(new Action<PlayerToggledUpgradePopupEvent>(this.OnPlayerToggledUpgradePopup));
 			}
 			Game game21 = Game.Current;
 			if (game21 != null)
 			{
-				game21.EventManager.UnregisterEvent<PlayerToggledUpgradePopupEvent>(new Action<PlayerToggledUpgradePopupEvent>(this.OnPlayerToggledUpgradePopup));
-			}
-			Game game22 = Game.Current;
-			if (game22 != null)
-			{
-				game22.EventManager.UnregisterEvent<OrderOfBattleHeroAssignedToFormationEvent>(new Action<OrderOfBattleHeroAssignedToFormationEvent>(this.OnOrderOfBattleHeroAssignedToFormation));
+				game21.EventManager.UnregisterEvent<OrderOfBattleHeroAssignedToFormationEvent>(new Action<OrderOfBattleHeroAssignedToFormationEvent>(this.OnOrderOfBattleHeroAssignedToFormation));
 			}
 			Game.Current.EventManager.UnregisterEvent<OrderOfBattleFormationClassChangedEvent>(new Action<OrderOfBattleFormationClassChangedEvent>(this.OnOrderOfBattleFormationClassChanged));
 			Game.Current.EventManager.UnregisterEvent<OrderOfBattleFormationWeightChangedEvent>(new Action<OrderOfBattleFormationWeightChangedEvent>(this.OnOrderOfBattleFormationWeightChanged));
@@ -740,6 +757,8 @@ namespace StoryMode.GauntletUI.Tutorial
 				CampaignEvents.GameMenuOptionSelectedEvent.ClearListeners(this);
 				CampaignEvents.PlayerStartRecruitmentEvent.ClearListeners(this);
 				CampaignEvents.NewCompanionAdded.ClearListeners(this);
+				CampaignEvents.OnUnitRecruitedEvent.ClearListeners(this);
+				CampaignEvents.PlayerInventoryExchangeEvent.ClearListeners(this);
 			}
 		}
 

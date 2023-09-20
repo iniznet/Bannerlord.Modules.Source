@@ -52,6 +52,14 @@ namespace TaleWorlds.PlatformService.GOG
 			}
 		}
 
+		PlayerId IPlatformServices.PlayerId
+		{
+			get
+			{
+				return GalaxyInstance.User().GetGalaxyID().ToPlayerId();
+			}
+		}
+
 		bool IPlatformServices.UserLoggedIn
 		{
 			get
@@ -69,7 +77,11 @@ namespace TaleWorlds.PlatformService.GOG
 		{
 			get
 			{
-				return "";
+				if (!this._initialized)
+				{
+					return string.Empty;
+				}
+				return GalaxyInstance.Friends().GetPersonaName();
 			}
 		}
 
@@ -191,6 +203,8 @@ namespace TaleWorlds.PlatformService.GOG
 
 		public event Action OnBlockedUserListUpdated;
 
+		public event Action<string> OnTextEnteredFromPlatform;
+
 		private void Dummy()
 		{
 			if (this.OnAvatarUpdated != null)
@@ -208,6 +222,10 @@ namespace TaleWorlds.PlatformService.GOG
 			if (this.OnBlockedUserListUpdated != null)
 			{
 				this.OnBlockedUserListUpdated();
+			}
+			if (this.OnTextEnteredFromPlatform != null)
+			{
+				this.OnTextEnteredFromPlatform(null);
 			}
 		}
 
@@ -245,7 +263,7 @@ namespace TaleWorlds.PlatformService.GOG
 				uint num2 = 184U;
 				uint num3 = 4U * num * num2;
 				byte[] array = new byte[num3];
-				GalaxyInstance.Friends().GetFriendAvatarImageRGBA(galaxyID, 4, array, num3);
+				GalaxyInstance.Friends().GetFriendAvatarImageRGBA(galaxyID, AvatarType.AVATAR_TYPE_LARGE, array, num3);
 				AvatarData avatarData2 = new AvatarData(array, num, num2);
 				Dictionary<PlayerId, AvatarData> avatarCache = this._avatarCache;
 				lock (avatarCache)
@@ -525,6 +543,10 @@ namespace TaleWorlds.PlatformService.GOG
 				return;
 			}
 			Debug.Print("Failed to receive user stats and achievements: " + failureReason.ToString(), 0, Debug.DebugColor.White, 17592186044416UL);
+		}
+
+		public void ShowGamepadTextInput(string descriptionText, string existingText, uint maxChars, bool isObfuscated)
+		{
 		}
 
 		private const string ClientID = "53550366963454221";

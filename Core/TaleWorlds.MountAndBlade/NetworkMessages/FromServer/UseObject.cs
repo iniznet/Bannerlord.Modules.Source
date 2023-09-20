@@ -7,14 +7,14 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class UseObject : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
-		public UsableMissionObject UsableGameObject { get; private set; }
+		public MissionObjectId UsableGameObjectId { get; private set; }
 
-		public UseObject(Agent agent, UsableMissionObject usableGameObject)
+		public UseObject(int agentIndex, MissionObjectId usableGameObjectId)
 		{
-			this.Agent = agent;
-			this.UsableGameObject = usableGameObject;
+			this.AgentIndex = agentIndex;
+			this.UsableGameObjectId = usableGameObjectId;
 		}
 
 		public UseObject()
@@ -24,15 +24,15 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
-			this.UsableGameObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as UsableMissionObject;
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
+			this.UsableGameObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.UsableGameObject);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
+			GameNetworkMessage.WriteMissionObjectIdToPacket((this.UsableGameObjectId.Id >= 0) ? this.UsableGameObjectId : MissionObjectId.Invalid);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -43,33 +43,18 @@ namespace NetworkMessages.FromServer
 		protected override string OnGetLogFormat()
 		{
 			string text = "Use UsableMissionObject with ID: ";
-			if (this.UsableGameObject != null)
+			if (this.UsableGameObjectId != MissionObjectId.Invalid)
 			{
-				text += this.UsableGameObject.Id;
-				text += "and name: ";
-				if (this.UsableGameObject.GameEntity != null)
-				{
-					text += this.UsableGameObject.GameEntity.Name;
-				}
-				else
-				{
-					text += "log";
-				}
+				text += this.UsableGameObjectId;
 			}
 			else
 			{
 				text += "null";
 			}
 			text += " by Agent with name: ";
-			if (this.Agent != null)
+			if (this.AgentIndex >= 0)
 			{
-				text = string.Concat(new object[]
-				{
-					text,
-					this.Agent.Name,
-					" and agent-index: ",
-					this.Agent.Index
-				});
+				text = text + "agent-index: " + this.AgentIndex;
 			}
 			else
 			{

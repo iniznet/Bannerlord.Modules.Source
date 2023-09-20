@@ -5,6 +5,7 @@ using TaleWorlds.Engine.Options;
 using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions;
 using TaleWorlds.MountAndBlade.ViewModelCollection.InitialMenu;
@@ -31,7 +32,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			base.AddLayer(this._gauntletLayer);
 			this._gauntletLayer.IsFocusLayer = true;
 			ScreenManager.TrySetFocus(this._gauntletLayer);
-			if (NativeOptions.GetConfig(65) < 2f)
+			if (NativeOptions.GetConfig(69) < 2f)
 			{
 				this._brightnessOptionDataSource = new BrightnessOptionVM(new Action<bool>(this.OnCloseBrightness))
 				{
@@ -59,20 +60,22 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this.SetGainNavigationAfterFrames(3);
 		}
 
-		protected override void OnFrameTick(float dt)
+		protected override void OnInitialScreenTick(float dt)
 		{
-			base.OnFrameTick(dt);
+			base.OnInitialScreenTick(dt);
 			if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 			{
 				BrightnessOptionVM brightnessOptionDataSource = this._brightnessOptionDataSource;
 				if (brightnessOptionDataSource != null && brightnessOptionDataSource.Visible)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._brightnessOptionDataSource.ExecuteCancel();
 					return;
 				}
 				ExposureOptionVM exposureOptionDataSource = this._exposureOptionDataSource;
 				if (exposureOptionDataSource != null && exposureOptionDataSource.Visible)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._exposureOptionDataSource.ExecuteCancel();
 					return;
 				}
@@ -82,12 +85,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				BrightnessOptionVM brightnessOptionDataSource2 = this._brightnessOptionDataSource;
 				if (brightnessOptionDataSource2 != null && brightnessOptionDataSource2.Visible)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._brightnessOptionDataSource.ExecuteConfirm();
 					return;
 				}
 				ExposureOptionVM exposureOptionDataSource2 = this._exposureOptionDataSource;
 				if (exposureOptionDataSource2 != null && exposureOptionDataSource2.Visible)
 				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
 					this._exposureOptionDataSource.ExecuteConfirm();
 				}
 			}
@@ -133,6 +138,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._gauntletBrightnessLayer.ReleaseMovie(this._brightnessOptionMovie);
 			base.RemoveLayer(this._gauntletBrightnessLayer);
 			this._brightnessOptionDataSource = null;
+			this._gauntletBrightnessLayer = null;
 			NativeOptions.SaveConfig();
 			this.OpenExposureControl();
 		}
@@ -154,6 +160,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._gauntletExposureLayer.ReleaseMovie(this._exposureOptionMovie);
 			base.RemoveLayer(this._gauntletExposureLayer);
 			this._exposureOptionDataSource = null;
+			this._gauntletExposureLayer = null;
 			NativeOptions.SaveConfig();
 		}
 
@@ -174,6 +181,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				dataSource.OnFinalize();
 			}
 			this._dataSource = null;
+			this._gauntletLayer = null;
 		}
 
 		private GauntletLayer _gauntletLayer;

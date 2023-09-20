@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Xml;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.Library
 {
+	[JsonConverter(typeof(ApplicationVersionJsonConverter))]
 	[Serializable]
 	public struct ApplicationVersion
 	{
+		[JsonIgnore]
 		public ApplicationVersionType ApplicationVersionType { get; private set; }
 
+		[JsonIgnore]
 		public int Major { get; private set; }
 
+		[JsonIgnore]
 		public int Minor { get; private set; }
 
+		[JsonIgnore]
 		public int Revision { get; private set; }
 
+		[JsonIgnore]
 		public int ChangeSet { get; private set; }
 
 		public ApplicationVersion(ApplicationVersionType applicationVersionType, int major, int minor, int revision, int changeSet)
@@ -35,10 +42,10 @@ namespace TaleWorlds.Library
 				return ApplicationVersion.Empty;
 			}
 			xmlDocument.LoadXml(fileContent);
-			return ApplicationVersion.FromString(xmlDocument.ChildNodes[0].ChildNodes[0].Attributes["Value"].InnerText, 26219);
+			return ApplicationVersion.FromString(xmlDocument.ChildNodes[0].ChildNodes[0].Attributes["Value"].InnerText, 24202);
 		}
 
-		public static ApplicationVersion FromString(string versionAsString, int defaultChangeSet = 26219)
+		public static ApplicationVersion FromString(string versionAsString, int defaultChangeSet = 24202)
 		{
 			string[] array = versionAsString.Split(new char[] { '.' });
 			if (array.Length != 3 && array.Length != 4)
@@ -198,8 +205,9 @@ namespace TaleWorlds.Library
 			return a == b || a < b;
 		}
 
-		public const int DefaultChangeSet = 26219;
+		public const int DefaultChangeSet = 24202;
 
+		[JsonIgnore]
 		public static readonly ApplicationVersion Empty = new ApplicationVersion(ApplicationVersionType.Invalid, -1, -1, -1, -1);
 	}
 }

@@ -7,11 +7,11 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetSiegeTowerHasArrivedAtTarget : GameNetworkMessage
 	{
-		public SiegeTower SiegeTower { get; private set; }
+		public MissionObjectId SiegeTowerId { get; private set; }
 
-		public SetSiegeTowerHasArrivedAtTarget(SiegeTower siegeTower)
+		public SetSiegeTowerHasArrivedAtTarget(MissionObjectId siegeTowerId)
 		{
-			this.SiegeTower = siegeTower;
+			this.SiegeTowerId = siegeTowerId;
 		}
 
 		public SetSiegeTowerHasArrivedAtTarget()
@@ -21,14 +21,13 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			MissionObject missionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
-			this.SiegeTower = missionObject as SiegeTower;
+			this.SiegeTowerId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.SiegeTower);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.SiegeTowerId);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -38,14 +37,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"SiegeTower with ID: ",
-				this.SiegeTower.Id,
-				" and name: ",
-				this.SiegeTower.GameEntity.Name,
-				" has arrived at its target."
-			});
+			return "SiegeTower with ID: " + this.SiegeTowerId + " has arrived at its target.";
 		}
 	}
 }

@@ -18,6 +18,11 @@ namespace TaleWorlds.Engine
 			base.Construct(pointer);
 		}
 
+		public bool IsDefaultEditorScene()
+		{
+			return EngineApplicationInterface.IScene.IsDefaultEditorScene(this);
+		}
+
 		public bool IsMultiplayerScene()
 		{
 			return EngineApplicationInterface.IScene.IsMultiplayerScene(this);
@@ -71,6 +76,11 @@ namespace TaleWorlds.Engine
 		public string GetLoadingStateName()
 		{
 			return EngineApplicationInterface.IScene.GetLoadingStateName(this);
+		}
+
+		public bool IsLoadingFinished()
+		{
+			return EngineApplicationInterface.IScene.IsLoadingFinished(this);
 		}
 
 		public void SetPhotoModeRoll(float roll)
@@ -178,10 +188,10 @@ namespace TaleWorlds.Engine
 			return EngineApplicationInterface.IScene.GetWaterLevelAtPosition(this, position, checkWaterBodyEntities);
 		}
 
-		public bool GetPathBetweenAIFaces(UIntPtr startingFace, UIntPtr endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path)
+		public bool GetPathBetweenAIFaces(UIntPtr startingFace, UIntPtr endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path, int[] excludedFaceIds = null)
 		{
 			int num = path.PathPoints.Length;
-			if (EngineApplicationInterface.IScene.GetPathBetweenAIFacePointers(base.Pointer, startingFace, endingFace, startingPosition, endingPosition, agentRadius, path.PathPoints, ref num))
+			if (EngineApplicationInterface.IScene.GetPathBetweenAIFacePointers(base.Pointer, startingFace, endingFace, startingPosition, endingPosition, agentRadius, path.PathPoints, ref num, excludedFaceIds, (excludedFaceIds != null) ? excludedFaceIds.Length : 0))
 			{
 				path.Size = num;
 				return true;
@@ -190,10 +200,10 @@ namespace TaleWorlds.Engine
 			return false;
 		}
 
-		public bool GetPathBetweenAIFaces(int startingFace, int endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path)
+		public bool GetPathBetweenAIFaces(int startingFace, int endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path, int[] excludedFaceIds = null, float extraCostMultiplier = 1f)
 		{
 			int num = path.PathPoints.Length;
-			if (EngineApplicationInterface.IScene.GetPathBetweenAIFaceIndices(base.Pointer, startingFace, endingFace, startingPosition, endingPosition, agentRadius, path.PathPoints, ref num))
+			if (EngineApplicationInterface.IScene.GetPathBetweenAIFaceIndices(base.Pointer, startingFace, endingFace, startingPosition, endingPosition, agentRadius, path.PathPoints, ref num, excludedFaceIds, (excludedFaceIds != null) ? excludedFaceIds.Length : 0, extraCostMultiplier))
 			{
 				path.Size = num;
 				return true;
@@ -1054,6 +1064,11 @@ namespace TaleWorlds.Engine
 		public bool DoesPathExistBetweenPositions(WorldPosition position, WorldPosition destination)
 		{
 			return EngineApplicationInterface.IScene.DoesPathExistBetweenPositions(base.Pointer, position, destination);
+		}
+
+		public void SetLandscapeRainMaskData(byte[] data)
+		{
+			EngineApplicationInterface.IScene.SetLandscapeRainMaskData(base.Pointer, data);
 		}
 
 		public void EnsurePostfxSystem()

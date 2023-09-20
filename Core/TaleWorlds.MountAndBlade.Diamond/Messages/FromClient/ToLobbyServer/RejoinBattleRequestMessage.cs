@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class RejoinBattleRequestMessage : Message
 	{
+		[JsonProperty]
 		public bool IsRejoinAccepted { get; private set; }
+
+		public RejoinBattleRequestMessage()
+		{
+		}
 
 		public RejoinBattleRequestMessage(bool isRejoinAccepted)
 		{

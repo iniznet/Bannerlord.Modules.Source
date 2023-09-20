@@ -40,6 +40,10 @@ namespace TaleWorlds.GauntletUI
 			{
 				this.ClosePanel();
 			}
+			if (this._isOpen && !base.IsRecursivelyVisible())
+			{
+				this.ClosePanelInOneFrame();
+			}
 			this.RefreshSelectedItem();
 		}
 
@@ -79,7 +83,7 @@ namespace TaleWorlds.GauntletUI
 				this.ClosePanelInOneFrame();
 			}
 			this.UpdateListPanelPosition(dt);
-			if (this._isOpen && base.EventManager.IsControllerActive && (Input.IsKeyPressed(InputKey.ControllerLBumper) || Input.IsKeyPressed(InputKey.ControllerLTrigger) || Input.IsKeyPressed(InputKey.ControllerRBumper) || Input.IsKeyPressed(InputKey.ControllerRTrigger)))
+			if (!base.IsRecursivelyVisible())
 			{
 				this.ClosePanelInOneFrame();
 			}
@@ -87,6 +91,7 @@ namespace TaleWorlds.GauntletUI
 			{
 				if (Input.IsKeyReleased(InputKey.ControllerLLeft))
 				{
+					base.Context.TwoDimensionContext.PlaySound("checkbox");
 					if (this.CurrentSelectedIndex > 0)
 					{
 						int num = this.CurrentSelectedIndex;
@@ -101,6 +106,7 @@ namespace TaleWorlds.GauntletUI
 				}
 				else if (Input.IsKeyReleased(InputKey.ControllerLRight))
 				{
+					base.Context.TwoDimensionContext.PlaySound("checkbox");
 					if (this.CurrentSelectedIndex < this.ListPanel.ChildCount - 1)
 					{
 						int num = this.CurrentSelectedIndex;
@@ -484,6 +490,8 @@ namespace TaleWorlds.GauntletUI
 				}
 			}
 		}
+
+		private const string _checkboxSound = "checkbox";
 
 		private Action<Widget> _clickHandler;
 

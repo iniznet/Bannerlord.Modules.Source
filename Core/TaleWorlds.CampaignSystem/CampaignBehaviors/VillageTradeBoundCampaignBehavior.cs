@@ -15,6 +15,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.WarDeclared));
 			CampaignEvents.MakePeace.AddNonSerializedListener(this, new Action<IFaction, IFaction, MakePeaceAction.MakePeaceDetail>(this.OnMakePeace));
 			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.ClanChangedKingdom));
+			CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, new Action<Clan>(this.OnClanDestroyed));
+		}
+
+		private void OnClanDestroyed(Clan obj)
+		{
+			this.UpdateTradeBounds();
 		}
 
 		public override void SyncData(IDataStore dataStore)
@@ -65,21 +71,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private void TryToAssignTradeBoundForVillage(Village village)
 		{
 			Settlement settlement = SettlementHelper.FindNearestSettlement((Settlement x) => x.IsTown && x.Town.MapFaction == village.Settlement.MapFaction, village.Settlement);
-			if (settlement != null)
+			if (settlement != null && Campaign.Current.Models.MapDistanceModel.GetDistance(settlement, village.Settlement) < 150f)
 			{
-				if (Campaign.Current.Models.MapDistanceModel.GetDistance(settlement, village.Settlement) <= 150f)
-				{
-					village.TradeBound = settlement;
-					return;
-				}
-				Settlement settlement2 = SettlementHelper.FindNearestSettlement((Settlement x) => x.IsTown && x.Town.MapFaction != village.Settlement.MapFaction && !x.Town.MapFaction.IsAtWarWith(village.Settlement.MapFaction) && Campaign.Current.Models.MapDistanceModel.GetDistance(x, village.Settlement) <= 150f, village.Settlement);
-				if (settlement2 != null)
-				{
-					village.TradeBound = settlement2;
-					return;
-				}
-				village.TradeBound = null;
+				village.TradeBound = settlement;
+				return;
 			}
+			Settlement settlement2 = SettlementHelper.FindNearestSettlement((Settlement x) => x.IsTown && x.Town.MapFaction != village.Settlement.MapFaction && !x.Town.MapFaction.IsAtWarWith(village.Settlement.MapFaction) && Campaign.Current.Models.MapDistanceModel.GetDistance(x, village.Settlement) <= 150f, village.Settlement);
+			if (settlement2 != null && Campaign.Current.Models.MapDistanceModel.GetDistance(settlement2, village.Settlement) < 150f)
+			{
+				village.TradeBound = settlement2;
+				return;
+			}
+			village.TradeBound = null;
 		}
 
 		public const float TradeBoundDistanceLimit = 150f;

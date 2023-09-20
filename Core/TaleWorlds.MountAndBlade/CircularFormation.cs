@@ -151,6 +151,15 @@ namespace TaleWorlds.MountAndBlade
 			return vec;
 		}
 
+		public override Vec2? GetLocalDirectionOfUnitOrDefault(IFormationUnit unit)
+		{
+			if (unit.FormationFileIndex < 0 || unit.FormationRankIndex < 0)
+			{
+				return null;
+			}
+			return new Vec2?(this.GetLocalDirectionOfUnit(unit.FormationFileIndex, unit.FormationRankIndex));
+		}
+
 		protected override Vec2 GetLocalPositionOfUnit(int fileIndex, int rankIndex)
 		{
 			Vec2 vec = new Vec2(0f, -this.Radius);

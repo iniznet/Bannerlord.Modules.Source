@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TaleWorlds.CampaignSystem.CharacterDevelopment;
+using TaleWorlds.CampaignSystem.Issues;
+using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.Core;
+using TaleWorlds.Localization;
 using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
@@ -20,6 +26,179 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._encyclopediaBookmarkedSettlements = new List<Settlement>();
 			this._encyclopediaBookmarkedUnits = new List<CharacterObject>();
 			this._inventorySortPreferences = new Dictionary<int, Tuple<int, int>>();
+		}
+
+		public bool IsPartyNotificationActive { get; private set; }
+
+		public string GetPartyNotificationText()
+		{
+			this._recruitNotificationText.SetTextVariable("NUMBER", this._numOfRecruitablePrisoners);
+			return this._recruitNotificationText.ToString();
+		}
+
+		public void ClearPartyNotification()
+		{
+			this.IsPartyNotificationActive = false;
+			this._numOfRecruitablePrisoners = 0;
+		}
+
+		public void UpdatePartyNotification()
+		{
+			this.UpdatePrisonerRecruitValue();
+		}
+
+		private void UpdatePrisonerRecruitValue()
+		{
+			Dictionary<CharacterObject, int> dictionary = new Dictionary<CharacterObject, int>();
+			foreach (TroopRosterElement troopRosterElement in MobileParty.MainParty.PrisonRoster.GetTroopRoster())
+			{
+				int num = Campaign.Current.Models.PrisonerRecruitmentCalculationModel.CalculateRecruitableNumber(PartyBase.MainParty, troopRosterElement.Character);
+				int num2;
+				if (this._examinedPrisonerCharacterList.TryGetValue(troopRosterElement.Character, out num2))
+				{
+					if (num2 != num)
+					{
+						this._examinedPrisonerCharacterList[troopRosterElement.Character] = num;
+						if (num2 < num)
+						{
+							this.IsPartyNotificationActive = true;
+							this._numOfRecruitablePrisoners += num - num2;
+						}
+					}
+				}
+				else
+				{
+					this._examinedPrisonerCharacterList.Add(troopRosterElement.Character, num);
+					if (num > 0)
+					{
+						this.IsPartyNotificationActive = true;
+						this._numOfRecruitablePrisoners += num;
+					}
+				}
+				dictionary.Add(troopRosterElement.Character, num);
+			}
+			this._examinedPrisonerCharacterList = dictionary;
+		}
+
+		public bool IsQuestNotificationActive
+		{
+			get
+			{
+				return this._unExaminedQuestLogs.Count > 0;
+			}
+		}
+
+		public List<JournalLog> UnExaminedQuestLogs
+		{
+			get
+			{
+				return this._unExaminedQuestLogs;
+			}
+		}
+
+		public string GetQuestNotificationText()
+		{
+			this._questNotificationText.SetTextVariable("NUMBER", this._unExaminedQuestLogs.Count);
+			return this._questNotificationText.ToString();
+		}
+
+		public void OnQuestLogExamined(JournalLog log)
+		{
+			if (this._unExaminedQuestLogs.Contains(log))
+			{
+				this._unExaminedQuestLogs.Remove(log);
+			}
+		}
+
+		private void OnQuestLogAdded(QuestBase obj, bool hideInformation)
+		{
+			this._unExaminedQuestLogs.Add(obj.JournalEntries[obj.JournalEntries.Count - 1]);
+		}
+
+		private void OnIssueLogAdded(IssueBase obj, bool hideInformation)
+		{
+			this._unExaminedQuestLogs.Add(obj.JournalEntries[obj.JournalEntries.Count - 1]);
+		}
+
+		public List<Army> UnExaminedArmies
+		{
+			get
+			{
+				return this._unExaminedArmies;
+			}
+		}
+
+		public int NumOfKingdomArmyNotifications
+		{
+			get
+			{
+				return this.UnExaminedArmies.Count;
+			}
+		}
+
+		public void OnArmyExamined(Army army)
+		{
+			this._unExaminedArmies.Remove(army);
+		}
+
+		private void OnArmyDispersed(Army arg1, Army.ArmyDispersionReason arg2, bool isPlayersArmy)
+		{
+			Army army;
+			if (isPlayersArmy && (army = this._unExaminedArmies.SingleOrDefault((Army a) => a == arg1)) != null)
+			{
+				this._unExaminedArmies.Remove(army);
+			}
+		}
+
+		private void OnNewArmyCreated(Army army)
+		{
+			if (army.Kingdom == Hero.MainHero.MapFaction && army.LeaderParty != MobileParty.MainParty)
+			{
+				this._unExaminedArmies.Add(army);
+			}
+		}
+
+		public bool IsCharacterNotificationActive
+		{
+			get
+			{
+				return this._isCharacterNotificationActive;
+			}
+		}
+
+		public void ClearCharacterNotification()
+		{
+			this._isCharacterNotificationActive = false;
+			this._numOfPerks = 0;
+		}
+
+		public string GetCharacterNotificationText()
+		{
+			this._characterNotificationText.SetTextVariable("NUMBER", this._numOfPerks);
+			return this._characterNotificationText.ToString();
+		}
+
+		private void OnHeroGainedSkill(Hero hero, SkillObject skill, int change = 1, bool shouldNotify = true)
+		{
+			if ((hero == Hero.MainHero || hero.Clan == Clan.PlayerClan) && !hero.HeroDeveloper.GetOneAvailablePerkForEachPerkPair().IsEmpty<PerkObject>())
+			{
+				this._isCharacterNotificationActive = true;
+				this._numOfPerks++;
+			}
+		}
+
+		private void OnHeroLevelledUp(Hero hero, bool shouldNotify)
+		{
+			if (hero == Hero.MainHero)
+			{
+				this._isCharacterNotificationActive = true;
+			}
+		}
+
+		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
+		{
+			this.UpdatePartyNotification();
+			this.UpdatePrisonerRecruitValue();
 		}
 
 		public bool GetMapBarExtendedState()
@@ -199,6 +378,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		public override void RegisterEvents()
 		{
+			CampaignEvents.HeroGainedSkill.AddNonSerializedListener(this, new Action<Hero, SkillObject, int, bool>(this.OnHeroGainedSkill));
+			CampaignEvents.HeroLevelledUp.AddNonSerializedListener(this, new Action<Hero, bool>(this.OnHeroLevelledUp));
+			CampaignEvents.ArmyCreated.AddNonSerializedListener(this, new Action<Army>(this.OnNewArmyCreated));
+			CampaignEvents.ArmyDispersed.AddNonSerializedListener(this, new Action<Army, Army.ArmyDispersionReason, bool>(this.OnArmyDispersed));
+			CampaignEvents.QuestLogAddedEvent.AddNonSerializedListener(this, new Action<QuestBase, bool>(this.OnQuestLogAdded));
+			CampaignEvents.IssueLogAddedEvent.AddNonSerializedListener(this, new Action<IssueBase, bool>(this.OnIssueLogAdded));
+			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
 		}
 
 		public void SetQuestSortTypeSelection(int questSortTypeSelection)
@@ -227,7 +413,30 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<List<Settlement>>("_encyclopediaBookmarkedSettlements", ref this._encyclopediaBookmarkedSettlements);
 			dataStore.SyncData<List<CharacterObject>>("_encyclopediaBookmarkedUnits", ref this._encyclopediaBookmarkedUnits);
 			dataStore.SyncData<QuestBase>("_questSelection", ref this._questSelection);
+			dataStore.SyncData<List<JournalLog>>("_unExaminedQuestLogs", ref this._unExaminedQuestLogs);
+			dataStore.SyncData<List<Army>>("_unExaminedArmies", ref this._unExaminedArmies);
+			dataStore.SyncData<bool>("_isCharacterNotificationActive", ref this._isCharacterNotificationActive);
+			dataStore.SyncData<int>("_numOfPerks", ref this._numOfPerks);
+			dataStore.SyncData<Dictionary<CharacterObject, int>>("_examinedPrisonerCharacterList", ref this._examinedPrisonerCharacterList);
 		}
+
+		private readonly TextObject _characterNotificationText = new TextObject("{=rlqjkZ9Q}You have {NUMBER} new perks available for selection.", null);
+
+		private readonly TextObject _questNotificationText = new TextObject("{=FAIYN0vN}You have {NUMBER} new updates to your quests.", null);
+
+		private readonly TextObject _recruitNotificationText = new TextObject("{=PJMbfSPJ}You have {NUMBER} new prisoners to recruit.", null);
+
+		private Dictionary<CharacterObject, int> _examinedPrisonerCharacterList = new Dictionary<CharacterObject, int>();
+
+		private int _numOfRecruitablePrisoners;
+
+		private List<JournalLog> _unExaminedQuestLogs = new List<JournalLog>();
+
+		private List<Army> _unExaminedArmies = new List<Army>();
+
+		private bool _isCharacterNotificationActive;
+
+		private int _numOfPerks;
 
 		private bool _isMapBarExtended;
 

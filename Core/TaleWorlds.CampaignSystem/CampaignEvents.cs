@@ -6,6 +6,7 @@ using TaleWorlds.CampaignSystem.BarterSystem;
 using TaleWorlds.CampaignSystem.BarterSystem.Barterables;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Conversation.Persuasion;
+using TaleWorlds.CampaignSystem.CraftingSystem;
 using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -64,6 +65,7 @@ namespace TaleWorlds.CampaignSystem
 			this._rebelliousClanDisbandedAtSettlement.ClearListeners(obj);
 			this._mobilePartyDestroyed.ClearListeners(obj);
 			this._mobilePartyCreated.ClearListeners(obj);
+			this._mobilePartyQuestStatusChanged.ClearListeners(obj);
 			this._heroKilled.ClearListeners(obj);
 			this._characterDefeated.ClearListeners(obj);
 			this._heroPrisonerTaken.ClearListeners(obj);
@@ -80,6 +82,7 @@ namespace TaleWorlds.CampaignSystem
 			this._makePeace.ClearListeners(obj);
 			this._kingdomCreated.ClearListeners(obj);
 			this._kingdomDestroyed.ClearListeners(obj);
+			this._canKingdomBeDiscontinued.ClearListeners(obj);
 			this._villageBeingRaided.ClearListeners(obj);
 			this._villageLooted.ClearListeners(obj);
 			this._mapEventEnded.ClearListeners(obj);
@@ -213,7 +216,9 @@ namespace TaleWorlds.CampaignSystem
 			this._onItemsDiscardedByPlayerEvent.ClearListeners(obj);
 			this._onNewItemCraftedEvent.ClearListeners(obj);
 			this._craftingPartUnlockedEvent.ClearListeners(obj);
-			this._onWorkshopChangedEvent.ClearListeners(obj);
+			this._onWorkshopInitializedEvent.ClearListeners(obj);
+			this._onWorkshopOwnerChangedEvent.ClearListeners(obj);
+			this._onWorkshopTypeChangedEvent.ClearListeners(obj);
 			this._persuasionProgressCommittedEvent.ClearListeners(obj);
 			this._onBeforeSaveEvent.ClearListeners(obj);
 			this._onPrisonerTakenEvent.ClearListeners(obj);
@@ -263,6 +268,9 @@ namespace TaleWorlds.CampaignSystem
 			this._onPlayerEarnedGoldFromAssetEvent.ClearListeners(obj);
 			this._onPlayerJoinedTournamentEvent.ClearListeners(obj);
 			this._onHeroUnregisteredEvent.ClearListeners(obj);
+			this._onConfigChanged.ClearListeners(obj);
+			this._onCraftingOrderCompleted.ClearListeners(obj);
+			this._onItemsRefined.ClearListeners(obj);
 		}
 
 		public static IMbEvent OnPlayerBodyPropertiesChangedEvent
@@ -499,7 +507,7 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._heroOrPartyTradedGold.Invoke(giver, recipient, goldAmount, showNotification);
 		}
 
-		public static IMbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemObject, int, bool> HeroOrPartyGaveItem
+		public static IMbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemRosterElement, bool> HeroOrPartyGaveItem
 		{
 			get
 			{
@@ -507,9 +515,9 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public override void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemObject item, int count, bool showNotification)
+		public override void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemRosterElement itemRosterElement, bool showNotification)
 		{
-			CampaignEvents.Instance._heroOrPartyGaveItem.Invoke(giver, receiver, item, count, showNotification);
+			CampaignEvents.Instance._heroOrPartyGaveItem.Invoke(giver, receiver, itemRosterElement, showNotification);
 		}
 
 		public static IMbEvent<MobileParty> BanditPartyRecruited
@@ -954,6 +962,19 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._mobilePartyCreated.Invoke(party);
 		}
 
+		public static IMbEvent<MobileParty, bool> MobilePartyQuestStatusChanged
+		{
+			get
+			{
+				return CampaignEvents.Instance._mobilePartyQuestStatusChanged;
+			}
+		}
+
+		public override void OnMobilePartyQuestStatusChanged(MobileParty party, bool isUsedByQuest)
+		{
+			CampaignEvents.Instance._mobilePartyQuestStatusChanged.Invoke(party, isUsedByQuest);
+		}
+
 		public static IMbEvent<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool> HeroKilledEvent
 		{
 			get
@@ -1238,6 +1259,19 @@ namespace TaleWorlds.CampaignSystem
 		public override void OnKingdomDestroyed(Kingdom destroyedKingdom)
 		{
 			CampaignEvents.Instance._kingdomDestroyed.Invoke(destroyedKingdom);
+		}
+
+		public static ReferenceIMBEvent<Kingdom, bool> CanKingdomBeDiscontinuedEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._canKingdomBeDiscontinued;
+			}
+		}
+
+		public override void CanKingdomBeDiscontinued(Kingdom kingdom, ref bool result)
+		{
+			CampaignEvents.Instance._canKingdomBeDiscontinued.Invoke(kingdom, ref result);
 		}
 
 		public static IMbEvent<Kingdom> KingdomCreatedEvent
@@ -2796,7 +2830,7 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._forceSuppliesCompletedEvent.Invoke(winnerSide, forceSuppliesEvent);
 		}
 
-		public static MbEvent<BattleSideEnum, MapEvent> OnHideoutBattleCompletedEvent
+		public static MbEvent<BattleSideEnum, HideoutEventComponent> OnHideoutBattleCompletedEvent
 		{
 			get
 			{
@@ -2804,9 +2838,9 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public override void OnHideoutBattleCompleted(BattleSideEnum winnerSide, MapEvent mapEvent)
+		public override void OnHideoutBattleCompleted(BattleSideEnum winnerSide, HideoutEventComponent hideoutEventComponent)
 		{
-			CampaignEvents.Instance._hideoutBattleCompletedEvent.Invoke(winnerSide, mapEvent);
+			CampaignEvents.Instance._hideoutBattleCompletedEvent.Invoke(winnerSide, hideoutEventComponent);
 		}
 
 		public static IMbEvent<Clan> OnClanDestroyedEvent
@@ -2822,7 +2856,7 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._onClanDestroyedEvent.Invoke(destroyedClan);
 		}
 
-		public static IMbEvent<ItemObject, Crafting.OverrideData, bool> OnNewItemCraftedEvent
+		public static IMbEvent<ItemObject, ItemModifier, bool> OnNewItemCraftedEvent
 		{
 			get
 			{
@@ -2830,9 +2864,9 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public override void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
+		public override void OnNewItemCrafted(ItemObject itemObject, ItemModifier overriddenItemModifier, bool isCraftingOrderItem)
 		{
-			CampaignEvents.Instance._onNewItemCraftedEvent.Invoke(itemObject, overrideData, isCraftingOrderItem);
+			CampaignEvents.Instance._onNewItemCraftedEvent.Invoke(itemObject, overriddenItemModifier, isCraftingOrderItem);
 		}
 
 		public static IMbEvent<CraftingPiece> CraftingPartUnlockedEvent
@@ -2848,17 +2882,43 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._craftingPartUnlockedEvent.Invoke(craftingPiece);
 		}
 
-		public static IMbEvent<Workshop, Hero, WorkshopType> OnWorkshopChangedEvent
+		public static IMbEvent<Workshop> WorkshopInitializedEvent
 		{
 			get
 			{
-				return CampaignEvents.Instance._onWorkshopChangedEvent;
+				return CampaignEvents.Instance._onWorkshopInitializedEvent;
 			}
 		}
 
-		public override void OnWorkshopChanged(Workshop workshop, Hero oldOwner, WorkshopType oldType)
+		public override void OnWorkshopInitialized(Workshop workshop)
 		{
-			CampaignEvents.Instance._onWorkshopChangedEvent.Invoke(workshop, oldOwner, oldType);
+			CampaignEvents.Instance._onWorkshopInitializedEvent.Invoke(workshop);
+		}
+
+		public override void OnWorkshopOwnerChanged(Workshop workshop, Hero oldOwner)
+		{
+			CampaignEvents.Instance._onWorkshopOwnerChangedEvent.Invoke(workshop, oldOwner);
+		}
+
+		public static IMbEvent<Workshop, Hero> WorkshopOwnerChangedEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._onWorkshopOwnerChangedEvent;
+			}
+		}
+
+		public static IMbEvent<Workshop> WorkshopTypeChangedEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._onWorkshopTypeChangedEvent;
+			}
+		}
+
+		public override void OnWorkshopTypeChanged(Workshop workshop)
+		{
+			CampaignEvents.Instance._onWorkshopTypeChangedEvent.Invoke(workshop);
 		}
 
 		public static IMbEvent OnBeforeSaveEvent
@@ -3121,6 +3181,58 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._onPlayerJoinedTournamentEvent.Invoke(town, isParticipant);
 		}
 
+		public static IMbEvent<Hero> OnHeroUnregisteredEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._onHeroUnregisteredEvent;
+			}
+		}
+
+		public override void OnHeroUnregistered(Hero hero)
+		{
+			CampaignEvents.Instance._onHeroUnregisteredEvent.Invoke(hero);
+		}
+
+		public static IMbEvent OnConfigChangedEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._onConfigChanged;
+			}
+		}
+
+		public override void OnConfigChanged()
+		{
+			CampaignEvents.Instance._onConfigChanged.Invoke();
+		}
+
+		public static IMbEvent<Town, CraftingOrder, ItemObject, Hero> OnCraftingOrderCompletedEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._onCraftingOrderCompleted;
+			}
+		}
+
+		public override void OnCraftingOrderCompleted(Town town, CraftingOrder craftingOrder, ItemObject craftedItem, Hero completerHero)
+		{
+			CampaignEvents.Instance._onCraftingOrderCompleted.Invoke(town, craftingOrder, craftedItem, completerHero);
+		}
+
+		public static IMbEvent<Hero, Crafting.RefiningFormula> OnItemsRefinedEvent
+		{
+			get
+			{
+				return CampaignEvents.Instance._onItemsRefined;
+			}
+		}
+
+		public override void OnItemsRefined(Hero hero, Crafting.RefiningFormula refineFormula)
+		{
+			CampaignEvents.Instance._onItemsRefined.Invoke(hero, refineFormula);
+		}
+
 		public static ReferenceIMBEvent<Hero, bool> CanHeroLeadPartyEvent
 		{
 			get
@@ -3225,19 +3337,6 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.Instance._canHaveQuestsOrIssues.Invoke(hero, ref result);
 		}
 
-		public static IMbEvent<Hero> OnHeroUnregisteredEvent
-		{
-			get
-			{
-				return CampaignEvents.Instance._onHeroUnregisteredEvent;
-			}
-		}
-
-		public override void OnHeroUnregistered(Hero hero)
-		{
-			CampaignEvents.Instance._onHeroUnregisteredEvent.Invoke(hero);
-		}
-
 		private readonly MbEvent _onPlayerBodyPropertiesChangedEvent = new MbEvent();
 
 		private readonly MbEvent<BarterData> _barterablesRequested = new MbEvent<BarterData>();
@@ -3274,7 +3373,7 @@ namespace TaleWorlds.CampaignSystem
 
 		private readonly MbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ValueTuple<int, string>, bool> _heroOrPartyTradedGold = new MbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ValueTuple<int, string>, bool>();
 
-		private readonly MbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemObject, int, bool> _heroOrPartyGaveItem = new MbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemObject, int, bool>();
+		private readonly MbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemRosterElement, bool> _heroOrPartyGaveItem = new MbEvent<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ItemRosterElement, bool>();
 
 		private readonly MbEvent<MobileParty> _banditPartyRecruited = new MbEvent<MobileParty>();
 
@@ -3344,6 +3443,8 @@ namespace TaleWorlds.CampaignSystem
 
 		private readonly MbEvent<MobileParty> _mobilePartyCreated = new MbEvent<MobileParty>();
 
+		private readonly MbEvent<MobileParty, bool> _mobilePartyQuestStatusChanged = new MbEvent<MobileParty, bool>();
+
 		private readonly MbEvent<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool> _heroKilled = new MbEvent<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>();
 
 		private readonly MbEvent<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool> _onBeforeHeroKilled = new MbEvent<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>();
@@ -3387,6 +3488,8 @@ namespace TaleWorlds.CampaignSystem
 		private readonly MbEvent<IFaction, IFaction, MakePeaceAction.MakePeaceDetail> _makePeace = new MbEvent<IFaction, IFaction, MakePeaceAction.MakePeaceDetail>();
 
 		private readonly MbEvent<Kingdom> _kingdomDestroyed = new MbEvent<Kingdom>();
+
+		private readonly ReferenceMBEvent<Kingdom, bool> _canKingdomBeDiscontinued = new ReferenceMBEvent<Kingdom, bool>();
 
 		private readonly MbEvent<Kingdom> _kingdomCreated = new MbEvent<Kingdom>();
 
@@ -3628,15 +3731,19 @@ namespace TaleWorlds.CampaignSystem
 
 		private readonly MbEvent<BattleSideEnum, ForceSuppliesEventComponent> _forceSuppliesCompletedEvent = new MbEvent<BattleSideEnum, ForceSuppliesEventComponent>();
 
-		private readonly MbEvent<BattleSideEnum, MapEvent> _hideoutBattleCompletedEvent = new MbEvent<BattleSideEnum, MapEvent>();
+		private readonly MbEvent<BattleSideEnum, HideoutEventComponent> _hideoutBattleCompletedEvent = new MbEvent<BattleSideEnum, HideoutEventComponent>();
 
 		private readonly MbEvent<Clan> _onClanDestroyedEvent = new MbEvent<Clan>();
 
-		private readonly MbEvent<ItemObject, Crafting.OverrideData, bool> _onNewItemCraftedEvent = new MbEvent<ItemObject, Crafting.OverrideData, bool>();
+		private readonly MbEvent<ItemObject, ItemModifier, bool> _onNewItemCraftedEvent = new MbEvent<ItemObject, ItemModifier, bool>();
 
 		private readonly MbEvent<CraftingPiece> _craftingPartUnlockedEvent = new MbEvent<CraftingPiece>();
 
-		private readonly MbEvent<Workshop, Hero, WorkshopType> _onWorkshopChangedEvent = new MbEvent<Workshop, Hero, WorkshopType>();
+		private readonly MbEvent<Workshop> _onWorkshopInitializedEvent = new MbEvent<Workshop>();
+
+		private readonly MbEvent<Workshop, Hero> _onWorkshopOwnerChangedEvent = new MbEvent<Workshop, Hero>();
+
+		private readonly MbEvent<Workshop> _onWorkshopTypeChangedEvent = new MbEvent<Workshop>();
 
 		private readonly MbEvent _onBeforeSaveEvent = new MbEvent();
 
@@ -3678,6 +3785,14 @@ namespace TaleWorlds.CampaignSystem
 
 		private readonly MbEvent<Town, bool> _onPlayerJoinedTournamentEvent = new MbEvent<Town, bool>();
 
+		private readonly MbEvent<Hero> _onHeroUnregisteredEvent = new MbEvent<Hero>();
+
+		private readonly MbEvent _onConfigChanged = new MbEvent();
+
+		private readonly MbEvent<Town, CraftingOrder, ItemObject, Hero> _onCraftingOrderCompleted = new MbEvent<Town, CraftingOrder, ItemObject, Hero>();
+
+		private readonly MbEvent<Hero, Crafting.RefiningFormula> _onItemsRefined = new MbEvent<Hero, Crafting.RefiningFormula>();
+
 		private readonly ReferenceMBEvent<Hero, bool> _canHeroLeadPartyEvent = new ReferenceMBEvent<Hero, bool>();
 
 		private readonly ReferenceMBEvent<Hero, bool> _canMarryEvent = new ReferenceMBEvent<Hero, bool>();
@@ -3693,7 +3808,5 @@ namespace TaleWorlds.CampaignSystem
 		private readonly ReferenceMBEvent<Hero, bool> _canMoveToSettlementEvent = new ReferenceMBEvent<Hero, bool>();
 
 		private readonly ReferenceMBEvent<Hero, bool> _canHaveQuestsOrIssues = new ReferenceMBEvent<Hero, bool>();
-
-		private readonly MbEvent<Hero> _onHeroUnregisteredEvent = new MbEvent<Hero>();
 	}
 }

@@ -68,6 +68,6 @@ namespace TaleWorlds.InputSystem
 
 		bool IsAltDown();
 
-		InputKey GetControllerClickKey();
+		InputKey[] GetClickKeys();
 	}
 }

@@ -1,8 +1,10 @@
 ﻿using System;
+using TaleWorlds.DotNet;
 using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
+	[EngineStruct("int", false)]
 	public struct MBActionSet
 	{
 		internal MBActionSet(int i)
@@ -158,6 +160,7 @@ namespace TaleWorlds.MountAndBlade
 			return MBAPI.IMBAnimation.GetActionBlendOutStartProgress(actionSet.Index, actionIndexCache.Index);
 		}
 
+		[CustomEngineStructMemberData("ignoredMember", true)]
 		internal readonly int Index;
 
 		public static readonly MBActionSet InvalidActionSet = new MBActionSet(-1);

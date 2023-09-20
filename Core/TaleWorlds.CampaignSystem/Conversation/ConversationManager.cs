@@ -36,7 +36,7 @@ namespace TaleWorlds.CampaignSystem.Conversation
 						textObject = this._currentSentenceText;
 					}
 				}
-				return MBTextManager.DiscardAnimationTags(textObject.CopyTextObject().ToString());
+				return MBTextManager.DiscardAnimationTagsAndCheckAnimationTagPositions(textObject.CopyTextObject().ToString());
 			}
 		}
 
@@ -787,21 +787,15 @@ namespace TaleWorlds.CampaignSystem.Conversation
 
 		public void DoOption(string optionID)
 		{
-			this.LastSelectedDialog = optionID;
 			int count = Campaign.Current.ConversationManager.CurOptions.Count;
 			for (int i = 0; i < count; i++)
 			{
 				if (this.CurOptions[i].Id == optionID)
 				{
-					this.ProcessSentence(this.CurOptions[i]);
+					this.DoOption(i);
+					return;
 				}
 			}
-			if (this._isActive)
-			{
-				this.DoOptionContinue();
-				return;
-			}
-			this._executeDoOptionContinue = true;
 		}
 
 		public void DoConversationContinuedCallback()
@@ -1014,7 +1008,7 @@ namespace TaleWorlds.CampaignSystem.Conversation
 				}
 				if (flag)
 				{
-					foreach (Type type in assembly.GetTypes())
+					foreach (Type type in assembly.GetTypesSafe(null))
 					{
 						if (type.IsSubclassOf(typeof(ConversationTag)))
 						{
@@ -1060,7 +1054,7 @@ namespace TaleWorlds.CampaignSystem.Conversation
 			{
 				return conversationTag.IsApplicableTo(character);
 			}
-			Debug.FailedAssert("asking for a nonexistent tag", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Conversation\\ConversationManager.cs", "IsTagApplicable", 1443);
+			Debug.FailedAssert("asking for a nonexistent tag", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Conversation\\ConversationManager.cs", "IsTagApplicable", 1420);
 			return false;
 		}
 

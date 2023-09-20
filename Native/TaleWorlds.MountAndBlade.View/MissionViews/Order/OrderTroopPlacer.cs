@@ -349,7 +349,7 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 					{
 						onUnitDeployed();
 					}
-					SoundEvent.PlaySound2D("event:/ui/mission/deploy");
+					UISoundsHelper.PlayUISound("event:/ui/mission/deploy");
 				}
 			}
 			this._formationDrawingMode = false;

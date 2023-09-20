@@ -287,6 +287,7 @@ namespace TaleWorlds.GauntletUI
 			this._lateUpdateActionLocker = new object();
 			this._lateUpdateActions = new Dictionary<int, List<UpdateAction>>();
 			this._lateUpdateActionsRunning = new Dictionary<int, List<UpdateAction>>();
+			this._onAfterFinalizedCallbacks = new List<Action>();
 			for (int i = 1; i <= 5; i++)
 			{
 				this._lateUpdateActions.Add(i, new List<UpdateAction>(32));
@@ -308,11 +309,37 @@ namespace TaleWorlds.GauntletUI
 				Input.SetCursorFriction(this._lastSetFrictionValue);
 			}
 			GauntletGamepadNavigationManager instance = GauntletGamepadNavigationManager.Instance;
-			if (instance == null)
+			if (instance != null)
 			{
-				return;
+				instance.OnEventManagerFinalized(this);
 			}
-			instance.OnEventManagerFinalized(this);
+			this._widgetsWithLateUpdateContainer.Clear();
+			this._widgetsWithParallelUpdateContainer.Clear();
+			this._widgetsWithTweenPositionsContainer.Clear();
+			this._widgetsWithUpdateBrushesContainer.Clear();
+			this._widgetsWithUpdateContainer.Clear();
+			this._widgetsWithVisualDefinitionsContainer.Clear();
+			for (int i = 0; i < this._onAfterFinalizedCallbacks.Count; i++)
+			{
+				Action action = this._onAfterFinalizedCallbacks[i];
+				if (action != null)
+				{
+					action();
+				}
+			}
+			this._onAfterFinalizedCallbacks.Clear();
+			this._onAfterFinalizedCallbacks = null;
+			this._widgetsWithLateUpdateContainer = null;
+			this._widgetsWithParallelUpdateContainer = null;
+			this._widgetsWithTweenPositionsContainer = null;
+			this._widgetsWithUpdateBrushesContainer = null;
+			this._widgetsWithUpdateContainer = null;
+			this._widgetsWithVisualDefinitionsContainer = null;
+		}
+
+		public void AddAfterFinalizedCallback(Action callback)
+		{
+			this._onAfterFinalizedCallbacks.Add(callback);
 		}
 
 		internal void OnWidgetConnectedToRoot(Widget widget)
@@ -794,8 +821,7 @@ namespace TaleWorlds.GauntletUI
 					if (!this.IsDragging && this.LatestMouseDownWidget.PreviewEvent(GauntletEvent.DragBegin))
 					{
 						Vector2 vector = this._lastClickPosition - this.MousePosition;
-						Vector2 vector2;
-						vector2..ctor(vector.X, vector.Y);
+						Vector2 vector2 = new Vector2(vector.X, vector.Y);
 						if (vector2.LengthSquared() > 100f * this.Context.Scale)
 						{
 							this.DispatchEvent(this.LatestMouseDownWidget, GauntletEvent.DragBegin);
@@ -842,7 +868,7 @@ namespace TaleWorlds.GauntletUI
 
 		private static bool IsPointInsideMeasuredArea(Widget w, Vector2 p)
 		{
-			return w.Left <= p.X && p.X <= w.Right && w.Top <= p.Y && p.Y <= w.Bottom;
+			return w.IsPointInsideMeasuredArea(p);
 		}
 
 		private Widget GetWidgetAtPositionForEvent(GauntletEvent gauntletEvent, Vector2 pointerPosition)
@@ -1009,9 +1035,7 @@ namespace TaleWorlds.GauntletUI
 
 		public static bool HitTest(Widget widget, Vector2 position)
 		{
-			Vector2 vector;
-			vector..ctor(position.X - widget.EventManager.Root.Left, position.Y - widget.EventManager.Root.Top);
-			return EventManager.AnyWidgetsAt(widget, vector);
+			return EventManager.AnyWidgetsAt(widget, position);
 		}
 
 		public bool FocusTest(Widget root)
@@ -1039,9 +1063,7 @@ namespace TaleWorlds.GauntletUI
 					for (int i = widget.ChildCount - 1; i >= 0; i--)
 					{
 						Widget child = widget.GetChild(i);
-						Vector2 vector;
-						vector..ctor(position.X - widget.Left, position.Y - widget.Top);
-						if (!child.IsHidden && !child.IsDisabled && EventManager.AnyWidgetsAt(child, vector))
+						if (!child.IsHidden && !child.IsDisabled && EventManager.AnyWidgetsAt(child, position))
 						{
 							return true;
 						}
@@ -1061,11 +1083,9 @@ namespace TaleWorlds.GauntletUI
 					for (int i = widget.ChildCount - 1; i >= 0; i = num - 1)
 					{
 						Widget child = widget.GetChild(i);
-						Vector2 vector;
-						vector..ctor(position.X - widget.Left, position.Y - widget.Top);
-						if (!child.IsHidden && !child.IsDisabled && EventManager.IsPointInsideMeasuredArea(child, vector))
+						if (!child.IsHidden && !child.IsDisabled && EventManager.IsPointInsideMeasuredArea(child, position))
 						{
-							foreach (Widget widget2 in EventManager.AllEnabledWidgetsAt(child, vector))
+							foreach (Widget widget2 in EventManager.AllEnabledWidgetsAt(child, position))
 							{
 								yield return widget2;
 							}
@@ -1091,11 +1111,9 @@ namespace TaleWorlds.GauntletUI
 				for (int i = widget.ChildCount - 1; i >= 0; i = num - 1)
 				{
 					Widget child = widget.GetChild(i);
-					Vector2 vector;
-					vector..ctor(position.X - widget.Left, position.Y - widget.Top);
-					if (child.IsVisible && EventManager.IsPointInsideMeasuredArea(child, vector))
+					if (child.IsVisible && EventManager.IsPointInsideMeasuredArea(child, position))
 					{
-						foreach (Widget widget2 in EventManager.AllVisibleWidgetsAt(child, vector))
+						foreach (Widget widget2 in EventManager.AllVisibleWidgetsAt(child, position))
 						{
 							yield return widget2;
 						}
@@ -1664,6 +1682,8 @@ namespace TaleWorlds.GauntletUI
 		private const float DragStartThreshold = 100f;
 
 		private const float ScrollScale = 0.4f;
+
+		private List<Action> _onAfterFinalizedCallbacks;
 
 		private Widget _focusedWidget;
 

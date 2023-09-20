@@ -88,7 +88,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=CrzFdo2H}Yes. It's about the war with the {ENEMYFACTION_INFORMALNAME}. We need to tie up some of their forces. A relatively small force moving quickly through their lands and raiding their villages should be a good distraction. Their lords will need to chase the raiders and won't be able to threaten us elsewhere. You seem to be the right {?PLAYER.GENDER}warrior{?}man{\\?} for the job. What do you say? You'll have my gratitude and you'll be well rewarded if you succeed.", null);
+					TextObject textObject = new TextObject("{=CrzFdo2H}Yes. It's about the war with the {ENEMYFACTION_INFORMALNAME}. [ib:hip][if:convo_excited]We need to tie up some of their forces. A relatively small force moving quickly through their lands and raiding their villages should be a good distraction. Their lords will need to chase the raiders and won't be able to threaten us elsewhere. You seem to be the right {?PLAYER.GENDER}warrior{?}man{\\?} for the job. What do you say? You'll have my gratitude and you'll be well rewarded if you succeed.", null);
+					if (base.IssueOwner.GetTraitLevel(DefaultTraits.Mercy) + base.IssueOwner.GetTraitLevel(DefaultTraits.Honor) >= 0)
+					{
+						textObject = new TextObject("{=OlIWwLbP}Yes. It's about the war with the {ENEMYFACTION_INFORMALNAME}. [ib:closed][if:convo_pondering]We need to tie up some of their forces, and the easiest way to do that would be to raid their villages. It's a cruel business and will be hard on the common folk, but their lords will need to chase the raiders and it will prevent them from doing the same to us. If you take this on, I shall reward you if you succeed.", null);
+					}
 					textObject.SetTextVariable("ENEMYFACTION_INFORMALNAME", this._enemyKingdom.InformalName);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					return textObject;
@@ -109,7 +113,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=aRfMtTUT}Good. See if you can hit {NUMBER_OF_TARGET_VILLAGE} villages. They won't be able to ignore that kind of damage. I'll give you {BASE_REWARD}{GOLD_ICON} for doing that, and {EXTRA_REWARD}{GOLD_ICON} more for every extra one that you raid. Agreed?", null);
+					TextObject textObject = new TextObject("{=aRfMtTUT}Good. See if you can hit {NUMBER_OF_TARGET_VILLAGE} villages. They won't be able to ignore that kind of damage. I'll give you {BASE_REWARD}{GOLD_ICON} for doing that, and {EXTRA_REWARD}{GOLD_ICON} more for every extra one that you raid. Agreed?[if:convo_mocking_revenge]", null);
+					if (base.IssueOwner.GetTraitLevel(DefaultTraits.Mercy) + base.IssueOwner.GetTraitLevel(DefaultTraits.Honor) > 0)
+					{
+						textObject = new TextObject("{=AEVIa5sQ}So be it. See if you can hit {NUMBER_OF_TARGET_VILLAGE} villages. [if:convo_stern]They won't be able to ignore that, and it will put a dent in their revenues. I'll give you {BASE_REWARD}{GOLD_ICON} for doing that, and {EXTRA_REWARD}{GOLD_ICON} more for every extra one that you raid. Do you agree?", null);
+					}
 					textObject.SetTextVariable("NUMBER_OF_TARGET_VILLAGE", 3);
 					textObject.SetTextVariable("BASE_REWARD", 15000);
 					textObject.SetTextVariable("EXTRA_REWARD", 3000);
@@ -180,6 +188,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new RaidAnEnemyTerritoryIssueBehavior.RaidAnEnemyTerritoryQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(60f), this._enemyKingdom);
@@ -209,7 +221,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			public override bool IssueStayAliveConditions()
 			{
-				return this._enemyKingdom.IsAtWarWith(base.IssueOwner.MapFaction) && !this._enemyKingdom.IsEliminated;
+				return this._enemyKingdom.IsAtWarWith(base.IssueOwner.MapFaction) && !this._enemyKingdom.IsEliminated && base.IssueOwner.MapFaction.IsKingdomFaction;
 			}
 
 			protected override void CompleteIssueWithTimedOutConsequences()
@@ -379,10 +391,26 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void OnTimedOut()
 			{
-				base.OnTimedOut();
+				if (this._raidedVillages.Count >= 3)
+				{
+					this.MainHeroRaidedAllVillages();
+					return;
+				}
 				this.MainHeroCouldNotRaidedAllVillages();
+			}
+
+			protected override void OnBeforeTimedOut(ref bool completeWithSuccess, ref bool doNotResolveTheQuest)
+			{
+				if (this._raidedVillages.Count >= 3)
+				{
+					completeWithSuccess = true;
+				}
 			}
 
 			protected override void RegisterEvents()
@@ -420,6 +448,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					this._raidedVillages.Add(mapEvent.MapEventSettlement);
 					this._raidedVillagesTrackLog.UpdateCurrentProgress(this._raidedVillages.Count);
+					if (this._raidedVillages.Count >= 3)
+					{
+						TextObject textObject = new TextObject("{=VM9xDun7}You have successfully raided target villages. Go back to {QUEST_GIVER.LINK} to get your reward.", null);
+						textObject.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, false);
+						MBInformationManager.AddQuickInformation(textObject, 0, null, "");
+					}
 				}
 			}
 
@@ -455,7 +489,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					if (this._raidedVillages.Count < 3)
 					{
-						QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._declaredWarOnQuestGiverFactionLog);
+						QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._declaredWarOnQuestGiverFactionLog, false);
 						return;
 					}
 					this.MainHeroRaidedAllVillages();
@@ -477,14 +511,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=R21SLyGK}Excellent. You are a brave and loyal warrior. You have my thanks.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=R21SLyGK}Excellent. You are a brave and loyal warrior. You have my thanks.[ib:hip][if:convo_excited]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedByPlayerConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=x3TO0gkN}Is there any progress on the task I gave you?", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DiscussCondition))
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=eMrClHp2}Is there any progress on the task I gave you?[ib:hip][if:convo_astonished]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DiscussCondition))
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=XOv5B84a}Yes, my {?QUEST_GIVER.GENDER}lady{?}lord{\\?}. I raided {RAIDED_VILLAGE_COUNT} villages as you commanded.", null), null)
 					.Condition(() => this._raidedVillages.Count >= 3)
-					.NpcLine(new TextObject("{=J4yakjtP}Splendid. You have served me well. Take your well-earned reward.", null), null, null)
+					.NpcLine(new TextObject("{=J4yakjtP}Splendid. You have served me well. Take your well-earned reward.[ib:hip][if:convo_grateful]", null), null, null)
 					.Consequence(delegate
 					{
 						this.MainHeroRaidedAllVillages();
@@ -492,11 +526,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=8JvcDnh6}Not yet my {?QUEST_GIVER.GENDER}lady{?}lord{\\?}. I am working on it.", null), null)
-					.NpcLine(new TextObject("{=EuhvSsPZ}Good. Keep them busy.", null), null, null)
+					.NpcLine(new TextObject("{=EuhvSsPZ}Good. Keep them busy.[if:convo_normal]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(MapEventHelper.OnConversationEnd))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=pnQN6LrV}The time is not quite right, my {?QUEST_GIVER.GENDER}lady{?}lord{\\?}. I don't want to ride into a trap.", null), null)
-					.NpcLine(new TextObject("{=DXD3ag49}Well... I hope this delay is for a good reason.", null), null, null)
+					.NpcLine(new TextObject("{=DXD3ag49}Well... I hope this delay is for a good reason.[ib:closed2][if:convo_thinking]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(MapEventHelper.OnConversationEnd))
 					.CloseDialog()
 					.EndPlayerOptions()
@@ -595,7 +629,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private readonly List<Settlement> _raidedVillages;
 		}
 
-		public class RaidAnEnemyTerritoryIssueTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class RaidAnEnemyTerritoryIssueTypeDefiner : SaveableTypeDefiner
 		{
 			public RaidAnEnemyTerritoryIssueTypeDefiner()
 				: base(586800)

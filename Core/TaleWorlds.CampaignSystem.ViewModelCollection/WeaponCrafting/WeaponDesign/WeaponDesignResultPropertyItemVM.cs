@@ -42,7 +42,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			base.RefreshValues();
 			TextObject description = this._description;
 			this.PropertyLbl = ((description != null) ? description.ToString() : null);
-			this.RequiredValueText = ((this.TargetValue == 0f) ? string.Empty : ("(" + (this.ShowFloatingPoint ? this.TargetValue.ToString("F1") : this.TargetValue.ToString("F0")) + ")"));
+			TextObject textObject = GameTexts.FindText("str_STR_in_parentheses", null);
+			textObject.SetTextVariable("STR", CampaignUIHelper.GetFormattedItemPropertyText(this.TargetValue, this.ShowFloatingPoint));
+			this.RequiredValueText = ((this.TargetValue == 0f) ? string.Empty : textObject.ToString());
 			this.HasBenefit = (this._isExceedingBeneficial ? (this.InitialValue + this.ChangeAmount >= this.TargetValue) : (this.InitialValue + this.ChangeAmount <= this.TargetValue));
 			this.OrderRequirementTooltip.HintText = (this._showTooltip ? GameTexts.FindText("str_crafting_order_requirement_tooltip", null) : TextObject.Empty);
 			this.CraftedValueTooltip.HintText = (this._showTooltip ? GameTexts.FindText("str_crafting_crafted_value_tooltip", null) : TextObject.Empty);

@@ -36,7 +36,7 @@ namespace TaleWorlds.Localization
 				LocalizedTextManager.LoadLanguage(MBTextManager._activeTextLanguageId);
 				return true;
 			}
-			Debug.FailedAssert("Invalid language", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.Localization\\MBTextManager.cs", "ChangeLanguage", 136);
+			Debug.FailedAssert("Invalid language", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.Localization\\MBTextManager.cs", "ChangeLanguage", 141);
 			return false;
 		}
 
@@ -203,7 +203,7 @@ namespace TaleWorlds.Localization
 
 		public static void ThrowLocalizationError(string message)
 		{
-			Debug.FailedAssert(message, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.Localization\\MBTextManager.cs", "ThrowLocalizationError", 337);
+			Debug.FailedAssert(message, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.Localization\\MBTextManager.cs", "ThrowLocalizationError", 342);
 		}
 
 		internal static string GetLocalizedText(string text)
@@ -268,8 +268,7 @@ namespace TaleWorlds.Localization
 
 		private static string RemoveComments(string localizedText)
 		{
-			string text = "{%.+?}";
-			foreach (object obj in Regex.Matches(localizedText, text))
+			foreach (object obj in MBTextManager.CommentRemoverRegex.Matches(localizedText))
 			{
 				Match match = (Match)obj;
 				localizedText = localizedText.Replace(match.Value, "");
@@ -277,9 +276,42 @@ namespace TaleWorlds.Localization
 			return localizedText;
 		}
 
+		public static string DiscardAnimationTagsAndCheckAnimationTagPositions(string text)
+		{
+			return MBTextManager.DiscardAnimationTags(text);
+		}
+
 		public static string DiscardAnimationTags(string text)
 		{
-			return Regex.Replace(text, "\\[.+\\]", "");
+			string text2 = "";
+			bool flag = false;
+			for (int i = 0; i < text.Length; i++)
+			{
+				if (text[i] == '[')
+				{
+					flag = true;
+				}
+				if (!flag)
+				{
+					text2 += text[i].ToString();
+				}
+				if (text[i] == ']')
+				{
+					flag = false;
+				}
+			}
+			return text2;
+		}
+
+		private static bool CheckAnimationTagPositions(string text)
+		{
+			string text2 = "";
+			Match match = MBTextManager.AnimationTagRemoverRegex.Match(text);
+			if (match.Success)
+			{
+				text2 = MBTextManager.DiscardAnimationTags(match.Value);
+			}
+			return string.IsNullOrEmpty(text2);
 		}
 
 		public static string[] GetConversationAnimations(TextObject to)
@@ -412,6 +444,10 @@ namespace TaleWorlds.Localization
 
 		internal const string LinkStarter = "<a style=\"Link.";
 
+		private const string CommentRegexPattern = "{%.+?}";
+
+		private const string AnimationTagsRegexPattern = "\\[.+\\]";
+
 		private static readonly TextProcessingContext TextContext = new TextProcessingContext();
 
 		private static LanguageSpecificTextProcessor _languageProcessor = new EnglishTextProcessor();
@@ -427,6 +463,10 @@ namespace TaleWorlds.Localization
 
 		[ThreadStatic]
 		private static StringBuilder _targetStringBuilder;
+
+		private static readonly Regex CommentRemoverRegex = new Regex("{%.+?}");
+
+		private static readonly Regex AnimationTagRemoverRegex = new Regex("\\[.+\\]");
 
 		internal static readonly Tokenizer Tokenizer = new Tokenizer();
 	}

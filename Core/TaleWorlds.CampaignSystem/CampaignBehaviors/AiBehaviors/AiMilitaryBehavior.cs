@@ -19,13 +19,19 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
+			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
+		}
+
+		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+		{
+			this._disbandPartyCampaignBehavior = Campaign.Current.GetCampaignBehavior<IDisbandPartyCampaignBehavior>();
 		}
 
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		public void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
+		private void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
 		{
 			if (mobileParty != null && mobileParty.IsBandit && settlement.IsHideout && mobileParty.DefaultBehavior != AiBehavior.GoToSettlement)
 			{
@@ -33,7 +39,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 		}
 
-		private static void FindBestTargetAndItsValueForFaction(Army.ArmyTypes missionType, PartyThinkParams p, float ourStrength, float newArmyCreatingAdditionalConstant = 1f)
+		private void FindBestTargetAndItsValueForFaction(Army.ArmyTypes missionType, PartyThinkParams p, float ourStrength, float newArmyCreatingAdditionalConstant = 1f)
 		{
 			MobileParty mobilePartyOf = p.MobilePartyOf;
 			IFaction mapFaction = mobilePartyOf.MapFaction;
@@ -86,16 +92,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			}
 			if (missionType == Army.ArmyTypes.Defender || missionType == Army.ArmyTypes.Patrolling)
 			{
-				AiMilitaryBehavior.CalculateMilitaryBehaviorForFactionSettlementsParallel(mapFaction, p, missionType, aiBehavior, ourStrength, num7, newArmyCreatingAdditionalConstant);
+				this.CalculateMilitaryBehaviorForFactionSettlementsParallel(mapFaction, p, missionType, aiBehavior, ourStrength, num7, newArmyCreatingAdditionalConstant);
 				return;
 			}
 			foreach (IFaction faction in FactionManager.GetEnemyFactions(mapFaction))
 			{
-				AiMilitaryBehavior.CalculateMilitaryBehaviorForFactionSettlementsParallel(faction, p, missionType, aiBehavior, ourStrength, num7, newArmyCreatingAdditionalConstant);
+				this.CalculateMilitaryBehaviorForFactionSettlementsParallel(faction, p, missionType, aiBehavior, ourStrength, num7, newArmyCreatingAdditionalConstant);
 			}
 		}
 
-		private static void CalculateMilitaryBehaviorForFactionSettlementsParallel(IFaction faction, PartyThinkParams p, Army.ArmyTypes missionType, AiBehavior aiBehavior, float ourStrength, float partySizeScore, float newArmyCreatingAdditionalConstant)
+		private void CalculateMilitaryBehaviorForFactionSettlementsParallel(IFaction faction, PartyThinkParams p, Army.ArmyTypes missionType, AiBehavior aiBehavior, float ourStrength, float partySizeScore, float newArmyCreatingAdditionalConstant)
 		{
 			MobileParty mobilePartyOf = p.MobilePartyOf;
 			int count = faction.Settlements.Count;
@@ -103,14 +109,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			for (int i = 0; i < faction.Settlements.Count; i++)
 			{
 				Settlement settlement = faction.Settlements[i];
-				if (AiMilitaryBehavior.CheckIfSettlementIsSuitableForMilitaryAction(settlement, mobilePartyOf, missionType))
+				if (this.CheckIfSettlementIsSuitableForMilitaryAction(settlement, mobilePartyOf, missionType))
 				{
-					AiMilitaryBehavior.CalculateMilitaryBehaviorForSettlement(settlement, missionType, aiBehavior, p, ourStrength, partySizeScore, count, totalStrength, newArmyCreatingAdditionalConstant);
+					this.CalculateMilitaryBehaviorForSettlement(settlement, missionType, aiBehavior, p, ourStrength, partySizeScore, count, totalStrength, newArmyCreatingAdditionalConstant);
 				}
 			}
 		}
 
-		private static bool CheckIfSettlementIsSuitableForMilitaryAction(Settlement settlement, MobileParty mobileParty, Army.ArmyTypes missionType)
+		private bool CheckIfSettlementIsSuitableForMilitaryAction(Settlement settlement, MobileParty mobileParty, Army.ArmyTypes missionType)
 		{
 			if (Game.Current.CheatMode && !CampaignCheats.MainPartyIsAttackable && settlement.Party.MapEvent != null && settlement.Party.MapEvent == MapEvent.PlayerMapEvent)
 			{
@@ -131,9 +137,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			return true;
 		}
 
-		private static void CalculateMilitaryBehaviorForSettlement(Settlement settlement, Army.ArmyTypes missionType, AiBehavior aiBehavior, PartyThinkParams p, float ourStrength, float partySizeScore, int numberOfEnemyFactionSettlements, float totalEnemyMobilePartyStrength, float newArmyCreatingAdditionalConstant = 1f)
+		private void CalculateMilitaryBehaviorForSettlement(Settlement settlement, Army.ArmyTypes missionType, AiBehavior aiBehavior, PartyThinkParams p, float ourStrength, float partySizeScore, int numberOfEnemyFactionSettlements, float totalEnemyMobilePartyStrength, float newArmyCreatingAdditionalConstant = 1f)
 		{
-			if ((missionType == Army.ArmyTypes.Defender && settlement.LastAttackerParty != null && settlement.LastAttackerParty.IsActive) || (missionType == Army.ArmyTypes.Raider && settlement.IsVillage && settlement.Village.VillageState == Village.VillageStates.Normal) || (missionType == Army.ArmyTypes.Besieger && settlement.IsFortification && (settlement.SiegeEvent == null || settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction == p.MobilePartyOf.MapFaction)) || (missionType == Army.ArmyTypes.Patrolling && !settlement.IsCastle && p.WillGatherAnArmy))
+			if ((missionType == Army.ArmyTypes.Defender && settlement.LastAttackerParty != null && settlement.LastAttackerParty.IsActive) || (missionType == Army.ArmyTypes.Raider && settlement.IsVillage && settlement.Village.VillageState == Village.VillageStates.Normal) || (missionType == Army.ArmyTypes.Besieger && settlement.IsFortification && (settlement.SiegeEvent == null || settlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction == p.MobilePartyOf.MapFaction)) || (missionType == Army.ArmyTypes.Patrolling && !settlement.IsCastle && p.WillGatherAnArmy))
 			{
 				MobileParty mobilePartyOf = p.MobilePartyOf;
 				IFaction mapFaction = mobilePartyOf.MapFaction;
@@ -173,13 +179,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 						num5 *= 0.8f;
 					}
 				}
+				if (!mobilePartyOf.IsDisbanding)
+				{
+					IDisbandPartyCampaignBehavior disbandPartyCampaignBehavior = this._disbandPartyCampaignBehavior;
+					if (disbandPartyCampaignBehavior == null || !disbandPartyCampaignBehavior.IsPartyWaitingForDisband(mobilePartyOf))
+					{
+						goto IL_209;
+					}
+				}
+				num5 *= 0.25f;
+				IL_209:
 				AIBehaviorTuple aibehaviorTuple = new AIBehaviorTuple(settlement, aiBehavior, p.WillGatherAnArmy);
 				ValueTuple<AIBehaviorTuple, float> valueTuple = new ValueTuple<AIBehaviorTuple, float>(aibehaviorTuple, num5);
 				p.AddBehaviorScore(valueTuple);
 			}
 		}
 
-		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
+		private void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			if (mobileParty.IsMilitia || mobileParty.IsCaravan || mobileParty.IsVillager || mobileParty.IsBandit || mobileParty.IsDisbanding || mobileParty.LeaderHero == null || (mobileParty.MapFaction != Clan.PlayerClan.MapFaction && !mobileParty.MapFaction.IsKingdomFaction))
 			{
@@ -264,6 +280,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 					float num16 = MathF.Max(1f, MathF.Pow(num15, 1.75f) * 0.15f);
 					num13 *= num16;
 				}
+				if (!mobileParty.IsDisbanding)
+				{
+					IDisbandPartyCampaignBehavior disbandPartyCampaignBehavior = this._disbandPartyCampaignBehavior;
+					if (disbandPartyCampaignBehavior == null || !disbandPartyCampaignBehavior.IsPartyWaitingForDisband(mobileParty))
+					{
+						goto IL_48D;
+					}
+				}
+				num13 *= 0.25f;
+				IL_48D:
 				p.CurrentObjectiveValue = num13;
 				AiBehavior defaultBehavior = mobileParty.DefaultBehavior;
 				AIBehaviorTuple aibehaviorTuple = new AIBehaviorTuple(mobileParty.TargetSettlement, defaultBehavior, false);
@@ -318,13 +344,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 				if (flag)
 				{
 					p.WillGatherAnArmy = true;
-					AiMilitaryBehavior.FindBestTargetAndItsValueForFaction((Army.ArmyTypes)i, p, num18, num17);
+					this.FindBestTargetAndItsValueForFaction((Army.ArmyTypes)i, p, num18, num17);
 				}
 				p.WillGatherAnArmy = false;
-				AiMilitaryBehavior.FindBestTargetAndItsValueForFaction((Army.ArmyTypes)i, p, totalStrengthWithFollowers, 1f);
+				this.FindBestTargetAndItsValueForFaction((Army.ArmyTypes)i, p, totalStrengthWithFollowers, 1f);
 			}
 		}
 
 		private const int MinimumInfluenceNeededToCreateArmy = 50;
+
+		private IDisbandPartyCampaignBehavior _disbandPartyCampaignBehavior;
 	}
 }

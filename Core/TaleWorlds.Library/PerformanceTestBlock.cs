@@ -8,14 +8,15 @@ namespace TaleWorlds.Library
 		public PerformanceTestBlock(string name)
 		{
 			this._name = name;
+			Debug.Print(this._name + " block is started.", 0, Debug.DebugColor.White, 17592186044416UL);
 			this._stopwatch = new Stopwatch();
 			this._stopwatch.Start();
 		}
 
 		void IDisposable.Dispose()
 		{
-			long elapsedMilliseconds = this._stopwatch.ElapsedMilliseconds;
-			Debug.Print(string.Concat(new object[] { this._name, " took ", elapsedMilliseconds, " ms." }), 0, Debug.DebugColor.White, 17592186044416UL);
+			float num = (float)this._stopwatch.ElapsedMilliseconds / 1000f;
+			Debug.Print(string.Concat(new object[] { this._name, " completed in ", num, " seconds." }), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
 		private readonly string _name;

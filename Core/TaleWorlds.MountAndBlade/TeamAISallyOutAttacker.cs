@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
+using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -11,7 +12,7 @@ namespace TaleWorlds.MountAndBlade
 		public TeamAISallyOutAttacker(Mission currentMission, Team currentTeam, float thinkTimerTime, float applyTimerTime)
 			: base(currentMission, currentTeam, thinkTimerTime, applyTimerTime)
 		{
-			this.ArcherPositions = currentMission.Scene.FindEntitiesWithTag("archer_position");
+			this.ArcherPositions = currentMission.Scene.FindEntitiesWithTag("archer_position").ToMBList<GameEntity>();
 			this.BesiegerRangedSiegeWeapons = new List<UsableMachine>(from w in currentMission.ActiveMissionObjects.FindAllWithType<RangedSiegeWeapon>()
 				where w.Side == BattleSideEnum.Attacker && !w.IsDisabled
 				select w);
@@ -55,7 +56,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public IEnumerable<GameEntity> ArcherPositions;
+		public MBList<GameEntity> ArcherPositions;
 
 		public readonly List<UsableMachine> BesiegerRangedSiegeWeapons;
 	}

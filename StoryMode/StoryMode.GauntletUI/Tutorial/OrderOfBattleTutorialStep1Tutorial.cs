@@ -10,7 +10,7 @@ namespace StoryMode.GauntletUI.Tutorial
 		public OrderOfBattleTutorialStep1Tutorial()
 		{
 			base.Type = "OrderOfBattleTutorialStep1";
-			base.Placement = TutorialItemVM.ItemPlacements.Bottom;
+			base.Placement = TutorialItemVM.ItemPlacements.Center;
 			base.HighlightedVisualElementID = "AssignCaptain";
 			base.MouseRequired = false;
 		}

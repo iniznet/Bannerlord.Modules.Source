@@ -7,14 +7,14 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class AgentSetTeam : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
-		public MBTeam Team { get; private set; }
+		public int TeamIndex { get; private set; }
 
-		public AgentSetTeam(Agent agent, Team team)
+		public AgentSetTeam(int agentIndex, int teamIndex)
 		{
-			this.Agent = agent;
-			this.Team = ((team != null) ? team.MBTeam : MBTeam.InvalidTeam);
+			this.AgentIndex = agentIndex;
+			this.TeamIndex = teamIndex;
 		}
 
 		public AgentSetTeam()
@@ -24,15 +24,15 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
-			this.Team = GameNetworkMessage.ReadMBTeamReferenceFromPacket(CompressionMission.TeamCompressionInfo, ref flag);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
+			this.TeamIndex = GameNetworkMessage.ReadTeamIndexFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
-			GameNetworkMessage.WriteMBTeamReferenceToPacket(this.Team, CompressionMission.TeamCompressionInfo);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
+			GameNetworkMessage.WriteTeamIndexToPacket(this.TeamIndex);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -42,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Assign agent with name: ",
-				this.Agent.Name,
-				", and index: ",
-				this.Agent.Index,
-				" to team: ",
-				this.Team
-			});
+			return string.Concat(new object[] { "Assign agent with agent-index: ", this.AgentIndex, " to team: ", this.TeamIndex });
 		}
 	}
 }

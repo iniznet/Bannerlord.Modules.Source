@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetUsableMissionObjectIsDisabledForPlayers : GameNetworkMessage
 	{
-		public UsableMissionObject UsableGameObject { get; private set; }
+		public MissionObjectId UsableGameObjectId { get; private set; }
 
 		public bool IsDisabledForPlayers { get; private set; }
 
-		public SetUsableMissionObjectIsDisabledForPlayers(UsableMissionObject usableGameObject, bool isDisabledForPlayers)
+		public SetUsableMissionObjectIsDisabledForPlayers(MissionObjectId usableGameObjectId, bool isDisabledForPlayers)
 		{
-			this.UsableGameObject = usableGameObject;
+			this.UsableGameObjectId = usableGameObjectId;
 			this.IsDisabledForPlayers = isDisabledForPlayers;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.UsableGameObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as UsableMissionObject;
+			this.UsableGameObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.IsDisabledForPlayers = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.UsableGameObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.UsableGameObjectId);
 			GameNetworkMessage.WriteBoolToPacket(this.IsDisabledForPlayers);
 		}
 
@@ -47,9 +47,7 @@ namespace NetworkMessages.FromServer
 				"Set IsDisabled for player: ",
 				this.IsDisabledForPlayers ? "True" : "False",
 				" on UsableMissionObject with ID: ",
-				this.UsableGameObject.Id,
-				" and with name: ",
-				this.UsableGameObject.GameEntity.Name
+				this.UsableGameObjectId
 			});
 		}
 	}

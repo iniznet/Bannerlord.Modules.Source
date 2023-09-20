@@ -120,7 +120,10 @@ namespace TaleWorlds.MountAndBlade
 				VictoryComponent component = agent.GetComponent<VictoryComponent>();
 				if (component != null)
 				{
-					if (this.CheckIfIsInRetreat() && gotOrderRecently)
+					HumanAIComponent component2 = agent.GetComponent<HumanAIComponent>();
+					bool flag = ((component2 != null) ? component2.GetCurrentlyMovingGameObject() : null) != null;
+					bool flag2 = agent.GetCurrentAnimationFlag(0).HasAnyFlag(AnimFlags.anf_synch_with_ladder_movement) || agent.GetCurrentAnimationFlag(1).HasAnyFlag(AnimFlags.anf_synch_with_ladder_movement);
+					if (this.CheckIfIsInRetreat() && gotOrderRecently && !flag && !flag2)
 					{
 						agent.RemoveComponent(component);
 						agent.SetActionChannel(1, ActionIndexCache.act_none, false, (ulong)agent.GetCurrentActionPriority(1), 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
@@ -138,12 +141,12 @@ namespace TaleWorlds.MountAndBlade
 					{
 						if (!agent.IsActive())
 						{
-							Debug.FailedAssert("Agent trying to cheer without being active", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\AgentVictoryLogic.cs", "CheckAnimationAndVoice", 230);
+							Debug.FailedAssert("Agent trying to cheer without being active", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\AgentVictoryLogic.cs", "CheckAnimationAndVoice", 234);
 							Debug.Print("Agent trying to cheer without being active", 0, Debug.DebugColor.White, 17592186044416UL);
 						}
-						bool flag;
-						this.ChooseWeaponToCheerWithCheerAndUpdateTimer(agent, out flag);
-						if (flag)
+						bool flag3;
+						this.ChooseWeaponToCheerWithCheerAndUpdateTimer(agent, out flag3);
+						if (flag3)
 						{
 							component.ChangeTimerDuration(6f, 12f);
 						}
@@ -206,7 +209,7 @@ namespace TaleWorlds.MountAndBlade
 					{
 						if (this._cheeringAgents.AnyQ((AgentVictoryLogic.CheeringAgent a) => a.Agent == agent))
 						{
-							Debug.FailedAssert("Adding a duplicate agent in _cheeringAgents", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\AgentVictoryLogic.cs", "SetTimersOfVictoryReactionsOnBattleEnd", 304);
+							Debug.FailedAssert("Adding a duplicate agent in _cheeringAgents", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\AgentVictoryLogic.cs", "SetTimersOfVictoryReactionsOnBattleEnd", 308);
 							Debug.Print("Adding a duplicate agent in _cheeringAgents", 0, Debug.DebugColor.White, 17592186044416UL);
 						}
 						agent.AddComponent(new VictoryComponent(agent, new RandomTimer(base.Mission.CurrentTime, this._cheerReactionTimerData.MinDuration, this._cheerReactionTimerData.MaxDuration)));
@@ -227,30 +230,40 @@ namespace TaleWorlds.MountAndBlade
 			while (num2 < list.Count && list2.Count != num)
 			{
 				Agent agent3 = list[num2];
-				int num3 = list.Count - num2;
-				int num4 = num - list2.Count;
-				int num5 = num3 - num4;
-				float num6 = MBMath.ClampFloat((float)(num - num5) / (float)num, 0f, 1f);
-				float num7;
-				Vec3 vec;
-				if (num6 < 1f && agent3.TryGetImmediateEnemyAgentMovementData(out num7, out vec))
+				EquipmentIndex wieldedItemIndex = agent3.GetWieldedItemIndex(Agent.HandIndex.MainHand);
+				bool flag = wieldedItemIndex != EquipmentIndex.None && agent3.Equipment[wieldedItemIndex].Item.ItemFlags.HasAnyFlag(ItemFlags.DropOnAnyAction);
+				EquipmentIndex wieldedItemIndex2 = agent3.GetWieldedItemIndex(Agent.HandIndex.OffHand);
+				bool flag2 = wieldedItemIndex2 != EquipmentIndex.None && agent3.Equipment[wieldedItemIndex2].Item.ItemFlags.HasAnyFlag(ItemFlags.DropOnAnyAction);
+				HumanAIComponent component = agent3.GetComponent<HumanAIComponent>();
+				bool flag3 = ((component != null) ? component.GetCurrentlyMovingGameObject() : null) != null;
+				bool flag4 = agent3.GetCurrentAnimationFlag(0).HasAnyFlag(AnimFlags.anf_synch_with_ladder_movement) || agent3.GetCurrentAnimationFlag(1).HasAnyFlag(AnimFlags.anf_synch_with_ladder_movement);
+				if (!flag && !flag2 && !agent3.IsUsingGameObject && !flag3 && !flag4)
 				{
-					float maximumForwardUnlimitedSpeed = agent3.MaximumForwardUnlimitedSpeed;
-					float num8 = num7;
-					if (maximumForwardUnlimitedSpeed > num8)
+					int num3 = list.Count - num2;
+					int num4 = num - list2.Count;
+					int num5 = num3 - num4;
+					float num6 = MBMath.ClampFloat((float)(num - num5) / (float)num, 0f, 1f);
+					float num7;
+					Vec3 vec;
+					if (num6 < 1f && agent3.TryGetImmediateEnemyAgentMovementData(out num7, out vec))
 					{
-						float num9 = (agent3.Position - vec).LengthSquared / (maximumForwardUnlimitedSpeed - num8);
-						if (num9 < 900f)
+						float maximumForwardUnlimitedSpeed = agent3.MaximumForwardUnlimitedSpeed;
+						float num8 = num7;
+						if (maximumForwardUnlimitedSpeed > num8)
 						{
-							float num10 = num6 - -1f;
-							float num11 = num9 / 900f;
-							num6 = -1f + num10 * num11;
+							float num9 = (agent3.Position - vec).LengthSquared / (maximumForwardUnlimitedSpeed - num8);
+							if (num9 < 900f)
+							{
+								float num10 = num6 - -1f;
+								float num11 = num9 / 900f;
+								num6 = -1f + num10 * num11;
+							}
 						}
 					}
-				}
-				if (MBRandom.RandomFloat <= 0.5f + 0.5f * num6)
-				{
-					list2.Add(agent3);
+					if (MBRandom.RandomFloat <= 0.5f + 0.5f * num6)
+					{
+						list2.Add(agent3);
+					}
 				}
 				num2++;
 			}
@@ -276,7 +289,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (this._cheeringAgents.AnyQ((AgentVictoryLogic.CheeringAgent a) => a.Agent == agent))
 				{
-					Debug.FailedAssert("Adding a duplicate agent in _cheeringAgents", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\AgentVictoryLogic.cs", "SetTimersOfVictoryReactionsForSingleAgent", 393);
+					Debug.FailedAssert("Adding a duplicate agent in _cheeringAgents", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\AgentVictoryLogic.cs", "SetTimersOfVictoryReactionsForSingleAgent", 412);
 					Debug.Print("Adding a duplicate agent in _cheeringAgents", 0, Debug.DebugColor.White, 17592186044416UL);
 				}
 				agent.AddComponent(new VictoryComponent(agent, new RandomTimer(base.Mission.CurrentTime, minStartTime, maxStartTime)));

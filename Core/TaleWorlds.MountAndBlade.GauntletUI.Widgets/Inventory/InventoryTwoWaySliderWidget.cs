@@ -41,6 +41,35 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
+		protected override void OnUpdate(float dt)
+		{
+			base.OnUpdate(dt);
+			if (this._isBeingDragged && !base.IsPressed)
+			{
+				Widget handle = base.Handle;
+				if (handle != null && !handle.IsPressed)
+				{
+					this._shouldRemoveZeroCounts = true;
+				}
+			}
+			bool flag;
+			if (!base.IsPressed)
+			{
+				Widget handle2 = base.Handle;
+				flag = handle2 != null && handle2.IsPressed;
+			}
+			else
+			{
+				flag = true;
+			}
+			this._isBeingDragged = flag;
+			if (this._shouldRemoveZeroCounts)
+			{
+				base.EventFired("RemoveZeroCounts", Array.Empty<object>());
+				this._shouldRemoveZeroCounts = false;
+			}
+		}
+
 		private void CheckFillerState()
 		{
 			if (this._initFiller != null)
@@ -60,6 +89,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 		private void OnStockChangeClick(Widget obj)
 		{
 			this._manuallyIncreased = true;
+			this._shouldRemoveZeroCounts = true;
 		}
 
 		[Editor(false)]
@@ -118,6 +148,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 		private bool _isExtended;
 
 		private Widget _initFiller;
+
+		private bool _isBeingDragged;
+
+		private bool _shouldRemoveZeroCounts;
 
 		private ButtonWidget _increaseStockButtonWidget;
 

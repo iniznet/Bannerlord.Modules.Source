@@ -3,37 +3,27 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Core.ViewModelCollection.Information
 {
-	public class HintVM : TooltipVM
+	public class HintVM : TooltipBaseVM
 	{
-		public override void OnShowTooltip(Type type, object[] args)
+		public HintVM(Type type, object[] args)
+			: base(type, args)
 		{
-			if (type == this._registeredType)
-			{
-				this.Text = args[0] as string;
-				this._tryShowHint = true;
-			}
+			base.InvokeRefreshData<HintVM>(this);
+			base.IsActive = true;
 		}
 
-		public override void OnHideTooltip()
+		protected override void OnFinalizeInternal()
 		{
-			this._tryShowHint = false;
 			base.IsActive = false;
-			this._currentDelay = 0f;
 		}
 
-		public override void Tick(float dt)
+		public static void RefreshGenericHintTooltip(HintVM hint, object[] args)
 		{
-			if (this._tryShowHint)
-			{
-				if (this._currentDelay > 0f)
-				{
-					base.IsActive = true;
-					return;
-				}
-				this._currentDelay += dt;
-			}
+			string text = args[0] as string;
+			hint.Text = text;
 		}
 
+		[DataSourceProperty]
 		public string Text
 		{
 			get
@@ -49,14 +39,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 				}
 			}
 		}
-
-		private readonly Type _registeredType = typeof(string);
-
-		private const float _delay = 0f;
-
-		private float _currentDelay;
-
-		private bool _tryShowHint;
 
 		private string _text = "";
 	}

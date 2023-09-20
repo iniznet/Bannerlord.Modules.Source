@@ -94,7 +94,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						PlayerEncounter.Start();
 						PlayerEncounter.Current.SetupFields(PartyBase.MainParty, LandLordCompanyOfTroubleIssueBehavior.Instance._companyOfTroubleParty.Party);
 						PlayerEncounter.StartBattle();
-						CampaignMission.OpenBattleMission(PlayerEncounter.GetBattleSceneForMapPatch(Campaign.Current.MapSceneWrapper.GetMapPatchAtPosition(MobileParty.MainParty.Position2D)));
+						CampaignMission.OpenBattleMission(PlayerEncounter.GetBattleSceneForMapPatch(Campaign.Current.MapSceneWrapper.GetMapPatchAtPosition(MobileParty.MainParty.Position2D)), false);
 						LandLordCompanyOfTroubleIssueBehavior.Instance._battleWillStart = false;
 						LandLordCompanyOfTroubleIssueBehavior.Instance._checkForBattleResults = true;
 						return;
@@ -172,7 +172,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=wrpsJM2u}Yes... I hired a band of mercenaries for a campaign some time back. But... normally mercenaries have their own peculiar kind of honor. You pay them, they fight for you, you don't, they go somewhere else. But these ones have made it pretty clear that if I don't keep renewing the contract, they'll turn bandit. I can't afford that right now.", null);
+					return new TextObject("{=wrpsJM2u}Yes... I hired a band of mercenaries for a campaign some time back. But... normally mercenaries have their own peculiar kind of honor. You pay them, they fight for you, you don't, they go somewhere else. But these ones have made it pretty clear that if I don't keep renewing the contract, they'll turn bandit. I can't afford that right now.[if:convo_thinking][ib:closed]", null);
 				}
 			}
 
@@ -188,7 +188,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=wxDbPiNH}Well, you have the reputation of being able to manage ruffians. Maybe you can take them off my hands, find some other lord who has more need of them and more denars to pay them. I've paid their contract for a few months. I can give you a small reward and if you can find a buyer, you can transfer the rest of the contract to him and pocket the down payment.", null);
+					return new TextObject("{=wxDbPiNH}Well, you have the reputation of being able to manage ruffians. Maybe you can take them off my hands, find some other lord who has more need of them and more denars to pay them. I've paid their contract for a few months. I can give you a small reward and if you can find a buyer, you can transfer the rest of the contract to him and pocket the down payment.[if:convo_innocent_smile]", null);
 				}
 			}
 
@@ -243,6 +243,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -450,20 +454,20 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=T6d7wtJX}Very well. I'll tell them to join your party. Good luck.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=T6d7wtJX}Very well. I'll tell them to join your party. Good luck.[if:convo_mocking_aristocratic][ib:hip]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=bWpLYiEg}Did you ever find a way to handle those mercenaries?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=bWpLYiEg}Did you ever find a way to handle those mercenaries?[if:convo_astonished]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += MapEventHelper.OnConversationEnd;
 					})
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=XzK4niIb}I'll find an employer soon.", null), null)
-					.NpcLine(new TextObject("{=rOBRabQz}Good. I'm waiting for your good news.", null), null, null)
+					.NpcLine(new TextObject("{=rOBRabQz}Good. I'm waiting for your good news.[if:convo_mocking_aristocratic]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=Zb3EdxDT}That kind of lord is hard to find.", null), null)
-					.NpcLine(new TextObject("{=yOfrb9Lu}Don't wait too long. These are dangerous men. Be careful.", null), null, null)
+					.NpcLine(new TextObject("{=yOfrb9Lu}Don't wait too long. These are dangerous men. Be careful.[if:convo_nonchalant]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -476,15 +480,15 @@ namespace TaleWorlds.CampaignSystem.Issues
 				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("hero_main_options", 700).BeginPlayerOptions().PlayerOption(new TextObject("{=2E7s4L9R}Do you need mercenaries? I have a contract that I can transfer to you for {DEMAND_GOLD} denars.", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.PersuasionDialogForLordGeneralCondition))
 					.BeginNpcOptions()
-					.NpcOption(new TextObject("{=ZR4RJdYS}Hmm, that sounds interesting...", null), new ConversationSentence.OnConditionDelegate(this.PersuasionDialogSpecialCondition), null, null)
+					.NpcOption(new TextObject("{=ZR4RJdYS}Hmm, that sounds interesting...[if:convo_thinking]", null), new ConversationSentence.OnConditionDelegate(this.PersuasionDialogSpecialCondition), null, null)
 					.GotoDialogState("company_of_trouble_persuasion")
-					.NpcOption(new TextObject("{=pmrjUNEz}As it happens, I already have a mercenary contract that I wish to sell. So, no thank you.", null), new ConversationSentence.OnConditionDelegate(this.HasSameIssue), null, null)
+					.NpcOption(new TextObject("{=pmrjUNEz}As it happens, I already have a mercenary contract that I wish to sell. So, no thank you.[if:convo_calm_friendly]", null), new ConversationSentence.OnConditionDelegate(this.HasSameIssue), null, null)
 					.GotoDialogState("hero_main_options")
-					.NpcOption(new TextObject("{=bw0hEPN6}You already bought their contract from our clan. Why would I want to buy them back?", null), new ConversationSentence.OnConditionDelegate(this.IsSameClanMember), null, null)
+					.NpcOption(new TextObject("{=bw0hEPN6}You already bought their contract from our clan. Why would I want to buy them back?[if:convo_confused_normal]", null), new ConversationSentence.OnConditionDelegate(this.IsSameClanMember), null, null)
 					.GotoDialogState("hero_main_options")
-					.NpcOption(new TextObject("{=64bH4bUo}No, thank you. But perhaps one of the other lords of our clan would be interested.", null), () => !this.HasMobileParty(), null, null)
+					.NpcOption(new TextObject("{=64bH4bUo}No, thank you. But perhaps one of the other lords of our clan would be interested.[if:convo_undecided_closed]", null), () => !this.HasMobileParty(), null, null)
 					.GotoDialogState("hero_main_options")
-					.NpcOption(new TextObject("{=Zs6L1aBL}I'm sorry. I don't need mercenaries right now.", null), null, null, null)
+					.NpcOption(new TextObject("{=Zs6L1aBL}I'm sorry. I don't need mercenaries right now.[if:convo_normal]", null), null, null, null)
 					.GotoDialogState("hero_main_options")
 					.EndNpcOptions()
 					.EndPlayerOptions();
@@ -794,20 +798,20 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetCompanyDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=8TCev3Qs}So, captain. We expect a bit of looting and plundering as compensation, in addition to the wages. You don't seem like you're going to provide it to us. So, farewell.[ib:hip]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.CompanyDialogFromCondition))
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=8TCev3Qs}So, captain. We expect a bit of looting and plundering as compensation, in addition to the wages. You don't seem like you're going to provide it to us. So, farewell.[if:innocent_smile][ib:hip]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.CompanyDialogFromCondition))
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=1aaoSpNf}Your contract with the {QUEST_GIVER.NAME} is still in force. I can't let you go without {?QUEST_GIVER.GENDER}her{?}his{\\?} permission.", null), null)
-					.NpcLine(new TextObject("{=oI5H6Xo8}Don't think we won't fight you if you try and stop us.", null), null, null)
+					.NpcLine(new TextObject("{=oI5H6Xo8}Don't think we won't fight you if you try and stop us.[if:convo_mocking_aristocratic]", null), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=hIFazIcK}So be it!", null), null)
-					.NpcLine(new TextObject("{=KKeRi477}All right, lads. Let's kill the boss.[ib:aggressive]", null), null, null)
+					.NpcLine(new TextObject("{=KKeRi477}All right, lads. Let's kill the boss.[if:convo_predatory][ib:aggressive]", null), null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.CreateCompanyEnemyParty;
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=bm7UcuQj}No! There is no need to fight. I don't want any bloodshed... Just leave.", null), null)
-					.NpcLine(new TextObject("{=1vnaskLR}It was a pleasure to work with you, chief. Farewell...", null), null, null)
+					.NpcLine(new TextObject("{=1vnaskLR}It was a pleasure to work with you, chief. Farewell...[if:convo_nonchalant][ib:normal2]", null), null, null)
 					.Consequence(delegate
 					{
 						this._companyLeftQuestWillFail = true;
@@ -816,7 +820,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.EndPlayerOptions()
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=hj4vfgxk}As you wish! Good luck. ", null), null)
-					.NpcLine(new TextObject("{=1vnaskLR}It was a pleasure to work with you, chief. Farewell...", null), null, null)
+					.NpcLine(new TextObject("{=1vnaskLR}It was a pleasure to work with you, chief. Farewell...[if:convo_nonchalant][ib:normal2]", null), null, null)
 					.Consequence(delegate
 					{
 						this._companyLeftQuestWillFail = true;
@@ -865,7 +869,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 				CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
@@ -890,10 +893,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclared);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclared, false);
 			}
 
-			public void OnMapEventEnded(MapEvent mapEvent)
+			private void OnMapEventEnded(MapEvent mapEvent)
 			{
 				if ((mapEvent.IsPlayerMapEvent || mapEvent.IsPlayerSimulation) && !this._checkForBattleResults)
 				{
@@ -908,7 +911,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			public void HourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing)
 				{

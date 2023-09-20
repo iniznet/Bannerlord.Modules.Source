@@ -134,14 +134,6 @@ namespace StoryMode.Quests.ThirdPhase
 			{
 				StoryModeManager.Current.MainStoryLine.ThirdPhase.AddAllyKingdom(kingdom5);
 			}
-			for (int m = 0; m < list4.Count; m++)
-			{
-				if (!list4[m].IsAtWarWith(StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom))
-				{
-					ChangeRelationAction.ApplyPlayerRelation(list4[m].Leader, -10, true, true);
-					DeclareWarAction.ApplyByPlayerHostility(list4[m], StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom);
-				}
-			}
 			int num = 0;
 			foreach (Kingdom kingdom2 in list4)
 			{
@@ -151,22 +143,11 @@ namespace StoryMode.Quests.ThirdPhase
 				defeatTheConspiracyQuest.StartQuest();
 				list3.Add(defeatTheConspiracyQuest);
 			}
-			Hero leader = list4[Extensions.IndexOfMax<Kingdom>(list4, (Kingdom k) => (int)k.TotalStrength)].Leader;
-			SceneNotificationData sceneNotificationData;
-			if (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine)
-			{
-				sceneNotificationData = new AntiEmpireConspiracyBeginsSceneNotificationItem(leader, StoryModeManager.Current.MainStoryLine.ThirdPhase.OppositionKingdoms.ToList<Kingdom>());
-			}
-			else
-			{
-				sceneNotificationData = new ProEmpireConspiracyBeginsSceneNotificationItem(leader);
-			}
-			MBInformationManager.ShowSceneNotification(sceneNotificationData);
 			Dictionary<Kingdom, int> dictionary = new Dictionary<Kingdom, int>();
 			float conspiracyStrength = StoryModeManager.Current.MainStoryLine.SecondPhase.ConspiracyStrength;
 			List<float> list6 = new List<float> { 0.5f, 0.3f, 0.2f };
 			int num2 = 0;
-			for (int n = 0; n < list6.Count; n++)
+			for (int m = 0; m < list6.Count; m++)
 			{
 				if (num2 > list4.Count - 1)
 				{
@@ -179,7 +160,7 @@ namespace StoryMode.Quests.ThirdPhase
 				}
 				Dictionary<Kingdom, int> dictionary2 = dictionary;
 				Kingdom kingdom4 = kingdom3;
-				dictionary2[kingdom4] += (int)(conspiracyStrength * list6[n]);
+				dictionary2[kingdom4] += (int)(conspiracyStrength * list6[m]);
 				num2++;
 			}
 			foreach (KeyValuePair<Kingdom, int> keyValuePair in dictionary)
@@ -199,7 +180,7 @@ namespace StoryMode.Quests.ThirdPhase
 				List<Hero> list7 = new List<Hero>();
 				Clan clan = null;
 				Func<Settlement, bool> <>9__9;
-				for (int num5 = 0; num5 < num4; num5++)
+				for (int n = 0; n < num4; n++)
 				{
 					if (clan == null || clan.Lords.Count >= clan.CommanderLimit)
 					{
@@ -254,6 +235,10 @@ namespace StoryMode.Quests.ThirdPhase
 					{
 						ChangeKingdomAction.ApplyByJoinToKingdom(clan, kingdom, false);
 					}
+					if (clan.Kingdom.RulingClan == null || clan.Kingdom.RulingClan.IsEliminated)
+					{
+						ChangeRulingClanAction.Apply(clan.Kingdom, clan);
+					}
 					MobileParty mobileParty;
 					if (settlement != null)
 					{
@@ -283,35 +268,58 @@ namespace StoryMode.Quests.ThirdPhase
 				}
 				if (!Extensions.IsEmpty<MobileParty>(mblist))
 				{
-					int num6 = keyValuePair.Value - num3;
-					int num7 = num3 - list7.Count * 200;
-					int num8 = num6 + num7;
-					int num9 = num8 / mblist.Count;
-					int num10 = num8 % mblist.Count;
-					if (num9 > 0)
+					int num5 = keyValuePair.Value - num3;
+					int num6 = num3 - list7.Count * 200;
+					int num7 = num5 + num6;
+					int num8 = num7 / mblist.Count;
+					int num9 = num7 % mblist.Count;
+					if (num8 > 0)
 					{
 						foreach (MobileParty mobileParty2 in mblist)
 						{
-							for (int num11 = 0; num11 < num9; num11++)
+							for (int num10 = 0; num10 < num8; num10++)
 							{
 								mobileParty2.MemberRoster.AddToCounts(Extensions.GetRandomElement<CharacterObject>(mblist2), 1, false, 0, 0, true, -1);
 							}
 						}
 					}
-					if (num10 > 0)
+					if (num9 > 0)
 					{
 						MobileParty randomElement = Extensions.GetRandomElement<MobileParty>(mblist);
-						for (int num12 = 0; num12 < num10; num12++)
+						for (int num11 = 0; num11 < num9; num11++)
 						{
 							randomElement.MemberRoster.AddToCounts(Extensions.GetRandomElement<CharacterObject>(mblist2), 1, false, 0, 0, true, -1);
 						}
 					}
 				}
 			}
+			for (int num12 = 0; num12 < list4.Count; num12++)
+			{
+				foreach (Clan clan2 in list4[num12].Clans)
+				{
+					clan2.UpdateStrength();
+				}
+				if (!list4[num12].IsAtWarWith(StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom))
+				{
+					ChangeRelationAction.ApplyPlayerRelation(list4[num12].Leader, -10, true, true);
+					DeclareWarAction.ApplyByPlayerHostility(list4[num12], StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom);
+				}
+			}
 			foreach (DefeatTheConspiracyQuestBehavior.DefeatTheConspiracyQuest defeatTheConspiracyQuest2 in list3)
 			{
 				defeatTheConspiracyQuest2.CalculateReinforcedWarScore();
 			}
+			Hero leader = list4[Extensions.IndexOfMax<Kingdom>(list4, (Kingdom k) => (int)k.TotalStrength)].Leader;
+			SceneNotificationData sceneNotificationData;
+			if (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine)
+			{
+				sceneNotificationData = new AntiEmpireConspiracyBeginsSceneNotificationItem(leader, StoryModeManager.Current.MainStoryLine.ThirdPhase.OppositionKingdoms.ToList<Kingdom>());
+			}
+			else
+			{
+				sceneNotificationData = new ProEmpireConspiracyBeginsSceneNotificationItem(leader);
+			}
+			MBInformationManager.ShowSceneNotification(sceneNotificationData);
 		}
 
 		public override void SyncData(IDataStore dataStore)
@@ -414,6 +422,14 @@ namespace StoryMode.Quests.ThirdPhase
 				}
 			}
 
+			private TextObject _questCanceledLogText
+			{
+				get
+				{
+					return new TextObject("{=tVlZTOst}You have chosen a different path.", null);
+				}
+			}
+
 			private TextObject _defeatOpposingKingdomsQuestLogText
 			{
 				get
@@ -513,6 +529,11 @@ namespace StoryMode.Quests.ThirdPhase
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+				this.UpdateWarProgressWithKingdom();
+			}
+
 			private void UpdateWarProgressWithKingdom()
 			{
 				float num = this.CalculateWarScoreForKingdom(this._oppositionKingdom);
@@ -542,7 +563,7 @@ namespace StoryMode.Quests.ThirdPhase
 					TextObject textObject3 = new TextObject("{=DM6luo3c}Continue", null);
 					InformationManager.ShowInquiry(new InquiryData(textObject.ToString(), textObject2.ToString(), true, false, textObject3.ToString(), "", delegate
 					{
-						this.OnKingdomDefeated(kingdom);
+						this.OnKingdomDefeated(kingdom, true);
 					}, null, "", 0f, null, null, null), true, false);
 					return;
 				}
@@ -557,8 +578,11 @@ namespace StoryMode.Quests.ThirdPhase
 					TextObject textObject5 = new TextObject("{=cOgmdp9e}Decline", null);
 					InformationManager.ShowInquiry(new InquiryData(textObject.ToString(), textObject2.ToString(), true, true, textObject4.ToString(), textObject5.ToString(), delegate
 					{
-						this.OnKingdomDefeated(kingdom);
-					}, null, "", 0f, null, null, null), true, false);
+						this.OnKingdomDefeated(kingdom, true);
+					}, delegate
+					{
+						this.OnKingdomDefeated(kingdom, false);
+					}, "", 0f, null, null, null), true, false);
 					return;
 				}
 				textObject2 = this._antiImperialKingdomDefeatedPopUpSubjectDescriptionText;
@@ -567,11 +591,11 @@ namespace StoryMode.Quests.ThirdPhase
 				TextObject textObject6 = new TextObject("{=DM6luo3c}Continue", null);
 				InformationManager.ShowInquiry(new InquiryData(textObject.ToString(), textObject2.ToString(), true, false, textObject6.ToString(), "", delegate
 				{
-					this.OnKingdomDefeated(kingdom);
+					this.OnKingdomDefeated(kingdom, true);
 				}, null, "", 0f, null, null, null), true, false);
 			}
 
-			private void OnKingdomDefeated(Kingdom kingdom)
+			private void OnKingdomDefeated(Kingdom kingdom, bool makePeace = true)
 			{
 				if (this._oppositionKingdom == kingdom)
 				{
@@ -610,18 +634,21 @@ namespace StoryMode.Quests.ThirdPhase
 						}
 						else
 						{
-							Debug.FailedAssert("Kingdom to defect can't be found", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Quests\\ThirdPhase\\DefeatTheConspiracyQuestBehavior.cs", "OnKingdomDefeated", 336);
+							Debug.FailedAssert("Kingdom to defect can't be found", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Quests\\ThirdPhase\\DefeatTheConspiracyQuestBehavior.cs", "OnKingdomDefeated", 371);
 						}
 					}
 					else
 					{
-						MakePeaceAction.Apply(kingdom, playerSupportedKingdom, 0);
 						StoryModeManager.Current.MainStoryLine.ThirdPhase.RemoveOppositionKingdom(kingdom);
 						base.RemoveLog(this._oppositionData.QuestLog);
 						TextObject antiImperialKingdomDefeatedQuestLogText = this._antiImperialKingdomDefeatedQuestLogText;
 						antiImperialKingdomDefeatedQuestLogText.SetTextVariable("FACTION", kingdom.EncyclopediaLinkWithName);
 						antiImperialKingdomDefeatedQuestLogText.SetTextVariable("PLAYER_FACTION", playerSupportedKingdom.EncyclopediaLinkWithName);
 						base.AddLog(antiImperialKingdomDefeatedQuestLogText, false);
+						if (makePeace)
+						{
+							MakePeaceAction.Apply(playerSupportedKingdom, kingdom, 0);
+						}
 						if (Extensions.IsEmpty<Kingdom>(StoryModeManager.Current.MainStoryLine.ThirdPhase.OppositionKingdoms))
 						{
 							Kingdom playerSupportedKingdom2 = playerSupportedKingdom;
@@ -703,7 +730,6 @@ namespace StoryMode.Quests.ThirdPhase
 			{
 				CampaignEvents.KingdomDestroyedEvent.AddNonSerializedListener(this, new Action<Kingdom>(this.OnKingdomDestroyed));
 				CampaignEvents.OnQuestCompletedEvent.AddNonSerializedListener(this, new Action<QuestBase, QuestBase.QuestCompleteDetails>(this.OnCampaignQuestCompleted));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.FactionStrengthsUpdated));
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.SettlementOwnerChanged));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 			}
@@ -712,7 +738,8 @@ namespace StoryMode.Quests.ThirdPhase
 			{
 				if (clan == Clan.PlayerClan && oldKingdom == StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom)
 				{
-					base.CompleteQuestWithCancel(null);
+					base.CompleteQuestWithCancel(this._questCanceledLogText);
+					StoryModeManager.Current.MainStoryLine.CancelSecondAndThirdPhase();
 				}
 			}
 
@@ -723,11 +750,6 @@ namespace StoryMode.Quests.ThirdPhase
 					this.UpdateWarProgressWithKingdom();
 					StoryModeManager.Current.MainStoryLine.ThirdPhase.CompleteThirdPhase(detail);
 				}
-			}
-
-			private void FactionStrengthsUpdated()
-			{
-				this.UpdateWarProgressWithKingdom();
 			}
 
 			private void SettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)

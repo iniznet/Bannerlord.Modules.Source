@@ -130,11 +130,11 @@ namespace Helpers
 			return num2 / num;
 		}
 
-		public static void CheckWarDeclarationAndFailOrCancelTheQuest(QuestBase questToCheck, IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail, TextObject failLog, TextObject cancelLog)
+		public static void CheckWarDeclarationAndFailOrCancelTheQuest(QuestBase questToCheck, IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail, TextObject failLog, TextObject cancelLog, bool forceCancel = false)
 		{
 			if (questToCheck.QuestGiver.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
 			{
-				if (DiplomacyHelper.IsWarCausedByPlayer(faction1, faction2, detail))
+				if (!forceCancel && DiplomacyHelper.IsWarCausedByPlayer(faction1, faction2, detail))
 				{
 					questToCheck.CompleteQuestWithFail(failLog);
 					return;

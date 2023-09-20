@@ -69,6 +69,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 				this._dataSource.Update();
 				if (this._dataSource.IsToggleOrderShown)
 				{
+					if (this._targetFormationOrderGivenWithActionButton)
+					{
+						this.SetSuspendTroopPlacer(false);
+						this._targetFormationOrderGivenWithActionButton = false;
+					}
 					this._orderTroopPlacer.IsDrawingForced = this._dataSource.IsMovementSubOrdersShown;
 					this._orderTroopPlacer.IsDrawingFacing = this._dataSource.IsFacingSubOrdersShown;
 					this._orderTroopPlacer.IsDrawingForming = false;
@@ -144,19 +149,19 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 				{
 					if (this._dataSource.OrderSets.Any((OrderSetVM x) => x.ShowOrders))
 					{
-						flag = this._holdExecuted || base.Mission.Mode == 6;
-						goto IL_32D;
+						flag = this._dataSource.IsHolding || base.Mission.Mode == 6;
+						goto IL_348;
 					}
 				}
 				flag = false;
-				IL_32D:
+				IL_348:
 				bool flag2 = flag;
 				if (flag2 != base.MissionScreen.IsRadialMenuActive)
 				{
 					base.MissionScreen.SetRadialMenuActiveState(flag2);
 				}
 			}
-			this._dataSource.IsHolding = this._holdExecuted;
+			this._targetFormationOrderGivenWithActionButton = false;
 			this._dataSource.CanUseShortcuts = this._isReceivingInput;
 		}
 
@@ -204,6 +209,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.MissionScreen.SetOrderFlagVisibility(false);
 			this._siegeDeploymentHandler = base.Mission.GetMissionBehavior<SiegeDeploymentHandler>();
 			this._battleDeploymentHandler = base.Mission.GetMissionBehavior<BattleDeploymentHandler>();
+			this._formationTargetHandler = base.Mission.GetMissionBehavior<MissionFormationTargetSelectionHandler>();
+			if (this._formationTargetHandler != null)
+			{
+				this._formationTargetHandler.OnFormationFocused += this.OnFormationFocused;
+			}
 			this.IsSiegeDeployment = this._siegeDeploymentHandler != null;
 			this.IsBattleDeployment = this._battleDeploymentHandler != null;
 			if (this._isAnyDeployment)
@@ -218,6 +228,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 			this._dataSource = new MissionOrderVM(base.MissionScreen.CombatCamera, this.IsSiegeDeployment ? this._siegeDeploymentHandler.PlayerDeploymentPoints.ToList<DeploymentPoint>() : new List<DeploymentPoint>(), new Action<bool>(this.ToggleScreenRotation), this._isAnyDeployment, new GetOrderFlagPositionDelegate(base.MissionScreen.GetOrderFlagPosition), new OnRefreshVisualsDelegate(this.RefreshVisuals), new ToggleOrderPositionVisibilityDelegate(this.SetSuspendTroopPlacer), new OnToggleActivateOrderStateDelegate(this.OnActivateToggleOrder), new OnToggleActivateOrderStateDelegate(this.OnDeactivateToggleOrder), new OnToggleActivateOrderStateDelegate(this.OnTransferFinished), new OnBeforeOrderDelegate(this.OnBeforeOrder), false);
 			this._dataSource.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("ToggleEscapeMenu"));
+			this._dataSource.TroopController.SetDoneInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Confirm"));
+			this._dataSource.TroopController.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
+			this._dataSource.TroopController.SetResetInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Reset"));
 			if (this.IsSiegeDeployment)
 			{
 				foreach (DeploymentPoint deploymentPoint in this._siegeDeploymentHandler.PlayerDeploymentPoints)
@@ -246,7 +259,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._spriteCategory.Load(resourceContext, uiresourceDepot);
 			this._movie = this._gauntletLayer.LoadMovie(text, this._dataSource);
 			base.MissionScreen.AddLayer(this._gauntletLayer);
-			if (BannerlordConfig.HideBattleUI)
+			if (!this._isAnyDeployment && BannerlordConfig.HideBattleUI)
 			{
 				this._gauntletLayer._gauntletUIContext.ContextAlpha = 0f;
 			}
@@ -265,42 +278,45 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
-			if (changedManagedOptionsType == 31)
+			if (changedManagedOptionsType == 33)
 			{
 				this._gauntletLayer.ReleaseMovie(this._movie);
 				string text = ((BannerlordConfig.OrderType == 0) ? "OrderBar" : "OrderRadial");
 				this._movie = this._gauntletLayer.LoadMovie(text, this._dataSource);
 				return;
 			}
-			if (changedManagedOptionsType == 32)
+			if (changedManagedOptionsType != 34)
 			{
-				MissionOrderVM dataSource = this._dataSource;
-				if (dataSource == null)
+				if (changedManagedOptionsType == 43)
 				{
-					return;
+					if (!this._isAnyDeployment)
+					{
+						this._gauntletLayer._gauntletUIContext.ContextAlpha = (BannerlordConfig.HideBattleUI ? 0f : 1f);
+						return;
+					}
 				}
-				dataSource.OnOrderLayoutTypeChanged();
-				return;
-			}
-			else
-			{
-				if (changedManagedOptionsType == 41)
-				{
-					this._gauntletLayer._gauntletUIContext.ContextAlpha = (BannerlordConfig.HideBattleUI ? 0f : 1f);
-					return;
-				}
-				if (changedManagedOptionsType == 35 && !BannerlordConfig.SlowDownOnOrder && this._slowedDownMission)
+				else if (changedManagedOptionsType == 37 && !BannerlordConfig.SlowDownOnOrder && this._slowedDownMission)
 				{
 					base.Mission.RemoveTimeSpeedRequest(864);
 				}
 				return;
 			}
+			MissionOrderVM dataSource = this._dataSource;
+			if (dataSource == null)
+			{
+				return;
+			}
+			dataSource.OnOrderLayoutTypeChanged();
 		}
 
 		public override void OnMissionScreenFinalize()
 		{
 			base.OnMissionScreenFinalize();
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
+			if (this._formationTargetHandler != null)
+			{
+				this._formationTargetHandler.OnFormationFocused -= this.OnFormationFocused;
+			}
 			this._deploymentPointDataSources = null;
 			this._orderTroopPlacer = null;
 			this._movie = null;
@@ -310,6 +326,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._siegeDeploymentHandler = null;
 			this._spriteCategory.Unload();
 			this._battleDeploymentHandler = null;
+			this._formationTargetHandler = null;
+		}
+
+		public OrderSetVM GetLastSelectedOrderSet()
+		{
+			return this._dataSource.LastSelectedOrderSet;
 		}
 
 		public override void OnConversationBegin()
@@ -380,8 +402,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 			else
 			{
-				this._orderTroopPlacer.SuspendTroopPlacer = true;
-				base.MissionScreen.SetOrderFlagVisibility(false);
+				this.SetSuspendTroopPlacer(true);
 				if (this._gauntletLayer != null)
 				{
 					ScreenManager.SetSuspendLayer(this._gauntletLayer, true);
@@ -401,11 +422,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this.IsBattleDeployment = false;
 			this._dataSource.OnDeploymentFinished();
 			this._deploymentPointDataSources.Clear();
-			this._orderTroopPlacer.SuspendTroopPlacer = true;
-			base.MissionScreen.SetOrderFlagVisibility(false);
+			this.SetSuspendTroopPlacer(true);
 			this._gauntletLayer.IsFocusLayer = false;
 			ScreenManager.TryLoseFocus(this._gauntletLayer);
 			base.MissionScreen.SetRadialMenuActiveState(false);
+			this._gauntletLayer._gauntletUIContext.ContextAlpha = (BannerlordConfig.HideBattleUI ? 0f : 1f);
 			if (this._deploymentMissionView != null)
 			{
 				DeploymentMissionView deploymentMissionView = this._deploymentMissionView;
@@ -488,6 +509,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
+		private void OnFormationFocused(MBReadOnlyList<Formation> focusedFormations)
+		{
+			this._focusedFormationsCache = focusedFormations;
+			this._dataSource.SetFocusedFormations(this._focusedFormationsCache);
+		}
+
 		void ISiegeDeploymentView.OnEntityHover(GameEntity hoveredEntity)
 		{
 			if (!this._gauntletLayer.IsHitThisFrame)
@@ -535,26 +562,22 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 					this._holdTime += dt;
 					if (this._holdTime >= this._minHoldTimeForActivation)
 					{
-						this._dataSource.OpenToggleOrder(true, !this._holdExecuted);
-						this._holdExecuted = true;
+						this._dataSource.OpenToggleOrder(true, !this._dataSource.IsHolding);
+						this._dataSource.IsHolding = true;
 					}
 				}
 				else if (!base.Input.IsGameKeyDown(86))
 				{
-					if (this._holdExecuted && this._dataSource.IsToggleOrderShown)
+					if (this._dataSource.IsHolding && this._dataSource.IsToggleOrderShown)
 					{
 						this._dataSource.TryCloseToggleOrder(false);
 					}
-					this._holdExecuted = false;
+					this._dataSource.IsHolding = false;
 					this._holdTime = 0f;
 				}
 			}
 			if (this._dataSource.IsToggleOrderShown)
 			{
-				if (this._dataSource.TroopController.IsTransferActive && this._gauntletLayer.Input.IsHotKeyPressed("Exit"))
-				{
-					this._dataSource.TroopController.IsTransferActive = false;
-				}
 				if (this._dataSource.ActiveTargetState == 0 && (base.Input.IsKeyReleased(224) || base.Input.IsKeyReleased(255)))
 				{
 					OrderItemVM lastSelectedOrderItem = this._dataSource.LastSelectedOrderItem;
@@ -568,10 +591,20 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 						{
 						case 0:
 						{
-							IOrderable focusedOrderableObject = this.GetFocusedOrderableObject();
-							if (focusedOrderableObject != null && OrderFlag.IsOrderPositionValid(ModuleExtensions.ToWorldPosition(base.MissionScreen.GetOrderFlagPosition())))
+							MBReadOnlyList<Formation> focusedFormationsCache = this._focusedFormationsCache;
+							if (focusedFormationsCache != null && focusedFormationsCache.Count > 0)
 							{
-								this._dataSource.OrderController.SetOrderWithOrderableObject(focusedOrderableObject);
+								this._dataSource.OrderController.SetOrderWithFormation(4, this._focusedFormationsCache[0]);
+								this.SetSuspendTroopPlacer(true);
+								this._targetFormationOrderGivenWithActionButton = true;
+							}
+							else
+							{
+								IOrderable focusedOrderableObject = this.GetFocusedOrderableObject();
+								if (focusedOrderableObject != null && OrderFlag.IsOrderPositionValid(ModuleExtensions.ToWorldPosition(base.MissionScreen.GetOrderFlagPosition())))
+								{
+									this._dataSource.OrderController.SetOrderWithOrderableObject(focusedOrderableObject);
+								}
 							}
 							break;
 						}
@@ -582,7 +615,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 							this._dataSource.OrderController.SetOrderWithPosition(25, new WorldPosition(Mission.Current.Scene, UIntPtr.Zero, base.MissionScreen.GetOrderFlagPosition(), false));
 							break;
 						default:
-							Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\Mission\\Singleplayer\\MissionGauntletSingleplayerOrderUIHandler.cs", "TickInput", 636);
+							Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\Mission\\Singleplayer\\MissionGauntletSingleplayerOrderUIHandler.cs", "TickInput", 686);
 							break;
 						}
 					}
@@ -597,13 +630,33 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 				this._isTransferEnabled = this._dataSource.TroopController.IsTransferActive;
 				if (!this._isTransferEnabled)
 				{
+					this._gauntletLayer._gauntletUIContext.ContextAlpha = (BannerlordConfig.HideBattleUI ? 0f : 1f);
 					this._gauntletLayer.IsFocusLayer = false;
 					ScreenManager.TryLoseFocus(this._gauntletLayer);
 				}
 				else
 				{
+					this._gauntletLayer._gauntletUIContext.ContextAlpha = 1f;
 					this._gauntletLayer.IsFocusLayer = true;
 					ScreenManager.TrySetFocus(this._gauntletLayer);
+				}
+			}
+			else if (this._dataSource.TroopController.IsTransferActive)
+			{
+				if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
+				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					this._dataSource.TroopController.ExecuteCancelTransfer();
+				}
+				else if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
+				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					this._dataSource.TroopController.ExecuteConfirmTransfer();
+				}
+				else if (this._gauntletLayer.Input.IsHotKeyReleased("Reset"))
+				{
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					this._dataSource.TroopController.ExecuteReset();
 				}
 			}
 			int num = -1;
@@ -722,8 +775,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 
 		private float _holdTime;
 
-		private bool _holdExecuted;
-
 		private DeploymentMissionView _deploymentMissionView;
 
 		private List<DeploymentSiegeMachineVM> _deploymentPointDataSources;
@@ -742,6 +793,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 
 		private BattleDeploymentHandler _battleDeploymentHandler;
 
+		private MissionFormationTargetSelectionHandler _formationTargetHandler;
+
+		private MBReadOnlyList<Formation> _focusedFormationsCache;
+
 		private bool _isReceivingInput;
 
 		private bool _isInitialized;
@@ -749,6 +804,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 		private bool _slowedDownMission;
 
 		private float _latestDt;
+
+		private bool _targetFormationOrderGivenWithActionButton;
 
 		private bool _isTransferEnabled;
 	}

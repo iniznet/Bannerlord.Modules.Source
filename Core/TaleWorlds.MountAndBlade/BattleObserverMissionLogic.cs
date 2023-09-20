@@ -16,24 +16,6 @@ namespace TaleWorlds.MountAndBlade
 		{
 			this._builtAgentCountForSides = new int[2];
 			this._removedAgentCountForSides = new int[2];
-			this._isSpawningInitialTroopsForSides = new bool[2];
-			for (int i = 0; i < 2; i++)
-			{
-				this._isSpawningInitialTroopsForSides[i] = true;
-			}
-			this._missionSpawnLogic = base.Mission.GetMissionBehavior<MissionAgentSpawnLogic>();
-			if (this._missionSpawnLogic != null)
-			{
-				this._missionSpawnLogic.OnInitialTroopsSpawned += this.OnInitialTroopsSpawned;
-			}
-		}
-
-		protected override void OnEndMission()
-		{
-			if (this._missionSpawnLogic != null)
-			{
-				this._missionSpawnLogic.OnInitialTroopsSpawned -= this.OnInitialTroopsSpawned;
-			}
 		}
 
 		public override void OnAgentBuild(Agent agent, Banner banner)
@@ -41,11 +23,8 @@ namespace TaleWorlds.MountAndBlade
 			if (agent.IsHuman)
 			{
 				BattleSideEnum side = agent.Team.Side;
-				if (this._isSpawningInitialTroopsForSides[(int)side] || base.Mission.Mode != MissionMode.Deployment)
-				{
-					this.BattleObserver.TroopNumberChanged(side, agent.Origin.BattleCombatant, agent.Character, 1, 0, 0, 0, 0, 0);
-					this._builtAgentCountForSides[(int)side]++;
-				}
+				this.BattleObserver.TroopNumberChanged(side, agent.Origin.BattleCombatant, agent.Character, 1, 0, 0, 0, 0, 0);
+				this._builtAgentCountForSides[(int)side]++;
 			}
 		}
 
@@ -54,27 +33,24 @@ namespace TaleWorlds.MountAndBlade
 			if (affectedAgent.IsHuman)
 			{
 				BattleSideEnum side = affectedAgent.Team.Side;
-				if (this._isSpawningInitialTroopsForSides[(int)side] || base.Mission.Mode != MissionMode.Deployment)
+				switch (agentState)
 				{
-					switch (agentState)
-					{
-					case AgentState.Routed:
-						this.BattleObserver.TroopNumberChanged(side, affectedAgent.Origin.BattleCombatant, affectedAgent.Character, -1, 0, 0, 1, 0, 0);
-						break;
-					case AgentState.Unconscious:
-						this.BattleObserver.TroopNumberChanged(side, affectedAgent.Origin.BattleCombatant, affectedAgent.Character, -1, 0, 1, 0, 0, 0);
-						break;
-					case AgentState.Killed:
-						this.BattleObserver.TroopNumberChanged(side, affectedAgent.Origin.BattleCombatant, affectedAgent.Character, -1, 1, 0, 0, 0, 0);
-						break;
-					default:
-						throw new ArgumentOutOfRangeException("agentState", agentState, null);
-					}
-					this._removedAgentCountForSides[(int)side]++;
-					if (affectorAgent != null && affectorAgent.IsHuman && (agentState == AgentState.Unconscious || agentState == AgentState.Killed))
-					{
-						this.BattleObserver.TroopNumberChanged(affectorAgent.Team.Side, affectorAgent.Origin.BattleCombatant, affectorAgent.Character, 0, 0, 0, 0, 1, 0);
-					}
+				case AgentState.Routed:
+					this.BattleObserver.TroopNumberChanged(side, affectedAgent.Origin.BattleCombatant, affectedAgent.Character, -1, 0, 0, 1, 0, 0);
+					break;
+				case AgentState.Unconscious:
+					this.BattleObserver.TroopNumberChanged(side, affectedAgent.Origin.BattleCombatant, affectedAgent.Character, -1, 0, 1, 0, 0, 0);
+					break;
+				case AgentState.Killed:
+					this.BattleObserver.TroopNumberChanged(side, affectedAgent.Origin.BattleCombatant, affectedAgent.Character, -1, 1, 0, 0, 0, 0);
+					break;
+				default:
+					throw new ArgumentOutOfRangeException("agentState", agentState, null);
+				}
+				this._removedAgentCountForSides[(int)side]++;
+				if (affectorAgent != null && affectorAgent.IsHuman && (agentState == AgentState.Unconscious || agentState == AgentState.Killed))
+				{
+					this.BattleObserver.TroopNumberChanged(affectorAgent.Team.Side, affectorAgent.Origin.BattleCombatant, affectorAgent.Character, 0, 0, 0, 0, 1, 0);
 				}
 			}
 		}
@@ -92,17 +68,8 @@ namespace TaleWorlds.MountAndBlade
 			return (float)this._removedAgentCountForSides[(int)side] / (float)this._builtAgentCountForSides[(int)side];
 		}
 
-		private void OnInitialTroopsSpawned(BattleSideEnum battleSide, int spawnedUnitCount)
-		{
-			this._isSpawningInitialTroopsForSides[(int)battleSide] = false;
-		}
-
 		private int[] _builtAgentCountForSides;
 
 		private int[] _removedAgentCountForSides;
-
-		private bool[] _isSpawningInitialTroopsForSides;
-
-		private MissionAgentSpawnLogic _missionSpawnLogic;
 	}
 }

@@ -6,6 +6,7 @@ namespace TaleWorlds.MountAndBlade
 	{
 		None,
 		Matchmaker,
-		Custom
+		Custom,
+		Community
 	}
 }

@@ -7,11 +7,11 @@ namespace NetworkMessages.FromClient
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromClient)]
 	public sealed class ApplyOrderWithMissionObject : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
-		public ApplyOrderWithMissionObject(MissionObject missionObject)
+		public ApplyOrderWithMissionObject(MissionObjectId missionObjectId)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 		}
 
 		public ApplyOrderWithMissionObject()
@@ -21,13 +21,13 @@ namespace NetworkMessages.FromClient
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -37,13 +37,7 @@ namespace NetworkMessages.FromClient
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Apply order to MissionObject with ID: ",
-				this.MissionObject.Id,
-				" and with name ",
-				this.MissionObject.GameEntity.Name
-			});
+			return "Apply order to MissionObject with ID: " + this.MissionObjectId + " and with name ";
 		}
 	}
 }

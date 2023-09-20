@@ -76,7 +76,7 @@ namespace TaleWorlds.DotNet
 			{
 				Controller.RuntimeLibrary = Runtime.DotNet;
 			}
-			else if (RuntimeInformation.FrameworkDescription.StartsWith(".NET Core"))
+			else if (RuntimeInformation.FrameworkDescription.StartsWith(".NET Core") || RuntimeInformation.FrameworkDescription.StartsWith(".NET 6"))
 			{
 				Controller.RuntimeLibrary = Runtime.DotNetCore;
 			}

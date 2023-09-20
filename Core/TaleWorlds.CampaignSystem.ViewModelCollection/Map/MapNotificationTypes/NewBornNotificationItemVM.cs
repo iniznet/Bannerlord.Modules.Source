@@ -19,11 +19,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 					Hero spouse = mother.Spouse;
 					if (spouse != null && spouse.IsAlive)
 					{
-						this._notification = new NewBornFemaleHeroSceneNotificationItem(mother.Spouse, mother);
+						this._notification = new NewBornFemaleHeroSceneNotificationItem(mother.Spouse, mother, data.CreationTime);
 					}
 					else
 					{
-						this._notification = new NewBornFemaleHeroSceneAlternateNotificationItem(mother.Spouse, mother);
+						this._notification = new NewBornFemaleHeroSceneAlternateNotificationItem(mother.Spouse, mother, data.CreationTime);
 					}
 				}
 				else
@@ -31,11 +31,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 					Hero spouse2 = mother.Spouse;
 					if (spouse2 != null && spouse2.IsAlive)
 					{
-						this._notification = new NewBornSceneNotificationItem(mother.Spouse, mother);
+						this._notification = new NewBornSceneNotificationItem(mother.Spouse, mother, data.CreationTime);
 					}
 					else
 					{
-						this._notification = new NewBornFemaleHeroSceneAlternateNotificationItem(mother.Spouse, mother);
+						this._notification = new NewBornFemaleHeroSceneAlternateNotificationItem(mother.Spouse, mother, data.CreationTime);
 					}
 				}
 			}

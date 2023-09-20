@@ -20,7 +20,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 
 		private void OnInspect(KingdomDestroyedMapNotification data)
 		{
-			MBInformationManager.ShowSceneNotification(new KingdomDestroyedSceneNotificationItem(data.DestroyedKingdom));
+			MBInformationManager.ShowSceneNotification(new KingdomDestroyedSceneNotificationItem(data.DestroyedKingdom, data.CreationTime));
 			base.ExecuteRemove();
 		}
 	}

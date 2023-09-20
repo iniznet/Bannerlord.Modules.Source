@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Issues;
@@ -10,7 +8,6 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Settlements.Locations;
 using TaleWorlds.Library;
-using TaleWorlds.Localization;
 using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem
@@ -54,6 +51,7 @@ namespace TaleWorlds.CampaignSystem
 		{
 			this._quests = new MBList<QuestBase>();
 			this._trackedObjects = new Dictionary<ITrackableCampaignObject, List<QuestBase>>();
+			this._currentHourlyTickQuestsToTimeout = new MBList<QuestBase>();
 			this.Initialize();
 		}
 
@@ -66,6 +64,7 @@ namespace TaleWorlds.CampaignSystem
 		private void Initialize()
 		{
 			this.TrackedObjects = this._trackedObjects.GetReadOnlyDictionary<ITrackableCampaignObject, List<QuestBase>>();
+			this._currentHourlyTickQuestsToTimeout = new MBList<QuestBase>();
 		}
 
 		public override void OnQuestStarted(QuestBase quest)
@@ -100,8 +99,9 @@ namespace TaleWorlds.CampaignSystem
 		public override void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			List<QuestBase> list = new List<QuestBase>();
-			foreach (QuestBase questBase in this.Quests.ToList<QuestBase>())
+			for (int i = this.Quests.Count - 1; i >= 0; i--)
 			{
+				QuestBase questBase = this.Quests[i];
 				if (questBase == null)
 				{
 					this._quests.Remove(questBase);
@@ -121,23 +121,24 @@ namespace TaleWorlds.CampaignSystem
 					if (flag || questBase.IsSpecialQuest)
 					{
 						questBase.InitializeQuestOnLoadWithQuestManager();
-						using (List<QuestTaskBase>.Enumerator enumerator3 = questBase.TaskList.GetEnumerator())
+						using (List<QuestTaskBase>.Enumerator enumerator2 = questBase.TaskList.GetEnumerator())
 						{
-							while (enumerator3.MoveNext())
+							while (enumerator2.MoveNext())
 							{
-								QuestTaskBase questTaskBase = enumerator3.Current;
+								QuestTaskBase questTaskBase = enumerator2.Current;
 								if (questTaskBase.IsActive)
 								{
 									questTaskBase.SetReferences();
 									questTaskBase.AddTaskDialogs();
 								}
 							}
-							continue;
+							goto IL_142;
 						}
 					}
 					list.Add(questBase);
-					Debug.FailedAssert(string.Concat(new object[] { "There is not active issue for quest: ", questBase.Title, " string id: ", questBase.StringId, ". Quest will be canceled." }), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "OnGameLoaded", 122);
+					Debug.FailedAssert(string.Concat(new object[] { "There is not active issue for quest: ", questBase.Title, " string id: ", questBase.StringId, ". Quest will be canceled." }), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "OnGameLoaded", 127);
 				}
+				IL_142:;
 			}
 			foreach (QuestBase questBase2 in list)
 			{
@@ -152,12 +153,25 @@ namespace TaleWorlds.CampaignSystem
 
 		public override void HourlyTick()
 		{
-			foreach (QuestBase questBase in this.Quests.ToList<QuestBase>())
+			for (int i = this.Quests.Count - 1; i >= 0; i--)
 			{
+				QuestBase questBase = this.Quests[i];
 				if (questBase.IsOngoing && questBase.QuestDueTime.IsPast)
 				{
-					questBase.CompleteQuestWithTimeOut(null);
+					this._currentHourlyTickQuestsToTimeout.Add(questBase);
 				}
+			}
+			foreach (QuestBase questBase2 in this._currentHourlyTickQuestsToTimeout)
+			{
+				if (!questBase2.IsFinalized)
+				{
+					questBase2.CompleteQuestWithTimeOut(null);
+				}
+			}
+			this._currentHourlyTickQuestsToTimeout.Clear();
+			for (int j = this.Quests.Count - 1; j >= 0; j--)
+			{
+				this.Quests[j].HourlyTickWithQuestManager();
 			}
 		}
 
@@ -217,23 +231,13 @@ namespace TaleWorlds.CampaignSystem
 
 		public override void OnPlayerCharacterChanged(Hero oldPlayer, Hero newPlayer, MobileParty newPlayerParty, bool isMainPartyChanged)
 		{
-			foreach (QuestBase questBase in this.Quests.ToList<QuestBase>())
+			for (int i = this.Quests.Count - 1; i >= 0; i--)
 			{
+				QuestBase questBase = this.Quests[i];
 				if (questBase.IsOngoing && !questBase.IsSpecialQuest)
 				{
 					questBase.CompleteQuestWithFail(null);
 				}
-			}
-		}
-
-		public override void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
-		{
-			IssueBase issue = victim.Issue;
-			if (((issue != null) ? issue.IssueQuest : null) != null && victim.Issue.IssueQuest.IsOngoing && !victim.IsNotable)
-			{
-				TextObject textObject = new TextObject("{=rTvWdMXF}{DIED_HERO.LINK} died and your agreement with {?DIED_HERO.GENDER}her{?}him{\\?} canceled.", null);
-				StringHelpers.SetCharacterProperties("DIED_HERO", victim.CharacterObject, textObject, false);
-				victim.Issue.IssueQuest.CompleteQuestWithCancel(textObject);
 			}
 		}
 
@@ -351,7 +355,7 @@ namespace TaleWorlds.CampaignSystem
 				list.Add(relatedQuest);
 				return;
 			}
-			Debug.FailedAssert(trackedObject.GetName() + " already contains quest: " + relatedQuest.Title, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "AddTrackedObjectForQuest", 348);
+			Debug.FailedAssert(trackedObject.GetName() + " already contains quest: " + relatedQuest.Title, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "AddTrackedObjectForQuest", 362);
 		}
 
 		public void RemoveTrackedObjectForQuest(ITrackableCampaignObject trackedObject, QuestBase relatedQuest)
@@ -361,7 +365,7 @@ namespace TaleWorlds.CampaignSystem
 			{
 				if (!list.Contains(relatedQuest))
 				{
-					Debug.FailedAssert(trackedObject.GetName() + " is not tracked by quest: " + relatedQuest.Title, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "RemoveTrackedObjectForQuest", 372);
+					Debug.FailedAssert(trackedObject.GetName() + " is not tracked by quest: " + relatedQuest.Title, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "RemoveTrackedObjectForQuest", 386);
 					return;
 				}
 				list.Remove(relatedQuest);
@@ -374,7 +378,7 @@ namespace TaleWorlds.CampaignSystem
 			}
 			else
 			{
-				Debug.FailedAssert(trackedObject.GetName() + " does not track any quests.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "RemoveTrackedObjectForQuest", 377);
+				Debug.FailedAssert(trackedObject.GetName() + " does not track any quests.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestManager.cs", "RemoveTrackedObjectForQuest", 391);
 			}
 		}
 
@@ -456,6 +460,8 @@ namespace TaleWorlds.CampaignSystem
 		public const string CharacterTalkToken = "start";
 
 		public static string PriorQuestName;
+
+		private MBList<QuestBase> _currentHourlyTickQuestsToTimeout;
 
 		[SaveableField(0)]
 		private readonly MBList<QuestBase> _quests;

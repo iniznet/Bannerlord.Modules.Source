@@ -148,7 +148,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.SetActivationLoadAmmoPoint(false);
 			}
-			this.EnemyRangeToStopUsing = 7f;
+			this.EnemyRangeToStopUsing = 9f;
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
@@ -496,16 +496,6 @@ namespace TaleWorlds.MountAndBlade
 			{
 				Mat3 rotation = this._body.GameEntity.GetGlobalFrame().rotation;
 				rotation.RotateAboutSide(-this.currentReleaseAngle);
-				return rotation.TransformToParent(new Vec3(0f, -1f, 0f, -1f));
-			}
-		}
-
-		protected override Vec3 VisualizationShootingDirection
-		{
-			get
-			{
-				Mat3 rotation = this._body.GameEntity.GetGlobalFrame().rotation;
-				rotation.RotateAboutSide(-this.VisualizeReleaseTrajectoryAngle);
 				return rotation.TransformToParent(new Vec3(0f, -1f, 0f, -1f));
 			}
 		}

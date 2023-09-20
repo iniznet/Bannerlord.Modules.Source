@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.Core;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
@@ -43,6 +45,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				CampaignOptions.IsIronmanMode = value == 1f;
 			}, null, false, null, null);
 			yield return new ActionCampaignOptionData("ResetTutorial", 10000, CampaignOptionEnableState.Enabled, new Action(this.ExecuteResetTutorial), null);
+			if (Input.IsGamepadActive)
+			{
+				yield return new ActionCampaignOptionData("EnableCheats", 11000, CampaignOptionEnableState.Enabled, new Action(this.ExecuteEnableCheats), null);
+			}
 			yield break;
 			yield break;
 		}
@@ -187,6 +193,15 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 		private void ExecuteResetTutorial()
 		{
 			InformationManager.ShowInquiry(new InquiryData(new TextObject("{=a4GDfSel}Reset Tutorials", null).ToString(), new TextObject("{=I2sZ7K28}Are you sure want to reset tutorials?", null).ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.ResetTutorials), null, "", 0f, null, null, null), false, false);
+		}
+
+		private void ExecuteEnableCheats()
+		{
+			MapState mapState;
+			if ((mapState = GameStateManager.Current.ActiveState as MapState) != null)
+			{
+				mapState.Handler.OnGameplayCheatsEnabled();
+			}
 		}
 
 		private void ResetTutorials()

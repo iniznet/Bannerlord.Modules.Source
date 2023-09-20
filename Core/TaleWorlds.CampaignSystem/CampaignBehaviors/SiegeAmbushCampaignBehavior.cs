@@ -2,6 +2,7 @@
 using Helpers;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.GameMenus;
+using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
@@ -15,7 +16,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnAfterSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterSessionLaunched));
-			CampaignEvents.OnPlayerSiegeStartedEvent.AddNonSerializedListener(this, new Action(this.OnPlayerSiegeStarted));
+			CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 			CampaignEvents.OnSiegeEventEndedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeEventEnded));
 			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 			CampaignEvents.OnMissionEndedEvent.AddNonSerializedListener(this, new Action<IMission>(this.OnMissionEnded));
@@ -31,9 +32,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		private void OnPlayerSiegeStarted()
+		private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
 		{
-			if (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.IsPreparationComplete)
+			if (mapEvent.IsSiegeAmbush)
 			{
 				this._lastAmbushTime = CampaignTime.Now;
 			}
@@ -57,12 +58,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnMissionEnded(IMission mission)
 		{
-			PlayerEncounter playerEncounter = PlayerEncounter.Current;
-			if (playerEncounter == null)
+			MapEvent battle = PlayerEncounter.Battle;
+			if (battle != null && battle.IsSiegeAmbush)
 			{
-				return;
+				PlayerEncounter.Current.FinalizeBattle();
+				PlayerEncounter.Current.SetIsSallyOutAmbush(false);
 			}
-			playerEncounter.SetIsSallyOutAmbush(false);
 		}
 
 		private bool CanMainHeroAmbush(out TextObject reason)
@@ -78,7 +79,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return false;
 			}
 			SiegeEvent playerSiegeEvent = PlayerSiege.PlayerSiegeEvent;
-			if (playerSiegeEvent.BesiegerCamp.BesiegerParty.MapEvent != null && MobileParty.MainParty.MapEvent == null)
+			if (playerSiegeEvent.BesiegerCamp.LeaderParty.MapEvent != null && MobileParty.MainParty.MapEvent == null)
 			{
 				reason = new TextObject("{=GAh1gNYn}Enemies are already engaged in battle.", null);
 				return false;
@@ -123,7 +124,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this._lastAmbushTime = CampaignTime.Now;
 			if (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && !PlayerEncounter.EncounterSettlement.MapFaction.IsAtWarWith(MobileParty.MainParty.MapFaction))
 			{
-				PlayerEncounter.RestartPlayerEncounter(PartyBase.MainParty, PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.Party, false);
+				PlayerEncounter.RestartPlayerEncounter(PartyBase.MainParty, PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Party, false);
 			}
 			PlayerEncounter.Current.SetIsSallyOutAmbush(true);
 			PlayerEncounter.StartBattle();

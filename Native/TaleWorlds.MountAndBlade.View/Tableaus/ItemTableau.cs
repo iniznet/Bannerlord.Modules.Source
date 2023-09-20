@@ -49,7 +49,7 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 			else
 			{
-				this.RenderScale = NativeOptions.GetConfig(21) / 100f;
+				this.RenderScale = NativeOptions.GetConfig(25) / 100f;
 				this._tableauSizeX = (int)((float)width * this.RenderScale);
 				this._tableauSizeY = (int)((float)height * this.RenderScale);
 			}

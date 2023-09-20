@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Input;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 {
 	public class OrderTroopItemVM : OrderSubjectVM
 	{
+		public static event Action<OrderTroopItemVM, bool> OnSelectionChange;
+
 		public bool ContainsDeadTroop { get; private set; }
 
 		public OrderTroopItemVM(Formation formation, Action<OrderTroopItemVM> setSelected, Func<Formation, int> getMorale)
@@ -57,6 +60,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		public override void OnFinalize()
 		{
 			this.Formation.OnUnitCountChanged -= this.FormationOnOnUnitCountChanged;
+		}
+
+		protected override void OnSelectionStateChanged(bool isSelected)
+		{
+			Action<OrderTroopItemVM, bool> onSelectionChange = OrderTroopItemVM.OnSelectionChange;
+			if (onSelectionChange == null)
+			{
+				return;
+			}
+			onSelectionChange(this, isSelected);
 		}
 
 		private void FormationOnOnUnitCountChanged(Formation formation)
@@ -145,10 +158,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 
 		public bool SetFormationClassFromFormation(Formation formation)
 		{
-			bool flag = formation.QuerySystem.InfantryUnitRatio > 0f;
-			bool flag2 = formation.QuerySystem.RangedUnitRatio > 0f;
-			bool flag3 = formation.QuerySystem.CavalryUnitRatio > 0f;
-			bool flag4 = formation.QuerySystem.RangedCavalryUnitRatio > 0f;
+			bool flag = formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.Infantry) > 0;
+			bool flag2 = formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.Ranged) > 0;
+			bool flag3 = formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.Cavalry) > 0;
+			bool flag4 = formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.HorseArcher) > 0;
 			if (flag && this._cachedInfantryItem == null)
 			{
 				this._cachedInfantryItem = new OrderTroopItemFormationClassVM(formation, FormationClass.Infantry);
@@ -209,6 +222,27 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		public void ExecuteAction()
 		{
 			this.SetSelected(this);
+		}
+
+		public void RefreshTargetedOrderVisual()
+		{
+			bool flag = false;
+			string text = null;
+			string text2 = null;
+			Formation targetFormation = this.Formation.TargetFormation;
+			if (targetFormation != null)
+			{
+				OrderSubType activeMovementOrderOfFormation = OrderUIHelper.GetActiveMovementOrderOfFormation(this.Formation);
+				if (activeMovementOrderOfFormation != OrderSubType.None && OrderUIHelper.CanOrderHaveTarget(activeMovementOrderOfFormation))
+				{
+					flag = true;
+					text2 = MissionFormationMarkerTargetVM.GetFormationType(targetFormation.PhysicalClass);
+					text = activeMovementOrderOfFormation.ToString();
+				}
+			}
+			this.HasTarget = flag;
+			this.CurrentOrderIconId = text;
+			this.CurrentTargetFormationType = text2;
 		}
 
 		[DataSourceProperty]
@@ -298,6 +332,74 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		}
 
 		[DataSourceProperty]
+		public bool HasTarget
+		{
+			get
+			{
+				return this._hasTarget;
+			}
+			set
+			{
+				if (value != this._hasTarget)
+				{
+					this._hasTarget = value;
+					base.OnPropertyChangedWithValue(value, "HasTarget");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsTargetRelevant
+		{
+			get
+			{
+				return this._isTargetRelevant;
+			}
+			set
+			{
+				if (value != this._isTargetRelevant)
+				{
+					this._isTargetRelevant = value;
+					base.OnPropertyChangedWithValue(value, "IsTargetRelevant");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string CurrentOrderIconId
+		{
+			get
+			{
+				return this._currentOrderIconId;
+			}
+			set
+			{
+				if (value != this._currentOrderIconId)
+				{
+					this._currentOrderIconId = value;
+					base.OnPropertyChangedWithValue<string>(value, "CurrentOrderIconId");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string CurrentTargetFormationType
+		{
+			get
+			{
+				return this._currentTargetFormationType;
+			}
+			set
+			{
+				if (value != this._currentTargetFormationType)
+				{
+					this._currentTargetFormationType = value;
+					base.OnPropertyChangedWithValue<string>(value, "CurrentTargetFormationType");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public ImageIdentifierVM CommanderImageIdentifier
 		{
 			get
@@ -375,6 +477,14 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		private bool _isAmmoAvailable;
 
 		private bool _haveTroops;
+
+		private bool _hasTarget;
+
+		private bool _isTargetRelevant;
+
+		private string _currentOrderIconId;
+
+		private string _currentTargetFormationType;
 
 		private ImageIdentifierVM _commanderImageIdentifier;
 

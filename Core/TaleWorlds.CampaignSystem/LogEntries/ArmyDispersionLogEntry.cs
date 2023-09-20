@@ -75,8 +75,8 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 		{
 			this._armyLeader = army.ArmyOwner.CharacterObject;
 			this._encyclopediaLinkWithName = army.EncyclopediaLinkWithName;
-			Kingdom mapFaction = army.MapFaction;
-			this._notificationTextColor = ((mapFaction != null) ? mapFaction.LabelColor : 0U);
+			Kingdom kingdom = army.Kingdom;
+			this._notificationTextColor = ((kingdom != null) ? kingdom.LabelColor : 0U);
 			this.DispersionReason = reason;
 			this._isVisibleNotification = army.LeaderParty.MapFaction == Hero.MainHero.MapFaction && army.Parties.IndexOf(MobileParty.MainParty) >= 0;
 		}

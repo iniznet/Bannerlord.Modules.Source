@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using Newtonsoft.Json;
 using TaleWorlds.Library;
 
 namespace TaleWorlds.Core
 {
+	[JsonConverter(typeof(BodyPropertiesJsonConverter))]
 	[Serializable]
 	public struct BodyProperties
 	{
@@ -184,7 +186,7 @@ namespace TaleWorlds.Core
 				bodyProperties = default(BodyProperties);
 				return false;
 			}
-			Debug.FailedAssert("unknown body properties format:\n" + keyValue, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BodyProperties.cs", "FromString", 145);
+			Debug.FailedAssert("unknown body properties format:\n" + keyValue, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BodyProperties.cs", "FromString", 148);
 			bodyProperties = default(BodyProperties);
 			return false;
 		}

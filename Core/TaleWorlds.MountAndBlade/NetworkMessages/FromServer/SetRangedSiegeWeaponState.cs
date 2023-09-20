@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetRangedSiegeWeaponState : GameNetworkMessage
 	{
-		public RangedSiegeWeapon RangedSiegeWeapon { get; private set; }
+		public MissionObjectId RangedSiegeWeaponId { get; private set; }
 
 		public RangedSiegeWeapon.WeaponState State { get; private set; }
 
-		public SetRangedSiegeWeaponState(RangedSiegeWeapon rangedSiegeWeapon, RangedSiegeWeapon.WeaponState state)
+		public SetRangedSiegeWeaponState(MissionObjectId rangedSiegeWeaponId, RangedSiegeWeapon.WeaponState state)
 		{
-			this.RangedSiegeWeapon = rangedSiegeWeapon;
+			this.RangedSiegeWeaponId = rangedSiegeWeaponId;
 			this.State = state;
 		}
 
@@ -24,15 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			MissionObject missionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
-			this.RangedSiegeWeapon = missionObject as RangedSiegeWeapon;
+			this.RangedSiegeWeaponId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.State = (RangedSiegeWeapon.WeaponState)GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponStateCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.RangedSiegeWeapon);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.RangedSiegeWeaponId);
 			GameNetworkMessage.WriteIntToPacket((int)this.State, CompressionMission.RangedSiegeWeaponStateCompressionInfo);
 		}
 
@@ -43,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set RangedSiegeWeapon State to: ",
-				this.State,
-				" on RangedSiegeWeapon with ID: ",
-				this.RangedSiegeWeapon.Id,
-				" and name: ",
-				this.RangedSiegeWeapon.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Set RangedSiegeWeapon State to: ", this.State, " on RangedSiegeWeapon with ID: ", this.RangedSiegeWeaponId });
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Helpers;
 using TaleWorlds.CampaignSystem.CraftingSystem;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Quests;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
@@ -14,7 +15,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 	{
 		public CraftingOrder CraftingOrder { get; }
 
-		public CraftingOrderItemVM(CraftingOrder order, Action<CraftingOrderItemVM> onSelection, Func<CraftingAvailableHeroItemVM> getCurrentCraftingHero, List<CraftingStatData> orderStatDatas)
+		public CraftingOrderItemVM(CraftingOrder order, Action<CraftingOrderItemVM> onSelection, Func<CraftingAvailableHeroItemVM> getCurrentCraftingHero, List<CraftingStatData> orderStatDatas, CampaignUIHelper.IssueQuestFlags questFlags = CampaignUIHelper.IssueQuestFlags.None)
 		{
 			this.CraftingOrder = order;
 			this._orderOwner = order.OrderOwner;
@@ -25,8 +26,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.OrderOwnerData = new HeroVM(this._orderOwner, false);
 			this._weaponTemplate = order.PreCraftedWeaponDesignItem.WeaponDesign.Template;
 			this.OrderWeaponTypeCode = this._weaponTemplate.StringId;
+			this.Quests = this.GetQuestMarkers(questFlags);
+			this.IsQuestOrder = this.Quests.Count > 0;
 			this.RefreshValues();
 			this.RefreshStats();
+		}
+
+		private MBBindingList<QuestMarkerVM> GetQuestMarkers(CampaignUIHelper.IssueQuestFlags flags)
+		{
+			MBBindingList<QuestMarkerVM> mbbindingList = new MBBindingList<QuestMarkerVM>();
+			if ((flags & CampaignUIHelper.IssueQuestFlags.ActiveIssue) != CampaignUIHelper.IssueQuestFlags.None)
+			{
+				mbbindingList.Add(new QuestMarkerVM(CampaignUIHelper.IssueQuestFlags.ActiveIssue, null, null));
+			}
+			if ((flags & CampaignUIHelper.IssueQuestFlags.ActiveStoryQuest) != CampaignUIHelper.IssueQuestFlags.None)
+			{
+				mbbindingList.Add(new QuestMarkerVM(CampaignUIHelper.IssueQuestFlags.ActiveStoryQuest, null, null));
+			}
+			return mbbindingList;
 		}
 
 		public void RefreshStats()
@@ -35,7 +52,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			ItemObject preCraftedWeaponDesignItem = this.CraftingOrder.PreCraftedWeaponDesignItem;
 			if (((preCraftedWeaponDesignItem != null) ? preCraftedWeaponDesignItem.Weapons : null) == null)
 			{
-				Debug.FailedAssert("Crafting order does not contain any valid weapons", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Crafting\\WeaponDesign\\Order\\CraftingOrderItemVM.cs", "RefreshStats", 50);
+				Debug.FailedAssert("Crafting order does not contain any valid weapons", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Crafting\\WeaponDesign\\Order\\CraftingOrderItemVM.cs", "RefreshStats", 71);
 				return;
 			}
 			this.CraftingOrder.GetStatWeapon();
@@ -83,6 +100,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		}
 
 		[DataSourceProperty]
+		public bool IsEnabled
+		{
+			get
+			{
+				return this._isEnabled;
+			}
+			set
+			{
+				if (value != this._isEnabled)
+				{
+					this._isEnabled = value;
+					base.OnPropertyChangedWithValue(value, "IsEnabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsSelected
+		{
+			get
+			{
+				return this._isSelected;
+			}
+			set
+			{
+				if (value != this._isSelected)
+				{
+					this._isSelected = value;
+					base.OnPropertyChangedWithValue(value, "IsSelected");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public bool HasAvailableHeroes
 		{
 			get
@@ -112,6 +163,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 				{
 					this._isDifficultySuitableForHero = value;
 					base.OnPropertyChangedWithValue(value, "IsDifficultySuitableForHero");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsQuestOrder
+		{
+			get
+			{
+				return this._isQuestOrder;
+			}
+			set
+			{
+				if (value != this._isQuestOrder)
+				{
+					this._isQuestOrder = value;
+					base.OnPropertyChangedWithValue(value, "IsQuestOrder");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public int OrderPrice
+		{
+			get
+			{
+				return this._orderPrice;
+			}
+			set
+			{
+				if (value != this._orderPrice)
+				{
+					this._orderPrice = value;
+					base.OnPropertyChangedWithValue(value, "OrderPrice");
 				}
 			}
 		}
@@ -185,18 +270,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		}
 
 		[DataSourceProperty]
-		public MBBindingList<WeaponAttributeVM> WeaponAttributes
+		public string OrderWeaponTypeCode
 		{
 			get
 			{
-				return this._weaponAttributes;
+				return this._orderWeaponTypeCode;
 			}
 			set
 			{
-				if (value != this._weaponAttributes)
+				if (value != this._orderWeaponTypeCode)
 				{
-					this._weaponAttributes = value;
-					base.OnPropertyChangedWithValue<MBBindingList<WeaponAttributeVM>>(value, "WeaponAttributes");
+					this._orderWeaponTypeCode = value;
+					base.OnPropertyChangedWithValue<string>(value, "OrderWeaponTypeCode");
 				}
 			}
 		}
@@ -236,69 +321,35 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		}
 
 		[DataSourceProperty]
-		public int OrderPrice
+		public MBBindingList<QuestMarkerVM> Quests
 		{
 			get
 			{
-				return this._orderPrice;
+				return this._quests;
 			}
 			set
 			{
-				if (value != this._orderPrice)
+				if (value != this._quests)
 				{
-					this._orderPrice = value;
-					base.OnPropertyChangedWithValue(value, "OrderPrice");
+					this._quests = value;
+					base.OnPropertyChangedWithValue<MBBindingList<QuestMarkerVM>>(value, "Quests");
 				}
 			}
 		}
 
 		[DataSourceProperty]
-		public bool IsEnabled
+		public MBBindingList<WeaponAttributeVM> WeaponAttributes
 		{
 			get
 			{
-				return this._isEnabled;
+				return this._weaponAttributes;
 			}
 			set
 			{
-				if (value != this._isEnabled)
+				if (value != this._weaponAttributes)
 				{
-					this._isEnabled = value;
-					base.OnPropertyChangedWithValue(value, "IsEnabled");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public bool IsSelected
-		{
-			get
-			{
-				return this._isSelected;
-			}
-			set
-			{
-				if (value != this._isSelected)
-				{
-					this._isSelected = value;
-					base.OnPropertyChangedWithValue(value, "IsSelected");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public string OrderWeaponTypeCode
-		{
-			get
-			{
-				return this._orderWeaponTypeCode;
-			}
-			set
-			{
-				if (value != this._orderWeaponTypeCode)
-				{
-					this._orderWeaponTypeCode = value;
-					base.OnPropertyChangedWithValue<string>(value, "OrderWeaponTypeCode");
+					this._weaponAttributes = value;
+					base.OnPropertyChangedWithValue<MBBindingList<WeaponAttributeVM>>(value, "WeaponAttributes");
 				}
 			}
 		}
@@ -315,9 +366,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		private List<CraftingStatData> _orderStatDatas;
 
+		private bool _isEnabled;
+
+		private bool _isSelected;
+
 		private bool _hasAvailableHeroes;
 
 		private bool _isDifficultySuitableForHero;
+
+		private bool _isQuestOrder;
+
+		private int _orderPrice;
 
 		private string _orderDifficultyLabelText;
 
@@ -327,18 +386,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		private string _orderWeaponType;
 
-		private MBBindingList<WeaponAttributeVM> _weaponAttributes;
+		private string _orderWeaponTypeCode;
 
 		private HeroVM _orderOwnerData;
 
-		private int _orderPrice;
-
-		private bool _isEnabled;
-
-		private bool _isSelected;
-
 		private BasicTooltipViewModel _disabledReasonHint;
 
-		private string _orderWeaponTypeCode;
+		private MBBindingList<QuestMarkerVM> _quests;
+
+		private MBBindingList<WeaponAttributeVM> _weaponAttributes;
 	}
 }

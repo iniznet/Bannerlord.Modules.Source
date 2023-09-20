@@ -188,8 +188,44 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
+		private List<Tuple<Hero, SkillEffect.PerkRole>> GetPartyHeroesWithPerks(TroopRoster roster)
+		{
+			MobileParty mobileParty;
+			if (roster == null)
+			{
+				mobileParty = null;
+			}
+			else
+			{
+				PartyBase ownerParty = roster.OwnerParty;
+				mobileParty = ((ownerParty != null) ? ownerParty.MobileParty : null);
+			}
+			MobileParty mobileParty2 = mobileParty;
+			if (mobileParty2 == null)
+			{
+				return null;
+			}
+			List<Tuple<Hero, SkillEffect.PerkRole>> list = new List<Tuple<Hero, SkillEffect.PerkRole>>();
+			for (int i = 0; i < roster.Count; i++)
+			{
+				CharacterObject characterAtIndex = roster.GetCharacterAtIndex(i);
+				Hero hero = ((characterAtIndex != null) ? characterAtIndex.HeroObject : null);
+				if (hero != null)
+				{
+					SkillEffect.PerkRole heroPerkRole = mobileParty2.GetHeroPerkRole(hero);
+					if (heroPerkRole != SkillEffect.PerkRole.None)
+					{
+						list.Add(new Tuple<Hero, SkillEffect.PerkRole>(hero, heroPerkRole));
+					}
+				}
+			}
+			return list;
+		}
+
 		public void ResetUsing(PartyScreenData partyScreenData)
 		{
+			List<Tuple<Hero, SkillEffect.PerkRole>> partyHeroesWithPerks = this.GetPartyHeroesWithPerks(this.LeftMemberRoster);
+			List<Tuple<Hero, SkillEffect.PerkRole>> partyHeroesWithPerks2 = this.GetPartyHeroesWithPerks(this.RightMemberRoster);
 			this.RightMemberRoster.Clear();
 			this.RightMemberRoster.RemoveZeroCounts();
 			for (int i = 0; i < partyScreenData.RightMemberRoster.Count; i++)
@@ -246,6 +282,67 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.TransferredPrisonersHistory = new List<Tuple<CharacterObject, int>>(partyScreenData.TransferredPrisonersHistory);
 			this.RecruitedPrisonersHistory = new List<Tuple<CharacterObject, int>>(partyScreenData.RecruitedPrisonersHistory);
 			this.UsedUpgradeHorsesHistory = new List<Tuple<EquipmentElement, int>>(partyScreenData.UsedUpgradeHorsesHistory);
+			if (partyHeroesWithPerks != null)
+			{
+				PartyBase leftParty2 = this.LeftParty;
+				if (((leftParty2 != null) ? leftParty2.MobileParty : null) != null)
+				{
+					for (int n = 0; n < partyHeroesWithPerks.Count; n++)
+					{
+						this.LeftParty.MobileParty.SetHeroPerkRole(partyHeroesWithPerks[n].Item1, partyHeroesWithPerks[n].Item2);
+					}
+				}
+			}
+			if (partyHeroesWithPerks2 != null)
+			{
+				PartyBase rightParty2 = this.RightParty;
+				if (((rightParty2 != null) ? rightParty2.MobileParty : null) != null)
+				{
+					for (int num = 0; num < partyHeroesWithPerks2.Count; num++)
+					{
+						this.RightParty.MobileParty.SetHeroPerkRole(partyHeroesWithPerks2[num].Item1, partyHeroesWithPerks2[num].Item2);
+					}
+				}
+			}
+		}
+
+		public bool IsThereAnyTroopTradeDifferenceBetween(PartyScreenData other)
+		{
+			MBList<TroopRosterElement> troopRoster = this.RightMemberRoster.GetTroopRoster();
+			MBList<TroopRosterElement> troopRoster2 = other.RightMemberRoster.GetTroopRoster();
+			if (troopRoster.Count != troopRoster2.Count)
+			{
+				return true;
+			}
+			using (List<TroopRosterElement>.Enumerator enumerator = troopRoster.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					TroopRosterElement elem2 = enumerator.Current;
+					if (troopRoster2.FindIndex((TroopRosterElement x) => x.Character == elem2.Character && x.Number == elem2.Number) == -1)
+					{
+						return true;
+					}
+				}
+			}
+			MBList<TroopRosterElement> troopRoster3 = this.RightPrisonerRoster.GetTroopRoster();
+			MBList<TroopRosterElement> troopRoster4 = other.RightPrisonerRoster.GetTroopRoster();
+			if (troopRoster3.Count != troopRoster4.Count)
+			{
+				return true;
+			}
+			using (List<TroopRosterElement>.Enumerator enumerator = troopRoster3.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					TroopRosterElement elem = enumerator.Current;
+					if (troopRoster4.FindIndex((TroopRosterElement x) => x.Character == elem.Character && x.Number == elem.Number) == -1)
+					{
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 		public List<TroopTradeDifference> GetTroopTradeDifferencesFromTo(PartyScreenData toPartyScreenData)
@@ -314,6 +411,44 @@ namespace TaleWorlds.CampaignSystem.Party
 					" name: ",
 					valueTuple.Item1.Character.StringId
 				}), 0, Debug.DebugColor.White, 17592186044416UL);
+			}
+			foreach (ValueTuple<TroopRosterElement, bool> valueTuple3 in toPartyScreenData)
+			{
+				TroopRosterElement troopRosterElement = valueTuple3.Item1;
+				int number2 = troopRosterElement.Number;
+				int num3 = 0;
+				foreach (ValueTuple<TroopRosterElement, bool> valueTuple4 in this)
+				{
+					if (valueTuple3.Item1.Character == valueTuple4.Item1.Character && valueTuple3.Item2 == valueTuple4.Item2)
+					{
+						int num4 = num3;
+						troopRosterElement = valueTuple3.Item1;
+						num3 = num4 + troopRosterElement.Number;
+					}
+				}
+				if (num3 != number2)
+				{
+					TroopTradeDifference troopTradeDifference2 = new TroopTradeDifference
+					{
+						Troop = valueTuple3.Item1.Character,
+						ToCount = number2,
+						FromCount = num3,
+						IsPrisoner = valueTuple3.Item2
+					};
+					if (!list.Contains(troopTradeDifference2))
+					{
+						list.Add(troopTradeDifference2);
+						Debug.Print(string.Concat(new object[]
+						{
+							"currently owned: ",
+							num3,
+							", previously owned: ",
+							number2,
+							" name: ",
+							valueTuple3.Item1.Character.StringId
+						}), 0, Debug.DebugColor.White, 17592186044416UL);
+					}
+				}
 			}
 			return list;
 		}

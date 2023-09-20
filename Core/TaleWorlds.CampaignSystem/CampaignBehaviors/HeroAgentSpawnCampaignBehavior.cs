@@ -82,7 +82,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnGovernorChanged(Town town, Hero oldGovernor, Hero newGovernor)
 		{
-			if (oldGovernor != null)
+			if (oldGovernor != null && oldGovernor.IsAlive)
 			{
 				LocationCharacter locationCharacterOfHero = town.Settlement.LocationComplex.GetLocationCharacterOfHero(oldGovernor);
 				if (locationCharacterOfHero != null)
@@ -564,8 +564,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 			if (settlement.IsTown)
 			{
+				IAlleyCampaignBehavior campaignBehavior = CampaignBehaviorBase.GetCampaignBehavior<IAlleyCampaignBehavior>();
 				Location location;
-				if (CampaignBehaviorBase.GetCampaignBehavior<IAlleyCampaignBehavior>().IsHeroAlleyLeaderOfAnyPlayerAlley(wanderer))
+				if (campaignBehavior != null && campaignBehavior.IsHeroAlleyLeaderOfAnyPlayerAlley(wanderer))
 				{
 					location = HeroAgentSpawnCampaignBehavior.Alley;
 				}

@@ -12,6 +12,18 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 	{
 		public Texture Texture { get; private set; }
 
+		public bool IsRunningCustomAnimation
+		{
+			get
+			{
+				return this._customAnimation != null || this._customAnimationStartScheduled;
+			}
+		}
+
+		public bool ShouldLoopCustomAnimation { get; set; }
+
+		public float CustomAnimationWaitDuration { get; set; }
+
 		private TableauView View
 		{
 			get
@@ -26,6 +38,8 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 
 		public CharacterTableau()
 		{
+			this._leftHandEquipmentIndex = -1;
+			this._rightHandEquipmentIndex = -1;
 			this._isVisualsDirty = false;
 			this._equipment = new Equipment();
 			this.SetEnabled(true);
@@ -34,6 +48,37 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 
 		public void OnTick(float dt)
 		{
+			if (this._customAnimationStartScheduled)
+			{
+				this.StartCustomAnimation();
+			}
+			if (this._customAnimation != null && this._characterActionSet.IsValid)
+			{
+				this._customAnimationTimer += dt;
+				float actionAnimationDuration = MBActionSet.GetActionAnimationDuration(this._characterActionSet, this._customAnimation);
+				if (this._customAnimationTimer > actionAnimationDuration)
+				{
+					if (this._customAnimationTimer > actionAnimationDuration + this.CustomAnimationWaitDuration)
+					{
+						if (this.ShouldLoopCustomAnimation)
+						{
+							this.StartCustomAnimation();
+						}
+						else
+						{
+							this.StopCustomAnimationIfCantContinue();
+						}
+					}
+					else
+					{
+						AgentVisuals agentVisuals = this._agentVisuals;
+						if (agentVisuals != null)
+						{
+							agentVisuals.SetAction(this.GetIdleAction(), 0f, true);
+						}
+					}
+				}
+			}
 			if (this._isEnabled && this._isRotatingCharacter)
 			{
 				this.UpdateCharacterRotation((int)Input.MouseMoveX);
@@ -44,10 +89,10 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 			if (this._isEnabled)
 			{
-				AgentVisuals agentVisuals = this._agentVisuals;
-				if (agentVisuals != null)
+				AgentVisuals agentVisuals2 = this._agentVisuals;
+				if (agentVisuals2 != null)
 				{
-					agentVisuals.TickVisuals();
+					agentVisuals2.TickVisuals();
 				}
 				AgentVisuals oldAgentVisuals = this._oldAgentVisuals;
 				if (oldAgentVisuals != null)
@@ -104,12 +149,50 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 				{
 					oldAgentVisuals2.SetVisible(false);
 				}
-				AgentVisuals agentVisuals2 = this._agentVisuals;
-				if (agentVisuals2 == null)
+				AgentVisuals agentVisuals3 = this._agentVisuals;
+				if (agentVisuals3 != null)
 				{
-					return;
+					agentVisuals3.SetVisible(this._bodyProperties != BodyProperties.Default);
 				}
-				agentVisuals2.SetVisible(this._bodyProperties != BodyProperties.Default);
+			}
+			if (this._isEquipmentIndicesDirty)
+			{
+				this._agentVisuals.GetVisuals().SetWieldedWeaponIndices(this._rightHandEquipmentIndex, this._leftHandEquipmentIndex);
+				this._isEquipmentIndicesDirty = false;
+			}
+		}
+
+		public float GetCustomAnimationProgressRatio()
+		{
+			if (!(this._customAnimation != null) || !this._characterActionSet.IsValid)
+			{
+				return -1f;
+			}
+			float actionAnimationDuration = MBActionSet.GetActionAnimationDuration(this._characterActionSet, this._customAnimation);
+			if (actionAnimationDuration == 0f)
+			{
+				return -1f;
+			}
+			return this._customAnimationTimer / actionAnimationDuration;
+		}
+
+		private void StopCustomAnimationIfCantContinue()
+		{
+			bool flag = false;
+			if (this._agentVisuals != null && this._customAnimation != null && this._customAnimation.Index >= 0)
+			{
+				ActionIndexValueCache actionAnimationContinueToAction = MBActionSet.GetActionAnimationContinueToAction(this._characterActionSet, ActionIndexValueCache.Create(this._customAnimation));
+				if (actionAnimationContinueToAction.Index >= 0)
+				{
+					this._customAnimationName = actionAnimationContinueToAction.Name;
+					this.StartCustomAnimation();
+					flag = true;
+				}
+			}
+			if (!flag)
+			{
+				this.StopCustomAnimation();
+				this._customAnimationTimer = -1f;
 			}
 		}
 
@@ -124,6 +207,18 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			view.SetEnable(this._isEnabled);
 		}
 
+		public void SetLeftHandWieldedEquipmentIndex(int index)
+		{
+			this._leftHandEquipmentIndex = index;
+			this._isEquipmentIndicesDirty = true;
+		}
+
+		public void SetRightHandWieldedEquipmentIndex(int index)
+		{
+			this._rightHandEquipmentIndex = index;
+			this._isEquipmentIndicesDirty = true;
+		}
+
 		public void SetTargetSize(int width, int height)
 		{
 			this._isRotatingCharacter = false;
@@ -136,7 +231,7 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			}
 			else
 			{
-				this.RenderScale = NativeOptions.GetConfig(21) / 100f;
+				this.RenderScale = NativeOptions.GetConfig(25) / 100f;
 				this._tableauSizeX = (int)((float)width * this._customRenderScale * this.RenderScale);
 				this._tableauSizeY = (int)((float)height * this._customRenderScale * this.RenderScale);
 			}
@@ -426,10 +521,43 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 
 		public void SetIdleAction(string idleAction)
 		{
-			if (!string.IsNullOrEmpty(idleAction))
+			this._idleAction = ActionIndexCache.Create(idleAction);
+			this._isVisualsDirty = true;
+		}
+
+		public void SetCustomAnimation(string animation)
+		{
+			this._customAnimationName = animation;
+		}
+
+		public void StartCustomAnimation()
+		{
+			if (this._isVisualsDirty || this._agentVisuals == null || string.IsNullOrEmpty(this._customAnimationName))
 			{
-				this._idleAction = ActionIndexCache.Create(idleAction);
-				this._isVisualsDirty = true;
+				this._customAnimationStartScheduled = true;
+				return;
+			}
+			this.StopCustomAnimation();
+			this._customAnimation = ActionIndexCache.Create(this._customAnimationName);
+			if (this._customAnimation.Index >= 0)
+			{
+				this._agentVisuals.SetAction(this._customAnimation, 0f, true);
+				this._customAnimationStartScheduled = false;
+				this._customAnimationTimer = 0f;
+				return;
+			}
+			Debug.FailedAssert("Invalid custom animation in character tableau: " + this._customAnimationName, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Tableaus\\CharacterTableau.cs", "StartCustomAnimation", 598);
+		}
+
+		public void StopCustomAnimation()
+		{
+			if (this._agentVisuals != null && this._customAnimation != null)
+			{
+				if (MBActionSet.GetActionAnimationContinueToAction(this._characterActionSet, ActionIndexValueCache.Create(this._customAnimation)).Index < 0)
+				{
+					this._agentVisuals.SetAction(this.GetIdleAction(), 0f, true);
+				}
+				this._customAnimation = null;
 			}
 		}
 
@@ -526,8 +654,9 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 				{
 					matrixFrame.rotation.RotateAboutUp(this._mainCharacterRotation);
 				}
+				this._characterActionSet = MBGlobals.GetActionSetWithSuffix(copyAgentVisualsData.MonsterData, this._isFemale, "_warrior");
 				copyAgentVisualsData.BodyProperties(this._bodyProperties).SkeletonType(this._isFemale ? 1 : 0).Frame(matrixFrame)
-					.ActionSet(MBGlobals.GetActionSetWithSuffix(copyAgentVisualsData.MonsterData, this._isFemale, "_warrior"))
+					.ActionSet(this._characterActionSet)
 					.Equipment(this._equipment)
 					.Banner(this._banner)
 					.UseMorphAnims(true)
@@ -646,11 +775,12 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 		private void InitializeAgentVisuals()
 		{
 			Monster baseMonsterFromRace = FaceGen.GetBaseMonsterFromRace(this._race);
+			this._characterActionSet = MBGlobals.GetActionSetWithSuffix(baseMonsterFromRace, this._isFemale, "_warrior");
 			this._oldAgentVisuals = AgentVisuals.Create(new AgentVisualsData().Banner(this._banner).Equipment(this._equipment).BodyProperties(this._bodyProperties)
 				.Race(this._race)
 				.Frame(this._initialSpawnFrame)
 				.UseMorphAnims(true)
-				.ActionSet(MBGlobals.GetActionSetWithSuffix(baseMonsterFromRace, this._isFemale, "_warrior"))
+				.ActionSet(this._characterActionSet)
 				.ActionCode(this.GetIdleAction())
 				.Scene(this._tableauScene)
 				.Monster(baseMonsterFromRace)
@@ -665,7 +795,7 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 				.Race(this._race)
 				.Frame(this._initialSpawnFrame)
 				.UseMorphAnims(true)
-				.ActionSet(MBGlobals.GetActionSetWithSuffix(baseMonsterFromRace, this._isFemale, "_warrior"))
+				.ActionSet(this._characterActionSet)
 				.ActionCode(this.GetIdleAction())
 				.Scene(this._tableauScene)
 				.Monster(baseMonsterFromRace)
@@ -950,6 +1080,22 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 		private static readonly ActionIndexCache act_horse_stand = ActionIndexCache.Create("act_inventory_idle_start");
 
 		private static readonly ActionIndexCache act_camel_stand = ActionIndexCache.Create("act_inventory_idle_start");
+
+		private int _leftHandEquipmentIndex;
+
+		private int _rightHandEquipmentIndex;
+
+		private bool _isEquipmentIndicesDirty;
+
+		private bool _customAnimationStartScheduled;
+
+		private float _customAnimationTimer;
+
+		private string _customAnimationName;
+
+		private ActionIndexCache _customAnimation;
+
+		private MBActionSet _characterActionSet;
 
 		private bool _isVisualsDirty;
 

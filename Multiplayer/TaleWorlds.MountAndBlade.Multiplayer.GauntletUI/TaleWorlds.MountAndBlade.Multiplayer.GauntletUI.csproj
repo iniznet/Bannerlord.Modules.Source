@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{46AEA771-038E-4892-9D02-1725D2BC2D0C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.MountAndBlade.Multiplayer.GauntletUI</RootNamespace>
+    <AssemblyName>TaleWorlds.MountAndBlade.Multiplayer.GauntletUI</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.Engine.GauntletUI" />
+    <Reference Include="TaleWorlds.GauntletUI" />
+    <Reference Include="TaleWorlds.GauntletUI.Data" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.Diamond" />
+    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI" />
+    <Reference Include="TaleWorlds.MountAndBlade.View" />
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.PlayerServices" />
+    <Reference Include="TaleWorlds.ScreenSystem" />
+    <Reference Include="TaleWorlds.TwoDimension" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Mission\MissionGauntletAdminPanel.cs" />
+    <Compile Include="Mission\MissionGauntletClassLoadout.cs" />
+    <Compile Include="Mission\MissionGauntletCultureSelection.cs" />
+    <Compile Include="Mission\MissionGauntletDeathCard.cs" />
+    <Compile Include="Mission\MissionGauntletDuelUI.cs" />
+    <Compile Include="Mission\MissionGauntletEndOfBattle.cs" />
+    <Compile Include="Mission\MissionGauntletEndOfRoundUIHandler.cs" />
+    <Compile Include="Mission\MissionGauntletKillNotificationUIHandler.cs" />
+    <Compile Include="Mission\MissionGauntletMultiplayerEscapeMenu.cs" />
+    <Compile Include="Mission\MissionGauntletMultiplayerFFAView.cs" />
+    <Compile Include="Mission\MissionGauntletMultiplayerHUDExtension.cs" />
+    <Compile Include="Mission\MissionGauntletMultiplayerMarkerUIHandler.cs" />
+    <Compile Include="Mission\MissionGauntletMultiplayerOrderUIHandler.cs" />
+    <Compile Include="Mission\MissionGauntletMultiplayerScoreboard.cs" />
+    <Compile Include="Mission\MissionGauntletPollingProgress.cs" />
+    <Compile Include="Mission\MissionGauntletServerStatus.cs" />
+    <Compile Include="Mission\MissionGauntletTeamSelection.cs" />
+    <Compile Include="Mission\MissionGauntletVoiceChat.cs" />
+    <Compile Include="MultiplayerAdminInformationScreen.cs" />
+    <Compile Include="MultiplayerGauntletUISubModule.cs" />
+    <Compile Include="MultiplayerIntermissionScreen.cs" />
+    <Compile Include="MultiplayerLobbyGauntletScreen.cs" />
+    <Compile Include="MultiplayerReportPlayerScreen.cs" />
+    <Compile Include="MultiplayerSceneNotificationContextProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection\TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection.csproj">
+      <Project>{46aea771-038e-4892-9d02-1725d2bc2d0e}</Project>
+      <Name>TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.MountAndBlade.Multiplayer.View\TaleWorlds.MountAndBlade.Multiplayer.View.csproj">
+      <Project>{46aea771-038e-4892-9d02-1725d2bc2d0d}</Project>
+      <Name>TaleWorlds.MountAndBlade.Multiplayer.View</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.MountAndBlade.Multiplayer\TaleWorlds.MountAndBlade.Multiplayer.csproj">
+      <Project>{46aea771-038e-4892-9d02-1725d2bc2d0b}</Project>
+      <Name>TaleWorlds.MountAndBlade.Multiplayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

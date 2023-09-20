@@ -15,7 +15,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 		private void ExecuteSortByScore()
 		{
 			int scoreState = this.ScoreState;
-			this.SetAllStates(KingdomWarSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.ScoreState = (scoreState + 1) % 3;
 			if (this.ScoreState == 0)
 			{
@@ -27,7 +27,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 			this.IsScoreSelected = true;
 		}
 
-		private void SetAllStates(KingdomWarSortControllerVM.SortState state)
+		private void SetAllStates(CampaignUIHelper.SortState state)
 		{
 			this.ScoreState = (int)state;
 			this.IsScoreSelected = false;
@@ -74,13 +74,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 		private int _scoreState;
 
 		private bool _isScoreSelected;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 
 		public abstract class ItemComparerBase : IComparer<KingdomWarItemVM>
 		{

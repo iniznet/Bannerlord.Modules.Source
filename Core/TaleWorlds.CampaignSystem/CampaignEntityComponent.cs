@@ -26,9 +26,5 @@ namespace TaleWorlds.CampaignSystem
 		public virtual void OnTick(float realDt, float dt)
 		{
 		}
-
-		public virtual void OnLoadSavedGame()
-		{
-		}
 	}
 }

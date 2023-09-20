@@ -181,10 +181,10 @@ namespace TaleWorlds.CampaignSystem
 				LeaveSettlementAction.ApplyForParty(MobileParty.MainParty);
 			}
 			MobileParty.MainParty.IsActive = false;
-			PartyBase.MainParty.UpdateVisibilityAndInspected(0f, true);
+			PartyBase.MainParty.UpdateVisibilityAndInspected(0f);
 			this._captorParty = captorParty;
 			this._captorParty.SetAsCameraFollowParty();
-			this._captorParty.UpdateVisibilityAndInspected(0f, false);
+			this._captorParty.UpdateVisibilityAndInspected(0f);
 			if (MobileParty.MainParty.Army != null)
 			{
 				if (MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty)
@@ -239,7 +239,7 @@ namespace TaleWorlds.CampaignSystem
 				PartyBase.MainParty.SetAsCameraFollowParty();
 				MobileParty.MainParty.Ai.SetMoveModeHold();
 				SkillLevelingManager.OnMainHeroReleasedFromCaptivity(PlayerCaptivity.CaptivityStartTime.ElapsedHoursUntilNow);
-				PartyBase.MainParty.UpdateVisibilityAndInspected(0f, true);
+				PartyBase.MainParty.UpdateVisibilityAndInspected(0f);
 			}
 			CampaignEventDispatcher.Instance.OnHeroPrisonerReleased(Hero.MainHero, this._captorParty, this._captorParty.MapFaction, EndCaptivityDetail.ReleasedAfterEscape);
 			this._captorParty = null;

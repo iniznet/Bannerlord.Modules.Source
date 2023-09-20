@@ -488,6 +488,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia
 		}
 
 		[DataSourceProperty]
+		public InputKeyItemVM CancelInputKey
+		{
+			get
+			{
+				return this._cancelInputKey;
+			}
+			set
+			{
+				if (value != this._cancelInputKey)
+				{
+					this._cancelInputKey = value;
+					base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "CancelInputKey");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public InputKeyItemVM PreviousPageInputKey
 		{
 			get
@@ -519,6 +536,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia
 					base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "NextPageInputKey");
 				}
 			}
+		}
+
+		public void SetCancelInputKey(HotKey hotkey)
+		{
+			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
 		public void SetPreviousPageInputKey(HotKey hotkey)
@@ -564,6 +586,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia
 		private string _navBarString;
 
 		private int _minCharAmountToShowResults;
+
+		private InputKeyItemVM _cancelInputKey;
 
 		private InputKeyItemVM _previousPageInputKey;
 

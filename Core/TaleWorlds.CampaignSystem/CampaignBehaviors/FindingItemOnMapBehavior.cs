@@ -24,7 +24,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			TerrainType faceTerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(party.CurrentNavigationFace);
 			if ((faceTerrainType == TerrainType.Steppe || faceTerrainType == TerrainType.Plain) && party.HasPerk(DefaultPerks.Scouting.BeastWhisperer, false) && MBRandom.RandomFloat < DefaultPerks.Scouting.BeastWhisperer.PrimaryBonus)
 			{
-				ItemObject randomElementWithPredicate = Items.All.GetRandomElementWithPredicate((ItemObject x) => x.IsMountable);
+				ItemObject randomElementWithPredicate = Items.All.GetRandomElementWithPredicate((ItemObject x) => x.IsMountable && !x.NotMerchandise);
 				if (randomElementWithPredicate != null)
 				{
 					party.ItemRoster.AddToCounts(randomElementWithPredicate, 1);

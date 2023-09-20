@@ -96,6 +96,8 @@ namespace TaleWorlds.MountAndBlade
 			});
 		}
 
+		public const float InsideEnemyThresholdRatio = 0.5f;
+
 		public Vec3 MurderHolePosition;
 	}
 }

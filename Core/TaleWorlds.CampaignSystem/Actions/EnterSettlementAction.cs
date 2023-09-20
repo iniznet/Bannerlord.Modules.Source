@@ -51,7 +51,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 			if (hero == Hero.MainHero || mobileParty == MobileParty.MainParty)
 			{
-				Debug.Print(string.Format("Player has entered {0}", settlement), 0, Debug.DebugColor.White, 17592186044416UL);
+				Debug.Print(string.Format("Player has entered {0}: {1}", settlement.StringId, settlement), 0, Debug.DebugColor.White, 17592186044416UL);
 			}
 		}
 

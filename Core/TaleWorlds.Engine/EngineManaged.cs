@@ -41,9 +41,9 @@ namespace TaleWorlds.Engine
 
 		private void OnInitialize()
 		{
-			Type[] types = AssemblyLoader.LoadFrom(this.ManagedCallbacksDll, true).GetTypes();
+			List<Type> typesSafe = AssemblyLoader.LoadFrom(this.ManagedCallbacksDll, true).GetTypesSafe(null);
 			Type type = null;
-			foreach (Type type2 in types)
+			foreach (Type type2 in typesSafe)
 			{
 				if (type2.GetInterfaces().Contains(typeof(ICallbackManager)))
 				{
@@ -54,16 +54,16 @@ namespace TaleWorlds.Engine
 			EngineManaged._callbackManager = type.GetConstructor(new Type[0]).Invoke(new object[0]) as ICallbackManager;
 			EngineManaged._callbackManager.Initialize();
 			Delegate[] delegates = EngineManaged._callbackManager.GetDelegates();
-			for (int j = 0; j < delegates.Length; j++)
+			for (int i = 0; i < delegates.Length; i++)
 			{
 				try
 				{
-					EngineManaged.PassManagedEngineCallbackMethodPointers(delegates[j]);
+					EngineManaged.PassManagedEngineCallbackMethodPointers(delegates[i]);
 				}
 				catch (Exception ex)
 				{
 					EngineManaged.PassManagedEngineCallbackMethodPointers(null);
-					Console.WriteLine(ex + " " + j);
+					Console.WriteLine(ex + " " + i);
 				}
 			}
 			EngineApplicationInterface.SetObjects(EngineManaged._callbackManager.GetScriptingInterfaceObjects());

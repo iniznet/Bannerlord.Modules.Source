@@ -53,6 +53,10 @@ namespace TaleWorlds.Core
 
 		public float RiderBodyCapsuleForwardAdder { get; private set; }
 
+		public float StandingChestHeight { get; private set; }
+
+		public float StandingPelvisHeight { get; private set; }
+
 		public float StandingEyeHeight { get; private set; }
 
 		public float CrouchEyeHeight { get; private set; }
@@ -229,6 +233,8 @@ namespace TaleWorlds.Core
 				this.RiderCameraHeightAdder = @object.RiderCameraHeightAdder;
 				this.RiderBodyCapsuleHeightAdder = @object.RiderBodyCapsuleHeightAdder;
 				this.RiderBodyCapsuleForwardAdder = @object.RiderBodyCapsuleForwardAdder;
+				this.StandingChestHeight = @object.StandingChestHeight;
+				this.StandingPelvisHeight = @object.StandingPelvisHeight;
 				this.StandingEyeHeight = @object.StandingEyeHeight;
 				this.CrouchEyeHeight = @object.CrouchEyeHeight;
 				this.MountedEyeHeight = @object.MountedEyeHeight;
@@ -413,49 +419,61 @@ namespace TaleWorlds.Core
 			XmlAttribute xmlAttribute16 = node.Attributes["preliminary_collision_capsule_radius_multiplier"];
 			if (!flag && xmlAttribute16 != null && !string.IsNullOrEmpty(xmlAttribute16.Value))
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 425);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 429);
 			}
 			XmlAttribute xmlAttribute17 = node.Attributes["rider_preliminary_collision_capsule_height_multiplier"];
 			if (!flag && xmlAttribute17 != null && !string.IsNullOrEmpty(xmlAttribute17.Value))
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 434);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 438);
 			}
 			XmlAttribute xmlAttribute18 = node.Attributes["rider_preliminary_collision_capsule_height_adder"];
 			if (!flag && xmlAttribute18 != null && !string.IsNullOrEmpty(xmlAttribute18.Value))
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 443);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 447);
 			}
-			XmlAttribute xmlAttribute19 = node.Attributes["standing_eye_height"];
+			XmlAttribute xmlAttribute19 = node.Attributes["standing_chest_height"];
 			float num11;
 			if (xmlAttribute19 != null && !string.IsNullOrEmpty(xmlAttribute19.Value) && float.TryParse(xmlAttribute19.Value, out num11))
 			{
-				this.StandingEyeHeight = num11;
+				this.StandingChestHeight = num11;
 			}
-			XmlAttribute xmlAttribute20 = node.Attributes["crouch_eye_height"];
+			XmlAttribute xmlAttribute20 = node.Attributes["standing_pelvis_height"];
 			float num12;
 			if (xmlAttribute20 != null && !string.IsNullOrEmpty(xmlAttribute20.Value) && float.TryParse(xmlAttribute20.Value, out num12))
 			{
-				this.CrouchEyeHeight = num12;
+				this.StandingPelvisHeight = num12;
 			}
-			XmlAttribute xmlAttribute21 = node.Attributes["mounted_eye_height"];
+			XmlAttribute xmlAttribute21 = node.Attributes["standing_eye_height"];
 			float num13;
 			if (xmlAttribute21 != null && !string.IsNullOrEmpty(xmlAttribute21.Value) && float.TryParse(xmlAttribute21.Value, out num13))
 			{
-				this.MountedEyeHeight = num13;
+				this.StandingEyeHeight = num13;
 			}
-			XmlAttribute xmlAttribute22 = node.Attributes["rider_eye_height_adder"];
+			XmlAttribute xmlAttribute22 = node.Attributes["crouch_eye_height"];
 			float num14;
 			if (xmlAttribute22 != null && !string.IsNullOrEmpty(xmlAttribute22.Value) && float.TryParse(xmlAttribute22.Value, out num14))
 			{
-				this.RiderEyeHeightAdder = num14;
+				this.CrouchEyeHeight = num14;
+			}
+			XmlAttribute xmlAttribute23 = node.Attributes["mounted_eye_height"];
+			float num15;
+			if (xmlAttribute23 != null && !string.IsNullOrEmpty(xmlAttribute23.Value) && float.TryParse(xmlAttribute23.Value, out num15))
+			{
+				this.MountedEyeHeight = num15;
+			}
+			XmlAttribute xmlAttribute24 = node.Attributes["rider_eye_height_adder"];
+			float num16;
+			if (xmlAttribute24 != null && !string.IsNullOrEmpty(xmlAttribute24.Value) && float.TryParse(xmlAttribute24.Value, out num16))
+			{
+				this.RiderEyeHeightAdder = num16;
 			}
 			if (!flag)
 			{
 				this.EyeOffsetWrtHead = new Vec3(0.01f, 0.01f, 0.01f, -1f);
 			}
-			XmlAttribute xmlAttribute23 = node.Attributes["eye_offset_wrt_head"];
+			XmlAttribute xmlAttribute25 = node.Attributes["eye_offset_wrt_head"];
 			Vec3 vec;
-			if (xmlAttribute23 != null && !string.IsNullOrEmpty(xmlAttribute23.Value) && Monster.ReadVec3(xmlAttribute23.Value, out vec))
+			if (xmlAttribute25 != null && !string.IsNullOrEmpty(xmlAttribute25.Value) && Monster.ReadVec3(xmlAttribute25.Value, out vec))
 			{
 				this.EyeOffsetWrtHead = vec;
 			}
@@ -463,45 +481,45 @@ namespace TaleWorlds.Core
 			{
 				this.FirstPersonCameraOffsetWrtHead = new Vec3(0.01f, 0.01f, 0.01f, -1f);
 			}
-			XmlAttribute xmlAttribute24 = node.Attributes["first_person_camera_offset_wrt_head"];
+			XmlAttribute xmlAttribute26 = node.Attributes["first_person_camera_offset_wrt_head"];
 			Vec3 vec2;
-			if (xmlAttribute24 != null && !string.IsNullOrEmpty(xmlAttribute24.Value) && Monster.ReadVec3(xmlAttribute24.Value, out vec2))
+			if (xmlAttribute26 != null && !string.IsNullOrEmpty(xmlAttribute26.Value) && Monster.ReadVec3(xmlAttribute26.Value, out vec2))
 			{
 				this.FirstPersonCameraOffsetWrtHead = vec2;
 			}
-			XmlAttribute xmlAttribute25 = node.Attributes["arm_length"];
-			float num15;
-			if (xmlAttribute25 != null && !string.IsNullOrEmpty(xmlAttribute25.Value) && float.TryParse(xmlAttribute25.Value, out num15))
-			{
-				this.ArmLength = num15;
-			}
-			XmlAttribute xmlAttribute26 = node.Attributes["arm_weight"];
-			float num16;
-			if (xmlAttribute26 != null && !string.IsNullOrEmpty(xmlAttribute26.Value) && float.TryParse(xmlAttribute26.Value, out num16))
-			{
-				this.ArmWeight = num16;
-			}
-			XmlAttribute xmlAttribute27 = node.Attributes["jump_speed_limit"];
+			XmlAttribute xmlAttribute27 = node.Attributes["arm_length"];
 			float num17;
 			if (xmlAttribute27 != null && !string.IsNullOrEmpty(xmlAttribute27.Value) && float.TryParse(xmlAttribute27.Value, out num17))
 			{
-				this.JumpSpeedLimit = num17;
+				this.ArmLength = num17;
+			}
+			XmlAttribute xmlAttribute28 = node.Attributes["arm_weight"];
+			float num18;
+			if (xmlAttribute28 != null && !string.IsNullOrEmpty(xmlAttribute28.Value) && float.TryParse(xmlAttribute28.Value, out num18))
+			{
+				this.ArmWeight = num18;
+			}
+			XmlAttribute xmlAttribute29 = node.Attributes["jump_speed_limit"];
+			float num19;
+			if (xmlAttribute29 != null && !string.IsNullOrEmpty(xmlAttribute29.Value) && float.TryParse(xmlAttribute29.Value, out num19))
+			{
+				this.JumpSpeedLimit = num19;
 			}
 			if (!flag)
 			{
 				this.RelativeSpeedLimitForCharge = float.MaxValue;
 			}
-			XmlAttribute xmlAttribute28 = node.Attributes["relative_speed_limit_for_charge"];
-			float num18;
-			if (xmlAttribute28 != null && !string.IsNullOrEmpty(xmlAttribute28.Value) && float.TryParse(xmlAttribute28.Value, out num18))
+			XmlAttribute xmlAttribute30 = node.Attributes["relative_speed_limit_for_charge"];
+			float num20;
+			if (xmlAttribute30 != null && !string.IsNullOrEmpty(xmlAttribute30.Value) && float.TryParse(xmlAttribute30.Value, out num20))
 			{
-				this.RelativeSpeedLimitForCharge = num18;
+				this.RelativeSpeedLimitForCharge = num20;
 			}
-			XmlAttribute xmlAttribute29 = node.Attributes["family_type"];
-			int num19;
-			if (xmlAttribute29 != null && !string.IsNullOrEmpty(xmlAttribute29.Value) && int.TryParse(xmlAttribute29.Value, out num19))
+			XmlAttribute xmlAttribute31 = node.Attributes["family_type"];
+			int num21;
+			if (xmlAttribute31 != null && !string.IsNullOrEmpty(xmlAttribute31.Value) && int.TryParse(xmlAttribute31.Value, out num21))
 			{
-				this.FamilyType = num19;
+				this.FamilyType = num21;
 			}
 			sbyte b = -1;
 			this.DeserializeBoneIndexArray(list, node, flag, "ragdoll_bone_to_check_for_corpses_", b, false);
@@ -528,16 +546,16 @@ namespace TaleWorlds.Core
 			this.MainHandItemSecondaryBoneIndex = this.DeserializeBoneIndex(node, "main_hand_item_secondary_bone", flag ? this.MainHandItemSecondaryBoneIndex : b, b, false);
 			this.OffHandItemSecondaryBoneIndex = this.DeserializeBoneIndex(node, "off_hand_item_secondary_bone", flag ? this.OffHandItemSecondaryBoneIndex : b, b, false);
 			this.OffHandShoulderBoneIndex = this.DeserializeBoneIndex(node, "off_hand_shoulder_bone", flag ? this.OffHandShoulderBoneIndex : b, b, false);
-			XmlAttribute xmlAttribute30 = node.Attributes["hand_num_bones_for_ik"];
-			this.HandNumBonesForIk = ((xmlAttribute30 != null) ? sbyte.Parse(xmlAttribute30.Value) : (flag ? this.HandNumBonesForIk : 0));
+			XmlAttribute xmlAttribute32 = node.Attributes["hand_num_bones_for_ik"];
+			this.HandNumBonesForIk = ((xmlAttribute32 != null) ? sbyte.Parse(xmlAttribute32.Value) : (flag ? this.HandNumBonesForIk : 0));
 			this.PrimaryFootBoneIndex = this.DeserializeBoneIndex(node, "primary_foot_bone", flag ? this.PrimaryFootBoneIndex : b, b, false);
 			this.SecondaryFootBoneIndex = this.DeserializeBoneIndex(node, "secondary_foot_bone", flag ? this.SecondaryFootBoneIndex : b, b, false);
 			this.RightFootIkEndEffectorBoneIndex = this.DeserializeBoneIndex(node, "right_foot_ik_end_effector_bone", flag ? this.RightFootIkEndEffectorBoneIndex : b, b, true);
 			this.LeftFootIkEndEffectorBoneIndex = this.DeserializeBoneIndex(node, "left_foot_ik_end_effector_bone", flag ? this.LeftFootIkEndEffectorBoneIndex : b, b, true);
 			this.RightFootIkTipBoneIndex = this.DeserializeBoneIndex(node, "right_foot_ik_tip_bone", flag ? this.RightFootIkTipBoneIndex : b, b, true);
 			this.LeftFootIkTipBoneIndex = this.DeserializeBoneIndex(node, "left_foot_ik_tip_bone", flag ? this.LeftFootIkTipBoneIndex : b, b, true);
-			XmlAttribute xmlAttribute31 = node.Attributes["foot_num_bones_for_ik"];
-			this.FootNumBonesForIk = ((xmlAttribute31 != null) ? sbyte.Parse(xmlAttribute31.Value) : (flag ? this.FootNumBonesForIk : 0));
+			XmlAttribute xmlAttribute33 = node.Attributes["foot_num_bones_for_ik"];
+			this.FootNumBonesForIk = ((xmlAttribute33 != null) ? sbyte.Parse(xmlAttribute33.Value) : (flag ? this.FootNumBonesForIk : 0));
 			XmlNode xmlNode = node.Attributes["rein_handle_left_local_pos"];
 			Vec3 vec3;
 			if (xmlNode != null && Monster.ReadVec3(xmlNode.Value, out vec3))
@@ -550,15 +568,15 @@ namespace TaleWorlds.Core
 			{
 				this.ReinHandleRightLocalPosition = vec4;
 			}
-			XmlAttribute xmlAttribute32 = node.Attributes["rein_skeleton"];
-			this.ReinSkeleton = ((xmlAttribute32 != null) ? xmlAttribute32.Value : this.ReinSkeleton);
-			XmlAttribute xmlAttribute33 = node.Attributes["rein_collision_body"];
-			this.ReinCollisionBody = ((xmlAttribute33 != null) ? xmlAttribute33.Value : this.ReinCollisionBody);
+			XmlAttribute xmlAttribute34 = node.Attributes["rein_skeleton"];
+			this.ReinSkeleton = ((xmlAttribute34 != null) ? xmlAttribute34.Value : this.ReinSkeleton);
+			XmlAttribute xmlAttribute35 = node.Attributes["rein_collision_body"];
+			this.ReinCollisionBody = ((xmlAttribute35 != null) ? xmlAttribute35.Value : this.ReinCollisionBody);
 			this.DeserializeBoneIndexArray(list7, node, flag, "bones_to_modify_on_sloping_ground_", b, true);
-			XmlAttribute xmlAttribute34 = node.Attributes["front_bone_to_detect_ground_slope_index"];
-			this.FrontBoneToDetectGroundSlopeIndex = ((xmlAttribute34 != null) ? sbyte.Parse(xmlAttribute34.Value) : (flag ? this.FrontBoneToDetectGroundSlopeIndex : -1));
-			XmlAttribute xmlAttribute35 = node.Attributes["back_bone_to_detect_ground_slope_index"];
-			this.BackBoneToDetectGroundSlopeIndex = ((xmlAttribute35 != null) ? sbyte.Parse(xmlAttribute35.Value) : (flag ? this.BackBoneToDetectGroundSlopeIndex : -1));
+			XmlAttribute xmlAttribute36 = node.Attributes["front_bone_to_detect_ground_slope_index"];
+			this.FrontBoneToDetectGroundSlopeIndex = ((xmlAttribute36 != null) ? sbyte.Parse(xmlAttribute36.Value) : (flag ? this.FrontBoneToDetectGroundSlopeIndex : -1));
+			XmlAttribute xmlAttribute37 = node.Attributes["back_bone_to_detect_ground_slope_index"];
+			this.BackBoneToDetectGroundSlopeIndex = ((xmlAttribute37 != null) ? sbyte.Parse(xmlAttribute37.Value) : (flag ? this.BackBoneToDetectGroundSlopeIndex : -1));
 			this.BodyRotationReferenceBoneIndex = this.DeserializeBoneIndex(node, "body_rotation_reference_bone", flag ? this.BodyRotationReferenceBoneIndex : b, b, true);
 			this.RiderSitBoneIndex = this.DeserializeBoneIndex(node, "rider_sit_bone", flag ? this.RiderSitBoneIndex : b, b, false);
 			this.ReinHandleBoneIndex = this.DeserializeBoneIndex(node, "rein_handle_bone", flag ? this.ReinHandleBoneIndex : b, b, false);
@@ -588,8 +606,8 @@ namespace TaleWorlds.Core
 						{
 							object obj2 = enumerator2.Current;
 							AgentFlag agentFlag = (AgentFlag)obj2;
-							XmlAttribute xmlAttribute36 = xmlNode3.Attributes[agentFlag.ToString()];
-							if (xmlAttribute36 != null && !xmlAttribute36.Value.Equals("false", StringComparison.InvariantCultureIgnoreCase))
+							XmlAttribute xmlAttribute38 = xmlNode3.Attributes[agentFlag.ToString()];
+							if (xmlAttribute38 != null && !xmlAttribute38.Value.Equals("false", StringComparison.InvariantCultureIgnoreCase))
 							{
 								this.Flags |= agentFlag;
 							}
@@ -607,7 +625,7 @@ namespace TaleWorlds.Core
 							bool flag2 = true;
 							Vec3 vec5 = new Vec3(0f, 0f, 0.01f, -1f);
 							Vec3 vec6 = Vec3.Zero;
-							float num20 = 0.01f;
+							float num22 = 0.01f;
 							if (xmlNode4.Attributes["pos1"] != null)
 							{
 								Vec3 vec7;
@@ -630,23 +648,23 @@ namespace TaleWorlds.Core
 							{
 								string text = xmlNode4.Attributes["radius"].Value;
 								text = text.Trim();
-								flag2 = flag2 && float.TryParse(text, out num20);
+								flag2 = flag2 && float.TryParse(text, out num22);
 							}
 							if (flag2)
 							{
 								if (xmlNode4.Name.StartsWith("p"))
 								{
-									Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 705);
+									Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Monster.cs", "Deserialize", 727);
 								}
 								else if (xmlNode4.Name.StartsWith("c"))
 								{
-									this.CrouchedBodyCapsuleRadius = num20;
+									this.CrouchedBodyCapsuleRadius = num22;
 									this.CrouchedBodyCapsulePoint1 = vec5;
 									this.CrouchedBodyCapsulePoint2 = vec6;
 								}
 								else
 								{
-									this.BodyCapsuleRadius = num20;
+									this.BodyCapsuleRadius = num22;
 									this.BodyCapsulePoint1 = vec5;
 									this.BodyCapsulePoint2 = vec6;
 								}

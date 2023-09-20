@@ -279,9 +279,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			}
 		}
 
-		public override void Clear()
+		public override void Clear(bool clearNextFrame)
 		{
-			base.Clear();
+			base.Clear(clearNextFrame);
 			this._providedTexture = null;
 			this._textureRequiresRefreshing = true;
 			this._itemObject = null;

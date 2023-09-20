@@ -21,6 +21,12 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("close_scene", false)]
 		bool CloseScene();
 
+		[EngineMethod("save_scene", false)]
+		bool SaveScene();
+
+		[EngineMethod("open_default_scene", false)]
+		bool OpenDefaultScene();
+
 		[EngineMethod("leave_edit_mode", false)]
 		bool LeaveEditMode();
 

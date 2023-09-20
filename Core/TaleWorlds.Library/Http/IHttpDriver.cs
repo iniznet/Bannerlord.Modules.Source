@@ -7,7 +7,7 @@ namespace TaleWorlds.Library.Http
 	{
 		Task<string> HttpGetString(string url, bool withUserToken);
 
-		Task<string> HttpPostString(string url, string postData, bool withUserToken);
+		Task<string> HttpPostString(string url, string postData, string mediaType, bool withUserToken);
 
 		Task<byte[]> HttpDownloadData(string url);
 

@@ -15,7 +15,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._videoPlayerView.SetRenderOrder(-10000);
 		}
 
-		protected override void OnFrameTick(float dt)
+		protected sealed override void OnFrameTick(float dt)
 		{
 			this._totalElapsedTimeSinceVideoStart += dt;
 			base.OnFrameTick(dt);
@@ -29,6 +29,14 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 				this._videoPlayerView.SetEnable(false);
 				this._videoPlayerView = null;
 			}
+			if (ScreenManager.TopScreen == this)
+			{
+				this.OnVideoPlaybackTick(dt);
+			}
+		}
+
+		protected virtual void OnVideoPlaybackTick(float dt)
+		{
 		}
 
 		void IGameStateListener.OnInitialize()

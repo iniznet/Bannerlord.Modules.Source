@@ -9,12 +9,12 @@ namespace NetworkMessages.FromServer
 	{
 		public NetworkCommunicator Peer { get; private set; }
 
-		public Team Team { get; private set; }
+		public int TeamIndex { get; private set; }
 
-		public SetPeerTeam(NetworkCommunicator peer, Team team)
+		public SetPeerTeam(NetworkCommunicator peer, int teamIndex)
 		{
 			this.Peer = peer;
-			this.Team = team;
+			this.TeamIndex = teamIndex;
 		}
 
 		public SetPeerTeam()
@@ -25,14 +25,14 @@ namespace NetworkMessages.FromServer
 		{
 			bool flag = true;
 			this.Peer = GameNetworkMessage.ReadNetworkPeerReferenceFromPacket(ref flag, false);
-			this.Team = GameNetworkMessage.ReadTeamReferenceFromPacket(ref flag);
+			this.TeamIndex = GameNetworkMessage.ReadTeamIndexFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
 			GameNetworkMessage.WriteNetworkPeerReferenceToPacket(this.Peer);
-			GameNetworkMessage.WriteTeamReferenceToPacket(this.Team);
+			GameNetworkMessage.WriteTeamIndexToPacket(this.TeamIndex);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -45,7 +45,7 @@ namespace NetworkMessages.FromServer
 			return string.Concat(new object[]
 			{
 				"Set Team: ",
-				this.Team,
+				this.TeamIndex,
 				" of NetworkPeer with name: ",
 				this.Peer.UserName,
 				" and peer-index",

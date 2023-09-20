@@ -200,7 +200,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			this._initialData.CopyFromPartyAndRoster(this.MemberRosters[1], this.PrisonerRosters[1], this.MemberRosters[0], this.PrisonerRosters[0], this.RightOwnerParty);
 			if (initializationData.PartyPresentationDoneButtonDelegate == null)
 			{
-				Debug.FailedAssert("Done handler is given null for party screen!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "Initialize", 238);
+				Debug.FailedAssert("Done handler is given null for party screen!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "Initialize", 237);
 				initializationData.PartyPresentationDoneButtonDelegate = new PartyPresentationDoneButtonDelegate(PartyScreenLogic.DefaultDoneHandler);
 			}
 			this.PartyPresentationDoneButtonDelegate = initializationData.PartyPresentationDoneButtonDelegate;
@@ -589,18 +589,15 @@ namespace TaleWorlds.CampaignSystem.Party
 				if (command.Type == PartyScreenLogic.TroopType.Member)
 				{
 					int num = this.MemberRosters[(int)command.RosterSide].FindIndexOfTroop(character);
-					TroopRosterElement elementCopyAtIndex = this.MemberRosters[(int)command.RosterSide].GetElementCopyAtIndex(num);
 					int num2 = ((num < command.Index) ? (command.Index - 1) : command.Index);
-					this.MemberRosters[(int)command.RosterSide].AddToCounts(character, -elementCopyAtIndex.Number, false, -elementCopyAtIndex.WoundedNumber, 0, true, num);
-					this.MemberRosters[(int)command.RosterSide].AddToCounts(character, elementCopyAtIndex.Number, false, elementCopyAtIndex.WoundedNumber, elementCopyAtIndex.Xp, true, (this.MemberRosters[(int)command.RosterSide].Count < num2) ? (-1) : num2);
+					this.MemberRosters[(int)command.RosterSide].ShiftTroopToIndex(num, num2);
 				}
 				else
 				{
 					int num3 = this.PrisonerRosters[(int)command.RosterSide].FindIndexOfTroop(character);
-					TroopRosterElement elementCopyAtIndex2 = this.PrisonerRosters[(int)command.RosterSide].GetElementCopyAtIndex(num3);
+					this.PrisonerRosters[(int)command.RosterSide].GetElementCopyAtIndex(num3);
 					int num4 = ((num3 < command.Index) ? (command.Index - 1) : command.Index);
-					this.PrisonerRosters[(int)command.RosterSide].AddToCounts(character, -elementCopyAtIndex2.Number, false, -elementCopyAtIndex2.WoundedNumber, 0, true, num3);
-					this.PrisonerRosters[(int)command.RosterSide].AddToCounts(character, elementCopyAtIndex2.Number, false, elementCopyAtIndex2.WoundedNumber, elementCopyAtIndex2.Xp, true, (this.PrisonerRosters[(int)command.RosterSide].Count < num4) ? (-1) : num4);
+					this.PrisonerRosters[(int)command.RosterSide].ShiftTroopToIndex(num3, num4);
 				}
 				flag = true;
 			}
@@ -786,7 +783,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				if (activeSortTypeForSide != PartyScreenLogic.TroopSortType.Custom)
 				{
 					TroopRoster roster2 = this.GetRoster(partyRosterSide, command.Type);
-					this.SortRosterByType(roster2, activeSortTypeForSide);
+					this.SortRoster(roster2, activeSortTypeForSide);
 				}
 				PartyScreenLogic.PresentationUpdate updateDelegate = this.UpdateDelegate;
 				if (updateDelegate != null)
@@ -813,8 +810,8 @@ namespace TaleWorlds.CampaignSystem.Party
 				{
 					TroopRoster roster = this.GetRoster(command.RosterSide, PartyScreenLogic.TroopType.Member);
 					TroopRoster roster2 = this.GetRoster(command.RosterSide, PartyScreenLogic.TroopType.Prisoner);
-					this.SortRosterByType(roster, command.SortType);
-					this.SortRosterByType(roster2, command.SortType);
+					this.SortRoster(roster, command.SortType);
+					this.SortRoster(roster2, command.SortType);
 				}
 				PartyScreenLogic.PresentationUpdate updateDelegate = this.UpdateDelegate;
 				if (updateDelegate != null)
@@ -915,36 +912,13 @@ namespace TaleWorlds.CampaignSystem.Party
 			return list;
 		}
 
-		private CharacterObject GetLeaderOfRoster(TroopRoster roster)
+		private void SyncRosterWithList(TroopRoster roster, List<TroopRosterElement> list)
 		{
-			if (roster == this.MemberRosters[0] || roster == this.PrisonerRosters[0])
+			for (int i = 0; i < list.Count; i++)
 			{
-				return this.LeftPartyLeader;
-			}
-			if (roster == this.MemberRosters[1] || roster == this.PrisonerRosters[1])
-			{
-				return this.RightPartyLeader;
-			}
-			return null;
-		}
-
-		private void SyncRosterWithlist(List<TroopRosterElement> list, TroopRoster roster)
-		{
-			CharacterObject leaderOfRoster = this.GetLeaderOfRoster(roster);
-			for (int i = roster.Count - 1; i >= 0; i--)
-			{
-				TroopRosterElement elementCopyAtIndex = roster.GetElementCopyAtIndex(i);
-				if (elementCopyAtIndex.Character != leaderOfRoster)
-				{
-					roster.AddToCountsAtIndex(i, -elementCopyAtIndex.Number, -elementCopyAtIndex.WoundedNumber, 0, true);
-				}
-			}
-			for (int j = 0; j < list.Count; j++)
-			{
-				if (list[j].Character != leaderOfRoster)
-				{
-					roster.Add(list[j]);
-				}
+				TroopRosterElement troopRosterElement = list[i];
+				int num = roster.FindIndexOfTroop(troopRosterElement.Character);
+				roster.SwapTroopsAtIndices(num, i);
 			}
 		}
 
@@ -953,27 +927,27 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			if (roster.Count != list.Count)
 			{
-				Debug.FailedAssert("Roster count is not synced with the list count", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "EnsureRosterIsSyncedWithList", 1077);
+				Debug.FailedAssert("Roster count is not synced with the list count", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "EnsureRosterIsSyncedWithList", 1045);
 				return;
 			}
 			for (int i = 0; i < roster.Count; i++)
 			{
 				if (roster.GetCharacterAtIndex(i).StringId != list[i].Character.StringId)
 				{
-					Debug.FailedAssert("Roster is not synced with the list at index: " + i, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "EnsureRosterIsSyncedWithList", 1087);
+					Debug.FailedAssert("Roster is not synced with the list at index: " + i, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "EnsureRosterIsSyncedWithList", 1055);
 					return;
 				}
 			}
 		}
 
-		private void SortRosterByType(TroopRoster roster, PartyScreenLogic.TroopSortType sortType)
+		private void SortRoster(TroopRoster originalRoster, PartyScreenLogic.TroopSortType sortType)
 		{
 			PartyScreenLogic.TroopComparer troopComparer = this._defaultComparers[sortType];
-			if (!this.IsRosterOrdered(roster, troopComparer))
+			if (!this.IsRosterOrdered(originalRoster, troopComparer))
 			{
-				List<TroopRosterElement> listFromRoster = this.GetListFromRoster(roster);
+				List<TroopRosterElement> listFromRoster = this.GetListFromRoster(originalRoster);
 				listFromRoster.Sort(this._defaultComparers[sortType]);
-				this.SyncRosterWithlist(listFromRoster, roster);
+				this.SyncRosterWithList(originalRoster, listFromRoster);
 			}
 		}
 
@@ -1129,35 +1103,39 @@ namespace TaleWorlds.CampaignSystem.Party
 		public string GetRecruitableReasonText(CharacterObject character, bool isRecruitable, int troopCount, string fiveStackShortcutKeyText, string entireStackShortcutKeyText)
 		{
 			GameTexts.SetVariable("newline", "\n");
-			if (isRecruitable && !string.IsNullOrEmpty(entireStackShortcutKeyText))
+			if (isRecruitable)
 			{
-				GameTexts.SetVariable("KEY_NAME", entireStackShortcutKeyText);
-				string text = GameTexts.FindText("str_entire_stack_shortcut_recruit_units", null).ToString();
-				GameTexts.SetVariable("STR1", text);
-				GameTexts.SetVariable("STR2", "");
-				if (troopCount >= 5 && !string.IsNullOrEmpty(fiveStackShortcutKeyText))
+				if (!string.IsNullOrEmpty(entireStackShortcutKeyText))
 				{
-					GameTexts.SetVariable("KEY_NAME", fiveStackShortcutKeyText);
-					string text2 = GameTexts.FindText("str_five_stack_shortcut_recruit_units", null).ToString();
-					GameTexts.SetVariable("STR2", text2);
+					GameTexts.SetVariable("KEY_NAME", entireStackShortcutKeyText);
+					string text = GameTexts.FindText("str_entire_stack_shortcut_recruit_units", null).ToString();
+					GameTexts.SetVariable("STR1", text);
+					GameTexts.SetVariable("STR2", "");
+					if (troopCount >= 5 && !string.IsNullOrEmpty(fiveStackShortcutKeyText))
+					{
+						GameTexts.SetVariable("KEY_NAME", fiveStackShortcutKeyText);
+						string text2 = GameTexts.FindText("str_five_stack_shortcut_recruit_units", null).ToString();
+						GameTexts.SetVariable("STR2", text2);
+					}
+					string text3 = GameTexts.FindText("str_string_newline_string", null).ToString();
+					GameTexts.SetVariable("STR2", text3);
 				}
-				string text3 = GameTexts.FindText("str_string_newline_string", null).ToString();
-				GameTexts.SetVariable("STR2", text3);
-			}
-			if (this.RightOwnerParty.PartySizeLimit <= this.MemberRosters[1].TotalManCount)
-			{
-				GameTexts.SetVariable("STR2", "");
-				GameTexts.SetVariable("STR1", GameTexts.FindText("str_recruit_party_size_limit", null));
+				if (this.RightOwnerParty.PartySizeLimit <= this.MemberRosters[1].TotalManCount)
+				{
+					GameTexts.SetVariable("STR1", GameTexts.FindText("str_recruit_party_size_limit", null));
+					return GameTexts.FindText("str_string_newline_string", null).ToString();
+				}
+				GameTexts.SetVariable("STR1", GameTexts.FindText("str_recruit_prisoner", null));
 				return GameTexts.FindText("str_string_newline_string", null).ToString();
 			}
-			if (character.IsHero)
+			else
 			{
-				GameTexts.SetVariable("STR2", "");
-				GameTexts.SetVariable("STR1", GameTexts.FindText("str_cannot_recruit_hero", null));
-				return GameTexts.FindText("str_string_newline_string", null).ToString();
+				if (character.IsHero)
+				{
+					return GameTexts.FindText("str_cannot_recruit_hero", null).ToString();
+				}
+				return GameTexts.FindText("str_cannot_recruit_prisoner", null).ToString();
 			}
-			GameTexts.SetVariable("STR1", GameTexts.FindText("str_recruit_prisoner", null));
-			return GameTexts.FindText("str_string_newline_string", null).ToString();
 		}
 
 		public bool IsExecutable(PartyScreenLogic.TroopType troopType, CharacterObject character, PartyScreenLogic.PartyRosterSide side)
@@ -1292,7 +1270,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 			if (numOfItemsLeftToRemove > 0)
 			{
-				Debug.FailedAssert("Couldn't find enough upgrade req items in the inventory.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "RemoveItemFromItemRoster", 1500);
+				Debug.FailedAssert("Couldn't find enough upgrade req items in the inventory.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyScreenLogic.cs", "RemoveItemFromItemRoster", 1467);
 			}
 			return list;
 		}
@@ -1377,7 +1355,7 @@ namespace TaleWorlds.CampaignSystem.Party
 
 		public bool IsThereAnyChanges()
 		{
-			return this._initialData.GetTroopTradeDifferencesFromTo(this.CurrentData).Count != 0;
+			return this._initialData.IsThereAnyTroopTradeDifferenceBetween(this.CurrentData);
 		}
 
 		public bool HaveRightSideGainedTroops()

@@ -67,6 +67,10 @@ namespace StoryMode.Quests.TutorialPhase
 			this.SetDialogs();
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.OnQuestCompletedEvent.AddNonSerializedListener(this, new Action<QuestBase, QuestBase.QuestCompleteDetails>(this.OnQuestCompleted));
@@ -75,21 +79,21 @@ namespace StoryMode.Quests.TutorialPhase
 
 		protected override void SetDialogs()
 		{
-			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000010).NpcLine(new TextObject("{=YEeb0B1V}I am {HEADMAN.FIRSTNAME}, headman of this village. What brings you here?", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.headman_quest_conversation_start_on_condition))
+			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000010).NpcLine(new TextObject("{=YEeb0B1V}I am {HEADMAN.FIRSTNAME}, headman of this village. What brings you here?[ib:normal][if:convo_shocked]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.headman_quest_conversation_start_on_condition))
 				.PlayerLine(new TextObject("{=StLYbEQZ}We need help. Some raiders have taken our younger brother and sister captive. We think they may have passed this way.", null), null)
-				.NpcLine(new TextObject("{=uNgu02FH}They got your people too? Sorry to hear that. Those bastards have done a bit of killing and looting in these parts as well.[if:convo_grave]", null), null, null)
-				.NpcLine(new TextObject("{=bNcGO33Q}We think they've gone north. I reckon there are a few folk around here who'll join you in going after them if you'll pay for their gear.", null), null, null)
-				.NpcLine(new TextObject("{=5Mw4trfs}Once you've made your preparations, come and talk to me again. I may have a task for you if you are going after the raiders.", null), null, null)
+				.NpcLine(new TextObject("{=uNgu02FH}They got your people too? Sorry to hear that. Those bastards have done a bit of killing and looting in these parts as well.[ib:normal2][if:convo_dismayed]", null), null, null)
+				.NpcLine(new TextObject("{=bNcGO33Q}We think they've gone north. I reckon there are a few folk around here who'll join you in going after them if you'll pay for their gear.[if:convo_thinking]", null), null, null)
+				.NpcLine(new TextObject("{=5Mw4trfs}Once you've made your preparations, come and talk to me again. I may have a task for you if you are going after the raiders.[if:convo_pondering]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.headman_quest_conversation_end_on_consequence))
 				.CloseDialog(), this);
-			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000009).NpcLine(new TextObject("{=uhYXopnJ}Have you finished your preparations?", null), null, null).Condition(() => Hero.OneToOneConversationHero == this._headman && (!this._recruitTroopsQuest.IsFinalized || !this._purchaseGrainQuest.IsFinalized))
+			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000009).NpcLine(new TextObject("{=uhYXopnJ}Have you finished your preparations?[if:convo_undecided_open]", null), null, null).Condition(() => Hero.OneToOneConversationHero == this._headman && (!this._recruitTroopsQuest.IsFinalized || !this._purchaseGrainQuest.IsFinalized))
 				.PlayerLine(new TextObject("{=elJCacQO}I am working on it.", null), null)
 				.CloseDialog(), this);
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000010).NpcLine(new TextObject("{=TIaVyqMx}Glad to see you found what you needed. Now, about that matter I mentioned earlier...[if:convo_grave]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.headman_quest_end_conversation_start_on_condition))
-				.NpcLine(new TextObject("{=lnAhXvbo}There's this wandering doctor who comes through here from time to time. Name of Tacteos. Treats people for free... We're fond of him.", null), null, null)
-				.NpcLine(new TextObject("{=xGdoz9Pn}Well, we last saw him a few days ago. He was carrying some sort of chest, which he was very mysterious about. He was on some sort of 'quest', he said, though wouldn't tell us more.", null), null, null)
-				.NpcLine(new TextObject("{=WDylM3dx}He set off on the road just a few hours before the raiders came through here. Well, he's not really a worldly type, just the kind of fellow who'd stumble into a trap and let himself be captured. We're worried about him.", null), null, null)
-				.NpcLine(new TextObject("{=MREvo37b}If you can keep an eye out for him, this Tacteos, we'd be very grateful. Maybe, if he's alive and well, he'll tell you a little more about his 'quest.'", null), null, null)
+				.NpcLine(new TextObject("{=lnAhXvbo}There's this wandering doctor who comes through here from time to time. Name of Tacteos. Treats people for free... We're fond of him.[if:convo_thinking]", null), null, null)
+				.NpcLine(new TextObject("{=xGdoz9Pn}Well, we last saw him a few days ago. He was carrying some sort of chest, which he was very mysterious about. He was on some sort of 'quest', he said, though wouldn't tell us more.[if:convo_pondering]", null), null, null)
+				.NpcLine(new TextObject("{=WDylM3dx}He set off on the road just a few hours before the raiders came through here. Well, he's not really a worldly type, just the kind of fellow who'd stumble into a trap and let himself be captured. We're worried about him.[if:convo_dismayed]", null), null, null)
+				.NpcLine(new TextObject("{=MREvo37b}If you can keep an eye out for him, this Tacteos, we'd be very grateful. Maybe, if he's alive and well, he'll tell you a little more about his 'quest.'[if:convo_normal]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.headman_quest_end_conversation_start_on_consequence))
 				.CloseDialog(), this);
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000009).NpcLine(new TextObject("{=gX0RzZoT}Let's just go speak to the headman.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.headman_quest_conversation_talk_with_brother_on_condition))

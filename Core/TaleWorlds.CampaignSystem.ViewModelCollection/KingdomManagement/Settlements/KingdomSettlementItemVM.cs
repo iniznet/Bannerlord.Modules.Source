@@ -38,7 +38,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 			}
 			else if (settlement.IsCastle)
 			{
-				this.Prosperity = MathF.Round(settlement.Prosperity);
+				this.Prosperity = MathF.Round(settlement.Town.Prosperity);
 				this.IconPath = "";
 			}
 			foreach (Village village in this.Settlement.BoundVillages)

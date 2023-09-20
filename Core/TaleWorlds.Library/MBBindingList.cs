@@ -102,8 +102,9 @@ namespace TaleWorlds.Library
 
 		public void ApplyActionOnAllItems(Action<T> action)
 		{
-			foreach (T t in this._list)
+			for (int i = 0; i < this._list.Count; i++)
 			{
+				T t = this._list[i];
 				action(t);
 			}
 		}

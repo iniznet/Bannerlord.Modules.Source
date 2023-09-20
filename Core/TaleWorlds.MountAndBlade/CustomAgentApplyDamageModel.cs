@@ -30,7 +30,7 @@ namespace TaleWorlds.MountAndBlade
 							BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedMeleeDamage, activeBanner, ref factoredNumber);
 							if (attackInformation.DoesVictimHaveMountAgent)
 							{
-								BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedDamageAgainstMountedTroops, activeBanner, ref factoredNumber);
+								BannerHelper.AddBannerBonusForBanner(DefaultBannerEffects.IncreasedMeleeDamageAgainstMountedTroops, activeBanner, ref factoredNumber);
 							}
 						}
 					}
@@ -195,9 +195,9 @@ namespace TaleWorlds.MountAndBlade
 		{
 			baseDamage *= 1.25f;
 			MissionMultiplayerFlagDomination missionBehavior = Mission.Current.GetMissionBehavior<MissionMultiplayerFlagDomination>();
-			if (missionBehavior != null && missionBehavior.GetMissionType() == MissionLobbyComponent.MultiplayerGameType.Captain)
+			if (missionBehavior != null && missionBehavior.GetMissionType() == MultiplayerGameType.Captain)
 			{
-				return baseDamage * 0.5f;
+				return baseDamage * 0.75f;
 			}
 			FactoredNumber factoredNumber = new FactoredNumber(baseDamage);
 			Formation victimFormation = attackInformation.VictimFormation;

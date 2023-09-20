@@ -52,8 +52,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 				this._dressedEquipment[4] = EquipmentElement.Invalid;
 			}
 			FaceGenerationParams faceGenerationParams = this.BodyGen.InitBodyGenerator(false);
-			faceGenerationParams._useCache = true;
-			faceGenerationParams._useGpuMorph = true;
+			faceGenerationParams.UseCache = true;
+			faceGenerationParams.UseGpuMorph = true;
 			this.SkeletonType = (this.BodyGen.IsFemale ? 1 : 0);
 			SpriteData spriteData = UIResourceManager.SpriteData;
 			TwoDimensionEngineResourceContext resourceContext = UIResourceManager.ResourceContext;
@@ -358,11 +358,13 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 		{
 			if (this.IsHotKeyReleasedOnAnyLayer("Exit"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				this.Cancel();
 				return;
 			}
 			if (this.IsHotKeyReleasedOnAnyLayer("Confirm"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/panels/next");
 				this.Done();
 			}
 		}
@@ -428,10 +430,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 			}
 			if (this.IsHotKeyPressedOnAnyLayer("SwitchToPreviousTab"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/tab");
 				this.DataSource.SelectPreviousTab();
 			}
 			else if (this.IsHotKeyPressedOnAnyLayer("SwitchToNextTab"))
 			{
+				UISoundsHelper.PlayUISound("event:/ui/tab");
 				this.DataSource.SelectNextTab();
 			}
 			if (this.SceneLayer.Input.IsControlDown() || this.GauntletLayer.Input.IsControlDown())
@@ -614,8 +618,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.BodyGenerator
 		void IFaceGeneratorHandler.DefaultFace()
 		{
 			FaceGenerationParams faceGenerationParams = this.BodyGen.InitBodyGenerator(false);
-			faceGenerationParams._useCache = true;
-			faceGenerationParams._useGpuMorph = true;
+			faceGenerationParams.UseCache = true;
+			faceGenerationParams.UseGpuMorph = true;
 			MBBodyProperties.TransformFaceKeysToDefaultFace(ref faceGenerationParams);
 			this.DataSource.SetFaceGenerationParams(faceGenerationParams);
 			this.DataSource.Refresh(true);

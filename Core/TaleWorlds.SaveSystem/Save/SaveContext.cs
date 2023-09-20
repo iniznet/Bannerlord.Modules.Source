@@ -75,7 +75,7 @@ namespace TaleWorlds.SaveSystem.Save
 				{
 					string text = "Cant find definition for " + type.FullName;
 					Debug.Print(text, 0, Debug.DebugColor.Red, 17592186044416UL);
-					Debug.FailedAssert(text, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\Save\\SaveContext.cs", "CollectContainerObjects", 150);
+					Debug.FailedAssert(text, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\Save\\SaveContext.cs", "CollectContainerObjects", 154);
 				}
 				ContainerSaveData.GetChildObjects(this, containerDefinition, containerType, parent, this._temporaryCollectedObjects);
 				for (int i = 0; i < this._temporaryCollectedObjects.Count; i++)
@@ -197,12 +197,11 @@ namespace TaleWorlds.SaveSystem.Save
 
 		public bool Save(object target, MetaData metaData, out string errorMessage)
 		{
-			Debug.Print("SaveContext::Save", 0, Debug.DebugColor.White, 17592186044416UL);
 			errorMessage = "";
 			bool flag = false;
 			if (SaveContext.EnableSaveStatistics)
 			{
-				SaveContext._typeStatistics = new Dictionary<string, ValueTuple<int, int, int>>();
+				SaveContext._typeStatistics = new Dictionary<string, ValueTuple<int, int, int, long>>();
 				SaveContext._containerStatistics = new Dictionary<string, ValueTuple<int, int, int, int, long>>();
 			}
 			try
@@ -255,39 +254,25 @@ namespace TaleWorlds.SaveSystem.Save
 							}
 						}
 					}
-					using (new PerformanceTestBlock("SaveContext::SaveObjects config"))
-					{
-						SaveEntryFolder saveEntryFolder = SaveEntryFolder.CreateRootFolder();
-						BinaryWriter binaryWriter = BinaryWriterFactory.GetBinaryWriter();
-						binaryWriter.WriteInt(this._idsOfChildObjects.Count);
-						binaryWriter.WriteInt(this._strings.Count);
-						binaryWriter.WriteInt(this._idsOfChildContainers.Count);
-						saveEntryFolder.CreateEntry(new EntryId(-1, SaveEntryExtension.Config)).FillFrom(binaryWriter);
-						headerSerializer.SerializeFolderConcurrent(saveEntryFolder);
-						BinaryWriterFactory.ReleaseBinaryWriter(binaryWriter);
-					}
+					SaveEntryFolder saveEntryFolder = SaveEntryFolder.CreateRootFolder();
+					BinaryWriter binaryWriter = BinaryWriterFactory.GetBinaryWriter();
+					binaryWriter.WriteInt(this._idsOfChildObjects.Count);
+					binaryWriter.WriteInt(this._strings.Count);
+					binaryWriter.WriteInt(this._idsOfChildContainers.Count);
+					saveEntryFolder.CreateEntry(new EntryId(-1, SaveEntryExtension.Config)).FillFrom(binaryWriter);
+					headerSerializer.SerializeFolderConcurrent(saveEntryFolder);
+					BinaryWriterFactory.ReleaseBinaryWriter(binaryWriter);
 					ArchiveSerializer archiveSerializer = new ArchiveSerializer();
-					using (new PerformanceTestBlock("SaveContext::SaveObjects strings"))
+					SaveEntryFolder saveEntryFolder2 = SaveEntryFolder.CreateRootFolder();
+					SaveEntryFolder saveEntryFolder3 = archiveSerializer.CreateFolder(saveEntryFolder2, new FolderId(-1, SaveFolderExtension.Strings), this._strings.Count);
+					for (int k = 0; k < this._strings.Count; k++)
 					{
-						SaveEntryFolder saveEntryFolder2 = SaveEntryFolder.CreateRootFolder();
-						SaveEntryFolder saveEntryFolder3 = archiveSerializer.CreateFolder(saveEntryFolder2, new FolderId(-1, SaveFolderExtension.Strings), this._strings.Count);
-						for (int k = 0; k < this._strings.Count; k++)
-						{
-							string text = this._strings[k];
-							SaveContext.SaveStringTo(saveEntryFolder3, k, text);
-						}
-						archiveSerializer.SerializeFolder(saveEntryFolder2);
+						string text = this._strings[k];
+						SaveContext.SaveStringTo(saveEntryFolder3, k, text);
 					}
-					byte[] array = null;
-					byte[] array2 = null;
-					using (new PerformanceTestBlock("SaveContext::FinalizeAndGetBinaryHeaderDataConcurrent"))
-					{
-						array = headerSerializer.FinalizeAndGetBinaryDataConcurrent();
-					}
-					using (new PerformanceTestBlock("SaveContext::FinalizeAndGetBinaryStringDataConcurrent"))
-					{
-						array2 = archiveSerializer.FinalizeAndGetBinaryData();
-					}
+					archiveSerializer.SerializeFolder(saveEntryFolder2);
+					byte[] array = headerSerializer.FinalizeAndGetBinaryDataConcurrent();
+					byte[] array2 = archiveSerializer.FinalizeAndGetBinaryData();
 					this.SaveData = new GameData(array, array2, objectData, containerData);
 					BinaryWriterFactory.Release();
 				}
@@ -314,23 +299,22 @@ namespace TaleWorlds.SaveSystem.Save
 			objectSaveData.CollectStrings();
 			objectSaveData.SaveHeaderTo(saveEntryFolder2, headerSerializer);
 			objectSaveData.SaveTo(saveEntryFolder, archiveSerializer);
-			if (SaveContext.EnableSaveStatistics)
-			{
-				string name = objectSaveData.Type.Name;
-				ValueTuple<int, int, int> valueTuple;
-				if (SaveContext._typeStatistics.TryGetValue(name, out valueTuple))
-				{
-					SaveContext._typeStatistics[name] = new ValueTuple<int, int, int>(valueTuple.Item1 + 1, valueTuple.Item2, valueTuple.Item3);
-				}
-				else
-				{
-					SaveContext._typeStatistics[name] = new ValueTuple<int, int, int>(1, objectSaveData.FieldCount, objectSaveData.PropertyCount);
-				}
-			}
 			headerSerializer.SerializeFolderConcurrent(saveEntryFolder2);
 			archiveSerializer.SerializeFolder(saveEntryFolder);
 			byte[] array = archiveSerializer.FinalizeAndGetBinaryData();
 			objectData[id] = array;
+			if (SaveContext.EnableSaveStatistics)
+			{
+				string name = objectSaveData.Type.Name;
+				int num = array.Length;
+				ValueTuple<int, int, int, long> valueTuple;
+				if (SaveContext._typeStatistics.TryGetValue(name, out valueTuple))
+				{
+					SaveContext._typeStatistics[name] = new ValueTuple<int, int, int, long>(valueTuple.Item1 + 1, valueTuple.Item2, valueTuple.Item3, valueTuple.Item4 + (long)num);
+					return;
+				}
+				SaveContext._typeStatistics[name] = new ValueTuple<int, int, int, long>(1, objectSaveData.FieldCount, objectSaveData.PropertyCount, (long)num);
+			}
 		}
 
 		private void SaveSingleContainer(ArchiveConcurrentSerializer headerSerializer, byte[][] containerData, int id)
@@ -399,7 +383,7 @@ namespace TaleWorlds.SaveSystem.Save
 
 		private object _locker;
 
-		private static Dictionary<string, ValueTuple<int, int, int>> _typeStatistics;
+		private static Dictionary<string, ValueTuple<int, int, int, long>> _typeStatistics;
 
 		private static Dictionary<string, ValueTuple<int, int, int, int, long>> _containerStatistics;
 
@@ -407,19 +391,19 @@ namespace TaleWorlds.SaveSystem.Save
 
 		public struct SaveStatistics
 		{
-			public SaveStatistics(Dictionary<string, ValueTuple<int, int, int>> typeStatistics, Dictionary<string, ValueTuple<int, int, int, int, long>> containerStatistics)
+			public SaveStatistics(Dictionary<string, ValueTuple<int, int, int, long>> typeStatistics, Dictionary<string, ValueTuple<int, int, int, int, long>> containerStatistics)
 			{
 				this._typeStatistics = typeStatistics;
 				this._containerStatistics = containerStatistics;
 			}
 
-			public ValueTuple<int, int, int> GetObjectCounts(string key)
+			public ValueTuple<int, int, int, long> GetObjectCounts(string key)
 			{
 				if (this._typeStatistics.ContainsKey(key))
 				{
 					return this._typeStatistics[key];
 				}
-				return default(ValueTuple<int, int, int>);
+				return default(ValueTuple<int, int, int, long>);
 			}
 
 			public ValueTuple<int, int, int, int, long> GetContainerCounts(string key)
@@ -442,7 +426,7 @@ namespace TaleWorlds.SaveSystem.Save
 				return this._containerStatistics.Keys.ToList<string>();
 			}
 
-			private Dictionary<string, ValueTuple<int, int, int>> _typeStatistics;
+			private Dictionary<string, ValueTuple<int, int, int, long>> _typeStatistics;
 
 			private Dictionary<string, ValueTuple<int, int, int, int, long>> _containerStatistics;
 		}

@@ -184,9 +184,9 @@ namespace Helpers
 			return ((Kingdom)mapFaction).Armies;
 		}
 
-		public static float SettlementProsperityEffectOnGarrisonSizeConstant(Settlement settlement)
+		public static float SettlementProsperityEffectOnGarrisonSizeConstant(Town town)
 		{
-			return 2.2f * (0.1f + 0.9f * MathF.Sqrt(MathF.Min(MathF.Max(0f, settlement.Prosperity), 5000f) / 5000f));
+			return 2.2f * (0.1f + 0.9f * MathF.Sqrt(MathF.Min(MathF.Max(0f, town.Prosperity), 5000f) / 5000f));
 		}
 
 		public static float SettlementFoodPotentialEffectOnGarrisonSizeConstant(Settlement settlement)
@@ -246,7 +246,7 @@ namespace Helpers
 			float num6 = 0f;
 			foreach (Town town in list)
 			{
-				float num7 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(town.Settlement);
+				float num7 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(town);
 				float num8 = FactionHelper.SettlementFoodPotentialEffectOnGarrisonSizeConstant(town.Settlement);
 				num7 *= num8;
 				float num9 = FactionHelper.OwnerClanEconomyEffectOnGarrisonSizeConstant(town.OwnerClan);
@@ -355,7 +355,7 @@ namespace Helpers
 
 		public static void AdjustFactionStancesForClanJoiningKingdom(Clan joiningClan, Kingdom kingdomToJoin)
 		{
-			foreach (StanceLink stanceLink in joiningClan.Stances)
+			foreach (StanceLink stanceLink in new List<StanceLink>(joiningClan.Stances))
 			{
 				if (!stanceLink.IsAtConstantWar)
 				{
@@ -379,7 +379,7 @@ namespace Helpers
 
 		public static TextObject GetTermUsedByOtherFaction(IFaction faction, IFaction otherFaction, bool pejorative)
 		{
-			if (faction.IsMinorFaction)
+			if (faction.IsMinorFaction || faction.IsEliminated)
 			{
 				TextObject textObject = new TextObject("{=n48jo6Qn}the {FACTION_NAME}", null);
 				textObject.SetTextVariable("FACTION_NAME", faction.Name);
@@ -578,7 +578,7 @@ namespace Helpers
 				{
 					func = (<>9__2 = delegate(Clan t)
 					{
-						if (t != oldClan && t != CampaignData.NeutralFaction && !t.IsEliminated && !t.IsMinorFaction && !t.Lords.IsEmpty<Hero>())
+						if (t != oldClan && !t.IsEliminated && !t.IsMinorFaction && !t.Lords.IsEmpty<Hero>())
 						{
 							if (t.Lords.Any((Hero k) => !k.IsChild))
 							{

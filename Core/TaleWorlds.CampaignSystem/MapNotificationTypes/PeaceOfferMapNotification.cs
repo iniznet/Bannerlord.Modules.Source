@@ -43,7 +43,13 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 			}
 		}
 
-		public override string SoundEventPath { get; }
+		public override string SoundEventPath
+		{
+			get
+			{
+				return "event:/ui/notification/peace_offer";
+			}
+		}
 
 		public PeaceOfferMapNotification(IFaction opponentFaction, int tributeAmount, TextObject descriptionText)
 			: base(descriptionText)

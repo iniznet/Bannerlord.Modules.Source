@@ -7,6 +7,7 @@ using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries;
 using TaleWorlds.ScreenSystem;
 
@@ -86,11 +87,13 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				}
 				if (GauntletQueryManager._activeDataSource.IsButtonOkShown && GauntletQueryManager._activeDataSource.IsButtonOkEnabled && this._gauntletLayer.Input.IsHotKeyDownAndReleased("Confirm"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/panels/next");
 					GauntletQueryManager._activeDataSource.ExecuteAffirmativeAction();
 					return;
 				}
 				if (GauntletQueryManager._activeDataSource.IsButtonCancelShown && this._gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/panels/next");
 					GauntletQueryManager._activeDataSource.ExecuteNegativeAction();
 				}
 			}
@@ -120,12 +123,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 			if (data == null)
 			{
-				Debug.FailedAssert("Trying to create query with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateQuery", 123);
+				Debug.FailedAssert("Trying to create query with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateQuery", 126);
 				return;
 			}
 			if (GauntletQueryManager.CheckIfQueryDataIsEqual(GauntletQueryManager._activeQueryData, data) || this._inquiryQueue.Any((Tuple<Type, object, bool, bool> x) => GauntletQueryManager.CheckIfQueryDataIsEqual(x.Item2, data)))
 			{
-				Debug.FailedAssert("Trying to create query but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateQuery", 128);
+				Debug.FailedAssert("Trying to create query but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateQuery", 131);
 				return;
 			}
 			if (prioritize)
@@ -149,12 +152,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 			if (data == null)
 			{
-				Debug.FailedAssert("Trying to create textQuery with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateTextQuery", 158);
+				Debug.FailedAssert("Trying to create textQuery with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateTextQuery", 161);
 				return;
 			}
 			if (GauntletQueryManager.CheckIfQueryDataIsEqual(GauntletQueryManager._activeQueryData, data) || this._inquiryQueue.Any((Tuple<Type, object, bool, bool> x) => GauntletQueryManager.CheckIfQueryDataIsEqual(x.Item2, data)))
 			{
-				Debug.FailedAssert("Trying to create textQuery but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateTextQuery", 163);
+				Debug.FailedAssert("Trying to create textQuery but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateTextQuery", 166);
 				return;
 			}
 			if (prioritize)
@@ -178,12 +181,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 			if (data == null)
 			{
-				Debug.FailedAssert("Trying to create multiSelectionQuery with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateMultiSelectionQuery", 193);
+				Debug.FailedAssert("Trying to create multiSelectionQuery with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateMultiSelectionQuery", 196);
 				return;
 			}
 			if (GauntletQueryManager.CheckIfQueryDataIsEqual(GauntletQueryManager._activeQueryData, data) || this._inquiryQueue.Any((Tuple<Type, object, bool, bool> x) => GauntletQueryManager.CheckIfQueryDataIsEqual(x.Item2, data)))
 			{
-				Debug.FailedAssert("Trying to create multiSelectionQuery but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateMultiSelectionQuery", 198);
+				Debug.FailedAssert("Trying to create multiSelectionQuery but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateMultiSelectionQuery", 201);
 				return;
 			}
 			if (prioritize)
@@ -249,7 +252,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 					action(tuple.Item2, tuple.Item3, tuple.Item4);
 					return;
 				}
-				Debug.FailedAssert("Invalid data type for query", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CloseQuery", 290);
+				Debug.FailedAssert("Invalid data type for query", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CloseQuery", 293);
 			}
 		}
 

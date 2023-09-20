@@ -98,10 +98,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (mobileParty.ItemRoster[i].Amount > num)
 					{
-						ItemRosterElement itemRosterElement = mobileParty.ItemRoster[i];
-						itemRosterElement.Amount -= num;
+						int num3 = mobileParty.ItemRoster[i].Amount - num;
 						num = 0;
-						this.DiscardNecessaryAmountOfItems(mobileParty, itemRosterElement, ref num2);
+						this.DiscardNecessaryAmountOfItems(mobileParty, mobileParty.ItemRoster[i], ref num2, num3);
 					}
 					else
 					{
@@ -110,36 +109,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 				else
 				{
-					this.DiscardNecessaryAmountOfItems(mobileParty, mobileParty.ItemRoster[i], ref num2);
+					this.DiscardNecessaryAmountOfItems(mobileParty, mobileParty.ItemRoster[i], ref num2, int.MaxValue);
 				}
 			}
 		}
 
-		private void DiscardNecessaryAmountOfItems(MobileParty mobileParty, ItemRosterElement itemRosterElement, ref float weightLeftToDiscard)
+		private void DiscardNecessaryAmountOfItems(MobileParty mobileParty, ItemRosterElement itemRosterElement, ref float weightLeftToDiscard, int discardLimit = 2147483647)
 		{
-			if (itemRosterElement.GetRosterElementWeight() < weightLeftToDiscard)
-			{
-				mobileParty.ItemRoster.AddToCounts(itemRosterElement.EquipmentElement, -itemRosterElement.Amount);
-				weightLeftToDiscard -= itemRosterElement.GetRosterElementWeight();
-				return;
-			}
-			int num = MathF.Ceiling(weightLeftToDiscard / itemRosterElement.EquipmentElement.GetEquipmentElementWeight());
+			float equipmentElementWeight = itemRosterElement.EquipmentElement.GetEquipmentElementWeight();
+			int num = MBMath.ClampInt((itemRosterElement.GetRosterElementWeight() <= weightLeftToDiscard) ? itemRosterElement.Amount : MathF.Ceiling(weightLeftToDiscard / equipmentElementWeight), 0, discardLimit);
+			weightLeftToDiscard -= equipmentElementWeight * (float)num;
 			mobileParty.ItemRoster.AddToCounts(itemRosterElement.EquipmentElement, -num);
-			weightLeftToDiscard -= itemRosterElement.EquipmentElement.GetEquipmentElementWeight() * (float)num;
 		}
 
 		private void DiscardAnimal(MobileParty mobileParty, ItemRosterElement itemRosterElement, ref int numberOfAnimalsToDiscard)
 		{
-			if (itemRosterElement.Amount > numberOfAnimalsToDiscard)
-			{
-				ItemRosterElement itemRosterElement2 = itemRosterElement;
-				itemRosterElement2.Amount = numberOfAnimalsToDiscard;
-				mobileParty.ItemRoster.AddToCounts(itemRosterElement.EquipmentElement, -numberOfAnimalsToDiscard);
-				numberOfAnimalsToDiscard -= numberOfAnimalsToDiscard;
-				return;
-			}
-			mobileParty.ItemRoster.AddToCounts(itemRosterElement.EquipmentElement, -itemRosterElement.Amount);
-			numberOfAnimalsToDiscard -= itemRosterElement.Amount;
+			int num = ((itemRosterElement.Amount > numberOfAnimalsToDiscard) ? numberOfAnimalsToDiscard : itemRosterElement.Amount);
+			numberOfAnimalsToDiscard -= num;
+			mobileParty.ItemRoster.AddToCounts(itemRosterElement.EquipmentElement, -num);
 		}
 	}
 }

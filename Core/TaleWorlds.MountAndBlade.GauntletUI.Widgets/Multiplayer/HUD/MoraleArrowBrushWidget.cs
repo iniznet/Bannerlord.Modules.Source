@@ -43,7 +43,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 			base.IsVisible = this._currentFlow > 0 && !this.AreMoralesIndependent;
 			if (base.IsVisible)
 			{
-				float num = this.BaseSpeedModifier * (float)this._currentFlow;
+				float num = this.BaseSpeedModifier * (float)Math.Sqrt((double)this._currentFlow);
 				float num2 = this.BaseHorizontalExtendRange * (float)this._currentFlow;
 				if (this._currentAnimState == MoraleArrowBrushWidget.AnimStates.FadeIn)
 				{

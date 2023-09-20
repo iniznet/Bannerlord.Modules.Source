@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D54}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C6D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Core</RootNamespace>
     <AssemblyName>TaleWorlds.Core</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,9 +30,13 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
@@ -66,6 +69,7 @@
     <Compile Include="BladeData.cs" />
     <Compile Include="BodyMeshMaturityType.cs" />
     <Compile Include="BodyProperties.cs" />
+    <Compile Include="BodyPropertiesJsonConverter.cs" />
     <Compile Include="CampaignSaveMetaDataArgs.cs" />
     <Compile Include="CharacterAttribute.cs" />
     <Compile Include="CharacterCode.cs" />
@@ -159,6 +163,7 @@
     <Compile Include="ItemModifier.cs" />
     <Compile Include="ItemModifierGroup.cs" />
     <Compile Include="ItemObject.cs" />
+    <Compile Include="ItemQuality.cs" />
     <Compile Include="ItemRosterElement.cs" />
     <Compile Include="ItemValueModel.cs" />
     <Compile Include="ITrackableBase.cs" />
@@ -222,8 +227,9 @@
     <Compile Include="TerrainType.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="TradeItemComponent.cs" />
-    <Compile Include="TroopClassFlag.cs" />
+    <Compile Include="TroopClassExtensions.cs" />
     <Compile Include="TroopType.cs" />
+    <Compile Include="TroopUsageFlags.cs" />
     <Compile Include="TutorialContextChangedEvent.cs" />
     <Compile Include="TutorialContexts.cs" />
     <Compile Include="UniqueTroopDescriptor.cs" />
@@ -241,36 +247,32 @@
     <Compile Include="XmlHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d69}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d6a}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c83}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Network\TaleWorlds.Network.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d73}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8d}</Project>
       <Name>TaleWorlds.Network</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d74}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8e}</Project>
       <Name>TaleWorlds.ObjectSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d79}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.SaveSystem\TaleWorlds.SaveSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d7b}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c95}</Project>
       <Name>TaleWorlds.SaveSystem</Name>
     </ProjectReference>
   </ItemGroup>

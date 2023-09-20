@@ -225,8 +225,11 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 			Agent mainAgent = base.Mission.MainAgent;
-			mainAgent.SetDetachableFromFormation(true);
-			mainAgent.Controller = Agent.ControllerType.Player;
+			if (mainAgent != null)
+			{
+				mainAgent.SetDetachableFromFormation(true);
+				mainAgent.Controller = Agent.ControllerType.Player;
+			}
 			base.Mission.AllowAiTicking = true;
 			base.Mission.DisableDying = false;
 			this.MissionAgentSpawnLogic.SetReinforcementsSpawnEnabled(true, true);

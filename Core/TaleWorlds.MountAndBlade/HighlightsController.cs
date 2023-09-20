@@ -128,7 +128,7 @@ namespace TaleWorlds.MountAndBlade
 					highlight.HighlightType = this.GetHighlightTypeWithId("hlid_throwing_weapon_kill_against_charging_enemy");
 					flag2 = true;
 				}
-				if (this._isFirstImpact && affectorAgent.Formation != null && affectorAgent.Formation.IsCavalry() && affectorAgent.Formation.GetReadonlyMovementOrderReference() == MovementOrder.MovementOrderCharge && this.CanSaveHighlight(this.GetHighlightTypeWithId("hlid_cavalry_charge_first_impact"), affectedAgent.Position))
+				if (this._isFirstImpact && affectorAgent.Formation != null && affectorAgent.Formation.PhysicalClass.IsMeleeCavalry() && affectorAgent.Formation.GetReadonlyMovementOrderReference() == MovementOrder.MovementOrderCharge && this.CanSaveHighlight(this.GetHighlightTypeWithId("hlid_cavalry_charge_first_impact"), affectedAgent.Position))
 				{
 					this._cavalryChargeHitTimes.RemoveAll((float ht) => ht + 3f < Mission.Current.CurrentTime);
 					this._cavalryChargeHitTimes.Add(Mission.Current.CurrentTime);
@@ -151,24 +151,24 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
-			bool flag = affectorAgent != null && affectorAgent.IsMainAgent;
 			if (affectorAgent != null && affectedAgent != null && affectorAgent.IsHuman && affectedAgent.IsHuman)
 			{
+				bool isMainAgent = affectorAgent.IsMainAgent;
 				HighlightsController.Highlight highlight = default(HighlightsController.Highlight);
 				highlight.Start = Mission.Current.CurrentTime;
 				highlight.End = Mission.Current.CurrentTime;
-				bool flag2 = false;
-				if (flag && shotDifficulty >= 7.5f)
+				bool flag = false;
+				if (isMainAgent && shotDifficulty >= 7.5f)
 				{
 					highlight.HighlightType = this.GetHighlightTypeWithId("hlid_high_ranged_shot_difficulty");
-					flag2 = true;
+					flag = true;
 				}
-				if (flag && affectedAgent.HasMount && blow.AttackType == AgentAttackType.Standard && affectorAgent.HasMount && affectorAgent.IsDoingPassiveAttack)
+				if (isMainAgent && affectedAgent.HasMount && blow.AttackType == AgentAttackType.Standard && affectorAgent.HasMount && affectorAgent.IsDoingPassiveAttack)
 				{
 					highlight.HighlightType = this.GetHighlightTypeWithId("hlid_couched_lance_against_mounted_opponent");
-					flag2 = true;
+					flag = true;
 				}
-				if (this._isFirstImpact && affectorAgent.Formation != null && affectorAgent.Formation.IsCavalry() && affectorAgent.Formation.GetReadonlyMovementOrderReference() == MovementOrder.MovementOrderCharge && this.CanSaveHighlight(this.GetHighlightTypeWithId("hlid_cavalry_charge_first_impact"), affectedAgent.Position))
+				if (this._isFirstImpact && affectorAgent.Formation != null && affectorAgent.Formation.PhysicalClass.IsMeleeCavalry() && affectorAgent.Formation.GetReadonlyMovementOrderReference() == MovementOrder.MovementOrderCharge && this.CanSaveHighlight(this.GetHighlightTypeWithId("hlid_cavalry_charge_first_impact"), affectedAgent.Position))
 				{
 					this._cavalryChargeHitTimes.RemoveAll((float ht) => ht + 3f < Mission.Current.CurrentTime);
 					this._cavalryChargeHitTimes.Add(Mission.Current.CurrentTime);
@@ -177,12 +177,12 @@ namespace TaleWorlds.MountAndBlade
 						highlight.HighlightType = this.GetHighlightTypeWithId("hlid_cavalry_charge_first_impact");
 						highlight.Start = this._cavalryChargeHitTimes[0];
 						highlight.End = this._cavalryChargeHitTimes[this._cavalryChargeHitTimes.Count - 1];
-						flag2 = true;
+						flag = true;
 						this._isFirstImpact = false;
 						this._cavalryChargeHitTimes.Clear();
 					}
 				}
-				if (flag2)
+				if (flag)
 				{
 					this.SaveHighlight(highlight, affectedAgent.Position);
 				}

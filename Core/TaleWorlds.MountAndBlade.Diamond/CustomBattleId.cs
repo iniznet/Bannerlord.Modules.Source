@@ -5,27 +5,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	[Serializable]
 	public struct CustomBattleId
 	{
-		public Guid Guid
-		{
-			get
-			{
-				return this._guid;
-			}
-		}
+		public Guid Guid { get; private set; }
 
 		public CustomBattleId(Guid guid)
 		{
-			this._guid = guid;
-		}
-
-		public CustomBattleId(byte[] b)
-		{
-			this._guid = new Guid(b);
-		}
-
-		public CustomBattleId(string g)
-		{
-			this._guid = new Guid(g);
+			this.Guid = guid;
 		}
 
 		public static CustomBattleId NewGuid()
@@ -35,34 +19,37 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public override string ToString()
 		{
-			return this._guid.ToString();
+			return this.Guid.ToString();
 		}
 
 		public byte[] ToByteArray()
 		{
-			return this._guid.ToByteArray();
+			return this.Guid.ToByteArray();
 		}
 
 		public static bool operator ==(CustomBattleId a, CustomBattleId b)
 		{
-			return a._guid == b._guid;
+			return a.Guid == b.Guid;
 		}
 
 		public static bool operator !=(CustomBattleId a, CustomBattleId b)
 		{
-			return a._guid != b._guid;
+			return a.Guid != b.Guid;
 		}
 
 		public override bool Equals(object o)
 		{
-			return o != null && o is CustomBattleId && this._guid.Equals(((CustomBattleId)o).Guid);
+			if (o != null && o is CustomBattleId)
+			{
+				CustomBattleId customBattleId = (CustomBattleId)o;
+				return this.Guid.Equals(customBattleId.Guid);
+			}
+			return false;
 		}
 
 		public override int GetHashCode()
 		{
-			return this._guid.GetHashCode();
+			return this.Guid.GetHashCode();
 		}
-
-		private Guid _guid;
 	}
 }

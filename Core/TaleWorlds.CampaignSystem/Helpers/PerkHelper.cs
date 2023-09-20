@@ -13,13 +13,14 @@ namespace Helpers
 {
 	public static class PerkHelper
 	{
-		public static IEnumerable<PerkObject> GetCaptainPerksForTroopClasses(TroopClassFlag troopClassFlags)
+		public static IEnumerable<PerkObject> GetCaptainPerksForTroopUsages(TroopUsageFlags troopUsageFlags)
 		{
 			List<PerkObject> list = new List<PerkObject>();
 			foreach (PerkObject perkObject in PerkObject.All)
 			{
-				TroopClassFlag troopClassFlag = perkObject.PrimaryTroopClassMask | perkObject.SecondaryTroopClassMask;
-				if (troopClassFlag != TroopClassFlag.None && troopClassFlags.HasAllFlags(troopClassFlag))
+				bool flag = perkObject.PrimaryTroopUsageMask != TroopUsageFlags.Undefined && troopUsageFlags.HasAllFlags(perkObject.PrimaryTroopUsageMask);
+				bool flag2 = perkObject.SecondaryTroopUsageMask != TroopUsageFlags.Undefined && troopUsageFlags.HasAllFlags(perkObject.SecondaryTroopUsageMask);
+				if (flag || flag2)
 				{
 					list.Add(perkObject);
 				}
@@ -48,11 +49,11 @@ namespace Helpers
 					}
 					if (flag)
 					{
-						PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, num, PerkHelper._textLeader);
+						PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, num, perk.Name);
 					}
 					else
 					{
-						PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, num, PerkHelper._textLeader);
+						PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, num, perk.Name);
 					}
 				}
 				flag = isPrimaryBonus && perk.PrimaryRole == SkillEffect.PerkRole.ClanLeader;
@@ -61,11 +62,11 @@ namespace Helpers
 				{
 					if (flag)
 					{
-						PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textLeader);
+						PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 					}
 					else
 					{
-						PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textLeader);
+						PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 					}
 				}
 				flag = isPrimaryBonus && perk.PrimaryRole == SkillEffect.PerkRole.PartyMember;
@@ -76,7 +77,7 @@ namespace Helpers
 					{
 						if (hero.GetPerkValue(perk))
 						{
-							PerkHelper.AddToStat(ref stat, flag ? perk.PrimaryIncrementType : perk.SecondaryIncrementType, flag ? perk.PrimaryBonus : perk.SecondaryBonus, PerkHelper._textMember);
+							PerkHelper.AddToStat(ref stat, flag ? perk.PrimaryIncrementType : perk.SecondaryIncrementType, flag ? perk.PrimaryBonus : perk.SecondaryBonus, perk.Name);
 						}
 					}
 					else
@@ -85,7 +86,7 @@ namespace Helpers
 						{
 							if (troopRosterElement.Character.IsHero && troopRosterElement.Character.GetPerkValue(perk))
 							{
-								PerkHelper.AddToStat(ref stat, flag ? perk.PrimaryIncrementType : perk.SecondaryIncrementType, flag ? perk.PrimaryBonus : perk.SecondaryBonus, PerkHelper._textMember);
+								PerkHelper.AddToStat(ref stat, flag ? perk.PrimaryIncrementType : perk.SecondaryIncrementType, flag ? perk.PrimaryBonus : perk.SecondaryBonus, perk.Name);
 							}
 						}
 					}
@@ -101,11 +102,11 @@ namespace Helpers
 						{
 							if (flag)
 							{
-								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textEngineer);
+								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 							}
 							else
 							{
-								PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textEngineer);
+								PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 							}
 						}
 					}
@@ -118,11 +119,11 @@ namespace Helpers
 						{
 							if (flag)
 							{
-								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textScout);
+								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 							}
 							else
 							{
-								PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textScout);
+								PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 							}
 						}
 					}
@@ -135,11 +136,11 @@ namespace Helpers
 						{
 							if (flag)
 							{
-								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textSurgeon);
+								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 							}
 							else
 							{
-								PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textSurgeon);
+								PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 							}
 						}
 					}
@@ -152,10 +153,10 @@ namespace Helpers
 						{
 							if (flag)
 							{
-								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textQuartermaster);
+								PerkHelper.AddToStat(ref stat, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 								return;
 							}
-							PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textQuartermaster);
+							PerkHelper.AddToStat(ref stat, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 						}
 					}
 				}
@@ -181,12 +182,12 @@ namespace Helpers
 			{
 				if (character.GetPerkValue(perk))
 				{
-					PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textPerkBonuses);
+					PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 				}
 			}
 			else if (!isPrimaryBonus && perk.SecondaryRole == SkillEffect.PerkRole.Personal && character.GetPerkValue(perk))
 			{
-				PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textPerkBonuses);
+				PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 			}
 			if (isPrimaryBonus && perk.PrimaryRole == SkillEffect.PerkRole.ClanLeader)
 			{
@@ -195,18 +196,18 @@ namespace Helpers
 					Clan clan = character.HeroObject.Clan;
 					if (((clan != null) ? clan.Leader : null) != null && character.HeroObject.Clan.Leader.GetPerkValue(perk))
 					{
-						PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textPerkBonuses);
+						PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 						return;
 					}
 				}
 			}
 			else if (!isPrimaryBonus && perk.SecondaryRole == SkillEffect.PerkRole.ClanLeader && character.IsHero && character.HeroObject.Clan.Leader != null && character.HeroObject.Clan.Leader.GetPerkValue(perk))
 			{
-				PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textPerkBonuses);
+				PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 			}
 		}
 
-		public static void AddEpicPerkBonusForCharacter(PerkObject perk, CharacterObject character, SkillObject skillType, bool applyPrimaryBonus, ref ExplainedNumber bonuses, int skillRequired = 250)
+		public static void AddEpicPerkBonusForCharacter(PerkObject perk, CharacterObject character, SkillObject skillType, bool applyPrimaryBonus, ref ExplainedNumber bonuses, int skillRequired)
 		{
 			if (character.GetPerkValue(perk))
 			{
@@ -215,10 +216,10 @@ namespace Helpers
 				{
 					if (applyPrimaryBonus)
 					{
-						PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus * (float)(skillValue - skillRequired), PerkHelper._textPerkBonuses);
+						PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus * (float)(skillValue - skillRequired), perk.Name);
 						return;
 					}
-					PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus * (float)(skillValue - skillRequired), PerkHelper._textPerkBonuses);
+					PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus * (float)(skillValue - skillRequired), perk.Name);
 				}
 			}
 		}
@@ -229,13 +230,13 @@ namespace Helpers
 			{
 				if (captainCharacter != null && captainCharacter.GetPerkValue(perk))
 				{
-					PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus, PerkHelper._textPerkBonuses);
+					PerkHelper.AddToStat(ref bonuses, perk.PrimaryIncrementType, perk.PrimaryBonus, perk.Name);
 					return;
 				}
 			}
 			else if (perk.SecondaryRole == SkillEffect.PerkRole.Captain && captainCharacter != null && captainCharacter.GetPerkValue(perk))
 			{
-				PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus, PerkHelper._textPerkBonuses);
+				PerkHelper.AddToStat(ref bonuses, perk.SecondaryIncrementType, perk.SecondaryBonus, perk.Name);
 			}
 		}
 
@@ -306,26 +307,16 @@ namespace Helpers
 			return new ValueTuple<TextObject, TextObject>(TextObject.Empty, new TextObject("{=0rBsbw1T}No effect", null));
 		}
 
-		private static readonly TextObject _textLeader = new TextObject("{=fghweLqW}Leader Perks", null);
-
-		private static readonly TextObject _textScout = new TextObject("{=3UDUqYv1}Scout Perks", null);
-
-		private static readonly TextObject _textQuartermaster = new TextObject("{=AvaZUvnu}Quartermaster Perks", null);
-
-		private static readonly TextObject _textEngineer = new TextObject("{=Gg5dJHjC}Engineer Perks", null);
-
-		private static readonly TextObject _textSurgeon = new TextObject("{=aG7KXlu0}Surgeon Perks", null);
-
-		private static readonly TextObject _textSergeant = new TextObject("{=TxbjTbZf}Sergeant Perks", null);
-
-		private static readonly TextObject _textGovernor = new TextObject("{=Fa2nKXxI}Governor", null);
-
-		private static readonly TextObject _textClanLeader = new TextObject("{=pqfz386V}Clan Leader", null);
-
-		private static readonly TextObject _textPerkBonuses = new TextObject("{=Avy8Gua1}Perks", null);
-
-		private static readonly TextObject _textFeatBonuses = new TextObject("{=snSBfQkV}Feats", null);
-
-		private static readonly TextObject _textMember = new TextObject("{=7rxJWqby}Party members", null);
+		public static void SetDescriptionTextVariable(TextObject description, float bonus, SkillEffect.EffectIncrementType effectIncrementType)
+		{
+			float num = ((effectIncrementType == SkillEffect.EffectIncrementType.AddFactor) ? (bonus * 100f) : bonus);
+			string text = string.Format("{0:0.#}", num);
+			if (bonus > 0f)
+			{
+				description.SetTextVariable("VALUE", "+" + text);
+				return;
+			}
+			description.SetTextVariable("VALUE", text ?? "");
+		}
 	}
 }

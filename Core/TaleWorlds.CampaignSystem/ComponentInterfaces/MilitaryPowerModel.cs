@@ -6,25 +6,14 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 {
 	public abstract class MilitaryPowerModel : GameModel
 	{
-		public abstract float GetTroopPowerBasedOnContext(CharacterObject troop, MapEvent.BattleTypes battleType = MapEvent.BattleTypes.None, BattleSideEnum battleSideEnum = BattleSideEnum.None, bool isSimulation = false);
+		public abstract float GetTroopPower(float defaultTroopPower, float leaderModifier = 0f, float contextModifier = 0f);
 
-		public abstract float GetTroopPowerToCalculateSecurity(CharacterObject troop);
+		public abstract float GetTroopPower(CharacterObject troop, BattleSideEnum side, MapEvent.PowerCalculationContext context, float leaderModifier);
 
-		public enum PowerCalculationContext
-		{
-			FieldBattle,
-			FieldBattleSimulation,
-			RaidAsAttacker,
-			RaidAsDefender,
-			RaidSimulationAsAttacker,
-			RaidSimulationAsDefender,
-			SiegeSimulationAsAttacker,
-			SiegeSimulationAsDefender,
-			SiegeAsAttacker,
-			SiegeAsDefender,
-			ToCalculateSettlementSecurity,
-			Hideout,
-			Default
-		}
+		public abstract float GetContextModifier(CharacterObject troop, BattleSideEnum battleSideEnum, MapEvent.PowerCalculationContext context);
+
+		public abstract float GetLeaderModifierInMapEvent(MapEvent mapEvent, BattleSideEnum battleSideEnum);
+
+		public abstract float GetDefaultTroopPower(CharacterObject troop);
 	}
 }

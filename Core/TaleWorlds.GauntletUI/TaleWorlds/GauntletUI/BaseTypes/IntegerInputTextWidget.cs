@@ -132,19 +132,17 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 					if (this._editableText.IsAnySelected())
 					{
 						base.DeleteText(this._editableText.SelectedTextBegin, this._editableText.SelectedTextEnd);
-						this.TrySetStringAsInteger(base.RealText);
 					}
 					else if (Input.IsKeyDown(InputKey.LeftControl))
 					{
 						int num4 = base.FindNextWordPosition(-1) - this._editableText.CursorPosition;
 						base.DeleteText(this._editableText.CursorPosition + num4, this._editableText.CursorPosition);
-						this.TrySetStringAsInteger(base.RealText);
 					}
 					else
 					{
 						base.DeleteChar(this._keyboardAction == EditableTextWidget.KeyboardAction.Delete);
-						this.TrySetStringAsInteger(base.RealText);
 					}
+					this.TrySetStringAsInteger(base.RealText);
 					if (tickCount >= this._nextRepeatTime)
 					{
 						this._nextRepeatTime = tickCount + 30;

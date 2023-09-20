@@ -15,6 +15,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		void CompleteOrder(Town town, CraftingOrder craftingOrder, ItemObject craftedItem, Hero completerHero);
 
+		ItemModifier GetCurrentItemModifier();
+
+		void SetCurrentItemModifier(ItemModifier modifier);
+
 		void GetOrderResult(CraftingOrder craftingOrder, ItemObject craftedItem, out bool isSucceed, out TextObject orderRemark, out TextObject orderResult, out int finalPrice);
 
 		int GetCraftingDifficulty(WeaponDesign weaponDesign);
@@ -31,12 +35,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		void DoSmelting(Hero currentCraftingHero, EquipmentElement equipmentElement);
 
-		ItemObject CreateCraftedWeaponInFreeBuildMode(Hero hero, WeaponDesign currentWeaponDesign, int modifierTier, Crafting.OverrideData overrideData);
+		ItemObject CreateCraftedWeaponInFreeBuildMode(Hero hero, WeaponDesign currentWeaponDesign, ItemModifier weaponModifier = null);
 
-		ItemObject CreateCraftedWeaponInCraftingOrderMode(Hero crafterHero, CraftingOrder craftingOrder, WeaponDesign weaponDesign, int modifierTier, Crafting.OverrideData overrideData);
+		ItemObject CreateCraftedWeaponInCraftingOrderMode(Hero crafterHero, CraftingOrder craftingOrder, WeaponDesign weaponDesign);
 
 		bool IsOpened(CraftingPiece craftingPiece, CraftingTemplate craftingTemplate);
 
 		void InitializeCraftingElements();
+
+		CraftingOrder CreateCustomOrderForHero(Hero orderOwner, float orderDifficulty = -1f, WeaponDesign weaponDesign = null, CraftingTemplate craftingTemplate = null);
+
+		void CancelCustomOrder(Town town, CraftingOrder craftingOrder);
 	}
 }

@@ -4,6 +4,7 @@ using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
+using TaleWorlds.Library;
 using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI
@@ -12,9 +13,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 	{
 		private GauntletInformationView()
 		{
-			this._dataSource = new InformationVM();
 			GauntletLayer gauntletLayer = new GauntletLayer(100000, "GauntletLayer", false);
-			this._movie = gauntletLayer.LoadMovie("InformationUI", this._dataSource);
+			InformationManager.OnShowTooltip += this.OnShowTooltip;
+			InformationManager.OnHideTooltip += this.OnHideTooltip;
 			base.Layer = gauntletLayer;
 			this._layerAsGauntletLayer = gauntletLayer;
 		}
@@ -34,8 +35,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 		protected override void OnTick(float dt)
 		{
 			base.OnTick(dt);
-			this._dataSource.Tick(dt);
-			if (this._dataSource.Tooltip != null && (Input.IsKeyDown(56) || Input.IsKeyDown(184) || Input.IsKeyDown(248)))
+			if (this._dataSource != null && (Input.IsKeyDown(56) || Input.IsKeyDown(184) || Input.IsKeyDown(248)))
 			{
 				this._gamepadTooltipExtendTimer += dt;
 			}
@@ -43,7 +43,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			{
 				this._gamepadTooltipExtendTimer = 0f;
 			}
-			this._dataSource.Tooltip.IsExtended = (Input.IsGamepadActive ? (this._gamepadTooltipExtendTimer > 0.18f) : (this._gamepadTooltipExtendTimer > 0f));
+			if (this._dataSource != null)
+			{
+				this._dataSource.Tick(dt);
+				this._dataSource.IsExtended = (Input.IsGamepadActive ? (this._gamepadTooltipExtendTimer > 0.18f) : (this._gamepadTooltipExtendTimer > 0f));
+			}
 		}
 
 		private string GetExtendTooltipKeyText()
@@ -65,11 +69,33 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			return GameKeyTextExtensions.GetHotKeyGameText(Game.Current.GameTextManager, categoryId, keyId).ToString();
 		}
 
-		private GauntletLayer _layerAsGauntletLayer;
+		private void OnShowTooltip(Type type, object[] args)
+		{
+			this.OnHideTooltip();
+			ValueTuple<Type, object, string> valueTuple;
+			if (InformationManager.RegisteredTypes.TryGetValue(type, out valueTuple))
+			{
+				this._dataSource = Activator.CreateInstance(valueTuple.Item1, new object[] { type, args }) as TooltipBaseVM;
+				this._movie = this._layerAsGauntletLayer.LoadMovie(valueTuple.Item3, this._dataSource);
+			}
+		}
 
-		private InformationVM _dataSource;
+		private void OnHideTooltip()
+		{
+			if (this._dataSource != null)
+			{
+				this._dataSource.OnFinalize();
+				this._layerAsGauntletLayer.ReleaseMovie(this._movie);
+				this._dataSource = null;
+				this._movie = null;
+			}
+		}
+
+		private TooltipBaseVM _dataSource;
 
 		private IGauntletMovie _movie;
+
+		private GauntletLayer _layerAsGauntletLayer;
 
 		private static GauntletInformationView _current;
 

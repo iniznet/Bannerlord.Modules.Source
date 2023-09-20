@@ -26,6 +26,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.AuxiliaryKeys
 				key = this.CurrentHotKey.Keys.FirstOrDefault((Key x) => x.IsControllerInput);
 			}
 			base.Key = key;
+			if (base.Key == null)
+			{
+				base.Key = new Key(InputKey.Invalid);
+			}
 			base.CurrentKey = new Key(base.Key.InputKey);
 			this.RefreshValues();
 		}
@@ -93,6 +97,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.AuxiliaryKeys
 				key = this.CurrentHotKey.Keys.FirstOrDefault((Key x) => x.IsControllerInput);
 			}
 			base.Key = key;
+			if (base.Key == null)
+			{
+				base.Key = new Key(InputKey.Invalid);
+			}
 			base.CurrentKey = new Key(base.Key.InputKey);
 			this.RefreshValues();
 		}
@@ -105,22 +113,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.AuxiliaryKeys
 		internal override bool IsChanged()
 		{
 			return base.CurrentKey != base.Key;
-		}
-
-		internal override void OnGamepadActiveStateChanged(GamepadActiveStateChangedEvent obj)
-		{
-			Key key;
-			if (!Input.IsGamepadActive)
-			{
-				key = this.CurrentHotKey.Keys.FirstOrDefault((Key x) => !x.IsControllerInput);
-			}
-			else
-			{
-				key = this.CurrentHotKey.Keys.FirstOrDefault((Key x) => x.IsControllerInput);
-			}
-			base.Key = key;
-			base.CurrentKey = new Key(base.Key.InputKey);
-			this.RefreshValues();
 		}
 
 		private readonly Action<AuxiliaryKeyOptionVM, InputKey> _onKeySet;

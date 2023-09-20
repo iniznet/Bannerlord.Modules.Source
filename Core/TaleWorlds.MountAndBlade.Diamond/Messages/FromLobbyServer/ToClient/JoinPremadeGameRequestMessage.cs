@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.PlayerServices;
@@ -9,17 +10,27 @@ namespace Messages.FromLobbyServer.ToClient
 	[Serializable]
 	public class JoinPremadeGameRequestMessage : Message
 	{
+		[JsonProperty]
 		public Guid ChallengerPartyId { get; private set; }
 
+		[JsonProperty]
 		public string ClanName { get; private set; }
 
+		[JsonProperty]
 		public string Sigil { get; private set; }
 
+		[JsonProperty]
 		public PlayerId[] ChallengerPlayers { get; private set; }
 
+		[JsonProperty]
 		public PlayerId ChallengerPartyLeaderId { get; private set; }
 
+		[JsonProperty]
 		public PremadeGameType PremadeGameType { get; private set; }
+
+		protected JoinPremadeGameRequestMessage()
+		{
+		}
 
 		protected JoinPremadeGameRequestMessage(Guid challengerPartyId, string clanName, string sigil, PlayerId[] challengerPlayers, PlayerId challengerPartyLeaderId, PremadeGameType premadeGameType)
 		{

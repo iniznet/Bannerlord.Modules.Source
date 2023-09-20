@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
@@ -70,14 +69,6 @@ namespace StoryMode.StoryModeObjects
 			get
 			{
 				return StoryModeManager.Current.StoryModeHeroes._radagosHenchman;
-			}
-		}
-
-		public static Clan RadiersClan
-		{
-			get
-			{
-				return Clan.BanditFactions.FirstOrDefault((Clan x) => x.StringId == "mountain_bandits");
 			}
 		}
 

@@ -38,7 +38,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				this._optionDataAsSelection = this.OptionData as SelectionCampaignOptionData;
 				List<TextObject> selections = this._optionDataAsSelection.Selections;
 				int num = (int)this._optionDataAsSelection.GetValue();
-				this.SelectionSelector = new SelectorVM<SelectorItemVM>(selections, num, new Action<SelectorVM<SelectorItemVM>>(this.OnSelectionOptionValueChanged));
+				this.SelectionSelector = new SelectorVM<SelectorItemVM>(selections, num, null);
+				this.SelectionSelector.SetOnChangeAction(new Action<SelectorVM<SelectorItemVM>>(this.OnSelectionOptionValueChanged));
 				this.OptionType = 2;
 				this.SelectionSelector.SelectedIndex = (int)this._optionDataAsSelection.GetValue();
 			}
@@ -108,17 +109,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			if (this._dataType == CampaignOptionDataType.Boolean)
 			{
 				this.ValueAsBoolean = value != 0f;
-				return;
 			}
-			if (this._dataType == CampaignOptionDataType.Numeric)
+			else if (this._dataType == CampaignOptionDataType.Numeric)
 			{
 				this.ValueAsRange = value;
-				return;
 			}
-			if (this._dataType == CampaignOptionDataType.Selection)
+			else if (this._dataType == CampaignOptionDataType.Selection)
 			{
 				this.SelectionSelector.SelectedIndex = (int)value;
 			}
+			this.OptionData.SetValue(value);
 		}
 
 		public void SetOnValueChangedCallback(Action<CampaignOptionItemVM> onValueChanged)
@@ -205,15 +205,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			{
 				if (value != this._valueAsBoolean)
 				{
-					this._optionDataAsBoolean.SetValue(value ? 1f : 0f);
 					this._valueAsBoolean = value;
 					base.OnPropertyChangedWithValue(value, "ValueAsBoolean");
 					Action<CampaignOptionItemVM> onValueChanged = this._onValueChanged;
-					if (onValueChanged == null)
+					if (onValueChanged != null)
 					{
-						return;
+						onValueChanged(this);
 					}
-					onValueChanged(this);
+					this._optionDataAsBoolean.SetValue(value ? 1f : 0f);
 				}
 			}
 		}
@@ -298,15 +297,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				if (value != this._valueAsRange)
 				{
 					this._valueAsRange = value;
-					this._optionDataAsNumeric.SetValue(value);
 					base.OnPropertyChangedWithValue(value, "ValueAsRange");
 					this.ValueAsString = value.ToString("F1");
 					Action<CampaignOptionItemVM> onValueChanged = this._onValueChanged;
-					if (onValueChanged == null)
+					if (onValueChanged != null)
 					{
-						return;
+						onValueChanged(this);
 					}
-					onValueChanged(this);
+					this._optionDataAsNumeric.SetValue(value);
 				}
 			}
 		}

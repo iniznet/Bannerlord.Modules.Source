@@ -30,13 +30,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 			{
 				this._onInspect = delegate
 				{
-					MBInformationManager.ShowSceneNotification(new ClanMemberWarDeathSceneNotificationItem(data.VictimHero));
+					MBInformationManager.ShowSceneNotification(new ClanMemberWarDeathSceneNotificationItem(data.VictimHero, data.CreationTime));
 				};
 				return;
 			}
 			this._onInspect = delegate
 			{
-				MBInformationManager.ShowSceneNotification(new ClanMemberPeaceDeathSceneNotificationItem(data.VictimHero));
+				MBInformationManager.ShowSceneNotification(new ClanMemberPeaceDeathSceneNotificationItem(data.VictimHero, data.CreationTime));
 			};
 		}
 	}

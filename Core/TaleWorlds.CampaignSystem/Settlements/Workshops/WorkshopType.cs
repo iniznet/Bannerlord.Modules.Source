@@ -110,7 +110,7 @@ namespace TaleWorlds.CampaignSystem.Settlements.Workshops
 									}
 									else
 									{
-										Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Settlements\\Workshops\\WorkshopType.cs", "Deserialize", 146);
+										Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Settlements\\Workshops\\WorkshopType.cs", "Deserialize", 165);
 									}
 								}
 							}
@@ -215,6 +215,21 @@ namespace TaleWorlds.CampaignSystem.Settlements.Workshops
 				{
 					return this._conversionSpeed;
 				}
+			}
+
+			public override string ToString()
+			{
+				string text = "in: ";
+				foreach (ValueTuple<ItemCategory, int> valueTuple in this._inputs)
+				{
+					text = text + valueTuple.Item1 + ": ";
+				}
+				text += "out: ";
+				foreach (ValueTuple<ItemCategory, int> valueTuple2 in this._outputs)
+				{
+					text = text + valueTuple2.Item1 + ": ";
+				}
+				return text;
 			}
 
 			private MBList<ValueTuple<ItemCategory, int>> _inputs;

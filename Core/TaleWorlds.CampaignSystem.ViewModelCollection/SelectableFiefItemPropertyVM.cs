@@ -7,28 +7,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 	public class SelectableFiefItemPropertyVM : SelectableItemPropertyVM
 	{
 		public SelectableFiefItemPropertyVM(string name, string value, int changeAmount, SelectableItemPropertyVM.PropertyType type, BasicTooltipViewModel hint = null, bool isWarning = false)
-			: base(name, value, hint)
+			: base(name, value, isWarning, hint)
 		{
 			this.ChangeAmount = changeAmount;
-			this.IsWarning = isWarning;
 			base.Type = (int)type;
-		}
-
-		[DataSourceProperty]
-		public bool IsWarning
-		{
-			get
-			{
-				return this._isWarning;
-			}
-			set
-			{
-				if (value != this._isWarning)
-				{
-					this._isWarning = value;
-					base.OnPropertyChangedWithValue(value, "IsWarning");
-				}
-			}
 		}
 
 		[DataSourceProperty]
@@ -47,8 +29,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				}
 			}
 		}
-
-		private bool _isWarning;
 
 		private int _changeAmount;
 	}

@@ -153,8 +153,18 @@ namespace TaleWorlds.Library
 
 		public static byte[] SerializeObjectAsJson(object o)
 		{
-			string text = JsonConvert.SerializeObject(o, 1);
+			string text = JsonConvert.SerializeObject(o, Formatting.Indented);
 			return Encoding.UTF8.GetBytes(text);
+		}
+
+		public static string SerializeObjectAsJsonString(object o)
+		{
+			return JsonConvert.SerializeObject(o, Formatting.Indented);
+		}
+
+		public static T DeserializeObjectFromJson<T>(string json)
+		{
+			return JsonConvert.DeserializeObject<T>(json);
 		}
 
 		public static byte[] SerializeObject(object sObject)
@@ -191,6 +201,24 @@ namespace TaleWorlds.Library
 				throw;
 			}
 			return obj;
+		}
+
+		public static byte[] FromUrlSafeBase64(string base64)
+		{
+			string text = base64.Replace('_', '/').Replace('-', '+');
+			int num = base64.Length % 4;
+			if (num != 2)
+			{
+				if (num == 3)
+				{
+					text += "=";
+				}
+			}
+			else
+			{
+				text += "==";
+			}
+			return Convert.FromBase64String(text);
 		}
 
 		public static string ConfigName
@@ -438,6 +466,7 @@ namespace TaleWorlds.Library
 				{
 					Common._parallelOptions = new ParallelOptions();
 					Common._parallelOptions.MaxDegreeOfParallelism = MathF.Max(Environment.ProcessorCount - 2, 1);
+					Debug.Print(string.Format("Max Dexree of Parallelism is set to: {0}", Common._parallelOptions.MaxDegreeOfParallelism), 0, Debug.DebugColor.White, 17592186044416UL);
 				}
 				return Common._parallelOptions;
 			}

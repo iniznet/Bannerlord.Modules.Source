@@ -169,7 +169,7 @@ namespace TaleWorlds.MountAndBlade
 		public void OnPlayerChoiceMade(FormationClass chosenFormationClass, FormationAI.BehaviorSide formationBehaviorSide = FormationAI.BehaviorSide.Middle)
 		{
 			Team playerTeam = base.Mission.PlayerTeam;
-			Formation formation = playerTeam.FormationsIncludingEmpty.WhereQ((Formation f) => f.CountOfUnits > 0 && f.PrimaryClass == chosenFormationClass && f.AI.Side == formationBehaviorSide).MaxBy((Formation f) => f.QuerySystem.FormationPower);
+			Formation formation = playerTeam.FormationsIncludingEmpty.WhereQ((Formation f) => f.CountOfUnits > 0 && f.PhysicalClass == chosenFormationClass && f.AI.Side == formationBehaviorSide).MaxBy((Formation f) => f.QuerySystem.FormationPower);
 			if (playerTeam.IsPlayerSergeant)
 			{
 				formation.PlayerOwner = Agent.Main;
@@ -178,7 +178,7 @@ namespace TaleWorlds.MountAndBlade
 			if (formation != null && formation != Agent.Main.Formation)
 			{
 				MBTextManager.SetTextVariable("SIDE_STRING", formation.AI.Side.ToString(), false);
-				MBTextManager.SetTextVariable("CLASS_NAME", formation.PrimaryClass.GetName(), false);
+				MBTextManager.SetTextVariable("CLASS_NAME", formation.PhysicalClass.GetName(), false);
 				MBInformationManager.AddQuickInformation(GameTexts.FindText("str_formation_soldier_join_text", null), 0, null, "");
 			}
 			Agent.Main.Formation = formation;

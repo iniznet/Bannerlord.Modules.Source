@@ -24,6 +24,10 @@ namespace TaleWorlds.MountAndBlade
 
 		public string CustomGameServerConfigFile { get; internal set; }
 
+		public string CustomGameServerNameOverride { get; internal set; }
+
+		public string CustomGameServerPasswordOverride { get; internal set; }
+
 		public string CustomGameServerAuthToken { get; internal set; }
 
 		public bool CustomGameServerAllowsOptionalModules { get; internal set; } = true;
@@ -37,5 +41,7 @@ namespace TaleWorlds.MountAndBlade
 		public string EpicExchangeCode { get; internal set; }
 
 		public bool IsContinueGame { get; internal set; }
+
+		public double ServerBandwidthLimitInMbps { get; internal set; }
 	}
 }

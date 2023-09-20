@@ -8,28 +8,34 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 {
 	public abstract class WorkshopModel : GameModel
 	{
-		public abstract int MaxWorkshopLevel { get; }
-
 		public abstract int DaysForPlayerSaveWorkshopFromBankruptcy { get; }
 
-		public abstract int GetInitialCapital(int level);
+		public abstract int CapitalLowLimit { get; }
 
-		public abstract int GetDailyExpense(int level);
+		public abstract int InitialCapital { get; }
 
-		public abstract float GetPolicyEffectToProduction(Town town);
+		public abstract int GetMaxWorkshopCountForClanTier(int tier);
 
-		public abstract int GetUpgradeCost(int currentLevel);
+		public abstract int DailyExpense { get; }
 
-		public abstract int GetMaxWorkshopCountForTier(int tier);
+		public abstract int GetCostForPlayer(Workshop workshop);
 
-		public abstract int GetBuyingCostForPlayer(Workshop workshop);
+		public abstract int WarehouseCapacity { get; }
 
-		public abstract int GetSellingCost(Workshop workshop);
+		public abstract int DefaultWorkshopCountInSettlement { get; }
 
-		public abstract Hero SelectNextOwnerForWorkshop(Town town, Workshop workshop, Hero excludedHero, int requiredGold = 0);
+		public abstract int GetCostForNotable(Workshop workshop);
+
+		public abstract int MaximumWorkshopsPlayerCanHave { get; }
+
+		public abstract ExplainedNumber GetEffectiveConversionSpeedOfProduction(Workshop workshop, float speed, bool includeDescriptions);
+
+		public abstract Hero GetNotableOwnerForWorkshop(Settlement settlement);
 
 		public abstract int GetConvertProductionCost(WorkshopType workshopType);
 
 		public abstract bool CanPlayerSellWorkshop(Workshop workshop, out TextObject explanation);
+
+		public abstract float GetTradeXpPerWarehouseProduction(EquipmentElement production);
 	}
 }

@@ -142,10 +142,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=7H4HQNvF}Some of the families in this village need to raise a bit of money. They've put together a herd of {ANIMAL_COUNT_TO_DELIVER} {.%}{?ANIMAL_COUNT_TO_DELIVER > 1}{PLURAL(HERD_TYPE_TO_DELIVER)}{?}{HERD_TYPE_TO_DELIVER}{\\?}{.%} to sell in {TARGET_SETTLEMENT}, but with all the banditry on the roads, they can't drive it there on their own. We're not merchants or landowners. We can't afford any losses.", null);
+					TextObject textObject = new TextObject("{=7H4HQNvF}Yes. Some of the families in this village need to raise a bit of money. [if:convo_calm_friendly][ib:normal2]They've put together a herd of {ANIMAL_COUNT_TO_DELIVER} {.%}{?ANIMAL_COUNT_TO_DELIVER > 1}{PLURAL(HERD_TYPE_TO_DELIVER)}{?}{HERD_TYPE_TO_DELIVER}{\\?}{.%} to sell in {TARGET_SETTLEMENT}, but with all the banditry on the roads, they can't drive it there on their own. We're not merchants or landowners. We can't afford any losses.", null);
 					if (base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaCurt)
 					{
-						textObject = new TextObject("{=6kJ31qut}Yeah, well, some people here are a bit short of money these days. They've put together a herd of {ANIMAL_COUNT_TO_DELIVER} {.%}{?ANIMAL_COUNT_TO_DELIVER > 1}{PLURAL(HERD_TYPE_TO_DELIVER)}{?}{HERD_TYPE_TO_DELIVER}{\\?}{.%} to sell in {TARGET_SETTLEMENT}. But they're poor folks. Not really fighters, and they can't afford to hire guards. If they go there by themselves they'd be sitting ducks for any bandits.", null);
+						textObject = new TextObject("{=6kJ31qut}Yeah, well, some people here are a bit short of money these days. [if:convo_calm_friendly][ib:normal]They've put together a herd of {ANIMAL_COUNT_TO_DELIVER} {.%}{?ANIMAL_COUNT_TO_DELIVER > 1}{PLURAL(HERD_TYPE_TO_DELIVER)}{?}{HERD_TYPE_TO_DELIVER}{\\?}{.%} to sell in {TARGET_SETTLEMENT}. But they're poor folks. Not really fighters, and they can't afford to hire guards. If they go there by themselves they'd be sitting ducks for any bandits.", null);
 					}
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("ANIMAL_COUNT_TO_DELIVER", this.AnimalCountToDeliver);
@@ -166,7 +166,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=VbRyXBsv}If you're going in the direction of {TARGET_SETTLEMENT}, you can perhaps take our herd there to {TARGET_HERO.LINK}. I am willing to pay {REWARD_AMOUNT}{GOLD_ICON} if you deliver them safe and sound.", null);
+					TextObject textObject = new TextObject("{=VbRyXBsv}If you're going in the direction of {TARGET_SETTLEMENT}, you can perhaps take our herd there to {TARGET_HERO.LINK}. I am willing to pay {REWARD_AMOUNT}{GOLD_ICON} if you deliver them safe and sound.[if:convo_calm_friendly][ib:normal]", null);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("REWARD_AMOUNT", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -179,7 +179,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=CqmoyrHH}You can assign a companion with {REQUIRED_SOLDIERS} men, they will be enough too. Both ways works fine for us. I promise if you or your men manage to deliver the herd safely, I will pay you {REWARD}{GOLD_ICON}. So what do you say?", null);
+					TextObject textObject = new TextObject("{=CqmoyrHH}You can assign a companion with {REQUIRED_SOLDIERS} men, they will be enough too. Both ways works fine for us. I promise if you or your men manage to deliver the herd safely, I will pay you {REWARD}{GOLD_ICON}. So what do you say?[if:convo_nonchalant]", null);
 					textObject.SetTextVariable("REQUIRED_SOLDIERS", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("REWARD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -216,7 +216,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=mwpY5Ylb}I am still waiting for news from {TARGET_SETTLEMENT}. Once again, I appreciate that you could spare the men to do this.", null);
+					TextObject textObject = new TextObject("{=mwpY5Ylb}I am still waiting for news from {TARGET_SETTLEMENT}. Once again, I appreciate that you could spare the men to do this.[if:convo_calm_friendly]", null);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
 					return textObject;
 				}
@@ -370,10 +370,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				issueGiver.AddPower(5f);
 				this.RelationshipChangeWithIssueOwner = 5;
-				issueGiver.CurrentSettlement.Prosperity += 50f;
+				issueGiver.CurrentSettlement.Village.Hearth += 50f;
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -586,10 +590,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=zB6elkn1}The herd is ready to depart.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=8tBET7S5}Good. We will be heading out soon.", null), null)
-					.NpcLine(new TextObject("{=3SBDbPjD}Good to hear that! Safe journeys.", null), null, null)
+					.NpcLine(new TextObject("{=iAGx49nO}Good to hear that! Safe journeys.[if:convo_approving]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=EOaOlh39}In due time. Let's not be too hasty.", null), null)
-					.NpcLine(new TextObject("{=ppi6eVos}As you wish.", null), null, null)
+					.NpcLine(new TextObject("{=79Te4duG}As you wish.[if:convo_normal][ib:demure]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -613,8 +617,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, 30)
 				});
-				base.QuestGiver.CurrentSettlement.Prosperity += 50f;
-				this._targetSettlement.Prosperity += 50f;
+				base.QuestGiver.CurrentSettlement.Village.Hearth += 50f;
+				this._targetSettlement.Town.Prosperity += 50f;
 				int availableRequestedItemCountOnPlayer = this.GetAvailableRequestedItemCountOnPlayer(this._herdTypeToDeliver);
 				int num = ((availableRequestedItemCountOnPlayer > this._animalCountToDeliver) ? this._animalCountToDeliver : availableRequestedItemCountOnPlayer);
 				foreach (ItemRosterElement itemRosterElement in MobileParty.MainParty.ItemRoster)
@@ -648,7 +652,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				TextObject textObject = new TextObject("{=8nwZXNTk}About the task {QUEST_GIVER.LINK} gave me...", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 				TextObject textObject2 = new TextObject("{=kwJBLl00}Yes {?PLAYER.GENDER}madam{?}sir{\\?}. Our mutual friend {QUEST_GIVER.LINK} sent word to us. {?QUEST_GIVER.GENDER}She{?}He{\\?} told us to expect you with {?QUEST_GIVER.GENDER}her{?}his{\\?} {HERD_AMOUNT} {.%}{?HERD_AMOUNT > 1}{PLURAL(HERD_TYPE)}{?}{HERD_TYPE}{\\?}{.%}.", null);
-				TextObject textObject3 = new TextObject("{=vXCg3OYx}So, have you brought them?", null);
+				TextObject textObject3 = new TextObject("{=vXCg3OYx}So, have you brought them?[if:convo_undecided_open]", null);
 				textObject2.SetTextVariable("HERD_AMOUNT", this._animalCountToDeliver);
 				textObject2.SetTextVariable("HERD_TYPE", this._herdTypeToDeliver.Name);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject2, false);
@@ -656,12 +660,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				TextObject textObject4 = new TextObject("{=wmZYHGb9}I brought {HERD_AMOUNT} {.%}{?HERD_AMOUNT > 1}{PLURAL(HERD_TYPE)}{?}{HERD_TYPE}{\\?}{.%} as we agreed.", null);
 				textObject4.SetTextVariable("HERD_AMOUNT", this._animalCountToDeliver);
 				textObject4.SetTextVariable("HERD_TYPE", this._herdTypeToDeliver.Name);
-				TextObject textObject5 = new TextObject("{=VkUMPAfR}Thank you for your help. {QUEST_GIVER.LINK} will send your reward as soon as possible.", null);
+				TextObject textObject5 = new TextObject("{=VkUMPAfR}Thank you for your help. {QUEST_GIVER.LINK} will send your reward as soon as possible.[if:convo_calm_friendly][ib:demure]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject5, false);
 				TextObject textObject6 = new TextObject("{=1s54uxsA}Sorry. I don't have any animals for you this time.", null);
 				TextObject textObject7 = new TextObject("{=1dUVrgQ8}I just hope you can deliver the herd soon.", null);
 				TextObject textObject8 = new TextObject("{=HFZisEnI}I'm going to keep that herd for myself.", null);
-				TextObject textObject9 = new TextObject("{=LpfQYLQo}What? That's straight-up theft. I guarantee you {QUEST_GIVER.LINK} will hear about this!", null);
+				TextObject textObject9 = new TextObject("{=LpfQYLQo}What? That's straight-up theft. I guarantee you {QUEST_GIVER.LINK} will hear about this![if:convo_annoyed][ib:aggressive]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject9, false);
 				return DialogFlow.CreateDialogFlow("hero_main_options", 125).PlayerLine(textObject, null).Condition(() => Settlement.CurrentSettlement == this._targetSettlement && CharacterObject.OneToOneConversationCharacter.IsHero && CharacterObject.OneToOneConversationCharacter.HeroObject == this._targetHero)
 					.NpcLine(textObject2, null, null)
@@ -743,7 +747,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private void ApplyFailureEffects(bool isTimedOut = false)
 			{
 				base.QuestGiver.AddPower(-5f);
-				this._targetSettlement.Prosperity -= 10f;
+				this._targetSettlement.Town.Prosperity -= 10f;
 				this.RelationshipChangeWithQuestGiver = (isTimedOut ? (-5) : (-10));
 			}
 
@@ -780,6 +784,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				this.SetDialogs();
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetDeliveryDialogFlow(), this);
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override void RegisterEvents()
@@ -836,7 +844,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog, false);
 			}
 
 			[SaveableField(10)]

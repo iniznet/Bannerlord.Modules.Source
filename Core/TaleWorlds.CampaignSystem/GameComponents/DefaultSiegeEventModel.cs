@@ -202,7 +202,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			MobileParty mobileParty = null;
 			if (battleSide == BattleSideEnum.Attacker)
 			{
-				mobileParty = siegeEvent.BesiegerCamp.BesiegerParty;
+				mobileParty = siegeEvent.BesiegerCamp.LeaderParty;
 			}
 			else
 			{
@@ -234,7 +234,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			if (siegeParty != null && siegeParty.HasPerk(DefaultPerks.Medicine.SiegeMedic, true))
 			{
-				num += DefaultPerks.Medicine.SiegeMedic.SecondaryBonus;
+				num -= DefaultPerks.Medicine.SiegeMedic.SecondaryBonus;
 			}
 			if (side == BattleSideEnum.Defender)
 			{
@@ -341,7 +341,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				return MBRandom.RandomFloat;
 			}
-			if (siege == PlayerSiege.PlayerSiegeEvent && side == PlayerSiege.PlayerSide && siege.BesiegerCamp != null && siege.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
+			if (siege == PlayerSiege.PlayerSiegeEvent && side == PlayerSiege.PlayerSide && siege.BesiegerCamp != null && siege.BesiegerCamp.LeaderParty == MobileParty.MainParty)
 			{
 				return 9000f;
 			}
@@ -386,7 +386,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					SkillHelper.AddSkillBonusForCharacter(DefaultSkills.Engineering, DefaultSkillEffects.SiegeEngineProductionBonus, governor.CharacterObject, ref explainedNumber, -1, true, 0);
 				}
 			}
-			if (((siegeEvent != null) ? siegeEvent.BesiegerCamp.BesiegerParty : null) != null && siegeEvent.BesiegerCamp.BesiegerParty.HasPerk(DefaultPerks.Steward.Sweatshops, true))
+			if (((siegeEvent != null) ? siegeEvent.BesiegerCamp.LeaderParty : null) != null && siegeEvent.BesiegerCamp.LeaderParty.HasPerk(DefaultPerks.Steward.Sweatshops, true))
 			{
 				explainedNumber.AddFactor(DefaultPerks.Steward.Sweatshops.SecondaryBonus, null);
 			}
@@ -453,7 +453,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 						list.Add(DefaultSiegeEngineTypes.Catapult);
 						break;
 					default:
-						Debug.FailedAssert("Invalid building level", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\DefaultSiegeEventCalculationModel.cs", "GetPrebuiltSiegeEnginesOfSettlement", 567);
+						Debug.FailedAssert("Invalid building level", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\DefaultSiegeEventCalculationModel.cs", "GetPrebuiltSiegeEnginesOfSettlement", 568);
 						goto IL_B7;
 					}
 					list.Add(DefaultSiegeEngineTypes.Ballista);
@@ -473,7 +473,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		public override IEnumerable<SiegeEngineType> GetPrebuiltSiegeEnginesOfSiegeCamp(BesiegerCamp besiegerCamp)
 		{
 			List<SiegeEngineType> list = new List<SiegeEngineType>();
-			if (besiegerCamp.BesiegerParty.HasPerk(DefaultPerks.Engineering.Battlements, false))
+			if (besiegerCamp.LeaderParty.HasPerk(DefaultPerks.Engineering.Battlements, false))
 			{
 				list.Add(DefaultSiegeEngineTypes.Ballista);
 			}
@@ -522,7 +522,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				}
 				if ((target == SiegeBombardTargets.RangedEngines || target == SiegeBombardTargets.Wall) && effectiveSiegePartyForSide.HasPerk(DefaultPerks.Engineering.Masterwork, false))
 				{
-					int num = effectiveSiegePartyForSide.LeaderHero.GetSkillValue(DefaultSkills.Engineering) - 250;
+					int num = effectiveSiegePartyForSide.LeaderHero.GetSkillValue(DefaultSkills.Engineering) - Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus;
 					if (num > 0)
 					{
 						float num2 = (float)num * DefaultPerks.Engineering.Masterwork.PrimaryBonus;
@@ -543,9 +543,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override int GetRangedSiegeEngineReloadTime(SiegeEvent siegeEvent, BattleSideEnum side, SiegeEngineType siegeEngine)
 		{
-			float campaignRateOfFirePerDay = siegeEngine.CampaignRateOfFirePerDay;
-			float num = 1440f / campaignRateOfFirePerDay;
-			ExplainedNumber explainedNumber = new ExplainedNumber(num, false, null);
+			ExplainedNumber explainedNumber = new ExplainedNumber(siegeEngine.CampaignRateOfFirePerDay, false, null);
 			MobileParty effectiveSiegePartyForSide = this.GetEffectiveSiegePartyForSide(siegeEvent, side);
 			if (effectiveSiegePartyForSide != null)
 			{
@@ -558,7 +556,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					explainedNumber.AddFactor(DefaultPerks.Engineering.ArchitecturalCommisions.PrimaryBonus, DefaultPerks.Engineering.ArchitecturalCommisions.Name);
 				}
 			}
-			return MathF.Round(explainedNumber.ResultNumber);
+			return MathF.Round(1440f / explainedNumber.ResultNumber);
 		}
 
 		public override IEnumerable<SiegeEngineType> GetAvailableAttackerRangedSiegeEngines(PartyBase party)
@@ -586,7 +584,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				yield return DefaultSiegeEngineTypes.FireBallista;
 			}
-			yield return DefaultSiegeEngineTypes.Bricole;
 			yield return DefaultSiegeEngineTypes.Catapult;
 			if (hasFirePerks)
 			{
@@ -656,5 +653,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		private readonly TextObject _baseConstructionSpeedText = new TextObject("{=MhGbcXJ4}Base construction speed", null);
 
 		private readonly TextObject _constructionSpeedProjectBonusText = new TextObject("{=xoTWC8Sm}Project Bonus", null);
+
+		private readonly TextObject _weatherConstructionPenalty = new TextObject("{=J6RjCKbk}Weather", null);
 	}
 }

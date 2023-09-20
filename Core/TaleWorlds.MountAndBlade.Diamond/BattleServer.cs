@@ -282,9 +282,9 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			if (this._shouldReportActivities)
 			{
 				Dictionary<PlayerId, int> dictionary = new Dictionary<PlayerId, int>();
-				foreach (KeyValuePair<PlayerId, BattlePlayerEntry> keyValuePair in battleResult.PlayerEntries)
+				foreach (KeyValuePair<string, BattlePlayerEntry> keyValuePair in battleResult.PlayerEntries)
 				{
-					dictionary.Add(keyValuePair.Key, keyValuePair.Value.TeamNo);
+					dictionary.Add(PlayerId.FromString(keyValuePair.Key), keyValuePair.Value.TeamNo);
 				}
 				base.SendMessage(new BattleStartedMessage(dictionary));
 			}

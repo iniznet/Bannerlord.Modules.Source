@@ -1,38 +1,16 @@
 ﻿using System;
-using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem
 {
 	public static class CampaignData
 	{
-		public static Clan NeutralFaction
+		public static TextObject NeutralFactionName
 		{
 			get
 			{
-				if (CampaignData._neutralFaction != null)
-				{
-					return CampaignData._neutralFaction;
-				}
-				foreach (Clan clan in Clan.All)
-				{
-					if (clan.StringId == "neutral")
-					{
-						CampaignData._neutralFaction = clan;
-						return clan;
-					}
-				}
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignData.cs", "NeutralFaction", 216);
-				return null;
+				return new TextObject("{=JQNKrAI3}Neutral Faction", null);
 			}
-			private set
-			{
-				CampaignData._neutralFaction = value;
-			}
-		}
-
-		public static void OnGameEnd()
-		{
-			CampaignData.NeutralFaction = null;
 		}
 
 		public const string MainHeroTag = "main_hero";
@@ -88,10 +66,6 @@ namespace TaleWorlds.CampaignSystem
 		public const string GooseSpawnpointTag = "sp_goose";
 
 		public const string ChickenSpawnpointTag = "sp_chicken";
-
-		public const string CatSpawnpointTag = "sp_cat";
-
-		public const string DogSpawnpointTag = "sp_dog";
 
 		public const string HorseSpawnpointTag = "sp_horse";
 
@@ -338,8 +312,6 @@ namespace TaleWorlds.CampaignSystem
 			4286362809U, 4285633960U, 4285642139U, 4289629300U, 4290874464U, 4289626441U, 4289100112U, 4290356599U, 4291141740U, 4291539052U,
 			4290227326U, 4291016062U
 		};
-
-		private static Clan _neutralFaction;
 
 		public static readonly CampaignTime CampaignStartTime = CampaignTime.Years(1084f) + CampaignTime.Weeks(3f) + CampaignTime.Hours(9f);
 	}

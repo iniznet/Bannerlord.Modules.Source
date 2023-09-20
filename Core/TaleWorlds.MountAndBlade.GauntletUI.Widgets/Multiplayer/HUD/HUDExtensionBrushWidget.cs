@@ -29,7 +29,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 					return;
 				}
 			}
-			else
+			else if (this._currentAlpha != this._targetAlpha)
 			{
 				this._currentAlpha = this._targetAlpha;
 				this.SetGlobalAlphaRecursively(this._targetAlpha);

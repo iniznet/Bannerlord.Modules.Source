@@ -6,11 +6,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	[Serializable]
 	public class PlayerBattleInfo
 	{
-		public PlayerId PlayerId { get; private set; }
+		public PlayerId PlayerId { get; set; }
 
-		public string Name { get; private set; }
+		public string Name { get; set; }
 
-		public int TeamNo { get; private set; }
+		public int TeamNo { get; set; }
 
 		public bool Fled
 		{
@@ -28,9 +28,9 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		public BattleJoinType JoinType { get; private set; }
+		public BattleJoinType JoinType { get; set; }
 
-		public int PeerIndex { get; private set; }
+		public int PeerIndex { get; set; }
 
 		public PlayerBattleInfo.State CurrentState
 		{
@@ -38,6 +38,10 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			{
 				return this._state;
 			}
+		}
+
+		public PlayerBattleInfo()
+		{
 		}
 
 		public PlayerBattleInfo(PlayerId playerId, string name, int teamNo)

@@ -197,7 +197,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			TextObject textObject = GameTexts.FindText("str_education_notification_right", null);
 			textObject.SetCharacterProperties("CHILD", child.CharacterObject, true);
 			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new EducationMapNotification(child, age, textObject));
-			Debug.Print(string.Format("ShowEducationNotification, Hero: {0} - Age: {1}.", child.Name, age), 0, Debug.DebugColor.White, 17592186044416UL);
+			if (child.Father == Hero.MainHero || child.Mother == Hero.MainHero)
+			{
+				Debug.Print(string.Format("Showing Education Notification, Hero: {0}: {1} - Age: {2}.", child.StringId, child.Name, age), 0, Debug.DebugColor.White, 17592186044416UL);
+			}
 			if (!this._previousEducations.ContainsKey(child))
 			{
 				this._previousEducations.Add(child, -1);

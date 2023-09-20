@@ -7,7 +7,7 @@ namespace TaleWorlds.MountAndBlade
 	{
 		protected internal override void OnUseStopped(Agent userAgent, bool isSuccessful = true)
 		{
-			if (isSuccessful && !userAgent.Equipment[EquipmentIndex.ExtraWeaponSlot].IsEmpty)
+			if (isSuccessful && !GameNetwork.IsClientOrReplay && !userAgent.Equipment[EquipmentIndex.ExtraWeaponSlot].IsEmpty && !Mission.Current.MissionIsEnding)
 			{
 				userAgent.DropItem(EquipmentIndex.ExtraWeaponSlot, WeaponClass.Undefined);
 			}

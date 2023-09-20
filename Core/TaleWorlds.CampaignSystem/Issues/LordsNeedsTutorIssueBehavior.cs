@@ -129,7 +129,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=VtSg9OYK}I've heard good things about you. They say that you are an accomplished warrior. Some also say an accomplished commander. I have a proposal for you. There is a young lord from my clan. He is an aspiring warrior and I must say he quite admires you. He wants to learn from you. What do you say? Are you willing to take him under your wings for a while? Let's say {QUEST_DURATION} days?", null);
+					TextObject textObject = new TextObject("{=VtSg9OYK}I've heard good things about you. They say that you are an accomplished warrior. [if:convo_thinking][ib:closed]Some also say an accomplished commander. I have a proposal for you. There is a young lord from my clan. He is an aspiring warrior and I must say he quite admires you. He wants to learn from you. What do you say? Are you willing to take him under your wings for a while? Let's say {QUEST_DURATION} days?", null);
 					textObject.SetTextVariable("QUEST_DURATION", 200);
 					return textObject;
 				}
@@ -147,7 +147,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=JlFfuFEC}How about you take him with you? Feed and protect him, sure, but don't treat him any differently from your companions. Let him stay with you for a year, and then let him return to us? I will send you a worthwhile gift and, perhaps more valuably, you will gain my lifelong friendship, assuming everything goes well?", null);
+					return new TextObject("{=JlFfuFEC}How about you take him with you? [if:convo_merry][ib:confident3]Feed and protect him, sure, but don't treat him any differently from your companions. Let him stay with you for a year, and then let him return to us? I will send you a worthwhile gift and, perhaps more valuably, you will gain my lifelong friendship, assuming everything goes well?", null);
 				}
 			}
 
@@ -199,6 +199,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest(questId, base.IssueOwner, this._youngHero);
@@ -219,7 +223,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					flag |= IssueBase.PreconditionFlags.Relation;
 					relationHero = issueGiver;
 				}
-				if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader)
+				if (Hero.MainHero.IsKingdomLeader)
 				{
 					flag |= IssueBase.PreconditionFlags.MainHeroIsKingdomLeader;
 				}
@@ -370,7 +374,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=dL8196qY}{YOUNG_HERO.LINK} has escaped. Find and talk to him to continue your quest.", null);
+					TextObject textObject = new TextObject("{=dL8196qY}{YOUNG_HERO.LINK} has escaped. Find him to continue your quest.", null);
 					StringHelpers.SetCharacterProperties("YOUNG_HERO", this._youngHero.CharacterObject, textObject, false);
 					return textObject;
 				}
@@ -459,14 +463,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=1WxrzNXx}He'll be delighted. I'll tell him to join you as soon as possible.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.NotableDialogCondition))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=OoNULWKy}How is the training going? Are you happy with your student?", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.NotableDialogCondition))
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=OoNULWKy}How is the training going? Are you happy with your student?[if:convo_delighted][ib:hip]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.NotableDialogCondition))
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += MapEventHelper.OnConversationEnd;
 					})
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=jyxo4YgW}Yes, he is a promising boy.", null), null)
-					.NpcLine(new TextObject("{=QsL6qcDb}That's very good to hear! Thank you.", null), null, null)
+					.NpcLine(new TextObject("{=QsL6qcDb}That's very good to hear! Thank you.[if:convo_merry]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=SbbAhpTu}He is yet to prove himself actually.", null), null)
 					.NpcLine(new TextObject("{=aHid0t6n}Give him some chance I'm sure he will prove himself soon.", null), null, null)
@@ -502,7 +506,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void RegisterEvents()
 			{
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 				CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 				CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, new Action<PartyBase, Hero>(this.OnPrisonerTaken));
 				CampaignEvents.HeroGainedSkill.AddNonSerializedListener(this, new Action<Hero, SkillObject, int, bool>(this.OnHeroGainedSkill));
@@ -610,7 +613,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredQuestCancel);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredQuestCancel, false);
 			}
 
 			public void OnHeroGainedSkill(Hero hero, SkillObject skill, int change = 1, bool shouldNotify = true)
@@ -648,7 +651,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			public void OnHourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing && !Hero.MainHero.IsPrisoner && Settlement.CurrentSettlement == null && PlayerEncounter.Current == null && MapEvent.PlayerMapEvent == null && this._youngHero.PartyBelongedTo == MobileParty.MainParty && GameStateManager.Current.ActiveState is MapState && ((this._checkForMissionEnd && !this._firstConversationInitialized) || this._questCompletedStartConversation))
 				{
@@ -675,7 +678,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetYoungHeroFirstDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=XH66Leg5}Greetings, my {?PLAYER.GENDER}lady{?}lord{\\?}. I have heard much of your deeds. Thank you for agreeing to train me. I hope I won't disappoint you.", null), null, null).Condition(() => Hero.OneToOneConversationHero == this._youngHero && !this._firstConversationInitialized)
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=XH66Leg5}Greetings, my {?PLAYER.GENDER}lady{?}lord{\\?}. I have heard much of your deeds. Thank you for agreeing to train me. I hope I won't disappoint you.[if:convo_grateful][ib:demure]", null), null, null).Condition(() => Hero.OneToOneConversationHero == this._youngHero && !this._firstConversationInitialized)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.FirstConversationEndConsequence;
@@ -706,31 +709,31 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetYoungHeroSecondDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(new TextObject("{=APEBfqyW}Greetings my {?PLAYER.GENDER}lady{?}lord{\\?}. Do you wish something from me?", null), new ConversationSentence.OnConditionDelegate(this.default_conversation_with_young_hero_condition), null, null)
+				return DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(new TextObject("{=APEBfqyW}Greetings my {?PLAYER.GENDER}lady{?}lord{\\?}. Do you wish something from me?[if:convo_innocent_smile][ib:normal2]", null), new ConversationSentence.OnConditionDelegate(this.default_conversation_with_young_hero_condition), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=BO0f1Klt}So - how do you find life in our company? Is it all you expected?.", null), null)
-					.NpcLine(new TextObject("{=e3e79n9B}It is all I expected and more, captain. I am glad that you took me with you.", null), null, null)
-					.PlayerLine(new TextObject("{=dbG3PGXL}I'm glad you think that way? Combat aside, have you learned anything special?", null), null)
+					.NpcLine(new TextObject("{=e3e79n9B}It is all I expected and more, captain. I am glad that you took me with you.[if:convo_grateful][ib:normal2]", null), null, null)
+					.PlayerLine(new TextObject("{=dbG3PGXL}I'm glad you think that way. Combat aside, have you learned anything special?", null), null)
 					.NpcLine(new TextObject("{=8L9W34D6}{NPC_EXPERIENCE_LINE}", null), null, null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.npc_experience_line_condition))
 					.PlayerLine(new TextObject("{=Rh0DlvvE}I'm glad you see it that way. Go on. Continue your training.", null), null)
-					.NpcLine(new TextObject("{=dnvPDnzS}I will my {?PLAYER.GENDER}lady{?}lord{\\?}. Thank you", null), null, null)
+					.NpcLine(new TextObject("{=dnvPDnzS}I will, my {?PLAYER.GENDER}lady{?}lord{\\?}. Thank you[if:convo_grateful][ib:demure]", null), null, null)
 					.CloseDialog()
-					.PlayerOption(new TextObject("{=Lk6ln3sR}We got separated but I am happy that I found you. Join me we have to continue your training.", null), null)
+					.PlayerOption(new TextObject("{=Lk6ln3sR}We seem to have got separated but I have found you. Join me, as we need to continue your training.", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.PupilJoinMeCondition))
-					.NpcLine(new TextObject("{=INn1axcf}Ok captain, thank you.", null), null, null)
+					.NpcLine(new TextObject("{=0coOJAvg}Yes, {?PLAYER.GENDER}madam{?}sir{\\?}. Thank you.", null), null, null)
 					.Consequence(delegate
 					{
 						MobileParty.MainParty.MemberRoster.AddToCounts(this._youngHero.CharacterObject, 1, false, 0, 0, true, -1);
 					})
 					.CloseDialog()
 					.EndPlayerOptions()
-					.NpcOption(new TextObject("{=kUbovNbE}My {?PLAYER.GENDER}lady{?}lord{\\?}. The agreed training time with you is over. I thank you for everything. It's been a very productive for me.", null), new ConversationSentence.OnConditionDelegate(this.quest_finished_conversation_with_young_hero_condition), null, null)
+					.NpcOption(new TextObject("{=kUbovNbE}My {?PLAYER.GENDER}lady{?}lord{\\?}. The agreed training time with you is over. I thank you for everything. It's been a very productive for me.[if:convo_delighted][ib:demure]", null), new ConversationSentence.OnConditionDelegate(this.quest_finished_conversation_with_young_hero_condition), null, null)
 					.PlayerLine(new TextObject("{=bS0bBgp3}I'm happy to hear this. Tell me, what is the most important lesson you've learned from me?", null), null)
 					.NpcLine(new TextObject("{=8L9W34D6}{NPC_EXPERIENCE_LINE}", null), null, null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.npc_experience_line_condition))
 					.PlayerLine(new TextObject("{=orprhyYl}I'm glad you see it that way. Very well then, off you go. Send my regards to your family. I hope to see you again one day. I am sure you will make an excellent commander.", null), null)
-					.NpcLine(new TextObject("{=IBXfCLMp}I certainly hope too {?PLAYER.GENDER}lady{?}lord{\\?}! Again, I want to thank you for everything, before I go, please accept this gift as a humble gratitude.", null), null, null)
+					.NpcLine(new TextObject("{=IBXfCLMp}I certainly hope too {?PLAYER.GENDER}lady{?}lord{\\?}! Again, I want to thank you for everything, before I go, please accept this gift as a humble gratitude.[if:convo_calm_friendly]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestCompletedWithSuccessAfterConversation))
 					.CloseDialog()
 					.EndNpcOptions();
@@ -759,12 +762,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private bool npc_experience_line_condition()
 			{
 				List<KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>> list = new List<KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>>();
-				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.strength_increased_condition), new TextObject("{=hMiJvlJ5}Yes, Since we last spoke, I've learned a lot about hand-to-hand combat, my {?PLAYER.GENDER}lady{?}lord{\\?}. Correct timing and putting your whole body behind the blow means a lot more than I initially thought.", null)));
-				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.perception_increased_condition), new TextObject("{=TrQzYwVD}Yes, {?PLAYER.GENDER}my lady{?}lord{\\?}. Since we last spoke I had chance to increase my understanding of ranged combat. How to breath, calculate distance, and lead the target if necessary.", null)));
-				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.endurance_increased_condition), new TextObject("{=XF7shG4k}Since we last spoke I've been training vigorously. I feel tougher, much more energetic and alive now.", null)));
-				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.cunning_increased_condition), new TextObject("{=H6l9cm7I}I've been paying attention to your subtler methods, {?PLAYER.GENDER}my lady{?}lord{\\?}, I've been observing that courage and strength in numbers is not enough to win most engagements. You have to be aware of the situation and seize the opportunities when they present themselves.", null)));
-				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.social_increased_condition), new TextObject("{=bNAbWn4E}I've been watching how you deal with different kinds of folk: how to present yourself, how to address people from various walks of life properly, how to inspire greatness to those who trust in you.", null)));
-				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.intelligence_increased_condition), new TextObject("{=9bd0jJD8}I've been studying a lot, {?PLAYER.GENDER}my lady{?}lord{\\?}. The manuscripts I've acquired on the way on various subjects are invaluable. Seeing professionals in action complements the theoretical knowledge I've learned from the manuscripts.", null)));
+				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.strength_increased_condition), new TextObject("{=hMiJvlJ5}Yes, Since we last spoke, I've learned a lot about hand-to-hand combat, my {?PLAYER.GENDER}lady{?}lord{\\?}. Correct timing and putting your whole body behind the blow means a lot more than I initially thought.[if:convo_calm_friendly][ib:warrior]", null)));
+				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.perception_increased_condition), new TextObject("{=TrQzYwVD}Yes, {?PLAYER.GENDER}my lady{?}lord{\\?}. Since we last spoke I had chance to increase my understanding of ranged combat. How to breath, calculate distance, and lead the target if necessary.[if:convo_calm_friendly][ib:normal]", null)));
+				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.endurance_increased_condition), new TextObject("{=XF7shG4k}Since we last spoke I've been training vigorously. I feel tougher, much more energetic and alive now.[if:convo_calm_friendly][ib:warrior2]", null)));
+				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.cunning_increased_condition), new TextObject("{=H6l9cm7I}I've been paying attention to your subtler methods, {?PLAYER.GENDER}my lady{?}lord{\\?}, I've been observing that courage and strength in numbers is not enough to win most engagements. You have to be aware of the situation and seize the opportunities when they present themselves.[if:convo_calm_friendly][ib:hip]", null)));
+				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.social_increased_condition), new TextObject("{=bNAbWn4E}I've been watching how you deal with different kinds of folk: how to present yourself, how to address people from various walks of life properly, how to inspire greatness to those who trust in you.[if:convo_calm_friendly][ib:confident]", null)));
+				list.Add(new KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject>(new LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition(this.intelligence_increased_condition), new TextObject("{=9bd0jJD8}I've been studying a lot, {?PLAYER.GENDER}my lady{?}lord{\\?}. The manuscripts I've acquired on the way on various subjects are invaluable. Seeing professionals in action complements the theoretical knowledge I've learned from the manuscripts.[if:convo_calm_friendly][ib:demure2]", null)));
 				MBList<TextObject> mblist = new MBList<TextObject>();
 				foreach (KeyValuePair<LordsNeedsTutorIssueBehavior.LordsNeedsTutorIssueQuest.ExperienceIncreaseCondition, TextObject> keyValuePair in list)
 				{
@@ -778,7 +781,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					MBTextManager.SetTextVariable("NPC_EXPERIENCE_LINE", mblist.GetRandomElement<TextObject>(), false);
 					return true;
 				}
-				MBTextManager.SetTextVariable("NPC_EXPERIENCE_LINE", new TextObject("{=XFafAocV}Nothing specific, captain. But I'm paying close attention to everything you do.", null), false);
+				MBTextManager.SetTextVariable("NPC_EXPERIENCE_LINE", new TextObject("{=XFafAocV}Nothing specific, captain. But I'm paying close attention to everything you do.[if:convo_excited][ib:nervous]", null), false);
 				return true;
 			}
 

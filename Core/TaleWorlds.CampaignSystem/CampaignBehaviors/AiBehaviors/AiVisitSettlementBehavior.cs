@@ -15,13 +15,19 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 		public override void RegisterEvents()
 		{
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
+			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
+		}
+
+		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+		{
+			this._disbandPartyCampaignBehavior = Campaign.Current.GetCampaignBehavior<IDisbandPartyCampaignBehavior>();
 		}
 
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
+		private void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			Settlement currentSettlement = mobileParty.CurrentSettlement;
 			if (((currentSettlement != null) ? currentSettlement.SiegeEvent : null) != null)
@@ -101,17 +107,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 				float num13 = Campaign.AverageDistanceBetweenTwoFortifications * 0.4f;
 				float num14 = (84f + Campaign.AverageDistanceBetweenTwoFortifications * 1.5f) * 0.5f;
 				float num15 = (424f + 7.57f * Campaign.AverageDistanceBetweenTwoFortifications) * 0.5f;
-				IDisbandPartyCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<IDisbandPartyCampaignBehavior>();
 				foreach (KeyValuePair<ValueTuple<float, int>, Settlement> keyValuePair2 in sortedList)
 				{
 					Settlement value2 = keyValuePair2.Value;
 					float item6 = keyValuePair2.Key.Item1;
 					float num16 = 1.6f;
-					if (mobileParty.IsDisbanding || (campaignBehavior != null && campaignBehavior.IsPartyWaitingForDisband(mobileParty)))
+					if (mobileParty.IsDisbanding)
 					{
-						this.AddBehaviorTupleWithScore(p, value2, this.CalculateMergeScoreForDisbandingParty(mobileParty, value2, item6));
+						goto IL_37E;
 					}
-					else if (leaderHero == null)
+					IDisbandPartyCampaignBehavior disbandPartyCampaignBehavior = this._disbandPartyCampaignBehavior;
+					if (disbandPartyCampaignBehavior != null && disbandPartyCampaignBehavior.IsPartyWaitingForDisband(mobileParty))
+					{
+						goto IL_37E;
+					}
+					if (leaderHero == null)
 					{
 						this.AddBehaviorTupleWithScore(p, value2, this.CalculateMergeScoreForLeaderlessParty(mobileParty, value2, item6));
 					}
@@ -188,7 +198,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 							}
 							if (!value2.IsCastle && !mobileParty.Party.IsStarving && (float)leaderHero.Gold > num12 && (leaderHero.Clan.Leader == leaderHero || (float)leaderHero.Clan.Gold > num11) && num9 > mobileParty.PartySizeRatio)
 							{
-								num32 = (float)AiVisitSettlementBehavior.ApproximateNumberOfVolunteersCanBeRecruitedFromSettlement(leaderHero, value2);
+								num32 = (float)this.ApproximateNumberOfVolunteersCanBeRecruitedFromSettlement(leaderHero, value2);
 								num32 = ((num32 > (float)((int)((num9 - mobileParty.PartySizeRatio) * 100f))) ? ((float)((int)((num9 - mobileParty.PartySizeRatio) * 100f))) : num32);
 							}
 						}
@@ -261,15 +271,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 						}
 						num16 *= num46 * num52 * num25 * num43 * num45 * num44 * num48 * num50 * num49 * num51;
 					}
+					IL_BEE:
 					if (num16 > 0.025f)
 					{
 						this.AddBehaviorTupleWithScore(p, value2, num16);
+						continue;
 					}
+					continue;
+					IL_37E:
+					this.AddBehaviorTupleWithScore(p, value2, this.CalculateMergeScoreForDisbandingParty(mobileParty, value2, item6));
+					goto IL_BEE;
 				}
 			}
 		}
 
-		public static int ApproximateNumberOfVolunteersCanBeRecruitedFromSettlement(Hero hero, Settlement settlement)
+		private int ApproximateNumberOfVolunteersCanBeRecruitedFromSettlement(Hero hero, Settlement settlement)
 		{
 			int num = 4;
 			if (hero.MapFaction != settlement.MapFaction)
@@ -279,11 +295,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 			int num2 = 0;
 			foreach (Hero hero2 in settlement.Notables)
 			{
-				for (int i = 0; i < num; i++)
+				if (hero2.IsAlive)
 				{
-					if (hero2.VolunteerTypes[i] != null)
+					for (int i = 0; i < num; i++)
 					{
-						num2++;
+						if (hero2.VolunteerTypes[i] != null)
+						{
+							num2++;
+						}
 					}
 				}
 			}
@@ -468,7 +487,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 				{
 					float num9 = ((settlement.Town.GarrisonParty != null) ? settlement.Town.GarrisonParty.Party.TotalStrength : 0f);
 					float num10 = FactionHelper.OwnerClanEconomyEffectOnGarrisonSizeConstant(settlement.OwnerClan);
-					float num11 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(settlement);
+					float num11 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(settlement.Town);
 					float num12 = FactionHelper.SettlementFoodPotentialEffectOnGarrisonSizeConstant(settlement);
 					if (idealGarrisonStrengthPerWalledCenter == -1f)
 					{
@@ -637,5 +656,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 		private const float GoodEnoughScore = 2.5f;
 
 		private const float BaseVisitScore = 1.6f;
+
+		private IDisbandPartyCampaignBehavior _disbandPartyCampaignBehavior;
 	}
 }

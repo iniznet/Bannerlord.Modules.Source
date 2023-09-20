@@ -61,7 +61,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public static TargetIconType GetMPHeroClassForFormation(Formation formation)
 		{
-			switch (formation.PrimaryClass)
+			switch (formation.PhysicalClass)
 			{
 			case FormationClass.Infantry:
 				return TargetIconType.Infantry_Light;

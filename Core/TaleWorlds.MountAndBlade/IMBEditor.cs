@@ -70,6 +70,9 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("set_upgrade_level_visibility", false)]
 		void SetUpgradeLevelVisibility(string cumulated_string);
 
+		[EngineMethod("set_level_visibility", false)]
+		void SetLevelVisibility(string cumulated_string);
+
 		[EngineMethod("exit_edit_mode", false)]
 		void ExitEditMode();
 

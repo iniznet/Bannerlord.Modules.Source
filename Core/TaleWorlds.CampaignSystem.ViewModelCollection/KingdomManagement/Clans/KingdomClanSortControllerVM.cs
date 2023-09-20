@@ -47,7 +47,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		private void ExecuteSortByName()
 		{
 			int nameState = this.NameState;
-			this.SetAllStates(KingdomClanSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.NameState = (nameState + 1) % 3;
 			if (this.NameState == 0)
 			{
@@ -61,7 +61,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		private void ExecuteSortByType()
 		{
 			int typeState = this.TypeState;
-			this.SetAllStates(KingdomClanSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.TypeState = (typeState + 1) % 3;
 			if (this.TypeState == 0)
 			{
@@ -75,7 +75,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		private void ExecuteSortByInfluence()
 		{
 			int influenceState = this.InfluenceState;
-			this.SetAllStates(KingdomClanSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.InfluenceState = (influenceState + 1) % 3;
 			if (this.InfluenceState == 0)
 			{
@@ -89,7 +89,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		private void ExecuteSortByMembers()
 		{
 			int membersState = this.MembersState;
-			this.SetAllStates(KingdomClanSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.MembersState = (membersState + 1) % 3;
 			if (this.MembersState == 0)
 			{
@@ -103,7 +103,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		private void ExecuteSortByFiefs()
 		{
 			int fiefsState = this.FiefsState;
-			this.SetAllStates(KingdomClanSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.FiefsState = (fiefsState + 1) % 3;
 			if (this.FiefsState == 0)
 			{
@@ -114,7 +114,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			this.IsFiefsSelected = true;
 		}
 
-		private void SetAllStates(KingdomClanSortControllerVM.SortState state)
+		private void SetAllStates(CampaignUIHelper.SortState state)
 		{
 			this.InfluenceState = (int)state;
 			this.FiefsState = (int)state;
@@ -329,13 +329,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		private bool _isMembersSelected;
 
 		private bool _isDistanceSelected;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 
 		public abstract class ItemComparerBase : IComparer<KingdomClanItemVM>
 		{

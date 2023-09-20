@@ -164,7 +164,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=dBphGKTI}Things are getting a bit rough around these parts. I have some lads who help me out with local troublemakers, but they wouldn't last long against real warriors. Maybe you could take them out, show them what actual war is about. I'm not expecting you to make them fit for a noble's retinue, but at least I want to give the bandits around here some pause for thought.", null);
+					return new TextObject("{=dBphGKTI}Things are getting a bit rough around these parts. I have some lads who help me out with local troublemakers, but they wouldn't last long against real warriors. Maybe you could take them out, show them what actual war is about. I'm not expecting you to make them fit for a noble's retinue, but at least I want to give the bandits around here some pause for thought.[if:convo_bored][ib:closed]", null);
 				}
 			}
 
@@ -180,7 +180,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=uLiRasv1}Maybe you could take them in your party for a while, until they get a bit of experience?", null);
+					return new TextObject("{=uLiRasv1}Maybe you could take them in your party for a while, until they get a bit of experience?[if:convo_thinking]", null);
 				}
 			}
 
@@ -188,7 +188,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=rutgr1VF}Or if you can assign a companion for a while, they can stay here and train the men... I will also give you some provisions and money for their expenses and your trouble.", null);
+					return new TextObject("{=rutgr1VF}Or if you can assign a companion for a while, they can stay here and train the men... I will also give you some provisions and money for their expenses and your trouble.[if:convo_thinking]", null);
 				}
 			}
 
@@ -212,7 +212,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=dE3vxfTo}Excellent. I'm sure they can learn a lot from your veterans.", null);
+					return new TextObject("{=dE3vxfTo}Excellent.[if:convo_focused_happy] I'm sure they can learn a lot from your veterans.", null);
 				}
 			}
 
@@ -220,7 +220,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=QRRgXOrN}As expected, your veterans have really sharpened up our boys. Please pass on my thanks to them, {?PLAYER.GENDER}madam{?}sir{\\?}.", null);
+					return new TextObject("{=QRRgXOrN}As expected, your veterans have really sharpened up our boys. Please pass on my thanks to them, {?PLAYER.GENDER}madam{?}sir{\\?}.[if:convo_focused_happy][ib:hip]", null);
 				}
 			}
 
@@ -330,6 +330,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -564,7 +568,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.OnPlayerBattleEndEvent.AddNonSerializedListener(this, new Action<MapEvent>(this.OnPlayerBattleEnd));
 				CampaignEvents.PlayerUpgradedTroopsEvent.AddNonSerializedListener(this, new Action<CharacterObject, CharacterObject, int>(this.OnPlayerUpgradedTroops));
 				CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
@@ -573,18 +576,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=J8qFgwal}Excellent. I'll tell the lads to join your party.", null), null, null).Condition(() => CharacterObject.OneToOneConversationCharacter == base.QuestGiver.CharacterObject)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=J8qFgwal}Excellent. I'll tell the lads to join your party.[if:convo_relaxed_happy][ib:confident2]", null), null, null).Condition(() => CharacterObject.OneToOneConversationCharacter == base.QuestGiver.CharacterObject)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
-					.NpcLineWithVariation("{=7lee0h29}One thing - if one or two die, that's the fortunes of war, things could go even worse if we get raided and have no one who can fight back... But try not to get them all massacred. These men will take some risks for me, but not have their lives thrown away to no purpose.", null, null)
-					.Variation("{=EaPQ2mm7}One thing - if possible, try not to get them all killed, will you? Green troops aren't much use to me, but corpses are even less.", new object[] { "UngratefulTag", 1, "MercyTag", -1 })
+					.NpcLineWithVariation("{=7lee0h29}One thing - if one or two die, that's the fortunes of war, things could go even worse if we get raided and have no one who can fight back... But try not to get them all massacred. These men will take some risks for me, but not have their lives thrown away to no purpose.[if:convo_stern]", null, null)
+					.Variation("{=EaPQ2mm7}One thing - if possible, try not to get them all killed, will you? Green troops aren't much use to me, but corpses are even less.[if:convo_stern]", new object[] { "UngratefulTag", 1, "MercyTag", -1 })
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=r9F1W4KZ}Yes? Have you been able to train my men?", null), null, null).Condition(() => CharacterObject.OneToOneConversationCharacter == base.QuestGiver.CharacterObject)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=r9F1W4KZ}Yes? Have you been able to train my men?[if:convo_astonished]", null), null, null).Condition(() => CharacterObject.OneToOneConversationCharacter == base.QuestGiver.CharacterObject)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=PVO3YFSq}Yes we are heading out now.", null), null)
-					.NpcLine(new TextObject("{=3SBDbPjD}Good to hear that! Safe journeys.", null), null, null)
+					.NpcLine(new TextObject("{=weW40mKG}Good to hear that! Safe journeys.[if:convo_relaxed_happy]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=wErSpkjy}I'm still working on it.", null), null)
-					.NpcLine(new TextObject("{=3SBDbPjD}Good to hear that! Safe journeys.", null), null, null)
+					.NpcLine(new TextObject("{=weW40mKG}Good to hear that! Safe journeys.[if:convo_relaxed_happy]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -638,7 +641,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void HourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing && !this.CheckFail())
 				{
@@ -672,7 +675,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._cancelLogOnWarDeclared);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._cancelLogOnWarDeclared, false);
 			}
 
 			private void RemoveBorrowedTroopsFromParty(PartyBase party)

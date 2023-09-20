@@ -255,6 +255,19 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
+		public override void OnMissionEnded()
+		{
+			foreach (StandingPoint standingPoint in this.StandingPoints)
+			{
+				Agent userAgent = standingPoint.UserAgent;
+				if (userAgent != null)
+				{
+					userAgent.StopUsingGameObject(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
+				}
+				standingPoint.IsDeactivated = true;
+			}
+		}
+
 		public override void SetVisibleSynched(bool value, bool forceChildrenVisible = false)
 		{
 			base.SetVisibleSynched(value, forceChildrenVisible);
@@ -324,21 +337,27 @@ namespace TaleWorlds.MountAndBlade
 			base.OnInit();
 			this._isDisabledForAttackerAIDueToEnemyInRange = new QueryData<bool>(delegate
 			{
-				Vec3 globalScale = base.GameEntity.GetGlobalScale();
-				Vec3 globalPosition = base.GameEntity.GlobalPosition;
-				globalPosition.x += this.MachinePositionOffsetToStopUsing.x * globalScale.x;
-				globalPosition.y += this.MachinePositionOffsetToStopUsing.y * globalScale.y;
-				Agent closestEnemyAgent = Mission.Current.GetClosestEnemyAgent(Mission.Current.Teams.Attacker, globalPosition, this.EnemyRangeToStopUsing);
-				return closestEnemyAgent != null && closestEnemyAgent.Position.z > globalPosition.z - 2f && closestEnemyAgent.Position.z < globalPosition.z + 4f;
+				bool flag = false;
+				if (this.EnemyRangeToStopUsing > 0f)
+				{
+					Vec3 vec = base.GameEntity.GetGlobalFrame().rotation.TransformToParent(new Vec3(this.MachinePositionOffsetToStopUsingLocal, 0f, -1f));
+					Vec3 vec2 = base.GameEntity.GlobalPosition + vec;
+					Agent closestEnemyAgent = Mission.Current.GetClosestEnemyAgent(Mission.Current.Teams.Attacker, vec2, this.EnemyRangeToStopUsing);
+					flag = closestEnemyAgent != null && closestEnemyAgent.Position.z > vec2.z - 2f && closestEnemyAgent.Position.z < vec2.z + 4f;
+				}
+				return flag;
 			}, 1f);
 			this._isDisabledForDefenderAIDueToEnemyInRange = new QueryData<bool>(delegate
 			{
-				Vec3 globalScale2 = base.GameEntity.GetGlobalScale();
-				Vec3 globalPosition2 = base.GameEntity.GlobalPosition;
-				globalPosition2.x += this.MachinePositionOffsetToStopUsing.x * globalScale2.x;
-				globalPosition2.y += this.MachinePositionOffsetToStopUsing.y * globalScale2.y;
-				Agent closestEnemyAgent2 = Mission.Current.GetClosestEnemyAgent(Mission.Current.Teams.Defender, globalPosition2, this.EnemyRangeToStopUsing);
-				return closestEnemyAgent2 != null && closestEnemyAgent2.Position.z > globalPosition2.z - 2f && closestEnemyAgent2.Position.z < globalPosition2.z + 4f;
+				bool flag2 = false;
+				if (this.EnemyRangeToStopUsing > 0f)
+				{
+					Vec3 vec3 = base.GameEntity.GetGlobalFrame().rotation.TransformToParent(new Vec3(this.MachinePositionOffsetToStopUsingLocal, 0f, -1f));
+					Vec3 vec4 = base.GameEntity.GlobalPosition + vec3;
+					Agent closestEnemyAgent2 = Mission.Current.GetClosestEnemyAgent(Mission.Current.Teams.Defender, vec4, this.EnemyRangeToStopUsing);
+					flag2 = closestEnemyAgent2 != null && closestEnemyAgent2.Position.z > vec4.z - 2f && closestEnemyAgent2.Position.z < vec4.z + 4f;
+				}
+				return flag2;
 			}, 1f);
 			this.CollectAndSetStandingPoints();
 			this.AmmoPickUpPoints = new List<StandingPoint>();
@@ -638,26 +657,6 @@ namespace TaleWorlds.MountAndBlade
 			foreach (UsableMissionObjectComponent usableMissionObjectComponent in this._components)
 			{
 				usableMissionObjectComponent.OnRemoved();
-			}
-		}
-
-		public override bool ReadFromNetwork()
-		{
-			bool flag = true;
-			flag = flag && base.ReadFromNetwork();
-			foreach (UsableMissionObjectComponent usableMissionObjectComponent in this._components)
-			{
-				flag = flag && usableMissionObjectComponent.ReadFromNetwork();
-			}
-			return flag;
-		}
-
-		public override void WriteToNetwork()
-		{
-			base.WriteToNetwork();
-			foreach (UsableMissionObjectComponent usableMissionObjectComponent in this._components)
-			{
-				usableMissionObjectComponent.WriteToNetwork();
 			}
 		}
 
@@ -985,6 +984,11 @@ namespace TaleWorlds.MountAndBlade
 			agent.StopUsingGameObjectMT(true, Agent.StopUsingGameObjectFlags.None);
 		}
 
+		public int GetNumberOfUsableSlots()
+		{
+			return this._usableStandingPoints.Count;
+		}
+
 		public bool IsStandingPointAvailableForAgent(Agent agent)
 		{
 			bool flag = false;
@@ -1092,7 +1096,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMachine.cs", "AddAgent", 1371);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\UsableMachine.cs", "AddAgent", 1367);
 			}
 		}
 
@@ -1177,7 +1181,7 @@ namespace TaleWorlds.MountAndBlade
 
 		protected float EnemyRangeToStopUsing;
 
-		protected Vec2 MachinePositionOffsetToStopUsing = Vec2.Zero;
+		protected Vec2 MachinePositionOffsetToStopUsingLocal = Vec2.Zero;
 
 		protected bool MakeVisibilityCheck = true;
 

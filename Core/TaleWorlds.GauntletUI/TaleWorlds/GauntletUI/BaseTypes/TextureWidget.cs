@@ -67,12 +67,13 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 
 		protected override void OnDisconnectedFromRoot()
 		{
-			if (this.TextureProvider != null)
-			{
-				this.TextureProvider.Clear();
-				this.TextureProvider = null;
-			}
 			base.OnDisconnectedFromRoot();
+			TextureProvider textureProvider = this.TextureProvider;
+			if (textureProvider != null)
+			{
+				textureProvider.Clear(true);
+			}
+			this._setForClearNextFrame = true;
 		}
 
 		private void SetTextureProviderProperties()
@@ -88,14 +89,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 
 		protected void SetTextureProviderProperty(string name, object value)
 		{
-			if (this._textureProviderProperties.ContainsKey(name))
-			{
-				this._textureProviderProperties[name] = value;
-			}
-			else
-			{
-				this._textureProviderProperties.Add(name, value);
-			}
+			this._textureProviderProperties[name] = value;
 			if (this.TextureProvider != null)
 			{
 				this.TextureProvider.SetProperty(name, value);
@@ -111,14 +105,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 				return null;
 			}
 			return textureProvider.GetProperty(propertyName);
-		}
-
-		protected void ClearTextureOfTextureProvier()
-		{
-			if (this.TextureProvider != null)
-			{
-				this.TextureProvider.Clear();
-			}
 		}
 
 		protected void UpdateTextureWidget()
@@ -230,6 +216,8 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 		}
 
 		protected static TypeCollector<TextureProvider> _typeCollector = new TypeCollector<TextureProvider>();
+
+		protected bool _setForClearNextFrame;
 
 		private string _textureProviderName;
 

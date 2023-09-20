@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using TaleWorlds.Core;
 using TaleWorlds.DotNet;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Skin_generation_params")]
+	[EngineStruct("Skin_generation_params", false)]
 	public struct SkinGenerationParams
 	{
 		public static SkinGenerationParams Create()
@@ -53,10 +54,13 @@ namespace TaleWorlds.MountAndBlade
 
 		public int _bodyDeformType;
 
+		[MarshalAs(UnmanagedType.U1)]
 		public bool _prepareImmediately;
 
+		[MarshalAs(UnmanagedType.U1)]
 		public bool _useTranslucency;
 
+		[MarshalAs(UnmanagedType.U1)]
 		public bool _useTesselation;
 
 		public float _faceDirtAmount;

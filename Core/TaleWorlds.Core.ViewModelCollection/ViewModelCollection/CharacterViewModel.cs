@@ -61,6 +61,73 @@ namespace TaleWorlds.Core.ViewModelCollection
 			}
 		}
 
+		public void FillFrom(CharacterViewModel characterViewModel, int seed = -1)
+		{
+			this.ArmorColor1 = characterViewModel.ArmorColor1;
+			this.ArmorColor2 = characterViewModel.ArmorColor2;
+			this.CharStringId = characterViewModel.CharStringId;
+			this.IsFemale = characterViewModel.IsFemale;
+			this.Race = characterViewModel.Race;
+			this.BodyProperties = characterViewModel.BodyProperties;
+			this.MountCreationKey = characterViewModel.MountCreationKey;
+			this._equipment = characterViewModel._equipment.Clone(false);
+			Equipment equipment = this._equipment;
+			this.HasMount = ((equipment != null) ? equipment[10].Item : null) != null;
+			Equipment equipment2 = this._equipment;
+			this.EquipmentCode = ((equipment2 != null) ? equipment2.CalculateEquipmentCode() : null);
+		}
+
+		public void ExecuteEquipWeaponAtIndex(EquipmentIndex index, bool isLeftHand)
+		{
+			Equipment equipment = this._equipment;
+			bool flag;
+			if (equipment == null)
+			{
+				flag = null != null;
+			}
+			else
+			{
+				ItemObject item = equipment[index].Item;
+				flag = ((item != null) ? item.WeaponComponent : null) != null;
+			}
+			if (flag)
+			{
+				if (isLeftHand)
+				{
+					this.LeftHandWieldedEquipmentIndex = (int)index;
+					return;
+				}
+				this.RightHandWieldedEquipmentIndex = (int)index;
+			}
+		}
+
+		public void ExecuteStartCustomAnimation(string animation, bool loop = false, float loopInterval = 0f)
+		{
+			this.ExecuteStopCustomAnimation();
+			this.CustomAnimation = animation;
+			this.ShouldLoopCustomAnimation = loop;
+			this.CustomAnimationWaitDuration = loopInterval;
+			this.IsPlayingCustomAnimations = true;
+		}
+
+		public void ExecuteStopCustomAnimation()
+		{
+			this._isManuallyStoppingAnimation = true;
+			this.CustomAnimation = null;
+			this.ShouldLoopCustomAnimation = false;
+			this.CustomAnimationWaitDuration = 0f;
+			if (this.IsPlayingCustomAnimations)
+			{
+				Action<CharacterViewModel> onCustomAnimationFinished = CharacterViewModel.OnCustomAnimationFinished;
+				if (onCustomAnimationFinished != null)
+				{
+					onCustomAnimationFinished(this);
+				}
+			}
+			this.IsPlayingCustomAnimations = false;
+			this._isManuallyStoppingAnimation = false;
+		}
+
 		[DataSourceProperty]
 		public string BannerCodeText
 		{
@@ -130,6 +197,23 @@ namespace TaleWorlds.Core.ViewModelCollection
 		}
 
 		[DataSourceProperty]
+		public string CustomAnimation
+		{
+			get
+			{
+				return this._customAnimation;
+			}
+			set
+			{
+				if (value != this._customAnimation)
+				{
+					this._customAnimation = value;
+					base.OnPropertyChangedWithValue<string>(value, "CustomAnimation");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public int StanceIndex
 		{
 			get
@@ -176,6 +260,83 @@ namespace TaleWorlds.Core.ViewModelCollection
 				{
 					this._isHidden = value;
 					base.OnPropertyChangedWithValue(value, "IsHidden");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsPlayingCustomAnimations
+		{
+			get
+			{
+				return this._isPlayingCustomAnimations;
+			}
+			set
+			{
+				if (value != this._isPlayingCustomAnimations)
+				{
+					this._isPlayingCustomAnimations = value;
+					base.OnPropertyChangedWithValue(value, "IsPlayingCustomAnimations");
+					if (!this._isPlayingCustomAnimations && !this._isManuallyStoppingAnimation && !this.ShouldLoopCustomAnimation)
+					{
+						Action<CharacterViewModel> onCustomAnimationFinished = CharacterViewModel.OnCustomAnimationFinished;
+						if (onCustomAnimationFinished == null)
+						{
+							return;
+						}
+						onCustomAnimationFinished(this);
+					}
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool ShouldLoopCustomAnimation
+		{
+			get
+			{
+				return this._shouldLoopCustomAnimation;
+			}
+			set
+			{
+				if (value != this._shouldLoopCustomAnimation)
+				{
+					this._shouldLoopCustomAnimation = value;
+					base.OnPropertyChangedWithValue(value, "ShouldLoopCustomAnimation");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public float CustomAnimationProgressRatio
+		{
+			get
+			{
+				return this._customAnimationProgressRatio;
+			}
+			set
+			{
+				if (value != this._customAnimationProgressRatio)
+				{
+					this._customAnimationProgressRatio = value;
+					base.OnPropertyChangedWithValue(value, "CustomAnimationProgressRatio");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public float CustomAnimationWaitDuration
+		{
+			get
+			{
+				return this._customAnimationWaitDuration;
+			}
+			set
+			{
+				if (value != this._customAnimationWaitDuration)
+				{
+					this._customAnimationWaitDuration = value;
+					base.OnPropertyChangedWithValue(value, "CustomAnimationWaitDuration");
 				}
 			}
 		}
@@ -299,6 +460,44 @@ namespace TaleWorlds.Core.ViewModelCollection
 			}
 		}
 
+		[DataSourceProperty]
+		public int LeftHandWieldedEquipmentIndex
+		{
+			get
+			{
+				return this._leftHandWieldedEquipmentIndex;
+			}
+			set
+			{
+				if (value != this._leftHandWieldedEquipmentIndex)
+				{
+					this._leftHandWieldedEquipmentIndex = value;
+					base.OnPropertyChangedWithValue(value, "LeftHandWieldedEquipmentIndex");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public int RightHandWieldedEquipmentIndex
+		{
+			get
+			{
+				return this._rightHandWieldedEquipmentIndex;
+			}
+			set
+			{
+				if (value != this._rightHandWieldedEquipmentIndex)
+				{
+					this._rightHandWieldedEquipmentIndex = value;
+					base.OnPropertyChangedWithValue(value, "RightHandWieldedEquipmentIndex");
+				}
+			}
+		}
+
+		public static Action<CharacterViewModel> OnCustomAnimationFinished;
+
+		private bool _isManuallyStoppingAnimation;
+
 		protected Equipment _equipment;
 
 		private string _mountCreationKey = "";
@@ -313,6 +512,8 @@ namespace TaleWorlds.Core.ViewModelCollection
 
 		private string _charStringId;
 
+		private string _customAnimation;
+
 		protected string _bannerCode;
 
 		private bool _hasMount;
@@ -321,6 +522,14 @@ namespace TaleWorlds.Core.ViewModelCollection
 
 		private bool _isHidden;
 
+		private bool _isPlayingCustomAnimations;
+
+		private bool _shouldLoopCustomAnimation;
+
+		private float _customAnimationProgressRatio;
+
+		private float _customAnimationWaitDuration;
+
 		private int _race;
 
 		private int _stanceIndex;
@@ -328,6 +537,10 @@ namespace TaleWorlds.Core.ViewModelCollection
 		private uint _armorColor1;
 
 		private uint _armorColor2;
+
+		private int _leftHandWieldedEquipmentIndex;
+
+		private int _rightHandWieldedEquipmentIndex;
 
 		public enum StanceTypes
 		{

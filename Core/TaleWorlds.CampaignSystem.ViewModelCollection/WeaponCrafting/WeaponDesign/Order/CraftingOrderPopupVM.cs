@@ -20,6 +20,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 		}
 
+		public bool HasEnabledOrders
+		{
+			get
+			{
+				return this.CraftingOrders.Count((CraftingOrderItemVM x) => x.IsEnabled) > 0;
+			}
+		}
+
 		public CraftingOrderPopupVM(Action<CraftingOrderItemVM> onDoneAction, Func<CraftingAvailableHeroItemVM> getCurrentCraftingHero, Func<CraftingOrder, IEnumerable<CraftingStatData>> getOrderStatDatas)
 		{
 			this._onDoneAction = onDoneAction;
@@ -43,21 +51,37 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			{
 				return;
 			}
-			List<CraftingOrder> list = craftingOrderSlots.Slots.Where((CraftingOrder x) => x != null).ToList<CraftingOrder>();
-			foreach (KeyValuePair<string, List<CraftingOrder>> keyValuePair in craftingOrderSlots.QuestOrders.Where((KeyValuePair<string, List<CraftingOrder>> x) => x.Key != null && x.Value != null))
+			CraftingOrderPopupVM.OrderComparer orderComparer = new CraftingOrderPopupVM.OrderComparer();
+			List<CraftingOrder> list = craftingOrderSlots.CustomOrders.Where((CraftingOrder x) => x != null).ToList<CraftingOrder>();
+			list.Sort(orderComparer);
+			List<CraftingOrder> list2 = craftingOrderSlots.Slots.Where((CraftingOrder x) => x != null).ToList<CraftingOrder>();
+			list2.Sort(orderComparer);
+			CampaignUIHelper.IssueQuestFlags issueQuestFlags = CampaignUIHelper.IssueQuestFlags.None;
+			for (int i = 0; i < list.Count; i++)
 			{
-				list.AddRange(keyValuePair.Value);
+				List<CraftingStatData> list3 = this._getOrderStatDatas(list[i]).ToList<CraftingStatData>();
+				CampaignUIHelper.IssueQuestFlags questFlagsForOrder = this.GetQuestFlagsForOrder(list[i]);
+				this.CraftingOrders.Add(new CraftingOrderItemVM(list[i], new Action<CraftingOrderItemVM>(this.SelectOrder), this._getCurrentCraftingHero, list3, questFlagsForOrder));
+				issueQuestFlags |= questFlagsForOrder;
 			}
-			OrderDifficultyComparer orderDifficultyComparer = new OrderDifficultyComparer();
-			list.Sort(orderDifficultyComparer);
-			foreach (CraftingOrder craftingOrder in list)
+			this.QuestType = (int)issueQuestFlags;
+			for (int j = 0; j < list2.Count; j++)
 			{
-				List<CraftingStatData> list2 = this._getOrderStatDatas(craftingOrder).ToList<CraftingStatData>();
-				this.CraftingOrders.Add(new CraftingOrderItemVM(craftingOrder, new Action<CraftingOrderItemVM>(this.SelectOrder), this._getCurrentCraftingHero, list2));
+				List<CraftingStatData> list4 = this._getOrderStatDatas(list2[j]).ToList<CraftingStatData>();
+				this.CraftingOrders.Add(new CraftingOrderItemVM(list2[j], new Action<CraftingOrderItemVM>(this.SelectOrder), this._getCurrentCraftingHero, list4, CampaignUIHelper.IssueQuestFlags.None));
 			}
 			TextObject textObject = new TextObject("{=MkVTRqAw}Orders ({ORDER_COUNT})", null);
 			textObject.SetTextVariable("ORDER_COUNT", this.CraftingOrders.Count);
 			this.OrderCountText = textObject.ToString();
+		}
+
+		private CampaignUIHelper.IssueQuestFlags GetQuestFlagsForOrder(CraftingOrder order)
+		{
+			if (Campaign.Current.QuestManager.TrackedObjects.ContainsKey(order))
+			{
+				return CampaignUIHelper.IssueQuestFlags.ActiveIssue;
+			}
+			return CampaignUIHelper.IssueQuestFlags.None;
 		}
 
 		public void SelectOrder(CraftingOrderItemVM order)
@@ -106,18 +130,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		}
 
 		[DataSourceProperty]
-		public CraftingOrderItemVM SelectedCraftingOrder
+		public int QuestType
 		{
 			get
 			{
-				return this._selectedCraftingOrder;
+				return this._questType;
 			}
 			set
 			{
-				if (value != this._selectedCraftingOrder)
+				if (value != this._questType)
 				{
-					this._selectedCraftingOrder = value;
-					base.OnPropertyChangedWithValue<CraftingOrderItemVM>(value, "SelectedCraftingOrder");
+					this._questType = value;
+					base.OnPropertyChangedWithValue(value, "QuestType");
 				}
 			}
 		}
@@ -135,6 +159,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 				{
 					this._orderCountText = value;
 					base.OnPropertyChangedWithValue<string>(value, "OrderCountText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public CraftingOrderItemVM SelectedCraftingOrder
+		{
+			get
+			{
+				return this._selectedCraftingOrder;
+			}
+			set
+			{
+				if (value != this._selectedCraftingOrder)
+				{
+					this._selectedCraftingOrder = value;
+					base.OnPropertyChangedWithValue<CraftingOrderItemVM>(value, "SelectedCraftingOrder");
 				}
 			}
 		}
@@ -164,12 +205,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		private readonly ICraftingCampaignBehavior _craftingBehavior;
 
+		private bool _isVisible;
+
+		private int _questType;
+
 		private string _orderCountText;
 
 		private MBBindingList<CraftingOrderItemVM> _craftingOrders;
 
 		private CraftingOrderItemVM _selectedCraftingOrder;
 
-		private bool _isVisible;
+		private class OrderComparer : IComparer<CraftingOrder>
+		{
+			public int Compare(CraftingOrder x, CraftingOrder y)
+			{
+				return (int)(x.OrderDifficulty - y.OrderDifficulty);
+			}
+		}
 	}
 }

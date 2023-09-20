@@ -33,6 +33,8 @@ namespace TaleWorlds.MountAndBlade.Options.ManagedOptions
 				{
 				case ManagedOptions.ManagedOptionsType.Language:
 					return LocalizedTextManager.GetLanguageIds(NativeConfig.IsDevelopmentMode).Count;
+				case ManagedOptions.ManagedOptionsType.GyroOverrideForAttackDefend:
+					break;
 				case ManagedOptions.ManagedOptionsType.ControlBlockDirection:
 					return 3;
 				case ManagedOptions.ManagedOptionsType.ControlAttackDirection:

@@ -38,14 +38,20 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.KillFeed.General
 			mbstringBuilder.Initialize(64, "InitProperties");
 			if (!this._showNames)
 			{
-				BasicCharacterObject character = affectorAgent.Character;
-				if (character == null || !character.IsHero)
+				if (affectorAgent == null)
 				{
-					goto IL_40;
+					goto IL_66;
+				}
+				BasicCharacterObject character = affectorAgent.Character;
+				bool? flag = ((character != null) ? new bool?(character.IsHero) : null);
+				bool flag2 = true;
+				if (!((flag.GetValueOrDefault() == flag2) & (flag != null)))
+				{
+					goto IL_66;
 				}
 			}
 			mbstringBuilder.Append<string>(affectorAgent.Name);
-			IL_40:
+			IL_66:
 			mbstringBuilder.Append('\0');
 			mbstringBuilder.Append<string>(SPGeneralKillNotificationItemVM.GetAgentType(affectorAgent));
 			mbstringBuilder.Append('\0');
@@ -54,11 +60,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.KillFeed.General
 				BasicCharacterObject character2 = affectedAgent.Character;
 				if (character2 == null || !character2.IsHero)
 				{
-					goto IL_8A;
+					goto IL_B0;
 				}
 			}
 			mbstringBuilder.Append<string>(affectedAgent.Name);
-			IL_8A:
+			IL_B0:
 			mbstringBuilder.Append('\0');
 			mbstringBuilder.Append<string>(SPGeneralKillNotificationItemVM.GetAgentType(affectedAgent));
 			mbstringBuilder.Append('\0');
@@ -89,7 +95,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.KillFeed.General
 
 		private static string GetAgentType(Agent agent)
 		{
-			if (agent.Character == null)
+			if (((agent != null) ? agent.Character : null) == null)
 			{
 				return "None";
 			}

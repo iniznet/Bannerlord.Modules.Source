@@ -22,7 +22,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				this.OrderIconID += "Active";
 			}
 			this.OnExecuteAction = onExecuteAction;
-			this.TooltipText = tooltipText.ToString();
+			this.MainTitle = tooltipText.ToString();
 			this.IsActive = true;
 			this._isActivationOrder = this.IsTitle && this.OrderSetType == OrderSetType.None;
 			this._isToggleActivationOrder = this.OrderSubType > OrderSubType.ToggleStart && this.OrderSubType < OrderSubType.ToggleEnd;
@@ -35,7 +35,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.OrderSetType = orderSetType;
 			this.OrderIconID = orderSetType.ToString();
 			this.OnExecuteAction = onExecuteAction;
-			this.TooltipText = tooltipText.ToString();
+			this.MainTitle = tooltipText.ToString();
 			this.IsActive = true;
 		}
 
@@ -43,7 +43,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		{
 			if ((this.OrderSetType == OrderSetType.Toggle && !this.IsTitle) || this._isToggleActivationOrder)
 			{
-				this.TooltipText = GameTexts.FindText(isActive ? "str_order_name_on" : "str_order_name_off", this.OrderSubType.ToString()).ToString();
+				this.MainTitle = GameTexts.FindText(isActive ? "str_order_name_on" : "str_order_name_off", this.OrderSubType.ToString()).ToString();
 			}
 			if (this._isToggleActivationOrder)
 			{
@@ -194,18 +194,35 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		}
 
 		[DataSourceProperty]
-		public string TooltipText
+		public string MainTitle
 		{
 			get
 			{
-				return this._tooltipText;
+				return this._mainTitle;
 			}
 			set
 			{
-				if (value != this._tooltipText)
+				if (value != this._mainTitle)
 				{
-					this._tooltipText = value;
-					base.OnPropertyChangedWithValue<string>(value, "TooltipText");
+					this._mainTitle = value;
+					base.OnPropertyChangedWithValue<string>(value, "MainTitle");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string SubSetTitle
+		{
+			get
+			{
+				return this._subSetTitle;
+			}
+			set
+			{
+				if (value != this._subSetTitle)
+				{
+					this._subSetTitle = value;
+					base.OnPropertyChangedWithValue<string>(value, "SubSetTitle");
 				}
 			}
 		}
@@ -226,7 +243,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 
 		private int _selectionState = -1;
 
-		private string _tooltipText;
+		private string _mainTitle;
+
+		private string _subSetTitle;
 
 		private InputKeyItemVM _shortcutKey;
 

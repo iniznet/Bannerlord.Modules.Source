@@ -21,6 +21,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.ActiveOrders = new List<OrderItemVM>();
 		}
 
+		protected virtual void OnSelectionStateChanged(bool isSelected)
+		{
+		}
+
 		[DataSourceProperty]
 		public bool IsSelectable
 		{
@@ -50,6 +54,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				if ((!value || this.IsSelectable) && value != this._isSelected)
 				{
 					this._isSelected = value;
+					this.OnSelectionStateChanged(value);
 					base.OnPropertyChangedWithValue(value, "IsSelected");
 				}
 			}

@@ -23,11 +23,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 			SceneNotificationData sceneNotificationData;
 			if (data.ComeOfAgeHero.IsFemale)
 			{
-				sceneNotificationData = new HeirComingOfAgeFemaleSceneNotificationItem(data.MentorHero, data.ComeOfAgeHero);
+				sceneNotificationData = new HeirComingOfAgeFemaleSceneNotificationItem(data.MentorHero, data.ComeOfAgeHero, data.CreationTime);
 			}
 			else
 			{
-				sceneNotificationData = new HeirComingOfAgeSceneNotificationItem(data.MentorHero, data.ComeOfAgeHero);
+				sceneNotificationData = new HeirComingOfAgeSceneNotificationItem(data.MentorHero, data.ComeOfAgeHero, data.CreationTime);
 			}
 			MBInformationManager.ShowSceneNotification(sceneNotificationData);
 			base.ExecuteRemove();

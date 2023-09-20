@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TaleWorlds.Library;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
 {
@@ -17,9 +18,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			for (int i = 0; i < assemblies.Length; i++)
 			{
-				foreach (Type type in assemblies[i].GetTypes())
+				List<Type> typesSafe = assemblies[i].GetTypesSafe(null);
+				for (int j = 0; j < typesSafe.Count; j++)
 				{
-					if (type != typeof(ICampaignOptionProvider) && typeof(ICampaignOptionProvider).IsAssignableFrom(type))
+					Type type = typesSafe[j];
+					if (type != null && type != typeof(ICampaignOptionProvider) && typeof(ICampaignOptionProvider).IsAssignableFrom(type))
 					{
 						ICampaignOptionProvider campaignOptionProvider = Activator.CreateInstance(type) as ICampaignOptionProvider;
 						CampaignOptionsManager._optionProviders.Add(campaignOptionProvider);

@@ -1,8 +1,10 @@
 ﻿using System;
+using TaleWorlds.DotNet;
 
 namespace TaleWorlds.Engine
 {
-	public enum RagdollState
+	[EngineStruct("rglRagdoll::Ragdoll_state", false)]
+	public enum RagdollState : ushort
 	{
 		Disabled,
 		NeedsActivation,

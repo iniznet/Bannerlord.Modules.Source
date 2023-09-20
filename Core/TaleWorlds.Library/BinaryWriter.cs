@@ -37,6 +37,7 @@ namespace TaleWorlds.Library
 
 		public void Clear()
 		{
+			this._data = new byte[4096];
 			this._availableIndex = 0;
 		}
 

@@ -27,18 +27,6 @@ namespace TaleWorlds.MountAndBlade.Missions.Handlers
 			}
 		}
 
-		protected bool Mission_IsFormationUnitPositionAvailable_AdditionalCondition(WorldPosition position, Team team)
-		{
-			if (team != null && team.IsPlayerTeam && team.Side == BattleSideEnum.Defender)
-			{
-				Scene scene = base.Mission.Scene;
-				Vec3 globalPosition = scene.FindEntityWithTag("defender_infantry").GlobalPosition;
-				WorldPosition worldPosition = new WorldPosition(scene, UIntPtr.Zero, globalPosition, false);
-				return scene.DoesPathExistBetweenPositions(worldPosition, position);
-			}
-			return true;
-		}
-
 		public override void FinishDeployment()
 		{
 			base.FinishDeployment();
@@ -53,12 +41,6 @@ namespace TaleWorlds.MountAndBlade.Missions.Handlers
 			Vec2 vec;
 			base.Mission.GetFormationSpawnFrame(BattleSideEnum.Defender, FormationClass.Infantry, false, out worldPosition, out vec);
 			return worldPosition.AsVec2;
-		}
-
-		public override void OnRemoveBehavior()
-		{
-			base.OnRemoveBehavior();
-			base.Mission.IsFormationUnitPositionAvailable_AdditionalCondition -= this.Mission_IsFormationUnitPositionAvailable_AdditionalCondition;
 		}
 	}
 }

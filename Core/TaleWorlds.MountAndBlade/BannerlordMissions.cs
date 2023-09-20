@@ -106,7 +106,7 @@ namespace TaleWorlds.MountAndBlade
 				AtmosphereOnCampaign = BannerlordMissions.CreateAtmosphereInfoForMission(seasonString, (int)timeOfDay),
 				SceneLevels = sceneLevels,
 				TimeOfDay = timeOfDay,
-				AtlasGroup = 2
+				DecalAtlasGroup = 2
 			}, (Mission missionController) => new MissionBehavior[]
 			{
 				new MissionAgentSpawnLogic(troopSuppliers, playerSide, Mission.BattleSizeType.Battle),

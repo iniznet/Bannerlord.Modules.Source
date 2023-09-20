@@ -8,15 +8,15 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetMissionObjectImpulse : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public Vec3 Position { get; private set; }
 
 		public Vec3 Impulse { get; private set; }
 
-		public SetMissionObjectImpulse(MissionObject missionObject, Vec3 position, Vec3 impulse)
+		public SetMissionObjectImpulse(MissionObjectId missionObjectId, Vec3 position, Vec3 impulse)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.Position = position;
 			this.Impulse = impulse;
 		}
@@ -28,7 +28,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.Position = GameNetworkMessage.ReadVec3FromPacket(CompressionBasic.LocalPositionCompressionInfo, ref flag);
 			this.Impulse = GameNetworkMessage.ReadVec3FromPacket(CompressionBasic.ImpulseCompressionInfo, ref flag);
 			return flag;
@@ -36,7 +36,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteVec3ToPacket(this.Position, CompressionBasic.LocalPositionCompressionInfo);
 			GameNetworkMessage.WriteVec3ToPacket(this.Impulse, CompressionBasic.ImpulseCompressionInfo);
 		}
@@ -48,13 +48,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set impulse on MissionObject with ID: ",
-				this.MissionObject.Id,
-				" and with name: ",
-				this.MissionObject.GameEntity.Name
-			});
+			return "Set impulse on MissionObject with ID: " + this.MissionObjectId;
 		}
 	}
 }

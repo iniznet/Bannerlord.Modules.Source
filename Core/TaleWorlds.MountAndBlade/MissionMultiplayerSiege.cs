@@ -240,9 +240,9 @@ namespace TaleWorlds.MountAndBlade
 			onDestructableComponentDestroyed(destructableComponent, attackerScriptComponentBehavior, list.ToArray());
 		}
 
-		public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
+		public override MultiplayerGameType GetMissionType()
 		{
-			return MissionLobbyComponent.MultiplayerGameType.Siege;
+			return MultiplayerGameType.Siege;
 		}
 
 		public override bool UseRoundController()
@@ -268,7 +268,10 @@ namespace TaleWorlds.MountAndBlade
 					gameModeSiegeClient.OnCapturePointOwnerChanged(flagCapturePoint, base.Mission.Teams.Defender);
 				}
 			}
-			this._warmupComponent.OnWarmupEnding += this.OnWarmupEnding;
+			if (this._warmupComponent != null)
+			{
+				this._warmupComponent.OnWarmupEnding += this.OnWarmupEnding;
+			}
 		}
 
 		public override void OnMissionTick(float dt)
@@ -286,7 +289,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				this._firstTickDone = true;
 			}
-			if (this.MissionLobbyComponent.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Playing && !this.WarmupComponent.IsInWarmup)
+			if (this.MissionLobbyComponent.CurrentMultiplayerState == MissionLobbyComponent.MultiplayerGameState.Playing && (this.WarmupComponent == null || !this.WarmupComponent.IsInWarmup))
 			{
 				this.CheckMorales(dt);
 				if (this.CheckObjectives(dt))
@@ -495,7 +498,7 @@ namespace TaleWorlds.MountAndBlade
 						flagCapturePoint.SetTeamColorsSynched(num3, num4);
 						this._capturePointOwners[flagCapturePoint.FlagIndex] = team;
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flagCapturePoint.FlagIndex, team));
+						GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flagCapturePoint.FlagIndex, (team != null) ? team.TeamIndex : (-1)));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 						MissionMultiplayerSiegeClient gameModeSiegeClient = this._gameModeSiegeClient;
 						if (gameModeSiegeClient != null)
@@ -611,7 +614,9 @@ namespace TaleWorlds.MountAndBlade
 				foreach (FlagCapturePoint flagCapturePoint in this.AllCapturePoints.Where((FlagCapturePoint cp) => !cp.IsDeactivated))
 				{
 					GameNetwork.BeginModuleEventAsServer(networkPeer);
-					GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flagCapturePoint.FlagIndex, this._capturePointOwners[flagCapturePoint.FlagIndex]));
+					int flagIndex = flagCapturePoint.FlagIndex;
+					Team team = this._capturePointOwners[flagCapturePoint.FlagIndex];
+					GameNetwork.WriteMessage(new FlagDominationCapturePointMessage(flagIndex, (team != null) ? team.TeamIndex : (-1)));
 					GameNetwork.EndModuleEventAsServer();
 				}
 			}
@@ -713,13 +718,15 @@ namespace TaleWorlds.MountAndBlade
 		public override void OnRemoveBehavior()
 		{
 			base.OnRemoveBehavior();
-			this._warmupComponent.OnWarmupEnding -= this.OnWarmupEnding;
+			if (this._warmupComponent != null)
+			{
+				this._warmupComponent.OnWarmupEnding -= this.OnWarmupEnding;
+			}
 		}
 
 		public override void OnClearScene()
 		{
 			base.OnClearScene();
-			base.ClearPeerCounts();
 			foreach (CastleGate castleGate in Mission.Current.MissionObjects.FindAllWithType<CastleGate>())
 			{
 				foreach (StandingPoint standingPoint in castleGate.StandingPoints)

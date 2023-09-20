@@ -26,14 +26,14 @@ namespace NetworkMessages.FromServer
 		{
 			bool flag = true;
 			this.Peer = GameNetworkMessage.ReadNetworkPeerReferenceFromPacket(ref flag, false);
-			this.FormationClass = (FormationClass)GameNetworkMessage.ReadIntFromPacket(CompressionOrder.FormationClassCompressionInfo, ref flag);
+			this.FormationClass = (FormationClass)GameNetworkMessage.ReadIntFromPacket(CompressionMission.FormationClassCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
 			GameNetworkMessage.WriteNetworkPeerReferenceToPacket(this.Peer);
-			GameNetworkMessage.WriteIntToPacket((int)this.FormationClass, CompressionOrder.FormationClassCompressionInfo);
+			GameNetworkMessage.WriteIntToPacket((int)this.FormationClass, CompressionMission.FormationClassCompressionInfo);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()

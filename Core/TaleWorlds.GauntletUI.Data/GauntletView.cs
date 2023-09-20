@@ -150,7 +150,7 @@ namespace TaleWorlds.GauntletUI.Data
 		public void RefreshBinding()
 		{
 			object viewModelAtPath = this.GauntletMovie.GetViewModelAtPath(this.ViewModelPath, this.ItemTemplateUsageWithData != null && this.ItemTemplateUsageWithData.ItemTemplateUsage != null);
-			this.ClearEventHandlers();
+			this.ClearEventHandlersWithChildren();
 			if (viewModelAtPath is IViewModel)
 			{
 				this._viewModel = viewModelAtPath as IViewModel;

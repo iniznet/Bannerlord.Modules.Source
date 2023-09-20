@@ -25,65 +25,61 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private void CalculateInfluenceChangeInternal(Clan clan, ref ExplainedNumber influenceChange)
 		{
-			foreach (Hero hero in clan.Heroes)
+			if (clan.Leader.GetPerkValue(DefaultPerks.Charm.ImmortalCharm))
 			{
-				if (hero.IsAlive && hero.GetPerkValue(DefaultPerks.Charm.ImmortalCharm))
-				{
-					int num = (int)((float)(hero.GetSkillValue(DefaultSkills.Charm) - 250) / 5f);
-					influenceChange.Add((float)num * DefaultPerks.Charm.ImmortalCharm.PrimaryBonus, DefaultPerks.Charm.ImmortalCharm.Name, null);
-				}
+				influenceChange.Add(DefaultPerks.Charm.ImmortalCharm.PrimaryBonus, DefaultPerks.Charm.ImmortalCharm.Name, null);
 			}
 			if (clan.IsUnderMercenaryService)
 			{
-				int num2 = MathF.Ceiling(clan.Influence * (1f / Campaign.Current.Models.ClanFinanceModel.RevenueSmoothenFraction()));
-				influenceChange.Add((float)(-(float)num2), DefaultClanPoliticsModel._mercenaryStr, null);
+				int num = MathF.Ceiling(clan.Influence * (1f / Campaign.Current.Models.ClanFinanceModel.RevenueSmoothenFraction()));
+				influenceChange.Add((float)(-(float)num), DefaultClanPoliticsModel._mercenaryStr, null);
 			}
-			float num3 = 0f;
+			float num2 = 0f;
 			foreach (WarPartyComponent warPartyComponent in clan.WarPartyComponents)
 			{
 				MobileParty mobileParty = warPartyComponent.MobileParty;
 				if (mobileParty.Army != null && mobileParty.Army.LeaderParty != mobileParty && mobileParty.LeaderHero != null)
 				{
-					num3 += Campaign.Current.Models.ArmyManagementCalculationModel.DailyBeingAtArmyInfluenceAward(mobileParty);
+					num2 += Campaign.Current.Models.ArmyManagementCalculationModel.DailyBeingAtArmyInfluenceAward(mobileParty);
 				}
 			}
-			influenceChange.Add(num3, DefaultClanPoliticsModel._armyMemberStr, null);
+			influenceChange.Add(num2, DefaultClanPoliticsModel._armyMemberStr, null);
 			if (clan.MapFaction.Leader == clan.Leader && clan.MapFaction.IsKingdomFaction)
 			{
 				influenceChange.Add(3f, DefaultClanPoliticsModel._kingBonusStr, null);
 			}
-			float num4 = 0f;
+			float num3 = 0f;
 			foreach (Settlement settlement in clan.Settlements)
 			{
 				if (settlement.IsTown)
 				{
 					foreach (Building building in settlement.Town.Buildings)
 					{
-						num4 += building.GetBuildingEffectAmount(BuildingEffectEnum.Influence);
+						num3 += building.GetBuildingEffectAmount(BuildingEffectEnum.Influence);
 					}
 				}
 			}
-			if (num4 > 0f)
+			if (num3 > 0f)
 			{
-				influenceChange.Add(num4, DefaultClanPoliticsModel._townProjectStr, null);
+				influenceChange.Add(num3, DefaultClanPoliticsModel._townProjectStr, null);
 			}
 			if (clan == Clan.PlayerClan && clan.MapFaction.MainHeroCrimeRating > 0f)
 			{
-				int num5 = (int)(clan.MapFaction.MainHeroCrimeRating * -0.5f);
-				influenceChange.Add((float)num5, DefaultClanPoliticsModel._crimeStr, null);
+				int num4 = (int)(clan.MapFaction.MainHeroCrimeRating * -0.5f);
+				influenceChange.Add((float)num4, DefaultClanPoliticsModel._crimeStr, null);
 			}
-			float num6 = 0f;
-			foreach (Hero hero2 in clan.SupporterNotables)
+			float num5 = 0f;
+			foreach (Hero hero in clan.SupporterNotables)
 			{
-				if (hero2.CurrentSettlement != null)
+				if (hero.CurrentSettlement != null)
 				{
-					float influenceBonusToClan = Campaign.Current.Models.NotablePowerModel.GetInfluenceBonusToClan(hero2);
-					num6 += influenceBonusToClan;
+					float influenceBonusToClan = Campaign.Current.Models.NotablePowerModel.GetInfluenceBonusToClan(hero);
+					num5 += influenceBonusToClan;
 				}
 			}
-			if (num6 > 0f)
+			if (num5 > 0f)
 			{
-				influenceChange.Add(num6, DefaultClanPoliticsModel._supporterStr, null);
+				influenceChange.Add(num5, DefaultClanPoliticsModel._supporterStr, null);
 			}
 			if (clan.Kingdom != null && !clan.IsUnderMercenaryService)
 			{
@@ -271,6 +267,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			num2 = (float)(5 * (int)(num2 / 5f));
 			return (int)num2;
+		}
+
+		public override bool CanHeroBeGovernor(Hero hero)
+		{
+			return hero.IsActive && !hero.IsChild && !hero.IsHumanPlayerCharacter && !hero.IsPartyLeader && !hero.IsFugitive && !hero.IsReleased && !hero.IsTraveling && !hero.IsPrisoner && hero.CanBeGovernorOrHavePartyRole() && !hero.IsSpecial && !hero.IsTemplate;
 		}
 
 		private static readonly TextObject _supporterStr = new TextObject("{=RzFyGnWJ}Supporters", null);

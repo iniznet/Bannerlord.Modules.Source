@@ -1,21 +1,34 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.Diamond
 {
 	[Serializable]
-	public class GOGAccessObject
+	public class GOGAccessObject : AccessObject
 	{
-		public ulong GogId { get; private set; }
+		[JsonProperty]
+		public ulong GogId { get; set; }
 
-		public string UserName { get; private set; }
+		[JsonProperty]
+		public ulong OldId { get; set; }
 
-		public byte[] Ticket { get; private set; }
+		[JsonProperty]
+		public string UserName { get; set; }
 
-		public GOGAccessObject(string userName, ulong gogId, byte[] ticket)
+		[JsonProperty]
+		public string Ticket { get; set; }
+
+		public GOGAccessObject()
 		{
+		}
+
+		public GOGAccessObject(string userName, ulong gogId, ulong oldId, string ticket)
+		{
+			base.Type = "GOG";
 			this.UserName = userName;
 			this.GogId = gogId;
 			this.Ticket = ticket;
+			this.OldId = oldId;
 		}
 	}
 }

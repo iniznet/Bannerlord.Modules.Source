@@ -60,36 +60,32 @@ namespace TaleWorlds.MountAndBlade
 			this.UpdateHorseStats(agent, agentDrivenProperties);
 		}
 
-		public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon)
+		public override float GetWeaponDamageMultiplier(Agent agent, WeaponComponentData weapon)
 		{
 			float num = 1f;
 			SkillObject skillObject = ((weapon != null) ? weapon.RelevantSkill : null);
-			if (agentCharacter != null && skillObject != null)
+			if (skillObject != null)
 			{
+				int effectiveSkill = MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(agent, skillObject);
 				if (skillObject == DefaultSkills.OneHanded)
 				{
-					int skillValue = agentCharacter.GetSkillValue(skillObject);
-					num += (float)skillValue * 0.0015f;
+					num += (float)effectiveSkill * 0.0015f;
 				}
 				else if (skillObject == DefaultSkills.TwoHanded)
 				{
-					int skillValue2 = agentCharacter.GetSkillValue(skillObject);
-					num += (float)skillValue2 * 0.0016f;
+					num += (float)effectiveSkill * 0.0016f;
 				}
 				else if (skillObject == DefaultSkills.Polearm)
 				{
-					int skillValue3 = agentCharacter.GetSkillValue(skillObject);
-					num += (float)skillValue3 * 0.0007f;
+					num += (float)effectiveSkill * 0.0007f;
 				}
 				else if (skillObject == DefaultSkills.Bow)
 				{
-					int skillValue4 = agentCharacter.GetSkillValue(skillObject);
-					num += (float)skillValue4 * 0.0011f;
+					num += (float)effectiveSkill * 0.0011f;
 				}
 				else if (skillObject == DefaultSkills.Throwing)
 				{
-					int skillValue5 = agentCharacter.GetSkillValue(skillObject);
-					num += (float)skillValue5 * 0.0006f;
+					num += (float)effectiveSkill * 0.0006f;
 				}
 			}
 			return Math.Max(0f, num);
@@ -97,10 +93,9 @@ namespace TaleWorlds.MountAndBlade
 
 		public override float GetKnockBackResistance(Agent agent)
 		{
-			BasicCharacterObject character;
-			if (agent.IsHuman && (character = agent.Character) != null)
+			if (agent.IsHuman)
 			{
-				int effectiveSkill = this.GetEffectiveSkill(character, agent.Origin, agent.Formation, DefaultSkills.Athletics);
+				int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Athletics);
 				float num = 0.15f + (float)effectiveSkill * 0.001f;
 				return Math.Max(0f, num);
 			}
@@ -109,10 +104,9 @@ namespace TaleWorlds.MountAndBlade
 
 		public override float GetKnockDownResistance(Agent agent, StrikeType strikeType = StrikeType.Invalid)
 		{
-			BasicCharacterObject character;
-			if (agent.IsHuman && (character = agent.Character) != null)
+			if (agent.IsHuman)
 			{
-				int effectiveSkill = this.GetEffectiveSkill(character, agent.Origin, agent.Formation, DefaultSkills.Athletics);
+				int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Athletics);
 				float num = 0.4f + (float)effectiveSkill * 0.001f;
 				if (agent.HasMount)
 				{
@@ -129,10 +123,9 @@ namespace TaleWorlds.MountAndBlade
 
 		public override float GetDismountResistance(Agent agent)
 		{
-			BasicCharacterObject character;
-			if (agent.IsHuman && (character = agent.Character) != null)
+			if (agent.IsHuman)
 			{
-				int effectiveSkill = this.GetEffectiveSkill(character, agent.Origin, agent.Formation, DefaultSkills.Riding);
+				int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Riding);
 				float num = 0.4f + (float)effectiveSkill * 0.001f;
 				return Math.Max(0f, num);
 			}
@@ -141,7 +134,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private int GetSkillValueForItem(Agent agent, ItemObject primaryItem)
 		{
-			return this.GetEffectiveSkill(agent.Character, agent.Origin, agent.Formation, (primaryItem != null) ? primaryItem.RelevantSkill : DefaultSkills.Athletics);
+			return this.GetEffectiveSkill(agent, (primaryItem != null) ? primaryItem.RelevantSkill : DefaultSkills.Athletics);
 		}
 
 		private void UpdateHumanStats(Agent agent, AgentDrivenProperties agentDrivenProperties)
@@ -183,11 +176,8 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.MissileSpeedMultiplier = 1f;
 			agentDrivenProperties.ReloadMovementPenaltyFactor = 1f;
 			base.SetAllWeaponInaccuracy(agent, agentDrivenProperties, (int)wieldedItemIndex3, weaponComponentData);
-			IAgentOriginBase origin = agent.Origin;
-			BasicCharacterObject character2 = agent.Character;
-			Formation formation = agent.Formation;
-			int effectiveSkill = this.GetEffectiveSkill(character2, origin, agent.Formation, DefaultSkills.Athletics);
-			int effectiveSkill2 = this.GetEffectiveSkill(character2, origin, formation, DefaultSkills.Riding);
+			int effectiveSkill = this.GetEffectiveSkill(agent, DefaultSkills.Athletics);
+			int effectiveSkill2 = this.GetEffectiveSkill(agent, DefaultSkills.Riding);
 			if (weaponComponentData != null)
 			{
 				WeaponComponentData weaponComponentData3 = weaponComponentData;
@@ -315,7 +305,7 @@ namespace TaleWorlds.MountAndBlade
 			float environmentSpeedFactor = this.GetEnvironmentSpeedFactor(agent);
 			if (agent.RiderAgent != null)
 			{
-				num2 = this.GetEffectiveSkill(agent.RiderAgent.Character, agent.RiderAgent.Origin, agent.RiderAgent.Formation, DefaultSkills.Riding);
+				num2 = this.GetEffectiveSkill(agent.RiderAgent, DefaultSkills.Riding);
 				FactoredNumber factoredNumber = new FactoredNumber(num);
 				FactoredNumber factoredNumber2 = new FactoredNumber((float)modifiedMountManeuver);
 				factoredNumber.AddFactor((float)num2 * 0.001f);

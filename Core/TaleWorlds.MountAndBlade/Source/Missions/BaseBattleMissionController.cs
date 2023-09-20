@@ -158,26 +158,6 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			}
 		}
 
-		protected virtual void CreateTroop(string troopName, Team troopTeam, int troopCount, bool isReinforcement = false)
-		{
-			BasicCharacterObject @object = Game.Current.ObjectManager.GetObject<BasicCharacterObject>(troopName);
-			FormationClass defaultFormationClass = @object.DefaultFormationClass;
-			Formation formation = troopTeam.GetFormation(defaultFormationClass);
-			WorldPosition worldPosition;
-			Vec2 vec;
-			base.Mission.GetFormationSpawnFrame(troopTeam.Side, defaultFormationClass, isReinforcement, out worldPosition, out vec);
-			formation.SetPositioning(new WorldPosition?(worldPosition), new Vec2?(vec), null);
-			for (int i = 0; i < troopCount; i++)
-			{
-				Agent agent = base.Mission.SpawnAgent(new AgentBuildData(@object).Team(troopTeam).Formation(formation).FormationTroopSpawnCount(troopCount)
-					.FormationTroopSpawnIndex(i)
-					.ClothingColor1(5398358U), false);
-				agent.SetWatchState(Agent.WatchState.Alarmed);
-				agent.SetAlwaysAttackInMelee(true);
-				this.IncrementDeploymedTroops(troopTeam.Side);
-			}
-		}
-
 		protected void IncrementDeploymedTroops(BattleSideEnum side)
 		{
 			int num;
@@ -206,7 +186,7 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			AgentBuildData agentBuildData = new AgentBuildData(this.game.PlayerTroop).Team(base.Mission.PlayerTeam);
 			Vec3 groundVec = worldPosition.GetGroundVec3();
 			Agent agent = mission.SpawnAgent(agentBuildData.InitialPosition(groundVec).InitialDirection(vec).Controller(Agent.ControllerType.Player), false);
-			agent.WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp);
+			agent.WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp, Equipment.InitialWeaponEquipPreference.Any);
 			base.Mission.MainAgent = agent;
 		}
 

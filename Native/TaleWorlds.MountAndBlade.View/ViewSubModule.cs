@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.InputSystem;
+using TaleWorlds.Engine.Options;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -10,7 +12,6 @@ using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade.GameKeyCategory;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.MountAndBlade.View.Tableaus;
-using TaleWorlds.PlatformService;
 using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View
@@ -37,7 +38,7 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		private void InitializeHotKeyManager()
+		private void InitializeHotKeyManager(bool loadKeys)
 		{
 			string text = "BannerlordGameKeys.xml";
 			HotKeyManager.Initialize(new PlatformFilePath(EngineFilePaths.ConfigsPath, text), !ScreenManager.IsEnterButtonRDown);
@@ -63,7 +64,7 @@ namespace TaleWorlds.MountAndBlade.View
 				new CheatsHotKeyCategory(),
 				new PhotoModeHotKeyCategory(),
 				new PollHotkeyCategory()
-			}, false);
+			}, loadKeys);
 		}
 
 		private void InitializeBannerVisualManager()
@@ -72,6 +73,19 @@ namespace TaleWorlds.MountAndBlade.View
 			{
 				BannerManager.Initialize();
 				BannerManager.Instance.LoadBannerIcons(ModuleHelper.GetModuleFullPath("Native") + "ModuleData/banner_icons.xml");
+				string[] modulesNames = Utilities.GetModulesNames();
+				for (int i = 0; i < modulesNames.Length; i++)
+				{
+					ModuleInfo moduleInfo = ModuleHelper.GetModuleInfo(modulesNames[i]);
+					if (moduleInfo != null && !moduleInfo.IsNative)
+					{
+						string text = moduleInfo.FolderPath + "/ModuleData/banner_icons.xml";
+						if (File.Exists(text))
+						{
+							BannerManager.Instance.LoadBannerIcons(text);
+						}
+					}
+				}
 			}
 		}
 
@@ -79,7 +93,7 @@ namespace TaleWorlds.MountAndBlade.View
 		{
 			base.OnSubModuleLoad();
 			ViewSubModule._instance = this;
-			this.InitializeHotKeyManager();
+			this.InitializeHotKeyManager(false);
 			this.InitializeBannerVisualManager();
 			CraftedDataViewManager.Initialize();
 			ScreenManager.OnPushScreen += new ScreenManager.OnPushScreenEvent(this.OnScreenManagerPushScreen);
@@ -87,32 +101,30 @@ namespace TaleWorlds.MountAndBlade.View
 			Module.CurrentModule.GlobalGameStateManager.RegisterListener(this._gameStateScreenManager);
 			MBMusicManager.Create();
 			TextObject coreContentDisabledReason = new TextObject("{=V8BXjyYq}Disabled during installation.", null);
-			if (Module.CurrentModule.StartupInfo.StartupType != 3)
-			{
-				Module.CurrentModule.AddInitialStateOption(new InitialStateOption("Multiplayer", new TextObject("{=YDYnuBmC}Multiplayer", null), 9997, new Action(this.StartMultiplayer), () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason)));
-			}
 			if (Utilities.EditModeEnabled)
 			{
 				Module.CurrentModule.AddInitialStateOption(new InitialStateOption("Editor", new TextObject("{=bUh0x6rA}Editor", null), -1, delegate
 				{
 					MBInitialScreenBase.OnEditModeEnterPress();
-				}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason)));
+				}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason), null));
 			}
 			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("Options", new TextObject("{=NqarFr4P}Options", null), 9998, delegate
 			{
 				ScreenManager.PushScreen(ViewCreator.CreateOptionsScreen(true));
-			}, () => new ValueTuple<bool, TextObject>(false, TextObject.Empty)));
+			}, () => new ValueTuple<bool, TextObject>(false, TextObject.Empty), null));
 			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("Credits", new TextObject("{=ODQmOrIw}Credits", null), 9999, delegate
 			{
 				ScreenManager.PushScreen(ViewCreator.CreateCreditsScreen());
-			}, () => new ValueTuple<bool, TextObject>(false, TextObject.Empty)));
+			}, () => new ValueTuple<bool, TextObject>(false, TextObject.Empty), null));
 			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("Exit", new TextObject("{=YbpzLHzk}Exit Game", null), 10000, delegate
 			{
 				MBInitialScreenBase.DoExitButtonAction();
-			}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason)));
+			}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason), null));
 			Module.CurrentModule.ImguiProfilerTick += this.OnImguiProfilerTick;
-			Input.OnGamepadActiveStateChanged = (Action)Delegate.Combine(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
+			Input.OnControllerTypeChanged = (Action<Input.ControllerTypes>)Delegate.Combine(Input.OnControllerTypeChanged, new Action<Input.ControllerTypes>(this.OnControllerTypeChanged));
+			NativeOptions.OnNativeOptionChanged = (NativeOptions.OnNativeOptionChangedDelegate)Delegate.Combine(NativeOptions.OnNativeOptionChanged, new NativeOptions.OnNativeOptionChangedDelegate(this.OnNativeOptionChanged));
 			ViewModel.CollectPropertiesAndMethods();
+			HyperlinkTexts.IsPlayStationGamepadActive = new Func<bool>(this.GetIsPlaystationGamepadActive);
 			EngineController.OnConstrainedStateChanged += this.OnConstrainedStateChange;
 		}
 
@@ -121,39 +133,38 @@ namespace TaleWorlds.MountAndBlade.View
 			ScreenManager.OnConstrainStateChanged(isConstrained);
 		}
 
-		private async void StartMultiplayer()
+		private bool GetIsPlaystationGamepadActive()
 		{
-			if (!this._isConnectingToMultiplayer)
+			return Input.ControllerType == 4 || Input.ControllerType == 2;
+		}
+
+		private void OnControllerTypeChanged(Input.ControllerTypes newType)
+		{
+			this.ReInitializeHotKeyManager();
+		}
+
+		private void OnNativeOptionChanged(NativeOptions.NativeOptionsType changedNativeOptionsType)
+		{
+			if (changedNativeOptionsType == 18)
 			{
-				this._isConnectingToMultiplayer = true;
-				bool flag = NetworkMain.GameClient != null && await NetworkMain.GameClient.CheckConnection();
-				bool isConnected = flag;
-				PlatformServices.Instance.CheckPrivilege(0, true, delegate(bool result)
-				{
-					if (!isConnected || !result)
-					{
-						string text = new TextObject("{=ksq1IBh3}No connection", null).ToString();
-						string text2 = new TextObject("{=5VIbo2Cb}No connection could be established to the lobby server. Check your internet connection and try again.", null).ToString();
-						InformationManager.ShowInquiry(new InquiryData(text, text2, false, true, "", new TextObject("{=dismissnotification}Dismiss", null).ToString(), null, delegate
-						{
-							InformationManager.HideInquiry();
-						}, "", 0f, null, null, null), false, false);
-						return;
-					}
-					MBGameManager.StartNewGame(new MultiplayerGameManager());
-				});
-				this._isConnectingToMultiplayer = false;
+				this.ReInitializeHotKeyManager();
 			}
+		}
+
+		private void ReInitializeHotKeyManager()
+		{
+			this.InitializeHotKeyManager(true);
 		}
 
 		protected override void OnSubModuleUnloaded()
 		{
 			ScreenManager.OnPushScreen -= new ScreenManager.OnPushScreenEvent(this.OnScreenManagerPushScreen);
+			NativeOptions.OnNativeOptionChanged = (NativeOptions.OnNativeOptionChangedDelegate)Delegate.Remove(NativeOptions.OnNativeOptionChanged, new NativeOptions.OnNativeOptionChangedDelegate(this.OnNativeOptionChanged));
 			TableauCacheManager.ClearManager();
 			BannerlordTableauManager.ClearManager();
 			CraftedDataViewManager.Clear();
 			Module.CurrentModule.ImguiProfilerTick -= this.OnImguiProfilerTick;
-			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
+			Input.OnControllerTypeChanged = (Action<Input.ControllerTypes>)Delegate.Remove(Input.OnControllerTypeChanged, new Action<Input.ControllerTypes>(this.OnControllerTypeChanged));
 			ViewSubModule._instance = null;
 			EngineController.OnConstrainedStateChanged -= this.OnConstrainedStateChange;
 			base.OnSubModuleUnloaded();
@@ -278,16 +289,6 @@ namespace TaleWorlds.MountAndBlade.View
 			TableauCacheManager.Current.OnImguiProfilerTick();
 		}
 
-		private void OnGamepadActiveStateChanged()
-		{
-			Game game = Game.Current;
-			if (game == null)
-			{
-				return;
-			}
-			game.EventManager.TriggerEvent<GamepadActiveStateChangedEvent>(new GamepadActiveStateChangedEvent());
-		}
-
 		private void OnScreenManagerPushScreen(ScreenBase pushedScreen)
 		{
 		}
@@ -301,7 +302,5 @@ namespace TaleWorlds.MountAndBlade.View
 		private static ViewSubModule _instance;
 
 		private bool _initialized;
-
-		private bool _isConnectingToMultiplayer;
 	}
 }

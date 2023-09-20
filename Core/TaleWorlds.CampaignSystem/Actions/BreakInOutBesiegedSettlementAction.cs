@@ -1,4 +1,5 @@
 ﻿using System;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -34,7 +35,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			{
 				num = Campaign.Current.Models.TroopSacrificeModel.GetLostTroopCountForBreakingOutOfBesiegedSettlement(mainParty, siegeEvent);
 			}
-			if (mainParty.Army == null)
+			if (mainParty.Army == null || mainParty.Army.LeaderParty != mainParty)
 			{
 				TroopRoster memberRoster = mainParty.MemberRoster;
 				for (int i = 0; i < num; i++)
@@ -51,49 +52,65 @@ namespace TaleWorlds.CampaignSystem.Actions
 						casualties.AddToCounts(characterAtIndex, 1, false, 0, 0, true, -1);
 					}
 				}
-				return;
+				if (mainParty.Army != null && mainParty.Army.LeaderParty != MobileParty.MainParty)
+				{
+					TroopSacrificeModel troopSacrificeModel = Campaign.Current.Models.TroopSacrificeModel;
+					ChangeRelationAction.ApplyPlayerRelation(mainParty.Army.LeaderParty.LeaderHero, troopSacrificeModel.BreakOutArmyLeaderRelationPenalty, true, true);
+					foreach (MobileParty mobileParty in mainParty.Army.LeaderParty.AttachedParties)
+					{
+						if (mobileParty.LeaderHero != null && mobileParty != mainParty)
+						{
+							ChangeRelationAction.ApplyPlayerRelation(mobileParty.LeaderHero, troopSacrificeModel.BreakOutArmyMemberRelationPenalty, true, true);
+						}
+					}
+					MobileParty.MainParty.Army = null;
+					return;
+				}
 			}
-			armyCasualtiesCount = 0;
-			Army army = mainParty.Army;
-			int num3 = 0;
-			foreach (MobileParty mobileParty in army.Parties)
+			else
 			{
-				num3 += mobileParty.MemberRoster.TotalManCount - mobileParty.MemberRoster.TotalHeroes;
-			}
-			for (int j = 0; j < num; j++)
-			{
-				float num4 = MBRandom.RandomFloat * (float)num3;
+				armyCasualtiesCount = 0;
+				Army army = mainParty.Army;
+				int num3 = 0;
 				foreach (MobileParty mobileParty2 in army.Parties)
 				{
-					num4 -= (float)(mobileParty2.MemberRoster.TotalManCount - mobileParty2.MemberRoster.TotalHeroes);
-					if (num4 < 0f)
+					num3 += mobileParty2.MemberRoster.TotalManCount - mobileParty2.MemberRoster.TotalHeroes;
+				}
+				for (int j = 0; j < num; j++)
+				{
+					float num4 = MBRandom.RandomFloat * (float)num3;
+					foreach (MobileParty mobileParty3 in army.Parties)
 					{
-						num4 += (float)(mobileParty2.MemberRoster.TotalManCount - mobileParty2.MemberRoster.TotalHeroes);
-						int num5 = -1;
-						for (int k = 0; k < mobileParty2.MemberRoster.Count; k++)
+						num4 -= (float)(mobileParty3.MemberRoster.TotalManCount - mobileParty3.MemberRoster.TotalHeroes);
+						if (num4 < 0f)
 						{
-							if (!mobileParty2.MemberRoster.GetCharacterAtIndex(k).IsHero)
+							num4 += (float)(mobileParty3.MemberRoster.TotalManCount - mobileParty3.MemberRoster.TotalHeroes);
+							int num5 = -1;
+							for (int k = 0; k < mobileParty3.MemberRoster.Count; k++)
 							{
-								num4 -= (float)(mobileParty2.MemberRoster.GetElementNumber(k) + mobileParty2.MemberRoster.GetElementWoundedNumber(k));
-								if (num4 < 0f)
+								if (!mobileParty3.MemberRoster.GetCharacterAtIndex(k).IsHero)
 								{
-									num5 = k;
-									break;
+									num4 -= (float)(mobileParty3.MemberRoster.GetElementNumber(k) + mobileParty3.MemberRoster.GetElementWoundedNumber(k));
+									if (num4 < 0f)
+									{
+										num5 = k;
+										break;
+									}
 								}
 							}
-						}
-						if (num5 >= 0)
-						{
-							CharacterObject characterAtIndex2 = mobileParty2.MemberRoster.GetCharacterAtIndex(num5);
-							mobileParty2.MemberRoster.AddToCountsAtIndex(num5, -1, 0, 0, true);
-							num3--;
-							if (mobileParty2 == MobileParty.MainParty)
+							if (num5 >= 0)
 							{
-								casualties.AddToCounts(characterAtIndex2, 1, false, 0, 0, true, -1);
+								CharacterObject characterAtIndex2 = mobileParty3.MemberRoster.GetCharacterAtIndex(num5);
+								mobileParty3.MemberRoster.AddToCountsAtIndex(num5, -1, 0, 0, true);
+								num3--;
+								if (mobileParty3 == MobileParty.MainParty)
+								{
+									casualties.AddToCounts(characterAtIndex2, 1, false, 0, 0, true, -1);
+									break;
+								}
+								armyCasualtiesCount++;
 								break;
 							}
-							armyCasualtiesCount++;
-							break;
 						}
 					}
 				}

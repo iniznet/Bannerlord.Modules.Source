@@ -54,7 +54,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (networkCommunicator.IsSynchronized || networkCommunicator == networkPeer)
 				{
-					bool flag = MBNetwork.VirtualPlayers[networkCommunicator.VirtualPlayer.Index] != networkCommunicator.VirtualPlayer;
+					bool flag = GameNetwork.VirtualPlayers[networkCommunicator.VirtualPlayer.Index] != networkCommunicator.VirtualPlayer;
 					if (networkCommunicator != networkPeer && !flag && networkCommunicator != GameNetwork.MyPeer)
 					{
 						GameNetwork.BeginModuleEventAsServer(networkCommunicator);

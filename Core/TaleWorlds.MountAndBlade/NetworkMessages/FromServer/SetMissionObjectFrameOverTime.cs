@@ -8,15 +8,15 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetMissionObjectFrameOverTime : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public MatrixFrame Frame { get; private set; }
 
 		public float Duration { get; private set; }
 
-		public SetMissionObjectFrameOverTime(MissionObject missionObject, ref MatrixFrame frame, float duration)
+		public SetMissionObjectFrameOverTime(MissionObjectId missionObjectId, ref MatrixFrame frame, float duration)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.Frame = frame;
 			this.Duration = duration;
 		}
@@ -28,7 +28,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.Frame = GameNetworkMessage.ReadMatrixFrameFromPacket(ref flag);
 			this.Duration = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.FlagCapturePointDurationCompressionInfo, ref flag);
 			return flag;
@@ -36,7 +36,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteMatrixFrameToPacket(this.Frame);
 			GameNetworkMessage.WriteFloatToPacket(this.Duration, CompressionMission.FlagCapturePointDurationCompressionInfo);
 		}
@@ -48,16 +48,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set Move-to-frame on MissionObject with ID: ",
-				this.MissionObject.Id,
-				" and with name: ",
-				this.MissionObject.GameEntity.Name,
-				" over a period of ",
-				this.Duration,
-				" seconds."
-			});
+			return string.Concat(new object[] { "Set Move-to-frame on MissionObject with ID: ", this.MissionObjectId, " over a period of ", this.Duration, " seconds." });
 		}
 	}
 }

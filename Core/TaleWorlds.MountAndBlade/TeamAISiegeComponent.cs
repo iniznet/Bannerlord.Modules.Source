@@ -294,6 +294,10 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.DifficultNavmeshIDs.AddRange(siegeTower.CollectGetDifficultNavmeshIDs());
 			}
+			foreach (Formation formation in this.Team.FormationsIncludingEmpty)
+			{
+				formation.OnDeploymentFinished();
+			}
 		}
 
 		public const int InsideCastleNavMeshID = 1;

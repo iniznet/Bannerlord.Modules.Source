@@ -68,6 +68,10 @@ namespace TaleWorlds.MountAndBlade
 		{
 		}
 
+		public virtual void OnComponentRemoved()
+		{
+		}
+
 		protected readonly Agent Agent;
 	}
 }

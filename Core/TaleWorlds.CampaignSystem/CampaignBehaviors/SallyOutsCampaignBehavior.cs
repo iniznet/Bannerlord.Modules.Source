@@ -39,14 +39,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			if (settlement.IsFortification && settlement.SiegeEvent != null && settlement.Party.MapEvent == null && settlement.Town.GarrisonParty != null && settlement.Town.GarrisonParty.MapEvent == null)
 			{
-				bool flag = settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent != null && settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent.IsSiegeOutside;
+				bool flag = settlement.SiegeEvent.BesiegerCamp.LeaderParty.MapEvent != null && settlement.SiegeEvent.BesiegerCamp.LeaderParty.MapEvent.IsSiegeOutside;
 				if ((flag || MathF.Floor(CampaignTime.Now.ToHours) % 4 == 0) && (Hero.MainHero.CurrentSettlement != settlement || Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(settlement.SiegeEvent, BattleSideEnum.Defender) != Hero.MainHero))
 				{
-					MobileParty besiegerParty = settlement.SiegeEvent.BesiegerCamp.BesiegerParty;
+					MobileParty leaderParty = settlement.SiegeEvent.BesiegerCamp.LeaderParty;
 					float num = 0f;
 					float num2 = 0f;
 					float num3 = settlement.GetInvolvedPartiesForEventType(MapEvent.BattleTypes.SallyOut).Sum((PartyBase x) => x.TotalStrength);
-					LocatableSearchData<MobileParty> locatableSearchData = MobileParty.StartFindingLocatablesAroundPosition(settlement.SiegeEvent.BesiegerCamp.BesiegerParty.Position2D, 3f);
+					LocatableSearchData<MobileParty> locatableSearchData = MobileParty.StartFindingLocatablesAroundPosition(settlement.SiegeEvent.BesiegerCamp.LeaderParty.Position2D, 3f);
 					for (MobileParty mobileParty = MobileParty.FindNextLocatable(ref locatableSearchData); mobileParty != null; mobileParty = MobileParty.FindNextLocatable(ref locatableSearchData))
 					{
 						if (mobileParty.CurrentSettlement == null && mobileParty.Aggressiveness > 0f)
@@ -75,13 +75,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 									PartyBase partyBase = enumerator.Current;
 									if (partyBase.IsMobile && !partyBase.MobileParty.IsMainParty && partyBase.MapEventSide == null)
 									{
-										partyBase.MapEventSide = settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent.AttackerSide;
+										partyBase.MapEventSide = settlement.SiegeEvent.BesiegerCamp.LeaderParty.MapEvent.AttackerSide;
 									}
 								}
 								return;
 							}
 						}
-						EncounterManager.StartPartyEncounter(settlement.Town.GarrisonParty.Party, besiegerParty.Party);
+						EncounterManager.StartPartyEncounter(settlement.Town.GarrisonParty.Party, leaderParty.Party);
 					}
 				}
 			}

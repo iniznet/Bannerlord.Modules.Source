@@ -38,7 +38,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (this.WeaponEntity != null)
 				{
-					return (this.WeaponEntity.GetTargetEntity().GlobalBoxMax + this.WeaponEntity.GetTargetEntity().GlobalBoxMin) * 0.5f + this.WeaponEntity.GetTargetingOffset();
+					return (this.WeaponEntity.GetTargetEntity().PhysicsGlobalBoxMax + this.WeaponEntity.GetTargetEntity().PhysicsGlobalBoxMin) * 0.5f + this.WeaponEntity.GetTargetingOffset();
 				}
 				if (this.Agent != null)
 				{
@@ -59,7 +59,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (this.WeaponEntity != null)
 				{
-					return this.WeaponEntity.GetTargetEntity().GlobalBoxMin + this.WeaponEntity.GetTargetingOffset();
+					return this.WeaponEntity.GetTargetEntity().PhysicsGlobalBoxMin + this.WeaponEntity.GetTargetingOffset();
 				}
 				if (this.Agent != null)
 				{
@@ -80,7 +80,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (this.WeaponEntity != null)
 				{
-					return this.WeaponEntity.GetTargetEntity().GlobalBoxMax + this.WeaponEntity.GetTargetingOffset();
+					return this.WeaponEntity.GetTargetEntity().PhysicsGlobalBoxMax + this.WeaponEntity.GetTargetingOffset();
 				}
 				if (this.Agent != null)
 				{

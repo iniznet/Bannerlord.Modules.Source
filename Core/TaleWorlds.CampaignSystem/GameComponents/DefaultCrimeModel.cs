@@ -66,7 +66,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				explainedNumber.Add(-5f, includeDescriptions ? new TextObject("{=eNtRt6F5}Your own Clan", null) : TextObject.Empty, null);
 			}
-			else if (Hero.MainHero.Clan.Kingdom != null && Hero.MainHero.Clan.Kingdom.Leader == Hero.MainHero)
+			else if (faction.IsKingdomFaction && faction.Leader == Hero.MainHero)
 			{
 				explainedNumber.Add(-5f, includeDescriptions ? new TextObject("{=xer2bta5}Your own Kingdom", null) : TextObject.Empty, null);
 			}

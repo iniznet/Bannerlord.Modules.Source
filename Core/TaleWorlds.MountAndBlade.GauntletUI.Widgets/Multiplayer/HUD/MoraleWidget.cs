@@ -7,30 +7,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 {
 	public class MoraleWidget : Widget
 	{
-		private float MoraleArrowFadeInTime
-		{
-			get
-			{
-				return 0.5f;
-			}
-		}
-
-		private float MoraleArrowFadeOutTime
-		{
-			get
-			{
-				return 0.5f;
-			}
-		}
-
-		private float MoraleArrowMoveTime
-		{
-			get
-			{
-				return 0.5f;
-			}
-		}
-
 		public MoraleWidget(UIContext context)
 			: base(context)
 		{
@@ -40,17 +16,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 		{
 			base.OnConnectedToRoot();
 			this._moraleItemWidgets = this.CreateItemWidgets(this.ItemContainer);
+			this.SetItemWidgetColors(this._teamColor);
+			this.SetItemGlowWidgetColors(this._teamColorSecondary);
+			this.RestartAnimations();
 		}
 
 		protected override void OnUpdate(float dt)
 		{
 			if (this._triggerAnimations)
 			{
-				this._triggerWaitPassedFrames++;
-				if (this._triggerWaitPassedFrames >= 2)
+				if (this._animWaitFrame >= 1)
 				{
 					this.HandleAnimation();
 					this._triggerAnimations = false;
+					this._animWaitFrame = 0;
+				}
+				else
+				{
+					this._animWaitFrame++;
 				}
 			}
 			if (!this._initialized)
@@ -58,6 +41,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 				this.FlowArrowWidget.LeftSideArrow = this.ExtendToLeft;
 				this._initialized = true;
 			}
+		}
+
+		private void RestartAnimations()
+		{
+			this._triggerAnimations = true;
+			this._animWaitFrame = 0;
 		}
 
 		private void UpdateArrows(int flowLevel)
@@ -81,19 +70,23 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 					num2 = 1f;
 					if (!moraleItemWidget.ItemGlowWidget.IsVisible)
 					{
-						this._triggerAnimations = true;
+						this.RestartAnimations();
 					}
 				}
 				else if (i == num)
 				{
 					float num3 = 10f;
 					num2 = ((float)this.MoralePercentage - (float)num * num3) / num3;
+					if (!moraleItemWidget.ItemWidget.IsVisible && !MBMath.ApproximatelyEquals(num2, 0f, 1E-05f))
+					{
+						this.RestartAnimations();
+					}
 				}
 				moraleItemWidget.SetFillAmount(num2, 12);
 			}
 		}
 
-		private void HandleAnimation()
+		private string GetCurrentStateName()
 		{
 			string text;
 			if (this.MoralePercentage < 20)
@@ -108,18 +101,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 			{
 				text = "Default";
 			}
-			if (!string.IsNullOrEmpty(text))
+			return text;
+		}
+
+		private void HandleAnimation()
+		{
+			for (int i = 0; i < this._moraleItemWidgets.Length; i++)
 			{
-				for (int i = 0; i < this._moraleItemWidgets.Length; i++)
-				{
-					MoraleWidget.MoraleItemWidget moraleItemWidget = this._moraleItemWidgets[i];
-					moraleItemWidget.ItemWidget.SetState(text);
-					moraleItemWidget.ItemWidget.BrushRenderer.RestartAnimation();
-					moraleItemWidget.ItemGlowWidget.SetState(text);
-					moraleItemWidget.ItemGlowWidget.BrushRenderer.RestartAnimation();
-				}
-				this.FlowArrowWidget.SetState(text);
-				this.FlowArrowWidget.BrushRenderer.RestartAnimation();
+				MoraleWidget.MoraleItemWidget moraleItemWidget = this._moraleItemWidgets[i];
+				moraleItemWidget.ItemWidget.SetState(this._currentStateName);
+				moraleItemWidget.ItemWidget.BrushRenderer.RestartAnimation();
+				moraleItemWidget.ItemGlowWidget.SetState(this._currentStateName);
+				moraleItemWidget.ItemGlowWidget.BrushRenderer.RestartAnimation();
 			}
 		}
 
@@ -127,6 +120,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 		{
 			base.OnLateUpdate(dt);
 			this.UpdateMoraleMask();
+			string currentStateName = this.GetCurrentStateName();
+			if (this._currentStateName != currentStateName)
+			{
+				this._currentStateName = currentStateName;
+				this.RestartAnimations();
+			}
 		}
 
 		private MoraleWidget.MoraleItemWidget[] CreateItemWidgets(Widget containerWidget)
@@ -151,6 +150,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 					widget.MarginLeft = (float)i * 28f;
 				}
 				widget.AddState("IncreaseAnim");
+				widget.AddState("IsCriticalAnim");
 				containerWidget.AddChild(widget);
 				Widget widget2 = new Widget(base.Context);
 				widget2.ClipContents = true;
@@ -167,6 +167,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 				brushWidget.SuggestedWidth = 39f;
 				brushWidget.SuggestedHeight = 38f;
 				brushWidget.AddState("IncreaseAnim");
+				brushWidget.AddState("IsCriticalAnim");
 				widget2.AddChild(brushWidget);
 				BrushWidget brushWidget2 = new BrushWidget(base.Context);
 				brushWidget2.WidthSizePolicy = SizePolicy.StretchToParent;
@@ -181,10 +182,57 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 				brushWidget3.SuggestedWidth = 39f;
 				brushWidget3.SuggestedHeight = 38f;
 				brushWidget3.AddState("IncreaseAnim");
+				brushWidget3.AddState("IsCriticalAnim");
 				widget2.AddChild(brushWidget3);
 				array[i] = new MoraleWidget.MoraleItemWidget(widget, widget2, brushWidget3, brushWidget, brushWidget2);
 			}
 			return array;
+		}
+
+		private void SetItemWidgetColors(Color color)
+		{
+			if (this._moraleItemWidgets != null)
+			{
+				foreach (MoraleWidget.MoraleItemWidget moraleItemWidget in this._moraleItemWidgets)
+				{
+					this.SetSingleItemWidgetColor(moraleItemWidget, color);
+				}
+			}
+		}
+
+		private void SetSingleItemWidgetColor(MoraleWidget.MoraleItemWidget widget, Color color)
+		{
+			widget.ItemWidget.Brush.Color = color;
+			foreach (Style style in widget.ItemWidget.Brush.Styles)
+			{
+				foreach (StyleLayer styleLayer in style.Layers)
+				{
+					styleLayer.Color = color;
+				}
+			}
+		}
+
+		private void SetItemGlowWidgetColors(Color color)
+		{
+			if (this._moraleItemWidgets != null)
+			{
+				foreach (MoraleWidget.MoraleItemWidget moraleItemWidget in this._moraleItemWidgets)
+				{
+					this.SetSingleItemGlowWidgetColor(moraleItemWidget, color);
+				}
+			}
+		}
+
+		private void SetSingleItemGlowWidgetColor(MoraleWidget.MoraleItemWidget widget, Color color)
+		{
+			widget.ItemGlowWidget.Brush.Color = color;
+			foreach (Style style in widget.ItemGlowWidget.Brush.Styles)
+			{
+				foreach (StyleLayer styleLayer in style.Layers)
+				{
+					styleLayer.Color = color;
+				}
+			}
 		}
 
 		[DataSourceProperty]
@@ -201,8 +249,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 					this._increaseLevel = value;
 					base.OnPropertyChanged(value, "IncreaseLevel");
 					this.UpdateArrows(this._increaseLevel);
-					this._triggerAnimations = true;
-					this._triggerWaitPassedFrames = 0;
 				}
 			}
 		}
@@ -220,7 +266,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 				{
 					this._moralePercentage = value;
 					base.OnPropertyChanged(value, "MoralePercentage");
-					this._triggerAnimations = true;
 				}
 			}
 		}
@@ -324,17 +369,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 					this._teamColorAsStr = value;
 					base.OnPropertyChanged<string>(value, "TeamColorAsStr");
 					this._teamColor = Color.ConvertStringToColor(value);
-					foreach (MoraleWidget.MoraleItemWidget moraleItemWidget in this._moraleItemWidgets)
-					{
-						moraleItemWidget.ItemWidget.Brush.Color = this._teamColor;
-						foreach (Style style in moraleItemWidget.ItemWidget.Brush.Styles)
-						{
-							foreach (StyleLayer styleLayer in style.Layers)
-							{
-								styleLayer.Color = this._teamColor;
-							}
-						}
-					}
+					this.SetItemWidgetColors(this._teamColor);
 				}
 			}
 		}
@@ -353,17 +388,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 					this._teamColorAsStrSecondary = value;
 					base.OnPropertyChanged<string>(value, "TeamColorAsStrSecondary");
 					this._teamColorSecondary = Color.ConvertStringToColor(value);
-					foreach (MoraleWidget.MoraleItemWidget moraleItemWidget in this._moraleItemWidgets)
-					{
-						moraleItemWidget.ItemGlowWidget.Brush.Color = this._teamColorSecondary;
-						foreach (Style style in moraleItemWidget.ItemGlowWidget.Brush.Styles)
-						{
-							foreach (StyleLayer styleLayer in style.Layers)
-							{
-								styleLayer.Color = this._teamColorSecondary;
-							}
-						}
-					}
+					this.SetItemGlowWidgetColors(this._teamColorSecondary);
 				}
 			}
 		}
@@ -443,11 +468,13 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.HUD
 
 		private MoraleWidget.MoraleItemWidget[] _moraleItemWidgets;
 
-		private bool _triggerAnimations;
-
 		private bool _initialized;
 
-		private int _triggerWaitPassedFrames;
+		private bool _triggerAnimations;
+
+		private int _animWaitFrame;
+
+		private string _currentStateName;
 
 		private Color _teamColor;
 

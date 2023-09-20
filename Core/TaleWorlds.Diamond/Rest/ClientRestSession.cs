@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using TaleWorlds.Library;
 using TaleWorlds.Library.Http;
-using TaleWorlds.Localization;
 
 namespace TaleWorlds.Diamond.Rest
 {
@@ -213,13 +212,13 @@ namespace TaleWorlds.Diamond.Rest
 
 		async Task<LoginResult> IClientSession.Login(LoginMessage message)
 		{
-			ClientRestSessionTask clientRestSessionTask = new ClientRestSessionTask(new RestDataRequestMessage(null, message, MessageType.Login));
+			ClientRestSessionTask clientRestSessionTask = new ClientRestSessionTask(new RestObjectRequestMessage(null, message, MessageType.Login));
 			this._messageTaskQueue.Enqueue(clientRestSessionTask);
 			await clientRestSessionTask.WaitUntilFinished();
 			LoginResult loginResult;
 			if (!clientRestSessionTask.Successful && !clientRestSessionTask.Request.Successful)
 			{
-				loginResult = new LoginResult(new TextObject("{=ahobSLlo}Login request failed", null));
+				loginResult = new LoginResult(LoginErrorCode.LoginRequestFailed.ToString(), null);
 			}
 			else
 			{
@@ -241,12 +240,12 @@ namespace TaleWorlds.Diamond.Rest
 
 		void IClientSession.SendMessage(Message message)
 		{
-			this.SendMessage(new RestDataRequestMessage(this._sessionCredentials, message, MessageType.Message));
+			this.SendMessage(new RestObjectRequestMessage(this._sessionCredentials, message, MessageType.Message));
 		}
 
 		async Task<TResult> IClientSession.CallFunction<TResult>(Message message)
 		{
-			ClientRestSessionTask clientRestSessionTask = new ClientRestSessionTask(new RestDataRequestMessage(this._sessionCredentials, message, MessageType.Function));
+			ClientRestSessionTask clientRestSessionTask = new ClientRestSessionTask(new RestObjectRequestMessage(this._sessionCredentials, message, MessageType.Function));
 			this._messageTaskQueue.Enqueue(clientRestSessionTask);
 			await clientRestSessionTask.WaitUntilFinished();
 			if (clientRestSessionTask.Successful)

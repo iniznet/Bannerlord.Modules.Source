@@ -1,9 +1,11 @@
 ﻿using System;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
+using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.CraftingSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 {
@@ -18,6 +20,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.Hero = hero;
 			this.HeroData = new HeroVM(this.Hero, false);
 			this.Hint = new BasicTooltipViewModel(() => CampaignUIHelper.GetCraftingHeroTooltip(this.Hero, this._craftingOrder));
+			this.CraftingPerks = new MBBindingList<CraftingPerkVM>();
 		}
 
 		public override void RefreshValues()
@@ -51,6 +54,19 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.SmithySkillLevel = this.Hero.GetSkillValue(DefaultSkills.Crafting);
 		}
 
+		public void RefreshPerks()
+		{
+			this.CraftingPerks.Clear();
+			foreach (PerkObject perkObject in PerkObject.All)
+			{
+				if (perkObject.Skill == DefaultSkills.Crafting && this.Hero.GetPerkValue(perkObject))
+				{
+					this.CraftingPerks.Add(new CraftingPerkVM(perkObject));
+				}
+			}
+			this.PerksText = ((this.CraftingPerks.Count > 0) ? new TextObject("{=8lCWWK9G}Smithing Perks", null).ToString() : new TextObject("{=WHRq5Dp0}No Smithing Perks", null).ToString());
+		}
+
 		public void ExecuteSelection()
 		{
 			Action<CraftingAvailableHeroItemVM> onSelection = this._onSelection;
@@ -74,6 +90,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 				{
 					this._isDisabled = value;
 					base.OnPropertyChangedWithValue(value, "IsDisabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsSelected
+		{
+			get
+			{
+				return this._isSelected;
+			}
+			set
+			{
+				if (value != this._isSelected)
+				{
+					this._isSelected = value;
+					base.OnPropertyChangedWithValue(value, "IsSelected");
 				}
 			}
 		}
@@ -180,6 +213,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
+		[DataSourceProperty]
+		public MBBindingList<CraftingPerkVM> CraftingPerks
+		{
+			get
+			{
+				return this._craftingPerks;
+			}
+			set
+			{
+				if (value != this._craftingPerks)
+				{
+					this._craftingPerks = value;
+					base.OnPropertyChangedWithValue<MBBindingList<CraftingPerkVM>>(value, "CraftingPerks");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string PerksText
+		{
+			get
+			{
+				return this._perksText;
+			}
+			set
+			{
+				if (value != this._perksText)
+				{
+					this._perksText = value;
+					base.OnPropertyChangedWithValue<string>(value, "PerksText");
+				}
+			}
+		}
+
 		private readonly Action<CraftingAvailableHeroItemVM> _onSelection;
 
 		private readonly ICraftingCampaignBehavior _craftingBehavior;
@@ -198,6 +265,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 
 		private bool _isDisabled;
 
+		private bool _isSelected;
+
 		private int _smithySkillLevel;
+
+		private MBBindingList<CraftingPerkVM> _craftingPerks;
+
+		private string _perksText;
 	}
 }

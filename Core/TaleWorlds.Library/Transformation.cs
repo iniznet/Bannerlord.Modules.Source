@@ -28,6 +28,7 @@ namespace TaleWorlds.Library
 				matrixFrame.origin = this.Origin;
 				matrixFrame.rotation = this.Rotation;
 				matrixFrame.rotation.ApplyScaleLocal(this.Scale);
+				matrixFrame.Fill();
 				return matrixFrame;
 			}
 		}

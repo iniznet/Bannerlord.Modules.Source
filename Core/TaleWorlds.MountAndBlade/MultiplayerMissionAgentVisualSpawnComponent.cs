@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
-using TaleWorlds.MountAndBlade.Diamond;
-using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -17,115 +14,6 @@ namespace TaleWorlds.MountAndBlade
 		public event Action OnMyAgentSpawnedFromVisual;
 
 		public event Action OnMyAgentVisualRemoved;
-
-		public MultiplayerMissionAgentVisualSpawnComponent()
-		{
-			this._mpTroops = MBObjectManager.Instance.GetObjectTypeList<MultiplayerClassDivisions.MPHeroClass>();
-		}
-
-		public Dictionary<string, string> GetUsedCosmeticsFromPeer(MissionPeer missionPeer, BasicCharacterObject selectedTroopCharacter)
-		{
-			if (missionPeer.Peer.UsedCosmetics != null)
-			{
-				Dictionary<string, string> dictionary = new Dictionary<string, string>();
-				int troopIndexFromCharacter = this.GetTroopIndexFromCharacter(selectedTroopCharacter);
-				List<int> list;
-				missionPeer.Peer.UsedCosmetics.TryGetValue(troopIndexFromCharacter, out list);
-				if (list != null)
-				{
-					foreach (int num in list)
-					{
-						CosmeticsManager.ClothingCosmeticElement clothingCosmeticElement;
-						if ((clothingCosmeticElement = CosmeticsManager.GetCosmeticElementList[num] as CosmeticsManager.ClothingCosmeticElement) != null)
-						{
-							foreach (string text in clothingCosmeticElement.ReplaceItemsId)
-							{
-								dictionary.Add(text, CosmeticsManager.GetCosmeticElementList[num].Id);
-							}
-							foreach (Tuple<string, string> tuple in clothingCosmeticElement.ReplaceItemless)
-							{
-								if (tuple.Item1 == this._mpTroops[troopIndexFromCharacter].StringId)
-								{
-									dictionary.Add(tuple.Item2, CosmeticsManager.GetCosmeticElementList[num].Id);
-									break;
-								}
-							}
-						}
-					}
-				}
-				return dictionary;
-			}
-			return null;
-		}
-
-		public void AddCosmeticItemsToEquipment(Equipment equipment, Dictionary<string, string> choosenCosmetics)
-		{
-			for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.ArmorItemEndSlot; equipmentIndex++)
-			{
-				if (equipment[equipmentIndex].Item == null)
-				{
-					string text = equipmentIndex.ToString();
-					switch (equipmentIndex)
-					{
-					case EquipmentIndex.NumAllWeaponSlots:
-						text = "Head";
-						break;
-					case EquipmentIndex.Body:
-						text = "Body";
-						break;
-					case EquipmentIndex.Leg:
-						text = "Leg";
-						break;
-					case EquipmentIndex.Gloves:
-						text = "Gloves";
-						break;
-					case EquipmentIndex.Cape:
-						text = "Cape";
-						break;
-					}
-					string text2 = null;
-					if (choosenCosmetics != null)
-					{
-						choosenCosmetics.TryGetValue(text, out text2);
-					}
-					if (text2 != null)
-					{
-						ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>(text2);
-						EquipmentElement equipmentElement = equipment[equipmentIndex];
-						equipmentElement.CosmeticItem = @object;
-						equipment[equipmentIndex] = equipmentElement;
-					}
-				}
-				else
-				{
-					string stringId = equipment[equipmentIndex].Item.StringId;
-					string text3 = null;
-					if (choosenCosmetics != null)
-					{
-						choosenCosmetics.TryGetValue(stringId, out text3);
-					}
-					if (text3 != null)
-					{
-						ItemObject object2 = MBObjectManager.Instance.GetObject<ItemObject>(text3);
-						EquipmentElement equipmentElement2 = equipment[equipmentIndex];
-						equipmentElement2.CosmeticItem = object2;
-						equipment[equipmentIndex] = equipmentElement2;
-					}
-				}
-			}
-		}
-
-		private int GetTroopIndexFromCharacter(BasicCharacterObject character)
-		{
-			for (int i = 0; i < this._mpTroops.Count; i++)
-			{
-				if (this._mpTroops[i].HeroCharacter == character || this._mpTroops[i].TroopCharacter == character)
-				{
-					return i;
-				}
-			}
-			return -1;
-		}
 
 		public void SpawnAgentVisualsForPeer(MissionPeer missionPeer, AgentBuildData buildData, int selectedEquipmentSetIndex = -1, bool isBot = false, int totalTroopCount = 0)
 		{
@@ -259,7 +147,7 @@ namespace TaleWorlds.MountAndBlade
 			EquipmentIndex equipmentIndex;
 			EquipmentIndex equipmentIndex2;
 			bool flag;
-			equipment.GetInitialWeaponIndicesToEquip(out equipmentIndex, out equipmentIndex2, out flag);
+			equipment.GetInitialWeaponIndicesToEquip(out equipmentIndex, out equipmentIndex2, out flag, Equipment.InitialWeaponEquipPreference.Any);
 			if (flag)
 			{
 				equipmentIndex2 = EquipmentIndex.None;
@@ -267,11 +155,6 @@ namespace TaleWorlds.MountAndBlade
 			agentVisual2.GetVisuals().SetWieldedWeaponIndices((int)equipmentIndex, (int)equipmentIndex2);
 			PeerVisualsHolder peerVisualsHolder = new PeerVisualsHolder(missionPeer, buildData.AgentVisualsIndex, agentVisual2, agentVisual);
 			missionPeer.OnVisualsSpawned(peerVisualsHolder, peerVisualsHolder.VisualsIndex);
-			if (buildData.AgentVisualsIndex == 0)
-			{
-				missionPeer.HasSpawnedAgentVisuals = true;
-				missionPeer.EquipmentUpdatingExpired = false;
-			}
 			if (missionPeer.IsMine && buildData.AgentVisualsIndex == 0)
 			{
 				Action onMyAgentVisualSpawned = this.OnMyAgentVisualSpawned;
@@ -290,38 +173,11 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this._spawnFrameSelectionHelper.FreeSpawnPointFromPlayer(missionPeer.Peer);
 			}
-			if (sync && GameNetwork.IsServerOrRecorder)
-			{
-				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new RemoveAgentVisualsForPeer(missionPeer.GetNetworkPeer()));
-				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
-			}
-			missionPeer.HasSpawnedAgentVisuals = false;
 			if (this.OnMyAgentVisualRemoved != null && missionPeer.IsMine)
 			{
 				this.OnMyAgentVisualRemoved();
 			}
 			Debug.Print("Removed visuals for " + missionPeer.Name + ".", 0, Debug.DebugColor.White, 17179869184UL);
-		}
-
-		public void RemoveAgentVisualsWithVisualIndex(MissionPeer missionPeer, int visualsIndex, bool sync = false)
-		{
-			missionPeer.ClearVisuals(visualsIndex);
-			if (!GameNetwork.IsDedicatedServer && visualsIndex == 0 && !missionPeer.Peer.IsMine)
-			{
-				this._spawnFrameSelectionHelper.FreeSpawnPointFromPlayer(missionPeer.Peer);
-			}
-			if (sync && GameNetwork.IsServerOrRecorder)
-			{
-				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new RemoveAgentVisualsFromIndexForPeer(missionPeer.GetNetworkPeer(), visualsIndex));
-				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.ExcludeOtherTeamPlayers, missionPeer.GetNetworkPeer());
-			}
-			if (this.OnMyAgentVisualRemoved != null && missionPeer.IsMine && visualsIndex == 0)
-			{
-				this.OnMyAgentVisualRemoved();
-			}
-			Debug.Print("Removed visuals.", 0, Debug.DebugColor.BrightWhite, 64UL);
 		}
 
 		public void OnMyAgentSpawned()
@@ -343,8 +199,6 @@ namespace TaleWorlds.MountAndBlade
 		}
 
 		private MultiplayerMissionAgentVisualSpawnComponent.VisualSpawnFrameSelectionHelper _spawnFrameSelectionHelper;
-
-		private MBReadOnlyList<MultiplayerClassDivisions.MPHeroClass> _mpTroops;
 
 		private class VisualSpawnFrameSelectionHelper
 		{
@@ -410,7 +264,7 @@ namespace TaleWorlds.MountAndBlade
 						matrixFrame.rotation.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
 						return matrixFrame;
 					}
-					Debug.FailedAssert("Couldn't find a valid spawn point for player.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerMissionAgentVisualSpawnComponent.cs", "GetSpawnPointFrameForPlayer", 137);
+					Debug.FailedAssert("Couldn't find a valid spawn point for player.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerMissionAgentVisualSpawnComponent.cs", "GetSpawnPointFrameForPlayer", 139);
 					return MatrixFrame.Identity;
 				}
 				else

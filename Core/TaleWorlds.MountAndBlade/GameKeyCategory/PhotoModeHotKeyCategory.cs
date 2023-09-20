@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaleWorlds.Engine.Options;
 using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade.GameKeyCategory
 {
-	public class PhotoModeHotKeyCategory : GameKeyContext
+	public sealed class PhotoModeHotKeyCategory : GameKeyContext
 	{
 		public PhotoModeHotKeyCategory()
 			: base("PhotoModeHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)
@@ -35,6 +36,11 @@ namespace TaleWorlds.MountAndBlade.GameKeyCategory
 			base.RegisterGameKey(new GameKey(96, "ToggleMouse", "PhotoModeHotKeyCategory", InputKey.C, InputKey.ControllerLThumb, GameKeyMainCategories.PhotoModeCategory), true);
 			base.RegisterGameKey(new GameKey(97, "ToggleVignette", "PhotoModeHotKeyCategory", InputKey.X, InputKey.ControllerRThumb, GameKeyMainCategories.PhotoModeCategory), true);
 			base.RegisterGameKey(new GameKey(98, "ToggleCharacters", "PhotoModeHotKeyCategory", InputKey.B, InputKey.ControllerRRight, GameKeyMainCategories.PhotoModeCategory), true);
+			if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.EnableTouchpadMouse) != 0f)
+			{
+				base.RegisterGameKey(new GameKey(105, "Reset", "PhotoModeHotKeyCategory", InputKey.T, InputKey.ControllerLOptionTap, GameKeyMainCategories.PhotoModeCategory), true);
+				return;
+			}
 			base.RegisterGameKey(new GameKey(105, "Reset", "PhotoModeHotKeyCategory", InputKey.T, InputKey.ControllerLOption, GameKeyMainCategories.PhotoModeCategory), true);
 		}
 

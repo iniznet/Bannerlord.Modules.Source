@@ -1,8 +1,6 @@
 ﻿using System;
 using TaleWorlds.Core;
-using TaleWorlds.Engine;
 using TaleWorlds.Engine.Options;
-using TaleWorlds.PlatformService;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -26,13 +24,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public void StartGame()
 		{
-			if (Module.CurrentModule.StartupInfo.StartupType == GameStartupType.Multiplayer || PlatformServices.SessionInvitationType == SessionInvitationType.Multiplayer || PlatformServices.IsPlatformRequestedMultiplayer)
-			{
-				MBGameManager.StartNewGame(new MultiplayerGameManager());
-				return;
-			}
-			Module.CurrentModule.GlobalGameStateManager.CleanAndPushState(Module.CurrentModule.GlobalGameStateManager.CreateState<InitialState>(), 0);
-			LoadingWindow.EnableGlobalLoadingWindow();
+			Module.CurrentModule.SetInitialModuleScreenAsRootScreen();
 		}
 
 		public delegate void OnProfileSelectionEvent();

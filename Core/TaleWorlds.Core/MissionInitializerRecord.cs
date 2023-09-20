@@ -8,25 +8,25 @@ namespace TaleWorlds.Core
 	{
 		public MissionInitializerRecord(string name)
 		{
-			this.SceneName = name;
 			this.TerrainType = -1;
 			this.DamageToPlayerMultiplier = 1f;
 			this.DamageToFriendsMultiplier = 1f;
 			this.DamageFromPlayerToFriendsMultiplier = 1f;
-			this.SceneLevels = "";
 			this.TimeOfDay = 6f;
 			this.NeedsRandomTerrain = false;
 			this.RandomTerrainSeed = 0;
+			this.SceneName = name;
+			this.SceneLevels = "";
 			this.PlayingInCampaignMode = false;
 			this.EnableSceneRecording = false;
 			this.SceneUpgradeLevel = 0;
 			this.SceneHasMapPatch = false;
 			this.PatchCoordinates = Vec2.Zero;
 			this.PatchEncounterDir = Vec2.Zero;
-			this.DisableDynamicPointlightShadows = false;
 			this.DoNotUseLoadingScreen = false;
-			this.AtlasGroup = 0;
-			this.AtmosphereOnCampaign = null;
+			this.DisableDynamicPointlightShadows = false;
+			this.DecalAtlasGroup = 0;
+			this.AtmosphereOnCampaign = AtmosphereInfo.GetInvalidAtmosphereInfo();
 		}
 
 		void ISerializableObject.DeserializeFrom(IReader reader)
@@ -43,11 +43,9 @@ namespace TaleWorlds.Core
 			this.DoNotUseLoadingScreen = reader.ReadBool();
 			if (reader.ReadBool())
 			{
-				this.AtmosphereOnCampaign = new AtmosphereInfo();
+				this.AtmosphereOnCampaign = AtmosphereInfo.GetInvalidAtmosphereInfo();
 				this.AtmosphereOnCampaign.DeserializeFrom(reader);
-				return;
 			}
-			this.AtmosphereOnCampaign = null;
 		}
 
 		void ISerializableObject.SerializeTo(IWriter writer)
@@ -62,14 +60,13 @@ namespace TaleWorlds.Core
 			writer.WriteBool(this.PlayingInCampaignMode);
 			writer.WriteBool(this.DisableDynamicPointlightShadows);
 			writer.WriteBool(this.DoNotUseLoadingScreen);
-			writer.WriteInt(this.AtlasGroup);
-			writer.WriteBool(this.AtmosphereOnCampaign != null);
-			AtmosphereInfo atmosphereOnCampaign = this.AtmosphereOnCampaign;
-			if (atmosphereOnCampaign == null)
+			writer.WriteInt(this.DecalAtlasGroup);
+			bool isValid = this.AtmosphereOnCampaign.IsValid;
+			writer.WriteBool(isValid);
+			if (isValid)
 			{
-				return;
+				this.AtmosphereOnCampaign.SerializeTo(writer);
 			}
-			atmosphereOnCampaign.SerializeTo(writer);
 		}
 
 		public int TerrainType;
@@ -82,7 +79,7 @@ namespace TaleWorlds.Core
 
 		public float TimeOfDay;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool NeedsRandomTerrain;
 
 		public int RandomTerrainSeed;
@@ -93,28 +90,28 @@ namespace TaleWorlds.Core
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
 		public string SceneLevels;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool PlayingInCampaignMode;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool EnableSceneRecording;
 
 		public int SceneUpgradeLevel;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool SceneHasMapPatch;
 
 		public Vec2 PatchCoordinates;
 
 		public Vec2 PatchEncounterDir;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool DoNotUseLoadingScreen;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool DisableDynamicPointlightShadows;
 
-		public int AtlasGroup;
+		public int DecalAtlasGroup;
 
 		public AtmosphereInfo AtmosphereOnCampaign;
 	}

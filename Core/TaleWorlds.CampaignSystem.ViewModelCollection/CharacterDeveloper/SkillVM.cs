@@ -203,18 +203,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 			if (this.CanAddFocus)
 			{
 				this._developerVM.UnspentCharacterPoints -= this._developerVM.GetRequiredFocusPointsToAddFocusWithCurrentFocus(this.Skill);
-				int num = this.CurrentFocusLevel;
-				this.CurrentFocusLevel = num + 1;
+				int currentFocusLevel = this.CurrentFocusLevel;
+				this.CurrentFocusLevel = currentFocusLevel + 1;
 				this._developerVM.RefreshCharacterValues();
 				this.RefreshWithCurrentValues();
 				MBInformationManager.HideInformations();
-				if (this.Level == 0)
-				{
-					num = this.Level;
-					this.Level = num + 1;
-					num = this.NextLevel;
-					this.NextLevel = num + 1;
-				}
 				Game.Current.EventManager.TriggerEvent<FocusAddedByPlayerEvent>(new FocusAddedByPlayerEvent(this._developerVM.Hero, this.Skill));
 			}
 		}
@@ -226,7 +219,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 				Campaign.Current.EncyclopediaManager.GoToLink(this._focusConceptObj.EncyclopediaLink);
 				return;
 			}
-			Debug.FailedAssert("Couldn't find Focus encyclopedia page", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CharacterDeveloper\\SkillVM.cs", "ExecuteShowFocusConcept", 266);
+			Debug.FailedAssert("Couldn't find Focus encyclopedia page", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CharacterDeveloper\\SkillVM.cs", "ExecuteShowFocusConcept", 259);
 		}
 
 		public void ExecuteShowSkillConcept()
@@ -236,7 +229,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 				Campaign.Current.EncyclopediaManager.GoToLink(this._skillConceptObj.EncyclopediaLink);
 				return;
 			}
-			Debug.FailedAssert("Couldn't find Focus encyclopedia page", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CharacterDeveloper\\SkillVM.cs", "ExecuteShowSkillConcept", 278);
+			Debug.FailedAssert("Couldn't find Focus encyclopedia page", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CharacterDeveloper\\SkillVM.cs", "ExecuteShowSkillConcept", 271);
 		}
 
 		public void ExecuteInspect()
@@ -248,11 +241,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 		public void ResetChanges()
 		{
 			this.CurrentFocusLevel = this._orgFocusAmount;
-			if (this.CurrentFocusLevel == 0 && this.Level == 1)
-			{
-				this.Level = 0;
-				this.NextLevel = this.Level + 1;
-			}
 			this.Perks.ApplyActionOnAllItems(delegate(PerkVM p)
 			{
 				p.RefreshState();

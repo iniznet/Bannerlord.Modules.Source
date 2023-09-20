@@ -23,7 +23,7 @@ namespace TaleWorlds.SaveSystem.Save
 			TypeDefinition typeDefinition2 = typeDefinition as TypeDefinition;
 			if (typeDefinition2 != null && !typeDefinition2.IsClassDefinition)
 			{
-				base.InitializeDataAsCustomStruct(MemberTypeId.Invalid, index);
+				base.InitializeDataAsCustomStruct(MemberTypeId.Invalid, index, typeDefinition);
 				return;
 			}
 			base.InitializeData(MemberTypeId.Invalid, value.GetType(), typeDefinition, value);

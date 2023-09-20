@@ -131,12 +131,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				num22 -= 10;
 				num23 -= 10;
 			}
-			if (templateCharacter.GetTraitLevel(DefaultTraits.BossFightingSkills) > 0)
-			{
-				num17 += 135;
-				num18 += 10;
-				num19 += 10;
-			}
 			if (templateCharacter.GetTraitLevel(DefaultTraits.ArcherFIghtingSkills) > 0)
 			{
 				num18 -= 20;
@@ -420,6 +414,22 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			get
 			{
 				return 5;
+			}
+		}
+
+		public override int MaxSkillRequiredForEpicPerkBonus
+		{
+			get
+			{
+				return 250;
+			}
+		}
+
+		public override int MinSkillRequiredForEpicPerkBonus
+		{
+			get
+			{
+				return 200;
 			}
 		}
 

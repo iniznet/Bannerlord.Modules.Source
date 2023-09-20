@@ -230,7 +230,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 				{
 					if (formation.CountOfUnits > 0)
 					{
-						formation.ReleaseFormationFromAI();
+						formation.SetControlledByAI(false, false);
 						formation.FiringOrder = FiringOrder.FiringOrderHoldYourFire;
 					}
 				}
@@ -238,7 +238,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 				{
 					if (formation2.CountOfUnits > 0)
 					{
-						formation2.ReleaseFormationFromAI();
+						formation2.SetControlledByAI(false, false);
 						formation2.FiringOrder = FiringOrder.FiringOrderHoldYourFire;
 					}
 				}

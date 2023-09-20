@@ -15,8 +15,6 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 
 		public abstract bool DoesPartyHaveRequiredPerksForUpgrade(PartyBase party, CharacterObject character, CharacterObject upgradeTarget, out PerkObject requiredPerk);
 
-		public abstract bool CanTroopGainXp(PartyBase owner, CharacterObject character);
-
 		public abstract int GetGoldCostForUpgrade(PartyBase party, CharacterObject characterObject, CharacterObject upgradeTarget);
 
 		public abstract int GetXpCostForUpgrade(PartyBase party, CharacterObject characterObject, CharacterObject upgradeTarget);

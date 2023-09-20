@@ -31,5 +31,13 @@ namespace TaleWorlds.MountAndBlade
 			}
 			return 0f;
 		}
+
+		public override void OnAgentRemoved(Agent agent)
+		{
+			if (base.CurrentOrder._targetAgent == agent)
+			{
+				base.CurrentOrder = MovementOrder.MovementOrderNull;
+			}
+		}
 	}
 }

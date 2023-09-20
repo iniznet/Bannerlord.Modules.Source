@@ -200,6 +200,10 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			this.SetDialogs();
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		protected override void OnTimedOut()
 		{
 			MobileParty questCaravanMobileParty = this._questCaravanMobileParty;
@@ -293,10 +297,10 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			string text2;
 			this.GetAdditionalVisualsForParty(this.QuestFromSettlement.Culture, out text, out text2);
 			string[] array = new string[] { "aserai", "battania", "khuzait", "sturgia", "vlandia" };
-			Clan clan = CampaignData.NeutralFaction;
+			Clan clan = null;
 			foreach (Clan clan2 in Clan.All)
 			{
-				if (!clan2.IsEliminated && !clan2.IsNeutralClan && !clan2.IsBanditFaction && !clan2.IsMinorFaction && ((StoryModeManager.Current.MainStoryLine.IsOnAntiImperialQuestLine && clan2.Culture.StringId == "empire") || (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine && array.Contains(clan2.Culture.StringId))))
+				if (!clan2.IsEliminated && !clan2.IsBanditFaction && !clan2.IsMinorFaction && ((StoryModeManager.Current.MainStoryLine.IsOnAntiImperialQuestLine && clan2.Culture.StringId == "empire") || (StoryModeManager.Current.MainStoryLine.IsOnImperialQuestLine && array.Contains(clan2.Culture.StringId))))
 				{
 					clan = clan2;
 					break;
@@ -358,7 +362,7 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=ch9f3A1e}Greetings, {?PLAYER.GENDER}madam{?}sir{\\?}. Why did you stop our caravan? I trust you are not robbing us.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.conversation_with_caravan_master_condition))
 				.BeginPlayerOptions()
 				.PlayerOption(new TextObject("{=Xx94UrYe}I might be. What are you carrying? Honest goods, or weapons? How about you let us have a look.", null), null)
-				.NpcLine(new TextObject("{=LXGXxKqw}Ah... Well, I suppose we can drop the charade. I know who sent you, and I suppose you know who sent me. Certainly, you can see my wares, and then you can feel their sharp end in your belly.", null), null, null)
+				.NpcLine(new TextObject("{=LXGXxKqw}Ah... Well, I suppose we can drop the charade. [ib:hip2][if:convo_nonchalant]I know who sent you, and I suppose you know who sent me. Certainly, you can see my wares, and then you can feel their sharp end in your belly.", null), null, null)
 				.CloseDialog()
 				.PlayerOption(new TextObject("{=cEaXehHy}I was just checking on something. You can move along.", null), null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.cancel_encounter_consequence))

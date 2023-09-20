@@ -273,9 +273,14 @@ namespace TaleWorlds.ScreenSystem
 
 		public void AddLayer(ScreenLayer layer)
 		{
+			if (layer == null || layer.Finalized)
+			{
+				Debug.FailedAssert("Trying to add a null or finalized layer", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.ScreenSystem\\ScreenBase.cs", "AddLayer", 334);
+				return;
+			}
 			if (this._layers.Contains(layer))
 			{
-				Debug.FailedAssert("Layer is already added to the screen!", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.ScreenSystem\\ScreenBase.cs", "AddLayer", 347);
+				Debug.FailedAssert("Layer is already added to the screen!", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.ScreenSystem\\ScreenBase.cs", "AddLayer", 353);
 				return;
 			}
 			this._layers.Add(layer);

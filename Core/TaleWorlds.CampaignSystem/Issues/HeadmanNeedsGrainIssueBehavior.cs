@@ -30,7 +30,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 		{
 			CampaignEvents.OnCheckForIssueEvent.AddNonSerializedListener(this, new Action<Hero>(this.OnCheckForIssue));
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, new Action(this.WeeklyTick));
-			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
+			CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, new Action(this.OnGameLoadFinished));
+			CampaignEvents.OnNewGameCreatedPartialFollowUpEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter, int>(this.OnNewGameCreatedPartialFollowUp));
 		}
 
 		public override void SyncData(IDataStore dataStore)
@@ -62,9 +63,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 			this.CacheGrainPrice();
 		}
 
-		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+		private void OnGameLoadFinished()
 		{
 			this.CacheGrainPrice();
+		}
+
+		private void OnNewGameCreatedPartialFollowUp(CampaignGameStarter starter, int i)
+		{
+			if (i == 99)
+			{
+				this.CacheGrainPrice();
+			}
 		}
 
 		private void CacheGrainPrice()
@@ -74,7 +83,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		private const IssueBase.IssueFrequency HeadmanNeedsGrainIssueFrequency = IssueBase.IssueFrequency.Rare;
 
-		private const int NearbyTownMarketGrainLimit = 50;
+		private const int NearbyTownMarketGrainLimit = 100;
 
 		private int _averageGrainPriceInCalradia;
 
@@ -184,7 +193,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=p1buAbOQ}The harvest has been poor, and rats have eaten much of our stores. We can eat less and tighten our belts, but if we don't have seed grain left over to plant, we'll starve next year.", null);
+					return new TextObject("{=p1buAbOQ}The harvest has been poor, and rats have eaten much of our stores. We can eat less and tighten our belts, but if we don't have seed grain left over to plant, we'll starve next year.[if:convo_dismayed][ib:demure2]", null);
 				}
 			}
 
@@ -200,7 +209,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=nG750jQB}Grain will solve our problems. If we had {GRAIN_AMOUNT} bushels, we could use it to sow our fields. But I doubt that {NEARBY_TOWN} has so much to sell at this time of the year. {GRAIN_AMOUNT} bushels of grain costs around {DENAR_AMOUNT}{GOLD_ICON} in the markets, and we don't have that!", null);
+					TextObject textObject = new TextObject("{=nG750jQB}Grain will solve our problems. If we had {GRAIN_AMOUNT} bushels, we could use it to sow our fields. But I doubt that {NEARBY_TOWN} has so much to sell at this time of the year. {GRAIN_AMOUNT} bushels of grain costs around {DENAR_AMOUNT}{GOLD_ICON} in the markets, and we don't have that![if:convo_thinking]", null);
 					int price = this.NearbySuitableSettlement.Town.MarketData.GetPrice(DefaultItems.Grain, MobileParty.MainParty, false, null);
 					textObject.SetTextVariable("NEARBY_TOWN", this.NearbySuitableSettlement.Name);
 					textObject.SetTextVariable("GRAIN_AMOUNT", this.NeededGrainAmount);
@@ -214,7 +223,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=5NYPqKBj}I know you're busy, but maybe you can ask some of your men to find us that grain? {MEN_COUNT} men should do the job along with {GOLD}{GOLD_ICON}, and I'd reckon the whole affair should take two weeks. \nI'm desperate here, {?PLAYER.GENDER}madam{?}sir{\\?}... Don't let our children starve!", null);
+					TextObject textObject = new TextObject("{=5NYPqKBj}I know you're busy, but maybe you can ask some of your men to find us that grain? {MEN_COUNT} men should do the job along with {GOLD}{GOLD_ICON}, and I'd reckon the whole affair should take two weeks. \nI'm desperate here, {?PLAYER.GENDER}madam{?}sir{\\?}... Don't let our children starve![if:convo_dismayed][ib:demure]", null);
 					textObject.SetTextVariable("MEN_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("GOLD", this.AlternativeSolutionNeededGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -245,7 +254,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=W6X5DffB}Thank you for sparing the men to bring us that seed grain, {?PLAYER.GENDER}madam{?}sir{\\?}. That should get us through the hard times ahead.", null);
+					return new TextObject("{=W6X5DffB}Thank you for sparing the men to bring us that seed grain, {?PLAYER.GENDER}madam{?}sir{\\?}. That should get us through the hard times ahead.[if:convo_grateful][ib:normal]", null);
 				}
 			}
 
@@ -263,7 +272,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=k63ZKmXX}Thank you, {?PLAYER.GENDER}milady{?}sir{\\?}! You are a saviour.", null);
+					return new TextObject("{=k63ZKmXX}Thank you, {?PLAYER.GENDER}milady{?}sir{\\?}! You are a saviour.[if:convo_grateful][ib:normal]", null);
 				}
 			}
 
@@ -359,7 +368,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					new Tuple<TraitObject, int>(DefaultTraits.Generosity, 30)
 				});
 				base.IssueOwner.AddPower(10f);
-				base.IssueSettlement.Prosperity += 50f;
+				base.IssueSettlement.Village.Bound.Town.Prosperity += 50f;
 				this.RelationshipChangeWithIssueOwner = 2;
 				foreach (Hero hero in base.IssueOwner.CurrentSettlement.Notables)
 				{
@@ -377,7 +386,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					ChangeRelationAction.ApplyPlayerRelation(hero, -3, true, true);
 				}
-				base.IssueSettlement.Prosperity += -10f;
+				base.IssueSettlement.Village.Bound.Town.Prosperity += -10f;
 			}
 
 			public override IssueBase.IssueFrequency GetFrequency()
@@ -387,7 +396,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			public override bool IssueStayAliveConditions()
 			{
-				return this.NearbySuitableSettlement != null && this.NearbySuitableSettlement.Position2D.Distance(base.IssueOwner.CurrentSettlement.Position2D) < 75f && (float)base.IssueOwner.CurrentSettlement.Village.GetItemPrice(DefaultItems.Grain, null, false) > (float)HeadmanNeedsGrainIssueBehavior.AverageGrainPriceInCalradia * 1.05f && !base.IssueOwner.CurrentSettlement.IsRaided && !base.IssueOwner.CurrentSettlement.IsUnderRaid;
+				return this.NearbySuitableSettlement != null && this.NearbySuitableSettlement.Town.MarketData.GetItemCountOfCategory(DefaultItems.Grain.ItemCategory) < 100;
 			}
 
 			protected override void CompleteIssueWithTimedOutConsequences()
@@ -395,6 +404,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -550,6 +563,16 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
+			private TextObject _failLogOnWarDeclaredByCriminalRating
+			{
+				get
+				{
+					TextObject textObject = new TextObject("{=BTp7qpak}You are accused of a crime, and {QUEST_GIVER.LINK} no longer wants your help.", null);
+					textObject.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, false);
+					return textObject;
+				}
+			}
+
 			private TextObject _playerDeclaredWarQuestLogText
 			{
 				get
@@ -564,7 +587,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=PgFJLK85}{SETTLEMENT_NAME} is raided by someone else. Your agreement with {ISSUE_GIVER.LINK} was canceled.", null);
+					TextObject textObject = new TextObject("{=PgFJLK85}{SETTLEMENT_NAME} is raided. It isn’t safe for the villagers to plant their fields, and agreement with {ISSUE_GIVER.LINK} was canceled.", null);
 					textObject.SetTextVariable("SETTLEMENT_NAME", base.QuestGiver.CurrentSettlement.Name);
 					StringHelpers.SetCharacterProperties("ISSUE_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					return textObject;
@@ -585,6 +608,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.PlayerInventoryExchangeEvent.AddNonSerializedListener(this, new Action<List<ValueTuple<ItemRosterElement, int>>, List<ValueTuple<ItemRosterElement, int>>, bool>(this.OnPlayerInventoryExchange));
@@ -596,6 +623,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.HourlyTickPartyEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.HourlyTickParty));
 				CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, new Action<PartyBase, Hero>(this.OnHeroPrisonerTaken));
 				CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
+				CampaignEvents.VillageBeingRaided.AddNonSerializedListener(this, new Action<Village>(this.OnVillageBeingRaided));
 			}
 
 			private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
@@ -638,17 +666,25 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
+			private void OnVillageBeingRaided(Village village)
+			{
+				if (village == base.QuestGiver.CurrentSettlement.Village)
+				{
+					base.CompleteQuestWithCancel(this._cancelLogOnVillageRaided);
+				}
+			}
+
 			protected override void OnTimedOut()
 			{
 				base.AddLog(this._questTimeoutLogText, false);
-				this.Fail();
+				this.TimeoutFail();
 			}
 
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=nwIYsJRO}Have you brought our grain {?PLAYER.GENDER}milady{?}sir{\\?}?", null);
-				TextObject textObject2 = new TextObject("{=k63ZKmXX}Thank you, {?PLAYER.GENDER}milady{?}sir{\\?}! You are a saviour.", null);
-				TextObject textObject3 = new TextObject("{=0tB3VGE4}We await your success, {?PLAYER.GENDER}milady{?}sir{\\?}.", null);
+				TextObject textObject = new TextObject("{=nwIYsJRO}Have you brought our grain {?PLAYER.GENDER}milady{?}sir{\\?}?[if:convo_shocked][ib:demure2]", null);
+				TextObject textObject2 = new TextObject("{=zsE7ldPY}Thank you, {?PLAYER.GENDER}milady{?}sir{\\?}! You are a saviour.[if:convo_merry][ib:normal2]", null);
+				TextObject textObject3 = new TextObject("{=0tB3VGE4}We await your success, {?PLAYER.GENDER}milady{?}sir{\\?}.[if:convo_nervous]", null);
 				textObject.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, false);
 				textObject2.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, false);
 				textObject3.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, false);
@@ -783,7 +819,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._cancelLogOnWarDeclared);
+				if (detail == DeclareWarAction.DeclareWarDetail.CausedByCrimeRatingChange)
+				{
+					if (base.QuestGiver.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
+					{
+						this.CriminalRatingFail();
+						return;
+					}
+				}
+				else
+				{
+					QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._cancelLogOnWarDeclared, true);
+				}
 			}
 
 			private void Success()
@@ -795,9 +842,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 					new Tuple<TraitObject, int>(DefaultTraits.Generosity, 50)
 				});
 				GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, this._rewardGold, false);
-				GiveItemAction.ApplyForParties(PartyBase.MainParty, Settlement.CurrentSettlement.Party, DefaultItems.Grain, this._neededGrainAmount);
+				ItemRosterElement itemRosterElement = new ItemRosterElement(DefaultItems.Grain, this._neededGrainAmount, null);
+				GiveItemAction.ApplyForParties(PartyBase.MainParty, Settlement.CurrentSettlement.Party, itemRosterElement);
 				base.QuestGiver.AddPower(10f);
-				base.QuestGiver.CurrentSettlement.Prosperity += 50f;
+				base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity += 50f;
 				this.RelationshipChangeWithQuestGiver = 2;
 				foreach (Hero hero in base.QuestGiver.CurrentSettlement.Notables)
 				{
@@ -809,10 +857,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithSuccess();
 			}
 
-			private void Fail()
+			private void TimeoutFail()
 			{
 				base.QuestGiver.AddPower(-5f);
-				base.QuestGiver.CurrentSettlement.Prosperity += -10f;
+				base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity += -10f;
 				this.RelationshipChangeWithQuestGiver = -5;
 				foreach (Hero hero in base.QuestGiver.CurrentSettlement.Notables)
 				{
@@ -821,6 +869,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 						ChangeRelationAction.ApplyPlayerRelation(hero, -3, true, true);
 					}
 				}
+			}
+
+			private void CriminalRatingFail()
+			{
+				base.QuestGiver.AddPower(-10f);
+				this.RelationshipChangeWithQuestGiver = -5;
+				TraitLevelingHelper.OnIssueFailed(Hero.MainHero, new Tuple<TraitObject, int>[]
+				{
+					new Tuple<TraitObject, int>(DefaultTraits.Honor, -50)
+				});
+				base.CompleteQuestWithFail(this._failLogOnWarDeclaredByCriminalRating);
 			}
 
 			private const int SuccessMercyBonus = 70;
@@ -838,6 +897,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private const int FailRelationPenalty = -5;
 
 			private const int FailRelationPenaltyWithOtherNotables = -3;
+
+			private const int CrimeRatingFailHonorPenalty = -50;
+
+			private const int CrimeRatingFailRelationshipWithQuestGiverPenalty = -5;
+
+			private const int CrimeRatingFailQuestGiverPowerPenalty = -10;
 
 			private const int TimeOutProsperityPenalty = -10;
 

@@ -99,7 +99,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				}
 				else
 				{
-					Debug.FailedAssert("This party should have expense info but it doesn't", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\ClanManagement\\ClanPartyItemVM.cs", ".ctor", 114);
+					Debug.FailedAssert("This party should have expense info but it doesn't", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\ClanManagement\\ClanPartyItemVM.cs", ".ctor", 115);
 				}
 			}
 			if (this.IsCaravan)
@@ -152,21 +152,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				this.Name = this.Party.Name.ToString();
 			}
 			this.IsMainHeroParty = this._type == ClanPartyItemVM.ClanPartyType.Main;
-			if (this._type == ClanPartyItemVM.ClanPartyType.Garrison)
+			if (this.Party.MobileParty.CurrentSettlement != null)
 			{
 				this.PartyLocationText = this.Party.MobileParty.CurrentSettlement.Name.ToString();
 			}
 			else
 			{
-				this.PartyLocationText = ((this.Party.LeaderHero != null && !this.IsMainHeroParty && this.Party.LeaderHero.LastKnownClosestSettlement != null) ? this.Party.LeaderHero.LastKnownClosestSettlement.Name.ToString() : " ");
+				Settlement settlement = SettlementHelper.FindNearestSettlement(null, this.Party.MobileParty);
+				GameTexts.SetVariable("SETTLEMENT_NAME", settlement.Name);
+				string text = GameTexts.FindText("str_near_settlement", null).ToString();
+				this.PartyLocationText = text;
 			}
 			GameTexts.SetVariable("LEFT", this.Party.MobileParty.MemberRoster.TotalManCount);
 			GameTexts.SetVariable("RIGHT", this.Party.MobileParty.Party.PartySizeLimit);
-			string text = GameTexts.FindText("str_LEFT_over_RIGHT", null).ToString();
-			string text2 = GameTexts.FindText("str_party_morale_party_size", null).ToString();
-			this.PartySizeText = text;
-			GameTexts.SetVariable("LEFT", text2);
-			GameTexts.SetVariable("RIGHT", text);
+			string text2 = GameTexts.FindText("str_LEFT_over_RIGHT", null).ToString();
+			string text3 = GameTexts.FindText("str_party_morale_party_size", null).ToString();
+			this.PartySizeText = text2;
+			GameTexts.SetVariable("LEFT", text3);
+			GameTexts.SetVariable("RIGHT", text2);
 			this.PartySizeSubTitleText = GameTexts.FindText("str_LEFT_colon_RIGHT", null).ToString();
 			GameTexts.SetVariable("LEFT", GameTexts.FindText("str_party_wage", null));
 			GameTexts.SetVariable("RIGHT", this.Party.MobileParty.TotalWage);
@@ -177,19 +180,19 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				this.IsInArmy = true;
 				TextObject textObject3 = GameTexts.FindText("str_clan_in_army_hint", null);
 				TextObject textObject4 = textObject3;
-				string text3 = "ARMY_LEADER";
+				string text4 = "ARMY_LEADER";
 				MobileParty leaderParty = this.Party.MobileParty.Army.LeaderParty;
-				string text4;
+				string text5;
 				if (leaderParty == null)
 				{
-					text4 = null;
+					text5 = null;
 				}
 				else
 				{
 					Hero leaderHero = leaderParty.LeaderHero;
-					text4 = ((leaderHero != null) ? leaderHero.Name.ToString() : null);
+					text5 = ((leaderHero != null) ? leaderHero.Name.ToString() : null);
 				}
-				textObject4.SetTextVariable(text3, text4 ?? string.Empty);
+				textObject4.SetTextVariable(text4, text5 ?? string.Empty);
 				this.InArmyHint = new HintViewModel(textObject3, null);
 				this.InArmyText = GameTexts.FindText("str_in_army", null).ToString();
 			}
@@ -205,9 +208,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				this.PartyBehaviorSelector = new SelectorVM<SelectorItemVM>(0, new Action<SelectorVM<SelectorItemVM>>(this.UpdatePartyBehaviorSelectionUpdate));
 				for (int i = 0; i < 3; i++)
 				{
-					string text5 = GameTexts.FindText("str_clan_party_objective", i.ToString()).ToString();
+					string text6 = GameTexts.FindText("str_clan_party_objective", i.ToString()).ToString();
 					TextObject textObject5 = GameTexts.FindText("str_clan_party_objective_hint", i.ToString());
-					this.PartyBehaviorSelector.AddItem(new SelectorItemVM(text5, textObject5));
+					this.PartyBehaviorSelector.AddItem(new SelectorItemVM(text6, textObject5));
 				}
 				this.PartyBehaviorSelector.SelectedIndex = (int)this.Party.MobileParty.Objective;
 				this.PartyBehaviorText = GameTexts.FindText("str_clan_party_behavior", null).ToString();

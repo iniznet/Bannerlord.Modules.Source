@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class BurstMissionObjectParticles : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public bool DoChildren { get; private set; }
 
-		public BurstMissionObjectParticles(MissionObject missionObject, bool doChildren)
+		public BurstMissionObjectParticles(MissionObjectId missionObjectId, bool doChildren)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.DoChildren = doChildren;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.DoChildren = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteBoolToPacket(this.DoChildren);
 		}
 
@@ -42,13 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Burst MissionObject particles on MissionObject with ID: ",
-				this.MissionObject.Id,
-				" and with name: ",
-				this.MissionObject.GameEntity.Name
-			});
+			return "Burst MissionObject particles on MissionObject with ID: " + this.MissionObjectId;
 		}
 	}
 }

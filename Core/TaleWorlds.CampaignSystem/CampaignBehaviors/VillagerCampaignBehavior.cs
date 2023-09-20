@@ -12,9 +12,11 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
@@ -30,6 +32,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, new Action<MobileParty, PartyBase>(this.OnMobilePartyDestroyed));
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, new Action<MobileParty>(this.OnMobilePartyCreated));
 			CampaignEvents.DistributeLootToPartyEvent.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, Dictionary<PartyBase, ItemRoster>>(this.OnVillagerPartyLooted));
+			CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeEventStarted));
+		}
+
+		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
+		{
+			for (int i = 0; i < siegeEvent.BesiegedSettlement.Parties.Count; i++)
+			{
+				if (siegeEvent.BesiegedSettlement.Parties[i].IsVillager)
+				{
+					siegeEvent.BesiegedSettlement.Parties[i].Ai.SetMoveModeHold();
+				}
+			}
 		}
 
 		private void OnVillagerPartyLooted(MapEvent mapEvent, PartyBase party, Dictionary<PartyBase, ItemRoster> loot)
@@ -435,14 +449,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddDialogLine("village_farmer_fight_no_surrender", "player_wants_everything_villagers", "close_window", "{=wAhXFoNH}You'll have to fight us first![rf:idle_angry][ib:aggressive]", new ConversationSentence.OnConditionDelegate(this.conversation_village_farmer_not_surrender_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_village_farmer_fight_on_consequence), 100, null);
 			starter.AddDialogLine("village_farmer_accepted_to_give_everything", "player_wants_everything_villagers", "player_decision_to_take_prisoner_villagers", "{=33mKghKQ}Please don't kill us. We surrender.[rf:idle_angry][ib:nervous]", new ConversationSentence.OnConditionDelegate(this.conversation_village_farmer_give_goods_on_condition), null, 100, null);
 			starter.AddPlayerLine("player_do_not_take_prisoner_villagers", "player_decision_to_take_prisoner_villagers", "village_farmer_end_talk_surrender", "{=6kaia5qP}Give me all your wares!", null, null, 100, null, null);
-			starter.AddPlayerLine("player_decided_to_take_prisoner", "player_decision_to_take_prisoner_villagers", "villager_taken_prisoner_warning", "{=g5G8AJ5n}You are my prisoner now.", null, null, 100, null, null);
+			starter.AddPlayerLine("player_decided_to_take_prisoner_2", "player_decision_to_take_prisoner_villagers", "villager_taken_prisoner_warning", "{=g5G8AJ5n}You are my prisoner now.", null, null, 100, null, null);
 			starter.AddDialogLine("villager_warn_player_to_take_prisoner", "villager_taken_prisoner_warning", "villager_taken_prisoner_warning_answer", "{=dPOOmYGQ}You think the lords and warriors of the {KINGDOM} won't just stand by idly when their people are kidnapped? You'd best let us go!", new ConversationSentence.OnConditionDelegate(this.conversation_warn_player_on_condition), null, 100, null);
-			starter.AddDialogLine("villager_warn_player_to_take_prisoner", "villager_taken_prisoner_warning", "close_window", "{=BvytaDUJ}Heaven protect us from the likes of you.", null, delegate
+			starter.AddDialogLine("villager_warn_player_to_take_prisoner_2", "villager_taken_prisoner_warning", "close_window", "{=BvytaDUJ}Heaven protect us from the likes of you.", null, delegate
 			{
 				Campaign.Current.ConversationManager.ConversationEndOneShot += this.conversation_village_farmer_took_prisoner_on_consequence;
 			}, 100, null);
-			starter.AddPlayerLine("player_decided_to_take_prisoner_continue", "villager_taken_prisoner_warning_answer", "close_window", "{=Dfl5WJfN}Enough talking. Now march.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_village_farmer_took_prisoner_on_consequence), 100, null, null);
-			starter.AddPlayerLine("player_decided_to_take_prisoner_leave", "villager_taken_prisoner_warning_answer", "village_farmer_loot_talk", "{=BNb88lyN}Never mind. Go on your way.", null, null, 100, null, null);
+			starter.AddPlayerLine("player_decided_to_take_prisoner_continue_2", "villager_taken_prisoner_warning_answer", "close_window", "{=Dfl5WJfN}Enough talking. Now march.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_village_farmer_took_prisoner_on_consequence), 100, null, null);
+			starter.AddPlayerLine("player_decided_to_take_prisoner_leave_2", "villager_taken_prisoner_warning_answer", "village_farmer_loot_talk", "{=BNb88lyN}Never mind. Go on your way.", null, null, 100, null, null);
 			starter.AddDialogLine("village_farmer_bribery_leave", "village_farmer_end_talk", "close_window", "{=Pa1ZtapI}Okay. Okay then. We're going.", new ConversationSentence.OnConditionDelegate(this.conversation_village_farmer_looted_leave_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_village_farmer_looted_leave_on_consequence), 100, null);
 			starter.AddDialogLine("village_farmer_surrender_leave", "village_farmer_end_talk_surrender", "close_window", "{=Pa1ZtapI}Okay. Okay then. We're going.", new ConversationSentence.OnConditionDelegate(this.conversation_village_farmer_looted_leave_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_village_farmer_surrender_leave_on_consequence), 100, null);
 		}
@@ -546,8 +560,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					int num3 = encounteredParty.MobileParty.HomeSettlement.Village.GetItemPrice(elementCopyAtIndex.EquipmentElement, MobileParty.MainParty, true);
 					if (MobileParty.MainParty.HasPerk(DefaultPerks.Trade.SilverTongue, true))
 					{
-						num2 = MathF.Ceiling((float)num2 * (1f + DefaultPerks.Trade.SilverTongue.SecondaryBonus));
-						num3 = MathF.Ceiling((float)num3 * (1f + DefaultPerks.Trade.SilverTongue.SecondaryBonus));
+						num2 = MathF.Ceiling((float)num2 * (1f - DefaultPerks.Trade.SilverTongue.SecondaryBonus));
+						num3 = MathF.Ceiling((float)num3 * (1f - DefaultPerks.Trade.SilverTongue.SecondaryBonus));
 					}
 					int elementNumber = encounteredParty.ItemRoster.GetElementNumber(i);
 					num += num3 * elementNumber;
@@ -749,10 +763,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GiveGoldAction.ApplyForPartyToCharacter(MobileParty.ConversationParty.Party, Hero.MainHero, num, false);
 			if (!itemRoster.IsEmpty<ItemRosterElement>())
 			{
-				for (int i = 0; i < itemRoster.Count; i++)
+				for (int i = itemRoster.Count - 1; i >= 0; i--)
 				{
-					ItemRosterElement elementCopyAtIndex = itemRoster.GetElementCopyAtIndex(i);
-					GiveItemAction.ApplyForParties(MobileParty.ConversationParty.Party, Hero.MainHero.PartyBelongedTo.Party, elementCopyAtIndex, elementCopyAtIndex.Amount);
+					PartyBase party = MobileParty.ConversationParty.Party;
+					PartyBase party2 = Hero.MainHero.PartyBelongedTo.Party;
+					ItemRosterElement itemRosterElement = itemRoster[i];
+					GiveItemAction.ApplyForParties(party, party2, itemRosterElement);
 				}
 			}
 			BeHostileAction.ApplyMinorCoercionHostileAction(PartyBase.MainParty, MobileParty.ConversationParty.Party);
@@ -834,7 +850,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					ItemRosterElement randomElement = itemRoster2.GetRandomElement<ItemRosterElement>();
 					num4 += randomElement.EquipmentElement.ItemValue;
 					EquipmentElement equipmentElement = new EquipmentElement(randomElement.EquipmentElement.Item, randomElement.EquipmentElement.ItemModifier, null, false);
-					itemRoster.AddToCounts(equipmentElement.Item, 1);
+					itemRoster.AddToCounts(equipmentElement, 1);
 					itemRoster2.AddToCounts(equipmentElement, -1);
 					if (itemRoster2.IsEmpty<ItemRosterElement>())
 					{
@@ -866,7 +882,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private Dictionary<MobileParty, List<Settlement>> _previouslyChangedVillagerTargetsDueToEnemyOnWay = new Dictionary<MobileParty, List<Settlement>>();
 
-		public class VillagerCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class VillagerCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public VillagerCampaignBehaviorTypeDefiner()
 				: base(140000)

@@ -8,7 +8,7 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SyncObjectDestructionLevel : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public int DestructionLevel { get; private set; }
 
@@ -20,9 +20,9 @@ namespace NetworkMessages.FromServer
 
 		public Vec3 BlowDirection { get; private set; }
 
-		public SyncObjectDestructionLevel(MissionObject missionObject, int destructionLevel, int forcedIndex, float blowMagnitude, Vec3 blowPosition, Vec3 blowDirection)
+		public SyncObjectDestructionLevel(MissionObjectId missionObjectId, int destructionLevel, int forcedIndex, float blowMagnitude, Vec3 blowPosition, Vec3 blowDirection)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.DestructionLevel = destructionLevel;
 			this.ForcedIndex = forcedIndex;
 			this.BlowMagnitude = blowMagnitude;
@@ -37,7 +37,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.DestructionLevel = GameNetworkMessage.ReadIntFromPacket(CompressionMission.UsableGameObjectDestructionStateCompressionInfo, ref flag);
 			this.ForcedIndex = (GameNetworkMessage.ReadBoolFromPacket(ref flag) ? GameNetworkMessage.ReadIntFromPacket(CompressionBasic.MissionObjectIDCompressionInfo, ref flag) : (-1));
 			this.BlowMagnitude = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.UsableGameObjectBlowMagnitude, ref flag);
@@ -48,7 +48,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteIntToPacket(this.DestructionLevel, CompressionMission.UsableGameObjectDestructionStateCompressionInfo);
 			GameNetworkMessage.WriteBoolToPacket(this.ForcedIndex != -1);
 			if (this.ForcedIndex != -1)
@@ -72,9 +72,7 @@ namespace NetworkMessages.FromServer
 				"Synchronize DestructionLevel: ",
 				this.DestructionLevel,
 				" of MissionObject with Id: ",
-				this.MissionObject.Id,
-				" and name: ",
-				this.MissionObject.GameEntity.Name,
+				this.MissionObjectId,
 				(this.ForcedIndex != -1) ? (" (New object will have ID: " + this.ForcedIndex + ")") : ""
 			});
 		}

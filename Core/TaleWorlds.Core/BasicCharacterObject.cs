@@ -168,6 +168,24 @@ namespace TaleWorlds.Core
 			return this.BodyPropertyRange.BodyPropertyMin;
 		}
 
+		protected void FillFrom(BasicCharacterObject character)
+		{
+			this._culture = character._culture;
+			this.DefaultFormationClass = character.DefaultFormationClass;
+			this.DefaultFormationGroup = character.DefaultFormationGroup;
+			this.BodyPropertyRange = character.BodyPropertyRange;
+			this.FormationPositionPreference = character.FormationPositionPreference;
+			this.IsFemale = character.IsFemale;
+			this.Race = character.Race;
+			this.Level = character.Level;
+			this._basicName = character._basicName;
+			this._age = character._age;
+			this.DefaultCharacterSkills = character.DefaultCharacterSkills;
+			this.HairTags = character.HairTags;
+			this.BeardTags = character.BeardTags;
+			this.InitializeEquipmentsOnLoad(character);
+		}
+
 		public virtual BodyProperties GetBodyPropertiesMax()
 		{
 			return this.BodyPropertyRange.BodyPropertyMax;
@@ -263,14 +281,14 @@ namespace TaleWorlds.Core
 
 		public virtual int GetSkillValue(SkillObject skill)
 		{
-			return this.CharacterSkills.Skills.GetPropertyValue(skill);
+			return this.DefaultCharacterSkills.Skills.GetPropertyValue(skill);
 		}
 
 		protected void InitializeHeroBasicCharacterOnAfterLoad(BasicCharacterObject originCharacter)
 		{
 			this.IsSoldier = originCharacter.IsSoldier;
 			this._isBasicHero = originCharacter._isBasicHero;
-			this.CharacterSkills = originCharacter.CharacterSkills;
+			this.DefaultCharacterSkills = originCharacter.DefaultCharacterSkills;
 			this.HairTags = originCharacter.HairTags;
 			this.BeardTags = originCharacter.BeardTags;
 			this.TattooTags = originCharacter.TattooTags;
@@ -312,11 +330,11 @@ namespace TaleWorlds.Core
 			MBCharacterSkills mbcharacterSkills = objectManager.ReadObjectReferenceFromXml("skill_template", typeof(MBCharacterSkills), node) as MBCharacterSkills;
 			if (mbcharacterSkills != null)
 			{
-				this.CharacterSkills = mbcharacterSkills;
+				this.DefaultCharacterSkills = mbcharacterSkills;
 			}
 			else
 			{
-				this.CharacterSkills = MBObjectManager.Instance.CreateObject<MBCharacterSkills>(base.StringId);
+				this.DefaultCharacterSkills = MBObjectManager.Instance.CreateObject<MBCharacterSkills>(base.StringId);
 			}
 			BodyProperties bodyProperties = default(BodyProperties);
 			BodyProperties bodyProperties2 = default(BodyProperties);
@@ -327,7 +345,7 @@ namespace TaleWorlds.Core
 				{
 					if (mbcharacterSkills == null)
 					{
-						this.CharacterSkills.Init(objectManager, xmlNode2);
+						this.DefaultCharacterSkills.Init(objectManager, xmlNode2);
 					}
 				}
 				else if (xmlNode2.Name == "Equipments" || xmlNode2.Name == "equipments")
@@ -416,7 +434,7 @@ namespace TaleWorlds.Core
 						{
 							if (!BodyProperties.FromXmlNode(xmlNode5, out bodyProperties))
 							{
-								Debug.FailedAssert("cannot read body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 385);
+								Debug.FailedAssert("cannot read body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 413);
 							}
 						}
 						else if (xmlNode5.Name == "BodyPropertiesMax")
@@ -424,7 +442,7 @@ namespace TaleWorlds.Core
 							if (!BodyProperties.FromXmlNode(xmlNode5, out bodyProperties2))
 							{
 								bodyProperties = bodyProperties2;
-								Debug.FailedAssert("cannot read max body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 394);
+								Debug.FailedAssert("cannot read max body properties", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\BasicCharacterObject.cs", "Deserialize", 422);
 							}
 						}
 						else if (xmlNode5.Name == "face_key_template")
@@ -458,6 +476,8 @@ namespace TaleWorlds.Core
 				this.DefaultFormationGroup = this.FetchDefaultFormationGroup(xmlNode12.InnerText);
 			}
 			this.DefaultFormationClass = (FormationClass)this.DefaultFormationGroup;
+			this._isRanged = this.DefaultFormationClass.IsRanged();
+			this._isMounted = this.DefaultFormationClass.IsMounted();
 			XmlNode xmlNode13 = node.Attributes["formation_position_preference"];
 			this.FormationPositionPreference = ((xmlNode13 != null) ? ((FormationPositionPreference)Enum.Parse(typeof(FormationPositionPreference), xmlNode13.InnerText)) : FormationPositionPreference.Middle);
 			XmlNode xmlNode14 = node.Attributes["default_equipment_set"];
@@ -466,12 +486,11 @@ namespace TaleWorlds.Core
 				this._equipmentRoster.InitializeDefaultEquipment(xmlNode14.Value);
 			}
 			MBEquipmentRoster equipmentRoster = this._equipmentRoster;
-			if (equipmentRoster != null)
+			if (equipmentRoster == null)
 			{
-				equipmentRoster.OrderEquipments();
+				return;
 			}
-			this._isRanged = this.DefaultFormationClass == FormationClass.HorseArcher || this.DefaultFormationClass == FormationClass.Ranged;
-			this._isMounted = this.DefaultFormationClass == FormationClass.Cavalry || this.DefaultFormationClass == FormationClass.HorseArcher;
+			equipmentRoster.OrderEquipments();
 		}
 
 		protected int FetchDefaultFormationGroup(string innerText)
@@ -515,6 +534,6 @@ namespace TaleWorlds.Core
 		[CachedData]
 		private bool _isBasicHero;
 
-		protected MBCharacterSkills CharacterSkills;
+		protected MBCharacterSkills DefaultCharacterSkills;
 	}
 }

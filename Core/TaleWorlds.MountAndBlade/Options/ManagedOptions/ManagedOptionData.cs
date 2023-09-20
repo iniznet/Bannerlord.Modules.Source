@@ -55,6 +55,11 @@ namespace TaleWorlds.MountAndBlade.Options.ManagedOptions
 
 		public ValueTuple<string, bool> GetIsDisabledAndReasonID()
 		{
+			ManagedOptions.ManagedOptionsType type = this.Type;
+			if (type - ManagedOptions.ManagedOptionsType.ControlBlockDirection <= 1 && BannerlordConfig.GyroOverrideForAttackDefend)
+			{
+				return new ValueTuple<string, bool>("str_gyro_overrides_attack_block_direction", true);
+			}
 			return new ValueTuple<string, bool>(string.Empty, false);
 		}
 

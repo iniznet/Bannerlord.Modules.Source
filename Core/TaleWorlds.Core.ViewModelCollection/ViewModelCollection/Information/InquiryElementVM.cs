@@ -6,7 +6,7 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 {
 	public class InquiryElementVM : ViewModel
 	{
-		public InquiryElementVM(InquiryElement elementData, TextObject hint)
+		public InquiryElementVM(InquiryElement elementData, TextObject hint, Action<InquiryElementVM, bool> onSelectedStateChanged = null)
 		{
 			this.Text = elementData.Title;
 			this.ImageIdentifier = ((elementData.ImageIdentifier != null) ? new ImageIdentifierVM(elementData.ImageIdentifier) : new ImageIdentifierVM(ImageIdentifierType.Null));
@@ -14,6 +14,7 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 			this.IsEnabled = elementData.IsEnabled;
 			this.HasVisuals = elementData.ImageIdentifier != null;
 			this.Hint = new HintViewModel(hint, null);
+			this._onSelectedStateChanged = onSelectedStateChanged;
 		}
 
 		[DataSourceProperty]
@@ -29,6 +30,12 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 				{
 					this._isSelected = value;
 					base.OnPropertyChangedWithValue(value, "IsSelected");
+					Action<InquiryElementVM, bool> onSelectedStateChanged = this._onSelectedStateChanged;
+					if (onSelectedStateChanged == null)
+					{
+						return;
+					}
+					onSelectedStateChanged(this, value);
 				}
 			}
 		}
@@ -119,6 +126,8 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 		}
 
 		public readonly InquiryElement InquiryElement;
+
+		private readonly Action<InquiryElementVM, bool> _onSelectedStateChanged;
 
 		private bool _isSelected;
 

@@ -85,6 +85,10 @@ namespace TaleWorlds.MountAndBlade
 				{
 					return base.Name;
 				}
+				if (NetworkMain.CommunityClient.IsInGame)
+				{
+					return base.Name;
+				}
 				if (NetworkMain.GameClient.HasUserGeneratedContentPrivilege && (NetworkMain.GameClient.IsKnownPlayer(base.Peer.Id) || !BannerlordConfig.EnableGenericNames))
 				{
 					VirtualPlayer peer = base.Peer;
@@ -106,23 +110,9 @@ namespace TaleWorlds.MountAndBlade
 				{
 					return new MBList<MPPerkObject>();
 				}
-				if (this._selectedPerks.Item2 == null || this.SelectedTroopIndex != this._selectedPerks.Item1 || this._selectedPerks.Item2.Count < 3)
+				if ((this._selectedPerks.Item2 == null || this.SelectedTroopIndex != this._selectedPerks.Item1 || this._selectedPerks.Item2.Count < 3) && !this.RefreshSelectedPerks())
 				{
-					MBList<MPPerkObject> mblist = new MBList<MPPerkObject>();
-					List<List<IReadOnlyPerkObject>> availablePerksForPeer = MultiplayerClassDivisions.GetAvailablePerksForPeer(this);
-					if (availablePerksForPeer.Count != 3)
-					{
-						return mblist;
-					}
-					for (int i = 0; i < 3; i++)
-					{
-						int num = this._perks[this.SelectedTroopIndex][i];
-						if (availablePerksForPeer[i].Count > 0)
-						{
-							mblist.Add(availablePerksForPeer[i][(num >= 0 && num < availablePerksForPeer[i].Count) ? num : 0].Clone(this));
-						}
-					}
-					this._selectedPerks = new ValueTuple<int, MBList<MPPerkObject>>(this.SelectedTroopIndex, mblist);
+					return new MBReadOnlyList<MPPerkObject>();
 				}
 				return this._selectedPerks.Item2;
 			}
@@ -287,7 +277,8 @@ namespace TaleWorlds.MountAndBlade
 					if (GameNetwork.IsClient)
 					{
 						GameNetwork.BeginModuleEventAsClient();
-						GameNetwork.WriteMessage(new SetFollowedAgent(this._followedAgent));
+						Agent followedAgent = this._followedAgent;
+						GameNetwork.WriteMessage(new SetFollowedAgent((followedAgent != null) ? followedAgent.Index : (-1)));
 						GameNetwork.EndModuleEventAsClient();
 					}
 				}
@@ -320,7 +311,7 @@ namespace TaleWorlds.MountAndBlade
 						{
 							MBAPI.IMBPeer.SetTeam(base.Peer.Index, this._team.MBTeam.Index);
 							GameNetwork.BeginBroadcastModuleEvent();
-							GameNetwork.WriteMessage(new SetPeerTeam(this.GetNetworkPeer(), this._team));
+							GameNetwork.WriteMessage(new SetPeerTeam(this.GetNetworkPeer(), this._team.TeamIndex));
 							GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 						}
 						if (MissionPeer.OnTeamChanged != null)
@@ -503,6 +494,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					missionBehavior.RemoveAgentVisuals(this, false);
 				}
+				this.HasSpawnedAgentVisuals = false;
 				this.OnCultureChanged -= this.CultureChanged;
 			}
 		}
@@ -698,6 +690,26 @@ namespace TaleWorlds.MountAndBlade
 		public void ResetKillRegistry()
 		{
 			this._numberOfTimesPeerKilledPerPeer.Clear();
+		}
+
+		public bool RefreshSelectedPerks()
+		{
+			MBList<MPPerkObject> mblist = new MBList<MPPerkObject>();
+			List<List<IReadOnlyPerkObject>> availablePerksForPeer = MultiplayerClassDivisions.GetAvailablePerksForPeer(this);
+			if (availablePerksForPeer.Count == 3)
+			{
+				for (int i = 0; i < 3; i++)
+				{
+					int num = this._perks[this.SelectedTroopIndex][i];
+					if (availablePerksForPeer[i].Count > 0)
+					{
+						mblist.Add(availablePerksForPeer[i][(num >= 0 && num < availablePerksForPeer[i].Count) ? num : 0].Clone(this));
+					}
+				}
+				this._selectedPerks = new ValueTuple<int, MBList<MPPerkObject>>(this.SelectedTroopIndex, mblist);
+				return true;
+			}
+			return false;
 		}
 
 		private void ResetSelectedPerks()

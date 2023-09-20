@@ -172,7 +172,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			}
 			if (this._contextMenuItem.Party != null)
 			{
-				if (this._contextMenuItem.Party.Owner.Clan == Hero.MainHero.Clan)
+				Hero owner = this._contextMenuItem.Party.Owner;
+				if (((owner != null) ? owner.Clan : null) == Hero.MainHero.Clan)
 				{
 					MobileParty mobileParty = this._contextMenuItem.Party.MobileParty;
 					if (mobileParty != null && !mobileParty.IsMainParty)
@@ -182,7 +183,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 						{
 							this._overlayTalkItem = new GameMenuOverlayActionVM(new Action<object>(base.ExecuteTroopAction), GameTexts.FindText("str_menu_overlay_context_list", "ManageGarrison").ToString(), true, GameMenuOverlay.MenuOverlayContextList.ManageGarrison, null);
 							base.ContextList.Add(this._overlayTalkItem);
-							goto IL_654;
+							goto IL_65B;
 						}
 					}
 				}
@@ -203,7 +204,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 						}
 					}
 				}
-				IL_654:
+				IL_65B:
 				if (this._contextMenuItem.Party.LeaderHero != null && this._contextMenuItem.Party.LeaderHero != Hero.MainHero)
 				{
 					bool flag3 = this.CharacterList.Any((GameMenuPartyItemVM c) => c.Character == this._contextMenuItem.Party.LeaderHero.CharacterObject);
@@ -436,17 +437,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 			this.IsLoyaltyRebellionWarning = currentSettlement.IsTown && currentSettlement.Town.Loyalty < (float)Campaign.Current.Models.SettlementLoyaltyModel.RebelliousStateStartLoyaltyThreshold;
 			if (currentSettlement.IsFortification)
 			{
-				this.GarrisonAmount = currentSettlement.Town.GetNumberOfTroops();
-				this.IsNoGarrisonWarning = false;
-				if (this.GarrisonAmount < 1)
-				{
-					this.IsNoGarrisonWarning = true;
-				}
+				MobileParty garrisonParty = currentSettlement.Town.GarrisonParty;
+				this.GarrisonAmount = ((garrisonParty != null) ? garrisonParty.Party.NumberOfAllMembers : 0);
+				this.IsNoGarrisonWarning = this.GarrisonAmount < 1;
 			}
 			if (currentSettlement.IsFortification)
 			{
-				MobileParty garrisonParty = currentSettlement.Town.GarrisonParty;
-				this.GarrisonLbl = ((garrisonParty != null) ? garrisonParty.Party.NumberOfAllMembers.ToString() : null) ?? "0";
+				MobileParty garrisonParty2 = currentSettlement.Town.GarrisonParty;
+				this.GarrisonLbl = ((garrisonParty2 != null) ? garrisonParty2.Party.NumberOfAllMembers.ToString() : null) ?? "0";
 				this.GarrisonChangeAmount = currentSettlement.Town.GarrisonChange;
 				this.WallsLbl = currentSettlement.Town.GetWallLevel().ToString();
 				this.WallsLevel = currentSettlement.Town.GetWallLevel();
@@ -654,7 +652,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 					list.Add(new InquiryElement(troopRosterElement.Character.HeroObject, troopRosterElement.Character.Name.ToString(), new ImageIdentifier(CampaignUIHelper.GetCharacterCode(troopRosterElement.Character, false))));
 				}
 			}
-			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=aGFxIvqx}Leave Member(s)", null).ToString(), string.Empty, list, true, -1, new TextObject("{=FBYFcrWo}Leave in settlement", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), new Action<List<InquiryElement>>(this.OnLeaveMembersInSettlement), new Action<List<InquiryElement>>(this.OnLeaveMembersInSettlement), ""), false, false);
+			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=aGFxIvqx}Leave Member(s)", null).ToString(), string.Empty, list, true, 1, 0, new TextObject("{=FBYFcrWo}Leave in settlement", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), new Action<List<InquiryElement>>(this.OnLeaveMembersInSettlement), new Action<List<InquiryElement>>(this.OnLeaveMembersInSettlement), ""), false, false);
 		}
 
 		private void OnLeaveMembersInSettlement(List<InquiryElement> leftMembers)

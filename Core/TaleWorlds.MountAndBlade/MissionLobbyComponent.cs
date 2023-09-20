@@ -28,6 +28,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			MissionLobbyComponent.AddLobbyComponentType(typeof(MissionBattleSchedulerClientComponent), LobbyMissionType.Matchmaker, false);
 			MissionLobbyComponent.AddLobbyComponentType(typeof(MissionCustomGameClientComponent), LobbyMissionType.Custom, false);
+			MissionLobbyComponent.AddLobbyComponentType(typeof(MissionCommunityClientComponent), LobbyMissionType.Community, false);
 		}
 
 		public static void AddLobbyComponentType(Type type, LobbyMissionType missionType, bool isSeverComponent)
@@ -321,18 +322,25 @@ namespace TaleWorlds.MountAndBlade
 		{
 			foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeersIncludingDisconnectedPeers)
 			{
-				bool flag = networkCommunicator.VirtualPlayer != MBNetwork.VirtualPlayers[networkCommunicator.VirtualPlayer.Index];
+				bool flag = networkCommunicator.VirtualPlayer != GameNetwork.VirtualPlayers[networkCommunicator.VirtualPlayer.Index];
 				if (flag || networkCommunicator.IsSynchronized || networkCommunicator.JustReconnecting)
 				{
 					MissionPeer component = networkCommunicator.GetComponent<MissionPeer>();
-					GameNetwork.BeginModuleEventAsServer(peer);
-					GameNetwork.WriteMessage(new KillDeathCountChange(component.GetNetworkPeer(), null, component.KillCount, component.AssistCount, component.DeathCount, component.Score));
-					GameNetwork.EndModuleEventAsServer();
-					if (component.BotsUnderControlAlive != 0 || component.BotsUnderControlTotal != 0)
+					if (component != null)
 					{
 						GameNetwork.BeginModuleEventAsServer(peer);
-						GameNetwork.WriteMessage(new BotsControlledChange(component.GetNetworkPeer(), component.BotsUnderControlAlive, component.BotsUnderControlTotal));
+						GameNetwork.WriteMessage(new KillDeathCountChange(component.GetNetworkPeer(), null, component.KillCount, component.AssistCount, component.DeathCount, component.Score));
 						GameNetwork.EndModuleEventAsServer();
+						if (component.BotsUnderControlAlive != 0 || component.BotsUnderControlTotal != 0)
+						{
+							GameNetwork.BeginModuleEventAsServer(peer);
+							GameNetwork.WriteMessage(new BotsControlledChange(component.GetNetworkPeer(), component.BotsUnderControlAlive, component.BotsUnderControlTotal));
+							GameNetwork.EndModuleEventAsServer();
+						}
+					}
+					else
+					{
+						Debug.Print(">#< SendPeerInformationsToPeer MissionPeer is null.", 0, Debug.DebugColor.BrightWhite, 17179869184UL);
 					}
 				}
 				else
@@ -361,7 +369,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
-			if (GameNetwork.IsServer && !isBlocked && affectorAgent != affectedAgent && affectorAgent.MissionPeer != null && damagedHp > 0f)
+			if (affectorAgent != null && GameNetwork.IsServer && !isBlocked && affectorAgent != affectedAgent && affectorAgent.MissionPeer != null && damagedHp > 0f)
 			{
 				affectedAgent.AddHitter(affectorAgent.MissionPeer, damagedHp, affectorAgent.IsFriendOf(affectedAgent));
 			}
@@ -423,25 +431,17 @@ namespace TaleWorlds.MountAndBlade
 				}
 				if (agent.MissionPeer == null)
 				{
-					Formation formation = agent.Formation;
-					if (((formation != null) ? formation.PlayerOwner : null) != null)
+					if (agent.OwningAgentMissionPeer != null)
 					{
-						MissionPeer missionPeer = agent.Formation.PlayerOwner.MissionPeer;
-						if (missionPeer != null)
-						{
-							MissionPeer missionPeer2 = missionPeer;
-							int num = missionPeer2.BotsUnderControlAlive;
-							missionPeer2.BotsUnderControlAlive = num + 1;
-							MissionPeer missionPeer3 = missionPeer;
-							num = missionPeer3.BotsUnderControlTotal;
-							missionPeer3.BotsUnderControlTotal = num + 1;
-							return;
-						}
+						MissionPeer owningAgentMissionPeer = agent.OwningAgentMissionPeer;
+						int num = owningAgentMissionPeer.BotsUnderControlAlive;
+						owningAgentMissionPeer.BotsUnderControlAlive = num + 1;
+						MissionPeer owningAgentMissionPeer2 = agent.OwningAgentMissionPeer;
+						num = owningAgentMissionPeer2.BotsUnderControlTotal;
+						owningAgentMissionPeer2.BotsUnderControlTotal = num + 1;
+						return;
 					}
-					else
-					{
-						this._missionScoreboardComponent.Sides[(int)agent.Team.Side].BotScores.AliveCount++;
-					}
+					this._missionScoreboardComponent.Sides[(int)agent.Team.Side].BotScores.AliveCount++;
 				}
 			}
 		}
@@ -713,6 +713,15 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork.BeginModuleEventAsClient();
 				GameNetwork.WriteMessage(new RequestChangeCharacterMessage(GameNetwork.MyPeer));
 				GameNetwork.EndModuleEventAsClient();
+				return;
+			}
+			if (GameNetwork.IsServer)
+			{
+				MissionPeer component = GameNetwork.MyPeer.GetComponent<MissionPeer>();
+				if (component != null && this._gameMode.CheckIfPlayerCanDespawn(component))
+				{
+					this.DespawnPlayer(component);
+				}
 			}
 		}
 
@@ -723,10 +732,20 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork.BeginModuleEventAsClient();
 				GameNetwork.WriteMessage(new RequestCultureChange(culture));
 				GameNetwork.EndModuleEventAsClient();
+				return;
+			}
+			if (GameNetwork.IsServer)
+			{
+				MissionPeer component = GameNetwork.MyPeer.GetComponent<MissionPeer>();
+				if (component != null && this._gameMode.CheckIfPlayerCanDespawn(component))
+				{
+					component.Culture = culture;
+					this.DespawnPlayer(component);
+				}
 			}
 		}
 
-		public MissionLobbyComponent.MultiplayerGameType MissionType { get; set; }
+		public MultiplayerGameType MissionType { get; set; }
 
 		public MissionLobbyComponent.MultiplayerGameState CurrentMultiplayerState
 		{
@@ -810,17 +829,6 @@ namespace TaleWorlds.MountAndBlade
 			WaitingFirstPlayers,
 			Playing,
 			Ending
-		}
-
-		public enum MultiplayerGameType
-		{
-			FreeForAll,
-			TeamDeathmatch,
-			Duel,
-			Siege,
-			Battle,
-			Captain,
-			Skirmish
 		}
 	}
 }

@@ -44,18 +44,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 			set
 			{
-				this._character = value;
-				CharacterCode characterCode = this.GetCharacterCode(value, this.Type, this.Side);
-				this.Code = new ImageIdentifierVM(characterCode);
-				if (this._character.UpgradeTargets.Length != 0)
+				if (this._character != value)
 				{
-					this.Upgrades = new MBBindingList<UpgradeTargetVM>();
-					for (int i = 0; i < this._character.UpgradeTargets.Length; i++)
+					this._character = value;
+					CharacterCode characterCode = this.GetCharacterCode(value, this.Type, this.Side);
+					this.Code = new ImageIdentifierVM(characterCode);
+					if (this._character.UpgradeTargets.Length != 0)
 					{
-						CharacterCode characterCode2 = this.GetCharacterCode(this._character.UpgradeTargets[i], this.Type, this.Side);
-						this.Upgrades.Add(new UpgradeTargetVM(i, value, characterCode2, new Action<int, int>(this.Upgrade), new Action<UpgradeTargetVM>(this.FocusUpgrade)));
+						this.Upgrades = new MBBindingList<UpgradeTargetVM>();
+						for (int i = 0; i < this._character.UpgradeTargets.Length; i++)
+						{
+							CharacterCode characterCode2 = this.GetCharacterCode(this._character.UpgradeTargets[i], this.Type, this.Side);
+							this.Upgrades.Add(new UpgradeTargetVM(i, value, characterCode2, new Action<int, int>(this.Upgrade), new Action<UpgradeTargetVM>(this.FocusUpgrade)));
+						}
+						this.HasMoreThanTwoUpgrades = this.Upgrades.Count > 2;
 					}
-					this.HasMoreThanTwoUpgrades = this.Upgrades.Count > 2;
 				}
 				this.CheckTransferAmountDefaultValue();
 			}
@@ -77,21 +80,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			this.TierIconData = CampaignUIHelper.GetCharacterTierData(this.Troop.Character, true);
 			this.TypeIconData = CampaignUIHelper.GetCharacterTypeData(this.Troop.Character, false);
 			this.StringId = CampaignUIHelper.GetTroopLockStringID(this.Troop);
-			this.InitializeUpgrades();
-			this.ThrowOnPropertyChanged();
 			this._initIsTroopTransferable = isTroopTransferrable;
 			this.IsTroopTransferrable = this._initIsTroopTransferable;
 			this.TradeData = new PartyTradeVM(partyScreenLogic, this.Troop, this.Side, this.IsTroopTransferrable, this.IsPrisoner, new Action<int, bool>(this.OnTradeApplyTransaction));
 			this.IsPrisonerOfPlayer = this.IsPrisoner && this.Side == PartyScreenLogic.PartyRosterSide.Right;
 			this.IsHeroPrisonerOfPlayer = this.IsPrisonerOfPlayer && this.Character.IsHero;
 			this.IsExecutable = this._partyScreenLogic.IsExecutable(this.Type, this.Character, this.Side);
-			this.IsUpgradableTroop = this.Side == PartyScreenLogic.PartyRosterSide.Right && this.Type == PartyScreenLogic.TroopType.Member && !this.IsHero && this.Character.UpgradeTargets.Length != 0;
+			this.IsUpgradableTroop = this.Side == PartyScreenLogic.PartyRosterSide.Right && !this.IsHero && !this.IsPrisoner && this.Character.UpgradeTargets.Length != 0 && !this._partyScreenLogic.IsTroopUpgradesDisabled;
+			this.InitializeUpgrades();
+			this.ThrowOnPropertyChanged();
 			this.CheckTransferAmountDefaultValue();
 			this.UpdateRecruitable();
 			this.RefreshValues();
 			this.UpdateTransferHint();
 			this.SetMoraleCost();
-			this.RecruitPrisonerHint = new BasicTooltipViewModel(() => this._partyScreenLogic.GetRecruitableReasonText(this.Troop.Character, this.IsRecruitablePrisoner, this.Troop.Number, PartyCharacterVM.FiveStackShortcutKeyText, PartyCharacterVM.EntireStackShortcutKeyText));
+			this.RecruitPrisonerHint = new BasicTooltipViewModel(() => this._partyScreenLogic.GetRecruitableReasonText(this.Troop.Character, this.IsTroopRecruitable, this.Troop.Number, PartyCharacterVM.FiveStackShortcutKeyText, PartyCharacterVM.EntireStackShortcutKeyText));
 			this.ExecutePrisonerHint = new BasicTooltipViewModel(() => this._partyScreenLogic.GetExecutableReasonText(this.Troop.Character, this.IsExecutable));
 			this.HeroHealthHint = (this.Troop.Character.IsHero ? new BasicTooltipViewModel(() => CampaignUIHelper.GetHeroHealthTooltip(this.Troop.Character.HeroObject)) : null);
 		}
@@ -181,7 +184,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 		public void UpdateRecruitable()
 		{
 			this.MaxConformity = this.Troop.Character.ConformityNeededToRecruitPrisoner;
-			this.CurrentConformity = PartyBase.MainParty.PrisonRoster.GetElementXp(this.Troop.Character) % this.MaxConformity;
+			int elementXp = PartyBase.MainParty.PrisonRoster.GetElementXp(this.Troop.Character);
+			this.CurrentConformity = ((elementXp >= this.Troop.Number * this.MaxConformity) ? this.MaxConformity : (elementXp % this.MaxConformity));
 			this.IsRecruitablePrisoner = !this._character.IsHero && this.Type == PartyScreenLogic.TroopType.Prisoner;
 			this.IsTroopRecruitable = this._partyScreenLogic.IsPrisonerRecruitable(this.Type, this.Character, this.Side);
 			this.NumOfRecruitablePrisoners = this._partyScreenLogic.GetTroopRecruitableAmount(this.Character);
@@ -200,7 +204,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 
 		public void InitializeUpgrades()
 		{
-			if (this.Side == PartyScreenLogic.PartyRosterSide.Right && !this.Character.IsHero && this.Character.UpgradeTargets.Length != 0 && !this.IsPrisoner && !this._partyScreenLogic.IsTroopUpgradesDisabled)
+			if (this.IsUpgradableTroop)
 			{
 				for (int i = 0; i < this.Character.UpgradeTargets.Length; i++)
 				{
@@ -1387,15 +1391,15 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 
 		public static string EntireStackShortcutKeyText;
 
+		public readonly PartyScreenLogic.PartyRosterSide Side;
+
+		public readonly PartyScreenLogic.TroopType Type;
+
 		protected readonly PartyVM _partyVm;
 
 		protected readonly PartyScreenLogic _partyScreenLogic;
 
 		protected readonly bool _initIsTroopTransferable;
-
-		public readonly PartyScreenLogic.PartyRosterSide Side;
-
-		public readonly PartyScreenLogic.TroopType Type;
 
 		private TroopRosterElement _troop;
 

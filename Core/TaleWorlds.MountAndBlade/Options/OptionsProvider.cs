@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.Engine.Options;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.Options.ManagedOptions;
 
@@ -94,23 +95,23 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.DepthOfField);
 			yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.Bloom);
 			yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.FilmGrain);
-			if (NativeOptions.CheckGFXSupportStatus(61))
+			if (NativeOptions.CheckGFXSupportStatus(65))
 			{
 				yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.PostFXVignette);
 			}
-			if (NativeOptions.CheckGFXSupportStatus(60))
+			if (NativeOptions.CheckGFXSupportStatus(64))
 			{
 				yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.PostFXChromaticAberration);
 			}
-			if (NativeOptions.CheckGFXSupportStatus(58))
+			if (NativeOptions.CheckGFXSupportStatus(62))
 			{
 				yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.PostFXLensFlare);
 			}
-			if (NativeOptions.CheckGFXSupportStatus(62))
+			if (NativeOptions.CheckGFXSupportStatus(66))
 			{
 				yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.PostFXHexagonVignette);
 			}
-			if (NativeOptions.CheckGFXSupportStatus(59))
+			if (NativeOptions.CheckGFXSupportStatus(63))
 			{
 				yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.PostFXStreaks);
 			}
@@ -172,9 +173,9 @@ namespace TaleWorlds.MountAndBlade.Options
 			return null;
 		}
 
-		public static OptionCategory GetGameplayOptionCategory(bool isMultiplayer)
+		public static OptionCategory GetGameplayOptionCategory(bool isMainMenu, bool isMultiplayer)
 		{
-			return new OptionCategory(OptionsProvider.GetGameplayGeneralOptions(isMultiplayer), OptionsProvider.GetGameplayOptionGroups(isMultiplayer));
+			return new OptionCategory(OptionsProvider.GetGameplayGeneralOptions(isMultiplayer), OptionsProvider.GetGameplayOptionGroups(isMainMenu, isMultiplayer));
 		}
 
 		private static IEnumerable<IOptionData> GetGameplayGeneralOptions(bool isMultiplayer)
@@ -189,9 +190,9 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		private static IEnumerable<OptionGroup> GetGameplayOptionGroups(bool isMultiplayer)
+		private static IEnumerable<OptionGroup> GetGameplayOptionGroups(bool isMainMenu, bool isMultiplayer)
 		{
-			yield return new OptionGroup(new TextObject("{=m9KoYCv5}Controls", null), OptionsProvider.GetGameplayControlsOptions(isMultiplayer));
+			yield return new OptionGroup(new TextObject("{=m9KoYCv5}Controls", null), OptionsProvider.GetGameplayControlsOptions(isMainMenu, isMultiplayer));
 			yield return new OptionGroup(new TextObject("{=uZ6q4Qs2}Visuals", null), OptionsProvider.GetGameplayVisualOptions(isMultiplayer));
 			yield return new OptionGroup(new TextObject("{=gAfbULHM}Camera", null), OptionsProvider.GetGameplayCameraOptions(isMultiplayer));
 			yield return new OptionGroup(new TextObject("{=WRMyiiYJ}User Interface", null), OptionsProvider.GetGameplayUIOptions(isMultiplayer));
@@ -202,14 +203,29 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield break;
 		}
 
-		private static IEnumerable<IOptionData> GetGameplayControlsOptions(bool isMultiplayer)
+		private static IEnumerable<IOptionData> GetGameplayControlsOptions(bool isMainMenu, bool isMultiplayer)
 		{
+			bool isDualSense = Input.ControllerType == Input.ControllerTypes.PlayStationDualShock || Input.ControllerType == Input.ControllerTypes.PlayStationDualSense;
+			if (isDualSense)
+			{
+				yield return new ManagedBooleanOptionData(ManagedOptions.ManagedOptionsType.GyroOverrideForAttackDefend);
+			}
 			yield return new ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType.ControlBlockDirection);
 			yield return new ManagedSelectionOptionData(ManagedOptions.ManagedOptionsType.ControlAttackDirection);
 			yield return new NativeNumericOptionData(NativeOptions.NativeOptionsType.MouseYMovementScale);
 			yield return new NativeNumericOptionData(NativeOptions.NativeOptionsType.MouseSensitivity);
 			yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.InvertMouseYAxis);
 			yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.EnableVibration);
+			yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.EnableAlternateAiming);
+			if (isDualSense)
+			{
+				if (isMainMenu)
+				{
+					yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.EnableTouchpadMouse);
+				}
+				yield return new NativeBooleanOptionData(NativeOptions.NativeOptionsType.EnableGyroAssistedAim);
+				yield return new NativeNumericOptionData(NativeOptions.NativeOptionsType.GyroAimSensitivity);
+			}
 			if (!isMultiplayer)
 			{
 				yield return new ManagedBooleanOptionData(ManagedOptions.ManagedOptionsType.LockTarget);
@@ -233,6 +249,7 @@ namespace TaleWorlds.MountAndBlade.Options
 			yield return new ManagedNumericOptionData(ManagedOptions.ManagedOptionsType.FirstPersonFov);
 			yield return new ManagedNumericOptionData(ManagedOptions.ManagedOptionsType.CombatCameraDistance);
 			yield return new ManagedBooleanOptionData(ManagedOptions.ManagedOptionsType.EnableVerticalAimCorrection);
+			yield return new ManagedNumericOptionData(ManagedOptions.ManagedOptionsType.ZoomSensitivityModifier);
 			yield break;
 		}
 

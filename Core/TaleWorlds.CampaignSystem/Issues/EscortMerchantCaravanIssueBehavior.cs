@@ -41,7 +41,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.InitializeOnStart();
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.9.1", 26219))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.9.1", 24202))
 			{
 				for (int i = MobileParty.All.Count - 1; i >= 0; i--)
 				{
@@ -95,7 +95,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		private bool ConditionsHold(Hero issueGiver)
 		{
-			return issueGiver.IsMerchant && issueGiver.CurrentSettlement.Town.Security <= 50f && issueGiver.OwnedCaravans.Count < 2;
+			return issueGiver.IsMerchant && issueGiver.CurrentSettlement != null && issueGiver.CurrentSettlement.IsTown && issueGiver.CurrentSettlement.Town.Security <= 50f && issueGiver.OwnedCaravans.Count < 2;
 		}
 
 		public void OnCheckForIssue(Hero hero)
@@ -178,10 +178,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=CSqaF7tz}There's been a real surge of banditry around here recently. I don't know if it's because the lords are away fighting or something else, but it's a miracle if a traveler can make three leagues beyond the gates without being set upon by highwaymen.", null);
+					TextObject textObject = new TextObject("{=CSqaF7tz}There's been a real surge of banditry around here recently. I don't know if it's because the lords are away fighting or something else, but it's a miracle if a traveler can make three leagues beyond the gates without being set upon by highwaymen.[if:convo_annoyed][ib:hip]", null);
 					if (base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaCurt || base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaSoftspoken)
 					{
-						textObject = new TextObject("{=xwc9mJdC}Things have gotten a lot worse recently with the brigands on the roads around town. My caravans get looted as soon as they're out of sight of the gates.", null);
+						textObject = new TextObject("{=xwc9mJdC}Things have gotten a lot worse recently with the brigands on the roads around town. My caravans get looted as soon as they're out of sight of the gates.[if:convo_stern][ib:hip]", null);
 					}
 					return textObject;
 				}
@@ -207,10 +207,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=ytdZutjw}I will be willing to pay generously {BASE_REWARD}{GOLD_ICON} for each day the caravan is on the road. It will be more than I usually pay for caravan guards, but you look like the type who send a message to these brigands, that my caravans aren't to be messed with.", null);
+					TextObject textObject = new TextObject("{=ytdZutjw}I will be willing to pay generously {BASE_REWARD}{GOLD_ICON} for each day the caravan is on the road. It will be more than I usually pay for caravan guards, but you look like the type who send a message to these brigands, that my caravans aren't to be messed with.[if:convo_undecided_closed]", null);
 					if (base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaCurt || base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaSoftspoken)
 					{
-						textObject = new TextObject("{=YbbfaHqd}I will be willing to pay generously {BASE_REWARD}{GOLD_ICON} for each day the caravan is on the road. It will be more than I usually pay for guards, but figure maybe you can scare these bandits off. I'm sick of choosing between sending my men to the their deaths or letting them go because I've lost my goods and can't pay their wages.", null);
+						textObject = new TextObject("{=YbbfaHqd}I will be willing to pay generously {BASE_REWARD}{GOLD_ICON} for each day the caravan is on the road. It will be more than I usually pay for guards, but figure maybe you can scare these bandits off. I'm sick of choosing between sending my men to the their deaths or letting them go because I've lost my goods and can't pay their wages.[if:convo_undecided_closed]", null);
 					}
 					textObject.SetTextVariable("BASE_REWARD", this.DailyQuestRewardGold);
 					return textObject;
@@ -240,7 +240,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=hU5j7b3e}I am sure your men are as capable as you are and will look after my caravan. Thanks again for your help, my friend.", null);
+					return new TextObject("{=hU5j7b3e}I am sure your men are as capable as you are and will look after my caravan. Thanks again for your help, my friend.[if:convo_focused_happy]", null);
 				}
 			}
 
@@ -402,6 +402,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new EscortMerchantCaravanIssueBehavior.EscortMerchantCaravanIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(30f), base.IssueDifficultyMultiplier, this.DailyQuestRewardGold);
@@ -415,14 +419,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -20)
 				});
-				base.IssueSettlement.Prosperity -= 20f;
+				base.IssueSettlement.Town.Prosperity -= 20f;
 			}
 
 			protected override void AlternativeSolutionEndWithSuccessConsequence()
 			{
 				base.IssueOwner.AddPower(10f);
 				this.RelationshipChangeWithIssueOwner = 5;
-				base.IssueSettlement.Prosperity += 10f;
+				base.IssueSettlement.Town.Prosperity += 10f;
 			}
 
 			protected override void CompleteIssueWithTimedOutConsequences()
@@ -663,10 +667,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=TdwKwExD}Thank you. You can find the caravan just outside the settlement.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=TdwKwExD}Thank you. You can find the caravan just outside the settlement.[if:convo_grateful]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=vtZYmAaR}I feel good knowing that you're looking after my caravan. Safe journeys, my friend!", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=vtZYmAaR}I feel good knowing that you're looking after my caravan. Safe journeys, my friend![if:convo_grateful]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.CloseDialog();
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetCaravanPartyDialogFlow(), this);
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetCaravanGreetingDialogFlow(), this);
@@ -703,7 +707,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private bool caravan_talk_on_condition()
 			{
-				return this._questCaravanMobileParty.MemberRoster.Contains(CharacterObject.OneToOneConversationCharacter) && this._questCaravanMobileParty == MobileParty.ConversationParty && MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCustomParty && !CharacterObject.OneToOneConversationCharacter.IsHero && MobileParty.ConversationParty.Party.Owner != Hero.MainHero;
+				bool flag = this._questCaravanMobileParty.MemberRoster.Contains(CharacterObject.OneToOneConversationCharacter) && this._questCaravanMobileParty == MobileParty.ConversationParty && MobileParty.ConversationParty != null && MobileParty.ConversationParty.IsCustomParty && !CharacterObject.OneToOneConversationCharacter.IsHero && MobileParty.ConversationParty.Party.Owner != Hero.MainHero;
+				if (flag)
+				{
+					MBTextManager.SetTextVariable("HOMETOWN", MobileParty.ConversationParty.HomeSettlement.EncyclopediaLinkWithName, false);
+					StringHelpers.SetCharacterProperties("MERCHANT", MobileParty.ConversationParty.Party.Owner.CharacterObject, null, false);
+					StringHelpers.SetCharacterProperties("PROTECTOR", MobileParty.ConversationParty.HomeSettlement.OwnerClan.Leader.CharacterObject, null, false);
+				}
+				return flag;
 			}
 
 			private DialogFlow GetCaravanFarewellDialogFlow()
@@ -725,7 +736,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				TextObject textObject = new TextObject("{=WOBy5UfY}Hand over your goods, or die!", null);
 				return DialogFlow.CreateDialogFlow("escort_caravan_talk", 125).BeginPlayerOptions().PlayerOption(textObject, null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.caravan_loot_on_condition))
-					.NpcLine("{=QNaKmkt9}We're paid to guard this caravan. If you want to rob it, it's going to be over our dead bodies![rf:idle_angry][ib:aggressive]", null, null)
+					.NpcLine("{=QNaKmkt9}We're paid to guard this caravan. If you want to rob it, it's going to be over our dead bodies![if:convo_angry][ib:aggressive]", null, null)
 					.BeginPlayerOptions()
 					.PlayerOption("{=EhxS7NQ4}So be it. Attack!", null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.conversation_caravan_fight_on_consequence))
@@ -755,7 +766,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				TextObject textObject = new TextObject("{=t0UGXPV4}I'm interested in trading. What kind of products do you have?", null);
 				return DialogFlow.CreateDialogFlow("escort_caravan_talk", 125).BeginPlayerOptions().PlayerOption(textObject, null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.caravan_buy_products_on_condition))
-					.NpcLine("{=tlLDHAIu}Very well. A pleasure doing business with you.[rf:convo_relaxed_happy][ib:demure]", null, null)
+					.NpcLine("{=tlLDHAIu}Very well. A pleasure doing business with you.[if:convo_relaxed_happy][ib:demure]", null, null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.conversation_caravan_player_trade_end_on_condition))
 					.NpcLine("{=DQBaaC0e}Is there anything else?", null, null)
 					.GotoDialogState("escort_caravan_talk")
@@ -863,7 +874,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				mobileParty.InitializeMobilePartyAtPosition(partyTemplateObject, settlement.GatePosition, troopToBeGiven);
 				CharacterObject characterObject = CharacterObject.All.First((CharacterObject character) => character.Occupation == Occupation.CaravanGuard && character.IsInfantry && character.Level == 26 && character.Culture == mobileParty.Party.Owner.Culture);
 				mobileParty.MemberRoster.AddToCounts(characterObject, 1, true, 0, 0, true, -1);
-				mobileParty.Party.Visuals.SetMapIconAsDirty();
+				mobileParty.Party.SetVisualAsDirty();
 				mobileParty.InitializePartyTrade(10000 + ((owner.Clan == Clan.PlayerClan) ? 5000 : 0));
 				if (caravanItems != null)
 				{
@@ -904,7 +915,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
 				CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
 				CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.OnDailyTick));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 				CampaignEvents.HourlyTickPartyEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.OnPartyHourlyTick));
@@ -921,30 +931,33 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void CheckOtherBanditPartyDistance()
 			{
-				if (this._otherBanditParty != null && this._otherBanditParty.IsActive && this._otherBanditParty.TargetParty == this._questCaravanMobileParty && this._otherBanditPartyFollowDuration < 0)
+				if (base.IsOngoing)
 				{
-					if (base.IsTracked(this._otherBanditParty))
+					if (this._otherBanditParty != null && this._otherBanditParty.IsActive && this._otherBanditParty.TargetParty == this._questCaravanMobileParty && this._otherBanditPartyFollowDuration < 0)
 					{
-						base.RemoveTrackedObject(this._otherBanditParty);
+						if (base.IsTracked(this._otherBanditParty))
+						{
+							base.RemoveTrackedObject(this._otherBanditParty);
+						}
+						this._otherBanditParty.Ai.SetMoveModeHold();
+						this._otherBanditParty.Ai.SetDoNotMakeNewDecisions(false);
+						this._otherBanditParty = null;
 					}
-					this._otherBanditParty.Ai.SetMoveModeHold();
-					this._otherBanditParty.Ai.SetDoNotMakeNewDecisions(false);
-					this._otherBanditParty = null;
-				}
-				if (this._questBanditMobileParty != null && this._questBanditMobileParty.IsActive && this._questBanditMobileParty.MapEvent == null && this._questBanditMobileParty.TargetParty == this._questCaravanMobileParty && this._questBanditPartyFollowDuration < 0 && !this._questBanditMobileParty.IsVisible)
-				{
-					if (base.IsTracked(this._questBanditMobileParty))
+					if (this._questBanditMobileParty != null && this._questBanditMobileParty.IsActive && this._questBanditMobileParty.MapEvent == null && this._questBanditMobileParty.TargetParty == this._questCaravanMobileParty && this._questBanditPartyFollowDuration < 0 && !this._questBanditMobileParty.IsVisible)
 					{
-						base.RemoveTrackedObject(this._questBanditMobileParty);
+						if (base.IsTracked(this._questBanditMobileParty))
+						{
+							base.RemoveTrackedObject(this._questBanditMobileParty);
+						}
+						this._questBanditMobileParty.Ai.SetMoveModeHold();
+						this._questBanditMobileParty.Ai.SetDoNotMakeNewDecisions(false);
 					}
-					this._questBanditMobileParty.Ai.SetMoveModeHold();
-					this._questBanditMobileParty.Ai.SetDoNotMakeNewDecisions(false);
 				}
 			}
 
 			private void CheckEncounterForBanditParty(MobileParty mobileParty)
 			{
-				if (mobileParty != null && mobileParty.IsActive && mobileParty.MapEvent == null && this._questCaravanMobileParty.IsActive && this._questCaravanMobileParty.MapEvent == null && this._questCaravanMobileParty.CurrentSettlement == null && mobileParty.Position2D.DistanceSquared(this._questCaravanMobileParty.Position2D) <= 1f)
+				if (base.IsOngoing && mobileParty != null && mobileParty.IsActive && mobileParty.MapEvent == null && this._questCaravanMobileParty.IsActive && this._questCaravanMobileParty.MapEvent == null && this._questCaravanMobileParty.CurrentSettlement == null && mobileParty.Position2D.DistanceSquared(this._questCaravanMobileParty.Position2D) <= 1f)
 				{
 					EncounterManager.StartPartyEncounter(mobileParty.Party, this._questCaravanMobileParty.Party);
 					MBInformationManager.AddQuickInformation(new TextObject("{=o8uAzFaJ}The caravan you are protecting is ambushed by raiders!", null), 0, null, "");
@@ -954,7 +967,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void CheckPartyAndMakeItAttackTheCaravan(MobileParty mobileParty)
 			{
-				if (this._otherBanditParty == null && mobileParty.MapEvent == null && mobileParty.IsBandit && mobileParty != this._questBanditMobileParty && mobileParty.Party.NumberOfHealthyMembers > this._questCaravanMobileParty.Party.NumberOfHealthyMembers && (mobileParty.Speed > this._questCaravanMobileParty.Speed || mobileParty.Position2D.DistanceSquared(this._questCaravanMobileParty.Position2D) < 9f))
+				if (this._otherBanditParty == null && mobileParty.MapEvent == null && mobileParty.IsBandit && !mobileParty.IsCurrentlyUsedByAQuest && mobileParty != this._questBanditMobileParty && mobileParty.Party.NumberOfHealthyMembers > this._questCaravanMobileParty.Party.NumberOfHealthyMembers && (mobileParty.Speed > this._questCaravanMobileParty.Speed || mobileParty.Position2D.DistanceSquared(this._questCaravanMobileParty.Position2D) < 9f))
 				{
 					Settlement settlement = this._visitedSettlements.LastOrDefault<Settlement>() ?? this._questCaravanMobileParty.HomeSettlement;
 					Settlement targetSettlement = this._questCaravanMobileParty.TargetSettlement;
@@ -1059,14 +1072,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnHourlyTick()
+			protected override void HourlyTick()
 			{
+				if (base.IsOngoing && this._questCaravanMobileParty.TargetSettlement == null)
+				{
+					this.TryToFindAndSetTargetToNextSettlement();
+				}
 				if (base.IsOngoing)
 				{
-					if (this._questCaravanMobileParty.TargetSettlement == null)
-					{
-						this.TryToFindAndSetTargetToNextSettlement();
-					}
 					if (this.CaravanIsInsideSettlement)
 					{
 						this.SimulateSettlementWaitForCaravan();
@@ -1231,7 +1244,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 					TextObject textObject2 = new TextObject("{=QDpfYm4c}The caravan is moving to {SETTLEMENT_NAME}.", null);
 					textObject2.SetTextVariable("SETTLEMENT_NAME", settlement3.EncyclopediaLinkWithName);
 					base.AddLog(textObject2, true);
-					base.AddTrackedObject(settlement3);
+					if (!base.IsTracked(settlement3))
+					{
+						base.AddTrackedObject(settlement3);
+					}
 					if (this._questBanditMobileParty != null && (this._questBanditMobileParty.Speed < this._questCaravanMobileParty.Speed || Campaign.Current.Models.MapDistanceModel.GetDistance(this._questCaravanMobileParty, this._questBanditMobileParty) > 10f))
 					{
 						this._questBanditMobileParty.Ai.SetDoNotMakeNewDecisions(false);
@@ -1316,7 +1332,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, 50)
 				});
-				base.QuestGiver.CurrentSettlement.Prosperity += 10f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity += 10f;
 				if (isNoTargetLeftSuccess)
 				{
 					base.AddLog(this._caravanNoTargetLogText, false);
@@ -1341,7 +1357,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -20)
 				});
-				base.QuestGiver.CurrentSettlement.Prosperity -= 10f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 10f;
 				if (this._questBanditMobileParty != null)
 				{
 					this._questBanditMobileParty.Ai.SetDoNotMakeNewDecisions(false);
@@ -1380,7 +1396,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -80)
 				});
-				base.QuestGiver.CurrentSettlement.Prosperity -= 20f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 20f;
 				base.AddLog(this._caravanDestroyedByPlayerQuestLogText, true);
 				MobileParty questBanditMobileParty = this._questBanditMobileParty;
 				if (questBanditMobileParty != null)
@@ -1456,7 +1472,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -20)
 				});
-				base.QuestGiver.CurrentSettlement.Prosperity -= 20f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 20f;
 				base.AddLog(new TextObject("{=pUrSIed8}You have failed to escort the caravan to its destination.", null), false);
 			}
 

@@ -7,11 +7,11 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class BurstAllHeavyHitParticles : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
-		public BurstAllHeavyHitParticles(MissionObject missionObject)
+		public BurstAllHeavyHitParticles(MissionObjectId missionObjectId)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 		}
 
 		public BurstAllHeavyHitParticles()
@@ -21,13 +21,13 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -37,13 +37,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Bursting all heavy-hit particles for the DestructableComponent of MissionObject with Id: ",
-				this.MissionObject.Id,
-				" and name: ",
-				this.MissionObject.GameEntity.Name
-			});
+			return "Bursting all heavy-hit particles for the DestructableComponent of MissionObject with Id: " + this.MissionObjectId;
 		}
 	}
 }

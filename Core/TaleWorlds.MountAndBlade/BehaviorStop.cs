@@ -20,7 +20,6 @@ namespace TaleWorlds.MountAndBlade
 		{
 			base.Formation.ArrangementOrder = (base.Formation.QuerySystem.HasShield ? ArrangementOrder.ArrangementOrderShieldWall : ArrangementOrder.ArrangementOrderLine);
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 			this._lastPlayerInformTime = Mission.Current.CurrentTime;
 		}
 

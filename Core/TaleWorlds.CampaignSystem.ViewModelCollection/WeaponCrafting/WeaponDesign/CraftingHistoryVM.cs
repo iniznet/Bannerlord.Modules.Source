@@ -20,7 +20,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this._getActiveOrder = getActiveOrder;
 			this._onDone = onDone;
 			this.CraftingHistory = new MBBindingList<WeaponDesignSelectorVM>();
-			this.HistoryHint = new HintViewModel();
+			this.HistoryHint = new HintViewModel(CraftingHistoryVM._craftingHistoryText, null);
+			this.HistoryDisabledHint = new HintViewModel(CraftingHistoryVM._noItemsHint, null);
 			this.RefreshValues();
 		}
 
@@ -72,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		{
 			CraftingOrder activeOrder = this._getActiveOrder();
 			this.HasItemsInHistory = ((activeOrder == null) ? (this._craftingBehavior.CraftingHistory.Count > 0) : this._craftingBehavior.CraftingHistory.Any((WeaponDesign x) => x.Template.StringId == activeOrder.PreCraftedWeaponDesignItem.WeaponDesign.Template.StringId));
-			this.HistoryHint.HintText = (this.HasItemsInHistory ? CraftingHistoryVM._craftingHistoryText : CraftingHistoryVM._noItemsHint);
 		}
 
 		public void ExecuteOpen()
@@ -174,6 +174,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 				{
 					this._historyHint = value;
 					base.OnPropertyChangedWithValue<HintViewModel>(value, "HistoryHint");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public HintViewModel HistoryDisabledHint
+		{
+			get
+			{
+				return this._historyDisabledHint;
+			}
+			set
+			{
+				if (value != this._historyDisabledHint)
+				{
+					this._historyDisabledHint = value;
+					base.OnPropertyChangedWithValue<HintViewModel>(value, "HistoryDisabledHint");
 				}
 			}
 		}
@@ -324,6 +341,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		private bool _hasItemsInHistory;
 
 		private HintViewModel _historyHint;
+
+		private HintViewModel _historyDisabledHint;
 
 		private MBBindingList<WeaponDesignSelectorVM> _craftingHistory;
 

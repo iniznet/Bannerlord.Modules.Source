@@ -45,9 +45,10 @@ namespace TaleWorlds.TwoDimension.Standalone
 			}
 		}
 
-		public TwoDimensionPlatform(GraphicsForm form)
+		public TwoDimensionPlatform(GraphicsForm form, bool isAssetsUnderDefaultFolders)
 		{
 			this._form = form;
+			this._isAssetsUnderDefaultFolders = isAssetsUnderDefaultFolders;
 			this._graphicsContext = this._form.GraphicsContext;
 		}
 
@@ -59,7 +60,13 @@ namespace TaleWorlds.TwoDimension.Standalone
 		Texture ITwoDimensionResourceContext.LoadTexture(ResourceDepot resourceDepot, string name)
 		{
 			OpenGLTexture openGLTexture = new OpenGLTexture();
-			openGLTexture.LoadFromFile(resourceDepot, name);
+			string text = name;
+			if (!this._isAssetsUnderDefaultFolders)
+			{
+				string[] array = name.Split(new char[] { '\\' });
+				text = array[array.Length - 1];
+			}
+			openGLTexture.LoadFromFile(resourceDepot, text);
 			return new Texture(openGLTexture);
 		}
 
@@ -137,5 +144,7 @@ namespace TaleWorlds.TwoDimension.Standalone
 		private GraphicsContext _graphicsContext;
 
 		private GraphicsForm _form;
+
+		private bool _isAssetsUnderDefaultFolders;
 	}
 }

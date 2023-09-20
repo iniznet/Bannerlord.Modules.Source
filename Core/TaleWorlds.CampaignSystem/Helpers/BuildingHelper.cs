@@ -68,7 +68,7 @@ namespace Helpers
 					}
 				}
 			}
-			Debug.FailedAssert(building.Name + "is not a project of" + town.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetProgressOfBuilding", 6266);
+			Debug.FailedAssert(building.Name + "is not a project of" + town.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetProgressOfBuilding", 6205);
 			return 0f;
 		}
 
@@ -103,7 +103,7 @@ namespace Helpers
 					}
 				}
 			}
-			Debug.FailedAssert(building.Name + "is not a project of" + town.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetDaysToComplete", 6308);
+			Debug.FailedAssert(building.Name + "is not a project of" + town.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetDaysToComplete", 6247);
 			return 0;
 		}
 
@@ -116,7 +116,7 @@ namespace Helpers
 					return building.CurrentLevel;
 				}
 			}
-			Debug.FailedAssert(buildingType.Name + "is not a project of" + town.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetTierOfBuilding", 6322);
+			Debug.FailedAssert(buildingType.Name + "is not a project of" + town.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetTierOfBuilding", 6261);
 			return 0;
 		}
 

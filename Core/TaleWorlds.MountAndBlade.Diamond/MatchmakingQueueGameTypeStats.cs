@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
 	[Serializable]
 	public class MatchmakingQueueGameTypeStats
 	{
-		public string[] GameTypes { get; private set; }
+		[JsonProperty]
+		public string[] GameTypes { get; set; }
 
+		[JsonProperty]
 		public int Count { get; set; }
 
+		[JsonProperty]
 		public int TotalWaitTime { get; set; }
+
+		public MatchmakingQueueGameTypeStats()
+		{
+		}
 
 		public MatchmakingQueueGameTypeStats(string[] gameTypes)
 		{

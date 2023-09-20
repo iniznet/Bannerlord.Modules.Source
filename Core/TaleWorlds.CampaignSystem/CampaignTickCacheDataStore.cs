@@ -13,8 +13,6 @@ namespace TaleWorlds.CampaignSystem
 	{
 		internal CampaignTickCacheDataStore()
 		{
-			this._fadingPartiesSet = new HashSet<IPartyVisual>();
-			this._fadingPartiesFlatten = new List<IPartyVisual>();
 			this._mobilePartyComparer = new CampaignTickCacheDataStore.MobilePartyComparer();
 			this._parallelInitializeCachedPartyVariablesPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelInitializeCachedPartyVariables);
 			this._parallelCacheTargetPartyVariablesAtFrameStartPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelCacheTargetPartyVariablesAtFrameStart);
@@ -22,8 +20,6 @@ namespace TaleWorlds.CampaignSystem
 			this._parallelTickArmiesPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelTickArmies);
 			this._parallelTickMovingPartiesPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelTickMovingParties);
 			this._parallelTickStationaryPartiesPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelTickStationaryParties);
-			this._parallelTickSettlementVisualsPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelTickSettlementVisuals);
-			this._parallelTickMobilePartyVisualsPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelTickMobilePartyVisuals);
 			this._parallelCheckExitingSettlementsPredicate = new TWParallel.ParallelForAuxPredicate(this.ParallelCheckExitingSettlements);
 		}
 
@@ -38,7 +34,6 @@ namespace TaleWorlds.CampaignSystem
 			this._currentFrameMovingArmyLeaderCount = -1;
 			this._gridChangeCount = -1;
 			this._exitingSettlementCount = -1;
-			this._dirtyPartyVisualCount = -1;
 		}
 
 		private void InitializeCacheArrays()
@@ -47,7 +42,6 @@ namespace TaleWorlds.CampaignSystem
 			this._cacheData = new CampaignTickCacheDataStore.PartyTickCachePerParty[num];
 			this._gridChangeMobilePartyList = new MobileParty[num];
 			this._exitingSettlementMobilePartyList = new MobileParty[num];
-			this._dirtyPartiesList = new PartyBase[num];
 			this._currentTotalMobilePartyCapacity = num;
 			this._movingPartyIndices = new int[num];
 			this._stationaryPartyIndices = new int[num];
@@ -154,22 +148,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		private void ParallelTickSettlementVisuals(int startInclusive, int endExclusive)
-		{
-			for (int i = startInclusive; i < endExclusive; i++)
-			{
-				Settlement.All[i].Party.VisualTick(this._currentRealDt, this._currentDt, ref this._dirtyPartyVisualCount, ref this._dirtyPartiesList);
-			}
-		}
-
-		private void ParallelTickMobilePartyVisuals(int startInclusive, int endExclusive)
-		{
-			for (int i = startInclusive; i < endExclusive; i++)
-			{
-				Campaign.Current.MobileParties[i].Party.VisualTick(this._currentRealDt, this._currentDt, ref this._dirtyPartyVisualCount, ref this._dirtyPartiesList);
-			}
-		}
-
 		internal void Tick()
 		{
 			TWParallel.For(0, Campaign.Current.MobileParties.Count, this._parallelCheckExitingSettlementsPredicate, 16);
@@ -199,17 +177,6 @@ namespace TaleWorlds.CampaignSystem
 			{
 				campaign.MobilePartyLocator.UpdateLocator(this._gridChangeMobilePartyList[i]);
 			}
-			TWParallel.For(0, Settlement.All.Count, this._parallelTickSettlementVisualsPredicate, 16);
-			TWParallel.For(0, Campaign.Current.MobileParties.Count, this._parallelTickMobilePartyVisualsPredicate, 16);
-			for (int j = 0; j < this._dirtyPartyVisualCount + 1; j++)
-			{
-				PartyBase partyBase = this._dirtyPartiesList[j];
-				partyBase.Visuals.ValidateIsDirty(partyBase, realDt, dt);
-			}
-			for (int k = this._fadingPartiesFlatten.Count - 1; k >= 0; k--)
-			{
-				this._fadingPartiesFlatten[k].TickFadingState(realDt, dt);
-			}
 		}
 
 		private void UpdateVisibilitiesAroundMainParty()
@@ -222,34 +189,14 @@ namespace TaleWorlds.CampaignSystem
 				{
 					if (!mobileParty.IsMilitia && !mobileParty.IsGarrison)
 					{
-						mobileParty.Party.UpdateVisibilityAndInspected(seeingRange, false);
+						mobileParty.Party.UpdateVisibilityAndInspected(seeingRange);
 					}
 				}
 				LocatableSearchData<Settlement> locatableSearchData2 = Settlement.StartFindingLocatablesAroundPosition(MobileParty.MainParty.Position2D, seeingRange + 25f);
 				for (Settlement settlement = Settlement.FindNextLocatable(ref locatableSearchData2); settlement != null; settlement = Settlement.FindNextLocatable(ref locatableSearchData2))
 				{
-					settlement.Party.UpdateVisibilityAndInspected(seeingRange, false);
+					settlement.Party.UpdateVisibilityAndInspected(seeingRange);
 				}
-			}
-		}
-
-		internal void RegisterFadingVisual(IPartyVisual visual)
-		{
-			if (!this._fadingPartiesSet.Contains(visual))
-			{
-				this._fadingPartiesFlatten.Add(visual);
-				this._fadingPartiesSet.Add(visual);
-			}
-		}
-
-		internal void UnregisterFadingVisual(IPartyVisual visual)
-		{
-			if (this._fadingPartiesSet.Contains(visual))
-			{
-				int num = this._fadingPartiesFlatten.IndexOf(visual);
-				this._fadingPartiesFlatten[num] = this._fadingPartiesFlatten[this._fadingPartiesFlatten.Count - 1];
-				this._fadingPartiesFlatten.Remove(this._fadingPartiesFlatten[this._fadingPartiesFlatten.Count - 1]);
-				this._fadingPartiesSet.Remove(visual);
 			}
 		}
 
@@ -258,8 +205,6 @@ namespace TaleWorlds.CampaignSystem
 		private MobileParty[] _gridChangeMobilePartyList;
 
 		private MobileParty[] _exitingSettlementMobilePartyList;
-
-		private PartyBase[] _dirtyPartiesList;
 
 		private int[] _movingPartyIndices;
 
@@ -279,8 +224,6 @@ namespace TaleWorlds.CampaignSystem
 
 		private int _exitingSettlementCount;
 
-		private int _dirtyPartyVisualCount;
-
 		private float _currentDt;
 
 		private float _currentRealDt;
@@ -297,17 +240,9 @@ namespace TaleWorlds.CampaignSystem
 
 		private readonly TWParallel.ParallelForAuxPredicate _parallelTickStationaryPartiesPredicate;
 
-		private readonly TWParallel.ParallelForAuxPredicate _parallelTickSettlementVisualsPredicate;
-
-		private readonly TWParallel.ParallelForAuxPredicate _parallelTickMobilePartyVisualsPredicate;
-
 		private readonly TWParallel.ParallelForAuxPredicate _parallelCheckExitingSettlementsPredicate;
 
-		private readonly List<IPartyVisual> _fadingPartiesFlatten;
-
 		private readonly CampaignTickCacheDataStore.MobilePartyComparer _mobilePartyComparer;
-
-		private readonly HashSet<IPartyVisual> _fadingPartiesSet;
 
 		private struct PartyTickCachePerParty
 		{

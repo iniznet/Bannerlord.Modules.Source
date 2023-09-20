@@ -135,7 +135,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectVertexAnimation(this, beginKey, endKey, speed));
+					GameNetwork.WriteMessage(new SetMissionObjectVertexAnimation(base.Id, beginKey, endKey, speed));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 			}
@@ -148,7 +148,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectVertexAnimationProgress(this, value));
+					GameNetwork.WriteMessage(new SetMissionObjectVertexAnimationProgress(base.Id, value));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this.Progress = value;
@@ -251,25 +251,14 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteFloatToPacket(this.Progress, CompressionBasic.AnimationProgressCompressionInfo);
 		}
 
-		public override bool ReadFromNetwork()
+		public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
 		{
-			bool flag = true;
-			flag = flag && base.ReadFromNetwork();
-			if (flag)
-			{
-				int num = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationKeyCompressionInfo, ref flag);
-				int num2 = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationKeyCompressionInfo, ref flag);
-				float num3 = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.VertexAnimationSpeedCompressionInfo, ref flag);
-				float num4 = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.AnimationProgressCompressionInfo, ref flag);
-				if (flag)
-				{
-					this.BeginKey = num;
-					this.EndKey = num2;
-					this.Speed = num3;
-					this.Progress = num4;
-				}
-			}
-			return flag;
+			base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+			VertexAnimator.VertexAnimatorRecord vertexAnimatorRecord = (VertexAnimator.VertexAnimatorRecord)synchedMissionObjectReadableRecord.Item2;
+			this.BeginKey = vertexAnimatorRecord.BeginKey;
+			this.EndKey = vertexAnimatorRecord.EndKey;
+			this.Speed = vertexAnimatorRecord.Speed;
+			this.Progress = vertexAnimatorRecord.Progress;
 		}
 
 		public float Speed;
@@ -285,5 +274,26 @@ namespace TaleWorlds.MountAndBlade
 		private bool _isPlaying;
 
 		private readonly List<Mesh> _animatedMeshes = new List<Mesh>();
+
+		[DefineSynchedMissionObjectType(typeof(VertexAnimator))]
+		public struct VertexAnimatorRecord : ISynchedMissionObjectReadableRecord
+		{
+			public int BeginKey { get; private set; }
+
+			public int EndKey { get; private set; }
+
+			public float Speed { get; private set; }
+
+			public float Progress { get; private set; }
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.BeginKey = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationKeyCompressionInfo, ref bufferReadValid);
+				this.EndKey = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationKeyCompressionInfo, ref bufferReadValid);
+				this.Speed = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.VertexAnimationSpeedCompressionInfo, ref bufferReadValid);
+				this.Progress = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.AnimationProgressCompressionInfo, ref bufferReadValid);
+				return bufferReadValid;
+			}
+		}
 	}
 }

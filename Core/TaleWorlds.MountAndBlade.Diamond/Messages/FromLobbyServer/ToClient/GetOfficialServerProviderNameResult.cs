@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromLobbyServer.ToClient
@@ -6,7 +7,12 @@ namespace Messages.FromLobbyServer.ToClient
 	[Serializable]
 	public class GetOfficialServerProviderNameResult : FunctionResult
 	{
-		public string Name { get; }
+		[JsonProperty]
+		public string Name { get; private set; }
+
+		public GetOfficialServerProviderNameResult()
+		{
+		}
 
 		public GetOfficialServerProviderNameResult(string name)
 		{

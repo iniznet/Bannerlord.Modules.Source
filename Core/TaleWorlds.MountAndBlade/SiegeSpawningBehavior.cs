@@ -13,6 +13,10 @@ namespace TaleWorlds.MountAndBlade
 		{
 			base.Initialize(spawnComponent);
 			base.OnAllAgentsFromPeerSpawnedFromVisuals += this.OnAllAgentsFromPeerSpawnedFromVisuals;
+			if (this.GameMode.WarmupComponent == null)
+			{
+				this.RequestStartSpawnSession();
+			}
 		}
 
 		public override void Clear()
@@ -76,40 +80,15 @@ namespace TaleWorlds.MountAndBlade
 							if (this.GameMode.ShouldSpawnVisualsForServer(networkCommunicator))
 							{
 								base.AgentVisualSpawnComponent.SpawnAgentVisualsForPeer(component, agentBuildData, component.SelectedTroopIndex, false, 0);
+								if (agentBuildData.AgentVisualsIndex == 0)
+								{
+									component.HasSpawnedAgentVisuals = true;
+									component.EquipmentUpdatingExpired = false;
+								}
 							}
 							this.GameMode.HandleAgentVisualSpawning(networkCommunicator, agentBuildData, 0, true);
 						}
 					}
-				}
-			}
-			if (base.Mission.AttackerTeam != null)
-			{
-				int num = 0;
-				foreach (Agent agent in base.Mission.AttackerTeam.ActiveAgents)
-				{
-					if (agent.Character != null && agent.MissionPeer == null)
-					{
-						num++;
-					}
-				}
-				if (num < MultiplayerOptions.OptionType.NumberOfBotsTeam1.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions))
-				{
-					base.SpawnBot(base.Mission.AttackerTeam, @object);
-				}
-			}
-			if (base.Mission.DefenderTeam != null)
-			{
-				int num2 = 0;
-				foreach (Agent agent2 in base.Mission.DefenderTeam.ActiveAgents)
-				{
-					if (agent2.Character != null && agent2.MissionPeer == null)
-					{
-						num2++;
-					}
-				}
-				if (num2 < MultiplayerOptions.OptionType.NumberOfBotsTeam2.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions))
-				{
-					base.SpawnBot(base.Mission.DefenderTeam, object2);
 				}
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class AcceptJoinPremadeGameRequestMessage : Message
 	{
+		[JsonProperty]
 		public Guid PartyId { get; private set; }
+
+		public AcceptJoinPremadeGameRequestMessage()
+		{
+		}
 
 		public AcceptJoinPremadeGameRequestMessage(Guid partyId)
 		{

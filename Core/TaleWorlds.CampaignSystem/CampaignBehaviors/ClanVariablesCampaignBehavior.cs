@@ -25,6 +25,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
+			CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, new Action(this.OnGameLoadFinished));
 		}
 
 		public override void SyncData(IDataStore dataStore)
@@ -89,10 +90,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					list.Remove(tuple);
 					float num4 = 0f;
 					Hero hero = null;
-					int heroComesOfAge = Campaign.Current.Models.AgeModel.HeroComesOfAge;
 					foreach (Hero hero2 in clan.Lords)
 					{
-						if (hero2.PartyBelongedTo == null && hero2.IsActive && this.IsTeleportable(hero2) && hero2.Age > (float)heroComesOfAge && hero2.PartyBelongedToAsPrisoner == null && hero2.CanBeGovernorOrHavePartyRole() && !list2.Contains(hero2))
+						if (Campaign.Current.Models.ClanPoliticsModel.CanHeroBeGovernor(hero2) && hero2.PartyBelongedTo == null && hero2.Clan != Clan.PlayerClan && !list2.Contains(hero2))
 						{
 							float num5 = ((tuple.Item1.Governor == hero2) ? 1f : 0.75f) * Campaign.Current.Models.DiplomacyModel.GetHeroGoverningStrengthForClan(hero2);
 							if (num5 > num4)
@@ -116,11 +116,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 				}
 			}
-		}
-
-		private bool IsTeleportable(Hero h)
-		{
-			return h.Clan != Clan.PlayerClan && !h.IsTemplate && h.IsAlive && !h.IsHumanPlayerCharacter && !h.IsPartyLeader && !h.IsPrisoner;
 		}
 
 		public void OnNewGameCreated(CampaignGameStarter starter)
@@ -150,11 +145,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 26219))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 24202))
 			{
 				foreach (Clan clan in Clan.All)
 				{
-					if (clan != Clan.PlayerClan && clan != CampaignData.NeutralFaction && !clan.IsBanditFaction && !clan.Leader.IsAlive)
+					if (clan != Clan.PlayerClan && !clan.IsBanditFaction && !clan.Leader.IsAlive)
 					{
 						if (!clan.IsEliminated)
 						{
@@ -206,7 +201,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 26219))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
 			{
 				for (int i = Clan.All.Count - 1; i >= 0; i--)
 				{
@@ -229,6 +224,20 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					if (mobileParty.CurrentSettlement.GarrisonWagePaymentLimit == 0)
 					{
 						mobileParty.CurrentSettlement.SetGarrisonWagePaymentLimit(2000);
+					}
+				}
+			}
+		}
+
+		private void OnGameLoadFinished()
+		{
+			foreach (Kingdom kingdom in Kingdom.All)
+			{
+				for (int i = kingdom.Clans.Count - 1; i >= 0; i--)
+				{
+					if (kingdom.Clans[i].GetStanceWith(kingdom).IsAtConstantWar)
+					{
+						ChangeKingdomAction.ApplyByLeaveWithRebellionAgainstKingdom(kingdom.Clans[i], false);
 					}
 				}
 			}
@@ -280,7 +289,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void DailyTickClan(Clan clan)
 		{
-			if (!clan.IsNeutralClan && !Clan.BanditFactions.Contains(clan))
+			if (!Clan.BanditFactions.Contains(clan))
 			{
 				if (clan.Kingdom != null)
 				{
@@ -356,7 +365,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				foreach (Town town in clan.Fiefs)
 				{
 					float num2 = FactionHelper.OwnerClanEconomyEffectOnGarrisonSizeConstant(town.OwnerClan);
-					float num3 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(town.Settlement);
+					float num3 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(town);
 					float num4 = FactionHelper.SettlementFoodPotentialEffectOnGarrisonSizeConstant(town.Settlement);
 					float num5 = num * (((clan.IsRebelClan && !clan.MapFaction.IsKingdomFaction) ? 2f : 1.5f) * num2 * num3 * num4) * averageWage;
 					num5 = MathF.Clamp(num5, 0f, (float)Campaign.Current.Models.PartyWageModel.MaxWage);

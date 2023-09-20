@@ -185,10 +185,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private GameEntity AddGhostEntity(GameEntity parent, string entityName)
+		private GameEntity AddGhostEntity(GameEntity parent, List<string> possibleEntityNames)
 		{
 			this.spawner_.GameEntity.RemoveAllChildren();
-			this.SpawnedGhostEntity = GameEntity.Instantiate(parent.Scene, entityName, true);
+			foreach (string text in possibleEntityNames)
+			{
+				if (GameEntity.PrefabExists(text))
+				{
+					this.SpawnedGhostEntity = GameEntity.Instantiate(parent.Scene, text, true);
+					break;
+				}
+			}
 			if (this.SpawnedGhostEntity == null)
 			{
 				return null;
@@ -254,9 +261,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private string GetGhostName()
+		private List<string> GetGhostName()
 		{
-			return this.GetPrefabName() + "_ghost";
+			string text = this.GetPrefabName();
+			List<string> list = new List<string>();
+			list.Add(text + "_ghost");
+			text = text.Remove(text.Length - text.Split(new char[] { '_' }).Last<string>().Length - 1);
+			list.Add(text + "_ghost");
+			return list;
 		}
 
 		public string GetPrefabName()

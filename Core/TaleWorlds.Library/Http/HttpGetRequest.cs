@@ -1,8 +1,6 @@
 ﻿using System;
-using System.IO;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace TaleWorlds.Library.Http
 {
@@ -18,14 +16,16 @@ namespace TaleWorlds.Library.Http
 
 		public Exception Exception { get; private set; }
 
-		static HttpGetRequest()
+		public HttpGetRequest(HttpClient httpClient, string address)
+			: this(httpClient, address, new Version("1.1"))
 		{
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 		}
 
-		public HttpGetRequest(string address)
+		public HttpGetRequest(HttpClient httpClient, string address, Version version)
 		{
+			this._versionToUse = version;
 			this._address = address;
+			this._httpClient = httpClient;
 			this.State = HttpRequestTaskState.NotStarted;
 			this.ResponseData = "";
 			this.ResponseStatusCode = HttpStatusCode.OK;
@@ -36,10 +36,6 @@ namespace TaleWorlds.Library.Http
 			this.Successful = true;
 			this.ResponseData = responseData;
 			this.ResponseStatusCode = statusCode;
-			if (this._httpWebResponse != null)
-			{
-				this._httpWebResponse.Close();
-			}
 			this.State = HttpRequestTaskState.Finished;
 		}
 
@@ -47,10 +43,6 @@ namespace TaleWorlds.Library.Http
 		{
 			this.Successful = false;
 			this.Exception = e;
-			if (this._httpWebResponse != null)
-			{
-				this._httpWebResponse.Close();
-			}
 			this.State = HttpRequestTaskState.Finished;
 		}
 
@@ -59,41 +51,29 @@ namespace TaleWorlds.Library.Http
 			this.DoTask();
 		}
 
-		public async Task DoTask()
+		private async void DoTask()
 		{
 			this.State = HttpRequestTaskState.Working;
 			try
 			{
-				HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(this._address);
-				httpWebRequest.Accept = "application/json";
-				httpWebRequest.ContentType = "application/json";
-				httpWebRequest.Method = "GET";
-				httpWebRequest.UserAgent = "WarRide Server";
-				WebResponse webResponse = await httpWebRequest.GetResponseAsync();
-				this._httpWebResponse = (HttpWebResponse)webResponse;
-				Stream responseStream = this._httpWebResponse.GetResponseStream();
-				byte[] readBuffer = new byte[1024];
-				StringBuilder requestData = new StringBuilder("");
-				int num;
-				do
+				using (HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, this._address))
 				{
-					num = await responseStream.ReadAsync(readBuffer, 0, 1024);
-					if (num > 0)
+					requestMessage.Version = this._versionToUse;
+					requestMessage.Headers.Add("Accept", "application/json");
+					requestMessage.Headers.Add("UserAgent", "TaleWorlds Client");
+					HttpResponseMessage httpResponseMessage = await this._httpClient.SendAsync(requestMessage);
+					using (HttpResponseMessage response = httpResponseMessage)
 					{
-						requestData.Append(Encoding.ASCII.GetString(readBuffer, 0, num));
+						Console.WriteLine(string.Concat(new object[] { "Protocol version used for get request to ", this._address, " is: ", response.Version }));
+						using (HttpContent content = response.Content)
+						{
+							this.SetFinishedAsSuccessful(await content.ReadAsStringAsync(), response.StatusCode);
+						}
+						HttpContent content = null;
 					}
+					HttpResponseMessage response = null;
 				}
-				while (num > 0);
-				string text = "";
-				if (requestData.Length > 1)
-				{
-					text = requestData.ToString();
-				}
-				responseStream.Close();
-				this.SetFinishedAsSuccessful(text, this._httpWebResponse.StatusCode);
-				responseStream = null;
-				readBuffer = null;
-				requestData = null;
+				HttpRequestMessage requestMessage = null;
 			}
 			catch (Exception ex)
 			{
@@ -103,8 +83,10 @@ namespace TaleWorlds.Library.Http
 
 		private const int BufferSize = 1024;
 
-		private HttpWebResponse _httpWebResponse;
+		private HttpClient _httpClient;
 
 		private readonly string _address;
+
+		private Version _versionToUse;
 	}
 }

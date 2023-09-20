@@ -248,11 +248,23 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				return textObject3;
 			}
 			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.CanNotLeadParty:
-				return new TextObject("{=qClVr2ka}This hero cannot lead a party", null);
+				return new TextObject("{=qClVr2ka}This hero cannot lead a party.", null);
 			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.AlreadyAlleyLeader:
 				return GameTexts.FindText("str_hero_is_already_alley_leader", null);
-			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.IsPrisoner:
+			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.Prisoner:
 				return new TextObject("{=qhRC8XWU}This hero is currently prisoner.", null);
+			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.SolvingIssue:
+				return new TextObject("{=nT6EQGf9}This hero is currently solving an issue.", null);
+			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.Traveling:
+				return new TextObject("{=WECWpVSw}This hero is currently traveling.", null);
+			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.Busy:
+				return new TextObject("{=c9iu5lcc}This hero is currently busy.", null);
+			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.Fugutive:
+				return new TextObject("{=eZYtkDff}This hero is currently fugutive.", null);
+			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.Governor:
+				return new TextObject("{=8NI4wrqU}This hero is currently assigned as a governor.", null);
+			case DefaultAlleyModel.AlleyMemberAvailabilityDetail.AlleyUnderAttack:
+				return new TextObject("{=pdqi2qz1}You can not do this action while your alley is under attack.", null);
 			default:
 				return TextObject.Empty;
 			}
@@ -298,6 +310,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		private DefaultAlleyModel.AlleyMemberAvailabilityDetail GetAvailability(Alley alley, Hero hero)
 		{
 			IAlleyCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<IAlleyCampaignBehavior>();
+			if (campaignBehavior != null && campaignBehavior.GetIsAlleyUnderAttack(alley))
+			{
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.AlleyUnderAttack;
+			}
 			if (hero.GetSkillValue(DefaultSkills.Roguery) < 30)
 			{
 				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.NotEnoughRoguerySkill;
@@ -310,13 +326,37 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.AlreadyAlleyLeader;
 			}
+			if (hero.GovernorOf != null)
+			{
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.Governor;
+			}
 			if (!hero.CanLeadParty())
 			{
 				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.CanNotLeadParty;
 			}
+			if (Campaign.Current.IssueManager.IssueSolvingCompanionList.Contains(hero))
+			{
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.SolvingIssue;
+			}
+			if (hero.IsFugitive)
+			{
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.Fugutive;
+			}
+			if (hero.IsTraveling)
+			{
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.Traveling;
+			}
 			if (hero.IsPrisoner)
 			{
-				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.IsPrisoner;
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.Prisoner;
+			}
+			if (!hero.IsActive)
+			{
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.Busy;
+			}
+			if (hero.IsPartyLeader)
+			{
+				return DefaultAlleyModel.AlleyMemberAvailabilityDetail.Busy;
 			}
 			if (Campaign.Current.Models.DelayedTeleportationModel.GetTeleportationDelayAsHours(hero, alley.Settlement.Party).BaseNumber > 0f)
 			{
@@ -327,7 +367,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override int GetDailyIncomeOfAlley(Alley alley)
 		{
-			return (int)(alley.Settlement.Prosperity / 50f);
+			return (int)(alley.Settlement.Town.Prosperity / 50f);
 		}
 
 		private const int BaseResponseTimeInDays = 5;
@@ -346,7 +386,13 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			NotEnoughMercyTrait,
 			CanNotLeadParty,
 			AlreadyAlleyLeader,
-			IsPrisoner
+			Prisoner,
+			SolvingIssue,
+			Traveling,
+			Busy,
+			Fugutive,
+			Governor,
+			AlleyUnderAttack
 		}
 	}
 }

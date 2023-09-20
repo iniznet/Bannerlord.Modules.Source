@@ -102,8 +102,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 
 		public override bool IsValidEncyclopediaItem(object o)
 		{
-			IFaction faction = o as IFaction;
-			return faction != null && (!faction.IsClan || (faction.IsClan && !((Clan)faction).IsNeutralClan));
+			return o is IFaction;
 		}
 
 		private class EncyclopediaListClanWealthComparer : DefaultEncyclopediaClanPage.EncyclopediaListClanComparer
@@ -146,7 +145,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				{
 					return this.GetClanWealthStatusText(clan);
 				}
-				Debug.FailedAssert("Unable to get the gold of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 158);
+				Debug.FailedAssert("Unable to get the gold of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 157);
 				return "";
 			}
 
@@ -167,7 +166,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				{
 					return clan.Tier.ToString();
 				}
-				Debug.FailedAssert("Unable to get the tier of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 179);
+				Debug.FailedAssert("Unable to get the tier of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 178);
 				return "";
 			}
 
@@ -188,7 +187,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				{
 					return ((int)clan.TotalStrength).ToString();
 				}
-				Debug.FailedAssert("Unable to get the strength of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 200);
+				Debug.FailedAssert("Unable to get the strength of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 199);
 				return "";
 			}
 
@@ -209,7 +208,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				{
 					return clan.Fiefs.Count.ToString();
 				}
-				Debug.FailedAssert("Unable to get the fief count of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 221);
+				Debug.FailedAssert("Unable to get the fief count of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 220);
 				return "";
 			}
 
@@ -230,7 +229,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				{
 					return clan.Heroes.Count.ToString();
 				}
-				Debug.FailedAssert("Unable to get members of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 242);
+				Debug.FailedAssert("Unable to get members of a non-clan object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "GetComparedValueText", 241);
 				return "";
 			}
 
@@ -245,7 +244,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				Clan clan2;
 				if ((clan = x.Object as Clan) == null || (clan2 = y.Object as Clan) == null)
 				{
-					Debug.FailedAssert("Both objects should be clans.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "CompareClans", 257);
+					Debug.FailedAssert("Both objects should be clans.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaClanPage.cs", "CompareClans", 256);
 					return 0;
 				}
 				int num = comparison(clan, clan2) * (base.IsAscending ? 1 : (-1));

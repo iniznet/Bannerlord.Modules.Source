@@ -23,6 +23,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this._teleportationBehavior = Campaign.Current.GetCampaignBehavior<ITeleportationCampaignBehavior>();
 			this.Family = new MBBindingList<ClanLordItemVM>();
 			this.Companions = new MBBindingList<ClanLordItemVM>();
+			MBBindingList<MBBindingList<ClanLordItemVM>> mbbindingList = new MBBindingList<MBBindingList<ClanLordItemVM>> { this.Family, this.Companions };
+			this.SortController = new ClanMembersSortControllerVM(mbbindingList);
 			this.RefreshMembersList();
 			this.RefreshValues();
 		}
@@ -30,7 +32,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
-			this.FamilyText = GameTexts.FindText("str_family_group", null).ToString();
 			this.TraitsText = GameTexts.FindText("str_traits_group", null).ToString();
 			this.SkillsText = GameTexts.FindText("str_skills", null).ToString();
 			this.NameText = GameTexts.FindText("str_sort_by_name_label", null).ToString();
@@ -43,12 +44,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			{
 				x.RefreshValues();
 			});
+			this.SortController.RefreshValues();
 		}
 
 		public void RefreshMembersList()
 		{
 			this.Family.Clear();
 			this.Companions.Clear();
+			this.SortController.ResetAllStates();
 			List<Hero> list = new List<Hero>();
 			foreach (Hero hero in this._faction.Lords)
 			{
@@ -73,9 +76,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			{
 				this.Companions.Add(new ClanLordItemVM(hero3, this._teleportationBehavior, this._showHeroOnMap, new Action<ClanLordItemVM>(this.OnMemberSelection), new Action(this.OnRequestRecall), new Action(this.OnTalkWithMember)));
 			}
-			GameTexts.SetVariable("COMPANION_COUNT", this._faction.Companions.Count);
-			GameTexts.SetVariable("COMPANION_LIMIT", this._faction.CompanionLimit);
-			this.CompanionsText = GameTexts.FindText("str_companions_group", null).ToString();
+			GameTexts.SetVariable("RANK", GameTexts.FindText("str_family_group", null));
+			GameTexts.SetVariable("NUMBER", this.Family.Count);
+			this.FamilyText = GameTexts.FindText("str_RANK_with_NUM_between_parenthesis", null).ToString();
+			GameTexts.SetVariable("STR1", GameTexts.FindText("str_companions_group", null));
+			GameTexts.SetVariable("LEFT", this._faction.Companions.Count);
+			GameTexts.SetVariable("RIGHT", this._faction.CompanionLimit);
+			GameTexts.SetVariable("STR2", GameTexts.FindText("str_LEFT_over_RIGHT_in_paranthesis", null));
+			this.CompanionsText = GameTexts.FindText("str_STR1_space_STR2", null).ToString();
 			this.OnMemberSelection(this.GetDefaultMember());
 		}
 
@@ -402,6 +410,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
+		[DataSourceProperty]
+		public ClanMembersSortControllerVM SortController
+		{
+			get
+			{
+				return this._sortController;
+			}
+			set
+			{
+				if (value != this._sortController)
+				{
+					this._sortController = value;
+					base.OnPropertyChangedWithValue<ClanMembersSortControllerVM>(value, "SortController");
+				}
+			}
+		}
+
 		private readonly Clan _faction;
 
 		private readonly Action _onRefresh;
@@ -431,5 +456,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		private string _locationText;
 
 		private bool _isAnyValidMemberSelected;
+
+		private ClanMembersSortControllerVM _sortController;
 	}
 }

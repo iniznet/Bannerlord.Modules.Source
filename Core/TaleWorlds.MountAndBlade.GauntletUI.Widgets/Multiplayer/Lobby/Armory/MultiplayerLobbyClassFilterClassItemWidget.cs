@@ -14,12 +14,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Armory
 
 		private void SetFactionColor()
 		{
-			if (this.FactionColorWidget == null || string.IsNullOrEmpty(this.Culture))
+			if (this.FactionColorWidget == null)
 			{
 				return;
 			}
-			string factionColorCode = WidgetsMultiplayerHelper.GetFactionColorCode(this.Culture.ToLower(), false);
-			this.FactionColorWidget.Color = Color.ConvertStringToColor(factionColorCode);
+			this.FactionColorWidget.Color = this.CultureColor;
 		}
 
 		private void UpdateIcon()
@@ -50,18 +49,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Armory
 		}
 
 		[Editor(false)]
-		public string Culture
+		public Color CultureColor
 		{
 			get
 			{
-				return this._culture;
+				return this._cultureColor;
 			}
 			set
 			{
-				if (this._culture != value)
+				if (this._cultureColor != value)
 				{
-					this._culture = value;
-					base.OnPropertyChanged<string>(value, "Culture");
+					this._cultureColor = value;
+					base.OnPropertyChanged(value, "CultureColor");
 					this.SetFactionColor();
 				}
 			}
@@ -105,7 +104,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Armory
 
 		private Widget _factionColorWidget;
 
-		private string _culture;
+		private Color _cultureColor;
 
 		private string _troopType;
 

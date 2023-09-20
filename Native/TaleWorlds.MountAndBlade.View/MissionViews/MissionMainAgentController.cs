@@ -3,6 +3,7 @@ using System.ComponentModel;
 using NetworkMessages.FromClient;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
+using TaleWorlds.Engine.Options;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 
@@ -18,6 +19,37 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 		public bool IsDisabled { get; set; }
 
 		public Vec3 CustomLookDir { get; set; }
+
+		public bool IsPlayerAiming
+		{
+			get
+			{
+				if (this._isPlayerAiming)
+				{
+					return true;
+				}
+				if (base.Mission.MainAgent == null)
+				{
+					return false;
+				}
+				bool flag = false;
+				bool flag2 = false;
+				bool flag3 = false;
+				if (base.Input != null)
+				{
+					flag2 = base.Input.IsGameKeyDown(9);
+				}
+				if (base.Mission.MainAgent != null)
+				{
+					if (base.Mission.MainAgent.WieldedWeapon.CurrentUsageItem != null)
+					{
+						flag = base.Mission.MainAgent.WieldedWeapon.CurrentUsageItem.IsRangedWeapon || base.Mission.MainAgent.WieldedWeapon.CurrentUsageItem.IsAmmo;
+					}
+					flag3 = Extensions.HasAnyFlag<Agent.MovementControlFlag>(base.Mission.MainAgent.MovementFlags, 960);
+				}
+				return flag && flag2 && flag3;
+			}
+		}
 
 		public Agent LockedAgent
 		{
@@ -354,22 +386,7 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 				mainAgent.MovementInputVector = Vec2.Zero;
 				return;
 			}
-			if (mainAgent.State == 1 && mainAgent.IsCheering)
-			{
-				if (base.Input.IsGameKeyReleased(0) || base.Input.IsGameKeyReleased(1) || base.Input.IsGameKeyReleased(2) || base.Input.IsGameKeyReleased(3) || base.Input.IsGameKeyReleased(14) || base.Input.IsGameKeyReleased(9) || base.Input.IsGameKeyReleased(10))
-				{
-					if (GameNetwork.IsClient)
-					{
-						GameNetwork.BeginModuleEventAsClient();
-						GameNetwork.WriteMessage(new CancelCheering());
-						GameNetwork.EndModuleEventAsClient();
-						return;
-					}
-					mainAgent.CancelCheering();
-					return;
-				}
-			}
-			else if (base.Mission.ClearSceneTimerElapsedTime >= 0f && mainAgent.State == 1)
+			if (base.Mission.ClearSceneTimerElapsedTime >= 0f && mainAgent.State == 1)
 			{
 				bool flag2 = false;
 				bool flag3 = false;
@@ -586,13 +603,27 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 				mainAgent.MovementInputVector = vec;
 				if (!base.MissionScreen.MouseVisible && !base.MissionScreen.IsRadialMenuActive && !this._isPlayerOrderOpen && mainAgent.CombatActionsEnabled)
 				{
-					if (base.Input.IsGameKeyDown(9))
+					WeaponComponentData currentUsageItem = mainAgent.WieldedWeapon.CurrentUsageItem;
+					bool flag7 = currentUsageItem != null && Extensions.HasAllFlags<WeaponFlags>(currentUsageItem.WeaponFlags, 3072L);
+					WeaponComponentData currentUsageItem2 = mainAgent.WieldedWeapon.CurrentUsageItem;
+					if (currentUsageItem2 != null && currentUsageItem2.IsRangedWeapon)
 					{
-						mainAgent.MovementFlags |= mainAgent.AttackDirectionToMovementFlag(mainAgent.GetAttackDirection(false));
+						bool isConsumable = mainAgent.WieldedWeapon.CurrentUsageItem.IsConsumable;
 					}
-					if (base.Input.IsGameKeyDown(10))
+					WeaponComponentData currentUsageItem3 = mainAgent.WieldedWeapon.CurrentUsageItem;
+					bool flag8 = currentUsageItem3 != null && currentUsageItem3.IsRangedWeapon && !mainAgent.WieldedWeapon.CurrentUsageItem.IsConsumable && !Extensions.HasAllFlags<WeaponFlags>(mainAgent.WieldedWeapon.CurrentUsageItem.WeaponFlags, 3072L);
+					bool flag9 = NativeOptions.GetConfig(19) != 0f && (flag7 || flag8);
+					if (flag9)
 					{
-						if (ManagedOptions.GetConfig(1) == 2f && MissionGameModels.Current.AutoBlockModel != null)
+						this.HandleRangedWeaponAttackAlternativeAiming(mainAgent);
+					}
+					else if (base.Input.IsGameKeyDown(9))
+					{
+						mainAgent.MovementFlags |= mainAgent.AttackDirectionToMovementFlag(mainAgent.GetAttackDirection());
+					}
+					if (!flag9 && base.Input.IsGameKeyDown(10))
+					{
+						if (ManagedOptions.GetConfig(2) == 2f && MissionGameModels.Current.AutoBlockModel != null)
 						{
 							Agent.UsageDirection blockDirection = MissionGameModels.Current.AutoBlockModel.GetBlockDirection(base.Mission);
 							if (blockDirection == 2)
@@ -689,6 +720,51 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			}
 		}
 
+		private void HandleRangedWeaponAttackAlternativeAiming(Agent player)
+		{
+			if (base.Input.GetKeyState(254).x > 0.2f)
+			{
+				if (base.Input.GetKeyState(255).x < 0.6f)
+				{
+					player.MovementFlags |= player.AttackDirectionToMovementFlag(player.GetAttackDirection());
+				}
+				this._isPlayerAiming = true;
+				return;
+			}
+			if (this._isPlayerAiming)
+			{
+				player.MovementFlags |= 4096;
+				this._isPlayerAiming = false;
+			}
+		}
+
+		private void HandleTriggeredWeaponAttack(Agent player)
+		{
+			if (base.Input.GetKeyState(255).x <= 0.2f)
+			{
+				if (this._isPlayerAiming)
+				{
+					this._playerShotMissile = false;
+					this._isPlayerAiming = false;
+					player.MovementFlags |= 4096;
+				}
+				return;
+			}
+			if (!this._isPlayerAiming && player.WieldedWeapon.MaxAmmo > 0 && player.WieldedWeapon.Ammo == 0)
+			{
+				player.MovementFlags |= player.AttackDirectionToMovementFlag(player.GetAttackDirection());
+				return;
+			}
+			if (!this._playerShotMissile && base.Input.GetKeyState(255).x < 0.99f)
+			{
+				player.MovementFlags |= player.AttackDirectionToMovementFlag(player.GetAttackDirection());
+				this._isPlayerAiming = true;
+				return;
+			}
+			this._isPlayerAiming = true;
+			this._playerShotMissile = true;
+		}
+
 		public override bool IsThereAgentAction(Agent userAgent, Agent otherAgent)
 		{
 			return otherAgent.IsMount && otherAgent.IsActive();
@@ -716,7 +792,7 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType optionType)
 		{
-			if (optionType == 14)
+			if (optionType == 15)
 			{
 				this.UpdateLockTargetOption();
 			}
@@ -724,12 +800,16 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 
 		private void UpdateLockTargetOption()
 		{
-			this._isTargetLockEnabled = ManagedOptions.GetConfig(14) == 1f;
+			this._isTargetLockEnabled = ManagedOptions.GetConfig(15) == 1f;
 			this.LockedAgent = null;
 			this.PotentialLockTargetAgent = null;
 			this._lastLockKeyPressTime = 0f;
 			this._lastLockedAgentHeightDifference = 0f;
 		}
+
+		private const float _minValueForAimStart = 0.2f;
+
+		private const float _maxValueForAttackEnd = 0.6f;
 
 		private float _lastForwardKeyPressTime;
 
@@ -750,6 +830,10 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 		private bool _autoDismountModeActive;
 
 		private bool _isPlayerAgentAdded;
+
+		private bool _isPlayerAiming;
+
+		private bool _playerShotMissile;
 
 		private bool _isPlayerOrderOpen;
 

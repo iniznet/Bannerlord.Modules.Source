@@ -458,12 +458,6 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 			return false;
 		}
 
-		private bool IsWordAtTheEnd(StringBuilder sb, string word)
-		{
-			int length = word.Length;
-			return (sb.Length == length || (sb.Length > length && !char.IsLetter(sb[sb.Length - length - 1]))) && RussianTextProcessor.GetEnding(sb, length).ToLower() == word;
-		}
-
 		private void AddSuffixNounNominativePlural(StringBuilder outputString)
 		{
 			char c = RussianTextProcessor.GetLastCharacter(outputString);
@@ -2447,6 +2441,23 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 
 		private static Dictionary<string, Dictionary<string, string>> exceptions = new Dictionary<string, Dictionary<string, string>>
 		{
+			{
+				"стургиец",
+				new Dictionary<string, string>
+				{
+					{ ".g", "стургийца" },
+					{ ".d", "стургийцу" },
+					{ ".a", "стургийца" },
+					{ ".i", "стургийцем" },
+					{ ".l", "стургийце" },
+					{ ".p", "стургийцы" },
+					{ ".gp", "стургийцев" },
+					{ ".dp", "стургийцам" },
+					{ ".ap", "стургийцев" },
+					{ ".ip", "стургийцами" },
+					{ ".lp", "стургийцах" }
+				}
+			},
 			{
 				"путь",
 				new Dictionary<string, string>

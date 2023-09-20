@@ -4,7 +4,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class ChatLogHotKeyCategory : GameKeyContext
+	public sealed class ChatLogHotKeyCategory : GameKeyContext
 	{
 		public ChatLogHotKeyCategory()
 			: base("ChatLogHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)
@@ -23,9 +23,9 @@ namespace TaleWorlds.MountAndBlade
 			};
 			List<Key> list2 = new List<Key>
 			{
-				new Key(InputKey.NumpadEnter),
-				new Key(InputKey.ControllerLOption)
+				new Key(InputKey.NumpadEnter)
 			};
+			list2.Add(new Key(InputKey.ControllerLOption));
 			List<Key> list3 = new List<Key>
 			{
 				new Key(InputKey.ControllerRLeft)

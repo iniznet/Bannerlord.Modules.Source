@@ -20,7 +20,6 @@ namespace StoryMode
 			this._onBannerPieceCollectedEvent.ClearListeners(obj);
 			this._onConspiracyActivatedEvent.ClearListeners(obj);
 			this._onTravelToVillageTutorialQuestStartedEvent.ClearListeners(obj);
-			this._onConfigChanged.ClearListeners(obj);
 		}
 
 		public static IMbEvent<MainStoryLineSide> OnMainStoryLineSideChosenEvent
@@ -88,19 +87,6 @@ namespace StoryMode
 			StoryModeEvents.Instance._onTravelToVillageTutorialQuestStartedEvent.Invoke();
 		}
 
-		public static IMbEvent OnConfigChangedEvent
-		{
-			get
-			{
-				return StoryModeEvents.Instance._onConfigChanged;
-			}
-		}
-
-		public void OnConfigChanged()
-		{
-			StoryModeEvents.Instance._onConfigChanged.Invoke();
-		}
-
 		private readonly MbEvent<MainStoryLineSide> _onMainStoryLineSideChosenEvent = new MbEvent<MainStoryLineSide>();
 
 		private readonly MbEvent _onStoryModeTutorialEndedEvent = new MbEvent();
@@ -110,7 +96,5 @@ namespace StoryMode
 		private readonly MbEvent _onConspiracyActivatedEvent = new MbEvent();
 
 		private readonly MbEvent _onTravelToVillageTutorialQuestStartedEvent = new MbEvent();
-
-		private readonly MbEvent _onConfigChanged = new MbEvent();
 	}
 }

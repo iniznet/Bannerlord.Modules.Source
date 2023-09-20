@@ -35,13 +35,13 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 			if (detail != EndCaptivityDetail.Death)
 			{
-				if (prisoner.IsPlayerCompanion && detail != EndCaptivityDetail.Ransom)
-				{
-					MakeHeroFugitiveAction.Apply(prisoner);
-				}
-				else if (detail <= EndCaptivityDetail.ReleasedByChoice)
+				if (detail <= EndCaptivityDetail.ReleasedByChoice)
 				{
 					prisoner.ChangeState(Hero.CharacterStates.Released);
+					if (prisoner.IsPlayerCompanion && detail != EndCaptivityDetail.Ransom)
+					{
+						MakeHeroFugitiveAction.Apply(prisoner);
+					}
 				}
 				else
 				{

@@ -32,7 +32,19 @@ namespace StoryMode.GauntletUI.Tutorial
 
 		public override void OnCharacterPortraitPopUpOpened(CharacterObject obj)
 		{
-			this._wantedCharacterPopupOpened = obj != null && obj.IsHero && obj.HeroObject.IsNotable;
+			bool flag;
+			if (obj == null)
+			{
+				flag = false;
+			}
+			else
+			{
+				Hero heroObject = obj.HeroObject;
+				bool? flag2 = ((heroObject != null) ? new bool?(heroObject.IsHeadman) : null);
+				bool flag3 = true;
+				flag = (flag2.GetValueOrDefault() == flag3) & (flag2 != null);
+			}
+			this._wantedCharacterPopupOpened = flag;
 		}
 
 		private bool _wantedCharacterPopupOpened;

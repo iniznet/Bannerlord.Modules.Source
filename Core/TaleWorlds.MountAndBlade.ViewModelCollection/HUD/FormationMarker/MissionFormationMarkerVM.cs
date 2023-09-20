@@ -4,6 +4,7 @@ using System.Linq;
 using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
+using TaleWorlds.MountAndBlade.ViewModelCollection.Order;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 {
@@ -15,7 +16,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 			this._missionCamera = missionCamera;
 			this._comparer = new MissionFormationMarkerVM.FormationMarkerDistanceComparer();
 			this.Targets = new MBBindingList<MissionFormationMarkerTargetVM>();
-			this._formationTargetsMap = new Dictionary<object, MissionFormationMarkerTargetVM>();
 		}
 
 		public void Tick(float dt)
@@ -26,6 +26,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 				this.RefreshFormationPositions();
 				this.RefreshFormationItemProperties();
 				this.SortMarkersInList();
+				this.RefreshTargetProperties();
 				this._fadeOutTimerStarted = false;
 				this._fadeOutTimer = 0f;
 				this._prevIsEnabled = this.IsEnabled;
@@ -65,6 +66,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 						MissionFormationMarkerTargetVM missionFormationMarkerTargetVM = new MissionFormationMarkerTargetVM(formation);
 						this.Targets.Add(missionFormationMarkerTargetVM);
 						missionFormationMarkerTargetVM.IsEnabled = this.IsEnabled;
+						missionFormationMarkerTargetVM.IsFormationTargetRelevant = this.IsFormationTargetRelevant;
 					}
 				}
 			}
@@ -89,9 +91,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 				medianPosition.SetVec2(missionFormationMarkerTargetVM.Formation.QuerySystem.AveragePosition);
 				if (medianPosition.IsValid)
 				{
-					MBWindowManager.WorldToScreenInsideUsableArea(this._missionCamera, medianPosition.GetGroundVec3() + this._heightOffset, ref num, ref num2, ref num3);
+					MBWindowManager.WorldToScreen(this._missionCamera, medianPosition.GetGroundVec3() + this._heightOffset, ref num, ref num2, ref num3);
+					missionFormationMarkerTargetVM.IsInsideScreenBoundaries = num <= Screen.RealScreenResolutionWidth && num2 <= Screen.RealScreenResolutionHeight && num + 200f >= 0f && num2 + 100f >= 0f;
+					missionFormationMarkerTargetVM.WSign = MathF.Sign(num3);
 				}
-				if (!medianPosition.IsValid || num3 < 0f || !MathF.IsValidValue(num) || !MathF.IsValidValue(num2))
+				if (!missionFormationMarkerTargetVM.IsTargetingAFormation && (!medianPosition.IsValid || num3 < 0f || !MathF.IsValidValue(num) || !MathF.IsValidValue(num2)))
 				{
 					num = -10000f;
 					num2 = -10000f;
@@ -111,6 +115,44 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 			}
 		}
 
+		private void RefreshTargetProperties()
+		{
+			List<Formation> list = new List<Formation>();
+			Agent main = Agent.Main;
+			MBReadOnlyList<Formation> mbreadOnlyList;
+			if (main == null)
+			{
+				mbreadOnlyList = null;
+			}
+			else
+			{
+				OrderController playerOrderController = main.Team.PlayerOrderController;
+				mbreadOnlyList = ((playerOrderController != null) ? playerOrderController.SelectedFormations : null);
+			}
+			MBReadOnlyList<Formation> mbreadOnlyList2 = mbreadOnlyList;
+			if (mbreadOnlyList2 != null)
+			{
+				for (int i = 0; i < mbreadOnlyList2.Count; i++)
+				{
+					if (mbreadOnlyList2[i].TargetFormation != null && OrderUIHelper.CanOrderHaveTarget(OrderUIHelper.GetActiveMovementOrderOfFormation(mbreadOnlyList2[i])))
+					{
+						list.Add(mbreadOnlyList2[i].TargetFormation);
+					}
+				}
+			}
+			for (int j = 0; j < this.Targets.Count; j++)
+			{
+				MissionFormationMarkerTargetVM missionFormationMarkerTargetVM = this.Targets[j];
+				if (missionFormationMarkerTargetVM.TeamType == 2)
+				{
+					bool flag = list.Contains(missionFormationMarkerTargetVM.Formation);
+					MissionFormationMarkerTargetVM missionFormationMarkerTargetVM2 = missionFormationMarkerTargetVM;
+					MBReadOnlyList<Formation> focusedFormations = this._focusedFormations;
+					missionFormationMarkerTargetVM2.SetTargetedState(focusedFormations != null && focusedFormations.Contains(missionFormationMarkerTargetVM.Formation), flag);
+				}
+			}
+		}
+
 		private void SortMarkersInList()
 		{
 			this.Targets.Sort(this._comparer);
@@ -124,12 +166,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 			}
 		}
 
-		private void UpdateTargetStates(bool isEnabled)
+		private void UpdateTargetStates(bool isEnabled, bool isFormationTargetRelevant)
 		{
 			foreach (MissionFormationMarkerTargetVM missionFormationMarkerTargetVM in this.Targets)
 			{
 				missionFormationMarkerTargetVM.IsEnabled = isEnabled;
+				missionFormationMarkerTargetVM.IsFormationTargetRelevant = isFormationTargetRelevant;
 			}
+		}
+
+		public void SetFocusedFormations(MBReadOnlyList<Formation> focusedFormations)
+		{
+			this._focusedFormations = focusedFormations;
 		}
 
 		[DataSourceProperty]
@@ -145,7 +193,31 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 				{
 					this._isEnabled = value;
 					base.OnPropertyChangedWithValue(value, "IsEnabled");
-					this.UpdateTargetStates(value);
+					for (int i = 0; i < this.Targets.Count; i++)
+					{
+						this.Targets[i].IsEnabled = value;
+					}
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsFormationTargetRelevant
+		{
+			get
+			{
+				return this._isFormationTargetRelevant;
+			}
+			set
+			{
+				if (value != this._isFormationTargetRelevant)
+				{
+					this._isFormationTargetRelevant = value;
+					base.OnPropertyChangedWithValue(value, "IsFormationTargetRelevant");
+					for (int i = 0; i < this.Targets.Count; i++)
+					{
+						this.Targets[i].IsFormationTargetRelevant = value;
+					}
 				}
 			}
 		}
@@ -167,23 +239,25 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 			}
 		}
 
-		private Mission _mission;
+		private readonly Mission _mission;
 
-		private Camera _missionCamera;
+		private readonly Camera _missionCamera;
 
-		private Dictionary<object, MissionFormationMarkerTargetVM> _formationTargetsMap;
+		private readonly MissionFormationMarkerVM.FormationMarkerDistanceComparer _comparer;
 
-		private Vec3 _heightOffset = new Vec3(0f, 0f, 3f, -1f);
+		private readonly Vec3 _heightOffset = new Vec3(0f, 0f, 3f, -1f);
 
 		private bool _prevIsEnabled;
-
-		private MissionFormationMarkerVM.FormationMarkerDistanceComparer _comparer;
 
 		private bool _fadeOutTimerStarted;
 
 		private float _fadeOutTimer;
 
+		private MBReadOnlyList<Formation> _focusedFormations;
+
 		private bool _isEnabled;
+
+		private bool _isFormationTargetRelevant;
 
 		private MBBindingList<MissionFormationMarkerTargetVM> _targets;
 

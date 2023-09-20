@@ -8,16 +8,20 @@ namespace TaleWorlds.DotNet
 
 		public string AlternateDotNetType { get; set; }
 
-		public EngineStruct(string engineType)
+		public bool IgnoreMemberOffsetTest { get; set; }
+
+		public EngineStruct(string engineType, bool ignoreMemberOffsetTest = false)
 		{
 			this.EngineType = engineType;
 			this.AlternateDotNetType = null;
+			this.IgnoreMemberOffsetTest = ignoreMemberOffsetTest;
 		}
 
-		public EngineStruct(string engineType, string alternateDotNetType)
+		public EngineStruct(string engineType, string alternateDotNetType, bool ignoreMemberOffsetTest = false)
 		{
 			this.EngineType = engineType;
 			this.AlternateDotNetType = alternateDotNetType;
+			this.IgnoreMemberOffsetTest = ignoreMemberOffsetTest;
 		}
 	}
 }

@@ -241,6 +241,15 @@ namespace TaleWorlds.Library
 			return a;
 		}
 
+		public static long Max(long a, long b)
+		{
+			if (a <= b)
+			{
+				return b;
+			}
+			return a;
+		}
+
 		public static uint Max(uint a, uint b)
 		{
 			if (a <= b)
@@ -283,6 +292,15 @@ namespace TaleWorlds.Library
 		}
 
 		public static int Min(int a, int b)
+		{
+			if (a >= b)
+			{
+				return b;
+			}
+			return a;
+		}
+
+		public static long Min(long a, long b)
 		{
 			if (a >= b)
 			{

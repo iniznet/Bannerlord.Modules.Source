@@ -1,8 +1,10 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Library;
 
 namespace TaleWorlds.PlayerServices
 {
+	[JsonConverter(typeof(PlayerIdJsonConverter))]
 	[Serializable]
 	public struct PlayerId : IComparable<PlayerId>
 	{

@@ -2,18 +2,25 @@
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Input;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 {
 	public class CheerBarkNodeItemVM : ViewModel
 	{
-		public CheerBarkNodeItemVM(TextObject nodeName, string nodeId, HotKey key, Action<CheerBarkNodeItemVM> onSelection, bool consoleOnlyShortcut = false)
+		internal static event Action<CheerBarkNodeItemVM> OnSelection;
+
+		internal static event Action<CheerBarkNodeItemVM> OnNodeFocused;
+
+		public CheerBarkNodeItemVM(string tauntVisualName, TextObject nodeName, string nodeId, HotKey key, bool consoleOnlyShortcut = false, TauntUsageManager.TauntUsage.TauntUsageFlag disabledReason = TauntUsageManager.TauntUsage.TauntUsageFlag.None)
 		{
-			this.SubNodes = new MBBindingList<CheerBarkNodeItemVM>();
 			this._nodeName = nodeName;
+			this.TauntVisualName = tauntVisualName;
 			this.TypeAsString = nodeId;
-			this._onSelection = onSelection;
+			this.TauntUsageDisabledReason = disabledReason;
+			this.IsDisabled = disabledReason != TauntUsageManager.TauntUsage.TauntUsageFlag.None && disabledReason != TauntUsageManager.TauntUsage.TauntUsageFlag.IsLeftStance;
+			this.SubNodes = new MBBindingList<CheerBarkNodeItemVM>();
 			if (key != null)
 			{
 				this.ShortcutKey = InputKeyItemVM.CreateFromHotKey(key, consoleOnlyShortcut);
@@ -21,9 +28,35 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 			this.RefreshValues();
 		}
 
+		public CheerBarkNodeItemVM(TextObject nodeName, string nodeId, HotKey key, bool consoleOnlyShortcut = false, TauntUsageManager.TauntUsage.TauntUsageFlag disabledReason = TauntUsageManager.TauntUsage.TauntUsageFlag.None)
+		{
+			this._nodeName = nodeName;
+			this.TauntVisualName = string.Empty;
+			this.TypeAsString = nodeId;
+			this.TauntUsageDisabledReason = disabledReason;
+			this.IsDisabled = disabledReason > TauntUsageManager.TauntUsage.TauntUsageFlag.None;
+			this.SubNodes = new MBBindingList<CheerBarkNodeItemVM>();
+			if (key != null)
+			{
+				this.ShortcutKey = InputKeyItemVM.CreateFromHotKey(key, consoleOnlyShortcut);
+			}
+			this.RefreshValues();
+		}
+
+		public void ExecuteFocused()
+		{
+			Action<CheerBarkNodeItemVM> onNodeFocused = CheerBarkNodeItemVM.OnNodeFocused;
+			if (onNodeFocused == null)
+			{
+				return;
+			}
+			onNodeFocused(this);
+		}
+
 		public override void RefreshValues()
 		{
-			this.CheerNameText = this._nodeName.ToString();
+			TextObject nodeName = this._nodeName;
+			this.CheerNameText = ((nodeName != null) ? nodeName.ToString() : null);
 		}
 
 		public void AddSubNode(CheerBarkNodeItemVM subNode)
@@ -103,6 +136,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 		}
 
 		[DataSourceProperty]
+		public bool IsDisabled
+		{
+			get
+			{
+				return this._isDisabled;
+			}
+			set
+			{
+				if (value != this._isDisabled)
+				{
+					this._isDisabled = value;
+					base.OnPropertyChangedWithValue(value, "IsDisabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public bool IsSelected
 		{
 			get
@@ -115,9 +165,14 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 				{
 					this._isSelected = value;
 					base.OnPropertyChangedWithValue(value, "IsSelected");
-					if (value && this._onSelection != null)
+					if (this._isSelected)
 					{
-						this._onSelection(this);
+						Action<CheerBarkNodeItemVM> onSelection = CheerBarkNodeItemVM.OnSelection;
+						if (onSelection == null)
+						{
+							return;
+						}
+						onSelection(this);
 					}
 				}
 			}
@@ -158,6 +213,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 		}
 
 		[DataSourceProperty]
+		public string TauntVisualName
+		{
+			get
+			{
+				return this._tauntVisualName;
+			}
+			set
+			{
+				if (value != this._tauntVisualName)
+				{
+					this._tauntVisualName = value;
+					base.OnPropertyChangedWithValue<string>(value, "TauntVisualName");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public string SelectedNodeText
 		{
 			get
@@ -174,9 +246,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 			}
 		}
 
-		private readonly Action<CheerBarkNodeItemVM> _onSelection;
+		public readonly TauntUsageManager.TauntUsage.TauntUsageFlag TauntUsageDisabledReason;
 
 		private readonly TextObject _nodeName;
+
+		private InputKeyItemVM _shortcutKey;
 
 		private MBBindingList<CheerBarkNodeItemVM> _subNodes;
 
@@ -184,12 +258,14 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 
 		private string _typeAsString;
 
+		private string _tauntVisualName;
+
 		private string _selectedNodeText;
+
+		private bool _isDisabled;
 
 		private bool _isSelected;
 
 		private bool _hasSubNodes;
-
-		private InputKeyItemVM _shortcutKey;
 	}
 }

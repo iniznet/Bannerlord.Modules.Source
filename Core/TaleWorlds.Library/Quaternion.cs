@@ -343,6 +343,24 @@ namespace TaleWorlds.Library
 			return mat;
 		}
 
+		public static Quaternion QuaternionFromEulerAngles(float yaw, float pitch, float roll)
+		{
+			float num = yaw * 0.017453292f;
+			float num2 = pitch * 0.017453292f;
+			float num3 = roll * 0.017453292f;
+			float num4 = MathF.Cos(num * 0.5f);
+			float num5 = MathF.Sin(num * 0.5f);
+			float num6 = MathF.Cos(num2 * 0.5f);
+			float num7 = MathF.Sin(num2 * 0.5f);
+			float num8 = MathF.Cos(num3 * 0.5f);
+			float num9 = MathF.Sin(num3 * 0.5f);
+			float num10 = num8 * num6 * num4 + num9 * num7 * num5;
+			float num11 = num9 * num6 * num4 - num8 * num7 * num5;
+			float num12 = num8 * num7 * num4 + num9 * num6 * num5;
+			float num13 = num8 * num6 * num5 - num9 * num7 * num4;
+			return new Quaternion(num11, num12, num13, num10);
+		}
+
 		public static Quaternion QuaternionFromMat3(Mat3 m)
 		{
 			Quaternion quaternion = default(Quaternion);

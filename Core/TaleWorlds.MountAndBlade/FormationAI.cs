@@ -218,7 +218,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (!this._formation.IsAIControlled)
 				{
-					if (MultiplayerGame.Current == null && Mission.Current.MainAgent != null && !this._formation.Team.IsPlayerGeneral && this._formation.Team.IsPlayerSergeant && this._formation.PlayerOwner == Agent.Main)
+					if (GameNetwork.IsMultiplayer && Mission.Current.MainAgent != null && !this._formation.Team.IsPlayerGeneral && this._formation.Team.IsPlayerSergeant && this._formation.PlayerOwner == Agent.Main)
 					{
 						this.ActiveBehavior.RemindSergeantPlayer();
 						return;
@@ -265,6 +265,22 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public void OnDeploymentFinished()
+		{
+			foreach (BehaviorComponent behaviorComponent in this._behaviors)
+			{
+				behaviorComponent.OnDeploymentFinished();
+			}
+		}
+
+		public void OnAgentRemoved(Agent agent)
+		{
+			foreach (BehaviorComponent behaviorComponent in this._behaviors)
+			{
+				behaviorComponent.OnAgentRemoved(agent);
+			}
+		}
+
 		[Conditional("DEBUG")]
 		public void DebugMore()
 		{
@@ -283,11 +299,11 @@ namespace TaleWorlds.MountAndBlade
 		[Conditional("DEBUG")]
 		public void DebugScores()
 		{
-			if (this._formation.IsRanged())
+			if (this._formation.PhysicalClass.IsRanged())
 			{
 				MBDebug.Print("Ranged", 0, Debug.DebugColor.White, 17592186044416UL);
 			}
-			else if (this._formation.IsCavalry())
+			else if (this._formation.PhysicalClass.IsMeleeCavalry())
 			{
 				MBDebug.Print("Cavalry", 0, Debug.DebugColor.White, 17592186044416UL);
 			}

@@ -202,7 +202,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void OnMissionTick(float dt)
 		{
-			if (!MBNetwork.IsClient && !this.CheckDeployment())
+			if (!GameNetwork.IsClient && !this.CheckDeployment())
 			{
 				return;
 			}
@@ -754,7 +754,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (side != BattleSideEnum.Attacker)
 			{
-				Debug.FailedAssert("Wrong Side", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\MissionAgentSpawnLogic.cs", "GetActivePhaseForSide", 1508);
+				Debug.FailedAssert("Wrong Side", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\MissionAgentSpawnLogic.cs", "GetActivePhaseForSide", 1510);
 				return null;
 			}
 			return this.AttackerActivePhase;
@@ -940,16 +940,16 @@ namespace TaleWorlds.MountAndBlade
 						while (enumerator.MoveNext())
 						{
 							IAgentOriginBase agentOriginBase = enumerator.Current;
-							FormationClass formationClass = agentOriginBase.Troop.GetFormationClass();
+							FormationClass agentTroopClass = Mission.Current.GetAgentTroopClass(this._side, agentOriginBase.Troop);
 							if (agentOriginBase.Troop.HasMount())
 							{
-								FormationClass formationClass2 = formationClass;
-								formationSpawnData[(int)formationClass2].MountedTroopCount = formationSpawnData[(int)formationClass2].MountedTroopCount + 1;
+								FormationClass formationClass = agentTroopClass;
+								formationSpawnData[(int)formationClass].MountedTroopCount = formationSpawnData[(int)formationClass].MountedTroopCount + 1;
 							}
 							else
 							{
-								FormationClass formationClass3 = formationClass;
-								formationSpawnData[(int)formationClass3].FootTroopCount = formationSpawnData[(int)formationClass3].FootTroopCount + 1;
+								FormationClass formationClass2 = agentTroopClass;
+								formationSpawnData[(int)formationClass2].FootTroopCount = formationSpawnData[(int)formationClass2].FootTroopCount + 1;
 							}
 						}
 						return;
@@ -1171,15 +1171,15 @@ namespace TaleWorlds.MountAndBlade
 									num9 = this._reinforcementSpawnedUnitCountPerFormation[j].Item1;
 									num10 = this._reinforcementSpawnedUnitCountPerFormation[j].Item2;
 								}
+								Formation formation = valueTuple3.Item1.GetFormation((FormationClass)j);
+								if (!formation.HasBeenPositioned)
+								{
+									formation.BeginSpawn(num10, flag2);
+									mission.SetFormationPositioningFromDeploymentPlan(formation);
+									this._spawnedFormations.Add(formation);
+								}
 								foreach (IAgentOriginBase agentOriginBase5 in list2)
 								{
-									Formation formation = valueTuple3.Item1.GetFormation((FormationClass)j);
-									if (formation != null && !formation.HasBeenPositioned)
-									{
-										formation.BeginSpawn(num10, flag2);
-										mission.SpawnFormation(formation);
-										this._spawnedFormations.Add(formation);
-									}
 									if (!agentOriginBase5.Troop.IsHero && this._bannerBearerLogic != null && mission.Mode != MissionMode.Deployment && this._bannerBearerLogic.GetMissingBannerCount(formation) > 0)
 									{
 										this._bannerBearerLogic.SpawnBannerBearer(agentOriginBase5, this.IsPlayerSide, formation, this._spawnWithHorses, isReinforcement, num10, num9, true, true, false, null, null, null, mission.IsSallyOutBattle);

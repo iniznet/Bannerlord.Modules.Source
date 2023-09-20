@@ -262,6 +262,11 @@ namespace TaleWorlds.MountAndBlade
 			agent.DisableScriptedCombatMovement();
 		}
 
+		public int GetNumberOfUsableSlots()
+		{
+			return 8;
+		}
+
 		public WorldFrame? GetAgentFrame(Agent agent)
 		{
 			return null;

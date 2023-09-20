@@ -34,7 +34,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors
 			{
 				return;
 			}
-			if (clan.IsBanditFaction || clan == CampaignData.NeutralFaction || clan.IsRebelClan)
+			if (clan.IsBanditFaction || clan.IsRebelClan)
 			{
 				return;
 			}

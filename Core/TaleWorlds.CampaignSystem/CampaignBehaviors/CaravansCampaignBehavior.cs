@@ -12,6 +12,7 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -80,6 +81,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, new Action<MobileParty>(this.OnMobilePartyCreated));
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
 			CampaignEvents.DistributeLootToPartyEvent.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, Dictionary<PartyBase, ItemRoster>>(this.OnLootCaravanParties));
+			CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeEventStarted));
+		}
+
+		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
+		{
+			for (int i = 0; i < siegeEvent.BesiegedSettlement.Parties.Count; i++)
+			{
+				if (siegeEvent.BesiegedSettlement.Parties[i].IsCaravan)
+				{
+					siegeEvent.BesiegedSettlement.Parties[i].Ai.SetMoveModeHold();
+				}
+			}
 		}
 
 		private void OnLootCaravanParties(MapEvent mapEvent, PartyBase party, Dictionary<PartyBase, ItemRoster> loot)
@@ -861,7 +874,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void BuyGoods(MobileParty caravanParty, Town town)
 		{
-			CaravansCampaignBehavior.<>c__DisplayClass67_0 CS$<>8__locals1 = new CaravansCampaignBehavior.<>c__DisplayClass67_0();
+			CaravansCampaignBehavior.<>c__DisplayClass68_0 CS$<>8__locals1 = new CaravansCampaignBehavior.<>c__DisplayClass68_0();
 			CS$<>8__locals1.<>4__this = this;
 			CS$<>8__locals1.town = town;
 			this.CaravanTotalValue(caravanParty);
@@ -1114,7 +1127,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				Campaign.Current.ConversationManager.ConversationEndOneShot += this.player_take_prisoner_consequence;
 			}, 100, null);
 			starter.AddPlayerLine("player_decided_to_take_prisoner_continue", "caravan_taken_prisoner_warning_answer", "close_window", "{=WVkc4UgX}Continue.", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_caravan_took_prisoner_on_consequence), 100, null, null);
-			starter.AddPlayerLine("player_decided_to_take_prisoner_leave", "caravan_taken_prisoner_warning_answer", "caravan_loot_talk", "{=mdNRYlfS}Never mind.", null, null, 100, null, null);
+			starter.AddPlayerLine("player_decided_to_take_prisoner_leave", "caravan_taken_prisoner_warning_answer", "caravan_loot_talk", "{=D33fIGQe}Never mind.", null, null, 100, null, null);
 			starter.AddDialogLine("caravan_bribery_leave", "caravan_end_talk_bribe", "close_window", "{=uPwKhAps}Can we leave now?", new ConversationSentence.OnConditionDelegate(this.conversation_caravan_looted_leave_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_caravan_looted_leave_on_consequence), 100, null);
 			starter.AddDialogLine("caravan_surrender_leave", "caravan_end_talk_surrender", "close_window", "{=uPwKhAps}Can we leave now?", new ConversationSentence.OnConditionDelegate(this.conversation_caravan_looted_leave_on_condition), new ConversationSentence.OnConsequenceDelegate(this.conversation_caravan_surrender_leave_on_consequence), 100, null);
 		}
@@ -1405,10 +1418,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			GiveGoldAction.ApplyForPartyToCharacter(MobileParty.ConversationParty.Party, Hero.MainHero, num, false);
 			if (!itemRoster.IsEmpty<ItemRosterElement>())
 			{
-				for (int i = 0; i < itemRoster.Count; i++)
+				for (int i = itemRoster.Count - 1; i >= 0; i--)
 				{
-					ItemRosterElement elementCopyAtIndex = itemRoster.GetElementCopyAtIndex(i);
-					GiveItemAction.ApplyForParties(MobileParty.ConversationParty.Party, Hero.MainHero.PartyBelongedTo.Party, elementCopyAtIndex, elementCopyAtIndex.Amount);
+					PartyBase party = MobileParty.ConversationParty.Party;
+					PartyBase party2 = Hero.MainHero.PartyBelongedTo.Party;
+					ItemRosterElement itemRosterElement = itemRoster[i];
+					GiveItemAction.ApplyForParties(party, party2, itemRosterElement);
 				}
 			}
 			BeHostileAction.ApplyMinorCoercionHostileAction(PartyBase.MainParty, MobileParty.ConversationParty.Party);
@@ -1595,7 +1610,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private readonly Dictionary<ItemCategory, int> _totalValueOfItemsAtCategory = new Dictionary<ItemCategory, int>();
 
-		public class CaravansCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class CaravansCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public CaravansCampaignBehaviorTypeDefiner()
 				: base(60000)

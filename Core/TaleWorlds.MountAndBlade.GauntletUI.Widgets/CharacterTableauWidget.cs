@@ -36,6 +36,19 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
+			if ((this.LeftHandWieldedEquipmentIndex != -1 || this.RightHandWieldedEquipmentIndex != -1) && !base.IsRecursivelyVisible())
+			{
+				this.LeftHandWieldedEquipmentIndex = -1;
+				this.RightHandWieldedEquipmentIndex = -1;
+			}
+			if (this.IsPlayingCustomAnimations && base.TextureProvider != null && !(bool)base.GetTextureProviderProperty("IsPlayingCustomAnimations"))
+			{
+				this.IsPlayingCustomAnimations = false;
+			}
+			if (base.TextureProvider != null)
+			{
+				this.CustomAnimationProgressRatio = (float)base.GetTextureProviderProperty("CustomAnimationProgressRatio");
+			}
 		}
 
 		protected override void OnRender(TwoDimensionContext twoDimensionContext, TwoDimensionDrawContext drawContext)
@@ -151,6 +164,23 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 		}
 
 		[Editor(false)]
+		public float CustomAnimationProgressRatio
+		{
+			get
+			{
+				return this._customAnimationProgressRatio;
+			}
+			set
+			{
+				if (value != this._customAnimationProgressRatio)
+				{
+					this._customAnimationProgressRatio = value;
+					base.OnPropertyChanged(value, "CustomAnimationProgressRatio");
+				}
+			}
+		}
+
+		[Editor(false)]
 		public float CustomRenderScale
 		{
 			get
@@ -164,6 +194,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 					this._customRenderScale = value;
 					base.OnPropertyChanged(value, "CustomRenderScale");
 					base.SetTextureProviderProperty("CustomRenderScale", value);
+				}
+			}
+		}
+
+		[Editor(false)]
+		public float CustomAnimationWaitDuration
+		{
+			get
+			{
+				return this._customAnimationWaitDuration;
+			}
+			set
+			{
+				if (value != this._customAnimationWaitDuration)
+				{
+					this._customAnimationWaitDuration = value;
+					base.OnPropertyChanged(value, "CustomAnimationWaitDuration");
+					base.SetTextureProviderProperty("CustomAnimationWaitDuration", value);
 				}
 			}
 		}
@@ -331,6 +379,60 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 		}
 
 		[Editor(false)]
+		public string CustomAnimation
+		{
+			get
+			{
+				return this._customAnimation;
+			}
+			set
+			{
+				if (value != this._customAnimation)
+				{
+					this._customAnimation = value;
+					base.OnPropertyChanged<string>(value, "CustomAnimation");
+					base.SetTextureProviderProperty("CustomAnimation", value);
+				}
+			}
+		}
+
+		[Editor(false)]
+		public int LeftHandWieldedEquipmentIndex
+		{
+			get
+			{
+				return this._leftHandWieldedEquipmentIndex;
+			}
+			set
+			{
+				if (value != this._leftHandWieldedEquipmentIndex)
+				{
+					this._leftHandWieldedEquipmentIndex = value;
+					base.OnPropertyChanged(value, "LeftHandWieldedEquipmentIndex");
+					base.SetTextureProviderProperty("LeftHandWieldedEquipmentIndex", value);
+				}
+			}
+		}
+
+		[Editor(false)]
+		public int RightHandWieldedEquipmentIndex
+		{
+			get
+			{
+				return this._rightHandWieldedEquipmentIndex;
+			}
+			set
+			{
+				if (value != this._rightHandWieldedEquipmentIndex)
+				{
+					this._rightHandWieldedEquipmentIndex = value;
+					base.OnPropertyChanged(value, "RightHandWieldedEquipmentIndex");
+					base.SetTextureProviderProperty("RightHandWieldedEquipmentIndex", value);
+				}
+			}
+		}
+
+		[Editor(false)]
 		public uint ArmorColor1
 		{
 			get
@@ -384,6 +486,42 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
+		[Editor(false)]
+		public bool IsPlayingCustomAnimations
+		{
+			get
+			{
+				return this._isPlayingCustomAnimations;
+			}
+			set
+			{
+				if (value != this._isPlayingCustomAnimations)
+				{
+					this._isPlayingCustomAnimations = value;
+					base.OnPropertyChanged(value, "IsPlayingCustomAnimations");
+					base.SetTextureProviderProperty("IsPlayingCustomAnimations", value);
+				}
+			}
+		}
+
+		[Editor(false)]
+		public bool ShouldLoopCustomAnimation
+		{
+			get
+			{
+				return this._shouldLoopCustomAnimation;
+			}
+			set
+			{
+				if (value != this._shouldLoopCustomAnimation)
+				{
+					this._shouldLoopCustomAnimation = value;
+					base.OnPropertyChanged(value, "ShouldLoopCustomAnimation");
+					base.SetTextureProviderProperty("ShouldLoopCustomAnimation", value);
+				}
+			}
+		}
+
 		private ButtonWidget _swapPlacesButtonWidget;
 
 		private string _bannerCode;
@@ -399,6 +537,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 		private string _idleAction;
 
 		private string _idleFaceAnim;
+
+		private string _customAnimation;
+
+		private int _leftHandWieldedEquipmentIndex;
+
+		private int _rightHandWieldedEquipmentIndex;
 
 		private uint _armorColor1;
 
@@ -416,6 +560,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 
 		private bool _isBannerShownInBackground;
 
+		private bool _isPlayingCustomAnimations;
+
+		private bool _shouldLoopCustomAnimation;
+
+		private float _customAnimationProgressRatio;
+
 		private float _customRenderScale;
+
+		private float _customAnimationWaitDuration;
 	}
 }

@@ -187,10 +187,6 @@ namespace TaleWorlds.MountAndBlade
 		{
 		}
 
-		public virtual void OnMissionRestart()
-		{
-		}
-
 		public virtual List<CompassItemUpdateParams> GetCompassTargets()
 		{
 			return null;
@@ -225,14 +221,6 @@ namespace TaleWorlds.MountAndBlade
 		}
 
 		protected internal virtual void OnAgentControllerChanged(Agent agent, Agent.ControllerType oldController)
-		{
-		}
-
-		public virtual void OnItemPickup(Agent agent, SpawnedItemEntity item)
-		{
-		}
-
-		public virtual void OnItemDrop(Agent agent, SpawnedItemEntity item)
 		{
 		}
 

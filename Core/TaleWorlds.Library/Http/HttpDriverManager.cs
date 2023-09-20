@@ -1,22 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace TaleWorlds.Library.Http
 {
 	public static class HttpDriverManager
 	{
-		static HttpDriverManager()
-		{
-			HttpDriverManager.AddHttpDriver("DotNet", new DotNetHttpDriver());
-		}
-
 		public static void AddHttpDriver(string name, IHttpDriver driver)
 		{
 			if (HttpDriverManager._httpDrivers.Count == 0)
 			{
 				HttpDriverManager._defaultHttpDriver = name;
 			}
-			HttpDriverManager._httpDrivers.Add(name, driver);
+			HttpDriverManager._httpDrivers[name] = driver;
 		}
 
 		public static void SetDefault(string name)
@@ -31,15 +26,23 @@ namespace TaleWorlds.Library.Http
 		{
 			IHttpDriver httpDriver;
 			HttpDriverManager._httpDrivers.TryGetValue(name, out httpDriver);
+			if (httpDriver == null)
+			{
+				Debug.Print("HTTP driver not found:" + (name ?? "not set"), 0, Debug.DebugColor.White, 17592186044416UL);
+			}
 			return httpDriver;
 		}
 
 		public static IHttpDriver GetDefaultHttpDriver()
 		{
+			if (HttpDriverManager._defaultHttpDriver == null)
+			{
+				HttpDriverManager.AddHttpDriver("DotNet", new DotNetHttpDriver());
+			}
 			return HttpDriverManager.GetHttpDriver(HttpDriverManager._defaultHttpDriver);
 		}
 
-		private static Dictionary<string, IHttpDriver> _httpDrivers = new Dictionary<string, IHttpDriver>();
+		private static ConcurrentDictionary<string, IHttpDriver> _httpDrivers = new ConcurrentDictionary<string, IHttpDriver>();
 
 		private static string _defaultHttpDriver;
 	}

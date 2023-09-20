@@ -1,4 +1,5 @@
 ﻿using System;
+using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 
@@ -24,6 +25,8 @@ namespace TaleWorlds.CampaignSystem.GameState
 
 		public Kingdom InitialSelectedKingdom { get; private set; }
 
+		public KingdomDecision InitialSelectedDecision { get; private set; }
+
 		public IKingdomStateHandler Handler
 		{
 			get
@@ -38,6 +41,11 @@ namespace TaleWorlds.CampaignSystem.GameState
 
 		public KingdomState()
 		{
+		}
+
+		public KingdomState(KingdomDecision initialSelectedDecision)
+		{
+			this.InitialSelectedDecision = initialSelectedDecision;
 		}
 
 		public KingdomState(Army initialSelectedArmy)

@@ -60,42 +60,46 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			base.OnMissionScreenTick(dt);
 			if (this._gauntletLayer != null && !this._keybindingPopup.IsActive)
 			{
-				if (this._dataSource.ExposurePopUp.Visible)
+				if (this._gauntletLayer.Input.IsHotKeyReleased("Exit"))
 				{
-					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Confirm"))
-					{
-						this._dataSource.ExposurePopUp.ExecuteConfirm();
-					}
-					else if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					if (this._dataSource.ExposurePopUp.Visible)
 					{
 						this._dataSource.ExposurePopUp.ExecuteCancel();
 					}
-				}
-				else if (this._dataSource.BrightnessPopUp.Visible)
-				{
-					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Confirm"))
-					{
-						this._dataSource.BrightnessPopUp.ExecuteConfirm();
-					}
-					else if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
+					else if (this._dataSource.BrightnessPopUp.Visible)
 					{
 						this._dataSource.BrightnessPopUp.ExecuteCancel();
 					}
+					else
+					{
+						this._dataSource.ExecuteCancel();
+					}
 				}
-				else if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
+				else if (this._gauntletLayer.Input.IsHotKeyReleased("Confirm"))
 				{
-					this._dataSource.ExecuteCancel();
-				}
-				else if (TaleWorlds.InputSystem.Input.IsGamepadActive && this._gauntletLayer.Input.IsHotKeyDownAndReleased("Confirm"))
-				{
-					this._dataSource.ExecuteDone();
+					UISoundsHelper.PlayUISound("event:/ui/default");
+					if (this._dataSource.ExposurePopUp.Visible)
+					{
+						this._dataSource.ExposurePopUp.ExecuteConfirm();
+					}
+					else if (this._dataSource.BrightnessPopUp.Visible)
+					{
+						this._dataSource.BrightnessPopUp.ExecuteConfirm();
+					}
+					else
+					{
+						this._dataSource.ExecuteDone();
+					}
 				}
 				else if (this._gauntletLayer.Input.IsHotKeyPressed("SwitchToPreviousTab"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/tab");
 					this._dataSource.SelectPreviousCategory();
 				}
 				else if (this._gauntletLayer.Input.IsHotKeyPressed("SwitchToNextTab"))
 				{
+					UISoundsHelper.PlayUISound("event:/ui/tab");
 					this._dataSource.SelectNextCategory();
 				}
 			}
@@ -121,14 +125,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 		{
 			this.IsEnabled = true;
 			this.OnEscapeMenuToggled(true);
-			this._initialClothSimValue = NativeOptions.GetConfig(49) == 0f;
+			this._initialClothSimValue = NativeOptions.GetConfig(53) == 0f;
 		}
 
 		private void OnCloseOptions()
 		{
 			this.IsEnabled = false;
 			this.OnEscapeMenuToggled(false);
-			bool flag = NativeOptions.GetConfig(49) == 0f;
+			bool flag = NativeOptions.GetConfig(53) == 0f;
 			if (this._initialClothSimValue != flag)
 			{
 				InformationManager.ShowInquiry(new InquiryData(Module.CurrentModule.GlobalTextManager.FindText("str_option_wont_take_effect_mission_title", null).ToString(), Module.CurrentModule.GlobalTextManager.FindText("str_option_wont_take_effect_mission_desc", null).ToString(), true, false, Module.CurrentModule.GlobalTextManager.FindText("str_ok", null).ToString(), string.Empty, null, null, "", 0f, null, null, null), true, false);
@@ -161,6 +165,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 				this._dataSource.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
 				this._dataSource.SetPreviousTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToPreviousTab"));
 				this._dataSource.SetNextTabInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("SwitchToNextTab"));
+				this._dataSource.SetResetInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Reset"));
 				int num = this.ViewOrderPriority + 1;
 				this.ViewOrderPriority = num;
 				this._gauntletLayer = new GauntletLayer(num, "GauntletLayer", false);

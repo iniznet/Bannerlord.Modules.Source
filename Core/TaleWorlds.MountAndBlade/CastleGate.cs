@@ -130,7 +130,7 @@ namespace TaleWorlds.MountAndBlade
 				identity.rotation.RotateAboutSide(-1.5707964f);
 				identity.rotation.RotateAboutForward(3.1415927f);
 				this._queueManager.Initialize(this._queueManager.ManagedNavigationFaceId, identity, -identity.rotation.u, BattleSideEnum.Defender, 15, 0.62831855f, 3f, 2.2f, 0f, 0f, false, 1f, 2.1474836E+09f, 5f, false, -2, -2, int.MaxValue, 15);
-				this._queueManager.IsDeactivated = false;
+				this._queueManager.Activate();
 			}
 			string sideTag = this.SideTag;
 			if (!(sideTag == "left"))
@@ -499,7 +499,7 @@ namespace TaleWorlds.MountAndBlade
 				base.Scene.SetAbilityOfFacesWithId(this.NavigationMeshId, isEnabled);
 				if (this._queueManager != null)
 				{
-					this._queueManager.IsDeactivated = false;
+					this._queueManager.Activate();
 					base.Scene.SetAbilityOfFacesWithId(this._queueManager.ManagedNavigationFaceId, isEnabled);
 				}
 			}

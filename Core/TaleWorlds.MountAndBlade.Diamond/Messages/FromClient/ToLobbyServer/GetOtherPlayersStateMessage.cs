@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.PlayerServices;
 
@@ -9,7 +10,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class GetOtherPlayersStateMessage : Message
 	{
-		public List<PlayerId> Players { get; }
+		[JsonProperty]
+		public List<PlayerId> Players { get; private set; }
+
+		public GetOtherPlayersStateMessage()
+		{
+		}
 
 		public GetOtherPlayersStateMessage(List<PlayerId> players)
 		{

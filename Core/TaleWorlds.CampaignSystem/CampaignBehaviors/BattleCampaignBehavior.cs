@@ -26,7 +26,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			foreach (KeyValuePair<PartyBase, ItemRoster> keyValuePair in lootedItems)
 			{
 				ItemRoster value = keyValuePair.Value;
-				new ItemRoster();
 				for (int i = value.Count - 1; i >= 0; i--)
 				{
 					ItemRosterElement elementCopyAtIndex = value.GetElementCopyAtIndex(i);

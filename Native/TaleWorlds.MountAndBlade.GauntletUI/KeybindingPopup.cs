@@ -17,8 +17,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._onDone = onDone;
 			this._messageStr = new BindingListStringItem(new TextObject("{=hvaDkG4w}Press any key.", null).ToString());
 			this._targetScreen = targetScreen;
-			this._gauntletLayer = new GauntletLayer(4005, "GauntletLayer", false);
-			this._gauntletLayer.InputRestrictions.SetInputRestrictions(true, 7);
 		}
 
 		public void Tick()
@@ -49,6 +47,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				this.IsActive = isActive;
 				if (this.IsActive)
 				{
+					this._gauntletLayer = new GauntletLayer(4005, "GauntletLayer", false);
 					ScreenManager.TrySetFocus(this._gauntletLayer);
 					this._gauntletLayer.IsFocusLayer = true;
 					this._gauntletLayer.InputRestrictions.SetInputRestrictions(true, 7);
@@ -68,6 +67,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 					this._movie = null;
 				}
 				this._targetScreen.RemoveLayer(this._gauntletLayer);
+				this._gauntletLayer = null;
 			}
 		}
 

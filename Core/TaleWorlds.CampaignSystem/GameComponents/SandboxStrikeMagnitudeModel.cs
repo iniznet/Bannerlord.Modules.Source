@@ -13,6 +13,25 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 100f;
 		}
 
+		public override float CalculateStrikeMagnitudeForMissile(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float missileDamage, float missileSpeed, float missileStartingSpeed, WeaponComponentData currentUsageWeaponComponent)
+		{
+			float num = missileSpeed;
+			float num2 = missileSpeed - missileStartingSpeed;
+			if (num2 > 0f)
+			{
+				ExplainedNumber explainedNumber = new ExplainedNumber(0f, false, null);
+				WeaponClass ammoClass = currentUsageWeaponComponent.AmmoClass;
+				CharacterObject characterObject = attackerCharacter as CharacterObject;
+				if (characterObject != null && characterObject.IsHero && (ammoClass == WeaponClass.Stone || ammoClass == WeaponClass.ThrowingAxe || ammoClass == WeaponClass.ThrowingKnife || ammoClass == WeaponClass.Javelin))
+				{
+					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Throwing.RunningThrow, characterObject, true, ref explainedNumber);
+				}
+				num += num2 * explainedNumber.ResultNumber;
+			}
+			num /= missileStartingSpeed;
+			return num * num * missileDamage;
+		}
+
 		public override float CalculateStrikeMagnitudeForSwing(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float swingSpeed, float impactPointAsPercent, float weaponWeight, WeaponComponentData weaponUsageComponent, float weaponLength, float weaponInertia, float weaponCoM, float extraLinearSpeed, bool doesAttackerHaveMount)
 		{
 			CharacterObject characterObject = attackerCharacter as CharacterObject;
@@ -20,12 +39,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			if (characterObject != null && extraLinearSpeed > 0f)
 			{
 				SkillObject relevantSkill = weaponUsageComponent.RelevantSkill;
+				CharacterObject characterObject2 = attackerCaptainCharacter as CharacterObject;
 				if (doesAttackerHaveMount)
 				{
-					if ((relevantSkill == DefaultSkills.OneHanded || relevantSkill == DefaultSkills.TwoHanded || relevantSkill == DefaultSkills.Polearm) && attackerCaptainCharacter != null)
-					{
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.NomadicTraditions, attackerCaptainCharacter as CharacterObject, ref explainedNumber);
-					}
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.NomadicTraditions, characterObject2, ref explainedNumber);
 				}
 				else
 				{
@@ -35,15 +52,15 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					}
 					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Roguery.DashAndSlash, characterObject, true, ref explainedNumber);
 					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.SurgingBlow, characterObject, true, ref explainedNumber);
-					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.SurgingBlow, attackerCaptainCharacter as CharacterObject, ref explainedNumber);
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.SurgingBlow, characterObject2, ref explainedNumber);
 				}
 				if (relevantSkill == DefaultSkills.Polearm)
 				{
-					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.Lancer, attackerCaptainCharacter as CharacterObject, ref explainedNumber);
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.Lancer, characterObject2, ref explainedNumber);
 					if (doesAttackerHaveMount)
 					{
-						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.Lancer, attackerCharacter as CharacterObject, true, ref explainedNumber);
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.UnstoppableForce, attackerCaptainCharacter as CharacterObject, ref explainedNumber);
+						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.Lancer, characterObject, true, ref explainedNumber);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.UnstoppableForce, characterObject2, ref explainedNumber);
 					}
 				}
 			}
@@ -57,7 +74,12 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			if (characterObject != null && extraLinearSpeed > 0f)
 			{
 				SkillObject relevantSkill = weaponUsageComponent.RelevantSkill;
-				if (!doesAttackerHaveMount)
+				CharacterObject characterObject2 = attackerCaptainCharacter as CharacterObject;
+				if (doesAttackerHaveMount)
+				{
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Riding.NomadicTraditions, characterObject2, ref explainedNumber);
+				}
+				else
 				{
 					if (relevantSkill == DefaultSkills.TwoHanded)
 					{
@@ -65,30 +87,19 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					}
 					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Roguery.DashAndSlash, characterObject, true, ref explainedNumber);
 					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Athletics.SurgingBlow, characterObject, true, ref explainedNumber);
-					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.SurgingBlow, attackerCaptainCharacter as CharacterObject, ref explainedNumber);
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Athletics.SurgingBlow, characterObject2, ref explainedNumber);
 				}
 				if (relevantSkill == DefaultSkills.Polearm)
 				{
-					PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.Lancer, attackerCharacter as CharacterObject, true, ref explainedNumber);
-					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.Lancer, attackerCaptainCharacter as CharacterObject, ref explainedNumber);
+					PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.Lancer, characterObject2, ref explainedNumber);
 					if (doesAttackerHaveMount)
 					{
-						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.UnstoppableForce, attackerCaptainCharacter as CharacterObject, ref explainedNumber);
+						PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Polearm.Lancer, characterObject, true, ref explainedNumber);
+						PerkHelper.AddPerkBonusFromCaptain(DefaultPerks.Polearm.UnstoppableForce, characterObject2, ref explainedNumber);
 					}
 				}
 			}
 			return CombatStatCalculator.CalculateStrikeMagnitudeForThrust(thrustWeaponSpeed, weaponWeight, explainedNumber.ResultNumber, isThrown);
-		}
-
-		public override float CalculateSpeedBonusMultiplierForMissile(BasicCharacterObject attackerCharacter, WeaponClass ammoClass)
-		{
-			float num = 0f;
-			CharacterObject characterObject;
-			if ((characterObject = attackerCharacter as CharacterObject) != null && characterObject.IsHero && (ammoClass == WeaponClass.Stone || ammoClass == WeaponClass.ThrowingAxe || ammoClass == WeaponClass.ThrowingKnife || ammoClass == WeaponClass.Javelin) && characterObject.GetPerkValue(DefaultPerks.Throwing.RunningThrow))
-			{
-				num += DefaultPerks.Throwing.RunningThrow.PrimaryBonus;
-			}
-			return num;
 		}
 
 		public override float ComputeRawDamage(DamageTypes damageType, float magnitude, float armorEffectiveness, float absorbedDamageRatio)
@@ -110,7 +121,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				num4 = MathF.Max(0f, num2 - armorEffectiveness * 0.2f);
 				break;
 			default:
-				Debug.FailedAssert("Given damage type is invalid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\SandboxStrikeMagnitudeModel.cs", "ComputeRawDamage", 153);
+				Debug.FailedAssert("Given damage type is invalid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\GameComponents\\SandboxStrikeMagnitudeModel.cs", "ComputeRawDamage", 174);
 				return 0f;
 			}
 			num3 += (1f - bluntDamageFactorByDamageType) * num4;
@@ -190,7 +201,8 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 							}
 						}
 					}
-					num = MathF.Max(0f, explainedNumber.ResultNumber);
+					float num2 = explainedNumber.ResultNumber - baseArmor;
+					num = MathF.Max(0f, baseArmor - num2);
 				}
 			}
 			return num;

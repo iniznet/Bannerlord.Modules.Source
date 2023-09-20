@@ -1,8 +1,10 @@
 ﻿using System;
+using TaleWorlds.DotNet;
 
 namespace TaleWorlds.MountAndBlade
 {
 	[Flags]
+	[EngineStruct("Combat_hit_result_flags", false)]
 	public enum CombatHitResultFlags : byte
 	{
 		NormalHit = 0,

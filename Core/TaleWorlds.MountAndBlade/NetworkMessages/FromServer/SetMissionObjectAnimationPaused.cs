@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetMissionObjectAnimationPaused : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public bool IsPaused { get; private set; }
 
-		public SetMissionObjectAnimationPaused(MissionObject missionObject, bool isPaused)
+		public SetMissionObjectAnimationPaused(MissionObjectId missionObjectId, bool isPaused)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.IsPaused = isPaused;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.IsPaused = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteBoolToPacket(this.IsPaused);
 		}
 
@@ -47,9 +47,7 @@ namespace NetworkMessages.FromServer
 				"Set animation to be: ",
 				this.IsPaused ? "Paused" : "Not paused",
 				" on MissionObject with ID: ",
-				this.MissionObject.Id,
-				" and with name: ",
-				this.MissionObject.GameEntity.Name
+				this.MissionObjectId
 			});
 		}
 	}

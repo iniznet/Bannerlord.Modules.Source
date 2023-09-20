@@ -33,7 +33,7 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 				Input.Initialize(new StandaloneInputManager(this._graphicsForm), null);
 				this._graphicsForm.InitializeGraphicsContext(this._resourceDepot);
 				this._graphicsContext = this._graphicsForm.GraphicsContext;
-				TwoDimensionPlatform twoDimensionPlatform = new TwoDimensionPlatform(this._graphicsForm);
+				TwoDimensionPlatform twoDimensionPlatform = new TwoDimensionPlatform(this._graphicsForm, true);
 				this._twoDimensionContext = new TwoDimensionContext(twoDimensionPlatform, twoDimensionPlatform, this._resourceDepot);
 				StandaloneInputService standaloneInputService = new StandaloneInputService(this._graphicsForm);
 				InputContext inputContext = new InputContext();

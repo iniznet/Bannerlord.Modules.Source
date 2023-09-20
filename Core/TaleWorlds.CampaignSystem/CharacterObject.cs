@@ -325,28 +325,16 @@ namespace TaleWorlds.CampaignSystem
 		{
 			CharacterObject characterObject = MBObjectManager.Instance.CreateObject<CharacterObject>();
 			characterObject._originCharacter = character._originCharacter ?? character;
-			characterObject.Culture = character.Culture;
-			characterObject.DefaultFormationClass = character.DefaultFormationClass;
-			characterObject.DefaultFormationGroup = character.DefaultFormationGroup;
-			characterObject.BodyPropertyRange = character.BodyPropertyRange;
 			if (characterObject.IsHero)
 			{
 				characterObject.HeroObject.StaticBodyProperties = (character.IsHero ? character.HeroObject.StaticBodyProperties : character.GetBodyPropertiesMin(false).StaticProperties);
 			}
-			characterObject.FormationPositionPreference = character.FormationPositionPreference;
-			characterObject.IsFemale = character.IsFemale;
-			characterObject.Level = character.Level;
-			characterObject._basicName = character.Name;
 			characterObject._occupation = character._occupation;
 			characterObject._persona = character._persona;
-			characterObject.Age = character.Age;
-			characterObject.CharacterSkills = character.CharacterSkills;
 			characterObject._characterTraits = new CharacterTraits(character._characterTraits);
-			characterObject.HairTags = character.HairTags;
-			characterObject.BeardTags = character.BeardTags;
 			characterObject._civilianEquipmentTemplate = character._civilianEquipmentTemplate;
 			characterObject._battleEquipmentTemplate = character._battleEquipmentTemplate;
-			characterObject.InitializeEquipmentsOnLoad(character);
+			characterObject.FillFrom(character);
 			return characterObject;
 		}
 
@@ -564,7 +552,7 @@ namespace TaleWorlds.CampaignSystem
 			this._battleEquipmentTemplate = this._originCharacter._battleEquipmentTemplate;
 			this._persona = this._originCharacter._persona;
 			this._characterTraits = this._originCharacter._characterTraits;
-			this.CharacterSkills = this._originCharacter.CharacterSkills;
+			this.DefaultCharacterSkills = this._originCharacter.DefaultCharacterSkills;
 			base.IsReady = true;
 		}
 

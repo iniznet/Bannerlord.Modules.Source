@@ -11,16 +11,19 @@ namespace TaleWorlds.Engine
 		Scene CreateNewScene(bool initialize_physics, bool enable_decals = true, int atlasGroup = 0, string sceneName = "mono_renderscene");
 
 		[EngineMethod("get_path_between_ai_face_pointers", false)]
-		bool GetPathBetweenAIFacePointers(UIntPtr scenePointer, UIntPtr startingAiFace, UIntPtr endingAiFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, Vec2[] result, ref int pathSize);
+		bool GetPathBetweenAIFacePointers(UIntPtr scenePointer, UIntPtr startingAiFace, UIntPtr endingAiFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, Vec2[] result, ref int pathSize, int[] exclusionGroupIds, int exlusionGroupIdsCount);
 
 		[EngineMethod("get_path_between_ai_face_indices", false)]
-		bool GetPathBetweenAIFaceIndices(UIntPtr scenePointer, int startingAiFace, int endingAiFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, Vec2[] result, ref int pathSize);
+		bool GetPathBetweenAIFaceIndices(UIntPtr scenePointer, int startingAiFace, int endingAiFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, Vec2[] result, ref int pathSize, int[] exclusionGroupIds, int exlusionGroupIdsCount, float extraCostMultiplier);
 
 		[EngineMethod("get_path_distance_between_ai_faces", false)]
 		bool GetPathDistanceBetweenAIFaces(UIntPtr scenePointer, int startingAiFace, int endingAiFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, float distanceLimit, out float distance);
 
 		[EngineMethod("get_nav_mesh_face_index", false)]
 		void GetNavMeshFaceIndex(UIntPtr scenePointer, ref PathFaceRecord record, Vec2 position, bool checkIfDisabled, bool ignoreHeight);
+
+		[EngineMethod("is_default_editor_scene", false)]
+		bool IsDefaultEditorScene(Scene scene);
 
 		[EngineMethod("is_multiplayer_scene", false)]
 		bool IsMultiplayerScene(Scene scene);
@@ -57,6 +60,9 @@ namespace TaleWorlds.Engine
 
 		[EngineMethod("get_loading_state_name", false)]
 		string GetLoadingStateName(Scene scene);
+
+		[EngineMethod("is_loading_finished", false)]
+		bool IsLoadingFinished(Scene scene);
 
 		[EngineMethod("set_photo_mode_roll", false)]
 		void SetPhotoModeRoll(Scene scene, float roll);
@@ -567,6 +573,9 @@ namespace TaleWorlds.Engine
 
 		[EngineMethod("does_path_exist_between_faces", false)]
 		bool DoesPathExistBetweenFaces(UIntPtr scenePointer, int firstNavMeshFace, int secondNavMeshFace, bool ignoreDisabled);
+
+		[EngineMethod("set_landscape_rain_mask_data", false)]
+		void SetLandscapeRainMaskData(UIntPtr scenePointer, byte[] data);
 
 		[EngineMethod("ensure_postfx_system", false)]
 		void EnsurePostfxSystem(UIntPtr scenePointer);

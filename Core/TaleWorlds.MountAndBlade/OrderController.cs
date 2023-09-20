@@ -90,12 +90,12 @@ namespace TaleWorlds.MountAndBlade
 				{
 					OrderController.PlayFormationSelectedGesture(formation, selectorAgent);
 				}
-				MBDebug.Print(((formation != null) ? new FormationClass?(formation.InitialClass) : null) + " added to selected formations.", 0, Debug.DebugColor.White, 17592186044416UL);
+				MBDebug.Print(((formation != null) ? new FormationClass?(formation.RepresentativeClass) : null) + " added to selected formations.", 0, Debug.DebugColor.White, 17592186044416UL);
 				this._selectedFormations.Add(formation);
 				this.OnSelectedFormationsCollectionChanged();
 				return;
 			}
-			Debug.FailedAssert("Formation already selected or is not selectable", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SelectFormation", 208);
+			Debug.FailedAssert("Formation already selected or is not selectable", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SelectFormation", 205);
 		}
 
 		public void SelectFormation(Formation formation)
@@ -113,12 +113,12 @@ namespace TaleWorlds.MountAndBlade
 					GameNetwork.WriteMessage(new UnselectFormation(formation.Index));
 					GameNetwork.EndModuleEventAsClient();
 				}
-				MBDebug.Print(((formation != null) ? new FormationClass?(formation.InitialClass) : null) + " is removed from selected formations.", 0, Debug.DebugColor.White, 17592186044416UL);
+				MBDebug.Print(((formation != null) ? new FormationClass?(formation.RepresentativeClass) : null) + " is removed from selected formations.", 0, Debug.DebugColor.White, 17592186044416UL);
 				this._selectedFormations.Remove(formation);
 				this.OnSelectedFormationsCollectionChanged();
 				return;
 			}
-			Debug.FailedAssert("Trying to deselect an unselected formation", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "DeselectFormation", 234);
+			Debug.FailedAssert("Trying to deselect an unselected formation", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "DeselectFormation", 231);
 		}
 
 		public bool IsFormationListening(Formation formation)
@@ -176,7 +176,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			foreach (Formation formation in formationsIncludingEmpty.Where(func))
 			{
-				MBDebug.Print(formation.InitialClass + " added to selected formations.", 0, Debug.DebugColor.White, 17592186044416UL);
+				MBDebug.Print(formation.RepresentativeClass + " added to selected formations.", 0, Debug.DebugColor.White, 17592186044416UL);
 				this._selectedFormations.Add(formation);
 			}
 			this.OnSelectedFormationsCollectionChanged();
@@ -200,14 +200,6 @@ namespace TaleWorlds.MountAndBlade
 			this.OnSelectedFormationsCollectionChanged();
 		}
 
-		public void ReleaseFormationsFromAI()
-		{
-			foreach (Formation formation in this.SelectedFormations)
-			{
-				formation.ReleaseFormationFromAI();
-			}
-		}
-
 		public unsafe void SetOrder(OrderType orderType)
 		{
 			MBDebug.Print("SetOrder " + orderType + "on team", 0, Debug.DebugColor.White, 17592186044416UL);
@@ -229,7 +221,7 @@ namespace TaleWorlds.MountAndBlade
 						Formation formation = enumerator.Current;
 						formation.SetMovementOrder(MovementOrder.MovementOrderCharge);
 					}
-					goto IL_80E;
+					goto IL_79A;
 				}
 				break;
 			}
@@ -243,61 +235,57 @@ namespace TaleWorlds.MountAndBlade
 			case OrderType.CohesionMedium:
 			case OrderType.CohesionLow:
 			case OrderType.RideFree:
-				goto IL_7F5;
+				goto IL_781;
 			case OrderType.StandYourGround:
 				break;
 			case OrderType.Retreat:
-				goto IL_2A4;
+				goto IL_29C;
 			case OrderType.AdvanceTenPaces:
-				goto IL_160;
+				goto IL_158;
 			case OrderType.FallBackTenPaces:
-				goto IL_1C6;
+				goto IL_1BE;
 			case OrderType.Advance:
-				goto IL_22E;
+				goto IL_226;
 			case OrderType.FallBack:
-				goto IL_269;
+				goto IL_261;
 			case OrderType.LookAtEnemy:
-				goto IL_2DF;
+				goto IL_2D7;
 			case OrderType.ArrangementLine:
-				goto IL_530;
+				goto IL_4BC;
 			case OrderType.ArrangementCloseOrder:
-				goto IL_571;
+				goto IL_4FD;
 			case OrderType.ArrangementLoose:
-				goto IL_5B2;
+				goto IL_53E;
 			case OrderType.ArrangementCircular:
-				goto IL_5F3;
+				goto IL_57F;
 			case OrderType.ArrangementSchiltron:
-				goto IL_634;
+				goto IL_5C0;
 			case OrderType.ArrangementVee:
-				goto IL_675;
+				goto IL_601;
 			case OrderType.ArrangementColumn:
-				goto IL_6B6;
+				goto IL_642;
 			case OrderType.ArrangementScatter:
-				goto IL_6F7;
+				goto IL_683;
 			case OrderType.FormDeep:
-				goto IL_738;
+				goto IL_6C4;
 			case OrderType.FormWide:
-				goto IL_779;
+				goto IL_705;
 			case OrderType.FormWider:
-				goto IL_7B7;
+				goto IL_743;
 			case OrderType.HoldFire:
-				goto IL_324;
+				goto IL_31C;
 			case OrderType.FireAtWill:
-				goto IL_35F;
+				goto IL_357;
 			case OrderType.Mount:
-				goto IL_3F2;
+				goto IL_3EF;
 			case OrderType.Dismount:
-				goto IL_39A;
-			case OrderType.UseAnyWeapon:
-				goto IL_44A;
-			case OrderType.UseBluntWeaponsOnly:
-				goto IL_485;
+				goto IL_392;
 			case OrderType.AIControlOn:
-				goto IL_4C0;
+				goto IL_44C;
 			case OrderType.AIControlOff:
-				goto IL_4F8;
+				goto IL_484;
 			default:
-				goto IL_7F5;
+				goto IL_781;
 			}
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
@@ -306,9 +294,9 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation2 = enumerator.Current;
 					formation2.SetMovementOrder(MovementOrder.MovementOrderStop);
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_160:
+			IL_158:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -322,9 +310,9 @@ namespace TaleWorlds.MountAndBlade
 						formation3.SetMovementOrder(movementOrder);
 					}
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_1C6:
+			IL_1BE:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -338,9 +326,9 @@ namespace TaleWorlds.MountAndBlade
 						formation4.SetMovementOrder(movementOrder2);
 					}
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_22E:
+			IL_226:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -348,9 +336,9 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation5 = enumerator.Current;
 					formation5.SetMovementOrder(MovementOrder.MovementOrderAdvance);
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_269:
+			IL_261:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -358,9 +346,9 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation6 = enumerator.Current;
 					formation6.SetMovementOrder(MovementOrder.MovementOrderFallBack);
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_2A4:
+			IL_29C:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -368,9 +356,9 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation7 = enumerator.Current;
 					formation7.SetMovementOrder(MovementOrder.MovementOrderRetreat);
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_2DF:
+			IL_2D7:
 			FacingOrder facingOrderLookAtEnemy = FacingOrder.FacingOrderLookAtEnemy;
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
@@ -380,9 +368,9 @@ namespace TaleWorlds.MountAndBlade
 					OrderController.TryCancelStopOrder(formation8);
 					formation8.FacingOrder = facingOrderLookAtEnemy;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_324:
+			IL_31C:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -390,9 +378,9 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation9 = enumerator.Current;
 					formation9.FiringOrder = FiringOrder.FiringOrderHoldYourFire;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_35F:
+			IL_357:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -400,200 +388,180 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation10 = enumerator.Current;
 					formation10.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_39A:
+			IL_392:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation11 = enumerator.Current;
-					if (formation11.IsMounted() || formation11.HasAnyMountedUnit)
+					if (formation11.PhysicalClass.IsMounted() || formation11.HasAnyMountedUnit)
 					{
 						OrderController.TryCancelStopOrder(formation11);
 					}
 					formation11.RidingOrder = RidingOrder.RidingOrderDismount;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_3F2:
+			IL_3EF:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation12 = enumerator.Current;
-					if (formation12.IsMounted() || formation12.HasAnyMountedUnit)
+					if (formation12.PhysicalClass.IsMounted() || formation12.HasAnyMountedUnit)
 					{
 						OrderController.TryCancelStopOrder(formation12);
 					}
 					formation12.RidingOrder = RidingOrder.RidingOrderMount;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_44A:
+			IL_44C:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation13 = enumerator.Current;
-					formation13.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
+					formation13.SetControlledByAI(true, false);
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_485:
+			IL_484:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation14 = enumerator.Current;
-					formation14.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseOnlyBlunt;
+					formation14.SetControlledByAI(false, false);
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_4C0:
+			IL_4BC:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation15 = enumerator.Current;
-					formation15.SetControlledByAI(true, false);
+					OrderController.TryCancelStopOrder(formation15);
+					formation15.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_4F8:
+			IL_4FD:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation16 = enumerator.Current;
-					formation16.SetControlledByAI(false, false);
+					OrderController.TryCancelStopOrder(formation16);
+					formation16.ArrangementOrder = ArrangementOrder.ArrangementOrderShieldWall;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_530:
+			IL_53E:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation17 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation17);
-					formation17.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
+					formation17.ArrangementOrder = ArrangementOrder.ArrangementOrderLoose;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_571:
+			IL_57F:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation18 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation18);
-					formation18.ArrangementOrder = ArrangementOrder.ArrangementOrderShieldWall;
+					formation18.ArrangementOrder = ArrangementOrder.ArrangementOrderCircle;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_5B2:
+			IL_5C0:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation19 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation19);
-					formation19.ArrangementOrder = ArrangementOrder.ArrangementOrderLoose;
+					formation19.ArrangementOrder = ArrangementOrder.ArrangementOrderSquare;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_5F3:
+			IL_601:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation20 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation20);
-					formation20.ArrangementOrder = ArrangementOrder.ArrangementOrderCircle;
+					formation20.ArrangementOrder = ArrangementOrder.ArrangementOrderSkein;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_634:
+			IL_642:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation21 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation21);
-					formation21.ArrangementOrder = ArrangementOrder.ArrangementOrderSquare;
+					formation21.ArrangementOrder = ArrangementOrder.ArrangementOrderColumn;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_675:
+			IL_683:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation22 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation22);
-					formation22.ArrangementOrder = ArrangementOrder.ArrangementOrderSkein;
+					formation22.ArrangementOrder = ArrangementOrder.ArrangementOrderScatter;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_6B6:
+			IL_6C4:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation23 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation23);
-					formation23.ArrangementOrder = ArrangementOrder.ArrangementOrderColumn;
+					formation23.FormOrder = FormOrder.FormOrderDeep;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_6F7:
+			IL_705:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation24 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation24);
-					formation24.ArrangementOrder = ArrangementOrder.ArrangementOrderScatter;
+					formation24.FormOrder = FormOrder.FormOrderWide;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_738:
+			IL_743:
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
 				{
 					Formation formation25 = enumerator.Current;
 					OrderController.TryCancelStopOrder(formation25);
-					formation25.FormOrder = FormOrder.FormOrderDeep;
+					formation25.FormOrder = FormOrder.FormOrderWider;
 				}
-				goto IL_80E;
+				goto IL_79A;
 			}
-			IL_779:
-			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
-			{
-				while (enumerator.MoveNext())
-				{
-					Formation formation26 = enumerator.Current;
-					OrderController.TryCancelStopOrder(formation26);
-					formation26.FormOrder = FormOrder.FormOrderWide;
-				}
-				goto IL_80E;
-			}
-			IL_7B7:
-			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
-			{
-				while (enumerator.MoveNext())
-				{
-					Formation formation27 = enumerator.Current;
-					OrderController.TryCancelStopOrder(formation27);
-					formation27.FormOrder = FormOrder.FormOrderWider;
-				}
-				goto IL_80E;
-			}
-			IL_7F5:
-			Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrder", 686);
-			IL_80E:
+			IL_781:
+			Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrder", 631);
+			IL_79A:
 			this.AfterSetOrder(orderType);
 			if (this.OnOrderIssued != null)
 			{
@@ -736,37 +704,33 @@ namespace TaleWorlds.MountAndBlade
 				case WeaponClass.Boulder:
 					return;
 				}
-				Debug.FailedAssert("Unexpected weapon class.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "PlayOrderGestures", 863);
+				Debug.FailedAssert("Unexpected weapon class.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "PlayOrderGestures", 808);
 			}
 		}
 
 		private static void PlayFormationSelectedGesture(Formation formation, Agent agent)
 		{
-			if (formation.SecondaryClasses.Any<FormationClass>())
+			if (formation.SecondaryLogicalClasses.Any<FormationClass>())
 			{
 				agent.MakeVoice(SkinVoiceManager.VoiceType.MixedFormation, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
 				return;
 			}
-			switch (formation.PrimaryClass)
+			switch (formation.LogicalClass)
 			{
 			case FormationClass.Infantry:
-			case FormationClass.HeavyInfantry:
 				agent.MakeVoice(SkinVoiceManager.VoiceType.Infantry, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
 				return;
 			case FormationClass.Ranged:
-			case FormationClass.NumberOfDefaultFormations:
 				agent.MakeVoice(SkinVoiceManager.VoiceType.Archers, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
 				return;
 			case FormationClass.Cavalry:
-			case FormationClass.LightCavalry:
-			case FormationClass.HeavyCavalry:
 				agent.MakeVoice(SkinVoiceManager.VoiceType.Cavalry, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
 				return;
 			case FormationClass.HorseArcher:
 				agent.MakeVoice(SkinVoiceManager.VoiceType.HorseArchers, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
 				return;
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "PlayFormationSelectedGesture", 902);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "PlayFormationSelectedGesture", 844);
 				return;
 			}
 		}
@@ -805,7 +769,13 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (!GameNetwork.IsClientOrReplay && orderType != OrderType.AIControlOff && orderType != OrderType.AIControlOn)
 			{
-				this.ReleaseFormationsFromAI();
+				foreach (Formation formation2 in this.SelectedFormations)
+				{
+					if (formation2.IsAIControlled && formation2.PlayerOwner != null)
+					{
+						formation2.SetControlledByAI(false, false);
+					}
+				}
 			}
 		}
 
@@ -816,14 +786,14 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsClient)
 			{
 				GameNetwork.BeginModuleEventAsClient();
-				GameNetwork.WriteMessage(new ApplyOrderWithAgent(orderType, agent));
+				GameNetwork.WriteMessage(new ApplyOrderWithAgent(orderType, agent.Index));
 				GameNetwork.EndModuleEventAsClient();
 			}
 			if (orderType != OrderType.FollowMe)
 			{
 				if (orderType != OrderType.GuardMe)
 				{
-					goto IL_E7;
+					goto IL_EC;
 				}
 			}
 			else
@@ -835,7 +805,7 @@ namespace TaleWorlds.MountAndBlade
 						Formation formation = enumerator.Current;
 						formation.SetMovementOrder(MovementOrder.MovementOrderFollow(agent));
 					}
-					goto IL_100;
+					goto IL_105;
 				}
 			}
 			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
@@ -845,11 +815,11 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation2 = enumerator.Current;
 					formation2.SetMovementOrder(MovementOrder.MovementOrderGuard(agent));
 				}
-				goto IL_100;
+				goto IL_105;
 			}
-			IL_E7:
-			Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithAgent", 988);
-			IL_100:
+			IL_EC:
+			Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithAgent", 939);
+			IL_105:
 			this.AfterSetOrder(orderType);
 			OnOrderIssuedDelegate onOrderIssued = this.OnOrderIssued;
 			if (onOrderIssued == null)
@@ -914,7 +884,7 @@ namespace TaleWorlds.MountAndBlade
 				goto IL_173;
 			}
 			IL_15A:
-			Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithPosition", 1038);
+			Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithPosition", 989);
 			IL_173:
 			this.AfterSetOrder(orderType);
 			if (this.OnOrderIssued != null)
@@ -933,20 +903,39 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork.WriteMessage(new ApplyOrderWithFormation(orderType, orderFormation.Index));
 				GameNetwork.EndModuleEventAsClient();
 			}
-			if (orderType == OrderType.ChargeWithTarget)
+			if (orderType != OrderType.Charge)
+			{
+				if (orderType != OrderType.Advance)
+				{
+					goto IL_F3;
+				}
+			}
+			else
 			{
 				using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
 				{
 					while (enumerator.MoveNext())
 					{
 						Formation formation = enumerator.Current;
-						formation.SetMovementOrder(MovementOrder.MovementOrderChargeToTarget(orderFormation));
+						formation.SetMovementOrder(MovementOrder.MovementOrderCharge);
+						formation.SetTargetFormation(orderFormation);
 					}
-					goto IL_C0;
+					goto IL_10C;
 				}
 			}
-			Debug.FailedAssert("Invalid order type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithFormation", 1073);
-			IL_C0:
+			using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
+			{
+				while (enumerator.MoveNext())
+				{
+					Formation formation2 = enumerator.Current;
+					formation2.SetMovementOrder(MovementOrder.MovementOrderAdvance);
+					formation2.SetTargetFormation(orderFormation);
+				}
+				goto IL_10C;
+			}
+			IL_F3:
+			Debug.FailedAssert("Invalid order type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithFormation", 1032);
+			IL_10C:
 			this.AfterSetOrder(orderType);
 			if (this.OnOrderIssued != null)
 			{
@@ -965,7 +954,7 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork.WriteMessage(new ApplyOrderWithFormationAndPercentage(orderType, orderFormation.Index, num));
 				GameNetwork.EndModuleEventAsClient();
 			}
-			Debug.FailedAssert("Invalid order type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithFormationAndPercentage", 1114);
+			Debug.FailedAssert("Invalid order type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithFormationAndPercentage", 1073);
 			this.AfterSetOrder(orderType);
 			if (this.OnOrderIssued != null)
 			{
@@ -975,7 +964,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public void TransferUnitWithPriorityFunction(Formation orderFormation, int number, bool hasShield, bool hasSpear, bool hasThrown, bool isHeavy, bool isRanged, bool isMounted, bool excludeBannerman, List<Agent> excludedAgents)
 		{
-			OrderController.<>c__DisplayClass74_0 CS$<>8__locals1 = new OrderController.<>c__DisplayClass74_0();
+			OrderController.<>c__DisplayClass73_0 CS$<>8__locals1 = new OrderController.<>c__DisplayClass73_0();
 			CS$<>8__locals1.hasShield = hasShield;
 			CS$<>8__locals1.hasSpear = hasSpear;
 			CS$<>8__locals1.hasThrown = hasThrown;
@@ -1090,7 +1079,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithFormationAndNumber", 1363);
+				Debug.FailedAssert("[DEBUG]Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithFormationAndNumber", 1322);
 			}
 			this.AfterSetOrder(orderType);
 			if (this.OnOrderIssued != null)
@@ -1131,7 +1120,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				Debug.FailedAssert("Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithTwoPositions", 1419);
+				Debug.FailedAssert("Invalid order type.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "SetOrderWithTwoPositions", 1378);
 			}
 			this.AfterSetOrder(orderType);
 			if (this.OnOrderIssued != null)
@@ -1149,7 +1138,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsClient)
 			{
 				GameNetwork.BeginModuleEventAsClient();
-				GameNetwork.WriteMessage(new ApplyOrderWithMissionObject(missionObject));
+				GameNetwork.WriteMessage(new ApplyOrderWithMissionObject(missionObject.Id));
 				GameNetwork.EndModuleEventAsClient();
 			}
 			switch (order)
@@ -1157,7 +1146,7 @@ namespace TaleWorlds.MountAndBlade
 			case OrderType.Move:
 				break;
 			case OrderType.MoveToLineSegment:
-				goto IL_19A;
+				goto IL_19F;
 			case OrderType.MoveToLineSegmentWithHorizontalLayout:
 			{
 				IPointDefendable pointDefendable = target as IPointDefendable;
@@ -1169,20 +1158,22 @@ namespace TaleWorlds.MountAndBlade
 					WorldPosition worldPosition = new WorldPosition(this._mission.Scene, UIntPtr.Zero, globalPosition, false);
 					WorldPosition worldPosition2 = new WorldPosition(this._mission.Scene, UIntPtr.Zero, globalPosition2, false);
 					OrderController.MoveToLineSegment(enumerable, this.simulationFormations, worldPosition, worldPosition2, this.OnOrderIssued, this.actualWidths, this.actualUnitSpacings, false);
-					goto IL_36F;
+					goto IL_3A6;
 				}
-				goto IL_36F;
+				goto IL_3A6;
 			}
 			default:
 			{
 				if (order == OrderType.FollowEntity)
 				{
 					GameEntity waitEntity = (target as UsableMachine).WaitEntity;
+					Vec2 vec = waitEntity.GetGlobalFrame().rotation.f.AsVec2.Normalized();
 					foreach (Formation formation in this.SelectedFormations)
 					{
+						formation.FacingOrder = FacingOrder.FacingOrderLookAtDirection(vec);
 						formation.SetMovementOrder(MovementOrder.MovementOrderFollowEntity(waitEntity));
 					}
-					goto IL_36F;
+					goto IL_3A6;
 				}
 				switch (order)
 				{
@@ -1190,7 +1181,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					UsableMachine usableMachine = target as UsableMachine;
 					this.ToggleSideOrderUse(this.SelectedFormations, usableMachine);
-					goto IL_36F;
+					goto IL_3A6;
 				}
 				case OrderType.AttackEntity:
 				{
@@ -1202,14 +1193,14 @@ namespace TaleWorlds.MountAndBlade
 							Formation formation2 = enumerator.Current;
 							formation2.SetMovementOrder(MovementOrder.MovementOrderAttackEntity(gameEntity, !(missionObject is CastleGate)));
 						}
-						goto IL_36F;
+						goto IL_3A6;
 					}
 					break;
 				}
 				case OrderType.PointDefence:
 					break;
 				default:
-					goto IL_36F;
+					goto IL_3A6;
 				}
 				IPointDefendable pointDefendable2 = target as IPointDefendable;
 				using (List<Formation>.Enumerator enumerator = this.SelectedFormations.GetEnumerator())
@@ -1219,7 +1210,7 @@ namespace TaleWorlds.MountAndBlade
 						Formation formation3 = enumerator.Current;
 						formation3.SetMovementOrder(MovementOrder.MovementOrderMove(pointDefendable2.MiddleFrame.Origin));
 					}
-					goto IL_36F;
+					goto IL_3A6;
 				}
 				break;
 			}
@@ -1232,9 +1223,9 @@ namespace TaleWorlds.MountAndBlade
 					Formation formation4 = enumerator.Current;
 					formation4.SetMovementOrder(MovementOrder.MovementOrderMove(worldPosition3));
 				}
-				goto IL_36F;
+				goto IL_3A6;
 			}
-			IL_19A:
+			IL_19F:
 			IPointDefendable pointDefendable3 = target as IPointDefendable;
 			Vec3 globalPosition3 = pointDefendable3.DefencePoints.Last<DefencePoint>().GameEntity.GlobalPosition;
 			Vec3 globalPosition4 = pointDefendable3.DefencePoints.First<DefencePoint>().GameEntity.GlobalPosition;
@@ -1245,7 +1236,7 @@ namespace TaleWorlds.MountAndBlade
 				WorldPosition worldPosition5 = new WorldPosition(this._mission.Scene, UIntPtr.Zero, globalPosition4, false);
 				OrderController.MoveToLineSegment(enumerable2, this.simulationFormations, worldPosition4, worldPosition5, this.OnOrderIssued, this.actualWidths, this.actualUnitSpacings, true);
 			}
-			IL_36F:
+			IL_3A6:
 			this.AfterSetOrder(order);
 			OnOrderIssuedDelegate onOrderIssued = this.OnOrderIssued;
 			if (onOrderIssued == null)
@@ -1300,7 +1291,7 @@ namespace TaleWorlds.MountAndBlade
 			case MovementOrder.MovementStateEnum.StandGround:
 				return OrderType.StandYourGround;
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "GetActiveMovementOrderOf", 1580);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "GetActiveMovementOrderOf", 1541);
 				return OrderType.Move;
 			}
 		}
@@ -1332,11 +1323,6 @@ namespace TaleWorlds.MountAndBlade
 		public static OrderType GetActiveFormOrderOf(Formation formation)
 		{
 			return formation.FormOrder.OrderType;
-		}
-
-		public static OrderType GetActiveWeaponUsageOrderOf(Formation formation)
-		{
-			return formation.WeaponUsageOrder.OrderType;
 		}
 
 		public static OrderType GetActiveFiringOrderOf(Formation formation)
@@ -1526,25 +1512,21 @@ namespace TaleWorlds.MountAndBlade
 			float num2 = formations.Sum((Formation f) => f.Width);
 			bool flag = num.ApproximatelyEqualsTo(num2, 0.1f);
 			float num3 = formations.Sum((Formation f) => f.MinimumWidth);
-			float num4 = num3 + (float)(formations.Count<Formation>() - 1) * 1.5f;
-			if (length < num4)
-			{
-				num = num3;
-			}
+			formations.Count<Formation>();
 			Vec2 vec2 = new Vec2(-vec.y, vec.x).Normalized();
-			float num5 = 0f;
+			float num4 = 0f;
 			foreach (Formation formation in formations)
 			{
 				float minimumWidth = formation.MinimumWidth;
-				float num6 = (flag ? formation.Width : MathF.Min((num < num2) ? formation.Width : float.MaxValue, num * (minimumWidth / num3)));
-				num6 = MathF.Min(num6, formation.MaximumWidth);
+				float num5 = (flag ? formation.Width : MathF.Min((num < num2) ? formation.Width : float.MaxValue, num * (minimumWidth / num3)));
+				num5 = MathF.Min(num5, formation.MaximumWidth);
 				WorldPosition worldPosition = formationLineBegin;
-				worldPosition.SetVec2(worldPosition.AsVec2 + vec * (num6 * 0.5f + num5));
-				int num7 = 0;
-				OrderController.DecreaseUnitSpacingAndWidthIfNotAllUnitsFit(formation, OrderController.GetSimulationFormation(formation, simulationFormations), worldPosition, vec2, ref num6, ref num7);
-				float num8;
-				OrderController.SimulateNewOrderWithFrameAndWidth(formation, OrderController.GetSimulationFormation(formation, simulationFormations), simulationAgentFrames, simulationFormationChanges, worldPosition, vec2, num6, num7, false, out num8);
-				num5 += num6 + 1.5f;
+				worldPosition.SetVec2(worldPosition.AsVec2 + vec * (num5 * 0.5f + num4));
+				int num6 = 0;
+				OrderController.DecreaseUnitSpacingAndWidthIfNotAllUnitsFit(formation, OrderController.GetSimulationFormation(formation, simulationFormations), worldPosition, vec2, ref num5, ref num6);
+				float num7;
+				OrderController.SimulateNewOrderWithFrameAndWidth(formation, OrderController.GetSimulationFormation(formation, simulationFormations), simulationAgentFrames, simulationFormationChanges, worldPosition, vec2, num5, num6, false, out num7);
+				num4 += num5 + 1.5f;
 			}
 		}
 
@@ -1857,7 +1839,7 @@ namespace TaleWorlds.MountAndBlade
 					}
 					else
 					{
-						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "MoveToLineSegment", 2414);
+						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "MoveToLineSegment", 2359);
 					}
 				}
 			}
@@ -1867,7 +1849,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (!formations.Any<Formation>())
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "GetOrderLookAtDirection", 2434);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\OrderController.cs", "GetOrderLookAtDirection", 2379);
 				return Vec2.One;
 			}
 			Formation formation = formations.MaxBy((Formation f) => f.CountOfUnitsWithoutDetachedOnes);

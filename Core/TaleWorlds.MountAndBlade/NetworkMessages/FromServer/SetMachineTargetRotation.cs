@@ -7,15 +7,15 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetMachineTargetRotation : GameNetworkMessage
 	{
-		public UsableMachine UsableMachine { get; private set; }
+		public MissionObjectId UsableMachineId { get; private set; }
 
 		public float HorizontalRotation { get; private set; }
 
 		public float VerticalRotation { get; private set; }
 
-		public SetMachineTargetRotation(UsableMachine usableMachine, float horizontalRotaiton, float verticalRotation)
+		public SetMachineTargetRotation(MissionObjectId usableMachineId, float horizontalRotaiton, float verticalRotation)
 		{
-			this.UsableMachine = usableMachine;
+			this.UsableMachineId = usableMachineId;
 			this.HorizontalRotation = horizontalRotaiton;
 			this.VerticalRotation = verticalRotation;
 		}
@@ -27,7 +27,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.UsableMachine = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as UsableMachine;
+			this.UsableMachineId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.HorizontalRotation = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.HighResRadianCompressionInfo, ref flag);
 			this.VerticalRotation = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.HighResRadianCompressionInfo, ref flag);
 			return flag;
@@ -35,7 +35,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.UsableMachine);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.UsableMachineId);
 			GameNetworkMessage.WriteFloatToPacket(this.HorizontalRotation, CompressionBasic.HighResRadianCompressionInfo);
 			GameNetworkMessage.WriteFloatToPacket(this.VerticalRotation, CompressionBasic.HighResRadianCompressionInfo);
 		}
@@ -47,13 +47,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set target rotation of UsableMachine with ID: ",
-				this.UsableMachine.Id,
-				" and with name: ",
-				this.UsableMachine.GameEntity.Name
-			});
+			return "Set target rotation of UsableMachine with ID: " + this.UsableMachineId;
 		}
 	}
 }

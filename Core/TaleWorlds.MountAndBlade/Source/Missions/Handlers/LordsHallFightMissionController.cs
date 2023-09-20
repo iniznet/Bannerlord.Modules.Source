@@ -25,6 +25,18 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			}
 		}
 
+		public override void OnBehaviorInitialize()
+		{
+			base.OnBehaviorInitialize();
+			base.Mission.GetAgentTroopClass_Override += this.GetLordsHallFightTroopClass;
+		}
+
+		public override void OnMissionStateFinalized()
+		{
+			base.OnMissionStateFinalized();
+			base.Mission.GetAgentTroopClass_Override -= this.GetLordsHallFightTroopClass;
+		}
+
 		public override void OnCreated()
 		{
 			base.OnCreated();
@@ -364,6 +376,11 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			return flag;
 		}
 
+		private FormationClass GetLordsHallFightTroopClass(BattleSideEnum side, BasicCharacterObject agentCharacter)
+		{
+			return agentCharacter.GetFormationClass().DismountedClass();
+		}
+
 		private readonly float _areaLostRatio;
 
 		private readonly float _attackerDefenderTroopCountRatio;
@@ -421,7 +438,8 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			{
 				List<IAgentOriginBase> list = this._troopSupplier.SupplyTroops(spawnCount).OrderByDescending(delegate(IAgentOriginBase x)
 				{
-					if (x.Troop.GetFormationClass() != FormationClass.Ranged && x.Troop.GetFormationClass() != FormationClass.HorseArcher)
+					FormationClass agentTroopClass = Mission.Current.GetAgentTroopClass(this._side, x.Troop);
+					if (agentTroopClass != FormationClass.Ranged && agentTroopClass != FormationClass.HorseArcher)
 					{
 						return 0;
 					}
@@ -430,7 +448,7 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 				for (int i = 0; i < list.Count; i++)
 				{
 					IAgentOriginBase agentOriginBase = list[i];
-					bool flag = agentOriginBase.Troop.GetFormationClass() == FormationClass.Ranged || agentOriginBase.Troop.GetFormationClass() == FormationClass.HorseArcher;
+					bool flag = Mission.Current.GetAgentTroopClass(this._side, agentOriginBase.Troop).IsRanged();
 					List<KeyValuePair<int, LordsHallFightMissionController.AreaData>> list2 = areaMarkerDictionary.ElementAt(i % areaMarkerDictionary.Count).Value.ToList<KeyValuePair<int, LordsHallFightMissionController.AreaData>>();
 					List<ValueTuple<KeyValuePair<int, LordsHallFightMissionController.AreaData>, float>> list3 = new List<ValueTuple<KeyValuePair<int, LordsHallFightMissionController.AreaData>, float>>();
 					foreach (KeyValuePair<int, LordsHallFightMissionController.AreaData> keyValuePair in list2)
@@ -445,9 +463,9 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 					this._numberOfSpawnedTroops++;
 					AgentFlag agentFlags = agent.GetAgentFlags();
 					agent.SetAgentFlags(agentFlags & ~AgentFlag.CanRetreat);
-					agent.WieldInitialWeapons(Agent.WeaponWieldActionType.Instant);
+					agent.WieldInitialWeapons(Agent.WeaponWieldActionType.Instant, Equipment.InitialWeaponEquipPreference.Any);
 					agent.SetWatchState(Agent.WatchState.Alarmed);
-					MovementOrder.SetDefensiveArrangementMoveBehaviorValues(agent);
+					agent.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.DefensiveArrangementMove);
 					areaEntityData.AssignAgent(agent);
 				}
 			}
@@ -602,8 +620,8 @@ namespace TaleWorlds.MountAndBlade.Source.Missions.Handlers
 			{
 				this.UserAgent = agent;
 				MatrixFrame globalFrame = this.Entity.GetGlobalFrame();
-				MovementOrder.SetDefaultMoveBehaviorValues(agent);
-				this.UserAgent.SetFormationFrameEnabled(new WorldPosition(agent.Mission.Scene, globalFrame.origin), globalFrame.rotation.f.AsVec2.Normalized(), 0f);
+				agent.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.DefaultMove);
+				this.UserAgent.SetFormationFrameEnabled(new WorldPosition(agent.Mission.Scene, globalFrame.origin), globalFrame.rotation.f.AsVec2.Normalized(), Vec2.Zero, 0f);
 			}
 
 			public void StopUse()

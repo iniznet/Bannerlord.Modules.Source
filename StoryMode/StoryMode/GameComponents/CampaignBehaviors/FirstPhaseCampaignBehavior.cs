@@ -25,7 +25,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		{
 			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
 			CampaignEvents.OnQuestCompletedEvent.AddNonSerializedListener(this, new Action<QuestBase, QuestBase.QuestCompleteDetails>(this.OnQuestCompleted));
-			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
+			CampaignEvents.OnNewGameCreatedPartialFollowUpEndEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreatedPartialFollowUpEnd));
 			CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.OnGameMenuOpened));
 			CampaignEvents.BeforeMissionOpenedEvent.AddNonSerializedListener(this, new Action(this.OnBeforeMissionOpened));
 			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
@@ -46,7 +46,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			this.SpawnMentorsIfNeeded();
 		}
 
-		private void OnNewGameCreated(CampaignGameStarter campaignGameStarter)
+		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter campaignGameStarter)
 		{
 			Settlement settlement = Settlement.FindFirst((Settlement s) => s.IsTown && !s.IsUnderSiege && s.Culture.StringId == "empire");
 			this._imperialMentorHouse = this.ReserveHouseForMentor(StoryModeHeroes.ImperialMentor, settlement);
@@ -196,6 +196,10 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private Location ReserveHouseForMentor(Hero mentor, Settlement settlement)
 		{
+			if (settlement == null)
+			{
+				Debug.Print("There is null settlement in ReserveHouseForMentor", 0, 12, 17592186044416UL);
+			}
 			MBList<Location> mblist = new MBList<Location>();
 			mblist.Add(settlement.LocationComplex.GetLocationWithId("house_1"));
 			mblist.Add(settlement.LocationComplex.GetLocationWithId("house_2"));

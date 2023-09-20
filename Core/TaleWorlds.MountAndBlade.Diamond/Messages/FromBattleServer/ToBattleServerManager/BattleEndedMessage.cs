@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.PlayerServices;
@@ -10,25 +12,35 @@ namespace Messages.FromBattleServer.ToBattleServerManager
 	[Serializable]
 	public class BattleEndedMessage : Message
 	{
-		public BattleResult BattleResult { get; }
+		[JsonProperty]
+		public BattleResult BattleResult { get; set; }
 
-		public GameLog[] GameLogs { get; }
+		[JsonProperty]
+		public GameLog[] GameLogs { get; set; }
 
-		public Dictionary<ValueTuple<PlayerId, string, string>, int> BadgeDataDictionary { get; }
+		[JsonProperty]
+		public List<BadgeDataEntry> BadgeDataEntries { get; set; }
 
-		public Dictionary<int, int> TeamScores { get; }
+		[JsonProperty]
+		public Dictionary<int, int> TeamScores { get; set; }
 
-		public Dictionary<PlayerId, int> PlayerScores { get; }
+		[JsonProperty]
+		public Dictionary<string, int> PlayerScores { get; set; }
 
-		public int GameTime { get; }
+		[JsonProperty]
+		public int GameTime { get; set; }
+
+		public BattleEndedMessage()
+		{
+		}
 
 		public BattleEndedMessage(BattleResult battleResult, GameLog[] gameLogs, Dictionary<ValueTuple<PlayerId, string, string>, int> badgeDataDictionary, int gameTime, Dictionary<int, int> teamScores, Dictionary<PlayerId, int> playerScores)
 		{
 			this.BattleResult = battleResult;
 			this.GameLogs = gameLogs;
-			this.BadgeDataDictionary = badgeDataDictionary;
+			this.BadgeDataEntries = BadgeDataEntry.ToList(badgeDataDictionary);
 			this.TeamScores = teamScores;
-			this.PlayerScores = playerScores;
+			this.PlayerScores = playerScores.ToDictionary((KeyValuePair<PlayerId, int> kvp) => kvp.Key.ToString(), (KeyValuePair<PlayerId, int> kvp) => kvp.Value);
 			this.GameTime = gameTime;
 		}
 	}

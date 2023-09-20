@@ -33,6 +33,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 			CampaignEvents.PartyAttachedAnotherParty.AddNonSerializedListener(this, new Action<MobileParty>(this.OnPartyAttachedAnotherParty));
 			CampaignEvents.OnPlayerJoinedTournamentEvent.AddNonSerializedListener(this, new Action<Town, bool>(this.OnPlayerJoinedTournament));
+			CampaignEvents.OnMarriageOfferedToPlayerEvent.AddNonSerializedListener(this, new Action<Hero, Hero>(this.OnMarriageOfferedToPlayer));
+		}
+
+		private void OnMarriageOfferedToPlayer(Hero suitor, Hero maiden)
+		{
+			if (suitor.Clan == Clan.PlayerClan)
+			{
+				maiden.IsKnownToPlayer = true;
+				return;
+			}
+			suitor.IsKnownToPlayer = true;
 		}
 
 		private void OnPlayerJoinedTournament(Town town, bool isParticipant)
@@ -218,7 +229,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnGameLoadFinishedEvent()
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.1.0", 26219))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.1.0", 24202))
 			{
 				foreach (Hero hero in Clan.PlayerClan.Heroes)
 				{

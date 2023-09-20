@@ -1,8 +1,10 @@
 ﻿using System;
+using TaleWorlds.DotNet;
 
 namespace TaleWorlds.MountAndBlade
 {
 	[Flags]
+	[EngineStruct("Blow_flags", false)]
 	public enum BlowFlags
 	{
 		None = 0,

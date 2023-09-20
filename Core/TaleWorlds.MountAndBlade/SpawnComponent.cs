@@ -64,14 +64,14 @@ namespace TaleWorlds.MountAndBlade
 			Mission.Current.GetMissionBehavior<SpawnComponent>().SetNewSpawningBehavior(new WarmupSpawningBehavior());
 		}
 
-		public static void SetSpawningBehaviorForCurrentGameType(MissionLobbyComponent.MultiplayerGameType currentGameType)
+		public static void SetSpawningBehaviorForCurrentGameType(MultiplayerGameType currentGameType)
 		{
-			if (currentGameType == MissionLobbyComponent.MultiplayerGameType.Siege)
+			if (currentGameType == MultiplayerGameType.Siege)
 			{
 				SpawnComponent.SetSiegeSpawningBehavior();
 				return;
 			}
-			if (currentGameType - MissionLobbyComponent.MultiplayerGameType.Battle > 2)
+			if (currentGameType - MultiplayerGameType.Battle > 2)
 			{
 				return;
 			}
@@ -143,6 +143,12 @@ namespace TaleWorlds.MountAndBlade
 		{
 			base.OnClearScene();
 			this.SpawningBehavior.OnClearScene();
+		}
+
+		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
+		{
+			this.SpawningBehavior.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
+			this.SpawnFrameBehavior.OnAgentRemoved(affectedAgent, affectorAgent, agentState, blow);
 		}
 	}
 }

@@ -16,23 +16,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void HourlyTickSettlement(Settlement settlement)
 		{
-			if ((settlement.IsVillage || settlement.IsFortification) && settlement.LastAttackerParty != null)
+			if ((settlement.IsVillage || settlement.IsFortification || settlement.IsHideout) && settlement.LastAttackerParty != null && settlement.LastThreatTime.ElapsedHoursUntilNow > 24f)
 			{
-				if (settlement.IsVillage)
-				{
-					if (settlement.Party.MapEvent == null)
-					{
-						settlement.PassedHoursAfterLastThreat--;
-					}
-				}
-				else if (settlement.IsFortification && settlement.Party.MapEvent == null && !settlement.IsUnderSiege)
-				{
-					settlement.PassedHoursAfterLastThreat--;
-				}
-				if (settlement.PassedHoursAfterLastThreat == 0)
-				{
-					settlement.LastAttackerParty = null;
-				}
+				settlement.LastAttackerParty = null;
 			}
 		}
 	}

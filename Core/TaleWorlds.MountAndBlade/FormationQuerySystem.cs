@@ -89,14 +89,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public float FormationDispersedness
-		{
-			get
-			{
-				return this._formationDispersedness.Value;
-			}
-		}
-
 		public FormationQuerySystem.FormationIntegrityDataGroup FormationIntegrityData
 		{
 			get
@@ -142,6 +134,14 @@ namespace TaleWorlds.MountAndBlade
 			get
 			{
 				return this._hasShieldUnitRatio.Value;
+			}
+		}
+
+		public float HasThrowingUnitRatio
+		{
+			get
+			{
+				return this._hasThrowingUnitRatio.Value;
 			}
 		}
 
@@ -222,6 +222,14 @@ namespace TaleWorlds.MountAndBlade
 			get
 			{
 				return this._hasShield.Value;
+			}
+		}
+
+		public bool HasThrowing
+		{
+			get
+			{
+				return this._hasThrowing.Value;
 			}
 		}
 
@@ -393,6 +401,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public Agent ClosestEnemyAgent
+		{
+			get
+			{
+				return this._closestEnemyAgent.Value;
+			}
+		}
+
 		public FormationQuerySystem ClosestEnemyFormation
 		{
 			get
@@ -454,7 +470,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public FormationQuerySystem(Formation formation)
 		{
-			FormationQuerySystem.<>c__DisplayClass156_0 CS$<>8__locals1 = new FormationQuerySystem.<>c__DisplayClass156_0();
+			FormationQuerySystem.<>c__DisplayClass162_0 CS$<>8__locals1 = new FormationQuerySystem.<>c__DisplayClass162_0();
 			CS$<>8__locals1.formation = formation;
 			base..ctor();
 			CS$<>8__locals1.<>4__this = this;
@@ -681,42 +697,13 @@ namespace TaleWorlds.MountAndBlade
 				formationIntegrityDataGroup.AverageMaxUnlimitedSpeedExcludeFarAgents = 0f;
 				return formationIntegrityDataGroup;
 			}, 1f);
-			this._formationDispersedness = new QueryData<float>(delegate
-			{
-				if (CS$<>8__locals1.formation.CountOfUnits == 0)
-				{
-					return 0f;
-				}
-				float num21 = 0f;
-				int num22 = 0;
-				foreach (IFormationUnit formationUnit6 in CS$<>8__locals1.formation.Arrangement.GetAllUnits())
-				{
-					Vec2? localPositionOfUnitOrDefault4 = CS$<>8__locals1.formation.Arrangement.GetLocalPositionOfUnitOrDefault(formationUnit6);
-					if (localPositionOfUnitOrDefault4 != null)
-					{
-						MatrixFrame matrixFrame = new MatrixFrame(Mat3.Identity, new Vec3(localPositionOfUnitOrDefault4.Value, 0f, -1f));
-						MatrixFrame matrixFrame2 = new MatrixFrame(new Mat3(new Vec3(CS$<>8__locals1.formation.Direction.RightVec(), 0f, -1f), new Vec3(CS$<>8__locals1.formation.Direction, 0f, -1f), new Vec3(0f, 0f, 1f, -1f)), CS$<>8__locals1.formation.QuerySystem.MedianPosition.GetNavMeshVec3());
-						MatrixFrame matrixFrame3 = matrixFrame2.TransformToParent(matrixFrame);
-						num21 += (formationUnit6 as Agent).GetWorldPosition().GetGroundVec3().Distance(matrixFrame3.origin);
-					}
-					else
-					{
-						num22++;
-					}
-				}
-				if (CS$<>8__locals1.formation.CountOfUnits - num22 > 0)
-				{
-					return num21 / (float)(CS$<>8__locals1.formation.CountOfUnits - num22);
-				}
-				return 0f;
-			}, 2f);
 			this._localAllyUnits = new QueryData<MBList<Agent>>(() => mission.GetNearbyAllyAgents(CS$<>8__locals1.<>4__this.AveragePosition, 30f, CS$<>8__locals1.formation.Team, CS$<>8__locals1.<>4__this._localAllyUnits.GetCachedValue()), 5f, new MBList<Agent>());
 			this._localEnemyUnits = new QueryData<MBList<Agent>>(() => mission.GetNearbyEnemyAgents(CS$<>8__locals1.<>4__this.AveragePosition, 30f, CS$<>8__locals1.formation.Team, CS$<>8__locals1.<>4__this._localEnemyUnits.GetCachedValue()), 5f, new MBList<Agent>());
 			this._infantryUnitRatio = new QueryData<float>(delegate
 			{
 				if (CS$<>8__locals1.formation.CountOfUnits > 0)
 				{
-					return (float)CS$<>8__locals1.formation.GetCountOfUnitsInClass(FormationClass.Infantry, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
+					return (float)CS$<>8__locals1.formation.GetCountOfUnitsBelongingToPhysicalClass(FormationClass.Infantry, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
 				}
 				return 0f;
 			}, 2.5f);
@@ -728,11 +715,19 @@ namespace TaleWorlds.MountAndBlade
 				}
 				return 0f;
 			}, 2.5f);
+			this._hasThrowingUnitRatio = new QueryData<float>(delegate
+			{
+				if (CS$<>8__locals1.formation.CountOfUnits > 0)
+				{
+					return (float)CS$<>8__locals1.formation.GetCountOfUnitsWithCondition(new Func<Agent, bool>(QueryLibrary.HasThrown)) / (float)CS$<>8__locals1.formation.CountOfUnits;
+				}
+				return 0f;
+			}, 2.5f);
 			this._rangedUnitRatio = new QueryData<float>(delegate
 			{
 				if (CS$<>8__locals1.formation.CountOfUnits > 0)
 				{
-					return (float)CS$<>8__locals1.formation.GetCountOfUnitsInClass(FormationClass.Ranged, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
+					return (float)CS$<>8__locals1.formation.GetCountOfUnitsBelongingToPhysicalClass(FormationClass.Ranged, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
 				}
 				return 0f;
 			}, 2.5f);
@@ -740,7 +735,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (CS$<>8__locals1.formation.CountOfUnits > 0)
 				{
-					return (float)CS$<>8__locals1.formation.GetCountOfUnitsInClass(FormationClass.Cavalry, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
+					return (float)CS$<>8__locals1.formation.GetCountOfUnitsBelongingToPhysicalClass(FormationClass.Cavalry, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
 				}
 				return 0f;
 			}, 2.5f);
@@ -748,13 +743,14 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (CS$<>8__locals1.formation.CountOfUnits > 0)
 				{
-					return (float)CS$<>8__locals1.formation.GetCountOfUnitsInClass(FormationClass.HorseArcher, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
+					return (float)CS$<>8__locals1.formation.GetCountOfUnitsBelongingToPhysicalClass(FormationClass.HorseArcher, false) / (float)CS$<>8__locals1.formation.CountOfUnits;
 				}
 				return 0f;
 			}, 2.5f);
 			this._isMeleeFormation = new QueryData<bool>(() => CS$<>8__locals1.<>4__this.InfantryUnitRatio + CS$<>8__locals1.<>4__this.CavalryUnitRatio > CS$<>8__locals1.<>4__this.RangedUnitRatio + CS$<>8__locals1.<>4__this.RangedCavalryUnitRatio, 5f);
 			this._isInfantryFormation = new QueryData<bool>(() => CS$<>8__locals1.<>4__this.InfantryUnitRatio >= CS$<>8__locals1.<>4__this.RangedUnitRatio && CS$<>8__locals1.<>4__this.InfantryUnitRatio >= CS$<>8__locals1.<>4__this.CavalryUnitRatio && CS$<>8__locals1.<>4__this.InfantryUnitRatio >= CS$<>8__locals1.<>4__this.RangedCavalryUnitRatio, 5f);
 			this._hasShield = new QueryData<bool>(() => CS$<>8__locals1.<>4__this.HasShieldUnitRatio >= 0.4f, 5f);
+			this._hasThrowing = new QueryData<bool>(() => CS$<>8__locals1.<>4__this.HasThrowingUnitRatio >= 0.5f, 5f);
 			this._isRangedFormation = new QueryData<bool>(() => CS$<>8__locals1.<>4__this.RangedUnitRatio > CS$<>8__locals1.<>4__this.InfantryUnitRatio && CS$<>8__locals1.<>4__this.RangedUnitRatio >= CS$<>8__locals1.<>4__this.CavalryUnitRatio && CS$<>8__locals1.<>4__this.RangedUnitRatio >= CS$<>8__locals1.<>4__this.RangedCavalryUnitRatio, 5f);
 			this._isCavalryFormation = new QueryData<bool>(() => CS$<>8__locals1.<>4__this.CavalryUnitRatio > CS$<>8__locals1.<>4__this.InfantryUnitRatio && CS$<>8__locals1.<>4__this.CavalryUnitRatio > CS$<>8__locals1.<>4__this.RangedUnitRatio && CS$<>8__locals1.<>4__this.CavalryUnitRatio >= CS$<>8__locals1.<>4__this.RangedCavalryUnitRatio, 5f);
 			this._isRangedCavalryFormation = new QueryData<bool>(() => CS$<>8__locals1.<>4__this.RangedCavalryUnitRatio > CS$<>8__locals1.<>4__this.InfantryUnitRatio && CS$<>8__locals1.<>4__this.RangedCavalryUnitRatio > CS$<>8__locals1.<>4__this.RangedUnitRatio && CS$<>8__locals1.<>4__this.RangedCavalryUnitRatio > CS$<>8__locals1.<>4__this.CavalryUnitRatio, 5f);
@@ -837,8 +833,8 @@ namespace TaleWorlds.MountAndBlade
 					return 0f;
 				}
 				CasualtyHandler missionBehavior = mission.GetMissionBehavior<CasualtyHandler>();
-				int num23 = ((missionBehavior != null) ? missionBehavior.GetCasualtyCountOfFormation(CS$<>8__locals1.formation) : 0);
-				return 1f - (float)num23 * 1f / (float)(num23 + CS$<>8__locals1.formation.CountOfUnits);
+				int num21 = ((missionBehavior != null) ? missionBehavior.GetCasualtyCountOfFormation(CS$<>8__locals1.formation) : 0);
+				return 1f - (float)num21 * 1f / (float)(num21 + CS$<>8__locals1.formation.CountOfUnits);
 			}, 10f);
 			this._isUnderRangedAttack = new QueryData<bool>(() => CS$<>8__locals1.formation.GetUnderAttackTypeOfUnits(10f) == Agent.UnderAttackType.UnderRangedAttack, 3f);
 			this._underRangedAttackRatio = new QueryData<float>(delegate
@@ -861,15 +857,36 @@ namespace TaleWorlds.MountAndBlade
 				}
 				return (float)countOfUnitsWithCondition2 / (float)CS$<>8__locals1.formation.CountOfUnits;
 			}, 3f);
-			this._closestEnemyFormation = new QueryData<Formation>(delegate
+			this._closestEnemyAgent = new QueryData<Agent>(delegate
 			{
-				float num24 = float.MaxValue;
-				Formation formation3 = null;
+				float num22 = float.MaxValue;
+				Agent agent7 = null;
 				foreach (Team team in mission.Teams)
 				{
 					if (team.IsEnemyOf(CS$<>8__locals1.formation.Team))
 					{
-						foreach (Formation formation4 in team.FormationsIncludingSpecialAndEmpty)
+						foreach (Agent agent8 in team.ActiveAgents)
+						{
+							float num23 = agent8.Position.DistanceSquared(new Vec3(CS$<>8__locals1.<>4__this.AveragePosition, CS$<>8__locals1.<>4__this.MedianPosition.GetNavMeshZ(), -1f));
+							if (num23 < num22)
+							{
+								num22 = num23;
+								agent7 = agent8;
+							}
+						}
+					}
+				}
+				return agent7;
+			}, 1.5f);
+			this._closestEnemyFormation = new QueryData<Formation>(delegate
+			{
+				float num24 = float.MaxValue;
+				Formation formation3 = null;
+				foreach (Team team2 in mission.Teams)
+				{
+					if (team2.IsEnemyOf(CS$<>8__locals1.formation.Team))
+					{
+						foreach (Formation formation4 in team2.FormationsIncludingSpecialAndEmpty)
 						{
 							if (formation4.CountOfUnits > 0)
 							{
@@ -891,11 +908,11 @@ namespace TaleWorlds.MountAndBlade
 				Formation formation5 = null;
 				float num27 = float.MaxValue;
 				Formation formation6 = null;
-				foreach (Team team2 in mission.Teams)
+				foreach (Team team3 in mission.Teams)
 				{
-					if (team2.IsEnemyOf(CS$<>8__locals1.formation.Team))
+					if (team3.IsEnemyOf(CS$<>8__locals1.formation.Team))
 					{
-						foreach (Formation formation7 in team2.FormationsIncludingSpecialAndEmpty)
+						foreach (Formation formation7 in team3.FormationsIncludingSpecialAndEmpty)
 						{
 							if (formation7.CountOfUnits > 0)
 							{
@@ -933,11 +950,11 @@ namespace TaleWorlds.MountAndBlade
 				Formation formation8 = null;
 				float num31 = float.MaxValue;
 				Formation formation9 = null;
-				foreach (Team team3 in mission.Teams)
+				foreach (Team team4 in mission.Teams)
 				{
-					if (team3.IsEnemyOf(CS$<>8__locals1.formation.Team))
+					if (team4.IsEnemyOf(CS$<>8__locals1.formation.Team))
 					{
-						foreach (Formation formation10 in team3.FormationsIncludingSpecialAndEmpty)
+						foreach (Formation formation10 in team4.FormationsIncludingSpecialAndEmpty)
 						{
 							if (formation10.CountOfUnits > 0)
 							{
@@ -993,9 +1010,9 @@ namespace TaleWorlds.MountAndBlade
 			{
 				IEnumerable<Formation> formationsIncludingSpecialAndEmpty = CS$<>8__locals1.formation.Team.FormationsIncludingSpecialAndEmpty;
 				Func<Formation, bool> func;
-				if ((func = CS$<>8__locals1.<>9__53) == null)
+				if ((func = CS$<>8__locals1.<>9__55) == null)
 				{
-					func = (CS$<>8__locals1.<>9__53 = (Formation f) => f.CountOfUnits > 0 && f.AI.IsMainFormation && f != CS$<>8__locals1.formation);
+					func = (CS$<>8__locals1.<>9__55 = (Formation f) => f.CountOfUnits > 0 && f.AI.IsMainFormation && f != CS$<>8__locals1.formation);
 				}
 				return formationsIncludingSpecialAndEmpty.FirstOrDefault(func);
 			}, 15f);
@@ -1053,7 +1070,6 @@ namespace TaleWorlds.MountAndBlade
 			this._medianPosition.Expire();
 			this._averageAllyPosition.Expire();
 			this._idealAverageDisplacement.Expire();
-			this._formationDispersedness.Expire();
 			this._formationIntegrityData.Expire();
 			this._localAllyUnits.Expire();
 			this._localEnemyUnits.Expire();
@@ -1161,8 +1177,6 @@ namespace TaleWorlds.MountAndBlade
 
 		private readonly QueryData<float> _idealAverageDisplacement;
 
-		private readonly QueryData<float> _formationDispersedness;
-
 		private readonly QueryData<FormationQuerySystem.FormationIntegrityDataGroup> _formationIntegrityData;
 
 		private readonly QueryData<MBList<Agent>> _localAllyUnits;
@@ -1174,6 +1188,8 @@ namespace TaleWorlds.MountAndBlade
 		private readonly QueryData<float> _infantryUnitRatio;
 
 		private readonly QueryData<float> _hasShieldUnitRatio;
+
+		private readonly QueryData<float> _hasThrowingUnitRatio;
 
 		private readonly QueryData<float> _rangedUnitRatio;
 
@@ -1190,6 +1206,8 @@ namespace TaleWorlds.MountAndBlade
 		private readonly QueryData<bool> _isInfantryFormation;
 
 		private readonly QueryData<bool> _hasShield;
+
+		private readonly QueryData<bool> _hasThrowing;
 
 		private readonly QueryData<bool> _isRangedFormation;
 
@@ -1232,6 +1250,8 @@ namespace TaleWorlds.MountAndBlade
 		private readonly QueryData<float> _mainFormationReliabilityFactor;
 
 		private readonly QueryData<Vec2> _weightedAverageEnemyPosition;
+
+		private readonly QueryData<Agent> _closestEnemyAgent;
 
 		private readonly QueryData<Formation> _closestEnemyFormation;
 

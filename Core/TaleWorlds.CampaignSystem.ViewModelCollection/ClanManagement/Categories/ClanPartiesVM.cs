@@ -33,6 +33,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.Parties = new MBBindingList<ClanPartyItemVM>();
 			this.Garrisons = new MBBindingList<ClanPartyItemVM>();
 			this.Caravans = new MBBindingList<ClanPartyItemVM>();
+			MBBindingList<MBBindingList<ClanPartyItemVM>> mbbindingList = new MBBindingList<MBBindingList<ClanPartyItemVM>> { this.Parties, this.Garrisons, this.Caravans };
+			this.SortController = new ClanPartiesSortControllerVM(mbbindingList);
 			this.CreateNewPartyActionHint = new HintViewModel();
 			this.RefreshPartiesList();
 			this.RefreshValues();
@@ -46,8 +48,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.LocationText = GameTexts.FindText("str_tooltip_label_location", null).ToString();
 			this.NameText = GameTexts.FindText("str_sort_by_name_label", null).ToString();
 			this.CreateNewPartyText = GameTexts.FindText("str_clan_create_new_party", null).ToString();
-			this.GarrisonsText = GameTexts.FindText("str_garrisons", null).ToString();
-			this.CaravansText = GameTexts.FindText("str_caravans", null).ToString();
+			this.GarrisonsText = GameTexts.FindText("str_clan_garrisons", null).ToString();
+			this.CaravansText = GameTexts.FindText("str_clan_caravans", null).ToString();
 			this.RefreshPartiesList();
 			this.Parties.ApplyActionOnAllItems(delegate(ClanPartyItemVM x)
 			{
@@ -61,6 +63,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			{
 				x.RefreshValues();
 			});
+			this.SortController.RefreshValues();
 		}
 
 		public void RefreshTotalExpense()
@@ -76,6 +79,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			this.Parties.Clear();
 			this.Garrisons.Clear();
 			this.Caravans.Clear();
+			this.SortController.ResetAllStates();
 			foreach (WarPartyComponent warPartyComponent in this._faction.WarPartyComponents)
 			{
 				if (warPartyComponent.MobileParty == MobileParty.MainParty)
@@ -120,6 +124,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			GameTexts.SetVariable("CURRENT", count);
 			GameTexts.SetVariable("LIMIT", this._faction.CommanderLimit);
 			this.PartiesText = GameTexts.FindText("str_clan_parties", null).ToString();
+			GameTexts.SetVariable("CURRENT", this.Caravans.Count);
+			this.CaravansText = GameTexts.FindText("str_clan_caravans", null).ToString();
+			GameTexts.SetVariable("CURRENT", this.Garrisons.Count);
+			this.GarrisonsText = GameTexts.FindText("str_clan_garrisons", null).ToString();
 			this.OnPartySelection(this.GetDefaultMember());
 		}
 
@@ -205,7 +213,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 				}
 				if (list.Count > 0)
 				{
-					MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=0Q4Xo2BQ}Select the Leader of the New Party", null).ToString(), string.Empty, list, true, 1, GameTexts.FindText("str_done", null).ToString(), "", new Action<List<InquiryElement>>(this.OnNewPartySelectionOver), new Action<List<InquiryElement>>(this.OnNewPartySelectionOver), ""), false, false);
+					MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=0Q4Xo2BQ}Select the Leader of the New Party", null).ToString(), string.Empty, list, true, 1, 1, GameTexts.FindText("str_done", null).ToString(), "", new Action<List<InquiryElement>>(this.OnNewPartySelectionOver), new Action<List<InquiryElement>>(this.OnNewPartySelectionOver), ""), false, false);
 					return;
 				}
 				MBInformationManager.AddQuickInformation(new TextObject("{=qZvNIVGV}There is no one available in your clan who can lead a party right now.", null), 0, null, "");
@@ -787,6 +795,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
+		[DataSourceProperty]
+		public ClanPartiesSortControllerVM SortController
+		{
+			get
+			{
+				return this._sortController;
+			}
+			set
+			{
+				if (value != this._sortController)
+				{
+					this._sortController = value;
+					base.OnPropertyChangedWithValue<ClanPartiesSortControllerVM>(value, "SortController");
+				}
+			}
+		}
+
 		private Action _onExpenseChange;
 
 		private Action<Hero> _openPartyAsManage;
@@ -840,5 +865,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		private string _garrisonsText;
 
 		private bool _isAnyValidPartySelected;
+
+		private ClanPartiesSortControllerVM _sortController;
 	}
 }

@@ -13,7 +13,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("CustomBattle", new TextObject("{=4gOGGbeQ}Custom Battle", null), 5000, delegate
 			{
 				MBGameManager.StartNewGame(new CustomGameManager());
-			}, () => new ValueTuple<bool, TextObject>(false, null)));
+			}, () => new ValueTuple<bool, TextObject>(false, null), null));
 		}
 
 		protected override void OnBeforeInitialModuleScreenSetAsRoot()

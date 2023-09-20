@@ -4,12 +4,15 @@ using System.IO;
 using System.Linq;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
+using TaleWorlds.Core.ViewModelCollection.Information.RundownTooltip;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.Engine.Options;
 using TaleWorlds.GauntletUI.ExtraWidgets;
 using TaleWorlds.GauntletUI.GamepadNavigation;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade.GauntletUI.SceneNotification;
 using TaleWorlds.MountAndBlade.GauntletUI.Widgets;
@@ -72,8 +75,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			Utilities.SetLoadingScreenPercentage(0.6f);
 			ScreenManager.OnControllerDisconnected += new ScreenManager.OnControllerDisconnectedEvent(this.OnControllerDisconnected);
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Combine(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
-			GauntletGamepadNavigationManager.Initialize(NativeOptions.GetConfig(16) == 0f);
+			Input.OnControllerTypeChanged = (Action<Input.ControllerTypes>)Delegate.Combine(Input.OnControllerTypeChanged, new Action<Input.ControllerTypes>(this.OnControllerTypeChanged));
+			GauntletGamepadNavigationManager.Initialize(NativeOptions.GetConfig(20) == 0f);
 			GauntletUISubModule.Instance = this;
+		}
+
+		private void OnControllerTypeChanged(Input.ControllerTypes newType)
+		{
+			bool isTouchpadMouseActive = this._isTouchpadMouseActive;
+			if (newType == 4 || newType == 2)
+			{
+				this._isTouchpadMouseActive = NativeOptions.GetConfig(18) != 0f;
+			}
+			if (isTouchpadMouseActive != this._isTouchpadMouseActive && !(ScreenManager.TopScreen is GauntletInitialScreen))
+			{
+				object obj = new TextObject("{=qkPfC3Cb}Warning", null);
+				TextObject textObject = new TextObject("{=LDRV5PxX}Touchpad Mouse setting won't take affect correctly until returning to initial menu! Exiting to main menu is recommended!", null);
+				InformationManager.ShowInquiry(new InquiryData(obj.ToString(), textObject.ToString(), true, false, new TextObject("{=yS7PvrTD}OK", null).ToString(), null, null, null, "", 0f, null, null, null), false, true);
+			}
 		}
 
 		private void OnControllerDisconnected()
@@ -88,7 +107,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				ScreenManager.UpdateLayout();
 				return;
 			}
-			if (changedManagedOptionsType == 27)
+			if (changedManagedOptionsType == 29)
 			{
 				ScreenManager.OnScaleChange(BannerlordConfig.UIScale);
 			}
@@ -98,6 +117,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 		{
 			ScreenManager.OnControllerDisconnected -= new ScreenManager.OnControllerDisconnectedEvent(this.OnControllerDisconnected);
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
+			Input.OnControllerTypeChanged = (Action<Input.ControllerTypes>)Delegate.Remove(Input.OnControllerTypeChanged, new Action<Input.ControllerTypes>(this.OnControllerTypeChanged));
 			UIResourceManager.Clear();
 			LoadingWindow.Destroy();
 			if (GauntletGamepadNavigationManager.Instance != null)
@@ -120,7 +140,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 					GauntletSceneNotification.Current.RegisterContextProvider(new NativeSceneNotificationContextProvider());
 					GauntletChatLogView.Initialize();
 					GauntletGamepadCursor.Initialize();
-					PropertyBasedTooltipVM.AddTooltipType(typeof(List<TooltipProperty>), new Action<PropertyBasedTooltipVM, object[]>(GauntletUISubModule.CustomTooltipAction));
+					InformationManager.RegisterTooltip<List<TooltipProperty>, PropertyBasedTooltipVM>(new Action<PropertyBasedTooltipVM, object[]>(PropertyBasedTooltipVM.RefreshGenericPropertyBasedTooltip), "PropertyBasedTooltip");
+					InformationManager.RegisterTooltip<RundownLineVM, RundownTooltipVM>(new Action<RundownTooltipVM, object[]>(RundownTooltipVM.RefreshGenericRundownTooltip), "RundownTooltip");
+					InformationManager.RegisterTooltip<string, HintVM>(new Action<HintVM, object[]>(HintVM.RefreshGenericHintTooltip), "HintTooltip");
 					this._queryManager = new GauntletQueryManager();
 					this._queryManager.Initialize();
 				}
@@ -171,11 +193,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			}
 		}
 
-		private static void CustomTooltipAction(PropertyBasedTooltipVM propertyBasedTooltip, object[] args)
-		{
-			propertyBasedTooltip.UpdateTooltip(args[0] as List<TooltipProperty>);
-		}
-
 		[CommandLineFunctionality.CommandLineArgumentFunction("clear", "chatlog")]
 		public static string ClearChatLog(List<string> strings)
 		{
@@ -207,5 +224,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 		private SpriteCategory _backgroundCategory;
 
 		private SpriteCategory _fullscreensCategory;
+
+		private bool _isTouchpadMouseActive;
 	}
 }

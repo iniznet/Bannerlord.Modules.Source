@@ -26,7 +26,7 @@ namespace TaleWorlds.MountAndBlade
 					if (GameNetwork.IsServerOrRecorder)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetRangedSiegeWeaponState(this, value));
+						GameNetwork.WriteMessage(new SetRangedSiegeWeaponState(base.Id, value));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 					}
 					this._state = value;
@@ -147,7 +147,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetRangedSiegeWeaponAmmo(this, this.AmmoCount));
+				GameNetwork.WriteMessage(new SetRangedSiegeWeaponAmmo(base.Id, this.AmmoCount));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			this.UpdateAmmoMesh();
@@ -231,7 +231,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new RangedSiegeWeaponChangeProjectile(this, this._projectileIndex));
+				GameNetwork.WriteMessage(new RangedSiegeWeaponChangeProjectile(base.Id, this._projectileIndex));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			Action<RangedSiegeWeapon, Agent> onAgentLoadsMachine = this.OnAgentLoadsMachine;
@@ -259,7 +259,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				Debug.FailedAssert("Ranged siege weapons must have destructible component.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "OnInit", 396);
+				Debug.FailedAssert("Ranged siege weapons must have destructible component.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "OnInit", 413);
 			}
 			this.ReleaseAngleRestrictionCenter = (this.TopReleaseAngleRestriction + this.BottomReleaseAngleRestriction) * 0.5f;
 			this.ReleaseAngleRestrictionAngle = this.TopReleaseAngleRestriction - this.BottomReleaseAngleRestriction;
@@ -369,41 +369,7 @@ namespace TaleWorlds.MountAndBlade
 				return 0;
 			});
 			this.LoadAmmoStandingPoint = list4.FirstOrDefault<StandingPointWithWeaponRequirement>();
-			int signOfAmmoPile = Math.Sign(Vec3.DotProduct(base.GameEntity.GetGlobalFrame().rotation.s, this._ammoPickupCenter - base.GameEntity.GlobalPosition));
-			this.CanPickUpAmmoStandingPoints.Sort(delegate(StandingPoint element1, StandingPoint element2)
-			{
-				Vec3 vec2 = this._ammoPickupCenter - element1.GameEntity.GlobalPosition;
-				Vec3 vec3 = this._ammoPickupCenter - element2.GameEntity.GlobalPosition;
-				float num = vec2.LengthSquared;
-				float num2 = vec3.LengthSquared;
-				float num3 = Vec3.DotProduct(this.GameEntity.GetGlobalFrame().rotation.s, element1.GameEntity.GlobalPosition - this.GameEntity.GlobalPosition);
-				float num4 = Vec3.DotProduct(this.GameEntity.GetGlobalFrame().rotation.s, element2.GameEntity.GlobalPosition - this.GameEntity.GlobalPosition);
-				if (!element1.GameEntity.HasTag("no_ammo_pick_up_penalty") && signOfAmmoPile != Math.Sign(num3))
-				{
-					num += num3 * num3 * 64f;
-				}
-				if (!element2.GameEntity.HasTag("no_ammo_pick_up_penalty") && signOfAmmoPile != Math.Sign(num4))
-				{
-					num2 += num4 * num4 * 64f;
-				}
-				if (element1.GameEntity.HasTag(this.PilotStandingPointTag))
-				{
-					num += 25f;
-				}
-				else if (element2.GameEntity.HasTag(this.PilotStandingPointTag))
-				{
-					num2 += 25f;
-				}
-				if (num > num2)
-				{
-					return 1;
-				}
-				if (num < num2)
-				{
-					return -1;
-				}
-				return 0;
-			});
+			this.SortCanPickUpAmmoStandingPoints();
 			Vec3 vec = base.PilotStandingPoint.GameEntity.GlobalPosition - base.GameEntity.GlobalPosition;
 			foreach (StandingPoint standingPoint2 in this.CanPickUpAmmoStandingPoints)
 			{
@@ -421,6 +387,49 @@ namespace TaleWorlds.MountAndBlade
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 		}
 
+		private void SortCanPickUpAmmoStandingPoints()
+		{
+			if (MBMath.GetSmallestDifferenceBetweenTwoAngles(this._lastCanPickUpAmmoStandingPointsSortedAngle, this.currentDirection) > 0.18849556f)
+			{
+				this._lastCanPickUpAmmoStandingPointsSortedAngle = this.currentDirection;
+				int signOfAmmoPile = Math.Sign(Vec3.DotProduct(base.GameEntity.GetGlobalFrame().rotation.s, this._ammoPickupCenter - base.GameEntity.GlobalPosition));
+				this.CanPickUpAmmoStandingPoints.Sort(delegate(StandingPoint element1, StandingPoint element2)
+				{
+					Vec3 vec = this._ammoPickupCenter - element1.GameEntity.GlobalPosition;
+					Vec3 vec2 = this._ammoPickupCenter - element2.GameEntity.GlobalPosition;
+					float num = vec.LengthSquared;
+					float num2 = vec2.LengthSquared;
+					float num3 = Vec3.DotProduct(this.GameEntity.GetGlobalFrame().rotation.s, element1.GameEntity.GlobalPosition - this.GameEntity.GlobalPosition);
+					float num4 = Vec3.DotProduct(this.GameEntity.GetGlobalFrame().rotation.s, element2.GameEntity.GlobalPosition - this.GameEntity.GlobalPosition);
+					if (!element1.GameEntity.HasTag("no_ammo_pick_up_penalty") && signOfAmmoPile != Math.Sign(num3))
+					{
+						num += num3 * num3 * 64f;
+					}
+					if (!element2.GameEntity.HasTag("no_ammo_pick_up_penalty") && signOfAmmoPile != Math.Sign(num4))
+					{
+						num2 += num4 * num4 * 64f;
+					}
+					if (element1.GameEntity.HasTag(this.PilotStandingPointTag))
+					{
+						num += 25f;
+					}
+					else if (element2.GameEntity.HasTag(this.PilotStandingPointTag))
+					{
+						num2 += 25f;
+					}
+					if (num > num2)
+					{
+						return 1;
+					}
+					if (num < num2)
+					{
+						return -1;
+					}
+					return 0;
+				});
+			}
+		}
+
 		protected internal override void OnEditorInit()
 		{
 			List<SynchedMissionObject> list = base.GameEntity.CollectObjectsWithTag("projectile");
@@ -428,7 +437,6 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.Projectile = list[0];
 			}
-			this.VisualizeReleaseTrajectoryAngle = this.TopReleaseAngleRestriction;
 		}
 
 		private void InitAnimations()
@@ -484,33 +492,6 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.SetActivationLoadAmmoPoint(false);
 			}
-		}
-
-		public override bool ReadFromNetwork()
-		{
-			bool flag = true;
-			flag = flag && base.ReadFromNetwork();
-			int num = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponStateCompressionInfo, ref flag);
-			float num2 = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.RadianCompressionInfo, ref flag);
-			float num3 = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.RadianCompressionInfo, ref flag);
-			int num4 = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoCompressionInfo, ref flag);
-			int num5 = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoIndexCompressionInfo, ref flag);
-			if (flag)
-			{
-				this._state = (RangedSiegeWeapon.WeaponState)num;
-				this.targetDirection = num2;
-				this.targetReleaseAngle = MBMath.ClampFloat(num3, this.BottomReleaseAngleRestriction, this.TopReleaseAngleRestriction);
-				this.AmmoCount = num4;
-				this.currentDirection = this.targetDirection;
-				this.currentReleaseAngle = this.targetReleaseAngle;
-				this.currentDirection = this.targetDirection;
-				this.currentReleaseAngle = this.targetReleaseAngle;
-				this.ApplyCurrentDirectionToEntity();
-				this.CheckAmmo();
-				this.UpdateAmmoMesh();
-				this.ChangeProjectileEntityClient(num5);
-			}
-			return flag;
 		}
 
 		public override void WriteToNetwork()
@@ -624,7 +605,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				break;
 			default:
-				Debug.FailedAssert("Invalid WeaponState.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "OnRangedSiegeWeaponStateChange", 861);
+				Debug.FailedAssert("Invalid WeaponState.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "OnRangedSiegeWeaponStateChange", 854);
 				break;
 			}
 			if (!GameNetwork.IsClientOrReplay)
@@ -680,7 +661,7 @@ namespace TaleWorlds.MountAndBlade
 					return;
 				}
 				default:
-					Debug.FailedAssert("Invalid WeaponState.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "OnRangedSiegeWeaponStateChange", 934);
+					Debug.FailedAssert("Invalid WeaponState.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "OnRangedSiegeWeaponStateChange", 927);
 					break;
 				}
 			}
@@ -829,65 +810,6 @@ namespace TaleWorlds.MountAndBlade
 				this._aiRequestsManualReload = false;
 			}
 			this.HandleUserAiming(dt);
-		}
-
-		public void ToggleTrajectoryVisibility(bool isVisible)
-		{
-			if (isVisible)
-			{
-				this.VisualizeReleaseTrajectoryAngle = this.TopReleaseAngleRestriction;
-				if (this._editorVisualizer == null)
-				{
-					this.VisualizeReleaseTrajectoryAngle = this.TopReleaseAngleRestriction;
-					this._editorVisualizer = new TrajectoryVisualizer(base.GameEntity.Scene);
-					this._editorVisualizer.Init(this.ProjectileEntityCurrentGlobalPosition, this.GetBallisticDirectionForVisualization() * this.ShootingSpeed, 6f, 200f);
-				}
-				this._editorVisualizer.SetVisible(true);
-				this._editorVisualizer.Update(this.ProjectileEntityCurrentGlobalPosition, this.GetBallisticDirectionForVisualization() * this.ShootingSpeed, 6f, 200f, null);
-				return;
-			}
-			if (this._editorVisualizer != null)
-			{
-				this._editorVisualizer.SetVisible(false);
-				this._editorVisualizer = null;
-			}
-		}
-
-		protected internal override void OnEditorTick(float dt)
-		{
-			if (MBEditor.IsEntitySelected(base.GameEntity))
-			{
-				if (this._editorVisualizer == null && this.RotationObject != null)
-				{
-					this._editorVisualizer = new TrajectoryVisualizer(base.GameEntity.Scene);
-					this._editorVisualizer.Init(this.ProjectileEntityCurrentGlobalPosition, this.GetBallisticDirectionForVisualization() * this.ShootingSpeed, 6f, 200f);
-				}
-				if (this._editorVisualizer != null)
-				{
-					this._editorVisualizer.SetVisible(true);
-					this._editorVisualizer.Update(this.ProjectileEntityCurrentGlobalPosition, this.GetBallisticDirectionForVisualization() * this.ShootingSpeed, 6f, 200f, null);
-					return;
-				}
-			}
-			else
-			{
-				TrajectoryVisualizer editorVisualizer = this._editorVisualizer;
-				if (editorVisualizer == null)
-				{
-					return;
-				}
-				editorVisualizer.SetVisible(false);
-			}
-		}
-
-		protected override void OnRemoved(int removeReason)
-		{
-			base.OnRemoved(removeReason);
-			if (MBEditor.IsEditModeOn && this._editorVisualizer != null)
-			{
-				this._editorVisualizer.Clear();
-				this._editorVisualizer = null;
-			}
 		}
 
 		protected virtual float CalculateShootingRange(float heightDifference)
@@ -1111,13 +1033,13 @@ namespace TaleWorlds.MountAndBlade
 					if ((missionBehavior == null || missionBehavior.CurrentMultiplayerState != MissionLobbyComponent.MultiplayerGameState.Ending) && GameNetwork.IsClient && base.PilotAgent == Agent.Main)
 					{
 						GameNetwork.BeginModuleEventAsClient();
-						GameNetwork.WriteMessage(new SetMachineRotation(this, this.currentDirection, this.currentReleaseAngle));
+						GameNetwork.WriteMessage(new SetMachineRotation(base.Id, this.currentDirection, this.currentReleaseAngle));
 						GameNetwork.EndModuleEventAsClient();
 					}
 					if (GameNetwork.IsServerOrRecorder)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetMachineTargetRotation(this, this.currentDirection, this.currentReleaseAngle));
+						GameNetwork.WriteMessage(new SetMachineTargetRotation(base.Id, this.currentDirection, this.currentReleaseAngle));
 						GameNetwork.EventBroadcastFlags eventBroadcastFlags = GameNetwork.EventBroadcastFlags.ExcludeTargetPlayer | GameNetwork.EventBroadcastFlags.AddToMissionRecord;
 						Agent pilotAgent = base.PilotAgent;
 						NetworkCommunicator networkCommunicator;
@@ -1184,7 +1106,6 @@ namespace TaleWorlds.MountAndBlade
 			MatrixFrame rotationObjectInitialFrame = this._rotationObjectInitialFrame;
 			rotationObjectInitialFrame.rotation.RotateAboutUp(this.currentDirection);
 			this.RotationObject.GameEntity.SetFrame(ref rotationObjectInitialFrame);
-			this.RotationObject.GameEntity.RecomputeBoundingBox();
 		}
 
 		public virtual float GetTargetDirection(Vec3 target)
@@ -1227,20 +1148,14 @@ namespace TaleWorlds.MountAndBlade
 
 		protected void OnLoadingAmmoPointUsingCancelled(Agent agent, bool isCanceledBecauseOfAnimation)
 		{
-			MBDebug.Print("(DUMP-372) 1", 0, Debug.DebugColor.White, 17592186044416UL);
 			if (agent.IsAIControlled)
 			{
-				MBDebug.Print("(DUMP-372) 2", 0, Debug.DebugColor.White, 17592186044416UL);
 				if (isCanceledBecauseOfAnimation)
 				{
-					MBDebug.Print("(DUMP-372) 3", 0, Debug.DebugColor.White, 17592186044416UL);
 					this.SendAgentToAmmoPickup(agent);
-					MBDebug.Print("(DUMP-372) 4", 0, Debug.DebugColor.White, 17592186044416UL);
 					return;
 				}
-				MBDebug.Print("(DUMP-372) 5", 0, Debug.DebugColor.White, 17592186044416UL);
 				this.SendReloaderAgentToOriginalPoint();
-				MBDebug.Print("(DUMP-372) 6", 0, Debug.DebugColor.White, 17592186044416UL);
 			}
 		}
 
@@ -1254,20 +1169,20 @@ namespace TaleWorlds.MountAndBlade
 
 		protected void SendAgentToAmmoPickup(Agent agent)
 		{
-			MBDebug.Print("(DUMP-372) 10", 0, Debug.DebugColor.White, 17592186044416UL);
 			this.ReloaderAgent = agent;
-			MBDebug.Print("(DUMP-372) 11", 0, Debug.DebugColor.White, 17592186044416UL);
 			EquipmentIndex wieldedItemIndex = agent.GetWieldedItemIndex(Agent.HandIndex.MainHand);
-			MBDebug.Print("(DUMP-372) 12", 0, Debug.DebugColor.White, 17592186044416UL);
 			if (wieldedItemIndex != EquipmentIndex.None && agent.Equipment[wieldedItemIndex].CurrentUsageItem.WeaponClass == this.OriginalMissileItem.PrimaryWeapon.WeaponClass)
 			{
-				MBDebug.Print("(DUMP-372) 13", 0, Debug.DebugColor.White, 17592186044416UL);
 				agent.AIMoveToGameObjectEnable(this.LoadAmmoStandingPoint, this, base.Ai.GetScriptedFrameFlags(agent));
-				MBDebug.Print("(DUMP-372) 14", 0, Debug.DebugColor.White, 17592186044416UL);
 				return;
 			}
-			agent.AIMoveToGameObjectEnable(base.AmmoPickUpPoints.First((StandingPoint x) => !x.HasUser), this, base.Ai.GetScriptedFrameFlags(agent));
-			MBDebug.Print("(DUMP-372) 15", 0, Debug.DebugColor.White, 17592186044416UL);
+			StandingPoint standingPoint = base.AmmoPickUpPoints.FirstOrDefault((StandingPoint x) => !x.HasUser);
+			if (standingPoint != null)
+			{
+				agent.AIMoveToGameObjectEnable(standingPoint, this, base.Ai.GetScriptedFrameFlags(agent));
+				return;
+			}
+			this.SendReloaderAgentToOriginalPoint();
 		}
 
 		protected void SendReloaderAgentToOriginalPoint()
@@ -1311,6 +1226,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				if (this.State == RangedSiegeWeapon.WeaponState.LoadingAmmo && this.ReloaderAgent == null && !this.LoadAmmoStandingPoint.HasUser)
 				{
+					this.SortCanPickUpAmmoStandingPoints();
 					StandingPoint standingPoint = null;
 					StandingPoint standingPoint2 = null;
 					foreach (StandingPoint standingPoint3 in this.CanPickUpAmmoStandingPoints)
@@ -1353,7 +1269,7 @@ namespace TaleWorlds.MountAndBlade
 			case RangedSiegeWeapon.WeaponState.WaitingBeforeIdle:
 				return;
 			case RangedSiegeWeapon.WeaponState.WaitingBeforeProjectileLeaving:
-				goto IL_400;
+				goto IL_406;
 			case RangedSiegeWeapon.WeaponState.Shooting:
 			{
 				for (int i = 0; i < this.Skeletons.Length; i++)
@@ -1449,7 +1365,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				break;
 			default:
-				Debug.FailedAssert("Invalid WeaponState.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "UpdateState", 1974);
+				Debug.FailedAssert("Invalid WeaponState.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\RangedSiegeWeapon.cs", "UpdateState", 1899);
 				return;
 			}
 			this.animationTimeElapsed += dt;
@@ -1482,7 +1398,7 @@ namespace TaleWorlds.MountAndBlade
 					return;
 				}
 			}
-			IL_400:
+			IL_406:
 			this.animationTimeElapsed += dt;
 			if (this.animationTimeElapsed >= this.timeGapBetweenShootActionAndProjectileLeaving)
 			{
@@ -1539,17 +1455,6 @@ namespace TaleWorlds.MountAndBlade
 			return mat.f;
 		}
 
-		private Vec3 GetBallisticDirectionForVisualization()
-		{
-			Mat3 mat = new Mat3
-			{
-				f = this.VisualizationShootingDirection,
-				u = Vec3.Up
-			};
-			mat.Orthonormalize();
-			return mat.f;
-		}
-
 		private void ShootProjectile()
 		{
 			if (this.LoadedMissileItem.StringId == "grapeshot_fire_stack")
@@ -1590,14 +1495,6 @@ namespace TaleWorlds.MountAndBlade
 		}
 
 		protected virtual Vec3 ShootingDirection
-		{
-			get
-			{
-				return this.Projectile.GameEntity.GetGlobalFrame().rotation.u;
-			}
-		}
-
-		protected virtual Vec3 VisualizationShootingDirection
 		{
 			get
 			{
@@ -1722,7 +1619,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					if (siegeWeapon.GameEntity != null && siegeWeapon.GameEntity.IsVisibleIncludeParents())
 					{
-						Vec3 vec = (siegeWeapon.GameEntity.GlobalBoxMin + siegeWeapon.GameEntity.GlobalBoxMax) / 2f;
+						Vec3 vec = (siegeWeapon.GameEntity.PhysicsGlobalBoxMin + siegeWeapon.GameEntity.PhysicsGlobalBoxMax) * 0.5f;
 						if ((MBMath.GetClosestPointInLineSegmentToPoint(vec, this.MissleStartingPositionForSimulation, target) - vec).LengthSquared < 100f)
 						{
 							return false;
@@ -1761,6 +1658,24 @@ namespace TaleWorlds.MountAndBlade
 
 		public abstract float ProcessTargetValue(float baseValue, TargetFlags flags);
 
+		public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+		{
+			base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+			RangedSiegeWeapon.RangedSiegeWeaponRecord rangedSiegeWeaponRecord = (RangedSiegeWeapon.RangedSiegeWeaponRecord)synchedMissionObjectReadableRecord.Item2;
+			this._state = (RangedSiegeWeapon.WeaponState)rangedSiegeWeaponRecord.State;
+			this.targetDirection = rangedSiegeWeaponRecord.TargetDirection;
+			this.targetReleaseAngle = MBMath.ClampFloat(rangedSiegeWeaponRecord.TargetReleaseAngle, this.BottomReleaseAngleRestriction, this.TopReleaseAngleRestriction);
+			this.AmmoCount = rangedSiegeWeaponRecord.AmmoCount;
+			this.currentDirection = this.targetDirection;
+			this.currentReleaseAngle = this.targetReleaseAngle;
+			this.currentDirection = this.targetDirection;
+			this.currentReleaseAngle = this.targetReleaseAngle;
+			this.ApplyCurrentDirectionToEntity();
+			this.CheckAmmo();
+			this.UpdateAmmoMesh();
+			this.ChangeProjectileEntityClient(rangedSiegeWeaponRecord.ProjectileIndex);
+		}
+
 		protected virtual void UpdateAmmoMesh()
 		{
 			GameEntity gameEntity = this.AmmoPickUpStandingPoints[0].GameEntity;
@@ -1777,6 +1692,13 @@ namespace TaleWorlds.MountAndBlade
 				}
 				gameEntity = gameEntity.Parent;
 			}
+		}
+
+		protected override bool IsAnyUserBelongsToFormation(Formation formation)
+		{
+			bool flag = base.IsAnyUserBelongsToFormation(formation);
+			Agent reloaderAgent = this.ReloaderAgent;
+			return flag | (((reloaderAgent != null) ? reloaderAgent.Formation : null) == formation);
 		}
 
 		public const float DefaultDirectionRestriction = 2.0943952f;
@@ -1931,19 +1853,41 @@ namespace TaleWorlds.MountAndBlade
 
 		private Agent _lastShooterAgent;
 
+		private float _lastCanPickUpAmmoStandingPointsSortedAngle = -3.1415927f;
+
 		protected BattleSideEnum _defaultSide;
 
 		private bool hasFrameChangedInPreviousFrame;
-
-		public float VisualizeReleaseTrajectoryAngle;
-
-		private TrajectoryVisualizer _editorVisualizer;
 
 		protected SiegeMachineStonePile _stonePile;
 
 		private bool _aiRequestsShoot;
 
 		private bool _aiRequestsManualReload;
+
+		[DefineSynchedMissionObjectType(typeof(RangedSiegeWeapon))]
+		public struct RangedSiegeWeaponRecord : ISynchedMissionObjectReadableRecord
+		{
+			public int State { get; private set; }
+
+			public float TargetDirection { get; private set; }
+
+			public float TargetReleaseAngle { get; private set; }
+
+			public int AmmoCount { get; private set; }
+
+			public int ProjectileIndex { get; private set; }
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.State = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponStateCompressionInfo, ref bufferReadValid);
+				this.TargetDirection = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.RadianCompressionInfo, ref bufferReadValid);
+				this.TargetReleaseAngle = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.RadianCompressionInfo, ref bufferReadValid);
+				this.AmmoCount = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoCompressionInfo, ref bufferReadValid);
+				this.ProjectileIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoIndexCompressionInfo, ref bufferReadValid);
+				return bufferReadValid;
+			}
+		}
 
 		public enum WeaponState
 		{

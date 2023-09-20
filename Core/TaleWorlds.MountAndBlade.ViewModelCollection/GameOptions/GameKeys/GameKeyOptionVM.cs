@@ -13,6 +13,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 			this._onKeySet = onKeySet;
 			this.CurrentGameKey = gameKey;
 			base.Key = (Input.IsGamepadActive ? this.CurrentGameKey.ControllerKey : this.CurrentGameKey.KeyboardKey);
+			if (base.Key == null)
+			{
+				base.Key = new Key(InputKey.Invalid);
+			}
 			base.CurrentKey = new Key(base.Key.InputKey);
 			this._initalKey = base.Key.InputKey;
 			this.RefreshValues();
@@ -39,8 +43,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 		public override void Update()
 		{
 			base.Key = (Input.IsGamepadActive ? this.CurrentGameKey.ControllerKey : this.CurrentGameKey.KeyboardKey);
-			Key key = base.Key;
-			base.CurrentKey = new Key((key != null) ? key.InputKey : InputKey.Invalid);
+			if (base.Key == null)
+			{
+				base.Key = new Key(InputKey.Invalid);
+			}
+			base.CurrentKey = new Key(base.Key.InputKey);
 			base.OptionValueText = Module.CurrentModule.GlobalTextManager.FindText("str_game_key_text", base.CurrentKey.ToString().ToLower()).ToString();
 		}
 
@@ -57,14 +64,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 		internal override bool IsChanged()
 		{
 			return base.CurrentKey.InputKey != this._initalKey;
-		}
-
-		internal override void OnGamepadActiveStateChanged(GamepadActiveStateChangedEvent obj)
-		{
-			base.Key = (Input.IsGamepadActive ? this.CurrentGameKey.ControllerKey : this.CurrentGameKey.KeyboardKey);
-			base.CurrentKey = new Key(base.Key.InputKey);
-			this._initalKey = base.Key.InputKey;
-			this.RefreshValues();
 		}
 
 		public void Revert()

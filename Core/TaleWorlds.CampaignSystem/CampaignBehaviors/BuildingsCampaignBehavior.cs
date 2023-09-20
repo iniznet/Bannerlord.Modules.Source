@@ -72,15 +72,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (town.IsTown && town.Governor.GetPerkValue(DefaultPerks.Charm.MoralLeader))
 					{
-						Hero randomElement = town.Settlement.Notables.GetRandomElement<Hero>();
-						if (randomElement != null)
+						foreach (Hero hero in town.Settlement.Notables)
 						{
-							ChangeRelationAction.ApplyRelationChangeBetweenHeroes(town.Settlement.OwnerClan.Leader, randomElement, MathF.Round(DefaultPerks.Charm.MoralLeader.SecondaryBonus), true);
+							ChangeRelationAction.ApplyRelationChangeBetweenHeroes(town.Settlement.OwnerClan.Leader, hero, MathF.Round(DefaultPerks.Charm.MoralLeader.SecondaryBonus), true);
 						}
 					}
 					if (town.Governor.GetPerkValue(DefaultPerks.Engineering.Foreman))
 					{
-						town.Settlement.Prosperity += DefaultPerks.Engineering.Foreman.SecondaryBonus;
+						town.Prosperity += DefaultPerks.Engineering.Foreman.SecondaryBonus;
 					}
 				}
 				SkillLevelingManager.OnSettlementProjectFinished(town.Settlement);

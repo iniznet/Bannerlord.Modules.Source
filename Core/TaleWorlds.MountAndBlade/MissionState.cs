@@ -124,7 +124,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (GameNetwork.IsClient)
 				{
-					int currentBattleIndex = GameNetwork.GetNetworkComponent<BaseNetworkComponent>().CurrentBattleIndex;
+					int currentBattleIndex = GameNetwork.GetNetworkComponent<BaseNetworkComponentData>().CurrentBattleIndex;
 					MBDebug.Print(string.Format("Client: I finished loading battle with index: {0}. Sending confirmation to server.", currentBattleIndex), 0, Debug.DebugColor.White, 17179869184UL);
 					GameNetwork.BeginModuleEventAsClient();
 					GameNetwork.WriteMessage(new FinishedLoading(currentBattleIndex));
@@ -249,6 +249,7 @@ namespace TaleWorlds.MountAndBlade
 			this.MissionName = missionName;
 			this.CreateMission(rec);
 			IEnumerable<MissionBehavior> enumerable = handler(this.CurrentMission);
+			enumerable = enumerable.Where((MissionBehavior behavior) => behavior != null);
 			if (addDefaultMissionBehaviors)
 			{
 				enumerable = MissionState.AddDefaultMissionBehaviorsTo(this.CurrentMission, enumerable);
@@ -315,7 +316,6 @@ namespace TaleWorlds.MountAndBlade
 			list.Add(new BasicMissionHandler());
 			list.Add(new CasualtyHandler());
 			list.Add(new AgentCommonAILogic());
-			list.Add(new MissionGamepadHapticEffectsHandler());
 			return list.Concat(behaviors);
 		}
 

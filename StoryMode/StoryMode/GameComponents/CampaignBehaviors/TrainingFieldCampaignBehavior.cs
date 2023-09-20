@@ -42,11 +42,11 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			this.SkipTutorialMission = false;
 			foreach (MobileParty mobileParty in MobileParty.All)
 			{
-				mobileParty.Party.UpdateVisibilityAndInspected(0f, false);
+				mobileParty.Party.UpdateVisibilityAndInspected(0f);
 			}
 			foreach (Settlement settlement2 in Settlement.All)
 			{
-				settlement2.Party.UpdateVisibilityAndInspected(0f, false);
+				settlement2.Party.UpdateVisibilityAndInspected(0f);
 			}
 		}
 
@@ -64,7 +64,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 				return true;
 			}, new GameMenuOption.OnConsequenceDelegate(TrainingFieldCampaignBehavior.game_menu_settlement_leave_on_consequence), true, -1, false, null);
 			campaignGameStarter.AddDialogLine("brother_training_field_start_coversation", "start", "training_field_line_2", "{=4vsPD3ec}{?PLAYER.GENDER}Sister{?}Brother{\\?}... It's been three days now we've been tracking those bastards. I think we're getting close. We need to think about what happens when we catch them. How are we going to rescue {PLAYER_LITTLE_BROTHER.LINK} and {PLAYER_LITTLE_SISTER.LINK}? Are we up for a fight?[if:convo_grave]", new ConversationSentence.OnConditionDelegate(this.storymode_training_field_start_on_condition), null, 1000001, null);
-			campaignGameStarter.AddDialogLine("brother_training_field_start_coversation", "training_field_line_2", "player_answer_training_field", "{=MfczTFxp}This looks like an old training field for the legions. Perhaps we can spare some time and brush up on our skills. The practice could come in handy when we catch up with the raiders.", null, null, 1000001, null);
+			campaignGameStarter.AddDialogLine("brother_training_field_start_coversation_2", "training_field_line_2", "player_answer_training_field", "{=MfczTFxp}This looks like an old training field for the legions. Perhaps we can spare some time and brush up on our skills. The practice could come in handy when we catch up with the raiders.", null, null, 1000001, null);
 			campaignGameStarter.AddPlayerLine("player_answer_play_training_field", "player_answer_training_field", "play_tutorial", "{=FaQDaRri}I'm going to run the course. I need to know I can fight if I have to. (Continue tutorial)", null, delegate
 			{
 				this._talkedWithBrotherForTheFirstTime = true;
@@ -81,8 +81,8 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("end_tutorial_goodbye_start", "end_tutorial", "end_tutorial_goodbye", "{=QF8B6XFS}All right then. Let us split up and look for the little ones separately. I'll send you a word if I find them before you do...", null, null, 100, null);
 			campaignGameStarter.AddDialogLine("end_tutorial_select_family_name", "end_tutorial_goodbye", "close_window", "{=LbSvq3be}One other thing, {?PLAYER.GENDER}sister{?}brother{\\?}. We want people to take us seriously. We may be leading men into battle soon. Let's give our family a name and a banner, like the nobles do.", null, new ConversationSentence.OnConsequenceDelegate(this.storymode_go_to_end_tutorial_village_consequence), 100, null);
 			campaignGameStarter.AddDialogLine("brother_training_field_default_coversation", "start", "player_answer_training_field_default", "{=kIklPYto}Are you ready to leave here?", new ConversationSentence.OnConditionDelegate(this.story_mode_training_field_default_conversation_with_brother_condition), null, 1000001, null);
-			campaignGameStarter.AddPlayerLine("player_answer_play_training_field", "player_answer_training_field_default", "close_window", "{=k07wzat8}I am not ready yet.", null, null, 100, null, null);
-			campaignGameStarter.AddPlayerLine("player_answer_skip_tutorial", "player_answer_training_field_default", "close_window", "{=bSDt8FN5}I am ready, let's go!", null, delegate
+			campaignGameStarter.AddPlayerLine("player_answer_play_training_field_2", "player_answer_training_field_default", "close_window", "{=k07wzat8}I am not ready yet.", null, null, 100, null, null);
+			campaignGameStarter.AddPlayerLine("player_answer_skip_tutorial_2", "player_answer_training_field_default", "close_window", "{=bSDt8FN5}I am ready, let's go!", null, delegate
 			{
 				Campaign.Current.ConversationManager.ConversationEndOneShot += delegate
 				{

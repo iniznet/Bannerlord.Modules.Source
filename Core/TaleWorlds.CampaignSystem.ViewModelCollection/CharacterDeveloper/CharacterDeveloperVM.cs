@@ -19,6 +19,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 		{
 			this._closeCharacterDeveloper = closeCharacterDeveloper;
 			this.TutorialNotification = new ElementNotificationVM();
+			this._viewDataTracker = Campaign.Current.GetCampaignBehavior<IViewDataTracker>();
 			this._heroList = new List<CharacterVM>();
 			this.HeroList = new ReadOnlyCollection<CharacterVM>(this._heroList);
 			foreach (Hero hero in this.GetApplicableHeroes())
@@ -37,7 +38,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 			this.RefreshCharacterSelector();
 			this.IsPlayerAccompanied = this._heroList.Count > 1;
 			this.SetCurrentHero(this._heroList[this._heroIndex]);
-			Campaign.Current.PlayerUpdateTracker.ClearCharacterNotification();
+			this._viewDataTracker.ClearCharacterNotification();
 			this.UnopenedPerksNumForOtherChars = this._heroList.Sum(delegate(CharacterVM h)
 			{
 				if (h != this.CurrentCharacter)
@@ -172,8 +173,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 
 		private void SetCurrentHero(CharacterVM currentHero)
 		{
-			CharacterDeveloperVM.<>c__DisplayClass17_0 CS$<>8__locals1 = new CharacterDeveloperVM.<>c__DisplayClass17_0();
-			CharacterDeveloperVM.<>c__DisplayClass17_0 CS$<>8__locals2 = CS$<>8__locals1;
+			CharacterDeveloperVM.<>c__DisplayClass18_0 CS$<>8__locals1 = new CharacterDeveloperVM.<>c__DisplayClass18_0();
+			CharacterDeveloperVM.<>c__DisplayClass18_0 CS$<>8__locals2 = CS$<>8__locals1;
 			CharacterVM currentCharacter = this.CurrentCharacter;
 			SkillObject skillObject;
 			if (currentCharacter == null)
@@ -813,6 +814,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterDeveloper
 		private readonly Action _closeCharacterDeveloper;
 
 		private readonly List<CharacterVM> _heroList;
+
+		private readonly IViewDataTracker _viewDataTracker;
 
 		public readonly ReadOnlyCollection<CharacterVM> HeroList;
 

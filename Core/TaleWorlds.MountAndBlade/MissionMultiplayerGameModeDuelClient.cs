@@ -46,11 +46,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override MissionLobbyComponent.MultiplayerGameType GameType
+		public override MultiplayerGameType GameType
 		{
 			get
 			{
-				return MissionLobbyComponent.MultiplayerGameType.Duel;
+				return MultiplayerGameType.Duel;
 			}
 		}
 

@@ -53,7 +53,7 @@ namespace TaleWorlds.MountAndBlade
 			if (text4 != null && !Enum.TryParse<MPOnSpawnPerkEffectBase.Target>(text4, true, out this.EffectTarget))
 			{
 				this.EffectTarget = MPOnSpawnPerkEffectBase.Target.Any;
-				Debug.FailedAssert("provided 'target' is invalid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Perks\\MPOnSpawnPerkEffectBase.cs", "Deserialize", 39);
+				Debug.FailedAssert("provided 'target' is invalid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Perks\\MPOnSpawnPerkEffectBase.cs", "Deserialize", 38);
 			}
 		}
 
@@ -62,9 +62,9 @@ namespace TaleWorlds.MountAndBlade
 			return 0f;
 		}
 
-		public virtual float GetExtraTroopCount()
+		public virtual int GetExtraTroopCount()
 		{
-			return 0f;
+			return 0;
 		}
 
 		public virtual List<ValueTuple<EquipmentIndex, EquipmentElement>> GetAlternativeEquipments(bool isPlayer, List<ValueTuple<EquipmentIndex, EquipmentElement>> alternativeEquipments, bool getAll = false)

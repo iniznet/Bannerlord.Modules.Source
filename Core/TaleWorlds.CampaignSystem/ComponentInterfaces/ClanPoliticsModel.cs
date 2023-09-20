@@ -13,5 +13,7 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 		public abstract float CalculateRelationshipChangeWithSponsor(Clan clan, Clan sponsorClan);
 
 		public abstract int GetInfluenceRequiredToOverrideKingdomDecision(DecisionOutcome popularOption, DecisionOutcome overridingOption, KingdomDecision decision);
+
+		public abstract bool CanHeroBeGovernor(Hero hero);
 	}
 }

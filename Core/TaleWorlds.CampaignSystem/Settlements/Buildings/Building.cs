@@ -79,7 +79,7 @@ namespace TaleWorlds.CampaignSystem.Settlements.Buildings
 				this._currentLevel = value;
 				if (this.Town.Owner != null)
 				{
-					this.Town.Owner.Visuals.RefreshLevelMask(this.Town.Owner);
+					this.Town.Owner.SetLevelMaskIsDirty();
 				}
 			}
 		}

@@ -68,9 +68,9 @@ namespace TaleWorlds.MountAndBlade
 
 		private void OnInitialize()
 		{
-			Type[] types = AssemblyLoader.LoadFrom(this.ManagedCallbacksDll, true).GetTypes();
+			List<Type> typesSafe = AssemblyLoader.LoadFrom(this.ManagedCallbacksDll, true).GetTypesSafe(null);
 			Type type = null;
-			foreach (Type type2 in types)
+			foreach (Type type2 in typesSafe)
 			{
 				if (type2.GetInterfaces().Contains(typeof(ICallbackManager)))
 				{
@@ -81,16 +81,16 @@ namespace TaleWorlds.MountAndBlade
 			CoreManaged._callbackManager = type.GetConstructor(new Type[0]).Invoke(new object[0]) as ICallbackManager;
 			CoreManaged._callbackManager.Initialize();
 			Delegate[] delegates = CoreManaged._callbackManager.GetDelegates();
-			for (int j = 0; j < delegates.Length; j++)
+			for (int i = 0; i < delegates.Length; i++)
 			{
 				try
 				{
-					CoreManaged.PassManagedCoreCallbackMethodPointers(delegates[j]);
+					CoreManaged.PassManagedCoreCallbackMethodPointers(delegates[i]);
 				}
 				catch (Exception ex)
 				{
 					CoreManaged.PassManagedCoreCallbackMethodPointers(null);
-					Console.WriteLine(ex + " " + j);
+					Console.WriteLine(ex + " " + i);
 				}
 			}
 			MBAPI.SetObjects(CoreManaged._callbackManager.GetScriptingInterfaceObjects());

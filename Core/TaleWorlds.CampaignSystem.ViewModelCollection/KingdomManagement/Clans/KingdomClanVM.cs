@@ -21,7 +21,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 			this.RefreshClanList();
 			base.NotificationCount = 0;
 			this.SupportCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfSupportingClan();
-			this.ExpelCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfExpellingClan();
+			this.ExpelCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfExpellingClan(Clan.PlayerClan);
 			TextObject textObject;
 			this.CanSupportCurrentClan = this.GetCanSupportCurrentClanWithReason(this.SupportCost, out textObject);
 			this.SupportHint.HintText = textObject;
@@ -76,7 +76,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 					return;
 				}
 				this.ExpelActionText = GameTexts.FindText("str_policy_propose", null).ToString();
-				this.ExpelCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfExpellingClan();
+				this.ExpelCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfExpellingClan(Clan.PlayerClan);
 				TextObject textObject2;
 				this.CanSupportCurrentClan = this.GetCanSupportCurrentClanWithReason(this.SupportCost, out textObject2);
 				this.SupportHint.HintText = textObject2;
@@ -207,9 +207,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Clans
 		private void RefreshClanList()
 		{
 			this.Clans.Clear();
-			foreach (Clan clan in Clan.PlayerClan.Kingdom.Clans)
+			if (Clan.PlayerClan.Kingdom != null)
 			{
-				this.Clans.Add(new KingdomClanItemVM(clan, new Action<KingdomClanItemVM>(this.OnClanSelection)));
+				foreach (Clan clan in Clan.PlayerClan.Kingdom.Clans)
+				{
+					this.Clans.Add(new KingdomClanItemVM(clan, new Action<KingdomClanItemVM>(this.OnClanSelection)));
+				}
 			}
 			if (this.Clans.Count > 0)
 			{

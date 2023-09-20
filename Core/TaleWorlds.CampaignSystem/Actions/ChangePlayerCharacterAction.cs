@@ -30,7 +30,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				PlayerCaptivity.OnPlayerCharacterChanged();
 			}
 			CampaignEventDispatcher.Instance.OnPlayerCharacterChanged(mainHero, hero, MobileParty.MainParty, flag);
-			PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+			PartyBase.MainParty.SetVisualAsDirty();
 			Campaign.Current.MainHeroIllDays = -1;
 		}
 	}

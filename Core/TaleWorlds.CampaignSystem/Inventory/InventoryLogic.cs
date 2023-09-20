@@ -48,6 +48,8 @@ namespace TaleWorlds.CampaignSystem.Inventory
 
 		public IMarketData MarketData { get; private set; }
 
+		public InventoryLogic.CapacityData OtherSideCapacityData { get; private set; }
+
 		public TextObject LeftRosterName { get; private set; }
 
 		public bool IsDiscardDonating { get; private set; }
@@ -167,13 +169,14 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		{
 		}
 
-		public void Initialize(ItemRoster leftItemRoster, MobileParty party, bool isTrading, bool isSpecialActionsPermitted, CharacterObject initialCharacterOfRightRoster, InventoryManager.InventoryCategoryType merchantItemType, IMarketData marketData, bool useBasePrices, TextObject leftRosterName = null, TroopRoster leftMemberRoster = null)
+		public void Initialize(ItemRoster leftItemRoster, MobileParty party, bool isTrading, bool isSpecialActionsPermitted, CharacterObject initialCharacterOfRightRoster, InventoryManager.InventoryCategoryType merchantItemType, IMarketData marketData, bool useBasePrices, TextObject leftRosterName = null, TroopRoster leftMemberRoster = null, InventoryLogic.CapacityData otherSideCapacityData = null)
 		{
-			this.Initialize(leftItemRoster, party.ItemRoster, party.MemberRoster, isTrading, isSpecialActionsPermitted, initialCharacterOfRightRoster, merchantItemType, marketData, useBasePrices, leftRosterName, leftMemberRoster);
+			this.Initialize(leftItemRoster, party.ItemRoster, party.MemberRoster, isTrading, isSpecialActionsPermitted, initialCharacterOfRightRoster, merchantItemType, marketData, useBasePrices, leftRosterName, leftMemberRoster, otherSideCapacityData);
 		}
 
-		public void Initialize(ItemRoster leftItemRoster, ItemRoster rightItemRoster, TroopRoster rightMemberRoster, bool isTrading, bool isSpecialActionsPermitted, CharacterObject initialCharacterOfRightRoster, InventoryManager.InventoryCategoryType merchantItemType, IMarketData marketData, bool useBasePrices, TextObject leftRosterName = null, TroopRoster leftMemberRoster = null)
+		public void Initialize(ItemRoster leftItemRoster, ItemRoster rightItemRoster, TroopRoster rightMemberRoster, bool isTrading, bool isSpecialActionsPermitted, CharacterObject initialCharacterOfRightRoster, InventoryManager.InventoryCategoryType merchantItemType, IMarketData marketData, bool useBasePrices, TextObject leftRosterName = null, TroopRoster leftMemberRoster = null, InventoryLogic.CapacityData otherSideCapacityData = null)
 		{
+			this.OtherSideCapacityData = otherSideCapacityData;
 			this.MarketData = marketData;
 			this.TransactionDebt = 0;
 			this.MerchantItemType = merchantItemType;
@@ -216,7 +219,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 
 		public int GetItemTotalPrice(ItemRosterElement itemRosterElement, int absStockChange, out int lastPrice, bool isBuying)
 		{
-			lastPrice = this.GetItemPrice(itemRosterElement, isBuying);
+			lastPrice = this.GetItemPrice(itemRosterElement.EquipmentElement, isBuying);
 			return lastPrice;
 		}
 
@@ -327,6 +330,16 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			return this._transactionHistory.GetSoldItems();
 		}
 
+		public bool CanInventoryCapacityIncrease(InventoryLogic.InventorySide side)
+		{
+			return InventoryManager.Instance.CurrentMode != InventoryMode.Warehouse || side > InventoryLogic.InventorySide.OtherInventory;
+		}
+
+		public bool GetCanItemIncreaseInventoryCapacity(ItemObject item)
+		{
+			return item.HasHorseComponent;
+		}
+
 		private void InitializeCategoryAverages()
 		{
 			if (Campaign.Current != null && Settlement.CurrentSettlement != null)
@@ -435,6 +448,15 @@ namespace TaleWorlds.CampaignSystem.Inventory
 
 		public bool CanPlayerCompleteTransaction()
 		{
+			InventoryLogic.CapacityData otherSideCapacityData = this.OtherSideCapacityData;
+			int num = ((otherSideCapacityData != null) ? otherSideCapacityData.GetCapacity() : (-1));
+			if (num != -1)
+			{
+				if (this._rosters[0].Sum((ItemRosterElement x) => x.GetRosterElementWeight()) > (float)num)
+				{
+					return false;
+				}
+			}
 			return !this.IsPreviewingItem || !this.IsTrading || this.TotalAmount <= 0 || (this.TotalAmount >= 0 && this.OwnerCharacter.HeroObject.Gold - this.TotalAmount >= 0);
 		}
 
@@ -463,33 +485,33 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			this.InventoryListener = inventoryListener;
 		}
 
-		public int GetItemPrice(ItemRosterElement itemRosterElement, bool isBuying = false)
+		public int GetItemPrice(EquipmentElement equipmentElement, bool isBuying = false)
 		{
 			bool flag = !isBuying;
 			bool flag2 = false;
 			int num = 0;
 			int num2;
 			bool flag3;
-			if (this._transactionHistory.GetLastTransfer(itemRosterElement, out num2, out flag3) && flag3 != flag)
+			if (this._transactionHistory.GetLastTransfer(equipmentElement, out num2, out flag3) && flag3 != flag)
 			{
 				flag2 = true;
 				num = num2;
 			}
 			if (this._useBasePrices)
 			{
-				return itemRosterElement.EquipmentElement.GetBaseValue();
+				return equipmentElement.GetBaseValue();
 			}
 			if (flag2)
 			{
 				return num;
 			}
-			return this.MarketData.GetPrice(itemRosterElement.EquipmentElement, this.OwnerParty, flag, this.OtherParty);
+			return this.MarketData.GetPrice(equipmentElement, this.OwnerParty, flag, this.OtherParty);
 		}
 
 		public int GetCostOfItemRosterElement(ItemRosterElement itemRosterElement, InventoryLogic.InventorySide side)
 		{
 			bool flag = side == InventoryLogic.InventorySide.OtherInventory && this.IsTrading;
-			return this.GetItemPrice(itemRosterElement, flag);
+			return this.GetItemPrice(itemRosterElement.EquipmentElement, flag);
 		}
 
 		private void OnAfterTransfer(List<TransferCommandResult> resultList)
@@ -562,11 +584,11 @@ namespace TaleWorlds.CampaignSystem.Inventory
 						TransferCommand transferCommand2 = TransferCommand.Transfer(1, InventoryLogic.InventorySide.Equipment, InventoryLogic.InventorySide.PlayerInventory, new ItemRosterElement(transferCommand.CharacterEquipment[(int)transferCommand.ToEquipmentIndex], 1), transferCommand.ToEquipmentIndex, EquipmentIndex.None, transferCommand.Character, transferCommand.IsCivilianEquipment);
 						list.AddRange(this.TransferItem(ref transferCommand2));
 					}
-					ItemRosterElement elementToTransfer = transferCommand.ElementToTransfer;
-					int itemPrice = this.GetItemPrice(transferCommand.ElementToTransfer, flag3);
+					EquipmentElement equipmentElement = transferCommand.ElementToTransfer.EquipmentElement;
+					int itemPrice = this.GetItemPrice(equipmentElement, flag3);
 					if (flag3 || flag2)
 					{
-						this._transactionHistory.RecordTransaction(transferCommand.ElementToTransfer, flag2, itemPrice);
+						this._transactionHistory.RecordTransaction(equipmentElement, flag2, itemPrice);
 					}
 					if (this.IsTrading)
 					{
@@ -591,9 +613,9 @@ namespace TaleWorlds.CampaignSystem.Inventory
 					}
 					if (transferCommand.ToSide == InventoryLogic.InventorySide.Equipment)
 					{
-						ItemRosterElement elementToTransfer2 = transferCommand.ElementToTransfer;
-						elementToTransfer2.Amount = 1;
-						transferCommand.CharacterEquipment[(int)transferCommand.ToEquipmentIndex] = elementToTransfer2.EquipmentElement;
+						ItemRosterElement elementToTransfer = transferCommand.ElementToTransfer;
+						elementToTransfer.Amount = 1;
+						transferCommand.CharacterEquipment[(int)transferCommand.ToEquipmentIndex] = elementToTransfer.EquipmentElement;
 					}
 					else if (transferCommand.ToSide == InventoryLogic.InventorySide.PlayerInventory || transferCommand.ToSide == InventoryLogic.InventorySide.OtherInventory)
 					{
@@ -622,9 +644,9 @@ namespace TaleWorlds.CampaignSystem.Inventory
 				}
 				if (transferCommand.ToSide == InventoryLogic.InventorySide.Equipment)
 				{
-					ItemRosterElement elementToTransfer3 = transferCommand.ElementToTransfer;
-					elementToTransfer3.Amount = 1;
-					list.Add(new TransferCommandResult(transferCommand.ToSide, elementToTransfer3, 1, 1, transferCommand.ToEquipmentIndex, transferCommand.Character, transferCommand.IsCivilianEquipment));
+					ItemRosterElement elementToTransfer2 = transferCommand.ElementToTransfer;
+					elementToTransfer2.Amount = 1;
+					list.Add(new TransferCommandResult(transferCommand.ToSide, elementToTransfer2, 1, 1, transferCommand.ToEquipmentIndex, transferCommand.Character, transferCommand.IsCivilianEquipment));
 				}
 				else if (transferCommand.ToSide == InventoryLogic.InventorySide.PlayerInventory || transferCommand.ToSide == InventoryLogic.InventorySide.OtherInventory)
 				{
@@ -959,7 +981,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 					this._transactions.RemoveAt(this._transactions.Count - 1);
 					return;
 				}
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Inventory\\InventoryLogic.cs", "RemoveLastTransaction", 1137);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Inventory\\InventoryLogic.cs", "RemoveLastTransaction", 1177);
 			}
 
 			public void RecordTransaction(int price, bool isSelling)
@@ -1000,9 +1022,55 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			private bool _isSelling;
 		}
 
+		public class CapacityData
+		{
+			public CapacityData(Func<int> getCapacity, Func<TextObject> getCapacityExceededWarningText, Func<TextObject> getCapacityExceededHintText)
+			{
+				this._getCapacity = getCapacity;
+				this._getCapacityExceededWarningText = getCapacityExceededHintText;
+				this._getCapacityExceededHintText = getCapacityExceededWarningText;
+			}
+
+			public int GetCapacity()
+			{
+				Func<int> getCapacity = this._getCapacity;
+				if (getCapacity == null)
+				{
+					return -1;
+				}
+				return getCapacity();
+			}
+
+			public TextObject GetCapacityExceededWarningText()
+			{
+				Func<TextObject> getCapacityExceededWarningText = this._getCapacityExceededWarningText;
+				if (getCapacityExceededWarningText == null)
+				{
+					return null;
+				}
+				return getCapacityExceededWarningText();
+			}
+
+			public TextObject GetCapacityExceededHintText()
+			{
+				Func<TextObject> getCapacityExceededHintText = this._getCapacityExceededHintText;
+				if (getCapacityExceededHintText == null)
+				{
+					return null;
+				}
+				return getCapacityExceededHintText();
+			}
+
+			private readonly Func<int> _getCapacity;
+
+			private readonly Func<TextObject> _getCapacityExceededWarningText;
+
+			private readonly Func<TextObject> _getCapacityExceededHintText;
+		}
+
 		private class TransactionHistory
 		{
-			internal void RecordTransaction(ItemRosterElement elementToTransfer, bool isSelling, int price)
+			internal void RecordTransaction(EquipmentElement elementToTransfer, bool isSelling, int price)
 			{
 				InventoryLogic.ItemLog itemLog;
 				if (!this._transactionLogs.TryGetValue(elementToTransfer, out itemLog))
@@ -1017,7 +1085,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			{
 				get
 				{
-					return this._transactionLogs.IsEmpty<KeyValuePair<ItemRosterElement, InventoryLogic.ItemLog>>();
+					return this._transactionLogs.IsEmpty<KeyValuePair<EquipmentElement, InventoryLogic.ItemLog>>();
 				}
 			}
 
@@ -1026,10 +1094,10 @@ namespace TaleWorlds.CampaignSystem.Inventory
 				this._transactionLogs.Clear();
 			}
 
-			public bool GetLastTransfer(ItemRosterElement itemRosterElement, out int lastPrice, out bool lastIsSelling)
+			public bool GetLastTransfer(EquipmentElement equipmentElement, out int lastPrice, out bool lastIsSelling)
 			{
 				InventoryLogic.ItemLog itemLog;
-				bool flag = this._transactionLogs.TryGetValue(itemRosterElement, out itemLog);
+				bool flag = this._transactionLogs.TryGetValue(equipmentElement, out itemLog);
 				lastPrice = 0;
 				lastIsSelling = false;
 				return flag && itemLog.GetLastTransaction(out lastPrice, out lastIsSelling);
@@ -1038,12 +1106,12 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			internal List<ValueTuple<ItemRosterElement, int>> GetTransferredItems(bool isSelling)
 			{
 				List<ValueTuple<ItemRosterElement, int>> list = new List<ValueTuple<ItemRosterElement, int>>();
-				foreach (KeyValuePair<ItemRosterElement, InventoryLogic.ItemLog> keyValuePair in this._transactionLogs)
+				foreach (KeyValuePair<EquipmentElement, InventoryLogic.ItemLog> keyValuePair in this._transactionLogs)
 				{
 					if (keyValuePair.Value.Count > 0 && !keyValuePair.Value.IsSelling == isSelling)
 					{
 						int num = keyValuePair.Value.Sum();
-						list.Add(new ValueTuple<ItemRosterElement, int>(new ItemRosterElement(keyValuePair.Key.EquipmentElement.Item, keyValuePair.Value.Count, keyValuePair.Key.EquipmentElement.ItemModifier), num));
+						list.Add(new ValueTuple<ItemRosterElement, int>(new ItemRosterElement(keyValuePair.Key.Item, keyValuePair.Value.Count, keyValuePair.Key.ItemModifier), num));
 					}
 				}
 				return list;
@@ -1059,7 +1127,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 				return this.GetTransferredItems(false);
 			}
 
-			private Dictionary<ItemRosterElement, InventoryLogic.ItemLog> _transactionLogs = new Dictionary<ItemRosterElement, InventoryLogic.ItemLog>();
+			private Dictionary<EquipmentElement, InventoryLogic.ItemLog> _transactionLogs = new Dictionary<EquipmentElement, InventoryLogic.ItemLog>();
 		}
 	}
 }

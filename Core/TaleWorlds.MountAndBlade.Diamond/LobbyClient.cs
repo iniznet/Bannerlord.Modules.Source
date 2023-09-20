@@ -71,6 +71,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		public bool IsRefreshingPlayerData { get; set; }
+
 		public LobbyClient.State CurrentState
 		{
 			get
@@ -147,6 +149,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 		public string LastBattleServerAddressForClient { get; private set; }
 
 		public ushort LastBattleServerPortForClient { get; private set; }
+
+		public bool LastBattleIsOfficial { get; private set; }
 
 		public bool Connected
 		{
@@ -327,6 +331,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public bool IsPartyInvitationPopupActive { get; private set; }
 
+		public bool IsPartyJoinRequestPopupActive { get; private set; }
+
 		public bool CanInvitePlayers
 		{
 			get
@@ -345,9 +351,9 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		public bool IsRefreshingPlayerData { get; set; }
-
 		public Guid ClanID { get; private set; }
+
+		public List<PlayerId> FriendIDs { get; private set; }
 
 		public LobbyClient(DiamondClientApplication diamondClientApplication, IClientSessionProvider<LobbyClient> sessionProvider)
 			: base(diamondClientApplication, sessionProvider, false)
@@ -380,6 +386,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			base.AddMessageHandler<CancelBattleResponseMessage>(new ClientMessageHandler<CancelBattleResponseMessage>(this.OnCancelBattleResponseMessage));
 			base.AddMessageHandler<RejoinRequestRejectedMessage>(new ClientMessageHandler<RejoinRequestRejectedMessage>(this.OnRejoinRequestRejectedMessage));
 			base.AddMessageHandler<CancelFindGameMessage>(new ClientMessageHandler<CancelFindGameMessage>(this.OnCancelFindGameMessage));
+			base.AddMessageHandler<RequestJoinPartyMessage>(new ClientMessageHandler<RequestJoinPartyMessage>(this.OnRequestJoinPartyMessage));
 			base.AddMessageHandler<WhisperReceivedMessage>(new ClientMessageHandler<WhisperReceivedMessage>(this.OnWhisperMessageReceivedMessage));
 			base.AddMessageHandler<ClanMessageReceivedMessage>(new ClientMessageHandler<ClanMessageReceivedMessage>(this.OnClanMessageReceivedMessage));
 			base.AddMessageHandler<ChannelMessageReceivedMessage>(new ClientMessageHandler<ChannelMessageReceivedMessage>(this.OnChannelMessageReceivedMessage));
@@ -519,6 +526,22 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return flag;
 		}
 
+		public async Task<bool> RequestJoinPlayerParty(PlayerId targetPlayer, bool inviteRequest)
+		{
+			this.AssertCanPerformLobbyActions();
+			RequestJoinPlayerPartyMessageResult requestJoinPlayerPartyMessageResult = await base.CallFunction<RequestJoinPlayerPartyMessageResult>(new RequestJoinPlayerPartyMessage(targetPlayer, inviteRequest));
+			bool flag;
+			if (requestJoinPlayerPartyMessageResult != null)
+			{
+				flag = requestJoinPlayerPartyMessageResult.Success;
+			}
+			else
+			{
+				flag = false;
+			}
+			return flag;
+		}
+
 		public void CancelFindGame()
 		{
 			this.CurrentState = LobbyClient.State.RequestingToCancelSearchBattle;
@@ -637,7 +660,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 						else
 						{
 							base.BeginDisconnect();
-							lobbyClientConnectResult = new LobbyClientConnectResult(false, loginResult.ErrorCode);
+							lobbyClientConnectResult = LobbyClientConnectResult.FromServerConnectResult(loginResult.ErrorCode, loginResult.ErrorParameters);
 						}
 					}
 					else
@@ -769,6 +792,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this.LastBattleServerAddressForClient = battleServerInformation.ServerAddress;
 			this.LastBattleServerPortForClient = battleServerInformation.ServerPort;
 			this.CurrentMatchId = battleServerInformation.MatchId;
+			this.LastBattleIsOfficial = true;
 			string text2 = "Successful matchmaker game join response\n";
 			text2 = text2 + "Address: " + this.LastBattleServerAddressForClient + "\n";
 			text2 = string.Concat(new object[] { text2, "Port: ", this.LastBattleServerPortForClient, "\n" });
@@ -903,6 +927,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 					this.CurrentState = LobbyClient.State.InCustomGame;
 					this.LastBattleServerAddressForClient = message.JoinGameData.GameServerProperties.Address;
 					this.LastBattleServerPortForClient = (ushort)message.JoinGameData.GameServerProperties.Port;
+					this.LastBattleIsOfficial = message.JoinGameData.GameServerProperties.IsOfficial;
 					this.CurrentMatchId = message.MatchId;
 					string text = "Successful custom game join response\n";
 					text = text + "Server Name: " + message.JoinGameData.GameServerProperties.Name + "\n";
@@ -1027,6 +1052,12 @@ namespace TaleWorlds.MountAndBlade.Diamond
 		{
 			this.IsPartyInvitationPopupActive = false;
 			this._handler.OnPartyInvitationInvalidated();
+		}
+
+		private void OnRequestJoinPartyMessage(RequestJoinPartyMessage message)
+		{
+			this.IsPartyJoinRequestPopupActive = true;
+			this._handler.OnPartyJoinRequestReceived(message.PlayerId, message.ViaPlayerId, message.ViaPlayerName);
 		}
 
 		private void OnPlayerInvitedToPartyMessage(PlayerInvitedToPartyMessage message)
@@ -1738,6 +1769,18 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this.CheckAndSendMessage(new DeclinePartyInvitationMessage());
 		}
 
+		public void AcceptPartyJoinRequest(PlayerId playerId)
+		{
+			this.IsPartyJoinRequestPopupActive = false;
+			this.CheckAndSendMessage(new AcceptPartyJoinRequestMessage(playerId));
+		}
+
+		public void DeclinePartyJoinRequest(PlayerId playerId, PartyJoinDeclineReason reason)
+		{
+			this.IsPartyJoinRequestPopupActive = false;
+			this.CheckAndSendMessage(new DeclinePartyJoinRequestMessage(playerId, reason));
+		}
+
 		public void UpdateCharacter(BodyProperties bodyProperties, bool isFemale)
 		{
 			this.AssertCanPerformLobbyActions();
@@ -2020,7 +2063,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			return clanPlayer != null && clanPlayer.Role == ClanPlayerRole.Officer;
 		}
 
-		public async Task<bool> UpdateUsedCosmeticItems([TupleElementNames(new string[] { "cosmeticIndex", "isEquipped" })] Dictionary<string, List<ValueTuple<string, bool>>> usedCosmetics)
+		public async Task<bool> UpdateUsedCosmeticItems([TupleElementNames(new string[] { "cosmeticId", "isEquipped" })] Dictionary<string, List<ValueTuple<string, bool>>> usedCosmetics)
 		{
 			List<CosmeticItemInfo> list = new List<CosmeticItemInfo>();
 			foreach (string text in usedCosmetics.Keys)
@@ -2214,8 +2257,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 		private PlayerId _playerId;
 
 		private List<ModuleInfoModel> _loadedUnofficialModules;
-
-		public List<PlayerId> FriendIDs;
 
 		private TimedDictionaryCache<PlayerId, GameTypeRankInfo[]> _cachedRankInfos;
 

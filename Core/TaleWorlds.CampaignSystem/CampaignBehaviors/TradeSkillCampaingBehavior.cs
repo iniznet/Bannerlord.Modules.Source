@@ -123,7 +123,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private Dictionary<ItemObject, TradeSkillCampaingBehavior.ItemTradeData> ItemsTradeData = new Dictionary<ItemObject, TradeSkillCampaingBehavior.ItemTradeData>();
 
-		public class TradeSkillCampaingBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class TradeSkillCampaingBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public TradeSkillCampaingBehaviorTypeDefiner()
 				: base(150794)

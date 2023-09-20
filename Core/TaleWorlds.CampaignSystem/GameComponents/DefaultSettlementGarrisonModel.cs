@@ -123,13 +123,13 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				num2 = FactionHelper.FindIdealGarrisonStrengthPerWalledCenter(mobileParty.MapFaction as Kingdom, settlement.OwnerClan);
 				float num3 = FactionHelper.OwnerClanEconomyEffectOnGarrisonSizeConstant(settlement.OwnerClan);
-				float num4 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(settlement);
+				float num4 = FactionHelper.SettlementProsperityEffectOnGarrisonSizeConstant(settlement.Town);
 				float num5 = FactionHelper.SettlementFoodPotentialEffectOnGarrisonSizeConstant(settlement);
 				num2 *= num3;
 				num2 *= num4;
 				num2 *= num5;
 			}
-			if ((settlement.OwnerClan.Leader != Hero.MainHero || (mobileParty.LeaderHero != null && mobileParty.LeaderHero.Clan == Clan.PlayerClan)) && num < num2)
+			if (num < num2)
 			{
 				int numberOfRegularMembers = mobileParty.Party.NumberOfRegularMembers;
 				float num6 = 1f + (float)mobileParty.Party.MemberRoster.TotalWoundedRegulars / (float)mobileParty.Party.NumberOfRegularMembers;

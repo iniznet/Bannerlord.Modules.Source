@@ -43,32 +43,15 @@ namespace TaleWorlds.SaveSystem
 
 		public void Inspect()
 		{
-			Debug.Print("Header Size: " + this.Header.Length, 0, Debug.DebugColor.White, 17592186044416UL);
-			Debug.Print("Strings Size: " + this.Strings.Length, 0, Debug.DebugColor.White, 17592186044416UL);
-			Debug.Print("Object Count: " + this.ObjectData.Length, 0, Debug.DebugColor.White, 17592186044416UL);
-			Debug.Print("Container Count: " + this.ContainerData.Length, 0, Debug.DebugColor.White, 17592186044416UL);
-			int num = 0;
-			for (int i = 0; i < this.ObjectData.Length; i++)
+			Debug.Print(string.Format("Header Size: {0} Strings Size: {1} Object Size: {2} Container Size: {3}", new object[]
 			{
-				int num2 = this.ObjectData[i].Length;
-				if (num2 > num)
-				{
-					num = num2;
-				}
-			}
-			Debug.Print("Highest Object Size: " + num, 0, Debug.DebugColor.White, 17592186044416UL);
-			int num3 = 0;
-			for (int j = 0; j < this.ContainerData.Length; j++)
-			{
-				int num4 = this.ContainerData[j].Length;
-				if (num4 > num3)
-				{
-					num3 = num4;
-				}
-			}
-			Debug.Print("Highest Container Size: " + num3, 0, Debug.DebugColor.White, 17592186044416UL);
-			float num5 = (float)this.TotalSize / 1048576f;
-			Debug.Print(string.Format("Total size: {0:##.00} MB", num5), 0, Debug.DebugColor.White, 17592186044416UL);
+				this.Header.Length,
+				this.Strings.Length,
+				this.ObjectData.Length,
+				this.ContainerData.Length
+			}), 0, Debug.DebugColor.White, 17592186044416UL);
+			float num = (float)this.TotalSize / 1048576f;
+			Debug.Print(string.Format("Total size: {0:##.00} MB", num), 0, Debug.DebugColor.White, 17592186044416UL);
 		}
 
 		public static GameData CreateFrom(byte[] readBytes)
@@ -122,6 +105,58 @@ namespace TaleWorlds.SaveSystem
 			int num6 = reader.ReadInt32();
 			byte[] array4 = reader.ReadBytes(num6);
 			return new GameData(array, array4, array2, array3);
+		}
+
+		public bool IsEqualTo(GameData gameData)
+		{
+			bool flag = this.CompareByteArrays(this.Header, gameData.Header, "Header");
+			bool flag2 = this.CompareByteArrays(this.Strings, gameData.Strings, "Strings");
+			bool flag3 = this.CompareByteArrays(this.ObjectData, gameData.ObjectData, "ObjectData");
+			bool flag4 = this.CompareByteArrays(this.ContainerData, gameData.ContainerData, "ContainerData");
+			return flag && flag2 && flag3 && flag4;
+		}
+
+		private bool CompareByteArrays(byte[] arr1, byte[] arr2, string name)
+		{
+			if (arr1.Length != arr2.Length)
+			{
+				Debug.FailedAssert(name + " failed length comparison.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\GameData.cs", "CompareByteArrays", 142);
+				return false;
+			}
+			for (int i = 0; i < arr1.Length; i++)
+			{
+				if (arr1[i] != arr2[i])
+				{
+					Debug.FailedAssert(string.Format("{0} failed byte comparison at index {1}.", name, i), "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\GameData.cs", "CompareByteArrays", 150);
+					return false;
+				}
+			}
+			return true;
+		}
+
+		private bool CompareByteArrays(byte[][] arr1, byte[][] arr2, string name)
+		{
+			if (arr1.Length != arr2.Length)
+			{
+				Debug.FailedAssert(name + " failed length comparison.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\GameData.cs", "CompareByteArrays", 161);
+				return false;
+			}
+			for (int i = 0; i < arr1.Length; i++)
+			{
+				if (arr1[i].Length != arr2[i].Length)
+				{
+					Debug.FailedAssert(name + " failed length comparison.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\GameData.cs", "CompareByteArrays", 168);
+					return false;
+				}
+				for (int j = 0; j < arr1[i].Length; j++)
+				{
+					if (arr1[i][j] != arr2[i][j])
+					{
+						Debug.FailedAssert(string.Format("{0} failed byte comparison at index {1}-{2}.", name, i, j), "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\GameData.cs", "CompareByteArrays", 176);
+					}
+				}
+			}
+			return true;
 		}
 	}
 }

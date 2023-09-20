@@ -116,11 +116,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 					TextObject textObject;
 					if (base.IssueOwner.CharacterObject.GetTraitLevel(DefaultTraits.Mercy) < 0)
 					{
-						textObject = new TextObject("{=QEhapwtN}I own a mine near here. Normally I can find willing villagers to work it, but these days they've been demanding higher and higher wages. Fine. They're out of a job, but I still need to work the mine. If you could perhaps find me some prisoners...", null);
+						textObject = new TextObject("{=QEhapwtN}I own a mine near here. Normally I can find willing villagers to work it, but these days they've been demanding higher and higher wages. Fine. They're out of a job, but I still need to work the mine. If you could perhaps find me some prisoners...[if:convo_normal][ib:confident2]", null);
 					}
 					else
 					{
-						textObject = new TextObject("{=1LFcSRPw}I have a mine near here. We had an unfortunate accident a week back. Two workers were crushed to death. It's a great shame... but work must go on. Trouble is, no one wants to come back. If perhaps you could find me some prisoners...", null);
+						textObject = new TextObject("{=1LFcSRPw}I have a mine near here. We had an unfortunate accident a week back. Two workers were crushed to death. It's a great shame... but work must go on. Trouble is, no one wants to come back. If perhaps you could find me some prisoners...[if:convo_thinking][ib:hip]", null);
 					}
 					return textObject;
 				}
@@ -138,7 +138,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=ji5kkqXy}They need to be criminals, bandits, for me to do this legally. I need at least {WANTED_PRISONER_AMOUNT} of them. But if you can bring more I will gladly accept. I'm willing to pay ten times more than their market price for each. What do you say?", null);
+					TextObject textObject = new TextObject("{=ji5kkqXy}They need to be criminals, bandits, for me to do this legally. I need at least {WANTED_PRISONER_AMOUNT} of them. But if you can bring more I will gladly accept. I'm willing to pay ten times more than their market price for each. What do you say?[if:convo_nonchalant]", null);
 					textObject.SetTextVariable("WANTED_PRISONER_AMOUNT", this.RequestedPrisonerCount);
 					return textObject;
 				}
@@ -176,7 +176,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=XXOlu6z0}Thank you for sparing some of your men to save my business. I am looking forward to resuming work.", null);
+					return new TextObject("{=XXOlu6z0}Thank you for sparing some of your men to save my business. I am looking forward to resuming work.[if:convo_mocking_teasing]", null);
 				}
 			}
 
@@ -304,6 +304,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -541,7 +545,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetCounterOfferDialogFlow()
 			{
-				TextObject textObject = new TextObject("{=aJHMafam}{?PLAYER.GENDER}Madam{?}Sir{\\?} - a moment of your time! You're on a job for {ISSUE_GIVER.LINK}, am I right? Look - our people are depending on those jobs. {?ISSUE_GIVER.GENDER}She{?}He{\\?} doesn't need to pay us a living wage if {?ISSUE_GIVER.GENDER}she{?}he{\\?} can do the work with prisoners. Please - break your agreement. You don't have to do this.", null);
+				TextObject textObject = new TextObject("{=aJHMafam}{?PLAYER.GENDER}Madam{?}Sir{\\?} - a moment of your time! [if:convo_undecided_open][ib:nervous2]You're on a job for {ISSUE_GIVER.LINK}, am I right? Look - our people are depending on those jobs. {?ISSUE_GIVER.GENDER}She{?}He{\\?} doesn't need to pay us a living wage if {?ISSUE_GIVER.GENDER}she{?}he{\\?} can do the work with prisoners. Please - break your agreement. You don't have to do this.", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 				StringHelpers.SetCharacterProperties("ISSUE_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 				TextObject textObject2 = new TextObject("{=8BdJ2MZj}I don't want to hurt your people. I'll forget my deal with {ISSUE_GIVER.LINK}.", null);
@@ -560,18 +564,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.BeginPlayerOptions()
 					.PlayerOption("{=rOWyAHPo}Mind your own business, Headman.", null)
-					.NpcLine("{=tLapkQqg}We won't forget this!", null, null)
+					.NpcLine("{=tLapkQqg}We won't forget this![if:convo_thinking][ib:aggressive]", null, null)
 					.Consequence(delegate
 					{
 						ChangeRelationAction.ApplyPlayerRelation(Hero.OneToOneConversationHero, -3, true, true);
 					})
 					.CloseDialog()
 					.PlayerOption("{=I3GUAb9a}I understand your concern, Headman, but I made an agreement. How about I share the profit with you and your people?", null)
-					.NpcLine("{=MmQt0TD3}This is not we want, but it's more than nothing. ", null, null)
+					.NpcLine("{=MmQt0TD3}This is not we want, but it's more than nothing.[if:convo_dismayed][ib:normal]", null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.ShareTheProfit))
 					.CloseDialog()
 					.PlayerOption(textObject2, null)
-					.NpcLine("{=E5yAFR6y}Good to hear that. Thank you.", null, null)
+					.NpcLine("{=E5yAFR6y}Good to hear that. Thank you.[if:convo_relaxed_happy][ib:normal]", null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestFailPlayerAcceptedCounterOffer))
 					.CloseDialog()
 					.EndPlayerOptions()
@@ -587,7 +591,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=l7dL6arZ}Thank you. Remember - they need to be looters or bandits. Anyone else I can't put to work.", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=l7dL6arZ}Thank you. Remember - they need to be looters or bandits. Anyone else I can't put to work.[if:convo_mocking_teasing][ib:closed]", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				TextObject npcDiscussLine = new TextObject("{=!}{MANUAL_LABORERS_QUEST_NOTABLE_DISCUSS}", null);
@@ -608,7 +612,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						}
 						if (!changeDialogAfterTransfer)
 						{
-							npcDiscussLine.SetTextVariable("MANUAL_LABORERS_QUEST_NOTABLE_DISCUSS", new TextObject("{=B0YOpGsZ}Any news about my prisoners?", null));
+							npcDiscussLine.SetTextVariable("MANUAL_LABORERS_QUEST_NOTABLE_DISCUSS", new TextObject("{=B0YOpGsZ}Any news about my prisoners?[if:convo_mocking_teasing][ib:hip]", null));
 						}
 						else
 						{
@@ -629,7 +633,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						}
 						if ((float)this._deliveredPrisonerCount < (float)this._maximumPrisonerCount * 0.75f)
 						{
-							npcResponseLine.SetTextVariable("MANUAL_LABORERS_QUEST_NOTABLE_RESPONSE", new TextObject("{=0ewaZnfe}Very good. Keep them coming.", null));
+							npcResponseLine.SetTextVariable("MANUAL_LABORERS_QUEST_NOTABLE_RESPONSE", new TextObject("{=0ewaZnfe}Very good. Keep them coming.[if:convo_mocking_aristocratic]", null));
 						}
 						else
 						{
@@ -650,7 +654,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.GotoDialogState("quest_discuss")
 					.PlayerOption(new TextObject("{=UOE7ejgq}Here is all I've got. Let's settle up and finish this business.", null), null)
 					.Condition(() => !this._playerReachedMaximumAmount && this._deliveredPrisonerCount >= this._requestedPrisonerCount)
-					.NpcLine(new TextObject("{=YZ6UmX5o}Certainly. Here is your payment as I promised. Thank you.", null), null, null)
+					.NpcLine(new TextObject("{=YZ6UmX5o}Certainly. Here is your payment as I promised. Thank you.[if:convo_mocking_teasing][ib:confident3]", null), null, null)
 					.Consequence(delegate
 					{
 						this.ApplyQuestSuccessConsequences();
@@ -658,7 +662,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=wErSpkjy}I'm still working on it.", null), null)
-					.NpcLine(new TextObject("{=L1JyetPq}I am glad to hear that.", null), null, null)
+					.NpcLine(new TextObject("{=oiLdjqwe}I am glad to hear that.[if:convo_nonchalant]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 				if (this.IsQuestWithCounterOffer)
@@ -669,7 +673,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OpenPrisonerDeliveryScreen()
 			{
-				PartyScreenManager.OpenScreenWithCondition(new IsTroopTransferableDelegate(this.IsTroopTransferable), new PartyPresentationDoneButtonConditionDelegate(this.DoneButtonCondition), new PartyPresentationDoneButtonDelegate(this.OnDoneClicked), new PartyPresentationCancelButtonDelegate(this.OnCancelClicked), PartyScreenLogic.TransferState.NotTransferable, PartyScreenLogic.TransferState.Transferable, base.QuestGiver.Name, 150, false, false, PartyScreenMode.PrisonerManage);
+				PartyScreenManager.OpenScreenWithCondition(new IsTroopTransferableDelegate(this.IsTroopTransferable), new PartyPresentationDoneButtonConditionDelegate(this.DoneButtonCondition), new PartyPresentationDoneButtonDelegate(this.OnDoneClicked), new PartyPresentationCancelButtonDelegate(this.OnCancelClicked), PartyScreenLogic.TransferState.NotTransferable, PartyScreenLogic.TransferState.Transferable, base.QuestGiver.Name, 150, false, false, PartyScreenMode.PrisonerManage, null, null);
 			}
 
 			private void OnCancelClicked()
@@ -796,6 +800,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.RelationshipChangeWithQuestGiver = -5;
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
@@ -841,7 +849,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog, false);
 			}
 
 			protected override void OnFinalize()

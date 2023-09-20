@@ -7,11 +7,11 @@ namespace NetworkMessages.FromClient
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromClient)]
 	public sealed class DuelRequest : GameNetworkMessage
 	{
-		public Agent RequestedAgent { get; private set; }
+		public int RequestedAgentIndex { get; private set; }
 
-		public DuelRequest(Agent requestedAgent)
+		public DuelRequest(int requestedAgentIndex)
 		{
-			this.RequestedAgent = requestedAgent;
+			this.RequestedAgentIndex = requestedAgentIndex;
 		}
 
 		public DuelRequest()
@@ -21,13 +21,13 @@ namespace NetworkMessages.FromClient
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.RequestedAgent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.RequestedAgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.RequestedAgent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.RequestedAgentIndex);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -37,13 +37,7 @@ namespace NetworkMessages.FromClient
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Duel requested from agent with name: ",
-				this.RequestedAgent.Name,
-				" and index: ",
-				this.RequestedAgent.Index
-			});
+			return "Duel requested from agent with index: " + this.RequestedAgentIndex;
 		}
 	}
 }

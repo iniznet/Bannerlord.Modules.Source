@@ -5,6 +5,12 @@ namespace TaleWorlds.Core
 {
 	public class DefaultStrikeMagnitudeModel : StrikeMagnitudeCalculationModel
 	{
+		public override float CalculateStrikeMagnitudeForMissile(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float missileDamage, float missileSpeed, float missileStartingSpeed, WeaponComponentData currentUsageWeaponComponent)
+		{
+			float num = missileSpeed / missileStartingSpeed;
+			return num * num * missileDamage;
+		}
+
 		public override float CalculateStrikeMagnitudeForSwing(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float swingSpeed, float impactPointAsPercent, float weaponWeight, WeaponComponentData weaponUsageComponent, float weaponLength, float weaponInertia, float weaponCoM, float extraLinearSpeed, bool doesAttackerHaveMount)
 		{
 			return CombatStatCalculator.CalculateStrikeMagnitudeForSwing(swingSpeed, impactPointAsPercent, weaponWeight, weaponLength, weaponInertia, weaponCoM, extraLinearSpeed);
@@ -13,11 +19,6 @@ namespace TaleWorlds.Core
 		public override float CalculateStrikeMagnitudeForThrust(BasicCharacterObject attackerCharacter, BasicCharacterObject attackerCaptainCharacter, float thrustWeaponSpeed, float weaponWeight, WeaponComponentData weaponUsageComponent, float extraLinearSpeed, bool doesAttackerHaveMount, bool isThrown = false)
 		{
 			return CombatStatCalculator.CalculateStrikeMagnitudeForThrust(thrustWeaponSpeed, weaponWeight, extraLinearSpeed, isThrown);
-		}
-
-		public override float CalculateSpeedBonusMultiplierForMissile(BasicCharacterObject attackerCharacter, WeaponClass ammoClass)
-		{
-			return 0f;
 		}
 
 		public override float ComputeRawDamage(DamageTypes damageType, float magnitude, float armorEffectiveness, float absorbedDamageRatio)
@@ -39,7 +40,7 @@ namespace TaleWorlds.Core
 				num4 = MathF.Max(0f, num2 - armorEffectiveness * 0.2f);
 				break;
 			default:
-				Debug.FailedAssert("Given damage type is invalid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\DefaultStrikeMagnitudeModel.cs", "ComputeRawDamage", 56);
+				Debug.FailedAssert("Given damage type is invalid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\DefaultStrikeMagnitudeModel.cs", "ComputeRawDamage", 59);
 				return 0f;
 			}
 			num3 += (1f - bluntDamageFactorByDamageType) * num4;

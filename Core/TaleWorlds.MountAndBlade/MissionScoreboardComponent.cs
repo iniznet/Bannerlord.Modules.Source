@@ -31,6 +31,19 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public BattleSideEnum RoundWinner
+		{
+			get
+			{
+				IRoundComponent roundComponent = this._mpGameModeBase.RoundComponent;
+				if (roundComponent == null)
+				{
+					return BattleSideEnum.None;
+				}
+				return roundComponent.RoundWinner;
+			}
+		}
+
 		public MissionScoreboardComponent.ScoreboardHeader[] Headers
 		{
 			get
@@ -74,11 +87,11 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void AfterStart()
 		{
-			this.Clear();
+			this._spectators.Clear();
 			this._missionLobbyComponent = base.Mission.GetMissionBehavior<MissionLobbyComponent>();
 			this._missionNetworkComponent = base.Mission.GetMissionBehavior<MissionNetworkComponent>();
 			this._mpGameModeBase = base.Mission.GetMissionBehavior<MissionMultiplayerGameModeBaseClient>();
-			if (this._missionLobbyComponent.MissionType == MissionLobbyComponent.MultiplayerGameType.FreeForAll || this._missionLobbyComponent.MissionType == MissionLobbyComponent.MultiplayerGameType.Duel)
+			if (this._missionLobbyComponent.MissionType == MultiplayerGameType.FreeForAll || this._missionLobbyComponent.MissionType == MultiplayerGameType.Duel)
 			{
 				this._scoreboardSides = MissionScoreboardComponent.ScoreboardSides.OneSide;
 			}
@@ -125,11 +138,6 @@ namespace TaleWorlds.MountAndBlade
 			base.OnRemoveBehavior();
 		}
 
-		public void Clear()
-		{
-			this._spectators.Clear();
-		}
-
 		public void ResetBotScores()
 		{
 			foreach (MissionScoreboardComponent.MissionScoreboardSide missionScoreboardSide in this._sides)
@@ -152,19 +160,6 @@ namespace TaleWorlds.MountAndBlade
 				GameNetwork.BeginBroadcastModuleEvent();
 				GameNetwork.WriteMessage(new UpdateRoundScores(this._sides[1].SideScore, num));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
-			}
-			if (this.OnRoundPropertiesChanged != null)
-			{
-				this.OnRoundPropertiesChanged();
-			}
-		}
-
-		public void ClearScores()
-		{
-			this._sides[1].SideScore = 0;
-			if (this._scoreboardSides == MissionScoreboardComponent.ScoreboardSides.TwoSides)
-			{
-				this._sides[0].SideScore = 0;
 			}
 			if (this.OnRoundPropertiesChanged != null)
 			{
@@ -211,7 +206,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (side > (BattleSideEnum)this._sides.Length || side < BattleSideEnum.Defender)
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionScoreboardComponent.cs", "GetRoundScore", 448);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MissionScoreboardComponent.cs", "GetRoundScore", 432);
 				return 0;
 			}
 			return this.GetSideSafe(side).SideScore;
@@ -263,7 +258,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private void TeamChange(NetworkCommunicator player, Team oldTeam, Team nextTeam)
 		{
-			if (oldTeam == null && MBNetwork.VirtualPlayers[player.VirtualPlayer.Index] != player.VirtualPlayer)
+			if (oldTeam == null && GameNetwork.VirtualPlayers[player.VirtualPlayer.Index] != player.VirtualPlayer)
 			{
 				Debug.Print("Ignoring team change call for {}, dced peer.", 0, Debug.DebugColor.White, 17179869184UL);
 				return;
@@ -306,6 +301,10 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void OnClearScene()
 		{
+			if (this._mpGameModeBase.RoundComponent == null && GameNetwork.IsServer)
+			{
+				this.ClearSideScores();
+			}
 			foreach (MissionScoreboardComponent.MissionScoreboardSide missionScoreboardSide in this.Sides)
 			{
 				if (missionScoreboardSide != null)
@@ -465,16 +464,22 @@ namespace TaleWorlds.MountAndBlade
 			this.BotPropertiesChanged(botData.Side);
 		}
 
-		public BattleSideEnum RoundWinner
+		private void ClearSideScores()
 		{
-			get
+			this._sides[1].SideScore = 0;
+			if (this._scoreboardSides == MissionScoreboardComponent.ScoreboardSides.TwoSides)
 			{
-				IRoundComponent roundComponent = this._mpGameModeBase.RoundComponent;
-				if (roundComponent == null)
-				{
-					return BattleSideEnum.None;
-				}
-				return roundComponent.RoundWinner;
+				this._sides[0].SideScore = 0;
+			}
+			if (GameNetwork.IsServer)
+			{
+				GameNetwork.BeginBroadcastModuleEvent();
+				GameNetwork.WriteMessage(new UpdateRoundScores(0, 0));
+				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
+			}
+			if (this.OnRoundPropertiesChanged != null)
+			{
+				this.OnRoundPropertiesChanged();
 			}
 		}
 
@@ -484,12 +489,6 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.UpdateRoundScores();
 			}
-		}
-
-		public override void OnMissionRestart()
-		{
-			this.Clear();
-			this.ClearScores();
 		}
 
 		private void OnMyClientSynchronized()
@@ -623,7 +622,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void OnScoreHit(Agent affectedAgent, Agent affectorAgent, WeaponComponentData attackerWeapon, bool isBlocked, bool isSiegeEngineHit, in Blow blow, in AttackCollisionData collisionData, float damagedHp, float hitDistance, float shotDifficulty)
 		{
-			if (GameNetwork.IsServer && !isBlocked && damagedHp > 0f)
+			if (affectorAgent != null && GameNetwork.IsServer && !isBlocked && damagedHp > 0f)
 			{
 				if (affectorAgent.IsMount)
 				{

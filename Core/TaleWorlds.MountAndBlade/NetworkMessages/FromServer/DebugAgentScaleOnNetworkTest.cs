@@ -7,7 +7,7 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.DebugFromServer)]
 	internal sealed class DebugAgentScaleOnNetworkTest : GameNetworkMessage
 	{
-		internal Agent AgentToTest { get; private set; }
+		internal int AgentToTestIndex { get; private set; }
 
 		internal float ScaleToTest { get; private set; }
 
@@ -15,23 +15,23 @@ namespace NetworkMessages.FromServer
 		{
 		}
 
-		internal DebugAgentScaleOnNetworkTest(Agent toTest, float scale)
+		internal DebugAgentScaleOnNetworkTest(int agentToTestIndex, float scale)
 		{
-			this.AgentToTest = toTest;
+			this.AgentToTestIndex = agentToTestIndex;
 			this.ScaleToTest = scale;
 		}
 
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.AgentToTest = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
+			this.AgentToTestIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.ScaleToTest = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.DebugScaleValueCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.AgentToTest);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentToTestIndex);
 			GameNetworkMessage.WriteFloatToPacket(this.ScaleToTest, CompressionMission.DebugScaleValueCompressionInfo);
 		}
 

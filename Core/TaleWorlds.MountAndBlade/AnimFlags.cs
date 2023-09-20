@@ -3,7 +3,7 @@ using TaleWorlds.DotNet;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Anim_flags")]
+	[EngineStruct("Anim_flags", false)]
 	[Flags]
 	public enum AnimFlags : ulong
 	{

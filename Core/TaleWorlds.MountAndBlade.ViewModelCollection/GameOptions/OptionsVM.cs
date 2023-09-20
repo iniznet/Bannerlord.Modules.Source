@@ -29,11 +29,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this._groupedCategories = new List<GroupedOptionCategoryVM>();
 			NativeOptions.RefreshOptionsData();
 			bool flag = this.CurrentOptionsMode == OptionsVM.OptionsMode.Multiplayer;
-			this._gameplayOptionCategory = new GroupedOptionCategoryVM(this, new TextObject("{=2zcrC0h1}Gameplay", null), OptionsProvider.GetGameplayOptionCategory(flag), true, true);
+			bool flag2 = this.CurrentOptionsMode == OptionsVM.OptionsMode.MainMenu;
+			this._gameplayOptionCategory = new GroupedOptionCategoryVM(this, new TextObject("{=2zcrC0h1}Gameplay", null), OptionsProvider.GetGameplayOptionCategory(flag2, flag), true, true);
 			this._audioOptionCategory = new GroupedOptionCategoryVM(this, new TextObject("{=xebFLnH2}Audio", null), OptionsProvider.GetAudioOptionCategory(flag), true, false);
-			this._videoOptionCategory = new GroupedOptionCategoryVM(this, new TextObject("{=gamevideo}Video", null), OptionsProvider.GetVideoOptionCategory(this.CurrentOptionsMode == OptionsVM.OptionsMode.MainMenu, new Action(this.OnBrightnessClick), new Action(this.OnExposureClick), new Action(this.ExecuteBenchmark)), true, false);
-			bool flag2 = true;
-			this._performanceOptionCategory = new GroupedOptionCategoryVM(this, new TextObject("{=fM9E7frB}Performance", null), OptionsProvider.GetPerformanceOptionCategory(flag), flag2, false);
+			this._videoOptionCategory = new GroupedOptionCategoryVM(this, new TextObject("{=gamevideo}Video", null), OptionsProvider.GetVideoOptionCategory(flag2, new Action(this.OnBrightnessClick), new Action(this.OnExposureClick), new Action(this.ExecuteBenchmark)), true, false);
+			bool flag3 = true;
+			this._performanceOptionCategory = new GroupedOptionCategoryVM(this, new TextObject("{=fM9E7frB}Performance", null), OptionsProvider.GetPerformanceOptionCategory(flag), flag3, false);
 			this._groupedCategories.Add(this._videoOptionCategory);
 			this._groupedCategories.Add(this._audioOptionCategory);
 			this._groupedCategories.Add(this._gameplayOptionCategory);
@@ -64,6 +65,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this._refreshRateOption = this.VideoOptions.GetOption(NativeOptions.NativeOptionsType.RefreshRate);
 			this._resolutionOption = this.VideoOptions.GetOption(NativeOptions.NativeOptionsType.ScreenResolution);
 			this._monitorOption = this.VideoOptions.GetOption(NativeOptions.NativeOptionsType.SelectedMonitor);
+			this._displayModeOption = this.VideoOptions.GetOption(NativeOptions.NativeOptionsType.DisplayMode);
 			this._overallOption = this.PerformanceOptions.GetOption(NativeOptions.NativeOptionsType.OverAll) as StringOptionDataVM;
 			this._dlssOption = this.PerformanceOptions.GetOption(NativeOptions.NativeOptionsType.DLSS);
 			this._dynamicResolutionOptions = new List<GenericOptionDataVM>
@@ -409,6 +411,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			{
 				nextTabInputKey.OnFinalize();
 			}
+			InputKeyItemVM resetInputKey = this.ResetInputKey;
+			if (resetInputKey != null)
+			{
+				resetInputKey.OnFinalize();
+			}
 			GamepadOptionCategoryVM gamepadOptions = this.GamepadOptions;
 			if (gamepadOptions != null)
 			{
@@ -474,28 +481,92 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 		protected void OnDone()
 		{
 			this.ApplyChangedOptions();
-			GenericOptionDataVM resolutionOption = this._resolutionOption;
-			if (resolutionOption == null || !resolutionOption.IsChanged())
+			GenericOptionDataVM monitorOption = this._monitorOption;
+			if (monitorOption == null || !monitorOption.IsChanged())
 			{
-				GenericOptionDataVM monitorOption = this._monitorOption;
-				if (monitorOption == null || !monitorOption.IsChanged())
+				GenericOptionDataVM resolutionOption = this._resolutionOption;
+				if (resolutionOption == null || !resolutionOption.IsChanged())
 				{
-					this.CloseScreen(this._autoHandleClose);
-					return;
+					GenericOptionDataVM refreshRateOption = this._refreshRateOption;
+					if (refreshRateOption == null || !refreshRateOption.IsChanged())
+					{
+						GenericOptionDataVM displayModeOption = this._displayModeOption;
+						if (displayModeOption == null || !displayModeOption.IsChanged())
+						{
+							this.CloseScreen(this._autoHandleClose);
+							return;
+						}
+					}
 				}
 			}
-			InformationManager.ShowInquiry(new InquiryData(new TextObject("{=m7vOLTpp}Screen Resolution Has Been Changed", null).ToString(), new TextObject("{=pK4EyTZC}Do you want to keep these settings?", null).ToString(), true, true, Module.CurrentModule.GlobalTextManager.FindText("str_ok", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), delegate
+			InformationManager.ShowInquiry(new InquiryData(new TextObject("{=lCZMJt2k}Video Options Have Been Changed", null).ToString(), new TextObject("{=pK4EyTZC}Do you want to keep these settings?", null).ToString(), true, true, Module.CurrentModule.GlobalTextManager.FindText("str_ok", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), delegate
 			{
+				GenericOptionDataVM monitorOption2 = this._monitorOption;
+				if (monitorOption2 != null)
+				{
+					monitorOption2.ApplyValue();
+				}
+				GenericOptionDataVM resolutionOption2 = this._resolutionOption;
+				if (resolutionOption2 != null)
+				{
+					resolutionOption2.ApplyValue();
+				}
+				GenericOptionDataVM refreshRateOption2 = this._refreshRateOption;
+				if (refreshRateOption2 != null)
+				{
+					refreshRateOption2.ApplyValue();
+				}
+				GenericOptionDataVM displayModeOption2 = this._displayModeOption;
+				if (displayModeOption2 != null)
+				{
+					displayModeOption2.ApplyValue();
+				}
 				this.CloseScreen(this._autoHandleClose);
 			}, delegate
 			{
-				this._monitorOption.Cancel();
-				this._resolutionOption.Cancel();
+				GenericOptionDataVM monitorOption3 = this._monitorOption;
+				if (monitorOption3 != null)
+				{
+					monitorOption3.Cancel();
+				}
+				GenericOptionDataVM resolutionOption3 = this._resolutionOption;
+				if (resolutionOption3 != null)
+				{
+					resolutionOption3.Cancel();
+				}
+				GenericOptionDataVM refreshRateOption3 = this._refreshRateOption;
+				if (refreshRateOption3 != null)
+				{
+					refreshRateOption3.Cancel();
+				}
+				GenericOptionDataVM displayModeOption3 = this._displayModeOption;
+				if (displayModeOption3 != null)
+				{
+					displayModeOption3.Cancel();
+				}
 				NativeOptions.ApplyConfigChanges(true);
 			}, "", 10f, delegate
 			{
-				this._monitorOption.Cancel();
-				this._resolutionOption.Cancel();
+				GenericOptionDataVM monitorOption4 = this._monitorOption;
+				if (monitorOption4 != null)
+				{
+					monitorOption4.Cancel();
+				}
+				GenericOptionDataVM resolutionOption4 = this._resolutionOption;
+				if (resolutionOption4 != null)
+				{
+					resolutionOption4.Cancel();
+				}
+				GenericOptionDataVM refreshRateOption4 = this._refreshRateOption;
+				if (refreshRateOption4 != null)
+				{
+					refreshRateOption4.Cancel();
+				}
+				GenericOptionDataVM displayModeOption4 = this._displayModeOption;
+				if (displayModeOption4 != null)
+				{
+					displayModeOption4.Cancel();
+				}
 				NativeOptions.ApplyConfigChanges(true);
 			}, null, null), false, false);
 		}
@@ -512,55 +583,49 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			int num8 = 0;
 			int num9 = 0;
 			int num10 = 0;
-			foreach (GenericOptionDataVM genericOptionDataVM in this._groupedCategories.SelectMany((GroupedOptionCategoryVM c) => c.AllOptions))
+			IEnumerable<GenericOptionDataVM> enumerable = this._groupedCategories.SelectMany((GroupedOptionCategoryVM c) => c.AllOptions);
+			foreach (GenericOptionDataVM genericOptionDataVM in enumerable)
 			{
 				genericOptionDataVM.UpdateValue();
 				if (genericOptionDataVM.IsNative && !genericOptionDataVM.GetOptionData().IsAction())
 				{
 					NativeOptions.NativeOptionsType nativeOptionsType = (NativeOptions.NativeOptionsType)genericOptionDataVM.GetOptionType();
-					if (nativeOptionsType <= NativeOptions.NativeOptionsType.TextureFiltering)
+					if (nativeOptionsType <= NativeOptions.NativeOptionsType.TextureQuality)
 					{
-						if (nativeOptionsType <= NativeOptions.NativeOptionsType.TextureBudget)
+						if (nativeOptionsType <= NativeOptions.NativeOptionsType.SelectedMonitor)
 						{
-							switch (nativeOptionsType)
+							if (nativeOptionsType == NativeOptions.NativeOptionsType.TrailAmount)
 							{
-							case NativeOptions.NativeOptionsType.TrailAmount:
 								num = (genericOptionDataVM.IsChanged() ? 1 : 0);
 								continue;
-							case NativeOptions.NativeOptionsType.EnableVibration:
-							case NativeOptions.NativeOptionsType.SelectedAdapter:
-								continue;
-							case NativeOptions.NativeOptionsType.DisplayMode:
-							case NativeOptions.NativeOptionsType.SelectedMonitor:
-							case NativeOptions.NativeOptionsType.ScreenResolution:
-							case NativeOptions.NativeOptionsType.RefreshRate:
-								break;
-							default:
-								if (nativeOptionsType != NativeOptions.NativeOptionsType.TextureBudget)
-								{
-									continue;
-								}
-								num2 = (genericOptionDataVM.IsChanged() ? 1 : 0);
+							}
+							if (nativeOptionsType - NativeOptions.NativeOptionsType.DisplayMode > 1)
+							{
 								continue;
 							}
 						}
-						else
+						else if (nativeOptionsType - NativeOptions.NativeOptionsType.ScreenResolution > 1)
 						{
-							if (nativeOptionsType == NativeOptions.NativeOptionsType.TextureQuality)
+							if (nativeOptionsType == NativeOptions.NativeOptionsType.TextureBudget)
 							{
 								num2 = (genericOptionDataVM.IsChanged() ? 1 : 0);
 								continue;
 							}
-							if (nativeOptionsType != NativeOptions.NativeOptionsType.TextureFiltering)
+							if (nativeOptionsType != NativeOptions.NativeOptionsType.TextureQuality)
 							{
 								continue;
 							}
-							num8 = (genericOptionDataVM.IsChanged() ? 1 : 0);
+							num2 = (genericOptionDataVM.IsChanged() ? 1 : 0);
 							continue;
 						}
 					}
 					else if (nativeOptionsType <= NativeOptions.NativeOptionsType.SSR)
 					{
+						if (nativeOptionsType == NativeOptions.NativeOptionsType.TextureFiltering)
+						{
+							num8 = (genericOptionDataVM.IsChanged() ? 1 : 0);
+							continue;
+						}
 						if (nativeOptionsType == NativeOptions.NativeOptionsType.DepthOfField)
 						{
 							num4 = (genericOptionDataVM.IsChanged() ? 1 : 0);
@@ -615,6 +680,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			bool flag = this.GameKeyOptionGroups.IsChanged();
 			this.GameKeyOptionGroups.ApplyValues();
 			HotKeyManager.Save(flag);
+			enumerable = enumerable.Concat(this._performanceOptionCategory.AllOptions);
+			enumerable = enumerable.Where((GenericOptionDataVM x) => x != this._monitorOption && x != this._resolutionOption && x != this._refreshRateOption && x != this._displayModeOption);
+			foreach (GenericOptionDataVM genericOptionDataVM2 in enumerable)
+			{
+				genericOptionDataVM2.ApplyValue();
+			}
 		}
 
 		protected void ExecuteBenchmark()
@@ -713,7 +784,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 					TextObject textObject3 = Module.CurrentModule.GlobalTextManager.FindText("str_options_type_action", text);
 					return new ActionOptionDataVM(actionOptionData.OnAction, this, actionOptionData, textObject, textObject3, textObject2);
 				}
-				Debug.FailedAssert("Given option data does not match with any option type!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\GameOptions\\OptionsVM.cs", "GetOptionItem", 873);
+				Debug.FailedAssert("Given option data does not match with any option type!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\GameOptions\\OptionsVM.cs", "GetOptionItem", 902);
 				return null;
 			}
 			else
@@ -728,7 +799,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 					textObject6.SetTextVariable("newline", "\n");
 					return new ActionOptionDataVM(actionOptionData2.OnAction, this, actionOptionData2, textObject5, textObject4, textObject6);
 				}
-				Debug.FailedAssert("Given option data does not match with any option type!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\GameOptions\\OptionsVM.cs", "GetOptionItem", 896);
+				Debug.FailedAssert("Given option data does not match with any option type!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\GameOptions\\OptionsVM.cs", "GetOptionItem", 925);
 				return null;
 			}
 		}
@@ -1027,6 +1098,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.NextTabInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
 		}
 
+		public void SetResetInputKey(HotKey hotkey)
+		{
+			this.ResetInputKey = InputKeyItemVM.CreateFromHotKey(hotkey, true);
+		}
+
 		public InputKeyItemVM DoneInputKey
 		{
 			get
@@ -1093,6 +1169,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			}
 		}
 
+		[DataSourceProperty]
+		public InputKeyItemVM ResetInputKey
+		{
+			get
+			{
+				return this._resetInputKey;
+			}
+			set
+			{
+				if (value != this._resetInputKey)
+				{
+					this._resetInputKey = value;
+					base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "ResetInputKey");
+				}
+			}
+		}
+
 		private readonly Action _onClose;
 
 		private readonly Action _onBrightnessExecute;
@@ -1110,6 +1203,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 		private readonly GenericOptionDataVM _resolutionOption;
 
 		private readonly GenericOptionDataVM _monitorOption;
+
+		private readonly GenericOptionDataVM _displayModeOption;
 
 		private readonly bool _autoHandleClose;
 
@@ -1172,6 +1267,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 		private InputKeyItemVM _previousTabInputKey;
 
 		private InputKeyItemVM _nextTabInputKey;
+
+		private InputKeyItemVM _resetInputKey;
 
 		public enum OptionsDataType
 		{

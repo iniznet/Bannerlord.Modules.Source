@@ -8,7 +8,7 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetWieldedItemIndex : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public bool IsLeftHand { get; private set; }
 
@@ -20,9 +20,9 @@ namespace NetworkMessages.FromServer
 
 		public int MainHandCurrentUsageIndex { get; private set; }
 
-		public SetWieldedItemIndex(Agent agent, bool isLeftHand, bool isWieldedInstantly, bool isWieldedOnSpawn, EquipmentIndex wieldedItemIndex, int mainHandCurUsageIndex)
+		public SetWieldedItemIndex(int agentIndex, bool isLeftHand, bool isWieldedInstantly, bool isWieldedOnSpawn, EquipmentIndex wieldedItemIndex, int mainHandCurUsageIndex)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.IsLeftHand = isLeftHand;
 			this.IsWieldedInstantly = isWieldedInstantly;
 			this.IsWieldedOnSpawn = isWieldedOnSpawn;
@@ -37,7 +37,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.IsLeftHand = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			this.IsWieldedInstantly = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			this.IsWieldedOnSpawn = GameNetworkMessage.ReadBoolFromPacket(ref flag);
@@ -48,7 +48,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteBoolToPacket(this.IsLeftHand);
 			GameNetworkMessage.WriteBoolToPacket(this.IsWieldedInstantly);
 			GameNetworkMessage.WriteBoolToPacket(this.IsWieldedOnSpawn);
@@ -63,15 +63,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set Wielded Item Index to: ",
-				this.WieldedItemIndex,
-				" on Agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index
-			});
+			return string.Concat(new object[] { "Set Wielded Item Index to: ", this.WieldedItemIndex, " on Agent with agent-index: ", this.AgentIndex });
 		}
 	}
 }

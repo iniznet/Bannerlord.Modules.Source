@@ -12,7 +12,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 		{
 			this.Formation = formation;
 			this.TeamType = (this.Formation.Team.IsPlayerTeam ? 0 : (this.Formation.Team.IsPlayerAlly ? 1 : 2));
-			this.FormationType = MissionFormationMarkerTargetVM.GetFormationType(this.Formation.InitialClass);
+			this.FormationType = MissionFormationMarkerTargetVM.GetFormationType(this.Formation.RepresentativeClass);
 		}
 
 		public void Refresh()
@@ -20,31 +20,36 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 			this.Size = this.Formation.CountOfUnits;
 		}
 
-		private static string GetFormationType(FormationClass formationType)
+		public void SetTargetedState(bool isFocused, bool isTargetingAFormation)
+		{
+			this.IsCenterOfFocus = isFocused;
+			this.IsTargetingAFormation = isTargetingAFormation;
+		}
+
+		public static string GetFormationType(FormationClass formationType)
 		{
 			switch (formationType)
 			{
 			case FormationClass.Infantry:
-				return TargetIconType.Infantry_Light.ToString();
+				return "Infantry_Light";
 			case FormationClass.Ranged:
-				return TargetIconType.Archer_Light.ToString();
+				return "Archer_Light";
 			case FormationClass.Cavalry:
-				return TargetIconType.Cavalry_Light.ToString();
+				return "Cavalry_Light";
 			case FormationClass.HorseArcher:
-				return TargetIconType.HorseArcher_Light.ToString();
+				return "HorseArcher_Light";
 			case FormationClass.NumberOfDefaultFormations:
 			case FormationClass.HeavyInfantry:
-				return TargetIconType.Infantry_Heavy.ToString();
-			case FormationClass.LightCavalry:
-				return TargetIconType.Cavalry_Light.ToString();
-			case FormationClass.HeavyCavalry:
-				return TargetIconType.Cavalry_Heavy.ToString();
 			case FormationClass.NumberOfRegularFormations:
 			case FormationClass.Bodyguard:
 			case FormationClass.NumberOfAllFormations:
-				return TargetIconType.Infantry_Heavy.ToString();
+				return "Infantry_Heavy";
+			case FormationClass.LightCavalry:
+				return "Cavalry_Light";
+			case FormationClass.HeavyCavalry:
+				return "Cavalry_Heavy";
 			default:
-				return TargetIconType.None.ToString();
+				return "None";
 			}
 		}
 
@@ -61,6 +66,57 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 				{
 					this._isEnabled = value;
 					base.OnPropertyChangedWithValue(value, "IsEnabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsCenterOfFocus
+		{
+			get
+			{
+				return this._isCenterOfFocus;
+			}
+			set
+			{
+				if (this._isCenterOfFocus != value)
+				{
+					this._isCenterOfFocus = value;
+					base.OnPropertyChangedWithValue(value, "IsCenterOfFocus");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsFormationTargetRelevant
+		{
+			get
+			{
+				return this._isFormationTargetRelevant;
+			}
+			set
+			{
+				if (this._isFormationTargetRelevant != value)
+				{
+					this._isFormationTargetRelevant = value;
+					base.OnPropertyChangedWithValue(value, "IsFormationTargetRelevant");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsTargetingAFormation
+		{
+			get
+			{
+				return this._isTargetingAFormation;
+			}
+			set
+			{
+				if (this._isTargetingAFormation != value)
+				{
+					this._isTargetingAFormation = value;
+					base.OnPropertyChangedWithValue(value, "IsTargetingAFormation");
 				}
 			}
 		}
@@ -100,18 +156,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 		}
 
 		[DataSourceProperty]
-		public bool IsBehind
+		public bool IsInsideScreenBoundaries
 		{
 			get
 			{
-				return this._isBehind;
+				return this._isInsideScreenBoundaries;
 			}
 			set
 			{
-				if (this._isBehind != value)
+				if (this._isInsideScreenBoundaries != value)
 				{
-					this._isBehind = value;
-					base.OnPropertyChangedWithValue(value, "IsBehind");
+					this._isInsideScreenBoundaries = value;
+					base.OnPropertyChangedWithValue(value, "IsInsideScreenBoundaries");
 				}
 			}
 		}
@@ -167,21 +223,46 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 			}
 		}
 
+		[DataSourceProperty]
+		public int WSign
+		{
+			get
+			{
+				return this._wSign;
+			}
+			set
+			{
+				if (this._wSign != value)
+				{
+					this._wSign = value;
+					base.OnPropertyChangedWithValue(value, "WSign");
+				}
+			}
+		}
+
 		private Vec2 _screenPosition;
 
 		private float _distance;
 
 		private bool _isEnabled;
 
-		private bool _isBehind;
+		private bool _isInsideScreenBoundaries;
+
+		private bool _isCenterOfFocus;
+
+		private bool _isFormationTargetRelevant;
+
+		private bool _isTargetingAFormation;
 
 		private int _teamType;
 
 		private int _size;
 
+		private int _wSign;
+
 		private string _formationType;
 
-		private enum TeamTypes
+		public enum TeamTypes
 		{
 			PlayerTeam,
 			PlayerAllyTeam,

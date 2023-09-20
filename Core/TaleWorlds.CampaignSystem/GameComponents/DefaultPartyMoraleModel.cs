@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Helpers;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
@@ -114,7 +113,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					result.Add(num, this._foodBonusMoraleText, null);
 					if (num > 0f && party.HasPerk(DefaultPerks.Steward.Gourmet, false))
 					{
-						result.Add(num * DefaultPerks.Steward.Gourmet.PrimaryBonus, DefaultPerks.Steward.Gourmet.Name, null);
+						result.Add(num, DefaultPerks.Steward.Gourmet.Name, null);
 					}
 				}
 			}
@@ -234,28 +233,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			this.CalculateFoodVarietyMoraleBonus(mobileParty, ref explainedNumber);
 			this.GetPartySizeMoraleEffect(mobileParty, ref explainedNumber);
 			return explainedNumber;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("show_party_morale_detail", "campaign")]
-		public static string ShowPartyMoraleDetail(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			if (CampaignCheats.CheckParameters(strings, 0) || CampaignCheats.CheckHelp(strings))
-			{
-				return "Format is \"campaign.show_party_morale_detail [PartyName]\".";
-			}
-			string text = CampaignCheats.ConcatenateString(strings);
-			foreach (MobileParty mobileParty in MobileParty.All)
-			{
-				if (string.Equals(text, mobileParty.Name.ToString(), StringComparison.OrdinalIgnoreCase))
-				{
-					return mobileParty.MoraleExplained.ToString();
-				}
-			}
-			return "Couldn't find the party: " + text;
 		}
 
 		private const float BaseMoraleValue = 50f;

@@ -199,51 +199,8 @@ namespace TaleWorlds.CampaignSystem.Settlements
 		{
 			if (base.Owner.MemberRoster.Count == 0 || base.Owner.Settlement.Parties.All((MobileParty x) => x.Party.Owner != base.Owner.Owner))
 			{
-				base.Owner.Settlement.Party.Visuals.SetMapIconAsDirty();
+				base.Owner.Settlement.Party.SetVisualAsDirty();
 			}
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("show_hideouts", "campaign")]
-		public static string ShowHideouts(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			int num;
-			if (!CampaignCheats.CheckParameters(strings, 1) || CampaignCheats.CheckHelp(strings) || !int.TryParse(strings[0], out num) || (num != 1 && num != 2))
-			{
-				return "Format is \"campaign.show_hideouts [1/2]\n 1: Show infested hideouts\n2: Show all hideouts\".";
-			}
-			foreach (Settlement settlement in Settlement.All)
-			{
-				if (settlement.IsHideout && (num != 1 || settlement.Hideout.IsInfested))
-				{
-					Hideout hideout = settlement.Hideout;
-					hideout.IsSpotted = true;
-					hideout.Owner.Settlement.IsVisible = true;
-				}
-			}
-			return ((num == 1) ? "Infested" : "All") + " hideouts is visible now.";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("hide_hideouts", "campaign")]
-		public static string HideHideouts(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			foreach (Settlement settlement in Settlement.All)
-			{
-				if (settlement.IsHideout)
-				{
-					Hideout hideout = settlement.Hideout;
-					hideout.IsSpotted = false;
-					hideout.Owner.Settlement.IsVisible = false;
-				}
-			}
-			return "All hideouts should be invisible now.";
 		}
 
 		protected override void OnInventoryUpdated(ItemRosterElement item, int count)

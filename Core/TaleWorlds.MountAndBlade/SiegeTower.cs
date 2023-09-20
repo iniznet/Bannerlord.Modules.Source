@@ -52,7 +52,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public bool HasCompletedAction()
 		{
-			return !base.IsDisabled && this.IsDeactivated && !base.IsDestroyed;
+			return !base.IsDisabled && this.IsDeactivated && this._hasArrivedAtTarget && !base.IsDestroyed;
 		}
 
 		public float SiegeWeaponPriority
@@ -160,7 +160,7 @@ namespace TaleWorlds.MountAndBlade
 						this.ActiveWaitStandingPoint = base.WaitStandingPoints[1];
 						if (GameNetwork.IsClientOrReplay)
 						{
-							goto IL_C3;
+							goto IL_C2;
 						}
 						using (List<LadderQueueManager>.Enumerator enumerator = this._queueManagers.GetEnumerator())
 						{
@@ -168,20 +168,20 @@ namespace TaleWorlds.MountAndBlade
 							{
 								LadderQueueManager ladderQueueManager = enumerator.Current;
 								this.CleanState.Scene.SetAbilityOfFacesWithId(ladderQueueManager.ManagedNavigationFaceId, true);
-								ladderQueueManager.IsDeactivated = false;
+								ladderQueueManager.Activate();
 							}
-							goto IL_C3;
+							goto IL_C2;
 						}
 					}
 					if (!GameNetwork.IsClientOrReplay && this.GetGateNavMeshId() > 0)
 					{
 						this.CleanState.Scene.SetAbilityOfFacesWithId(this.GetGateNavMeshId(), false);
 					}
-					IL_C3:
+					IL_C2:
 					if (GameNetwork.IsServerOrRecorder)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetSiegeTowerHasArrivedAtTarget(this));
+						GameNetwork.WriteMessage(new SetSiegeTowerHasArrivedAtTarget(base.Id));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 						return;
 					}
@@ -206,7 +206,7 @@ namespace TaleWorlds.MountAndBlade
 					if (GameNetwork.IsServerOrRecorder)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetSiegeTowerGateState(this, value));
+						GameNetwork.WriteMessage(new SetSiegeTowerGateState(base.Id, value));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 					}
 					this._state = value;
@@ -237,33 +237,7 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteBoolToPacket(this.HasArrivedAtTarget);
 			GameNetworkMessage.WriteIntToPacket((int)this.State, CompressionMission.SiegeTowerGateStateCompressionInfo);
 			GameNetworkMessage.WriteFloatToPacket(this._fallAngularSpeed, CompressionMission.SiegeMachineComponentAngularSpeedCompressionInfo);
-		}
-
-		public override bool ReadFromNetwork()
-		{
-			bool flag = base.ReadFromNetwork();
-			bool flag2 = GameNetworkMessage.ReadBoolFromPacket(ref flag);
-			int num = GameNetworkMessage.ReadIntFromPacket(CompressionMission.SiegeTowerGateStateCompressionInfo, ref flag);
-			float num2 = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.SiegeMachineComponentAngularSpeedCompressionInfo, ref flag);
-			if (flag)
-			{
-				this.HasArrivedAtTarget = flag2;
-				this._state = (SiegeTower.GateState)num;
-				this._fallAngularSpeed = num2;
-				if (this._state == SiegeTower.GateState.Open)
-				{
-					if (this._destroyedWallEntity != null && this._nonDestroyedWallEntity != null)
-					{
-						this._nonDestroyedWallEntity.SetVisibilityExcludeParents(false);
-						this._destroyedWallEntity.SetVisibilityExcludeParents(true);
-					}
-					MatrixFrame frame = this._gateObject.GameEntity.GetFrame();
-					frame.rotation = this._openStateRotation;
-					this._gateObject.GameEntity.SetFrame(ref frame);
-					base.GameEntity.RecomputeBoundingBox();
-				}
-			}
-			return flag;
+			GameNetworkMessage.WriteFloatToPacket(this.MovementComponent.GetTotalDistanceTraveledForPathTracker(), CompressionBasic.PositionCompressionInfo);
 		}
 
 		public override OrderType GetOrder(BattleSideEnum side)
@@ -317,7 +291,7 @@ namespace TaleWorlds.MountAndBlade
 				foreach (LadderQueueManager ladderQueueManager in this._queueManagers)
 				{
 					this.CleanState.Scene.SetAbilityOfFacesWithId(ladderQueueManager.ManagedNavigationFaceId, false);
-					ladderQueueManager.IsDeactivated = true;
+					ladderQueueManager.DeactivateImmediate();
 				}
 			}
 		}
@@ -446,7 +420,17 @@ namespace TaleWorlds.MountAndBlade
 				foreach (LadderQueueManager ladderQueueManager in this._queueManagers)
 				{
 					this.CleanState.Scene.SetAbilityOfFacesWithId(ladderQueueManager.ManagedNavigationFaceId, enabled);
-					ladderQueueManager.IsDeactivated = !enabled;
+					if (ladderQueueManager.IsDeactivated != !enabled)
+					{
+						if (enabled)
+						{
+							ladderQueueManager.Activate();
+						}
+						else
+						{
+							ladderQueueManager.DeactivateImmediate();
+						}
+					}
 				}
 			}
 		}
@@ -570,7 +554,7 @@ namespace TaleWorlds.MountAndBlade
 						{
 							LadderQueueManager ladderQueueManager = gameEntity4.GetScriptComponents<LadderQueueManager>().FirstOrDefault<LadderQueueManager>();
 							ladderQueueManager.Initialize(-1, MatrixFrame.Identity, Vec3.Zero, BattleSideEnum.None, int.MaxValue, 1f, 5f, 5f, 5f, 0f, false, 1f, 0f, 0f, false, -1, -1, int.MaxValue, int.MaxValue);
-							ladderQueueManager.IsDeactivated = true;
+							ladderQueueManager.DeactivateImmediate();
 						}
 					}
 					int num2 = 0;
@@ -676,7 +660,7 @@ namespace TaleWorlds.MountAndBlade
 				foreach (LadderQueueManager ladderQueueManager4 in this._queueManagers)
 				{
 					this.CleanState.Scene.SetAbilityOfFacesWithId(ladderQueueManager4.ManagedNavigationFaceId, false);
-					ladderQueueManager4.IsDeactivated = true;
+					ladderQueueManager4.DeactivateImmediate();
 				}
 			}
 			GameEntity gameEntity6 = base.Scene.FindEntitiesWithTag("ditch_filler").FirstOrDefault((GameEntity df) => df.HasTag(this._sideTag));
@@ -763,7 +747,6 @@ namespace TaleWorlds.MountAndBlade
 					MatrixFrame frame = this._gateObject.GameEntity.GetFrame();
 					frame.rotation.RotateAboutSide(this._fallAngularSpeed * dt);
 					this._gateObject.GameEntity.SetFrame(ref frame);
-					base.GameEntity.RecomputeBoundingBox();
 					if (Vec3.DotProduct(frame.rotation.u, this._openStateRotation.f) < 0.025f)
 					{
 						this.State = SiegeTower.GateState.GateFallingWallDestroyed;
@@ -776,13 +759,11 @@ namespace TaleWorlds.MountAndBlade
 					MatrixFrame frame2 = this._gateObject.GameEntity.GetFrame();
 					frame2.rotation.RotateAboutSide(this._fallAngularSpeed * dt);
 					this._gateObject.GameEntity.SetFrame(ref frame2);
-					base.GameEntity.RecomputeBoundingBox();
 					float num = Vec3.DotProduct(frame2.rotation.u, this._openStateRotation.f);
 					if (this._fallAngularSpeed > 0f && num < 0.05f)
 					{
 						frame2.rotation = this._openStateRotation;
 						this._gateObject.GameEntity.SetFrame(ref frame2);
-						base.GameEntity.RecomputeBoundingBox();
 						this._gateObject.GameEntity.Skeleton.SetAnimationAtChannel(this._gateTrembleAnimationIndex, 0, 1f, -1f, 0f);
 						SoundEvent gateOpenSound = this._gateOpenSound;
 						if (gateOpenSound != null)
@@ -798,7 +779,7 @@ namespace TaleWorlds.MountAndBlade
 					return;
 				}
 				default:
-					Debug.FailedAssert("Invalid gate state.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\SiegeTower.cs", "OnTick", 980);
+					Debug.FailedAssert("Invalid gate state.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\SiegeTower.cs", "OnTick", 974);
 					break;
 				}
 			}
@@ -844,7 +825,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 			this._gateObject.GameEntity.Skeleton.SetAnimationAtChannel(-1, 0, 1f, -1f, 0f);
 			this._gateObject.GameEntity.SetFrame(ref frame);
-			base.GameEntity.RecomputeBoundingBox();
 			if (this._destroyedWallEntity != null && this._nonDestroyedWallEntity != null)
 			{
 				this._nonDestroyedWallEntity.SetVisibilityExcludeParents(false);
@@ -947,7 +927,6 @@ namespace TaleWorlds.MountAndBlade
 					frame.rotation = this._openStateRotation;
 					this._gateObject.GameEntity.SetFrame(ref frame);
 					this._gateObject.GameEntity.Skeleton.SetAnimationAtChannel(this._gateTrembleAnimationIndex, 0, 1f, -1f, 0f);
-					base.GameEntity.RecomputeBoundingBox();
 					SoundEvent gateOpenSound = this._gateOpenSound;
 					if (gateOpenSound != null)
 					{
@@ -1059,6 +1038,30 @@ namespace TaleWorlds.MountAndBlade
 			this._groundGenericNavMeshID = groundGenericNavMeshID;
 			this._openStateRotation = openStateRotation;
 			this.BarrierTagToRemove = barrierTagToRemove;
+		}
+
+		public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+		{
+			base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+			SiegeTower.SiegeTowerRecord siegeTowerRecord = (SiegeTower.SiegeTowerRecord)synchedMissionObjectReadableRecord.Item2;
+			this.HasArrivedAtTarget = siegeTowerRecord.HasArrivedAtTarget;
+			this._state = (SiegeTower.GateState)siegeTowerRecord.State;
+			this._fallAngularSpeed = siegeTowerRecord.FallAngularSpeed;
+			if (this._state == SiegeTower.GateState.Open)
+			{
+				if (this._destroyedWallEntity != null && this._nonDestroyedWallEntity != null)
+				{
+					this._nonDestroyedWallEntity.SetVisibilityExcludeParents(false);
+					this._destroyedWallEntity.SetVisibilityExcludeParents(true);
+				}
+				MatrixFrame frame = this._gateObject.GameEntity.GetFrame();
+				frame.rotation = this._openStateRotation;
+				this._gateObject.GameEntity.SetFrame(ref frame);
+			}
+			float num = siegeTowerRecord.TotalDistanceTraveled;
+			num += 0.05f;
+			this.MovementComponent.SetTotalDistanceTraveledForPathTracker(num);
+			this.MovementComponent.SetTargetFrameForPathTracker();
 		}
 
 		public bool GetNavmeshFaceIds(out List<int> navmeshFaceIds)
@@ -1185,6 +1188,27 @@ namespace TaleWorlds.MountAndBlade
 		private WallSegment _targetWallSegment;
 
 		private List<SiegeLadder> _sameSideSiegeLadders;
+
+		[DefineSynchedMissionObjectType(typeof(SiegeTower))]
+		public struct SiegeTowerRecord : ISynchedMissionObjectReadableRecord
+		{
+			public bool HasArrivedAtTarget { get; private set; }
+
+			public int State { get; private set; }
+
+			public float FallAngularSpeed { get; private set; }
+
+			public float TotalDistanceTraveled { get; private set; }
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.HasArrivedAtTarget = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+				this.State = GameNetworkMessage.ReadIntFromPacket(CompressionMission.SiegeTowerGateStateCompressionInfo, ref bufferReadValid);
+				this.FallAngularSpeed = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.SiegeMachineComponentAngularSpeedCompressionInfo, ref bufferReadValid);
+				this.TotalDistanceTraveled = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.PositionCompressionInfo, ref bufferReadValid);
+				return bufferReadValid;
+			}
+		}
 
 		public enum GateState
 		{

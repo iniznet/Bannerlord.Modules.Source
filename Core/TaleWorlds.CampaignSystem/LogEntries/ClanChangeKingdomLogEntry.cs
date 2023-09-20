@@ -109,7 +109,7 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 			if (this.Clan == Clan.PlayerClan && talkTroop.IsLord)
 			{
 				StringHelpers.SetCharacterProperties("TT_LIEGE", talkTroop.MapFaction.Leader.CharacterObject, null, false);
-				if (talkTroop.MapFaction == this.NewKingdom && Hero.MainHero.MapFaction == talkTroop.MapFaction && talkTroop != this.NewKingdom.Leader)
+				if (talkTroop.MapFaction == this.NewKingdom && Hero.MainHero.MapFaction == talkTroop.MapFaction && Hero.MainHero != this.NewKingdom.Leader && talkTroop != this.NewKingdom.Leader)
 				{
 					score = ImportanceEnum.ReasonablyImportant;
 					if (findString)

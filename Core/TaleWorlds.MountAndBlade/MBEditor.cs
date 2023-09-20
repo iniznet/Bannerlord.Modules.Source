@@ -198,6 +198,10 @@ namespace TaleWorlds.MountAndBlade
 			MBAPI.IMBEditor.SetUpgradeLevelVisibility(text);
 		}
 
+		public static void SetLevelVisibility(List<string> levels)
+		{
+		}
+
 		public static Scene _editorScene;
 
 		private static MBAgentRendererSceneController _agentRendererSceneController;

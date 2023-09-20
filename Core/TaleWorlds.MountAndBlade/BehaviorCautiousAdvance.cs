@@ -105,8 +105,10 @@ namespace TaleWorlds.MountAndBlade
 				switch (this._behaviorState)
 				{
 				case BehaviorCautiousAdvance.BehaviorState.Approaching:
+				{
 					worldPosition = this._targetFormation.MedianPosition;
-					if (this._switchedToShieldWallRecently && !this._switchedToShieldWallTimer.Check(Mission.Current.CurrentTime) && base.Formation.QuerySystem.FormationDispersedness > 2f)
+					FormationQuerySystem.FormationIntegrityDataGroup formationIntegrityData = base.Formation.QuerySystem.FormationIntegrityData;
+					if (this._switchedToShieldWallRecently && !this._switchedToShieldWallTimer.Check(Mission.Current.CurrentTime) && formationIntegrityData.DeviationOfPositionsExcludeFarAgents > formationIntegrityData.AverageMaxUnlimitedSpeedExcludeFarAgents * 0.5f)
 					{
 						if (this._reformPosition.IsValid)
 						{
@@ -126,6 +128,7 @@ namespace TaleWorlds.MountAndBlade
 						worldPosition.SetVec2(this._targetFormation.AveragePosition);
 					}
 					break;
+				}
 				case BehaviorCautiousAdvance.BehaviorState.Shooting:
 					if (this._shootPosition.IsValid)
 					{
@@ -171,7 +174,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderWide;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		public override void OnBehaviorCanceled()
@@ -181,7 +183,7 @@ namespace TaleWorlds.MountAndBlade
 		public override void TickOccasionally()
 		{
 			this._targetFormation = base.Formation.QuerySystem.ClosestSignificantlyLargeEnemyFormation ?? base.Formation.QuerySystem.ClosestEnemyFormation;
-			if (base.Formation.IsInfantry())
+			if (base.Formation.PhysicalClass.IsMeleeInfantry())
 			{
 				bool flag = this._targetFormation != null && (base.Formation.QuerySystem.IsUnderRangedAttack || base.Formation.QuerySystem.AveragePosition.DistanceSquared(base.CurrentOrder.GetPosition(base.Formation)) < 25f + (this._isInShieldWallDistance ? 75f : 0f)) && base.Formation.QuerySystem.AveragePosition.DistanceSquared(this._targetFormation.MedianPosition.AsVec2) > 100f - (this._isInShieldWallDistance ? 75f : 0f);
 				if (flag != this._isInShieldWallDistance)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Map;
 using TaleWorlds.CampaignSystem.Party;
@@ -11,6 +12,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.LinQuick;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
@@ -147,6 +149,10 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			{
 				if (this._state != value)
 				{
+					if (this.IsPlayerMapEvent)
+					{
+						Debug.Print("Player MapEvent State: " + value.ToString(), 0, Debug.DebugColor.White, 17592186044416UL);
+					}
 					this._state = value;
 				}
 			}
@@ -257,6 +263,14 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			}
 		}
 
+		public TerrainType EventTerrainType
+		{
+			get
+			{
+				return this._eventTerrainType;
+			}
+		}
+
 		[SaveableProperty(113)]
 		public bool IsInvulnerable { get; set; }
 
@@ -324,6 +338,14 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			}
 		}
 
+		public bool IsSiegeAmbush
+		{
+			get
+			{
+				return this.Component is SiegeAmbushEventComponent;
+			}
+		}
+
 		internal MapEvent()
 		{
 			this.MapEventVisual = Campaign.Current.VisualCreator.CreateMapEventVisual(this);
@@ -332,7 +354,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		[LateLoadInitializationCallback]
 		private void OnLateLoad(MetaData metaData, ObjectLoadData objectLoadData)
 		{
-			if (this.Component == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 26219))
+			if (this.Component == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
 			{
 				if (this._mapEventType == MapEvent.BattleTypes.Raid)
 				{
@@ -349,6 +371,14 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				{
 					this.Component = ForceVolunteersEventComponent.CreateComponentForOldSaves(this);
 				}
+				else if (this._mapEventType == MapEvent.BattleTypes.IsForcingVolunteers)
+				{
+					this.Component = HideoutEventComponent.CreateComponentForOldSaves(this);
+				}
+				else if (this._mapEventType == MapEvent.BattleTypes.FieldBattle)
+				{
+					this.Component = FieldBattleEventComponent.CreateComponentForOldSaves(this);
+				}
 			}
 			MapEventComponent component = this.Component;
 			if (component == null)
@@ -360,6 +390,8 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 
 		internal void OnAfterLoad()
 		{
+			this.CacheSimulationData();
+			this._eventTerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(Campaign.Current.MapSceneWrapper.GetFaceIndex(this.Position));
 			if (!PartyBase.IsPositionOkForTraveling(this.Position))
 			{
 				Vec2 vec = this.CalculateMapEventPosition(this.AttackerSide.LeaderParty, this.DefenderSide.LeaderParty);
@@ -381,13 +413,28 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				this.MapEventVisual = Campaign.Current.VisualCreator.CreateMapEventVisual(this);
 				this.MapEventVisual.Initialize(this.Position, this.GetBattleSizeValue(), this.AttackerSide.LeaderParty != PartyBase.MainParty && this.DefenderSide.LeaderParty != PartyBase.MainParty, this.IsVisible);
 			}
-			if (this.IsRaid && this.MapEventSettlement.Party.MapEvent == null)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
 			{
-				this.FinalizeEvent();
-			}
-			if (!this.AttackerSide.Parties.Any<MapEventParty>() || !this.DefenderSide.Parties.Any<MapEventParty>())
-			{
-				this.FinalizeEvent();
+				if (!this.AttackerSide.Parties.Any<MapEventParty>() || !this.DefenderSide.Parties.Any<MapEventParty>())
+				{
+					if (this.InvolvedParties.ContainsQ(PlayerEncounter.EncounteredParty))
+					{
+						PlayerEncounter.Finish(true);
+					}
+					this.FinalizeEvent();
+				}
+				if (this.MapEventSettlement != null)
+				{
+					if (this.IsRaid && this.MapEventSettlement.Party.MapEvent == null)
+					{
+						this.FinalizeEvent();
+						return;
+					}
+					if (this.EventType == MapEvent.BattleTypes.Siege && this.MapEventSettlement.SiegeEvent == null)
+					{
+						this.FinalizeEvent();
+					}
+				}
 			}
 		}
 
@@ -401,7 +448,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			this._mapEventUpdateCount = 0;
 			this._sides[0] = new MapEventSide(this, BattleSideEnum.Defender, defenderParty);
 			this._sides[1] = new MapEventSide(this, BattleSideEnum.Attacker, attackerParty);
-			if (attackerParty.MobileParty != MobileParty.MainParty)
+			if (attackerParty.MobileParty == MobileParty.MainParty || defenderParty.MobileParty == MobileParty.MainParty)
 			{
 				if (mapEventType == MapEvent.BattleTypes.Raid)
 				{
@@ -432,7 +479,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			{
 				this.MapEventSettlement = defenderParty.Settlement;
 				this.MapEventSettlement.LastAttackerParty = attackerParty.MobileParty;
-				this.MapEventSettlement.PassedHoursAfterLastThreat = 24;
 			}
 			if (this.IsFieldBattle)
 			{
@@ -447,9 +493,11 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				}
 			}
 			this.Position = this.CalculateMapEventPosition(attackerParty, defenderParty);
+			this._eventTerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(Campaign.Current.MapSceneWrapper.GetFaceIndex(this.Position));
+			this.CacheSimulationData();
 			attackerParty.MapEventSide = this.AttackerSide;
 			defenderParty.MapEventSide = this.DefenderSide;
-			if (this.MapEventSettlement != null && (mapEventType == MapEvent.BattleTypes.Siege || mapEventType == MapEvent.BattleTypes.SiegeOutside || mapEventType == MapEvent.BattleTypes.SallyOut))
+			if (this.MapEventSettlement != null && (mapEventType == MapEvent.BattleTypes.Siege || mapEventType == MapEvent.BattleTypes.SiegeOutside || mapEventType == MapEvent.BattleTypes.SallyOut || this.IsSiegeAmbush))
 			{
 				foreach (PartyBase partyBase in this.MapEventSettlement.SiegeEvent.BesiegerCamp.GetInvolvedPartiesForEventType(mapEventType))
 				{
@@ -510,10 +558,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 
 		private void AddInsideSettlementParties(Settlement relatedSettlement)
 		{
-			if (CampaignSiegeTestStatic.IsSiegeTestBuild)
-			{
-				return;
-			}
 			List<PartyBase> list = new List<PartyBase>();
 			foreach (PartyBase partyBase in relatedSettlement.GetInvolvedPartiesForEventType(this._mapEventType))
 			{
@@ -528,26 +572,36 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			}
 			foreach (PartyBase partyBase2 in list)
 			{
-				if (partyBase2.MapFaction == this.AttackerSide.MapFaction)
+				if (this.MapEventSettlement.SiegeEvent != null)
 				{
-					partyBase2.MapEventSide = this.AttackerSide;
-				}
-				else
-				{
-					MobileParty mobileParty2 = partyBase2.MobileParty;
-					if (((mobileParty2 != null && mobileParty2.IsGarrison) || partyBase2.IsSettlement) && this.IsSallyOut)
+					if (this.MapEventSettlement.SiegeEvent.CanPartyJoinSide(partyBase2, BattleSideEnum.Defender))
 					{
-						partyBase2.MapEventSide = this.AttackerSide;
+						if (this.IsSallyOut)
+						{
+							partyBase2.MapEventSide = this.AttackerSide;
+						}
+						else
+						{
+							partyBase2.MapEventSide = this.DefenderSide;
+						}
 					}
-					else if (partyBase2.MapFaction == this.DefenderSide.MapFaction || (partyBase2.MapFaction.IsBanditFaction && this.DefenderSide.MapFaction.IsBanditFaction && this.MapEventSettlement != null && this.MapEventSettlement.IsHideout))
-					{
-						partyBase2.MapEventSide = this.DefenderSide;
-					}
-					else if (relatedSettlement == this.MapEventSettlement && partyBase2.IsMobile && !partyBase2.MobileParty.IsGarrison && !partyBase2.MobileParty.IsMilitia)
+					else if (partyBase2.MobileParty != null && !partyBase2.MobileParty.IsGarrison && !partyBase2.MobileParty.IsMilitia)
 					{
 						LeaveSettlementAction.ApplyForParty(partyBase2.MobileParty);
 						partyBase2.MobileParty.Ai.SetMoveModeHold();
 					}
+				}
+				else if (this.CanPartyJoinBattle(partyBase2, BattleSideEnum.Defender))
+				{
+					partyBase2.MapEventSide = this.DefenderSide;
+				}
+				else if (this.CanPartyJoinBattle(partyBase2, BattleSideEnum.Attacker))
+				{
+					partyBase2.MapEventSide = this.AttackerSide;
+				}
+				else if (partyBase2.MobileParty != null && !partyBase2.MobileParty.IsGarrison && !partyBase2.MobileParty.IsMilitia)
+				{
+					LeaveSettlementAction.ApplyForParty(partyBase2.MobileParty);
 				}
 			}
 		}
@@ -654,12 +708,12 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 					involvedParty.MobileParty.EventPositionAdder = this.Position + vec * MathF.Max(num3, 0.4f) - (involvedParty.Position2D + involvedParty.MobileParty.ArmyPositionAdder);
 				}
 			}
-			involvedParty.Visuals.SetMapIconAsDirty();
+			involvedParty.SetVisualAsDirty();
 			if (involvedParty.IsMobile && involvedParty.MobileParty.Army != null && involvedParty.MobileParty.Army.LeaderParty == involvedParty.MobileParty)
 			{
 				foreach (MobileParty mobileParty in involvedParty.MobileParty.Army.LeaderParty.AttachedParties)
 				{
-					mobileParty.Party.Visuals.SetMapIconAsDirty();
+					mobileParty.Party.SetVisualAsDirty();
 				}
 			}
 			if (this.HasWinner && involvedParty.MapEventSide.MissionSide != this.WinningSide && involvedParty.NumberOfHealthyMembers > 0)
@@ -712,20 +766,12 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 
 		internal void RemoveInvolvedPartyInternal(PartyBase party)
 		{
-			IPartyVisual visuals = party.Visuals;
-			if (visuals != null)
-			{
-				visuals.SetMapIconAsDirty();
-			}
+			party.SetVisualAsDirty();
 			if (party.IsMobile && party.MobileParty.Army != null && party.MobileParty.Army.LeaderParty == party.MobileParty)
 			{
 				foreach (MobileParty mobileParty in party.MobileParty.Army.LeaderParty.AttachedParties)
 				{
-					IPartyVisual visuals2 = mobileParty.Party.Visuals;
-					if (visuals2 != null)
-					{
-						visuals2.SetMapIconAsDirty();
-					}
+					mobileParty.Party.SetVisualAsDirty();
 				}
 			}
 			if (this.IsFieldBattle && party.IsMobile)
@@ -746,9 +792,21 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 					}
 				}
 			}
-			if (this.IsSiegeOutside && this.DefenderSide.Parties.All((MapEventParty x) => x.Party.MobileParty == null || (this.MapEventSettlement != null && x.Party.MobileParty.CurrentSettlement == this.MapEventSettlement)))
+			if (this.IsSiegeOutside)
 			{
-				this._mapEventType = MapEvent.BattleTypes.Siege;
+				MapEventSide mapEventSide2;
+				if (this.MapEventSettlement == null)
+				{
+					mapEventSide2 = this.AttackerSide;
+				}
+				else
+				{
+					mapEventSide2 = this.DefenderSide;
+				}
+				if (mapEventSide2.Parties.All((MapEventParty x) => x.Party.MobileParty == null || (this.MapEventSettlement != null && x.Party.MobileParty.CurrentSettlement == this.MapEventSettlement)) && this.MapEventSettlement != null)
+				{
+					this._mapEventType = MapEvent.BattleTypes.Siege;
+				}
 			}
 			if (party == PartyBase.MainParty && this.State == MapEventState.Wait)
 			{
@@ -1098,6 +1156,10 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			{
 				if (value != this._battleState)
 				{
+					if (this.IsPlayerMapEvent)
+					{
+						Debug.Print("Player MapEvent BattleState: " + value.ToString(), 0, Debug.DebugColor.White, 17592186044416UL);
+					}
 					this._battleState = value;
 					if (this._battleState == BattleState.AttackerVictory || this._battleState == BattleState.DefenderVictory)
 					{
@@ -1425,16 +1487,9 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 						CampaignEventDispatcher.Instance.SiegeCompleted(this.MapEventSettlement, this.AttackerSide.LeaderParty.MobileParty, false, this._mapEventType);
 					}
 				}
-				else if (this.IsSallyOut)
+				else if (this.IsSallyOut && this.MapEventSettlement.Town != null && this.MapEventSettlement.Town.GarrisonParty != null && this.MapEventSettlement.Town.GarrisonParty.IsActive)
 				{
-					if (this.MapEventSettlement.Town != null && this.MapEventSettlement.Town.GarrisonParty != null && this.MapEventSettlement.Town.GarrisonParty.IsActive)
-					{
-						this.MapEventSettlement.Town.GarrisonParty.Ai.SetMoveModeHold();
-					}
-				}
-				else if (this._mapEventType == MapEvent.BattleTypes.Hideout)
-				{
-					CampaignEventDispatcher.Instance.OnHideoutBattleCompleted((this.BattleState == BattleState.AttackerVictory) ? BattleSideEnum.Attacker : BattleSideEnum.Defender, this);
+					this.MapEventSettlement.Town.GarrisonParty.Ai.SetMoveModeHold();
 				}
 				MapEventComponent component = this.Component;
 				if (component != null)
@@ -1458,16 +1513,12 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				{
 					partyBase.MobileParty.EventPositionAdder = Vec2.Zero;
 				}
-				IPartyVisual visuals = partyBase.Visuals;
-				if (visuals != null)
-				{
-					visuals.SetMapIconAsDirty();
-				}
+				partyBase.SetVisualAsDirty();
 				if (partyBase.IsMobile && partyBase.MobileParty.Army != null && partyBase.MobileParty.Army.LeaderParty == partyBase.MobileParty)
 				{
 					foreach (MobileParty mobileParty in partyBase.MobileParty.Army.LeaderParty.AttachedParties)
 					{
-						mobileParty.Party.Visuals.SetMapIconAsDirty();
+						mobileParty.Party.SetVisualAsDirty();
 					}
 				}
 			}
@@ -1531,6 +1582,11 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			return this._sides[(int)side].RenownValue;
 		}
 
+		public float GetRenownValueAtMapEventEnd(BattleSideEnum side)
+		{
+			return this._sides[(int)side].RenownAtMapEventEnd;
+		}
+
 		public void RecalculateRenownAndInfluenceValues(PartyBase party)
 		{
 			this.StrengthOfSide[(int)party.Side] += party.TotalStrength;
@@ -1569,11 +1625,70 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			LocatableSearchData<MobileParty> locatableSearchData = MobileParty.StartFindingLocatablesAroundPosition(this.Position, 15f);
 			for (MobileParty mobileParty = MobileParty.FindNextLocatable(ref locatableSearchData); mobileParty != null; mobileParty = MobileParty.FindNextLocatable(ref locatableSearchData))
 			{
-				if (!mobileParty.IsMainParty && mobileParty.ShortTermBehavior == AiBehavior.EngageParty && (mobileParty.ShortTermTargetParty == this.GetLeaderParty(BattleSideEnum.Attacker).MobileParty || mobileParty.ShortTermTargetParty == this.GetLeaderParty(BattleSideEnum.Defender).MobileParty) && !MapEventHelper.CanPartyJoinBattle(mobileParty.Party, this, BattleSideEnum.Attacker) && !MapEventHelper.CanPartyJoinBattle(mobileParty.Party, this, BattleSideEnum.Defender))
+				if (!mobileParty.IsMainParty && mobileParty.ShortTermBehavior == AiBehavior.EngageParty && (mobileParty.ShortTermTargetParty == this.GetLeaderParty(BattleSideEnum.Attacker).MobileParty || mobileParty.ShortTermTargetParty == this.GetLeaderParty(BattleSideEnum.Defender).MobileParty) && !this.CanPartyJoinBattle(mobileParty.Party, BattleSideEnum.Attacker) && !this.CanPartyJoinBattle(mobileParty.Party, BattleSideEnum.Defender))
 				{
 					mobileParty.Ai.SetMoveModeHold();
 				}
 			}
+		}
+
+		private void CacheSimulationData()
+		{
+			this._sides[0].CacheLeaderSimulationModifier();
+			this._sides[1].CacheLeaderSimulationModifier();
+			this.SimulationContext = this.DetermineContext();
+		}
+
+		private MapEvent.PowerCalculationContext DetermineContext()
+		{
+			MapEvent.PowerCalculationContext powerCalculationContext = MapEvent.PowerCalculationContext.Default;
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(this.Position);
+			if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
+			{
+				powerCalculationContext = MapEvent.PowerCalculationContext.SnowBattle;
+			}
+			switch (this.EventType)
+			{
+			case MapEvent.BattleTypes.FieldBattle:
+			case MapEvent.BattleTypes.SallyOut:
+			case MapEvent.BattleTypes.SiegeOutside:
+				switch (this.EventTerrainType)
+				{
+				case TerrainType.Water:
+				case TerrainType.Swamp:
+				case TerrainType.Bridge:
+				case TerrainType.River:
+				case TerrainType.Fording:
+				case TerrainType.Lake:
+					powerCalculationContext = MapEvent.PowerCalculationContext.RiverCrossingBattle;
+					break;
+				case TerrainType.Steppe:
+					powerCalculationContext = MapEvent.PowerCalculationContext.SteppeBattle;
+					break;
+				case TerrainType.Plain:
+					powerCalculationContext = MapEvent.PowerCalculationContext.PlainBattle;
+					break;
+				case TerrainType.Desert:
+					powerCalculationContext = MapEvent.PowerCalculationContext.DesertBattle;
+					break;
+				case TerrainType.Dune:
+					powerCalculationContext = MapEvent.PowerCalculationContext.DuneBattle;
+					break;
+				case TerrainType.Forest:
+					powerCalculationContext = MapEvent.PowerCalculationContext.ForestBattle;
+					break;
+				}
+				break;
+			case MapEvent.BattleTypes.Raid:
+			case MapEvent.BattleTypes.IsForcingVolunteers:
+			case MapEvent.BattleTypes.IsForcingSupplies:
+				powerCalculationContext = MapEvent.PowerCalculationContext.Village;
+				break;
+			case MapEvent.BattleTypes.Siege:
+				powerCalculationContext = MapEvent.PowerCalculationContext.Siege;
+				break;
+			}
+			return powerCalculationContext;
 		}
 
 		Vec2 IMapEntity.InteractionPosition
@@ -1600,22 +1715,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			}
 		}
 
-		IMapEntity IMapEntity.AttachedEntity
-		{
-			get
-			{
-				return null;
-			}
-		}
-
-		IPartyVisual IMapEntity.PartyVisual
-		{
-			get
-			{
-				return null;
-			}
-		}
-
 		bool IMapEntity.ShowCircleAroundEntity
 		{
 			get
@@ -1631,11 +1730,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 
 		void IMapEntity.OnOpenEncyclopedia()
 		{
-		}
-
-		bool IMapEntity.IsMainEntity()
-		{
-			return false;
 		}
 
 		void IMapEntity.OnHover()
@@ -1663,6 +1757,49 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		{
 		}
 
+		public bool CanPartyJoinBattle(PartyBase party, BattleSideEnum side)
+		{
+			return this.GetMapEventSide(side).Parties.All((MapEventParty x) => !x.Party.MapFaction.IsAtWarWith(party.MapFaction)) && this.GetMapEventSide(this.GetOtherSide(side)).Parties.All((MapEventParty x) => x.Party.MapFaction.IsAtWarWith(party.MapFaction));
+		}
+
+		public void GetStrengthsRelativeToParty(BattleSideEnum partySide, out float partySideStrength, out float opposingSideStrength)
+		{
+			partySideStrength = 0.1f;
+			opposingSideStrength = 0.1f;
+			if (this != null)
+			{
+				using (IEnumerator<PartyBase> enumerator = this.InvolvedParties.GetEnumerator())
+				{
+					while (enumerator.MoveNext())
+					{
+						PartyBase partyBase = enumerator.Current;
+						if (partyBase.Side == partySide)
+						{
+							partySideStrength += partyBase.TotalStrength;
+						}
+						else
+						{
+							opposingSideStrength += partyBase.TotalStrength;
+						}
+					}
+					return;
+				}
+			}
+			Debug.FailedAssert("Cannot retrieve party strengths. MapEvent parameter is null.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\MapEvents\\MapEvent.cs", "GetStrengthsRelativeToParty", 1930);
+		}
+
+		public bool CheckIfBattleShouldContinueAfterBattleMission(CampaignBattleResult campaignBattleResult)
+		{
+			if (PlayerEncounter.PlayerSurrender || campaignBattleResult == null || campaignBattleResult.EnemyRetreated)
+			{
+				return false;
+			}
+			bool flag = this.IsSiegeAssault && this.BattleState == BattleState.AttackerVictory;
+			MapEventSide mapEventSide = this.GetMapEventSide(this.PlayerSide);
+			bool flag2 = (campaignBattleResult.PlayerDefeat && mapEventSide.GetTotalHealthyTroopCountOfSide() >= 1) || ((campaignBattleResult.PlayerVictory || campaignBattleResult.EnemyPulledBack) && this.DefeatedSide != BattleSideEnum.None && this.GetMapEventSide(this.DefeatedSide).GetTotalHealthyTroopCountOfSide() >= 1);
+			return !this.IsHideoutBattle && !flag && flag2 && !mapEventSide.IsSurrendered;
+		}
+
 		private const float BattleRetreatMinimumTime = 1f;
 
 		private const float SiegeDefenderAdvantage = 2f;
@@ -1682,6 +1819,9 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		[SaveableField(106)]
 		private int _mapEventUpdateCount;
 
+		[CachedData]
+		internal MapEvent.PowerCalculationContext SimulationContext;
+
 		[SaveableField(107)]
 		private CampaignTime _nextSimulationTime;
 
@@ -1690,6 +1830,9 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 
 		[SaveableField(110)]
 		private MapEvent.BattleTypes _mapEventType;
+
+		[CachedData]
+		private TerrainType _eventTerrainType;
 
 		[CachedData]
 		public IMapEventVisual MapEventVisual;
@@ -1729,6 +1872,20 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			Hideout,
 			SallyOut,
 			SiegeOutside
+		}
+
+		public enum PowerCalculationContext
+		{
+			Default,
+			PlainBattle,
+			SteppeBattle,
+			DesertBattle,
+			DuneBattle,
+			SnowBattle,
+			ForestBattle,
+			RiverCrossingBattle,
+			Village,
+			Siege
 		}
 	}
 }

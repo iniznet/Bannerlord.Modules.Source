@@ -77,5 +77,33 @@ namespace TaleWorlds.CampaignSystem
 		void InventorySetSortPreference(int inventoryMode, int sortOption, int sortState);
 
 		Tuple<int, int> InventoryGetSortPreference(int inventoryMode);
+
+		bool IsPartyNotificationActive { get; }
+
+		string GetPartyNotificationText();
+
+		void ClearPartyNotification();
+
+		void UpdatePartyNotification();
+
+		bool IsQuestNotificationActive { get; }
+
+		List<JournalLog> UnExaminedQuestLogs { get; }
+
+		string GetQuestNotificationText();
+
+		void OnQuestLogExamined(JournalLog log);
+
+		List<Army> UnExaminedArmies { get; }
+
+		int NumOfKingdomArmyNotifications { get; }
+
+		void OnArmyExamined(Army army);
+
+		bool IsCharacterNotificationActive { get; }
+
+		void ClearCharacterNotification();
+
+		string GetCharacterNotificationText();
 	}
 }

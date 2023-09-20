@@ -19,7 +19,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 			base.NotificationIdentifier = "marriage";
 			this._onInspect = delegate
 			{
-				MBInformationManager.ShowSceneNotification(new MarriageSceneNotificationItem(data.Suitor, data.Maiden, SceneNotificationData.RelevantContextType.Any));
+				MBInformationManager.ShowSceneNotification(new MarriageSceneNotificationItem(data.Suitor, data.Maiden, data.CreationTime, SceneNotificationData.RelevantContextType.Any));
 			};
 		}
 	}

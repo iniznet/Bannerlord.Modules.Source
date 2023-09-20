@@ -122,7 +122,7 @@ namespace TaleWorlds.CampaignSystem.AgentOrigins
 
 		public void SetKilled()
 		{
-			if (!MBNetwork.IsClient && this._troop.IsHero)
+			if (this._troop.IsHero)
 			{
 				KillCharacterAction.ApplyByBattle(this._troop.HeroObject, null, true);
 			}

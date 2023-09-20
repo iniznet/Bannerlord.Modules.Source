@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{46AEA771-038E-4892-9D02-1725D2BC2D0E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection</RootNamespace>
+    <AssemblyName>TaleWorlds.MountAndBlade.Multiplayer.ViewModelCollection</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Core.ViewModelCollection" />
+    <Reference Include="TaleWorlds.DotNet" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.LinQuick" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.Diamond" />
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.PlatformService" />
+    <Reference Include="TaleWorlds.PlayerServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClassLoadout\AlternativeUsageItemOptionVM.cs" />
+    <Compile Include="ClassLoadout\HeroClassGroupVM.cs" />
+    <Compile Include="ClassLoadout\HeroClassVM.cs" />
+    <Compile Include="ClassLoadout\HeroInformationVM.cs" />
+    <Compile Include="ClassLoadout\HeroPerkVM.cs" />
+    <Compile Include="ClassLoadout\MPPerkVM.cs" />
+    <Compile Include="ClassLoadout\MPTeammateCompassTargetVM.cs" />
+    <Compile Include="ClassLoadout\MultiplayerClassLoadoutVM.cs" />
+    <Compile Include="ClassLoadout\ShallowItemPropertyVM.cs" />
+    <Compile Include="ClassLoadout\ShallowItemVM.cs" />
+    <Compile Include="EndOfRound\MultiplayerEndOfRoundSideVM.cs" />
+    <Compile Include="EndOfRound\MultiplayerEndOfRoundVM.cs" />
+    <Compile Include="FactionBanVote\MultiplayerFactionBanVM.cs" />
+    <Compile Include="FactionBanVote\MultiplayerFactionBanVoteVM.cs" />
+    <Compile Include="FlagMarker\MultiplayerMissionMarkerVM.cs" />
+    <Compile Include="FlagMarker\Targets\MissionAlwaysVisibleMarkerTargetVM.cs" />
+    <Compile Include="FlagMarker\Targets\MissionFlagMarkerTargetVM.cs" />
+    <Compile Include="FlagMarker\Targets\MissionMarkerTargetVM.cs" />
+    <Compile Include="FlagMarker\Targets\MissionMarkerType.cs" />
+    <Compile Include="FlagMarker\Targets\MissionPeerMarkerTargetVM.cs" />
+    <Compile Include="FlagMarker\Targets\MissionSiegeEngineMarkerTargetVM.cs" />
+    <Compile Include="HUDExtensions\CapturePointVM.cs" />
+    <Compile Include="HUDExtensions\CommanderInfoVM.cs" />
+    <Compile Include="HUDExtensions\DuelMatchVM.cs" />
+    <Compile Include="HUDExtensions\MissionMultiplayerHUDExtensionVM.cs" />
+    <Compile Include="HUDExtensions\MissionMultiplayerSpectatorHUDVM.cs" />
+    <Compile Include="Intermission\MPIntermissionCultureItemVM.cs" />
+    <Compile Include="Intermission\MPIntermissionMapItemVM.cs" />
+    <Compile Include="Intermission\MPIntermissionVM.cs" />
+    <Compile Include="KillFeed\General\MPGeneralKillNotificationItemVM.cs" />
+    <Compile Include="KillFeed\General\MPGeneralKillNotificationVM.cs" />
+    <Compile Include="KillFeed\MPDuelKillNotificationItemVM.cs" />
+    <Compile Include="KillFeed\MPKillFeedVM.cs" />
+    <Compile Include="KillFeed\Personal\MPPersonalKillNotificationItemVM.cs" />
+    <Compile Include="KillFeed\Personal\MPPersonalKillNotificationVM.cs" />
+    <Compile Include="Lobby\AfterBattle\MPAfterBattleBadgeRewardItemVM.cs" />
+    <Compile Include="Lobby\AfterBattle\MPAfterBattleLootRewardItemVM.cs" />
+    <Compile Include="Lobby\AfterBattle\MPAfterBattlePopupVM.cs" />
+    <Compile Include="Lobby\AfterBattle\MPAfterBattleRewardItemVM.cs" />
+    <Compile Include="Lobby\Armory\CosmeticCategory\MPArmoryClothingCosmeticCategoryVM.cs" />
+    <Compile Include="Lobby\Armory\CosmeticCategory\MPArmoryCosmeticCategoryBaseVM.cs" />
+    <Compile Include="Lobby\Armory\CosmeticCategory\MPArmoryTauntCosmeticCategoryVM.cs" />
+    <Compile Include="Lobby\Armory\CosmeticItem\MPArmoryCosmeticClothingItemVM.cs" />
+    <Compile Include="Lobby\Armory\CosmeticItem\MPArmoryCosmeticItemBaseVM.cs" />
+    <Compile Include="Lobby\Armory\CosmeticItem\MPArmoryCosmeticTauntItemVM.cs" />
+    <Compile Include="Lobby\Armory\CosmeticItem\MPArmoryCosmeticTauntSlotVM.cs" />
+    <Compile Include="Lobby\Armory\LobbyCosmeticExtensions.cs" />
+    <Compile Include="Lobby\Armory\MPArmoryClassStatsVM.cs" />
+    <Compile Include="Lobby\Armory\MPArmoryCosmeticsVM.cs" />
+    <Compile Include="Lobby\Armory\MPArmoryHeroPerkSelectionVM.cs" />
+    <Compile Include="Lobby\Armory\MPArmoryHeroPreviewVM.cs" />
+    <Compile Include="Lobby\Armory\MPArmoryVM.cs" />
+    <Compile Include="Lobby\Authentication\MPAuthenticationDebugVM.cs" />
+    <Compile Include="Lobby\Authentication\MPAuthenticationVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanAnnouncementVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanChangeFactionPopupVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanChangeSigilPopupVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanCreationInformationVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanCreationPopupVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanInvitationPopupVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanInviteFriendsPopupVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanItemVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanLeaderboardSortControllerVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanLeaderboardVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanMatchmakingRequestPopupVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanMemberItemVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanOverviewVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanRosterVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanSendPostPopupVM.cs" />
+    <Compile Include="Lobby\Clan\MPLobbyClanVM.cs" />
+    <Compile Include="Lobby\ClassFilter\MPLobbyClassFilterClassGroupItemVM.cs" />
+    <Compile Include="Lobby\ClassFilter\MPLobbyClassFilterClassItemVM.cs" />
+    <Compile Include="Lobby\ClassFilter\MPLobbyClassFilterFactionItemVM.cs" />
+    <Compile Include="Lobby\CustomGame\MPCustomGameFilterItemVM.cs" />
+    <Compile Include="Lobby\CustomGame\MPCustomGameFiltersVM.cs" />
+    <Compile Include="Lobby\CustomGame\MPCustomGameItemVM.cs" />
+    <Compile Include="Lobby\CustomGame\MPCustomGameSortControllerVM.cs" />
+    <Compile Include="Lobby\CustomGame\MPCustomGameVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyFriendGroupVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyFriendItemVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyFriendServiceVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyFriendsVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyPartyJoinRequestPopupVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyPartyPlayerSuggestionPopupVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyPartyPlayerVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyPlayerBaseVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyPlayerRecentGameDataVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyPlayerStatItemVM.cs" />
+    <Compile Include="Lobby\Friends\MPLobbyPlayerTroopClassVM.cs" />
+    <Compile Include="Lobby\Home\MPLobbyHomeChangeSigilPopupVM.cs" />
+    <Compile Include="Lobby\Home\MPLobbyHomeVM.cs" />
+    <Compile Include="Lobby\Home\MPNewsItemVM.cs" />
+    <Compile Include="Lobby\Home\MPNewsVM.cs" />
+    <Compile Include="Lobby\HostGame\HostGameOptions\BooleanHostGameOptionDataVM.cs" />
+    <Compile Include="Lobby\HostGame\HostGameOptions\GenericHostGameOptionDataVM.cs" />
+    <Compile Include="Lobby\HostGame\HostGameOptions\InputHostGameOptionDataVM.cs" />
+    <Compile Include="Lobby\HostGame\HostGameOptions\MultipleSelectionHostGameOptionDataVM.cs" />
+    <Compile Include="Lobby\HostGame\HostGameOptions\NumericHostGameOptionDataVM.cs" />
+    <Compile Include="Lobby\HostGame\MPHostGameOptionsVM.cs" />
+    <Compile Include="Lobby\HostGame\MPHostGameVM.cs" />
+    <Compile Include="Lobby\LobbyTauntHelper.cs" />
+    <Compile Include="Lobby\MPCosmeticObtainPopupVM.cs" />
+    <Compile Include="Lobby\MPLobbyBadgeItemVM.cs" />
+    <Compile Include="Lobby\MPLobbyBlockerStateVM.cs" />
+    <Compile Include="Lobby\MPLobbyClassFilterVM.cs" />
+    <Compile Include="Lobby\MPLobbyCosmeticSigilItemVM.cs" />
+    <Compile Include="Lobby\MPLobbyGameSearchVM.cs" />
+    <Compile Include="Lobby\MPLobbyGameTypeVM.cs" />
+    <Compile Include="Lobby\MPLobbyMenuVM.cs" />
+    <Compile Include="Lobby\MPLobbyPartyInvitationPopupVM.cs" />
+    <Compile Include="Lobby\MPLobbyPlayerProfileVM.cs" />
+    <Compile Include="Lobby\MPLobbyPopupVM.cs" />
+    <Compile Include="Lobby\MPLobbyRejoinVM.cs" />
+    <Compile Include="Lobby\MPLobbySigilItemVM.cs" />
+    <Compile Include="Lobby\MPLobbyVM.cs" />
+    <Compile Include="Lobby\MPMatchmakingVM.cs" />
+    <Compile Include="Lobby\OfficialGame\MPMatchmakingItemVM.cs" />
+    <Compile Include="Lobby\OfficialGame\MPMatchmakingRegionSelectorItemVM.cs" />
+    <Compile Include="Lobby\OfficialGame\MPMatchmakingSelectionInfoVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyAchievementBadgeGroupVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyBadgeProgressInformationVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyBadgeSelectionPopupVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyBannerlordIDAddFriendPopupVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyBannerlordIDChangePopup.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyLeaderboardPlayerItemVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyProfileGameModeSelectorItemVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyProfileVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyRankLeaderboardVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyRankProgressInformationVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyRecentGameItemVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyRecentGamePlayerItemVM.cs" />
+    <Compile Include="Lobby\Profile\MPLobbyRecentGamesVM.cs" />
+    <Compile Include="MissionDuelLandmarkMarkerVM.cs" />
+    <Compile Include="MissionDuelMarkersVM.cs" />
+    <Compile Include="MissionDuelPeerMarkerVM.cs" />
+    <Compile Include="MPCultureItemVM.cs" />
+    <Compile Include="MPDeathCardVM.cs" />
+    <Compile Include="MPEndOfBattlePlayerVM.cs" />
+    <Compile Include="MPEscapeMenuVM.cs" />
+    <Compile Include="MPPlayerVM.cs" />
+    <Compile Include="MPVoicePlayerVM.cs" />
+    <Compile Include="MultiplayerAdminInformationVM.cs" />
+    <Compile Include="MultiplayerAdminPanelVM.cs" />
+    <Compile Include="MultiplayerDuelVM.cs" />
+    <Compile Include="MultiplayerEndOfBattleVM.cs" />
+    <Compile Include="MultiplayerMissionServerStatusVM.cs" />
+    <Compile Include="MultiplayerPlayerContextMenuHelper.cs" />
+    <Compile Include="MultiplayerPlayerHelper.cs" />
+    <Compile Include="MultiplayerPollProgressVM.cs" />
+    <Compile Include="MultiplayerReportPlayerVM.cs" />
+    <Compile Include="MultiplayerVoiceChatVM.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scoreboard\MissionScoreboardHeaderItemVM.cs" />
+    <Compile Include="Scoreboard\MissionScoreboardMVPItemVM.cs" />
+    <Compile Include="Scoreboard\MissionScoreboardPlayerSortControllerVM.cs" />
+    <Compile Include="Scoreboard\MissionScoreboardPlayerVM.cs" />
+    <Compile Include="Scoreboard\MissionScoreboardSideVM.cs" />
+    <Compile Include="Scoreboard\MissionScoreboardStatItemVM.cs" />
+    <Compile Include="Scoreboard\MissionScoreboardVM.cs" />
+    <Compile Include="Scoreboard\MPEndOfBattleSideVM.cs" />
+    <Compile Include="Scoreboard\MPEndOfBattleVM.cs" />
+    <Compile Include="TeamSelection\MultiplayerCultureSelectVM.cs" />
+    <Compile Include="TeamSelection\MultiplayerTeamSelectVM.cs" />
+    <Compile Include="TeamSelection\TeamSelectTeamInstanceVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.MountAndBlade.Multiplayer\TaleWorlds.MountAndBlade.Multiplayer.csproj">
+      <Project>{46aea771-038e-4892-9d02-1725d2bc2d0b}</Project>
+      <Name>TaleWorlds.MountAndBlade.Multiplayer</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

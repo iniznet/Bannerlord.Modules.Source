@@ -34,6 +34,8 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		void OnBribeGiven(int amount);
 
+		void OnWarehouseProduction(EquipmentElement production);
+
 		void OnBanditsRecruited(MobileParty mobileParty, CharacterObject bandit, int count);
 
 		void OnMainHeroReleasedFromCaptivity(float captivityTime);
@@ -46,7 +48,7 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		void OnLoot(MobileParty attackerParty, MobileParty forcedParty, ItemRoster lootedItems, bool attacked);
 
-		void OnPrisonerSell(MobileParty mobileParty, float count);
+		void OnPrisonerSell(MobileParty mobileParty, in TroopRoster prisonerRoster);
 
 		void OnSurgeryApplied(MobileParty party, bool surgerySuccess, int troopTier);
 

@@ -18,8 +18,5 @@ namespace TaleWorlds.MountAndBlade
 
 		[EngineMethod("hide_if_not_fading_out", false)]
 		void HideIfNotFadingOut(UIntPtr entityPointer);
-
-		[EngineMethod("update_trajectory_visualizer_for_spawner", false)]
-		void UpdateTrajectoryVisualizerForSpawner(UIntPtr gameEntity, float maxShootSpeed, float minShootSpeed, float maxAngle, float minAngle, float turnAngle, float frictionCoefficient);
 	}
 }

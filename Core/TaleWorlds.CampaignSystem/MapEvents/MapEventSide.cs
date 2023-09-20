@@ -5,7 +5,6 @@ using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
-using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -227,6 +226,11 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			this._battleParties = new MBList<MapEventParty>();
 		}
 
+		internal void CacheLeaderSimulationModifier()
+		{
+			this.LeaderSimulationModifier = Campaign.Current.Models.MilitaryPowerModel.GetLeaderModifierInMapEvent(this._mapEvent, this.MissionSide);
+		}
+
 		internal void AddPartyInternal(PartyBase party)
 		{
 			this._battleParties.Add(new MapEventParty(party));
@@ -238,9 +242,15 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			int num = this._battleParties.FindIndexQ((MapEventParty p) => p.Party == party);
 			this._battleParties.RemoveAt(num);
 			this._mapEvent.RemoveInvolvedPartyInternal(party);
-			if (this.LeaderParty == party && this._battleParties.Count > 0)
+			if (this.LeaderParty == party)
 			{
-				this.LeaderParty = this._battleParties[0].Party;
+				if (this._battleParties.Count > 0)
+				{
+					this.LeaderParty = this._battleParties[0].Party;
+					this.CacheLeaderSimulationModifier();
+					return;
+				}
+				this.MapEvent.FinalizeEvent();
 			}
 		}
 
@@ -268,62 +278,14 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		{
 			int num = this.CalculateTotalContribution();
 			lootCollector.MakeFreedHeroesEscape(lootCollector.LootedPrisoners, this.MapEvent.IsPlayerMapEvent && this.MapEvent.PlayerSide == this.MapEvent.WinningSide);
-			bool flag = this.MapEvent.IsSiegeAssault || this.MapEvent.IsSiegeOutside;
-			if (flag)
-			{
-				int num2 = this._battleParties.FindIndexQ((MapEventParty x) => x.Party == PartyBase.MainParty);
-				if (num2 != -1)
-				{
-					MapEventParty mapEventParty = this._battleParties[num2];
-					int num3 = this.CalculateContributionAndGiveShareToParty(lootCollector, mapEventParty, num);
-					num -= num3;
-				}
-				Settlement settlement;
-				if ((settlement = this.MapEvent.MapEventSettlement) == null)
-				{
-					PartyBase leaderParty = this.MapEvent.DefenderSide.LeaderParty;
-					if (leaderParty == null)
-					{
-						settlement = null;
-					}
-					else
-					{
-						MobileParty mobileParty = leaderParty.MobileParty;
-						settlement = ((mobileParty != null) ? mobileParty.BesiegedSettlement : null);
-					}
-				}
-				Settlement settlement2 = settlement;
-				if (settlement2 != null)
-				{
-					for (int i = lootCollector.LootedMembers.Count - 1; i >= 0; i--)
-					{
-						TroopRosterElement elementCopyAtIndex = lootCollector.LootedMembers.GetElementCopyAtIndex(i);
-						Hero heroObject = elementCopyAtIndex.Character.HeroObject;
-						if (heroObject != null)
-						{
-							lootCollector.LootedMembers.RemoveTroop(elementCopyAtIndex.Character, 1, default(UniqueTroopDescriptor), 0);
-							TakePrisonerAction.Apply(settlement2.Party, heroObject);
-						}
-					}
-					settlement2.Party.PrisonRoster.Add(lootCollector.LootedMembers);
-					lootCollector.LootedMembers.Clear();
-				}
-				else
-				{
-					Debug.FailedAssert("Map event settlement is null!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\MapEvents\\MapEventSide.cs", "DistributeLootAmongWinners", 495);
-				}
-			}
-			if ((float)num > 1E-07f)
+			if ((float)num > 1E-05f)
 			{
 				MapEventParty[] array = new MapEventParty[this._battleParties.Count];
 				this._battleParties.CopyTo(array);
-				foreach (MapEventParty mapEventParty2 in array)
+				foreach (MapEventParty mapEventParty in array)
 				{
-					if (!flag || mapEventParty2.Party != PartyBase.MainParty)
-					{
-						int num4 = this.CalculateContributionAndGiveShareToParty(lootCollector, mapEventParty2, num);
-						num -= num4;
-					}
+					int num2 = this.CalculateContributionAndGiveShareToParty(lootCollector, mapEventParty, num);
+					num -= num2;
 				}
 			}
 			lootCollector.MakeRemainingPrisonerHeroesEscape();
@@ -478,7 +440,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 							ChangeRelationAction.ApplyRelationChangeBetweenHeroes(this.MapEvent.MapEventSettlement.Notables.GetRandomElement<Hero>(), party2.LeaderHero, 5, true);
 						}
 					}
-					if (party2.LeaderHero != null && (party2 != PartyBase.MainParty || (PlayerEncounter.Current != null && !PlayerEncounter.Current.IsSallyOutAmbush)))
+					if (party2.LeaderHero != null)
 					{
 						explainedNumber = Campaign.Current.Models.BattleRewardModel.CalculateRenownGain(party2, renownValue, num2);
 						explainedNumber2 = Campaign.Current.Models.BattleRewardModel.CalculateInfluenceGain(party2, influenceValue, num2);
@@ -502,7 +464,9 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			{
 				this._mapEvent.RecalculateStrengthOfSides();
 				this.CalculateRenownAndInfluenceValues(this._mapEvent.StrengthOfSide);
+				return;
 			}
+			this.RenownAtMapEventEnd = this.RenownValue;
 		}
 
 		public void ApplyRenownAndInfluenceChanges()
@@ -612,14 +576,11 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			{
 				DestroyPartyAction.Apply(leaderParty, party.MobileParty);
 			}
+			party.MemberRoster.RemoveZeroCounts();
+			party.PrisonRoster.RemoveZeroCounts();
 			if (party.IsMobile && party.MobileParty.IsActive && party.MobileParty.CurrentSettlement == null)
 			{
-				IPartyVisual visuals = party.Visuals;
-				if (visuals == null)
-				{
-					return;
-				}
-				visuals.SetMapIconAsDirty();
+				party.SetVisualAsDirty();
 			}
 		}
 
@@ -748,8 +709,8 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			MapEventParty mapEventParty = this._allocatedTroops[troopDesc1];
 			mapEventParty.OnTroopWounded(troopDesc1);
 			CharacterObject troop = mapEventParty.GetTroop(troopDesc1);
-			float troopPowerBasedOnContext = Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(troop, this._mapEvent.EventType, this.MissionSide, this.MapEvent.IsPlayerMapEvent && PlayerEncounter.Current != null && PlayerEncounter.Current.BattleSimulation != null);
-			this.CasualtyStrength += troopPowerBasedOnContext;
+			float troopPower = Campaign.Current.Models.MilitaryPowerModel.GetTroopPower(troop, this.MissionSide, this.MapEvent.SimulationContext, this.LeaderSimulationModifier);
+			this.CasualtyStrength += troopPower;
 			this.Casualties++;
 		}
 
@@ -758,7 +719,8 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			MapEventParty mapEventParty = this._allocatedTroops[troopDesc1];
 			mapEventParty.OnTroopKilled(troopDesc1);
 			CharacterObject troop = mapEventParty.GetTroop(troopDesc1);
-			this.CasualtyStrength += Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(troop, this._mapEvent.EventType, this.MissionSide, this.MapEvent.IsPlayerMapEvent && PlayerEncounter.Current != null && PlayerEncounter.Current.BattleSimulation != null);
+			float troopPower = Campaign.Current.Models.MilitaryPowerModel.GetTroopPower(troop, this.MissionSide, this.MapEvent.SimulationContext, this.LeaderSimulationModifier);
+			this.CasualtyStrength += troopPower;
 			this.Casualties++;
 		}
 
@@ -767,8 +729,8 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			MapEventParty mapEventParty = this._allocatedTroops[troopDesc1];
 			mapEventParty.OnTroopRouted(troopDesc1);
 			CharacterObject troop = mapEventParty.GetTroop(troopDesc1);
-			float troopPowerBasedOnContext = Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(troop, this._mapEvent.EventType, this.MissionSide, this.MapEvent.IsPlayerMapEvent && PlayerEncounter.Current != null && PlayerEncounter.Current.BattleSimulation != null);
-			this.CasualtyStrength += troopPowerBasedOnContext * 0.1f;
+			float troopPower = Campaign.Current.Models.MilitaryPowerModel.GetTroopPower(troop, this.MissionSide, this.MapEvent.SimulationContext, this.LeaderSimulationModifier);
+			this.CasualtyStrength += troopPower * 0.1f;
 		}
 
 		public void OnTroopScoreHit(UniqueTroopDescriptor troopDesc1, CharacterObject attackedTroop, int damage, bool isFatal, bool isTeamKill, WeaponComponentData attackerWeapon, bool isSimulatedHit)
@@ -897,7 +859,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				if (flag5 && mapEventParty.Party.LeaderHero.GetPerkValue(DefaultPerks.Roguery.RogueExtraordinaire) && num < (float)mapEventParty.Party.LeaderHero.GetSkillValue(DefaultSkills.Roguery))
 				{
 					num = (float)mapEventParty.Party.LeaderHero.GetSkillValue(DefaultSkills.Roguery);
-					PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Roguery.RogueExtraordinaire, mapEventParty.Party.LeaderHero.CharacterObject, DefaultSkills.Roguery, true, ref explainedNumber, 200);
+					PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Roguery.RogueExtraordinaire, mapEventParty.Party.LeaderHero.CharacterObject, DefaultSkills.Roguery, true, ref explainedNumber, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
 				}
 			}
 			foreach (MapEventParty mapEventParty2 in this._battleParties)
@@ -1011,7 +973,14 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			defeatedParty.MobileParty.RecentEventsMorale += Campaign.Current.Models.PartyMoraleModel.GetDefeatMoraleChange(defeatedParty);
 			if (defeatedParty.NumberOfHealthyMembers > 0 && (!defeatedParty.IsMobile || !defeatedParty.MobileParty.IsGarrison))
 			{
-				defeatedParty.MobileParty.Position2D = MobilePartyHelper.FindReachablePointAroundPosition(defeatedParty.MobileParty.Position2D, 4f, 3f);
+				if (defeatedParty.MobileParty.CurrentSettlement != null)
+				{
+					defeatedParty.MobileParty.Position2D = defeatedParty.MobileParty.CurrentSettlement.GatePosition;
+				}
+				else
+				{
+					defeatedParty.MobileParty.Position2D = MobilePartyHelper.FindReachablePointAroundPosition(defeatedParty.MobileParty.Position2D, 4f, 3f);
+				}
 				defeatedParty.MobileParty.Ai.ForceDefaultBehaviorUpdate();
 			}
 		}
@@ -1064,7 +1033,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 							{
 								MakeHeroFugitiveAction.Apply(elementCopyAtIndex.Character.HeroObject);
 							}
-							else if (!elementCopyAtIndex.Character.HeroObject.IsDead)
+							else if (!elementCopyAtIndex.Character.HeroObject.IsDead && elementCopyAtIndex.Character.HeroObject.DeathMark == KillCharacterAction.KillCharacterActionDetail.None)
 							{
 								lootCollector.LootedMembers.AddToCounts(elementCopyAtIndex.Character, 1, false, 0, 0, true, -1);
 							}
@@ -1175,7 +1144,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				{
 					PartyHealingModel partyHealingModel = Campaign.Current.Models.PartyHealingModel;
 					MobileParty partyBelongedTo = this._selectedSimulationTroop.HeroObject.PartyBelongedTo;
-					float survivalChance = partyHealingModel.GetSurvivalChance(((partyBelongedTo != null) ? partyBelongedTo.Party : null) ?? null, this._selectedSimulationTroop, damageType, strikerParty);
+					float survivalChance = partyHealingModel.GetSurvivalChance(((partyBelongedTo != null) ? partyBelongedTo.Party : null) ?? null, this._selectedSimulationTroop, damageType, false, strikerParty);
 					if (MBRandom.RandomFloat > survivalChance && this._selectedSimulationTroop.HeroObject.CanDie(KillCharacterAction.KillCharacterActionDetail.DiedInBattle))
 					{
 						this.OnTroopKilled(this._selectedSimulationTroopDescriptor);
@@ -1201,7 +1170,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			else if (MBRandom.RandomInt(this._selectedSimulationTroop.MaxHitPoints()) < damage)
 			{
 				PartyBase party = this._allocatedTroops[this._selectedSimulationTroopDescriptor].Party;
-				float survivalChance2 = Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(party, this._selectedSimulationTroop, damageType, strikerParty);
+				float survivalChance2 = Campaign.Current.Models.PartyHealingModel.GetSurvivalChance(party, this._selectedSimulationTroop, damageType, false, strikerParty);
 				if (MBRandom.RandomFloat < survivalChance2)
 				{
 					this.OnTroopWounded(this._selectedSimulationTroopDescriptor);
@@ -1326,6 +1295,9 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		[CachedData]
 		private Dictionary<UniqueTroopDescriptor, MapEventParty> _allocatedTroops;
 
+		[CachedData]
+		internal float LeaderSimulationModifier;
+
 		[SaveableField(30)]
 		private readonly MBList<MapEventParty> _battleParties;
 
@@ -1337,6 +1309,8 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 
 		[SaveableField(11)]
 		public float InfluenceValue;
+
+		public float RenownAtMapEventEnd;
 
 		[SaveableField(14)]
 		public int Casualties;
@@ -1365,6 +1339,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		internal bool IsSurrendered;
 
 		[SaveableField(27)]
-		private List<MobileParty> _nearbyPartiesAddedToPlayerMapEvent = new List<MobileParty>();
+		private MBList<MobileParty> _nearbyPartiesAddedToPlayerMapEvent = new MBList<MobileParty>();
 	}
 }

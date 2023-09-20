@@ -7,9 +7,13 @@ namespace Messages.FromLobbyServer.ToClient
 	[Serializable]
 	public class RejoinBattleRequestAnswerMessage : Message
 	{
-		public bool IsRejoinAccepted { get; private set; }
+		public bool IsRejoinAccepted { get; set; }
 
-		public bool IsSuccessful { get; private set; }
+		public bool IsSuccessful { get; set; }
+
+		public RejoinBattleRequestAnswerMessage()
+		{
+		}
 
 		public RejoinBattleRequestAnswerMessage(bool isRejoinAccepted, bool isSuccessful)
 		{

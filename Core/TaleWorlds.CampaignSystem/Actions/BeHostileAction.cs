@@ -10,7 +10,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 	{
 		private static void ApplyInternal(PartyBase attackerParty, PartyBase defenderParty, float value)
 		{
-			if (defenderParty.IsMobile && defenderParty.MobileParty.ActualClan == CampaignData.NeutralFaction)
+			if (defenderParty.IsMobile && defenderParty.MobileParty.ActualClan == null)
 			{
 				return;
 			}
@@ -95,7 +95,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			int num3 = (int)(-2f * value);
 			float num4 = -50f * value;
 			bool isClan = attackerParty.MapFaction.IsClan;
-			bool isFactionLeader = attackerParty.LeaderHero.IsFactionLeader;
+			bool isKingdomLeader = attackerParty.LeaderHero.IsKingdomLeader;
 			bool isUnderMercenaryService = attackerParty.LeaderHero.Clan.IsUnderMercenaryService;
 			Hero leaderHero = attackerParty.LeaderHero;
 			if (leaderHero.Equals(Hero.MainHero))
@@ -111,7 +111,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 			if (!isClan)
 			{
-				if (isFactionLeader)
+				if (isKingdomLeader)
 				{
 					if (num4 < 0f)
 					{
@@ -133,7 +133,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				}
 				else
 				{
-					if (num3 < 0 && attackerParty.MapFaction != CampaignData.NeutralFaction && defenderParty.MapFaction != CampaignData.NeutralFaction)
+					if (num3 < 0 && attackerParty.MapFaction != null && defenderParty.MapFaction != null)
 					{
 						ChangeRelationAction.ApplyRelationChangeBetweenHeroes(leaderHero, defenderParty.MapFaction.Leader, num3, true);
 					}

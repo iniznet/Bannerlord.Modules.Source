@@ -350,17 +350,9 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 		{
 			int focus = this.GetFocus(skill);
 			int requiredFocusPointsToAddFocus = this.GetRequiredFocusPointsToAddFocus(skill);
-			if (focus + changeAmount <= Campaign.Current.Models.CharacterDevelopmentModel.MaxFocusPerSkill && (this.UnspentFocusPoints >= requiredFocusPointsToAddFocus || !checkUnspentFocusPoints))
-			{
-				int num = focus + changeAmount;
-				this.SetFocus(skill, num);
-				if (this.Hero.GetSkillValue(skill) == 0)
-				{
-					this.SetInitialSkillLevel(skill, 1);
-					this.InitializeSkillXp(skill);
-				}
-				this.UnspentFocusPoints = (checkUnspentFocusPoints ? (this.UnspentFocusPoints - requiredFocusPointsToAddFocus) : this.UnspentFocusPoints);
-			}
+			int num = focus + changeAmount;
+			this.SetFocus(skill, num);
+			this.UnspentFocusPoints = (checkUnspentFocusPoints ? (this.UnspentFocusPoints - requiredFocusPointsToAddFocus) : this.UnspentFocusPoints);
 		}
 
 		public void RemoveFocus(SkillObject skill, int changeAmount)
@@ -402,16 +394,19 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		protected override void AfterLoad()
 		{
-			if (this.Hero.Age >= (float)Campaign.Current.Models.AgeModel.HeroComesOfAge && Campaign.Current.Models.CharacterDevelopmentModel.SkillsRequiredForLevel(this.Hero.Level) > this.TotalXp)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
 			{
-				this.TotalXp = Campaign.Current.Models.CharacterDevelopmentModel.SkillsRequiredForLevel(this.Hero.Level);
-				this.CheckLevel(false);
-			}
-			foreach (SkillObject skillObject in Skills.All)
-			{
-				if (this.GetSkillXpProgress(skillObject) < 0)
+				if (this.Hero.Age >= (float)Campaign.Current.Models.AgeModel.HeroComesOfAge && Campaign.Current.Models.CharacterDevelopmentModel.SkillsRequiredForLevel(this.Hero.Level) > this.TotalXp)
 				{
-					this.InitializeSkillXp(skillObject);
+					this.TotalXp = Campaign.Current.Models.CharacterDevelopmentModel.SkillsRequiredForLevel(this.Hero.Level);
+					this.CheckLevel(false);
+				}
+				foreach (SkillObject skillObject in Skills.All)
+				{
+					if (this.GetSkillXpProgress(skillObject) < 0)
+					{
+						this.InitializeSkillXp(skillObject);
+					}
 				}
 			}
 		}

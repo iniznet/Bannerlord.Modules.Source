@@ -25,9 +25,7 @@ namespace TaleWorlds.MountAndBlade
 
 		string TroopMountIdleAnimOverride { get; }
 
-		float GetTroopCountMultiplier(bool isWarmup);
-
-		float GetExtraTroopCount(bool isWarmup);
+		int GetExtraTroopCount(bool isWarmup);
 
 		List<ValueTuple<EquipmentIndex, EquipmentElement>> GetAlternativeEquipments(bool isWarmup, bool isPlayer, List<ValueTuple<EquipmentIndex, EquipmentElement>> alternativeEquipments, bool getAllEquipments = false);
 

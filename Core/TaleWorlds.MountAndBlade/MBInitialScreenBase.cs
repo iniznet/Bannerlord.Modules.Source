@@ -66,7 +66,7 @@ namespace TaleWorlds.MountAndBlade
 			base.OnFinalize();
 		}
 
-		protected override void OnFrameTick(float dt)
+		protected sealed override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
 			if (this._buttonInvokeMessage)
@@ -104,6 +104,14 @@ namespace TaleWorlds.MountAndBlade
 			{
 				MBInitialScreenBase.OnEditModeEnterPress();
 			}
+			if (ScreenManager.TopScreen == this)
+			{
+				this.OnInitialScreenTick(dt);
+			}
+		}
+
+		protected virtual void OnInitialScreenTick(float dt)
+		{
 		}
 
 		protected override void OnActivate()

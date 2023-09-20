@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
+using TaleWorlds.Engine.Options;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
@@ -129,7 +130,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 						}
 						else
 						{
-							Debug.FailedAssert("MyPeer.IsSynchronized but myMissionPeer == null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Screens\\MissionScreen.cs", "LastFollowedAgent", 214);
+							Debug.FailedAssert("MyPeer.IsSynchronized but myMissionPeer == null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Screens\\MissionScreen.cs", "LastFollowedAgent", 218);
 						}
 					}
 					if (lastFollowedAgent != null)
@@ -270,6 +271,8 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			this._cameraAddSpecialMovement = false;
 			this._cameraAddSpecialPositionalMovement = false;
 			this._cameraApplySpecialMovementsInstantly = false;
+			this._currentViewBlockingBodyCoeff = 1f;
+			this._targetViewBlockingBodyCoeff = 1f;
 			this._cameraSmoothMode = false;
 			this.CustomCamera = null;
 		}
@@ -885,8 +888,14 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 				}
 				if (this.Mission.Mode == 6 && !this.IsRadialMenuActive)
 				{
-					matrixFrame.origin += this._cameraSpeed.x * new Vec3(matrixFrame.rotation.s.AsVec2, 0f, -1f).NormalizedCopy() * dt;
-					matrixFrame.origin -= this._cameraSpeed.y * new Vec3(matrixFrame.rotation.u.AsVec2, 0f, -1f).NormalizedCopy() * dt;
+					Vec3 origin = matrixFrame.origin;
+					float x = this._cameraSpeed.x;
+					Vec3 vec2 = new Vec3(matrixFrame.rotation.s.AsVec2, 0f, -1f);
+					matrixFrame.origin = origin + x * vec2.NormalizedCopy() * dt;
+					Vec3 origin2 = matrixFrame.origin;
+					float y = this._cameraSpeed.y;
+					vec2 = new Vec3(matrixFrame.rotation.u.AsVec2, 0f, -1f);
+					matrixFrame.origin = origin2 - y * vec2.NormalizedCopy() * dt;
 					matrixFrame.origin.z = matrixFrame.origin.z + this._cameraSpeed.z * dt;
 					if (!Game.Current.CheatMode || !this.InputManager.IsControlDown())
 					{
@@ -899,7 +908,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 					if (MathF.Abs(this._cameraDeploymentHeightToAdd) > 0.001f)
 					{
 						matrixFrame.origin.z = matrixFrame.origin.z + this._cameraDeploymentHeightToAdd * dt * 10f;
-						this._cameraDeploymentHeightToAdd *= 1f - dt * 10f;
+						this._cameraDeploymentHeightToAdd = MathF.Lerp(this._cameraDeploymentHeightToAdd, 0f, 1f - MathF.Pow(0.0005f, dt), 1E-05f);
 					}
 					else
 					{
@@ -927,13 +936,13 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 						{
 							IMissionDeploymentPlan missionDeploymentPlan = deploymentPlan;
 							BattleSideEnum battleSideEnum = side;
-							Vec2 vec2 = matrixFrame.origin.AsVec2;
-							if (!missionDeploymentPlan.IsPositionInsideDeploymentBoundaries(battleSideEnum, ref vec2, 0))
+							Vec2 vec3 = matrixFrame.origin.AsVec2;
+							if (!missionDeploymentPlan.IsPositionInsideDeploymentBoundaries(battleSideEnum, ref vec3, 0))
 							{
 								IMissionDeploymentPlan missionDeploymentPlan2 = deploymentPlan;
 								BattleSideEnum battleSideEnum2 = side;
-								vec2 = matrixFrame.origin.AsVec2;
-								matrixFrame.origin.AsVec2 = missionDeploymentPlan2.GetClosestDeploymentBoundaryPosition(battleSideEnum2, ref vec2, 0);
+								vec3 = matrixFrame.origin.AsVec2;
+								matrixFrame.origin.AsVec2 = missionDeploymentPlan2.GetClosestDeploymentBoundaryPosition(battleSideEnum2, ref vec3, 0);
 							}
 						}
 					}
@@ -968,27 +977,27 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 							MissionMainAgentController missionMainAgentController = this._missionMainAgentController;
 							if (((missionMainAgentController != null) ? missionMainAgentController.InteractionComponent.CurrentFocusedObject : null) != null && this._missionMainAgentController.InteractionComponent.CurrentFocusedObject.FocusableObjectType == 3)
 							{
-								Vec3 vec3 = (this._missionMainAgentController.InteractionComponent.CurrentFocusedObject as Agent).Position - agentToFollow.Position;
+								Vec3 vec4 = (this._missionMainAgentController.InteractionComponent.CurrentFocusedObject as Agent).Position - agentToFollow.Position;
 								float num9;
-								if (65f / this.CameraViewAngle * MathF.Abs(vec3.z) >= 2f)
+								if (65f / this.CameraViewAngle * MathF.Abs(vec4.z) >= 2f)
 								{
 									float num8 = 160f;
-									Vec2 vec2 = vec3.AsVec2;
-									num9 = num8 / vec2.Length;
+									Vec2 vec3 = vec4.AsVec2;
+									num9 = num8 / vec3.Length;
 								}
 								else
 								{
 									float num10 = ((this.Mission.Mode == 5) ? 48.75f : 32.5f);
 									float num11 = ((this.Mission.Mode == 5) ? 75f : 50f);
-									Vec2 vec2 = vec3.AsVec2;
-									num9 = MathF.Min(num10, num11 / vec2.Length);
+									Vec2 vec3 = vec4.AsVec2;
+									num9 = MathF.Min(num10, num11 / vec3.Length);
 								}
 								this._cameraSpecialTargetFOV = num9;
-								goto IL_BE2;
+								goto IL_BF4;
 							}
 						}
 						this._cameraSpecialTargetFOV = 65f;
-						IL_BE2:
+						IL_BF4:
 						if (flag3)
 						{
 							this._cameraSpecialCurrentFOV = this._cameraSpecialTargetFOV;
@@ -998,6 +1007,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 					MatrixFrame boneEntitialFrame2 = agentToFollow.AgentVisuals.GetBoneEntitialFrame(agentToFollow.Monster.HeadLookDirectionBoneIndex, true);
 					boneEntitialFrame2.origin = boneEntitialFrame2.TransformToParent(agent.Monster.FirstPersonCameraOffsetWrtHead);
 					MatrixFrame frame = agentToFollow.AgentVisuals.GetFrame();
+					Vec3 vec5 = frame.TransformToParent(boneEntitialFrame2.origin);
 					bool flag5;
 					if (this.Mission.Mode == 1 || this.Mission.Mode == 5)
 					{
@@ -1005,11 +1015,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 						if (((missionMainAgentController2 != null) ? missionMainAgentController2.InteractionComponent.CurrentFocusedObject : null) != null)
 						{
 							flag5 = this._missionMainAgentController.InteractionComponent.CurrentFocusedObject.FocusableObjectType == 3;
-							goto IL_CA0;
+							goto IL_CC2;
 						}
 					}
 					flag5 = false;
-					IL_CA0:
+					IL_CC2:
 					bool flag6 = flag5;
 					if ((agent.GetCurrentAnimationFlag(0) & 8388608L) != null || (agent.GetCurrentAnimationFlag(1) & 8388608L) != null)
 					{
@@ -1018,24 +1028,47 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 						this.CameraBearing = matrixFrame2.rotation.f.RotationZ;
 						this.CameraElevation = matrixFrame2.rotation.f.RotationX;
 					}
-					else if (flag6 || (agentToFollow.IsMainAgent && this._missionMainAgentController != null && this._missionMainAgentController.CustomLookDir.IsNonZero))
+					else
 					{
-						Vec3 vec4;
+						if (!flag6)
+						{
+							if (agentToFollow.IsMainAgent && this._missionMainAgentController != null)
+							{
+								Vec3 vec2 = this._missionMainAgentController.CustomLookDir;
+								if (vec2.IsNonZero)
+								{
+									goto IL_D65;
+								}
+							}
+							float num12 = MBMath.WrapAngle(this.CameraBearing);
+							float num13 = MBMath.WrapAngle(this.CameraElevation);
+							float num14;
+							float num15;
+							this.CalculateNewBearingAndElevationForFirstPerson(agentToFollow, num12, num13, out num14, out num15);
+							this.CameraBearing = MBMath.LerpRadians(num12, num14, Math.Min(dt * 12f, 1f), 1E-05f, 0.5f);
+							this.CameraElevation = MBMath.LerpRadians(num13, num15, Math.Min(dt * 12f, 1f), 1E-05f, 0.5f);
+							goto IL_F4E;
+						}
+						IL_D65:
+						Vec3 vec6;
 						if (flag6)
 						{
 							Agent agent2 = this._missionMainAgentController.InteractionComponent.CurrentFocusedObject as Agent;
-							vec4 = (new Vec3(agent2.Position.AsVec2, agent2.AgentVisuals.GetGlobalStableEyePoint(agent2.IsHuman).z, -1f) - frame.TransformToParent(boneEntitialFrame2.origin)).NormalizedCopy();
-							Vec3 vec5 = new Vec3(vec4.y, -vec4.x, 0f, -1f).NormalizedCopy();
-							vec4 = vec4.RotateAboutAnArbitraryVector(vec5, ((this.Mission.Mode == 1) ? (-0.003f) : (-0.0045f)) * this._cameraSpecialCurrentFOV);
+							Vec3 vec2 = agent2.Position;
+							vec2 = new Vec3(vec2.AsVec2, agent2.AgentVisuals.GetGlobalStableEyePoint(agent2.IsHuman).z, -1f) - vec5;
+							vec6 = vec2.NormalizedCopy();
+							vec2 = new Vec3(vec6.y, -vec6.x, 0f, -1f);
+							Vec3 vec7 = vec2.NormalizedCopy();
+							vec6 = vec6.RotateAboutAnArbitraryVector(vec7, ((this.Mission.Mode == 1) ? (-0.003f) : (-0.0045f)) * this._cameraSpecialCurrentFOV);
 						}
 						else
 						{
-							vec4 = this._missionMainAgentController.CustomLookDir;
+							vec6 = this._missionMainAgentController.CustomLookDir;
 						}
 						if (flag3)
 						{
-							this.CameraBearing = vec4.RotationZ;
-							this.CameraElevation = vec4.RotationX;
+							this.CameraBearing = vec6.RotationZ;
+							this.CameraElevation = vec6.RotationX;
 						}
 						else
 						{
@@ -1043,55 +1076,89 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 							identity.RotateAboutUp(this.CameraBearing);
 							identity.RotateAboutSide(this.CameraElevation);
 							Vec3 f = identity.f;
-							Vec3 vec6 = Vec3.CrossProduct(f, vec4);
-							float num12 = vec6.Normalize();
-							Vec3 vec7;
-							if (num12 < 0.0001f)
+							Vec3 vec8 = Vec3.CrossProduct(f, vec6);
+							float num16 = vec8.Normalize();
+							Vec3 vec9;
+							if (num16 < 0.0001f)
 							{
-								vec7 = vec4;
+								vec9 = vec6;
 							}
 							else
 							{
-								vec7 = f;
-								vec7 = vec7.RotateAboutAnArbitraryVector(vec6, num12 * dt * 5f);
+								vec9 = f;
+								vec9 = vec9.RotateAboutAnArbitraryVector(vec8, num16 * dt * 5f);
 							}
-							this.CameraBearing = vec7.RotationZ;
-							this.CameraElevation = vec7.RotationX;
+							this.CameraBearing = vec9.RotationZ;
+							this.CameraElevation = vec9.RotationX;
 						}
+					}
+					IL_F4E:
+					matrixFrame.rotation.RotateAboutSide(1.5707964f);
+					matrixFrame.rotation.RotateAboutForward(this.CameraBearing);
+					matrixFrame.rotation.RotateAboutSide(this.CameraElevation);
+					float actionChannelWeight = agentToFollow.GetActionChannelWeight(1);
+					float num17 = MBMath.WrapAngle(this.CameraBearing - agentToFollow.MovementDirectionAsAngle);
+					float num18 = 1f - (1f - actionChannelWeight) * MBMath.ClampFloat((MathF.Abs(num17) - 1f) * 0.66f, 0f, 1f);
+					float num19 = 0.25f;
+					float num20 = 0.15f;
+					float num21 = 0.15f;
+					Vec3 vec10 = frame.rotation.u * num19;
+					Vec3 vec11 = frame.rotation.u * num20 + Vec3.Forward * num21;
+					vec11.RotateAboutX(MBMath.ClampFloat(this.CameraElevation, -0.35f, 0.35f));
+					vec11.RotateAboutZ(this.CameraBearing);
+					Vec3 vec12 = frame.TransformToParent(boneEntitialFrame.origin);
+					vec12 += vec10;
+					vec12 += vec11;
+					if (actionChannelWeight > 0f)
+					{
+						this._currentViewBlockingBodyCoeff = (this._targetViewBlockingBodyCoeff = 1f);
+						this._applySmoothTransitionToVirtualEyeCamera = true;
 					}
 					else
 					{
-						float num13 = MBMath.WrapAngle(this.CameraBearing);
-						float num14 = MBMath.WrapAngle(this.CameraElevation);
-						float num15;
-						float num16;
-						MissionScreen.CalculateNewBearingAndElevation(agentToFollow, num13, num14, out num15, out num16);
-						this.CameraBearing = MBMath.LerpRadians(num13, num15, Math.Min(dt * 12f, 1f), 1E-05f, 0.5f);
-						this.CameraElevation = MBMath.LerpRadians(num14, num16, Math.Min(dt * 12f, 1f), 1E-05f, 0.5f);
+						Vec3 vec2 = vec5 - vec12;
+						Vec3 vec13 = vec2.NormalizedCopy();
+						if (Vec3.DotProduct(matrixFrame.rotation.u, vec13) > 0f)
+						{
+							vec13 = -vec13;
+						}
+						float num22 = 0.97499996f;
+						float num23 = MathF.Lerp(0.55f, 0.7f, MathF.Abs(matrixFrame.rotation.u.z), 1E-05f);
+						float num24;
+						GameEntity gameEntity;
+						if (this.Mission.Scene.RayCastForClosestEntityOrTerrain(vec5 - vec13 * (num22 * num23), vec5 + vec13 * (num22 * (1f - num23)), ref num24, ref vec2, ref gameEntity, 0.01f, 6666185))
+						{
+							float num25 = (num22 - num24) / 0.065f;
+							this._targetViewBlockingBodyCoeff = 1f / MathF.Max(1f, num25 * num25 * num25);
+						}
+						else
+						{
+							this._targetViewBlockingBodyCoeff = 1f;
+						}
+						if (this._currentViewBlockingBodyCoeff < this._targetViewBlockingBodyCoeff)
+						{
+							this._currentViewBlockingBodyCoeff = MathF.Min(this._currentViewBlockingBodyCoeff + dt * 12f, this._targetViewBlockingBodyCoeff);
+						}
+						else if (this._currentViewBlockingBodyCoeff > this._targetViewBlockingBodyCoeff)
+						{
+							if (this._applySmoothTransitionToVirtualEyeCamera)
+							{
+								this._currentViewBlockingBodyCoeff = MathF.Max(this._currentViewBlockingBodyCoeff - dt * 6f, this._targetViewBlockingBodyCoeff);
+							}
+							else
+							{
+								this._currentViewBlockingBodyCoeff = this._targetViewBlockingBodyCoeff;
+							}
+						}
+						else
+						{
+							this._applySmoothTransitionToVirtualEyeCamera = false;
+						}
+						num18 *= this._currentViewBlockingBodyCoeff;
 					}
-					MatrixFrame matrixFrame3 = matrixFrame;
-					matrixFrame3.origin = frame.TransformToParent(boneEntitialFrame.origin);
-					matrixFrame3.rotation.RotateAboutSide(1.5707964f);
-					matrixFrame3.rotation.RotateAboutForward(this.CameraBearing);
-					matrixFrame3.rotation.RotateAboutSide(this.CameraElevation);
-					Vec3 vec8 = agentToFollow.AgentVisuals.GetFrame().rotation.u * 0.25f;
-					Vec3 vec9 = agentToFollow.AgentVisuals.GetFrame().rotation.u * 0.15f + Vec3.Forward * 0.15f;
-					vec9.RotateAboutX(MBMath.ClampFloat(this.CameraElevation, -0.35f, 0.35f));
-					vec9.RotateAboutZ(this.CameraBearing);
-					matrixFrame3.origin += vec8;
-					matrixFrame3.origin += vec9;
-					MatrixFrame matrixFrame4 = matrixFrame;
-					matrixFrame4.origin = frame.TransformToParent(boneEntitialFrame2.origin);
-					matrixFrame4.rotation.RotateAboutSide(1.5707964f);
-					matrixFrame4.rotation.RotateAboutForward(this.CameraBearing);
-					matrixFrame4.rotation.RotateAboutSide(this.CameraElevation);
-					float actionChannelWeight = agentToFollow.GetActionChannelWeight(1);
-					matrixFrame.origin.z = MBMath.Lerp(matrixFrame3.origin.z, matrixFrame4.origin.z, actionChannelWeight, 1E-05f);
-					float num17 = MBMath.WrapAngle(this.CameraBearing - agentToFollow.MovementDirectionAsAngle);
-					float num18 = 1f - (1f - actionChannelWeight) * MBMath.ClampFloat((MathF.Abs(num17) - 1f) * 0.66f, 0f, 1f);
-					matrixFrame.origin.x = MBMath.Lerp(matrixFrame3.origin.x, matrixFrame4.origin.x, num18, 1E-05f);
-					matrixFrame.origin.y = MBMath.Lerp(matrixFrame3.origin.y, matrixFrame4.origin.y, num18, 1E-05f);
-					matrixFrame.rotation = matrixFrame4.rotation;
+					matrixFrame.origin.x = MBMath.Lerp(vec12.x, vec5.x, num18, 1E-05f);
+					matrixFrame.origin.y = MBMath.Lerp(vec12.y, vec5.y, num18, 1E-05f);
+					matrixFrame.origin.z = MBMath.Lerp(vec12.z, vec5.z, actionChannelWeight, 1E-05f);
 				}
 				else
 				{
@@ -1100,29 +1167,29 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 			else
 			{
-				float num19 = 0.6f;
-				float num20 = 0f;
+				float num26 = 0.6f;
+				float num27 = 0f;
 				bool flag7 = agentVisualToFollow != null;
-				float num21 = 1f;
+				float num28 = 1f;
 				bool flag8 = false;
-				float num23;
+				float num30;
 				if (flag7)
 				{
 					this._cameraSpecialTargetAddedBearing = 0f;
 					this._cameraSpecialTargetAddedElevation = 0f;
 					this._cameraSpecialTargetPositionToAdd = Vec3.Zero;
 					this._cameraSpecialTargetDistanceToAdd = 0f;
-					num19 = 1.25f;
+					num26 = 1.25f;
 					flag3 = flag3 || agentVisualToFollow != this.LastFollowedAgentVisuals;
 					if (agentVisualToFollow.GetEquipment().Horse.Item != null)
 					{
-						float num22 = (float)agentVisualToFollow.GetEquipment().Horse.Item.HorseComponent.BodyLength * 0.01f;
-						num19 += 2f;
-						num23 = 1f * num22 + 0.9f * num21 - 0.2f;
+						float num29 = (float)agentVisualToFollow.GetEquipment().Horse.Item.HorseComponent.BodyLength * 0.01f;
+						num26 += 2f;
+						num30 = 1f * num29 + 0.9f * num28 - 0.2f;
 					}
 					else
 					{
-						num23 = 1f * num21;
+						num30 = 1f * num28;
 					}
 					this.CameraBearing = MBMath.WrapAngle(agentVisualToFollow.GetFrame().rotation.f.RotationZ + 3.1415927f);
 					this.CameraElevation = 0.15f;
@@ -1130,7 +1197,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 				else
 				{
 					flag8 = agentToFollow.HasMount;
-					num21 = agentToFollow.AgentScale;
+					num28 = agentToFollow.AgentScale;
 					flag3 = flag3 || agentToFollow != this.LastFollowedAgent;
 					if (this.Mission.Mode == 1 || this.Mission.Mode == 5)
 					{
@@ -1139,62 +1206,65 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 						{
 							MissionMainAgentController missionMainAgentController4 = this._missionMainAgentController;
 							Agent agent3 = ((missionMainAgentController4 != null) ? missionMainAgentController4.InteractionComponent.CurrentFocusedObject : null) as Agent;
-							num23 = (agent3.AgentVisuals.GetGlobalStableEyePoint(true).z + agentToFollow.AgentVisuals.GetGlobalStableEyePoint(true).z) * 0.5f - agentToFollow.Position.z;
+							num30 = (agent3.AgentVisuals.GetGlobalStableEyePoint(true).z + agentToFollow.AgentVisuals.GetGlobalStableEyePoint(true).z) * 0.5f - agentToFollow.Position.z;
 							if (agent3.HasMount)
 							{
-								num19 += 0.1f;
+								num26 += 0.1f;
 							}
 							if (this.Mission.Mode == 5)
 							{
-								Vec2 vec10 = agent3.Position.AsVec2 - agentToFollow.Position.AsVec2;
-								float length = vec10.Length;
-								float num24 = MathF.Max(num19 + Mission.CameraAddedDistance, 0.48f) * num21 + length * 0.5f;
-								num23 += -0.004f * num24 * this._cameraSpecialCurrentFOV;
+								Vec3 vec2 = agent3.Position;
+								Vec2 asVec = vec2.AsVec2;
+								vec2 = agentToFollow.Position;
+								Vec2 vec14 = asVec - vec2.AsVec2;
+								float length = vec14.Length;
+								float num31 = MathF.Max(num26 + Mission.CameraAddedDistance, 0.48f) * num28 + length * 0.5f;
+								num30 += -0.004f * num31 * this._cameraSpecialCurrentFOV;
 								Vec3 globalStableEyePoint = agent3.AgentVisuals.GetGlobalStableEyePoint(agent3.IsHuman);
 								Vec3 globalStableEyePoint2 = agentToFollow.AgentVisuals.GetGlobalStableEyePoint(agentToFollow.IsHuman);
-								float num25 = vec10.RotationInRadians - MathF.Min(0.47123894f, 0.4f / length);
-								this._cameraSpecialTargetAddedBearing = MBMath.WrapAngle(num25 - this.CameraBearing);
-								Vec2 vec11;
-								vec11..ctor(globalStableEyePoint.z - globalStableEyePoint2.z, MathF.Max(length, 1f));
-								float num26 = (flag8 ? (-0.03f) : 0f) - vec11.RotationInRadians;
-								this._cameraSpecialTargetAddedElevation = num26 - this.CameraElevation + MathF.Asin(-0.2f * (num24 - length * 0.5f) / num24);
-								goto IL_1590;
+								float num32 = vec14.RotationInRadians - MathF.Min(0.47123894f, 0.4f / length);
+								this._cameraSpecialTargetAddedBearing = MBMath.WrapAngle(num32 - this.CameraBearing);
+								Vec2 vec15;
+								vec15..ctor(globalStableEyePoint.z - globalStableEyePoint2.z, MathF.Max(length, 1f));
+								float num33 = (flag8 ? (-0.03f) : 0f) - vec15.RotationInRadians;
+								this._cameraSpecialTargetAddedElevation = num33 - this.CameraElevation + MathF.Asin(-0.2f * (num31 - length * 0.5f) / num31);
+								goto IL_16A1;
 							}
-							goto IL_1590;
+							goto IL_16A1;
 						}
 					}
 					if (flag8)
 					{
-						num19 += 0.1f;
+						num26 += 0.1f;
 						Agent mountAgent = agentToFollow.MountAgent;
 						Monster monster = mountAgent.Monster;
-						num23 = (monster.RiderCameraHeightAdder + monster.BodyCapsulePoint1.z + monster.BodyCapsuleRadius) * mountAgent.AgentScale + agentToFollow.Monster.CrouchEyeHeight * num21;
+						num30 = (monster.RiderCameraHeightAdder + monster.BodyCapsulePoint1.z + monster.BodyCapsuleRadius) * mountAgent.AgentScale + agentToFollow.Monster.CrouchEyeHeight * num28;
 					}
 					else if (agentToFollow.AgentVisuals.GetCurrentRagdollState() == 3)
 					{
-						num23 = 0.5f;
+						num30 = 0.5f;
 					}
 					else if ((agentToFollow.GetCurrentAnimationFlag(0) & 1073741824L) != null)
 					{
-						num23 = 0.5f;
+						num30 = 0.5f;
 					}
 					else if (agentToFollow.CrouchMode || agentToFollow.IsSitting())
 					{
-						num23 = (agentToFollow.Monster.CrouchEyeHeight + 0.2f) * num21;
+						num30 = (agentToFollow.Monster.CrouchEyeHeight + 0.2f) * num28;
 					}
 					else
 					{
-						num23 = (agentToFollow.Monster.StandingEyeHeight + 0.2f) * num21;
+						num30 = (agentToFollow.Monster.StandingEyeHeight + 0.2f) * num28;
 					}
-					IL_1590:
+					IL_16A1:
 					if ((this.IsViewingCharacter() && (cameraType != 6 || agentToFollow == this.Mission.MainAgent)) || this.IsPhotoModeEnabled)
 					{
-						num23 *= 0.5f;
-						num19 += 0.5f;
+						num30 *= 0.5f;
+						num26 += 0.5f;
 					}
 					else if (agentToFollow.HasMount && agentToFollow.IsDoingPassiveAttack && (cameraType != 6 || agentToFollow == this.Mission.MainAgent))
 					{
-						num23 *= 1.1f;
+						num30 *= 1.1f;
 					}
 					if (this._cameraAddSpecialMovement)
 					{
@@ -1206,18 +1276,21 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 								Agent agent4 = this._missionMainAgentController.InteractionComponent.CurrentFocusedObject as Agent;
 								Vec3 globalStableEyePoint3 = agent4.AgentVisuals.GetGlobalStableEyePoint(true);
 								Vec3 globalStableEyePoint4 = agentToFollow.AgentVisuals.GetGlobalStableEyePoint(true);
-								Vec2 vec12 = agent4.Position.AsVec2 - agentToFollow.Position.AsVec2;
-								float length2 = vec12.Length;
-								this._cameraSpecialTargetPositionToAdd = new Vec3(vec12 * 0.5f, 0f, -1f);
-								this._cameraSpecialTargetDistanceToAdd = length2 * (flag8 ? 1.3f : 0.8f) - num19;
-								float num27 = vec12.RotationInRadians - MathF.Min(0.47123894f, 0.48f / length2);
-								this._cameraSpecialTargetAddedBearing = MBMath.WrapAngle(num27 - this.CameraBearing);
-								Vec2 vec13;
-								vec13..ctor(globalStableEyePoint3.z - globalStableEyePoint4.z, MathF.Max(length2, 1f));
-								float num28 = (flag8 ? (-0.03f) : 0f) - vec13.RotationInRadians;
-								this._cameraSpecialTargetAddedElevation = num28 - this.CameraElevation;
+								Vec3 vec2 = agent4.Position;
+								Vec2 asVec2 = vec2.AsVec2;
+								vec2 = agentToFollow.Position;
+								Vec2 vec16 = asVec2 - vec2.AsVec2;
+								float length2 = vec16.Length;
+								this._cameraSpecialTargetPositionToAdd = new Vec3(vec16 * 0.5f, 0f, -1f);
+								this._cameraSpecialTargetDistanceToAdd = length2 * (flag8 ? 1.3f : 0.8f) - num26;
+								float num34 = vec16.RotationInRadians - MathF.Min(0.47123894f, 0.48f / length2);
+								this._cameraSpecialTargetAddedBearing = MBMath.WrapAngle(num34 - this.CameraBearing);
+								Vec2 vec17;
+								vec17..ctor(globalStableEyePoint3.z - globalStableEyePoint4.z, MathF.Max(length2, 1f));
+								float num35 = (flag8 ? (-0.03f) : 0f) - vec17.RotationInRadians;
+								this._cameraSpecialTargetAddedElevation = num35 - this.CameraElevation;
 								this._cameraSpecialTargetFOV = MathF.Min(32.5f, 50f / length2);
-								goto IL_17CC;
+								goto IL_18DD;
 							}
 						}
 						this._cameraSpecialTargetPositionToAdd = Vec3.Zero;
@@ -1225,7 +1298,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 						this._cameraSpecialTargetAddedBearing = 0f;
 						this._cameraSpecialTargetAddedElevation = 0f;
 						this._cameraSpecialTargetFOV = 65f;
-						IL_17CC:
+						IL_18DD:
 						if (flag3)
 						{
 							this._cameraSpecialCurrentPositionToAdd = this._cameraSpecialTargetPositionToAdd;
@@ -1237,59 +1310,59 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 					}
 					if (this._cameraSpecialCurrentDistanceToAdd != this._cameraSpecialTargetDistanceToAdd)
 					{
-						float num29 = this._cameraSpecialTargetDistanceToAdd - this._cameraSpecialCurrentDistanceToAdd;
-						if (flag3 || MathF.Abs(num29) < 0.0001f)
+						float num36 = this._cameraSpecialTargetDistanceToAdd - this._cameraSpecialCurrentDistanceToAdd;
+						if (flag3 || MathF.Abs(num36) < 0.0001f)
 						{
 							this._cameraSpecialCurrentDistanceToAdd = this._cameraSpecialTargetDistanceToAdd;
 						}
 						else
 						{
-							float num30 = num29 * 4f * dt;
-							this._cameraSpecialCurrentDistanceToAdd += num30;
+							float num37 = num36 * 4f * dt;
+							this._cameraSpecialCurrentDistanceToAdd += num37;
 						}
 					}
-					num19 += this._cameraSpecialCurrentDistanceToAdd;
+					num26 += this._cameraSpecialCurrentDistanceToAdd;
 				}
 				if (flag3)
 				{
-					this._cameraTargetAddedHeight = num23;
+					this._cameraTargetAddedHeight = num30;
 				}
 				else
 				{
-					this._cameraTargetAddedHeight += (num23 - this._cameraTargetAddedHeight) * dt * 6f * num21;
+					this._cameraTargetAddedHeight += (num30 - this._cameraTargetAddedHeight) * dt * 6f * num28;
 				}
 				if (this._cameraSpecialTargetAddedBearing != this._cameraSpecialCurrentAddedBearing)
 				{
-					float num31 = this._cameraSpecialTargetAddedBearing - this._cameraSpecialCurrentAddedBearing;
-					if (flag3 || MathF.Abs(num31) < 0.0001f)
+					float num38 = this._cameraSpecialTargetAddedBearing - this._cameraSpecialCurrentAddedBearing;
+					if (flag3 || MathF.Abs(num38) < 0.0001f)
 					{
 						this._cameraSpecialCurrentAddedBearing = this._cameraSpecialTargetAddedBearing;
 					}
 					else
 					{
-						float num32 = num31 * 10f * dt;
-						this._cameraSpecialCurrentAddedBearing += num32;
+						float num39 = num38 * 10f * dt;
+						this._cameraSpecialCurrentAddedBearing += num39;
 					}
 				}
 				if (this._cameraSpecialTargetAddedElevation != this._cameraSpecialCurrentAddedElevation)
 				{
-					float num33 = this._cameraSpecialTargetAddedElevation - this._cameraSpecialCurrentAddedElevation;
-					if (flag3 || MathF.Abs(num33) < 0.0001f)
+					float num40 = this._cameraSpecialTargetAddedElevation - this._cameraSpecialCurrentAddedElevation;
+					if (flag3 || MathF.Abs(num40) < 0.0001f)
 					{
 						this._cameraSpecialCurrentAddedElevation = this._cameraSpecialTargetAddedElevation;
 					}
 					else
 					{
-						float num34 = num33 * 8f * dt;
-						this._cameraSpecialCurrentAddedElevation += num34;
+						float num41 = num40 * 8f * dt;
+						this._cameraSpecialCurrentAddedElevation += num41;
 					}
 				}
 				matrixFrame.rotation.RotateAboutSide(1.5707964f);
 				if (agentToFollow != null && !agentToFollow.IsMine && cameraType == 6)
 				{
 					Vec3 lookDirection = agentToFollow.LookDirection;
-					Vec2 vec2 = lookDirection.AsVec2;
-					matrixFrame.rotation.RotateAboutForward(vec2.RotationInRadians);
+					Vec2 vec3 = lookDirection.AsVec2;
+					matrixFrame.rotation.RotateAboutForward(vec3.RotationInRadians);
 					matrixFrame.rotation.RotateAboutSide(MathF.Asin(lookDirection.z));
 				}
 				else
@@ -1298,12 +1371,12 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 					matrixFrame.rotation.RotateAboutSide(this.CameraElevation + this._cameraSpecialCurrentAddedElevation);
 					if (this.IsPhotoModeEnabled)
 					{
-						float num35 = -scene.GetPhotoModeRoll();
-						matrixFrame.rotation.RotateAboutUp(num35);
+						float num42 = -scene.GetPhotoModeRoll();
+						matrixFrame.rotation.RotateAboutUp(num42);
 					}
 				}
-				MatrixFrame matrixFrame5 = matrixFrame;
-				float num36 = MathF.Max(num19 + Mission.CameraAddedDistance, 0.48f) * num21;
+				MatrixFrame matrixFrame3 = matrixFrame;
+				float num43 = MathF.Max(num26 + Mission.CameraAddedDistance, 0.48f) * num28;
 				if (this.Mission.Mode != 1 && this.Mission.Mode != 5 && agentToFollow != null && agentToFollow.IsActive() && BannerlordConfig.EnableVerticalAimCorrection)
 				{
 					WeaponComponentData currentUsageItem = agentToFollow.WieldedWeapon.CurrentUsageItem;
@@ -1311,60 +1384,64 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 					{
 						MatrixFrame frame2 = this.CombatCamera.Frame;
 						frame2.rotation.RotateAboutSide(-this._cameraAddedElevation);
-						float num37;
+						float num44;
 						if (flag8)
 						{
 							Agent mountAgent2 = agentToFollow.MountAgent;
 							Monster monster2 = mountAgent2.Monster;
-							num37 = (monster2.RiderCameraHeightAdder + monster2.BodyCapsulePoint1.z + monster2.BodyCapsuleRadius) * mountAgent2.AgentScale + agentToFollow.Monster.CrouchEyeHeight * num21;
+							num44 = (monster2.RiderCameraHeightAdder + monster2.BodyCapsulePoint1.z + monster2.BodyCapsuleRadius) * mountAgent2.AgentScale + agentToFollow.Monster.CrouchEyeHeight * num28;
 						}
 						else
 						{
-							num37 = agentToFollow.Monster.StandingEyeHeight * num21;
+							num44 = agentToFollow.Monster.StandingEyeHeight * num28;
 						}
 						if (Extensions.HasAnyFlag<WeaponFlags>(currentUsageItem.WeaponFlags, 4294967296L))
 						{
-							num37 *= 1.25f;
+							num44 *= 1.25f;
 						}
-						float num39;
+						float num46;
 						if (flag3)
 						{
-							Vec3 vec14 = agentToFollow.Position + matrixFrame.rotation.f * num21 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num36 / num21 - 0.2f) * 30f + 20f)), 3500f));
-							vec14.z += this._cameraTargetAddedHeight;
-							Vec3 vec15 = vec14 + matrixFrame.rotation.u * num36;
-							float z = vec15.z;
-							float num38 = -matrixFrame5.rotation.u.z;
-							Vec2 vec2 = vec15.AsVec2 - agentToFollow.Position.AsVec2;
-							num39 = z + num38 * vec2.Length - (agentToFollow.Position.z + num37);
+							Vec3 vec18 = agentToFollow.Position + matrixFrame.rotation.f * num28 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num43 / num28 - 0.2f) * 30f + 20f)), 3500f));
+							vec18.z += this._cameraTargetAddedHeight;
+							Vec3 vec19 = vec18 + matrixFrame.rotation.u * num43;
+							float z = vec19.z;
+							float num45 = -matrixFrame3.rotation.u.z;
+							Vec2 asVec3 = vec19.AsVec2;
+							Vec3 vec2 = agentToFollow.Position;
+							Vec2 vec3 = asVec3 - vec2.AsVec2;
+							num46 = z + num45 * vec3.Length - (agentToFollow.Position.z + num44);
 						}
 						else
 						{
 							float z2 = frame2.origin.z;
-							float num40 = -frame2.rotation.u.z;
-							Vec2 vec2 = frame2.origin.AsVec2 - agentToFollow.Position.AsVec2;
-							num39 = z2 + num40 * vec2.Length - (agentToFollow.Position.z + num37);
+							float num47 = -frame2.rotation.u.z;
+							Vec2 asVec4 = frame2.origin.AsVec2;
+							Vec3 vec2 = agentToFollow.Position;
+							Vec2 vec3 = asVec4 - vec2.AsVec2;
+							num46 = z2 + num47 * vec3.Length - (agentToFollow.Position.z + num44);
 						}
-						if (num39 > 0f)
+						if (num46 > 0f)
 						{
-							num20 = MathF.Max(-0.15f, -MathF.Asin(MathF.Min(1f, MathF.Sqrt(19.6f * num39) / (float)agentToFollow.WieldedWeapon.GetModifiedMissileSpeedForCurrentUsage())));
+							num27 = MathF.Max(-0.15f, -MathF.Asin(MathF.Min(1f, MathF.Sqrt(19.6f * num46) / (float)agentToFollow.WieldedWeapon.GetModifiedMissileSpeedForCurrentUsage())));
 						}
 						else
 						{
-							num20 = 0f;
+							num27 = 0f;
 						}
 					}
 					else
 					{
-						num20 = ManagedParameters.Instance.GetManagedParameter(2);
+						num27 = ManagedParameters.Instance.GetManagedParameter(2);
 					}
 				}
 				if (flag3 || this.IsPhotoModeEnabled)
 				{
-					this._cameraAddedElevation = num20;
+					this._cameraAddedElevation = num27;
 				}
 				else
 				{
-					this._cameraAddedElevation += (num20 - this._cameraAddedElevation) * dt * 3f;
+					this._cameraAddedElevation += (num27 - this._cameraAddedElevation) * dt * 3f;
 				}
 				if (!this.IsPhotoModeEnabled)
 				{
@@ -1373,158 +1450,158 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 				bool flag9 = this.IsViewingCharacter() && !GameNetwork.IsSessionActive;
 				bool flag10 = agentToFollow != null && agentToFollow.AgentVisuals != null && agentToFollow.AgentVisuals.GetCurrentRagdollState() > 0;
 				bool flag11 = agentToFollow != null && agentToFollow.IsActive() && agentToFollow.GetCurrentActionType(0) == 36;
-				Vec2 vec16 = Vec2.Zero;
-				Vec3 vec17;
-				Vec3 vec18;
+				Vec2 vec20 = Vec2.Zero;
+				Vec3 vec21;
+				Vec3 vec22;
 				if (flag7)
 				{
-					vec17 = this.GetPlayerAgentVisuals(missionPeer).GetVisuals().GetGlobalFrame()
-						.origin;
-					vec18 = vec17;
+					MBAgentVisuals visuals = this.GetPlayerAgentVisuals(missionPeer).GetVisuals();
+					vec21 = ((visuals != null) ? visuals.GetGlobalFrame().origin : missionPeer.ControlledAgent.Position);
+					vec22 = vec21;
 				}
 				else
 				{
-					vec17 = agentToFollow.VisualPosition;
-					vec18 = (flag10 ? agentToFollow.AgentVisuals.GetFrame().origin : vec17);
+					vec21 = agentToFollow.VisualPosition;
+					vec22 = (flag10 ? agentToFollow.AgentVisuals.GetFrame().origin : vec21);
 					if (flag8)
 					{
-						vec16 = agentToFollow.MountAgent.GetMovementDirection() * agentToFollow.MountAgent.Monster.RiderBodyCapsuleForwardAdder;
-						vec18 += vec16.ToVec3(0f);
+						vec20 = agentToFollow.MountAgent.GetMovementDirection() * agentToFollow.MountAgent.Monster.RiderBodyCapsuleForwardAdder;
+						vec22 += vec20.ToVec3(0f);
 					}
 				}
 				if (this._cameraAddSpecialPositionalMovement)
 				{
-					Vec3 vec19 = matrixFrame5.rotation.f * num21 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num36 / num21 - 0.2f) * 30f + 20f)), 3500f));
+					Vec3 vec23 = matrixFrame3.rotation.f * num28 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num43 / num28 - 0.2f) * 30f + 20f)), 3500f));
 					if (this.Mission.Mode == 1 || this.Mission.Mode == 5)
 					{
-						this._cameraSpecialCurrentPositionToAdd += vec19;
+						this._cameraSpecialCurrentPositionToAdd += vec23;
 					}
 					else
 					{
-						this._cameraSpecialCurrentPositionToAdd -= vec19;
+						this._cameraSpecialCurrentPositionToAdd -= vec23;
 					}
 				}
 				if (this._cameraSpecialCurrentPositionToAdd != this._cameraSpecialTargetPositionToAdd)
 				{
-					Vec3 vec20 = this._cameraSpecialTargetPositionToAdd - this._cameraSpecialCurrentPositionToAdd;
-					if (flag3 || vec20.LengthSquared < 1.0000001E-06f)
+					Vec3 vec24 = this._cameraSpecialTargetPositionToAdd - this._cameraSpecialCurrentPositionToAdd;
+					if (flag3 || vec24.LengthSquared < 1.0000001E-06f)
 					{
 						this._cameraSpecialCurrentPositionToAdd = this._cameraSpecialTargetPositionToAdd;
 					}
 					else
 					{
-						this._cameraSpecialCurrentPositionToAdd += vec20 * 4f * dt;
+						this._cameraSpecialCurrentPositionToAdd += vec24 * 4f * dt;
 					}
 				}
-				vec17 += this._cameraSpecialCurrentPositionToAdd;
-				vec18 += this._cameraSpecialCurrentPositionToAdd;
-				vec18.z += this._cameraTargetAddedHeight;
-				int num41 = 0;
+				vec21 += this._cameraSpecialCurrentPositionToAdd;
+				vec22 += this._cameraSpecialCurrentPositionToAdd;
+				vec22.z += this._cameraTargetAddedHeight;
+				int num48 = 0;
 				bool flag12 = agentToFollow != null;
-				Vec3 vec21 = (flag12 ? (flag8 ? agentToFollow.MountAgent.GetChestGlobalPosition() : agentToFollow.GetChestGlobalPosition()) : Vec3.Invalid);
+				Vec3 vec25 = (flag12 ? (flag8 ? agentToFollow.MountAgent.GetChestGlobalPosition() : agentToFollow.GetChestGlobalPosition()) : Vec3.Invalid);
 				bool flag13;
 				do
 				{
-					Vec3 vec22 = vec18;
+					Vec3 vec26 = vec22;
 					if (this.Mission.Mode != 1 && this.Mission.Mode != 5)
 					{
-						vec22 += matrixFrame5.rotation.f * num21 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num36 / num21 - 0.2f) * 30f + 20f)), 3500f));
+						vec26 += matrixFrame3.rotation.f * num28 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num43 / num28 - 0.2f) * 30f + 20f)), 3500f));
 					}
-					Vec3 vec23 = vec22 + matrixFrame5.rotation.u * num36;
+					Vec3 vec27 = vec26 + matrixFrame3.rotation.u * num43;
 					if (flag10 || flag11)
 					{
-						float num42 = 0f;
+						float num49 = 0f;
 						if (flag11)
 						{
 							float currentActionProgress = agentToFollow.GetCurrentActionProgress(0);
-							num42 = currentActionProgress * currentActionProgress * 20f;
+							num49 = currentActionProgress * currentActionProgress * 20f;
 						}
-						vec22 = this._cameraTarget + (vec22 - this._cameraTarget) * (5f + num42) * dt;
+						vec26 = this._cameraTarget + (vec26 - this._cameraTarget) * (5f + num49) * dt;
 					}
 					flag13 = false;
-					MatrixFrame matrixFrame6;
-					matrixFrame6..ctor(matrixFrame.rotation, vec23);
-					Camera.GetNearPlanePointsStatic(ref matrixFrame6, this.IsPhotoModeEnabled ? (num * 0.017453292f) : (this.CameraViewAngle * 0.017453292f), Screen.AspectRatio, 0.2f, 1f, this._cameraNearPlanePoints);
-					Vec3 vec24 = Vec3.Zero;
+					MatrixFrame matrixFrame4;
+					matrixFrame4..ctor(matrixFrame.rotation, vec27);
+					Camera.GetNearPlanePointsStatic(ref matrixFrame4, this.IsPhotoModeEnabled ? (num * 0.017453292f) : (this.CameraViewAngle * 0.017453292f), Screen.AspectRatio, 0.2f, 1f, this._cameraNearPlanePoints);
+					Vec3 vec28 = Vec3.Zero;
 					for (int i = 0; i < 4; i++)
 					{
-						vec24 += this._cameraNearPlanePoints[i];
+						vec28 += this._cameraNearPlanePoints[i];
 					}
-					vec24 *= 0.25f;
-					Vec3 vec25;
-					vec25..ctor(vec17.AsVec2 + vec16, vec22.z, -1f);
-					Vec3 vec26 = vec25 - vec24;
+					vec28 *= 0.25f;
+					Vec3 vec29;
+					vec29..ctor(vec21.AsVec2 + vec20, vec26.z, -1f);
+					Vec3 vec30 = vec29 - vec28;
 					for (int j = 0; j < 4; j++)
 					{
-						this._cameraNearPlanePoints[j] += vec26;
+						this._cameraNearPlanePoints[j] += vec30;
 					}
-					this._cameraBoxPoints[0] = this._cameraNearPlanePoints[3] + matrixFrame6.rotation.u * 0.01f;
+					this._cameraBoxPoints[0] = this._cameraNearPlanePoints[3] + matrixFrame4.rotation.u * 0.01f;
 					this._cameraBoxPoints[1] = this._cameraNearPlanePoints[0];
 					this._cameraBoxPoints[2] = this._cameraNearPlanePoints[3];
 					this._cameraBoxPoints[3] = this._cameraNearPlanePoints[2];
-					this._cameraBoxPoints[4] = this._cameraNearPlanePoints[1] + matrixFrame6.rotation.u * 0.01f;
-					this._cameraBoxPoints[5] = this._cameraNearPlanePoints[0] + matrixFrame6.rotation.u * 0.01f;
+					this._cameraBoxPoints[4] = this._cameraNearPlanePoints[1] + matrixFrame4.rotation.u * 0.01f;
+					this._cameraBoxPoints[5] = this._cameraNearPlanePoints[0] + matrixFrame4.rotation.u * 0.01f;
 					this._cameraBoxPoints[6] = this._cameraNearPlanePoints[1];
-					this._cameraBoxPoints[7] = this._cameraNearPlanePoints[2] + matrixFrame6.rotation.u * 0.01f;
-					float num43 = ((this.IsPhotoModeEnabled && !flag && photoModeOrbit) ? this._zoomAmount : 0f);
-					num36 += num43;
-					float num44;
-					Vec3 vec27;
+					this._cameraBoxPoints[7] = this._cameraNearPlanePoints[2] + matrixFrame4.rotation.u * 0.01f;
+					float num50 = ((this.IsPhotoModeEnabled && !flag && photoModeOrbit) ? this._zoomAmount : 0f);
+					num43 += num50;
 					GameEntity gameEntity;
-					if (scene.BoxCastOnlyForCamera(this._cameraBoxPoints, vec25, flag12, vec21, matrixFrame6.rotation.u, num36 + 0.5f, ref num44, ref vec27, ref gameEntity, true, true, 6666185))
+					float num51;
+					Vec3 vec31;
+					if (scene.BoxCastOnlyForCamera(this._cameraBoxPoints, vec29, flag12, vec25, matrixFrame4.rotation.u, num43 + 0.5f, ref num51, ref vec31, ref gameEntity, true, true, 6666185))
 					{
-						num44 = MathF.Max(Vec3.DotProduct(matrixFrame6.rotation.u, vec27 - vec22), 0.48f * num21);
-						if (num44 < num36)
+						num51 = MathF.Max(Vec3.DotProduct(matrixFrame4.rotation.u, vec31 - vec26), 0.48f * num28);
+						if (num51 < num43)
 						{
 							flag13 = true;
-							num36 = num44;
+							num43 = num51;
 						}
 					}
-					num41++;
+					num48++;
 				}
-				while (!flag9 && num41 < 5 && flag13);
-				num19 = num36 - Mission.CameraAddedDistance;
-				if (flag3 || (this.CameraResultDistanceToTarget > num36 && num41 > 1))
+				while (!flag9 && num48 < 5 && flag13);
+				num26 = num43 - Mission.CameraAddedDistance;
+				if (flag3 || (this.CameraResultDistanceToTarget > num43 && num48 > 1))
 				{
-					this.CameraResultDistanceToTarget = num36;
+					this.CameraResultDistanceToTarget = num43;
 				}
 				else
 				{
-					float num45 = MathF.Max(MathF.Abs(Mission.CameraAddedDistance - this._lastCameraAddedDistance) * num21, MathF.Abs((num19 - (this.CameraResultDistanceToTarget - this._lastCameraAddedDistance)) * dt * 3f * num21));
-					this.CameraResultDistanceToTarget += MBMath.ClampFloat(num36 - this.CameraResultDistanceToTarget, -num45, num45);
+					float num52 = MathF.Max(MathF.Abs(Mission.CameraAddedDistance - this._lastCameraAddedDistance) * num28, MathF.Abs((num26 - (this.CameraResultDistanceToTarget - this._lastCameraAddedDistance)) * dt * 3f * num28));
+					this.CameraResultDistanceToTarget += MBMath.ClampFloat(num43 - this.CameraResultDistanceToTarget, -num52, num52);
 				}
 				this._lastCameraAddedDistance = Mission.CameraAddedDistance;
-				this._cameraTarget = vec18;
+				this._cameraTarget = vec22;
 				if (this.Mission.Mode != 1 && this.Mission.Mode != 5)
 				{
-					this._cameraTarget += matrixFrame5.rotation.f * num21 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num36 / num21 - 0.2f) * 30f + 20f)), 3500f));
+					this._cameraTarget += matrixFrame3.rotation.f * num28 * (0.7f * MathF.Pow(MathF.Cos(1f / ((num43 / num28 - 0.2f) * 30f + 20f)), 3500f));
 				}
-				matrixFrame.origin = this._cameraTarget + matrixFrame5.rotation.u * this.CameraResultDistanceToTarget;
+				matrixFrame.origin = this._cameraTarget + matrixFrame3.rotation.u * this.CameraResultDistanceToTarget;
 			}
 			if (this._cameraSpecialCurrentFOV != this._cameraSpecialTargetFOV)
 			{
-				float num46 = this._cameraSpecialTargetFOV - this._cameraSpecialCurrentFOV;
-				if (flag3 || MathF.Abs(num46) < 0.001f)
+				float num53 = this._cameraSpecialTargetFOV - this._cameraSpecialCurrentFOV;
+				if (flag3 || MathF.Abs(num53) < 0.001f)
 				{
 					this._cameraSpecialCurrentFOV = this._cameraSpecialTargetFOV;
 				}
 				else
 				{
-					this._cameraSpecialCurrentFOV += num46 * 3f * dt;
+					this._cameraSpecialCurrentFOV += num53 * 3f * dt;
 				}
 			}
-			float num47 = (this.Mission.CameraIsFirstPerson ? 0.065f : 0.1f);
+			float num54 = (this.Mission.CameraIsFirstPerson ? 0.065f : 0.1f);
 			this.CombatCamera.Frame = matrixFrame;
 			if (this.IsPhotoModeEnabled)
 			{
-				float num48 = 0f;
-				float num49 = 0f;
-				float num50 = 0f;
-				float num51 = 0f;
+				float num55 = 0f;
+				float num56 = 0f;
+				float num57 = 0f;
+				float num58 = 0f;
 				bool flag14 = false;
-				scene.GetPhotoModeFocus(ref num49, ref num50, ref num48, ref num51, ref flag14);
-				scene.SetDepthOfFieldFocus(num48);
-				scene.SetDepthOfFieldParameters(num49, num50, flag14);
+				scene.GetPhotoModeFocus(ref num56, ref num57, ref num55, ref num58, ref flag14);
+				scene.SetDepthOfFieldFocus(num55);
+				scene.SetDepthOfFieldParameters(num56, num57, flag14);
 			}
 			else
 			{
@@ -1536,8 +1613,10 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 						MissionMainAgentController missionMainAgentController7 = this._missionMainAgentController;
 						Agent agent5 = ((missionMainAgentController7 != null) ? missionMainAgentController7.InteractionComponent.CurrentFocusedObject : null) as Agent;
 						scene.SetDepthOfFieldParameters(5f, 5f, false);
-						scene.SetDepthOfFieldFocus((matrixFrame.origin - agent5.AgentVisuals.GetGlobalStableEyePoint(true)).Length);
-						goto IL_25C5;
+						Scene scene2 = scene;
+						Vec3 vec2 = matrixFrame.origin - agent5.AgentVisuals.GetGlobalStableEyePoint(true);
+						scene2.SetDepthOfFieldFocus(vec2.Length);
+						goto IL_26E8;
 					}
 				}
 				if (!MBMath.ApproximatelyEqualsTo(this._zoomAmount, 1f, 1E-05f))
@@ -1546,11 +1625,11 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 					scene.SetDepthOfFieldFocus(0f);
 				}
 			}
-			IL_25C5:
-			this.CombatCamera.SetFovVertical(this.IsPhotoModeEnabled ? (num * 0.017453292f) : (this._cameraSpecialCurrentFOV * (this.CameraViewAngle / 65f) * 0.017453292f), Screen.AspectRatio, num47, 12500f);
+			IL_26E8:
+			this.CombatCamera.SetFovVertical(this.IsPhotoModeEnabled ? (num * 0.017453292f) : (this._cameraSpecialCurrentFOV * (this.CameraViewAngle / 65f) * 0.017453292f), Screen.AspectRatio, num54, 12500f);
 			this.SceneView.SetCamera(this.CombatCamera);
-			Vec3 vec28 = ((agentToFollow != null) ? agentToFollow.GetEyeGlobalPosition() : matrixFrame.origin);
-			this.Mission.SetCameraFrame(ref matrixFrame, 65f / this.CameraViewAngle, ref vec28);
+			Vec3 vec32 = ((agentToFollow != null) ? agentToFollow.GetEyeGlobalPosition() : matrixFrame.origin);
+			this.Mission.SetCameraFrame(ref matrixFrame, 65f / this.CameraViewAngle, ref vec32);
 			if (this.LastFollowedAgent != null && this.LastFollowedAgent != this.Mission.MainAgent && (agentToFollow == this.Mission.MainAgent || agentToFollow == null))
 			{
 				MissionScreen.OnSpectateAgentDelegate onSpectateAgentFocusOut = this.OnSpectateAgentFocusOut;
@@ -1587,7 +1666,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 				}
 				else
 				{
-					Debug.FailedAssert("Multiplayer scene does not contain a camera frame", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Screens\\MissionScreen.cs", "SetCameraFrameToMapView", 1995);
+					Debug.FailedAssert("Multiplayer scene does not contain a camera frame", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.View\\Screens\\MissionScreen.cs", "SetCameraFrameToMapView", 2093);
 					flag = true;
 				}
 			}
@@ -1664,16 +1743,6 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			if (base.DebugInput.IsHotKeyPressed("MissionScreenHotkeyResetDebugVariables"))
 			{
 				GameNetwork.ResetDebugVariables();
-			}
-			if (base.DebugInput.IsHotKeyPressed("MissionScreenHotkeyIncreaseTotalUploadLimit"))
-			{
-				GameNetwork.IncreaseTotalUploadLimit(1000);
-				flag = true;
-			}
-			if (base.DebugInput.IsHotKeyPressed("MissionScreenIncreaseTotalUploadLimit"))
-			{
-				GameNetwork.IncreaseTotalUploadLimit(-1000);
-				flag = true;
 			}
 			if (base.DebugInput.IsHotKeyPressed("FixSkeletons"))
 			{
@@ -1755,16 +1824,30 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 					}
 					if (this._zoomToggled)
 					{
-						num2 /= 1.5f;
-						num3 /= 1.5f;
+						num2 *= BannerlordConfig.ZoomSensitivityModifier;
+						num3 *= BannerlordConfig.ZoomSensitivityModifier;
 					}
 					num4 = num2 * this.SceneLayer.Input.GetGameKeyAxis("CameraAxisX") + this.SceneLayer.Input.GetMouseMoveX();
 					num5 = -num3 * this.SceneLayer.Input.GetGameKeyAxis("CameraAxisY") + this.SceneLayer.Input.GetMouseMoveY();
+					if (this._missionMainAgentController.IsPlayerAiming && NativeOptions.GetConfig(16) == 1f)
+					{
+						float config = NativeOptions.GetConfig(17);
+						float gyroX = Input.GetGyroX();
+						Input.GetGyroY();
+						float gyroZ = Input.GetGyroZ();
+						num4 += config * gyroZ * 12f * -1f;
+						num5 += config * gyroX * 12f * -1f;
+					}
 				}
 				else
 				{
 					num4 = this.SceneLayer.Input.GetMouseMoveX();
 					num5 = this.SceneLayer.Input.GetMouseMoveY();
+					if (this._zoomAmount > 0.66f)
+					{
+						num4 *= BannerlordConfig.ZoomSensitivityModifier * this._zoomAmount;
+						num5 *= BannerlordConfig.ZoomSensitivityModifier * this._zoomAmount;
+					}
 				}
 			}
 			if (NativeConfig.EnableEditMode && base.DebugInput.IsHotKeyPressed("MissionScreenHotkeySwitchCameraSmooth"))
@@ -1812,7 +1895,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 				this._cameraElevationDelta = MBMath.ClampFloat(this._cameraElevationDelta, -num13, num13);
 			}
 			Agent agentToFollow = this.GetSpectatingData(this.CombatCamera.Frame.origin).AgentToFollow;
-			if (this.Mission.CameraIsFirstPerson && agentToFollow != null && agentToFollow.Controller == 2 && agentToFollow.HasMount && ((ManagedOptions.GetConfig(6) == 1f && !agentToFollow.WieldedWeapon.IsEmpty && agentToFollow.WieldedWeapon.CurrentUsageItem.IsRangedWeapon) || (ManagedOptions.GetConfig(6) == 2f && (agentToFollow.WieldedWeapon.IsEmpty || agentToFollow.WieldedWeapon.CurrentUsageItem.IsMeleeWeapon)) || ManagedOptions.GetConfig(6) == 3f))
+			if (this.Mission.CameraIsFirstPerson && agentToFollow != null && agentToFollow.Controller == 2 && agentToFollow.HasMount && ((ManagedOptions.GetConfig(7) == 1f && !agentToFollow.WieldedWeapon.IsEmpty && agentToFollow.WieldedWeapon.CurrentUsageItem.IsRangedWeapon) || (ManagedOptions.GetConfig(7) == 2f && (agentToFollow.WieldedWeapon.IsEmpty || agentToFollow.WieldedWeapon.CurrentUsageItem.IsMeleeWeapon)) || ManagedOptions.GetConfig(7) == 3f))
 			{
 				this._cameraBearingDelta += agentToFollow.MountAgent.GetTurnSpeed() * dt;
 			}
@@ -1843,18 +1926,18 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 				}
 				if (!flag3)
 				{
-					goto IL_658;
+					goto IL_6F1;
 				}
 			}
 			bool flag6;
 			if (this.CustomCamera == null)
 			{
 				flag6 = !this.IsRadialMenuActive;
-				goto IL_659;
+				goto IL_6F2;
 			}
-			IL_658:
+			IL_6F1:
 			flag6 = false;
-			IL_659:
+			IL_6F2:
 			bool flag7 = flag6 || this._forceCanZoom;
 			if (flag7)
 			{
@@ -1971,7 +2054,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 								MissionMainAgentController missionMainAgentController2 = this._missionMainAgentController;
 								if (((missionMainAgentController2 != null) ? missionMainAgentController2.InteractionComponent.CurrentFocusedObject : null) != null && this._missionMainAgentController.InteractionComponent.CurrentFocusedObject.FocusableObjectType == 3)
 								{
-									goto IL_CC6;
+									goto IL_D60;
 								}
 							}
 							if (this._missionMainAgentController == null || !this._missionMainAgentController.CustomLookDir.IsNonZero)
@@ -1980,7 +2063,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 								float num17 = MBMath.WrapAngle(this.CameraElevation + this._cameraElevationDelta);
 								float num18;
 								float num19;
-								MissionScreen.CalculateNewBearingAndElevation(agentToFollow, num16, num17, out num18, out num19);
+								this.CalculateNewBearingAndElevationForFirstPerson(agentToFollow, num16, num17, out num18, out num19);
 								if (num18 != num16)
 								{
 									this._cameraBearingDelta = (MBMath.IsBetween(MBMath.WrapAngle(this._cameraBearingDelta), 0f, 3.1415927f) ? MBMath.ClampFloat(MBMath.WrapAngle(num18 - this.CameraBearing), 0f, this._cameraBearingDelta) : MBMath.ClampFloat(MBMath.WrapAngle(num18 - this.CameraBearing), this._cameraBearingDelta, 0f));
@@ -1991,7 +2074,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 								}
 							}
 						}
-						IL_CC6:
+						IL_D60:
 						this.CameraBearing += this._cameraBearingDelta;
 						this.CameraElevation += this._cameraElevationDelta;
 						this.CameraElevation = MBMath.ClampFloat(this.CameraElevation, -1.3659099f, 1.1219975f);
@@ -3111,7 +3194,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 			}
 		}
 
-		private static void CalculateNewBearingAndElevation(Agent agentToFollow, float cameraBearing, float cameraElevation, out float newBearing, out float newElevation)
+		private void CalculateNewBearingAndElevationForFirstPerson(Agent agentToFollow, float cameraBearing, float cameraElevation, out float newBearing, out float newElevation)
 		{
 			newBearing = cameraBearing;
 			newElevation = cameraElevation;
@@ -3238,6 +3321,12 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 		private float _cameraAddedElevation;
 
 		private float _cameraHeightLimit;
+
+		private float _currentViewBlockingBodyCoeff;
+
+		private float _targetViewBlockingBodyCoeff;
+
+		private bool _applySmoothTransitionToVirtualEyeCamera;
 
 		private Vec3 _cameraSpeed;
 

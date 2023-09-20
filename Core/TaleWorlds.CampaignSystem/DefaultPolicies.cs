@@ -110,14 +110,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public static PolicyObject KingsMercenaries
-		{
-			get
-			{
-				return DefaultPolicies.Instance._policyKingsMercenaries;
-			}
-		}
-
 		public static PolicyObject Senate
 		{
 			get
@@ -198,14 +190,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public static PolicyObject Peerage
-		{
-			get
-			{
-				return DefaultPolicies.Instance._policyPeerage;
-			}
-		}
-
 		public static PolicyObject Marshals
 		{
 			get
@@ -254,14 +238,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public static PolicyObject LandGrantsForVeterans
-		{
-			get
-			{
-				return DefaultPolicies.Instance._policyLandGrantsForVeterans;
-			}
-		}
-
 		public static PolicyObject Lawspeakers
 		{
 			get
@@ -305,7 +281,6 @@ namespace TaleWorlds.CampaignSystem
 			this._policyRoyalGuard = this.Create("policy_royal_guard");
 			this._policyWarTax = this.Create("policy_war_tax");
 			this._policyRoyalPrivilege = this.Create("policy_royal_privilege");
-			this._policyKingsMercenaries = this.Create("policy_kings_mercenaries");
 			this._policySenate = this.Create("policy_senate");
 			this._policyLordsPrivyCouncil = this.Create("policy_lords_privy_council");
 			this._policyMilitaryCoronae = this.Create("policy_military_coronae");
@@ -316,14 +291,12 @@ namespace TaleWorlds.CampaignSystem
 			this._policyBailiffs = this.Create("policy_bailiffs");
 			this._policyHuntingRights = this.Create("policy_hunting_rights");
 			this._policyRoadTolls = this.Create("policy_road_tolls");
-			this._policyPeerage = this.Create("policy_peerage");
 			this._policyMarshals = this.Create("policy_marshals");
 			this._policyCouncilOfTheCommons = this.Create("policy_council_of_the_commons");
 			this._policyCitizenship = this.Create("policy_citizenship");
 			this._policyForgivenessOfDebts = this.Create("policy_forgiveness_of_debts");
 			this._policyTribunesOfThePeople = this.Create("policy_tribunes_of_the_people");
 			this._policyGrazingRights = this.Create("policy_grazing_rights");
-			this._policyLandGrantsForVeterans = this.Create("policy_land_grants_for_veterans");
 			this._policyLawspeakers = this.Create("policy_lawspeakers");
 			this._policyTrialByJury = this.Create("policy_trial_by_jury");
 			this._policyCantons = this.Create("policy_cantons");
@@ -349,7 +322,6 @@ namespace TaleWorlds.CampaignSystem
 			this._policyRoyalGuard.Initialize(new TextObject("{=F41aPt80}Royal Guard", null), new TextObject("{=eibt105C}The ruler maintains a prestigious guard force. It attracts warriors who might otherwise serve their local lord.", null), new TextObject("{=bhoCBIWB}authorizing the ruler to have a large private bodyguard", null), new TextObject("{=GwAZMQ8b}Ruler's party size is increased by 60{newline}Non-ruling clans lose 0.2 influence per day.", null), 0.75f, 0f, -0.5f);
 			this._policyWarTax.Initialize(new TextObject("{=AlZB8WIb}War Tax", null), new TextObject("{=b4TeiuoJ}Exceptional taxes were often applied in wartime.", null), new TextObject("{=76TgEba5}letting the ruler collect extra taxes in wartime", null), new TextObject("{=O4iki0FD}Ruler gains 5% tax from all settlements{newline}Towns lose 1 prosperity per day{newline}The influence cost of declaring war is doubled for the ruler clan", null), 0.7f, -0.1f, -0.65f);
 			this._policyRoyalPrivilege.Initialize(new TextObject("{=Rl1AHKSp}Royal Privilege", null), new TextObject("{=ifnnu3g4}There is a long list of reasons why a ruler can reject a law passed by the council. A ruler does not need to search long to find an excuse for a veto.", null), new TextObject("{=aKLak7nn}giving the ruler broader powers to veto laws", null), new TextObject("{=DG3JbOa2}For kingdom decisions, the influence cost of the ruler overriding the popular decision outcome is reduced by 20%", null), 0.8f, -0.15f, -0.75f);
-			this._policyKingsMercenaries.Initialize(new TextObject("{=kbKmlMbu}King's Mercenaries", null), new TextObject("{=bT765EqK}The realm authorizes the ruler to maintain a standing force of mercenaries, and grants them official status", null), new TextObject("{=9WNmQpkm}similar to that enjoyed by nobles.", null), new TextObject("{=eCryPe6X}The ruler gains double influence from mercenaries{newline}Non-ruler clans gain 10% less influence from battles", null), 0.5f, -0.2f, -0.65f);
 			this._policySenate.Initialize(new TextObject("{=8pjMAqOg}Senate", null), new TextObject("{=D3W9Qi0Z}All lords have a formal role on the council.", null), new TextObject("{=lXSeaba5}having the lords of the realm meet as a permanent council", null), new TextObject("{=TsvBHBdX}Tier 3+ clans gain 0.5 influence per day, influence cost of inviting lower tier clans to army are increased by 10%", null), -0.7f, 0.85f, 0.7f);
 			this._policyLordsPrivyCouncil.Initialize(new TextObject("{=JaZ7T2Wj}Lords' Privy Council", null), new TextObject("{=on2EmlUT}A small council of the greatest lords of the realm. This gives the main clans extra influence, but prevents other clans from climbing into their ranks.", null), new TextObject("{=bxWITUaN}having the greatest lords of the realm meet as a small privy council", null), new TextObject("{=LpdAa1NY}Tier 5+ clans gain 0.5 influence per day, influence cost of inviting lower tier clans to army are increased by 20%", null), -0.5f, 0.7f, -0.15f);
 			this._policyMilitaryCoronae.Initialize(new TextObject("{=IBlJ42MN}Military Coronae", null), new TextObject("{=ceq6ZMIx}Military achievements are favored and lords can vote to award each other decorations and distinctions (ie, the Roman corona.)", null), new TextObject("{=EG06bDxi}granting awards for deeds in the field", null), new TextObject("{=uCXGZ2YP}Military achievements grant 20% more influence{newline}Troop wages are increased by 10%", null), -0.15f, 0.6f, 0.35f);
@@ -360,14 +332,12 @@ namespace TaleWorlds.CampaignSystem
 			this._policyBailiffs.Initialize(new TextObject("{=HKT5MnjP}Bailiffs", null), new TextObject("{=nmnp9S7k}Nobles have the right to appoint bailiffs.", null), new TextObject("{=GFnqIuxy}encouraging lords to appoint bailiffs in their fiefs", null), new TextObject("{=XFcmlN1J}Town security is increased by 1 per day{newline}Towns with a security greater than 60 yield 1 additional influence to the owner clan.{newline}Tax from towns are reduced by 5%", null), 0f, 0.4f, -0.1f);
 			this._policyHuntingRights.Initialize(new TextObject("{=0mKYUNb8}Hunting Rights", null), new TextObject("{=ZMTkq5TG}Nobles and other landowners have exclusive rights to hunt in forests.", null), new TextObject("{=gOn7a7if}granting lords exclusive hunting rights to nearby forests", null), new TextObject("{=agaSYd5t}Food production in towns and castles are increased by 2{newline}Town loyalty is decreased by 0.2", null), -0.2f, 0.35f, -0.15f);
 			this._policyRoadTolls.Initialize(new TextObject("{=bOtYmSP8}Road Tolls", null), new TextObject("{=nP7KOISK}Local landowners have the right to collect tolls on commerce.", null), new TextObject("{=upK62aLR}allowing lords tolls on roads running through their lands", null), new TextObject("{=dLkfbU0a}Trade tax paid to the town owner is increased by 3%{newline}Town prosperity is decreased by 0.2", null), -0.5f, 0.45f, -0.35f);
-			this._policyPeerage.Initialize(new TextObject("{=rtpD3FK6}Peerage", null), new TextObject("{=KCBeYCvU}A formalized ranking of aristocrats could increase the authority of those at the top.", null), new TextObject("{=Z2amOHAb}maintaining a formal hierarchy of noble privilege", null), new TextObject("{=XB1HSxLX}For kingdom decisions, Tier 4+ clan choices have double effect{newline}Influence cost of the ruler overriding the popular decision outcome is doubled", null), -0.6f, 0.6f, -0.1f);
 			this._policyMarshals.Initialize(new TextObject("{=WSU35a7F}Marshals", null), new TextObject("{=7EP0NgzU}The highest ranking of nobles have the de facto right to assemble large armies.", null), new TextObject("{=cBAVR7e8}granting high-ranking nobles the right to summon large armies", null), new TextObject("{=0wxRZ9AV}Armies led by Tier 5+ nobles require 10% less influence{newline}Influence of the ruler clan is reduced by 1 per day", null), -0.45f, 0.5f, 0f);
 			this._policyCouncilOfTheCommons.Initialize(new TextObject("{=bMSI9Bt3}Council of the Commons", null), new TextObject("{=55CsWKbg}Some kingdoms, especially those that evolved from a city-state or a tribe, had popular assemblies that most of its members had the right to attend. Its powers were often limited, since it could only meet periodically, but it still gave the public the right to participate in government.", null), new TextObject("{=srByX06Y}letting all citizens meet and vote on some issues", null), new TextObject("{=UZ0mPm8b}Each notable yields 0.1 influence per day to the settlement's owner clan{newline}Tax from fortifications 5% decreased", null), -0.5f, 0.1f, 0.7f);
 			this._policyForgivenessOfDebts.Initialize(new TextObject("{=Vzsu5nZV}Forgiveness of Debts", null), new TextObject("{=Lgmisw4L}Limits the degree to which lords and merchants can lend to their tenants and employees and then demand repayment, or seize their assets or their freedom. Effectively bans serfdom.", null), new TextObject("{=9YKV4SNH}restricting what creditor may do to collect debts", null), new TextObject("{=xJ2uDcob}Settlement loyalty is increased by 2 per day{newline}Settlement production is reduced by 5%", null), -0.4f, -0.4f, 0.6f);
 			this._policyCitizenship.Initialize(new TextObject("{=sYNFwOVg}Citizenship", null), new TextObject("{=O5sBO9sQ}Many empires granted their populations citizenship, which usually came with a series of rights. Of course, citizenship could not be granted immediately to conquered provinces until the population showed it was willing to adopt the ways of the empire, including the language, clothes, and religious cults.", null), new TextObject("{=dvEkfaab}recognizing the common folk in the realm as full citizens", null), new TextObject("{=qEOXka0Q}+0.5 Loyalty per day to settlements that have the same culture as their owner clan{newline}Settlement militia production is increased by 1{newline}-0.5 Loyalty per day to settlements with a different culture than its owner clan", null), -0.65f, -0.35f, 0.7f);
 			this._policyTribunesOfThePeople.Initialize(new TextObject("{=IJdGTOAe}Tribunes of the People", null), new TextObject("{=VzmzX9Ln}Tribunes of the Plebs were Roman Republican offices. They were designed to give representation to families without patrician standing, and could veto legislation from the Senate.", null), new TextObject("{=auftprN9}allowing the common people to elect tribes to represent them", null), new TextObject("{=YOBeOFxY}Town taxes paid to the ruler are reduced by 5%{newline}Town loyalty is increased by 1 per day", null), -0.6f, -0.2f, 0.55f);
 			this._policyGrazingRights.Initialize(new TextObject("{=mb25Ue3f}Grazing Rights", null), new TextObject("{=fjj0pJXV}Landowners could often assert legal rights to common areas and charge villages money to use them. If ordinary people petitioned a ruler, however, he might give them the right to use all common areas for hunting or grazing as members of the village.", null), new TextObject("{=1Y5p40uP}granting villagers the right to graze on land held in common", null), new TextObject("{=PG8anNca}Settlement loyalty is increased by 0.5 per day{newline}Daily hearth production at villages decreases by 0.25 per day", null), -0.75f, -0.3f, 0.7f);
-			this._policyLandGrantsForVeterans.Initialize(new TextObject("{=ky6bub8F}Land Grants For Veterans", null), new TextObject("{=Az0yhQID}The distribution of land to veterans was a key platform of Roman populists such as Marius and Caesar. The presence of veterans in farming communities helps with organizing militias.", null), new TextObject("{=YwQfsQfU}giving land to veterans", null), new TextObject("{=VqAEqhr2}Militia quality is increased by 10%{newline}Village tax income is reduced by 5%", null), -0.35f, -0.15f, 0.5f);
 			this._policyLawspeakers.Initialize(new TextObject("{=EBCV0LcU}Lawspeakers", null), new TextObject("{=U7s1LycQ}Refers to the Norse practice of appointing independent elders to remind the council of the law and past precedents. This tends to favor those with the education to make complex legal arguments.", null), new TextObject("{=7kNxogN8}appointing independent elders to uphold the law", null), new TextObject("{=bFEdxs6Y}All clans whose leader has high Charm gain 1 influence per day{newline}All clans whose leader has low Charm lose 1 influence per day", null), 0f, 0.25f, 0.45f);
 			this._policyTrialByJury.Initialize(new TextObject("{=yNAzCfxc}Trial by Jury", null), new TextObject("{=InFseOAA}This limits the ability of magistrates to condemn those they consider criminals quickly. It prevents arbitrary abuse of power, but landowners or gang leaders can sometimes use threats or bribes to manipulate it.", null), new TextObject("{=L9aNOiJo}granting those accused of major crimes the right to trial by jury", null), new TextObject("{=ZJ2tJnJk}Settlement loyalty is increased by 0.5 per day{newline}Settlement security is decreased by 0.2 per day{newline}Clans lose 1 influence per day", null), -0.3f, 0.1f, 0.6f);
 			this._policyCantons.Initialize(new TextObject("{=D6YLpUQa}Cantons", null), new TextObject("{=FMUlfbJf}Rulers organize farmers into groups of households responsible for supplying troops. This makes recruiting easier, but at the cost of their economic productivity.", null), new TextObject("{=PXhIFXbv}organizing households to supply military recruits", null), new TextObject("{=bPpdw81a}Daily militia production is increased by 1{newline}Recruits replenish 20% faster{newline}Tax income in settlements are reduced by 10%", null), -0.2f, -0.1f, 0.4f);
@@ -397,8 +367,6 @@ namespace TaleWorlds.CampaignSystem
 
 		private PolicyObject _policyRoyalPrivilege;
 
-		private PolicyObject _policyKingsMercenaries;
-
 		private PolicyObject _policySenate;
 
 		private PolicyObject _policyLordsPrivyCouncil;
@@ -419,8 +387,6 @@ namespace TaleWorlds.CampaignSystem
 
 		private PolicyObject _policyRoadTolls;
 
-		private PolicyObject _policyPeerage;
-
 		private PolicyObject _policyMarshals;
 
 		private PolicyObject _policyCouncilOfTheCommons;
@@ -432,8 +398,6 @@ namespace TaleWorlds.CampaignSystem
 		private PolicyObject _policyTribunesOfThePeople;
 
 		private PolicyObject _policyGrazingRights;
-
-		private PolicyObject _policyLandGrantsForVeterans;
 
 		private PolicyObject _policyLawspeakers;
 

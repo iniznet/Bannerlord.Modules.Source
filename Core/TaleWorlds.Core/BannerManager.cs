@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using TaleWorlds.Library;
-using TaleWorlds.ModuleManager;
 
 namespace TaleWorlds.Core
 {
@@ -147,20 +146,8 @@ namespace TaleWorlds.Core
 
 		public void LoadBannerIcons(string xmlPath)
 		{
-			XmlDocument xmlDocument = this.LoadXmlFile(ModuleHelper.GetModuleFullPath("Native") + "ModuleData/banner_icons.xml");
+			XmlDocument xmlDocument = this.LoadXmlFile(xmlPath);
 			this.LoadFromXml(xmlDocument);
-			foreach (ModuleInfo moduleInfo in ModuleHelper.GetModules())
-			{
-				if (!moduleInfo.IsNative)
-				{
-					string text = moduleInfo.FolderPath + "/ModuleData/banner_icons.xml";
-					if (File.Exists(text))
-					{
-						xmlDocument = this.LoadXmlFile(text);
-						this.LoadFromXml(xmlDocument);
-					}
-				}
-			}
 		}
 
 		private XmlDocument LoadXmlFile(string path)

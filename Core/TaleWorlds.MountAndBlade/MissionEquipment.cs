@@ -248,7 +248,7 @@ namespace TaleWorlds.MountAndBlade
 				for (EquipmentIndex equipmentIndex2 = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex2 < EquipmentIndex.NumAllWeaponSlots; equipmentIndex2++)
 				{
 					MissionWeapon missionWeapon2 = this[(int)equipmentIndex2];
-					if (!missionWeapon2.IsEmpty && missionWeapon2.HasAnyUsageWithWeaponClass(missionWeapon.GetWeaponComponentDataForUsage(rangedUsageIndex).AmmoClass) && missionWeapon2.Amount > 0)
+					if (!missionWeapon2.IsEmpty && missionWeapon2.HasAnyUsageWithWeaponClass(missionWeapon.GetWeaponComponentDataForUsage(rangedUsageIndex).AmmoClass) && this[(int)equipmentIndex2].ModifiedMaxAmount > 1 && missionWeapon2.Amount > 0)
 					{
 						return true;
 					}
@@ -257,12 +257,16 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		public int GetAmmoAmount(WeaponClass ammoClass)
+		public int GetAmmoAmount(EquipmentIndex weaponIndex)
 		{
+			if (this[weaponIndex].IsAnyConsumable() && this[weaponIndex].ModifiedMaxAmount <= 1)
+			{
+				return (int)this[weaponIndex].ModifiedMaxAmount;
+			}
 			int num = 0;
 			for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.NumAllWeaponSlots; equipmentIndex++)
 			{
-				if (!this[(int)equipmentIndex].IsEmpty && this[(int)equipmentIndex].CurrentUsageItem.WeaponClass == ammoClass)
+				if (!this[(int)equipmentIndex].IsEmpty && this[(int)equipmentIndex].CurrentUsageItem.WeaponClass == this[weaponIndex].CurrentUsageItem.AmmoClass && this[(int)equipmentIndex].ModifiedMaxAmount > 1)
 				{
 					num += (int)this[(int)equipmentIndex].Amount;
 				}
@@ -270,24 +274,16 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		public int GetAmmoSlotIndexOfWeapon(WeaponClass ammoClass)
+		public int GetMaxAmmo(EquipmentIndex weaponIndex)
 		{
-			for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.NumAllWeaponSlots; equipmentIndex++)
+			if (this[weaponIndex].IsAnyConsumable() && this[weaponIndex].ModifiedMaxAmount <= 1)
 			{
-				if (!this[(int)equipmentIndex].IsEmpty && this[(int)equipmentIndex].CurrentUsageItem.WeaponClass == ammoClass)
-				{
-					return (int)equipmentIndex;
-				}
+				return (int)this[weaponIndex].ModifiedMaxAmount;
 			}
-			return -1;
-		}
-
-		public int GetMaxAmmo(WeaponClass ammoClass)
-		{
 			int num = 0;
 			for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.NumAllWeaponSlots; equipmentIndex++)
 			{
-				if (!this[(int)equipmentIndex].IsEmpty && this[(int)equipmentIndex].CurrentUsageItem.WeaponClass == ammoClass)
+				if (!this[(int)equipmentIndex].IsEmpty && this[(int)equipmentIndex].CurrentUsageItem.WeaponClass == this[weaponIndex].CurrentUsageItem.AmmoClass && this[(int)equipmentIndex].ModifiedMaxAmount > 1)
 				{
 					num += (int)this[(int)equipmentIndex].ModifiedMaxAmount;
 				}
@@ -591,7 +587,7 @@ namespace TaleWorlds.MountAndBlade
 				containsThrownWeapon = containsThrownWeapon || flag5;
 				if (flag4)
 				{
-					containsNonConsumableRangedWeaponWithAmmo = containsNonConsumableRangedWeaponWithAmmo || this.GetAmmoAmount(weaponClass) > 0;
+					containsNonConsumableRangedWeaponWithAmmo = containsNonConsumableRangedWeaponWithAmmo || this.GetAmmoAmount(equipmentIndex) > 0;
 				}
 			}
 		}

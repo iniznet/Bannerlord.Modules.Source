@@ -7,7 +7,6 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using TaleWorlds.MountAndBlade;
 using TaleWorlds.ObjectSystem;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
@@ -134,7 +133,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private void OnQuestCompleted(QuestBase quest, QuestBase.QuestCompleteDetails detail)
 		{
-			if (TutorialPhase.Instance.TutorialQuestPhase == TutorialQuestPhase.RecruitAndPurchaseStarted && (quest is RecruitTroopsTutorialQuest || quest is PurchaseGrainTutorialQuest))
+			if (TutorialPhase.Instance.TutorialQuestPhase == TutorialQuestPhase.RecruitAndPurchaseStarted && ((quest is RecruitTroopsTutorialQuest && !Campaign.Current.QuestManager.IsThereActiveQuestWithType(typeof(PurchaseGrainTutorialQuest))) || (quest is PurchaseGrainTutorialQuest && !Campaign.Current.QuestManager.IsThereActiveQuestWithType(typeof(RecruitTroopsTutorialQuest)))))
 			{
 				this.AddTutorial("TalkToNotableTutorialStep1", 40);
 				this.AddTutorial("TalkToNotableTutorialStep2", 41);
@@ -159,10 +158,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private void OnTutorialListRequested(List<CampaignTutorial> campaignTutorials)
 		{
-			if (!BannerlordConfig.EnableTutorialHints)
-			{
-				return;
-			}
 			MBTextManager.SetTextVariable("TUTORIAL_SETTLEMENT_NAME", MBObjectManager.Instance.GetObject<Settlement>("village_ES3_2").Name, false);
 			foreach (CampaignTutorial campaignTutorial in this.AvailableTutorials)
 			{

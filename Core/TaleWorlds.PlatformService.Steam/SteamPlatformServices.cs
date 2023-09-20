@@ -51,6 +51,14 @@ namespace TaleWorlds.PlatformService.Steam
 			}
 		}
 
+		PlayerId IPlatformServices.PlayerId
+		{
+			get
+			{
+				return SteamUser.GetSteamID().ToPlayerId();
+			}
+		}
+
 		bool IPlatformServices.UserLoggedIn
 		{
 			get
@@ -68,7 +76,11 @@ namespace TaleWorlds.PlatformService.Steam
 		{
 			get
 			{
-				return "";
+				if (!this.Initialized)
+				{
+					return string.Empty;
+				}
+				return SteamFriends.GetPersonaName();
 			}
 		}
 
@@ -110,8 +122,11 @@ namespace TaleWorlds.PlatformService.Steam
 
 		void IPlatformServices.Tick(float dt)
 		{
-			SteamAPI.RunCallbacks();
-			this._achievementService.Tick(dt);
+			if (this.Initialized)
+			{
+				SteamAPI.RunCallbacks();
+				this._achievementService.Tick(dt);
+			}
 		}
 
 		void IPlatformServices.Terminate()
@@ -126,6 +141,13 @@ namespace TaleWorlds.PlatformService.Steam
 		public event Action<bool, TextObject> OnSignInStateUpdated;
 
 		public event Action OnBlockedUserListUpdated;
+
+		public event Action<string> OnTextEnteredFromPlatform;
+
+		void IPlatformServices.ShowGamepadTextInput(string descriptionText, string existingText, uint maxChars, bool isObfuscated)
+		{
+			SteamUtils.ShowGamepadTextInput(isObfuscated ? EGamepadTextInputMode.k_EGamepadTextInputModePassword : EGamepadTextInputMode.k_EGamepadTextInputModeNormal, EGamepadTextInputLineMode.k_EGamepadTextInputLineModeSingleLine, descriptionText, maxChars, existingText);
+		}
 
 		bool IPlatformServices.IsPlayerProfileCardAvailable(PlayerId providedId)
 		{
@@ -181,7 +203,7 @@ namespace TaleWorlds.PlatformService.Steam
 				{
 					uint num;
 					uint num2;
-					SteamUtils.GetImageSize(userAvatar, ref num, ref num2);
+					SteamUtils.GetImageSize(userAvatar, out num, out num2);
 					if (num != 0U)
 					{
 						uint num3 = num * num2 * 4U;
@@ -266,7 +288,7 @@ namespace TaleWorlds.PlatformService.Steam
 		async Task<bool> IPlatformServices.ShowOverlayForWebPage(string url)
 		{
 			await Task.Delay(0);
-			SteamFriends.ActivateGameOverlayToWebPage(url);
+			SteamFriends.ActivateGameOverlayToWebPage(url, EActivateGameOverlayToWebPageMode.k_EActivateGameOverlayToWebPageMode_Default);
 			return true;
 		}
 
@@ -311,7 +333,7 @@ namespace TaleWorlds.PlatformService.Steam
 		internal Task<bool> GetUserOnlineStatus(PlayerId providedId)
 		{
 			SteamUtils.GetAppID();
-			if (SteamFriends.GetFriendPersonaState(new CSteamID(providedId.Part4)) != null)
+			if (SteamFriends.GetFriendPersonaState(new CSteamID(providedId.Part4)) != EPersonaState.k_EPersonaStateOffline)
 			{
 				return Task.FromResult<bool>(true);
 			}
@@ -322,7 +344,7 @@ namespace TaleWorlds.PlatformService.Steam
 		{
 			AppId_t appID = SteamUtils.GetAppID();
 			FriendGameInfo_t friendGameInfo_t;
-			if (SteamFriends.GetFriendGamePlayed(new CSteamID(providedId.Part4), ref friendGameInfo_t) && friendGameInfo_t.m_gameID.AppID() == appID)
+			if (SteamFriends.GetFriendGamePlayed(new CSteamID(providedId.Part4), out friendGameInfo_t) && friendGameInfo_t.m_gameID.AppID() == appID)
 			{
 				return Task.FromResult<bool>(true);
 			}
@@ -332,12 +354,12 @@ namespace TaleWorlds.PlatformService.Steam
 		internal async Task<PlayerId> GetUserWithName(string name)
 		{
 			await Task.Delay(0);
-			int num = SteamFriends.GetFriendCount(4);
+			int num = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
 			CSteamID csteamID = default(CSteamID);
 			int num2 = 0;
 			for (int i = 0; i < num; i++)
 			{
-				CSteamID friendByIndex = SteamFriends.GetFriendByIndex(i, 4);
+				CSteamID friendByIndex = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
 				if (SteamFriends.GetFriendPersonaName(friendByIndex).Equals(name))
 				{
 					csteamID = friendByIndex;
@@ -378,7 +400,7 @@ namespace TaleWorlds.PlatformService.Steam
 			{
 				uint num;
 				uint num2;
-				SteamUtils.GetImageSize(userAvatar, ref num, ref num2);
+				SteamUtils.GetImageSize(userAvatar, out num, out num2);
 				if (num != 0U)
 				{
 					uint num3 = num * num2 * 4U;
@@ -425,6 +447,7 @@ namespace TaleWorlds.PlatformService.Steam
 		{
 			this._personaStateChangeT = Callback<PersonaStateChange_t>.Create(new Callback<PersonaStateChange_t>.DispatchDelegate(SteamPlatformServices.UserInformationUpdated));
 			this._avatarImageLoadedT = Callback<AvatarImageLoaded_t>.Create(new Callback<AvatarImageLoaded_t>.DispatchDelegate(SteamPlatformServices.AvatarLoaded));
+			this._gamepadTextInputDismissedT = Callback<GamepadTextInputDismissed_t>.Create(new Callback<GamepadTextInputDismissed_t>.DispatchDelegate(this.GamepadTextInputDismissed));
 		}
 
 		private static void AvatarLoaded(AvatarImageLoaded_t avatarImageLoadedT)
@@ -434,21 +457,36 @@ namespace TaleWorlds.PlatformService.Steam
 
 		private static void UserInformationUpdated(PersonaStateChange_t pCallback)
 		{
-			if ((pCallback.m_nChangeFlags & 64) != null)
+			if ((pCallback.m_nChangeFlags & EPersonaChange.k_EPersonaChangeAvatar) != (EPersonaChange)0)
 			{
 				SteamPlatformServices._avatarUpdates.Add(new CSteamID(pCallback.m_ulSteamID));
 				SteamPlatformServices.Instance.OnAvatarUpdateReceived(pCallback.m_ulSteamID);
 				return;
 			}
-			if ((pCallback.m_nChangeFlags & 1) != null)
+			if ((pCallback.m_nChangeFlags & EPersonaChange.k_EPersonaChangeName) != (EPersonaChange)0)
 			{
 				SteamPlatformServices._nameUpdates.Add(new CSteamID(pCallback.m_ulSteamID));
 				SteamPlatformServices.Instance.OnNameUpdateReceived(new CSteamID(pCallback.m_ulSteamID).ToPlayerId());
 				return;
 			}
-			if ((pCallback.m_nChangeFlags & 16) != null)
+			if ((pCallback.m_nChangeFlags & EPersonaChange.k_EPersonaChangeGamePlayed) != (EPersonaChange)0)
 			{
 				SteamPlatformServices.HandleOnUserStatusChanged(new CSteamID(pCallback.m_ulSteamID).ToPlayerId());
+			}
+		}
+
+		private void GamepadTextInputDismissed(GamepadTextInputDismissed_t gamepadTextInputDismissedT)
+		{
+			if (gamepadTextInputDismissedT.m_bSubmitted)
+			{
+				string text;
+				SteamUtils.GetEnteredGamepadTextInput(out text, SteamUtils.GetEnteredGamepadTextLength());
+				Action<string> onTextEnteredFromPlatform = this.OnTextEnteredFromPlatform;
+				if (onTextEnteredFromPlatform == null)
+				{
+					return;
+				}
+				onTextEnteredFromPlatform(text);
 			}
 		}
 
@@ -482,6 +520,8 @@ namespace TaleWorlds.PlatformService.Steam
 		private Callback<PersonaStateChange_t> _personaStateChangeT;
 
 		private Callback<AvatarImageLoaded_t> _avatarImageLoadedT;
+
+		private Callback<GamepadTextInputDismissed_t> _gamepadTextInputDismissedT;
 
 		private static List<CSteamID> _avatarUpdates = new List<CSteamID>();
 

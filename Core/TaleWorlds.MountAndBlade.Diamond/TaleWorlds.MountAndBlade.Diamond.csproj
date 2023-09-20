@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D6B}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C84}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.Diamond</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.Diamond</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,10 +30,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json" />
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -46,12 +47,14 @@
     <Compile Include="AnotherPlayerState.cs" />
     <Compile Include="AvailableCustomGames.cs" />
     <Compile Include="AvailableScenes.cs" />
+    <Compile Include="BadgeDataEntry.cs" />
     <Compile Include="BannerlordConfig.cs" />
     <Compile Include="BattleJoinType.cs" />
     <Compile Include="BattlePeer.cs" />
     <Compile Include="BattlePeerQuitType.cs" />
     <Compile Include="BattlePlayerEntry.cs" />
     <Compile Include="BattlePlayerStatsBase.cs" />
+    <Compile Include="BattlePlayerStatsBaseJsonConverter.cs" />
     <Compile Include="BattlePlayerStatsBattle.cs" />
     <Compile Include="BattlePlayerStatsCaptain.cs" />
     <Compile Include="BattlePlayerStatsDuel.cs" />
@@ -77,7 +80,11 @@
     <Compile Include="ClanPlayerRole.cs" />
     <Compile Include="ClanStats.cs" />
     <Compile Include="CosmeticItemInfo.cs" />
-    <Compile Include="CosmeticsManager.cs" />
+    <Compile Include="Cosmetics\CosmeticElement.cs" />
+    <Compile Include="Cosmetics\CosmeticsManager.cs" />
+    <Compile Include="Cosmetics\CosmeticTypes\ClothingCosmeticElement.cs" />
+    <Compile Include="Cosmetics\CosmeticTypes\SigilCosmeticElement.cs" />
+    <Compile Include="Cosmetics\CosmeticTypes\TauntCosmeticElement.cs" />
     <Compile Include="CustomBattleId.cs" />
     <Compile Include="CustomBattleServer.cs" />
     <Compile Include="CustomGameJoinResponse.cs" />
@@ -113,6 +120,7 @@
     <Compile Include="MatchmakingQueueStats.cs" />
     <Compile Include="MatchmakingWaitTimeRegionStats.cs" />
     <Compile Include="MatchmakingWaitTimeStats.cs" />
+    <Compile Include="MBLoginErrorCode.cs" />
     <Compile Include="Messages\FromBattleServerManager\ToBattleServer\BattleReadyResponseMessage.cs" />
     <Compile Include="Messages\FromBattleServerManager\ToBattleServer\BattleServerReadyResponseMessage.cs" />
     <Compile Include="Messages\FromBattleServerManager\ToBattleServer\FriendlyDamageKickPlayerResponseMessage.cs" />
@@ -142,6 +150,7 @@
     <Compile Include="Messages\FromClient\ToLobbyServer\AcceptClanInvitationMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\AcceptJoinPremadeGameRequestMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\AcceptPartyInvitationMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AcceptPartyJoinRequestMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\AddClanAnnouncementMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\AddFriendByUsernameAndIdMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\AddFriendMessage.cs" />
@@ -168,6 +177,7 @@
     <Compile Include="Messages\FromClient\ToLobbyServer\DeclineClanInvitationMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\DeclineJoinPremadeGameRequestMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\DeclinePartyInvitationMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\DeclinePartyJoinRequestMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\DestroyClanMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\DisbandPartyMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\EditClanAnnouncementMessage.cs" />
@@ -218,6 +228,7 @@
     <Compile Include="Messages\FromClient\ToLobbyServer\ReportPlayerMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\RequestCustomGameServerListMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\RequestJoinCustomGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RequestJoinPlayerPartyMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\RequestToJoinPremadeGameMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\ResponseCustomGameClientConnectionMessage.cs" />
     <Compile Include="Messages\FromClient\ToLobbyServer\SetClanInformationMessage.cs" />
@@ -328,6 +339,8 @@
     <Compile Include="Messages\FromLobbyServer\ToClient\RegisterCustomGameResult.cs" />
     <Compile Include="Messages\FromLobbyServer\ToClient\RejoinBattleRequestAnswerMessage.cs" />
     <Compile Include="Messages\FromLobbyServer\ToClient\RejoinRequestRejectedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\RequestJoinPartyMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\RequestJoinPlayerPartyMessageResult.cs" />
     <Compile Include="Messages\FromLobbyServer\ToClient\ServerStatusMessage.cs" />
     <Compile Include="Messages\FromLobbyServer\ToClient\ShowAnnouncementMessage.cs" />
     <Compile Include="Messages\FromLobbyServer\ToClient\SigilChangeAnswerMessage.cs" />
@@ -355,6 +368,7 @@
     <Compile Include="NotEnoughPlayersInfo.cs" />
     <Compile Include="NotificationType.cs" />
     <Compile Include="Parameters.cs" />
+    <Compile Include="PartyJoinDeclineReason.cs" />
     <Compile Include="PartyPlayerInLobbyClient.cs" />
     <Compile Include="PartyRemoveReason.cs" />
     <Compile Include="PermaMuteList.cs" />
@@ -370,6 +384,7 @@
     <Compile Include="PlayerReportType.cs" />
     <Compile Include="PlayerSessionId.cs" />
     <Compile Include="PlayerStatsBase.cs" />
+    <Compile Include="PlayerStatsBaseJsonConverter.cs" />
     <Compile Include="PlayerStatsBattle.cs" />
     <Compile Include="PlayerStatsCaptain.cs" />
     <Compile Include="PlayerStatsDuel.cs" />
@@ -394,39 +409,36 @@
     <Compile Include="ServerStatus.cs" />
     <Compile Include="StringValidationError.cs" />
     <Compile Include="SupportedFeatures.cs" />
+    <Compile Include="TauntUsageManager.cs" />
     <Compile Include="WaitTimeStatType.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d54}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6d}</Project>
       <Name>TaleWorlds.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond.ChatSystem.Library\TaleWorlds.Diamond.ChatSystem.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d5b}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c74}</Project>
       <Name>TaleWorlds.Diamond.ChatSystem.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Diamond\TaleWorlds.Diamond.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d5c}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c75}</Project>
       <Name>TaleWorlds.Diamond</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d69}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d6a}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c83}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d79}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c93}</Project>
       <Name>TaleWorlds.PlayerServices</Name>
     </ProjectReference>
   </ItemGroup>

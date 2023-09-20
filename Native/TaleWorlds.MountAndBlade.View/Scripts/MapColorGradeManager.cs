@@ -180,11 +180,12 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 		public void ApplyColorGrade(float dt)
 		{
 			Vec3 origin = base.Scene.LastFinalRenderCameraFrame.origin;
-			int num = MathF.Floor(origin.x / this.terrainSize.X * 512f);
-			int num2 = MathF.Floor(origin.y / this.terrainSize.Y * 512f);
-			num = MBMath.ClampIndex(num, 0, 512);
+			float num = 1f;
+			int num2 = MathF.Floor(origin.x / this.terrainSize.X * 512f);
+			int num3 = MathF.Floor(origin.y / this.terrainSize.Y * 512f);
 			num2 = MBMath.ClampIndex(num2, 0, 512);
-			byte b = this.colorGradeGrid[num2 * 512 + num];
+			num3 = MBMath.ClampIndex(num3, 0, 512);
+			byte b = this.colorGradeGrid[num3 * 512 + num2];
 			if (origin.z > 400f)
 			{
 				b = 1;
@@ -192,6 +193,11 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			if (this.TimeOfDay > 22f || this.TimeOfDay < 2f)
 			{
 				b = 2;
+			}
+			if (MBMapScene.GetApplyRainColorGrade() && origin.z < 50f)
+			{
+				b = 160;
+				num = 0.2f;
 			}
 			if (this.lastColorGrade != b)
 			{
@@ -229,7 +235,7 @@ namespace TaleWorlds.MountAndBlade.View.Scripts
 			{
 				if (this.primaryTransitionRecord.alpha < 1f)
 				{
-					this.primaryTransitionRecord.alpha = MathF.Min(this.primaryTransitionRecord.alpha + dt * 1f, 1f);
+					this.primaryTransitionRecord.alpha = MathF.Min(this.primaryTransitionRecord.alpha + dt * (1f / num), 1f);
 					base.Scene.SetColorGradeBlend(this.primaryTransitionRecord.color1, this.primaryTransitionRecord.color2, this.primaryTransitionRecord.alpha);
 					return;
 				}

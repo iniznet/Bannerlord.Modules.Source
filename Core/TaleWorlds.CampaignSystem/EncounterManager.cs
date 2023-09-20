@@ -75,7 +75,7 @@ namespace TaleWorlds.CampaignSystem
 				{
 					PlayerEncounter.Current.OnPartyJoinEncounter(attackerParty.MobileParty);
 				}
-				else if (((attackerParty == PartyBase.MainParty || defenderParty == PartyBase.MainParty) && !PlayerEncounter.IsActive) || PlayerEncounter.EncounterSettlement == Settlement.CurrentSettlement)
+				else if (((attackerParty == PartyBase.MainParty || defenderParty == PartyBase.MainParty) && !PlayerEncounter.IsActive) || (PlayerEncounter.EncounterSettlement != null && Settlement.CurrentSettlement != null && PlayerEncounter.EncounterSettlement == Settlement.CurrentSettlement))
 				{
 					EncounterManager.RestartPlayerEncounter(attackerParty, defenderParty);
 				}
@@ -113,10 +113,11 @@ namespace TaleWorlds.CampaignSystem
 					}
 					else
 					{
+						MapEventSide mapEventSide = settlement.SiegeEvent.BesiegerCamp.LeaderParty.MapEventSide;
 						attackerParty.BesiegerCamp = settlement.SiegeEvent.BesiegerCamp;
-						if (settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapEventSide != null)
+						if (mapEventSide != null)
 						{
-							attackerParty.MapEventSide = settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapEventSide;
+							attackerParty.MapEventSide = mapEventSide;
 						}
 					}
 				}
@@ -138,7 +139,7 @@ namespace TaleWorlds.CampaignSystem
 			}
 			if (attackerParty.Aggressiveness > 0.01f && PartyBase.MainParty.MapEvent != null && PartyBase.MainParty.MapEvent.MapEventSettlement == settlement)
 			{
-				if (PartyBase.MainParty.MapEvent != null && PlayerEncounter.IsActive)
+				if (PlayerEncounter.IsActive)
 				{
 					if (attackerParty.MapFaction == MobileParty.MainParty.MapFaction || (PartyBase.MainParty.MapEvent.AttackerSide.LeaderParty != PartyBase.MainParty && PartyBase.MainParty.MapEvent.DefenderSide.LeaderParty != PartyBase.MainParty))
 					{
@@ -199,32 +200,15 @@ namespace TaleWorlds.CampaignSystem
 					StartBattleAction.ApplyStartAssaultAgainstWalls(attackerParty, settlement);
 					if (attackerParty.MapEvent.DefenderSide.TroopCount == 0 && (PlayerSiege.PlayerSiegeEvent == null || PlayerSiege.PlayerSide != BattleSideEnum.Defender || MobileParty.MainParty.CurrentSettlement != settlement))
 					{
-						if (MobileParty.MainParty.BesiegedSettlement == settlement)
+						bool flag3 = MobileParty.MainParty.BesiegedSettlement == settlement;
+						if (flag3 && PlayerEncounter.Current == null)
 						{
-							settlement.Town.IsTaken = true;
-							if (PartyBase.MainParty.MapEvent == null)
-							{
-								if (PlayerEncounter.Current == null)
-								{
-									EncounterManager.StartSettlementEncounter(MobileParty.MainParty, settlement);
-								}
-								PlayerEncounter.JoinBattle((Hero.MainHero.CurrentSettlement == settlement && !settlement.Party.MapEvent.IsSallyOut) ? BattleSideEnum.Defender : BattleSideEnum.Attacker);
-							}
+							EncounterManager.StartSettlementEncounter((MobileParty.MainParty.Army != null) ? MobileParty.MainParty.Army.LeaderParty : MobileParty.MainParty, settlement);
 						}
 						attackerParty.MapEvent.SetOverrideWinner(BattleSideEnum.Attacker);
 						attackerParty.MapEvent.FinalizeEvent();
-						if (settlement.Town.IsTaken)
+						if (flag3)
 						{
-							if (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty)
-							{
-								EncounterManager.StartSettlementEncounter(MobileParty.MainParty, settlement);
-							}
-							else if (MobileParty.MainParty.Army != null)
-							{
-								MobileParty.MainParty.Army.LeaderParty.Ai.SetMoveGoToSettlement(settlement);
-								MobileParty.MainParty.Army.LeaderParty.Ai.RecalculateShortTermAi();
-								EncounterManager.StartSettlementEncounter(MobileParty.MainParty.Army.LeaderParty, settlement);
-							}
 							GameMenu.SwitchToMenu("menu_settlement_taken");
 						}
 						return;
@@ -239,7 +223,7 @@ namespace TaleWorlds.CampaignSystem
 					}
 					else if (flag)
 					{
-						if (MobileParty.MainParty.MapFaction == settlement.MapFaction)
+						if (attackerParty.MapEvent.CanPartyJoinBattle(PartyBase.MainParty, settlement.BattleSide))
 						{
 							PlayerEncounter.Start();
 							PlayerEncounter.Current.Init(attackerParty.Party, settlement.Party, settlement);
@@ -255,8 +239,8 @@ namespace TaleWorlds.CampaignSystem
 					EnterSettlementAction.ApplyForParty(attackerParty, settlement);
 				}
 			}
-			bool flag3 = attackerParty != null && (attackerParty.Army == null || attackerParty.Army.LeaderParty == attackerParty) && attackerParty.CurrentSettlement == settlement && !attackerParty.IsVillager && !attackerParty.IsMilitia && attackerParty != MobileParty.MainParty && attackerParty.MapEvent == null && settlement != null && settlement.IsVillage;
-			if (attackerParty.Army != null && attackerParty.Army.LeaderParty == attackerParty && attackerParty != MobileParty.MainParty && !flag3)
+			bool flag4 = attackerParty != null && (attackerParty.Army == null || attackerParty.Army.LeaderParty == attackerParty) && attackerParty.CurrentSettlement == settlement && !attackerParty.IsVillager && !attackerParty.IsMilitia && attackerParty != MobileParty.MainParty && attackerParty.MapEvent == null && settlement != null && settlement.IsVillage;
+			if (attackerParty.Army != null && attackerParty.Army.LeaderParty == attackerParty && attackerParty != MobileParty.MainParty && !flag4)
 			{
 				foreach (MobileParty mobileParty in attackerParty.Army.LeaderParty.AttachedParties)
 				{
@@ -266,7 +250,7 @@ namespace TaleWorlds.CampaignSystem
 					}
 				}
 			}
-			if (flag3)
+			if (flag4)
 			{
 				LeaveSettlementAction.ApplyForParty(attackerParty);
 				attackerParty.Ai.SetMoveModeHold();
@@ -313,19 +297,10 @@ namespace TaleWorlds.CampaignSystem
 			{
 				settlement = MobileParty.MainParty.MapEvent.MapEventSettlement;
 			}
-			if (PlayerEncounter.Current != null)
+			if (PlayerEncounter.Current != null && (PlayerEncounter.EncounteredParty != attackerParty || PartyBase.MainParty != defenderParty) && (PlayerEncounter.EncounteredParty != defenderParty || PartyBase.MainParty != attackerParty))
 			{
-				if ((PlayerEncounter.EncounteredParty == attackerParty && PartyBase.MainParty == defenderParty) || (PlayerEncounter.EncounteredParty == defenderParty && PartyBase.MainParty == attackerParty))
-				{
-					MapEvent battle = PlayerEncounter.Battle;
-					if (battle == null || !battle.IsFinalized)
-					{
-						goto IL_6F;
-					}
-				}
 				PlayerEncounter.Finish(false);
 			}
-			IL_6F:
 			if (PlayerEncounter.Current == null)
 			{
 				PlayerEncounter.Start();

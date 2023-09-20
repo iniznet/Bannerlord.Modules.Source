@@ -4,7 +4,7 @@ using TaleWorlds.DotNet;
 
 namespace TaleWorlds.Engine
 {
-	[EngineStruct("Managed_sound_event_parameter")]
+	[EngineStruct("Managed_sound_event_parameter", false)]
 	public struct SoundEventParameter
 	{
 		public SoundEventParameter(string paramName, float value)
@@ -19,6 +19,7 @@ namespace TaleWorlds.Engine
 			this.Value = value;
 		}
 
+		[CustomEngineStructMemberData("str_id")]
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
 		internal string ParamName;
 

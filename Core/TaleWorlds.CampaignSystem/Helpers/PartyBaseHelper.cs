@@ -303,10 +303,6 @@ namespace Helpers
 			{
 				return null;
 			}
-			if (party == PartyBase.MainParty && Hero.MainHero.IsPrisoner)
-			{
-				return Hero.MainHero.CharacterObject;
-			}
 			if (party.LeaderHero != null)
 			{
 				return party.LeaderHero.CharacterObject;
@@ -343,11 +339,11 @@ namespace Helpers
 			{
 				if (mobileParty != enemyParty && mobileParty != ourParty && mobileParty.Aggressiveness > 0.01f && mobileParty.CurrentSettlement == null)
 				{
-					if (mobileParty.MapFaction == enemyParty.MapFaction)
+					if (mobileParty.MapFaction == enemyParty.MapFaction || (mobileParty.MapFaction.IsBanditFaction && enemyParty.MapFaction.IsBanditFaction))
 					{
 						num += mobileParty.Party.TotalStrength;
 					}
-					else if (mobileParty.MapFaction == ourParty.MapFaction)
+					else if (mobileParty.MapFaction == ourParty.MapFaction || (mobileParty.MapFaction.IsBanditFaction && ourParty.MapFaction.IsBanditFaction))
 					{
 						num2 += mobileParty.Party.TotalStrength;
 					}

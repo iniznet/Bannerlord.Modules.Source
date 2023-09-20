@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -40,6 +39,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			this._attackerStandingPoints = base.GameEntity.CollectObjectsWithTag(this.AttackerTag);
 			this._pushingWithForkStandingPoint = base.GameEntity.CollectObjectsWithTag(this.DefenderTag).FirstOrDefault<StandingPointWithWeaponRequirement>();
+			this._pushingWithForkStandingPoint.AddComponent(new DropExtraWeaponOnStopUsageComponent());
 			this._forkPickUpStandingPoint = base.GameEntity.CollectObjectsWithTag(this.AmmoPickUpTag).FirstOrDefault<StandingPointWithWeaponRequirement>();
 			StandingPointWithWeaponRequirement forkPickUpStandingPoint = this._forkPickUpStandingPoint;
 			if (forkPickUpStandingPoint != null)
@@ -71,9 +71,9 @@ namespace TaleWorlds.MountAndBlade
 			list = base.GameEntity.CollectObjectsWithTag(this.CollisionBodyTag);
 			this._ladderCollisionBodyObject = list[0];
 			this._ladderDownFrame = this._ladderObject.GameEntity.GetFrame();
-			this._ladderDownFrame.rotation.RotateAboutSide(this._downStateRotationRadian - this._ladderDownFrame.rotation.GetEulerAngles().x);
+			this._turningAngle = this._downStateRotationRadian - this._ladderDownFrame.rotation.GetEulerAngles().x;
+			this._ladderDownFrame.rotation.RotateAboutSide(this._turningAngle);
 			this._ladderObject.GameEntity.SetFrame(ref this._ladderDownFrame);
-			this._ladderObject.GameEntity.RecomputeBoundingBox();
 			MatrixFrame frame = gameEntity2.GetFrame();
 			frame.rotation = Mat3.Identity;
 			frame.rotation.RotateAboutSide(this._upStateRotationRadian);
@@ -81,9 +81,16 @@ namespace TaleWorlds.MountAndBlade
 			this._ladderUpFrame = this._ladderObject.GameEntity.Parent.GetFrame().TransformToLocal(this._ladderUpFrame);
 			this._ladderInitialGlobalFrame = this._ladderObject.GameEntity.GetGlobalFrame();
 			this._attackerStandingPointLocalIKFrames = new MatrixFrame[this._attackerStandingPoints.Count];
+			MatrixFrame frame2 = this._ladderObject.GameEntity.Parent.GetFrame();
+			MatrixFrame matrixFrame = frame2;
+			matrixFrame.rotation.RotateAboutForward(this._turningAngle);
 			this.State = this.initialState;
 			for (int i = 0; i < this._attackerStandingPoints.Count; i++)
 			{
+				MatrixFrame matrixFrame2 = this._attackerStandingPoints[i].GameEntity.GetFrame();
+				matrixFrame2 = matrixFrame.TransformToParent(matrixFrame2);
+				matrixFrame2 = frame2.TransformToLocal(matrixFrame2);
+				this._attackerStandingPoints[i].GameEntity.SetFrame(ref matrixFrame2);
 				this._attackerStandingPointLocalIKFrames[i] = this._attackerStandingPoints[i].GameEntity.GetGlobalFrame().TransformToLocal(this._ladderInitialGlobalFrame);
 				this._attackerStandingPoints[i].AddComponent(new ClearHandInverseKinematicsOnStopUsageComponent());
 			}
@@ -124,7 +131,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			base.SetForcedUse(false);
 			LadderQueueManager[] array = base.GameEntity.GetScriptComponents<LadderQueueManager>().ToArray<LadderQueueManager>();
-			MatrixFrame matrixFrame = base.GameEntity.GetGlobalFrame().TransformToLocal(this._ladderObject.GameEntity.GetGlobalFrame());
+			MatrixFrame matrixFrame3 = base.GameEntity.GetGlobalFrame().TransformToLocal(this._ladderObject.GameEntity.GetGlobalFrame());
 			int num = 0;
 			int num2 = 1;
 			for (int j = base.GameEntity.Name.Length - 1; j >= 0; j--)
@@ -142,16 +149,16 @@ namespace TaleWorlds.MountAndBlade
 			if (array.Length != 0)
 			{
 				this._queueManagerForAttackers = array[0];
-				this._queueManagerForAttackers.Initialize(this.OnWallNavMeshId, matrixFrame, -matrixFrame.rotation.f, BattleSideEnum.Attacker, 3, 2.3561945f, 2f, 0.8f, 6f, 5f, false, 0.8f, (float)num, 5f, false, -2, -2, num, 2);
+				this._queueManagerForAttackers.Initialize(this.OnWallNavMeshId, matrixFrame3, -matrixFrame3.rotation.f, BattleSideEnum.Attacker, 3, 2.3561945f, 2f, 0.8f, 6f, 5f, false, 0.8f, (float)num, 5f, false, -2, -2, num, 2);
 			}
 			if (array.Length > 1 && this._pushingWithForkStandingPoint != null)
 			{
 				this._queueManagerForDefenders = array[1];
-				MatrixFrame matrixFrame2 = this._pushingWithForkStandingPoint.GameEntity.GetGlobalFrame();
-				matrixFrame2.rotation.RotateAboutSide(1.5707964f);
-				matrixFrame2.origin -= matrixFrame2.rotation.u;
-				matrixFrame2 = base.GameEntity.GetGlobalFrame().TransformToLocal(matrixFrame2);
-				this._queueManagerForDefenders.Initialize(this.OnWallNavMeshId, matrixFrame2, matrixFrame.rotation.f, BattleSideEnum.Defender, 1, 2.8274333f, 0.5f, 0.8f, 6f, 5f, true, 0.8f, float.MaxValue, 5f, false, -2, -2, 0, 0);
+				MatrixFrame matrixFrame4 = this._pushingWithForkStandingPoint.GameEntity.GetGlobalFrame();
+				matrixFrame4.rotation.RotateAboutSide(1.5707964f);
+				matrixFrame4.origin -= matrixFrame4.rotation.u;
+				matrixFrame4 = base.GameEntity.GetGlobalFrame().TransformToLocal(matrixFrame4);
+				this._queueManagerForDefenders.Initialize(this.OnWallNavMeshId, matrixFrame4, matrixFrame3.rotation.f, BattleSideEnum.Defender, 1, 2.8274333f, 0.5f, 0.8f, 6f, 5f, true, 0.8f, float.MaxValue, 5f, false, -2, -2, 0, 0);
 			}
 			base.GameEntity.Scene.MarkFacesWithIdAsLadder(this.OnWallNavMeshId, true);
 			this.EnemyRangeToStopUsing = 0f;
@@ -213,7 +220,6 @@ namespace TaleWorlds.MountAndBlade
 				if (this._ladderSkeleton.GetAnimationIndexAtChannel(0) != this._trembleGroundAnimationIndex)
 				{
 					gameEntity.SetFrame(ref this._ladderDownFrame);
-					gameEntity.RecomputeBoundingBox();
 					this._ladderSkeleton.SetAnimationAtChannel(this._trembleGroundAnimationIndex, 0, 1f, -1f, 0f);
 					this._animationState = SiegeLadder.LadderAnimationState.Static;
 				}
@@ -232,7 +238,6 @@ namespace TaleWorlds.MountAndBlade
 				MatrixFrame frame = gameEntity.GetFrame();
 				frame.rotation.RotateAboutSide(-1.5707964f);
 				gameEntity.SetFrame(ref frame);
-				gameEntity.RecomputeBoundingBox();
 				this._ladderSkeleton.SetAnimationAtChannel(this._raiseAnimationIndex, 0, 1f, -1f, 0f);
 				this._ladderSkeleton.ForceUpdateBoneFrames();
 				this._lastDotProductOfAnimationAndTargetRotation = -1000f;
@@ -252,7 +257,6 @@ namespace TaleWorlds.MountAndBlade
 				this._fallAngularSpeed = this.GetCurrentLadderAngularSpeed(this._raiseAnimationIndex);
 				float animationParameterAtChannel = this._ladderSkeleton.GetAnimationParameterAtChannel(0);
 				gameEntity.SetGlobalFrame(matrixFrame);
-				gameEntity.RecomputeBoundingBox();
 				this._ladderSkeleton.SetAnimationAtChannel(this._raiseAnimationWithoutRootBoneIndex, 0, 1f, -1f, 0f);
 				this._ladderSkeleton.SetAnimationParameterAtChannel(0, animationParameterAtChannel);
 				this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, gameEntity.GetGlobalFrame(), false);
@@ -276,7 +280,6 @@ namespace TaleWorlds.MountAndBlade
 					if (animationIndexAtChannel != this._trembleWallHeavyAnimationIndex && animationIndexAtChannel != this._trembleWallLightAnimationIndex)
 					{
 						gameEntity.SetFrame(ref this._ladderUpFrame);
-						gameEntity.RecomputeBoundingBox();
 						this._ladderSkeleton.SetAnimationAtChannel((this._fallAngularSpeed < -0.5f) ? this._trembleWallHeavyAnimationIndex : this._trembleWallLightAnimationIndex, 0, 1f, -1f, 0f);
 						this._animationState = SiegeLadder.LadderAnimationState.Static;
 						return;
@@ -314,7 +317,6 @@ namespace TaleWorlds.MountAndBlade
 				this._fallAngularSpeed = this.GetCurrentLadderAngularSpeed(this._pushBackAnimationIndex);
 				float animationParameterAtChannel2 = this._ladderSkeleton.GetAnimationParameterAtChannel(0);
 				gameEntity.SetGlobalFrame(matrixFrame2);
-				gameEntity.RecomputeBoundingBox();
 				this._ladderSkeleton.SetAnimationAtChannel(this._pushBackAnimationWithoutRootBoneIndex, 0, 1f, -1f, 0f);
 				this._ladderSkeleton.SetAnimationParameterAtChannel(0, animationParameterAtChannel2);
 				this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, gameEntity.GetGlobalFrame(), false);
@@ -370,7 +372,7 @@ namespace TaleWorlds.MountAndBlade
 					if (GameNetwork.IsServerOrRecorder)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetSiegeLadderState(this, value));
+						GameNetwork.WriteMessage(new SetSiegeLadderState(base.Id, value));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 					}
 					this._state = value;
@@ -403,14 +405,12 @@ namespace TaleWorlds.MountAndBlade
 				MatrixFrame matrixFrame = this._ladderObject.GameEntity.GetGlobalFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
 				matrixFrame.rotation.RotateAboutForward(1.5707964f);
 				this._ladderBodyObject.GameEntity.SetGlobalFrame(matrixFrame);
-				this._ladderBodyObject.GameEntity.RecomputeBoundingBox();
 				flag3 = this.State != SiegeLadder.LadderState.BeingPushedBack || matrixFrame.rotation.f.z < 0f;
 				if (!flag3)
 				{
 					float num = MathF.Min(2.01f - matrixFrame.rotation.u.z * 2f, 1f);
 					matrixFrame.rotation.ApplyScaleLocal(new Vec3(1f, num, 1f, -1f));
 					this._ladderCollisionBodyObject.GameEntity.SetGlobalFrame(matrixFrame);
-					this._ladderCollisionBodyObject.GameEntity.RecomputeBoundingBox();
 				}
 			}
 			if (this._isLadderCollisionPhysicsDisabled != flag3)
@@ -559,17 +559,33 @@ namespace TaleWorlds.MountAndBlade
 			}
 			int num = 0;
 			int num2 = 0;
-			SiegeLadder.<>c__DisplayClass113_0 CS$<>8__locals1;
-			CS$<>8__locals1.ladderObjectEntity = this._ladderObject.GameEntity;
+			GameEntity gameEntity = this._ladderObject.GameEntity;
 			if (!GameNetwork.IsClientOrReplay)
 			{
 				if (this._queueManagerForAttackers != null)
 				{
-					this._queueManagerForAttackers.IsDeactivated = this.State != SiegeLadder.LadderState.OnWall;
+					if (this._queueManagerForAttackers.IsDeactivated)
+					{
+						if (this.State == SiegeLadder.LadderState.OnWall)
+						{
+							this._queueManagerForAttackers.Activate();
+						}
+					}
+					else if (this.State == SiegeLadder.LadderState.OnLand)
+					{
+						this._queueManagerForAttackers.Deactivate();
+					}
 				}
-				if (this._queueManagerForDefenders != null)
+				if (this._queueManagerForDefenders != null && this._queueManagerForDefenders.IsDeactivated != (this.State != SiegeLadder.LadderState.OnWall))
 				{
-					this._queueManagerForDefenders.IsDeactivated = this.State != SiegeLadder.LadderState.OnWall;
+					if (this.State != SiegeLadder.LadderState.OnWall)
+					{
+						this._queueManagerForDefenders.DeactivateImmediate();
+					}
+					else
+					{
+						this._queueManagerForDefenders.Activate();
+					}
 				}
 				int animationIndexAtChannel = this._ladderSkeleton.GetAnimationIndexAtChannel(0);
 				bool flag = false;
@@ -589,15 +605,13 @@ namespace TaleWorlds.MountAndBlade
 						num2++;
 					}
 				}
-				SiegeLadder.<>c__DisplayClass113_1 CS$<>8__locals2;
-				CS$<>8__locals2.someoneOver = null;
 				foreach (StandingPoint standingPoint2 in base.StandingPoints)
 				{
-					GameEntity gameEntity = standingPoint2.GameEntity;
-					if (!gameEntity.HasTag(this.AmmoPickUpTag))
+					GameEntity gameEntity2 = standingPoint2.GameEntity;
+					if (!gameEntity2.HasTag(this.AmmoPickUpTag))
 					{
 						bool flag2 = false;
-						if ((!standingPoint2.HasUser || standingPoint2.UserAgent.IsInBeingStruckAction) && this.State == SiegeLadder.LadderState.BeingRaised && gameEntity.HasTag(this.AttackerTag))
+						if ((!standingPoint2.HasUser || standingPoint2.UserAgent.IsInBeingStruckAction) && this.State == SiegeLadder.LadderState.BeingRaised && gameEntity2.HasTag(this.AttackerTag))
 						{
 							float animationParameterAtChannel = this._ladderSkeleton.GetAnimationParameterAtChannel(0);
 							float animationDuration = MBAnimation.GetAnimationDuration(this._ladderSkeleton.GetAnimationIndexAtChannel(0));
@@ -605,7 +619,7 @@ namespace TaleWorlds.MountAndBlade
 							int animationIndexOfAction = MBActionSet.GetAnimationIndexOfAction(MBGlobals.GetActionSetWithSuffix(Game.Current.DefaultMonster, false, "_warrior"), actionCodeToUseForStandingPoint);
 							flag2 = animationParameterAtChannel * animationDuration / MathF.Max(MBAnimation.GetAnimationDuration(animationIndexOfAction), 0.01f) > 0.98f;
 						}
-						standingPoint2.SetIsDeactivatedSynched(flag2 || this.State == SiegeLadder.LadderState.BeingPushedBackStopped || (gameEntity.HasTag(this.AttackerTag) && (this.State == SiegeLadder.LadderState.OnWall || this.State == SiegeLadder.LadderState.FallToWall || (this.State == SiegeLadder.LadderState.BeingPushedBack && this._animationState != SiegeLadder.LadderAnimationState.PhysicallyDynamic) || this.State == SiegeLadder.LadderState.BeingPushedBackStartFromWall)) || (gameEntity.HasTag(this.DefenderTag) && (this.State == SiegeLadder.LadderState.OnLand || this._animationState == SiegeLadder.LadderAnimationState.PhysicallyDynamic || this.State == SiegeLadder.LadderState.BeingRaisedStopped || flag || this.State == SiegeLadder.LadderState.FallToLand || this.State == SiegeLadder.LadderState.BeingRaised || this.State == SiegeLadder.LadderState.BeingRaisedStartFromGround || this.<OnTick>g__GetIsSomeoneOver|113_0(ref CS$<>8__locals1, ref CS$<>8__locals2))));
+						standingPoint2.SetIsDeactivatedSynched(flag2 || this.State == SiegeLadder.LadderState.BeingPushedBackStopped || (gameEntity2.HasTag(this.AttackerTag) && (this.State == SiegeLadder.LadderState.OnWall || this.State == SiegeLadder.LadderState.FallToWall || (this.State == SiegeLadder.LadderState.BeingPushedBack && this._animationState != SiegeLadder.LadderAnimationState.PhysicallyDynamic) || this.State == SiegeLadder.LadderState.BeingPushedBackStartFromWall)) || (gameEntity2.HasTag(this.DefenderTag) && (this.State == SiegeLadder.LadderState.OnLand || this._animationState == SiegeLadder.LadderAnimationState.PhysicallyDynamic || this.State == SiegeLadder.LadderState.BeingRaisedStopped || flag || this.State == SiegeLadder.LadderState.FallToLand || this.State == SiegeLadder.LadderState.BeingRaised || this.State == SiegeLadder.LadderState.BeingRaisedStartFromGround || !this.CanLadderBePushed())));
 					}
 				}
 				if (this._forkPickUpStandingPoint.HasUser)
@@ -729,26 +743,25 @@ namespace TaleWorlds.MountAndBlade
 										}
 									}
 								}
-								goto IL_7DA;
+								goto IL_803;
 							}
 						}
 						this.State = SiegeLadder.LadderState.BeingRaisedStopped;
 						flag3 = true;
 					}
-					IL_7DA:
+					IL_803:
 					if (!flag3)
 					{
-						MatrixFrame matrixFrame = CS$<>8__locals1.ladderObjectEntity.GetGlobalFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
+						MatrixFrame matrixFrame = gameEntity.GetGlobalFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
 						matrixFrame.rotation.RotateAboutForward(1.5707964f);
 						if ((animationParameterAtChannel2 > 0.9f && animationParameterAtChannel2 != 1f) || matrixFrame.rotation.f.z <= 0.2f)
 						{
 							this._animationState = SiegeLadder.LadderAnimationState.PhysicallyDynamic;
 							this._fallAngularSpeed = this.GetCurrentLadderAngularSpeed(this._raiseAnimationIndex);
-							CS$<>8__locals1.ladderObjectEntity.SetGlobalFrame(matrixFrame);
-							CS$<>8__locals1.ladderObjectEntity.RecomputeBoundingBox();
+							gameEntity.SetGlobalFrame(matrixFrame);
 							this._ladderSkeleton.SetAnimationAtChannel(this._raiseAnimationWithoutRootBoneIndex, 0, 1f, -1f, 0f);
 							this._ladderSkeleton.SetAnimationParameterAtChannel(0, animationParameterAtChannel2);
-							this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, CS$<>8__locals1.ladderObjectEntity.GetGlobalFrame(), false);
+							this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, gameEntity.GetGlobalFrame(), false);
 							this._ladderSkeleton.SetAnimationAtChannel(this._idleAnimationIndex, 0, 1f, -1f, 0f);
 							this._ladderObject.SetLocalPositionSmoothStep(ref this._ladderUpFrame.origin);
 						}
@@ -756,18 +769,16 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else if (this._animationState == SiegeLadder.LadderAnimationState.PhysicallyDynamic)
 				{
-					MatrixFrame frame = CS$<>8__locals1.ladderObjectEntity.GetFrame();
+					MatrixFrame frame = gameEntity.GetFrame();
 					frame.rotation.RotateAboutSide(this._fallAngularSpeed * dt);
-					CS$<>8__locals1.ladderObjectEntity.SetFrame(ref frame);
-					CS$<>8__locals1.ladderObjectEntity.RecomputeBoundingBox();
-					MatrixFrame matrixFrame2 = CS$<>8__locals1.ladderObjectEntity.GetFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
+					gameEntity.SetFrame(ref frame);
+					MatrixFrame matrixFrame2 = gameEntity.GetFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
 					float num7 = Vec3.DotProduct(matrixFrame2.rotation.f, this._ladderUpFrame.rotation.f);
 					if (this._fallAngularSpeed < 0f && num7 > 0.95f && num7 < this._lastDotProductOfAnimationAndTargetRotation)
 					{
-						CS$<>8__locals1.ladderObjectEntity.SetFrame(ref this._ladderUpFrame);
-						CS$<>8__locals1.ladderObjectEntity.RecomputeBoundingBox();
+						gameEntity.SetFrame(ref this._ladderUpFrame);
 						this._ladderSkeleton.SetAnimationParameterAtChannel(0, 0f);
-						this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, CS$<>8__locals1.ladderObjectEntity.GetGlobalFrame(), false);
+						this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, gameEntity.GetGlobalFrame(), false);
 						this._animationState = SiegeLadder.LadderAnimationState.Static;
 						this._ladderSkeleton.SetAnimationAtChannel((this._fallAngularSpeed < -0.5f) ? this._trembleWallHeavyAnimationIndex : this._trembleWallLightAnimationIndex, 0, 1f, -1f, 0f);
 						if (!GameNetwork.IsClientOrReplay)
@@ -827,17 +838,16 @@ namespace TaleWorlds.MountAndBlade
 					}
 					if (!flag4)
 					{
-						MatrixFrame matrixFrame3 = CS$<>8__locals1.ladderObjectEntity.GetGlobalFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
+						MatrixFrame matrixFrame3 = gameEntity.GetGlobalFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
 						matrixFrame3.rotation.RotateAboutForward(1.5707964f);
 						if (animationParameterAtChannel4 > 0.9999f || matrixFrame3.rotation.f.z >= 0f)
 						{
 							this._animationState = SiegeLadder.LadderAnimationState.PhysicallyDynamic;
 							this._fallAngularSpeed = this.GetCurrentLadderAngularSpeed(this._pushBackAnimationIndex);
-							CS$<>8__locals1.ladderObjectEntity.SetGlobalFrame(matrixFrame3);
-							CS$<>8__locals1.ladderObjectEntity.RecomputeBoundingBox();
+							gameEntity.SetGlobalFrame(matrixFrame3);
 							this._ladderSkeleton.SetAnimationAtChannel(this._pushBackAnimationWithoutRootBoneIndex, 0, 1f, -1f, 0f);
 							this._ladderSkeleton.SetAnimationParameterAtChannel(0, animationParameterAtChannel4);
-							this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, CS$<>8__locals1.ladderObjectEntity.GetGlobalFrame(), false);
+							this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, gameEntity.GetGlobalFrame(), false);
 							this._ladderSkeleton.SetAnimationAtChannel(this._idleAnimationIndex, 0, 1f, -1f, 0f);
 							this._ladderObject.SetLocalPositionSmoothStep(ref this._ladderDownFrame.origin);
 						}
@@ -845,20 +855,18 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else if (this._animationState == SiegeLadder.LadderAnimationState.PhysicallyDynamic)
 				{
-					MatrixFrame frame2 = CS$<>8__locals1.ladderObjectEntity.GetFrame();
+					MatrixFrame frame2 = gameEntity.GetFrame();
 					frame2.rotation.RotateAboutSide(this._fallAngularSpeed * dt);
-					CS$<>8__locals1.ladderObjectEntity.SetFrame(ref frame2);
-					CS$<>8__locals1.ladderObjectEntity.RecomputeBoundingBox();
-					MatrixFrame matrixFrame4 = CS$<>8__locals1.ladderObjectEntity.GetFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
+					gameEntity.SetFrame(ref frame2);
+					MatrixFrame matrixFrame4 = gameEntity.GetFrame().TransformToParent(this._ladderSkeleton.GetBoneEntitialFrameWithIndex(0));
 					matrixFrame4.rotation.RotateAboutForward(1.5707964f);
 					float num9 = Vec3.DotProduct(matrixFrame4.rotation.f, this._ladderDownFrame.rotation.f);
 					if (this._fallAngularSpeed > 0f && num9 > 0.95f && num9 < this._lastDotProductOfAnimationAndTargetRotation)
 					{
 						this._animationState = SiegeLadder.LadderAnimationState.Static;
-						CS$<>8__locals1.ladderObjectEntity.SetFrame(ref this._ladderDownFrame);
-						CS$<>8__locals1.ladderObjectEntity.RecomputeBoundingBox();
+						gameEntity.SetFrame(ref this._ladderDownFrame);
 						this._ladderSkeleton.SetAnimationParameterAtChannel(0, 0f);
-						this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, CS$<>8__locals1.ladderObjectEntity.GetGlobalFrame(), false);
+						this._ladderSkeleton.TickAnimationsAndForceUpdate(0.0001f, gameEntity.GetGlobalFrame(), false);
 						this._ladderSkeleton.SetAnimationAtChannel(this._trembleGroundAnimationIndex, 0, 1f, -1f, 0f);
 						this._animationState = SiegeLadder.LadderAnimationState.Static;
 						if (!GameNetwork.IsClientOrReplay)
@@ -878,7 +886,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				break;
 			default:
-				Debug.FailedAssert("Invalid ladder action state.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\SiegeLadder.cs", "OnTick", 1237);
+				Debug.FailedAssert("Invalid ladder action state.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\SiegeLadder.cs", "OnTick", 1259);
 				break;
 			}
 			this.CalculateNavigationAndPhysics();
@@ -893,7 +901,16 @@ namespace TaleWorlds.MountAndBlade
 				{
 					if (!this._attackerStandingPoints[i].UserAgent.IsInBeingStruckAction)
 					{
-						this._attackerStandingPoints[i].UserAgent.SetHandInverseKinematicsFrameForMissionObjectUsage(this._attackerStandingPointLocalIKFrames[i], this._ladderInitialGlobalFrame, 0f);
+						if (this._attackerStandingPoints[i].UserAgent.GetCurrentAction(1) != this.GetActionCodeToUseForStandingPoint(this._attackerStandingPoints[i]))
+						{
+							MatrixFrame matrixFrame = this._attackerStandingPointLocalIKFrames[i];
+							matrixFrame.rotation = Mat3.Lerp(matrixFrame.rotation, this._ladderInitialGlobalFrame.TransformToLocal(this._attackerStandingPoints[i].UserAgent.Frame).rotation, MathF.Clamp(MathF.Lerp(0f, 1f - this._turningAngle * 1.2f, MathF.Pow(this._attackerStandingPoints[i].UserAgent.GetCurrentActionProgress(1), 6f), 1E-05f), 0f, 1f));
+							this._attackerStandingPoints[i].UserAgent.SetHandInverseKinematicsFrameForMissionObjectUsage(matrixFrame, this._ladderInitialGlobalFrame, 0f);
+						}
+						else
+						{
+							this._attackerStandingPoints[i].UserAgent.SetHandInverseKinematicsFrameForMissionObjectUsage(this._attackerStandingPointLocalIKFrames[i], this._ladderInitialGlobalFrame, 0f);
+						}
 					}
 					else
 					{
@@ -965,6 +982,32 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		private bool CanLadderBePushed()
+		{
+			float num = 0f;
+			GameEntity gameEntity = this._ladderObject.GameEntity;
+			Vec3 vec;
+			Vec3 vec2;
+			gameEntity.GetPhysicsMinMax(true, out vec, out vec2, false);
+			float num2 = (vec2 - vec).AsVec2.Length * 0.5f;
+			AgentProximityMap.ProximityMapSearchStruct proximityMapSearchStruct = AgentProximityMap.BeginSearch(Mission.Current, gameEntity.GlobalPosition.AsVec2, num2, false);
+			while (proximityMapSearchStruct.LastFoundAgent != null)
+			{
+				Agent lastFoundAgent = proximityMapSearchStruct.LastFoundAgent;
+				if (lastFoundAgent.GetSteppedMachine() == this)
+				{
+					float num3 = (lastFoundAgent.Position.z - vec.z) / (vec2.z - vec.z) * 100f;
+					if (num3 > this.LadderPushTresholdForOneAgent)
+					{
+						return false;
+					}
+					num += num3;
+				}
+				AgentProximityMap.FindNext(Mission.Current, ref proximityMapSearchStruct);
+			}
+			return num <= this.LadderPushTreshold;
+		}
+
 		private void InformNeighborQueueManagers(LadderQueueManager ladderQueueManager)
 		{
 			foreach (SiegeLadder siegeLadder in (from sl in Mission.Current.ActiveMissionObjects.FindAllWithType<SiegeLadder>()
@@ -1015,7 +1058,6 @@ namespace TaleWorlds.MountAndBlade
 					this.State = SiegeLadder.LadderState.OnLand;
 				}
 				this._ladderObject.GameEntity.SetFrame(ref this._ladderDownFrame);
-				this._ladderObject.GameEntity.RecomputeBoundingBox();
 				return;
 			}
 			if (!GameNetwork.IsClientOrReplay)
@@ -1023,7 +1065,6 @@ namespace TaleWorlds.MountAndBlade
 				this.State = SiegeLadder.LadderState.OnWall;
 			}
 			this._ladderObject.GameEntity.SetFrame(ref this._ladderUpFrame);
-			this._ladderObject.GameEntity.RecomputeBoundingBox();
 		}
 
 		public override string GetDescriptionText(GameEntity gameEntity)
@@ -1048,42 +1089,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 			textObject.SetTextVariable("KEY", HyperlinkTexts.GetKeyHyperlinkText(HotKeyManager.GetHotKeyId("CombatHotKeyCategory", 13)));
 			return textObject;
-		}
-
-		public override bool ReadFromNetwork()
-		{
-			bool flag = base.ReadFromNetwork();
-			bool flag2 = GameNetworkMessage.ReadBoolFromPacket(ref flag);
-			int num = GameNetworkMessage.ReadIntFromPacket(CompressionMission.SiegeLadderStateCompressionInfo, ref flag);
-			int num2 = GameNetworkMessage.ReadIntFromPacket(CompressionMission.SiegeLadderAnimationStateCompressionInfo, ref flag);
-			float num3 = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.SiegeMachineComponentAngularSpeedCompressionInfo, ref flag);
-			MatrixFrame matrixFrame = GameNetworkMessage.ReadMatrixFrameFromPacket(ref flag);
-			bool flag3 = GameNetworkMessage.ReadBoolFromPacket(ref flag);
-			int num4 = -1;
-			float num5 = 0f;
-			if (flag3)
-			{
-				num4 = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationIndexCompressionInfo, ref flag);
-				num5 = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.AnimationProgressCompressionInfo, ref flag);
-			}
-			if (flag)
-			{
-				this.initialState = (flag2 ? SiegeLadder.LadderState.OnLand : SiegeLadder.LadderState.OnWall);
-				this._state = (SiegeLadder.LadderState)num;
-				this._animationState = (SiegeLadder.LadderAnimationState)num2;
-				this._fallAngularSpeed = num3;
-				this._lastDotProductOfAnimationAndTargetRotation = -1000f;
-				matrixFrame.rotation.Orthonormalize();
-				this._ladderObject.GameEntity.SetGlobalFrame(matrixFrame);
-				this._ladderObject.GameEntity.RecomputeBoundingBox();
-				if (num4 >= 0)
-				{
-					this._ladderSkeleton.SetAnimationAtChannel(num4, 0, 1f, -1f, 0f);
-					this._ladderSkeleton.SetAnimationParameterAtChannel(0, MBMath.ClampFloat(num5, 0f, 1f));
-					this._ladderSkeleton.ForceUpdateBoneFrames();
-				}
-			}
-			return flag;
 		}
 
 		public override void WriteToNetwork()
@@ -1165,37 +1170,32 @@ namespace TaleWorlds.MountAndBlade
 			this.IndestructibleMerlonsTag = indestructibleMerlonsTag;
 		}
 
+		public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+		{
+			base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+			SiegeLadder.SiegeLadderRecord siegeLadderRecord = (SiegeLadder.SiegeLadderRecord)synchedMissionObjectReadableRecord.Item2;
+			this.initialState = (siegeLadderRecord.IsStateLand ? SiegeLadder.LadderState.OnLand : SiegeLadder.LadderState.OnWall);
+			this._state = (SiegeLadder.LadderState)siegeLadderRecord.State;
+			this._animationState = (SiegeLadder.LadderAnimationState)siegeLadderRecord.AnimationState;
+			this._fallAngularSpeed = siegeLadderRecord.FallAngularSpeed;
+			this._lastDotProductOfAnimationAndTargetRotation = -1000f;
+			MatrixFrame matrixFrame = siegeLadderRecord.LadderFrame;
+			matrixFrame.rotation.Orthonormalize();
+			GameEntity gameEntity = this._ladderObject.GameEntity;
+			matrixFrame = siegeLadderRecord.LadderFrame;
+			gameEntity.SetGlobalFrame(matrixFrame);
+			if (siegeLadderRecord.LadderAnimationIndex >= 0)
+			{
+				this._ladderSkeleton.SetAnimationAtChannel(siegeLadderRecord.LadderAnimationIndex, 0, 1f, -1f, 0f);
+				this._ladderSkeleton.SetAnimationParameterAtChannel(0, MBMath.ClampFloat(siegeLadderRecord.LadderAnimationProgress, 0f, 1f));
+				this._ladderSkeleton.ForceUpdateBoneFrames();
+			}
+		}
+
 		public bool GetNavmeshFaceIds(out List<int> navmeshFaceIds)
 		{
 			navmeshFaceIds = new List<int> { this.OnWallNavMeshId };
 			return true;
-		}
-
-		[CompilerGenerated]
-		private bool <OnTick>g__GetIsSomeoneOver|113_0(ref SiegeLadder.<>c__DisplayClass113_0 A_1, ref SiegeLadder.<>c__DisplayClass113_1 A_2)
-		{
-			if (A_2.someoneOver == null)
-			{
-				A_2.someoneOver = new bool?(false);
-				if (!GameNetwork.IsMultiplayer)
-				{
-					Vec3 vec;
-					Vec3 vec2;
-					A_1.ladderObjectEntity.GetPhysicsMinMax(true, out vec, out vec2, false);
-					float num = (vec2 - vec).AsVec2.Length * 0.5f;
-					AgentProximityMap.ProximityMapSearchStruct proximityMapSearchStruct = AgentProximityMap.BeginSearch(Mission.Current, A_1.ladderObjectEntity.GlobalPosition.AsVec2, num, false);
-					while (proximityMapSearchStruct.LastFoundAgent != null)
-					{
-						if (proximityMapSearchStruct.LastFoundAgent.GetSteppedMachine() == this)
-						{
-							A_2.someoneOver = new bool?(true);
-							break;
-						}
-						AgentProximityMap.FindNext(Mission.Current, ref proximityMapSearchStruct);
-					}
-				}
-			}
-			return A_2.someoneOver.Value;
 		}
 
 		private static readonly ActionIndexCache act_usage_ladder_lift_from_left_1_start = ActionIndexCache.Create("act_usage_ladder_lift_from_left_1_start");
@@ -1268,6 +1268,10 @@ namespace TaleWorlds.MountAndBlade
 
 		private string _targetWallSegmentTag = "";
 
+		public float LadderPushTreshold = 170f;
+
+		public float LadderPushTresholdForOneAgent = 55f;
+
 		private WallSegment _targetWallSegment;
 
 		private string _sideTag;
@@ -1336,6 +1340,8 @@ namespace TaleWorlds.MountAndBlade
 
 		private float _lastDotProductOfAnimationAndTargetRotation;
 
+		private float _turningAngle;
+
 		private LadderQueueManager _queueManagerForAttackers;
 
 		private LadderQueueManager _queueManagerForDefenders;
@@ -1345,6 +1351,44 @@ namespace TaleWorlds.MountAndBlade
 		private float _forkReappearingDelay = 10f;
 
 		private SynchedMissionObject _forkEntity;
+
+		[DefineSynchedMissionObjectType(typeof(SiegeLadder))]
+		public struct SiegeLadderRecord : ISynchedMissionObjectReadableRecord
+		{
+			public bool IsStateLand { get; private set; }
+
+			public int State { get; private set; }
+
+			public int AnimationState { get; private set; }
+
+			public float FallAngularSpeed { get; private set; }
+
+			public MatrixFrame LadderFrame { get; private set; }
+
+			public bool HasAnimation { get; private set; }
+
+			public int LadderAnimationIndex { get; private set; }
+
+			public float LadderAnimationProgress { get; private set; }
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.IsStateLand = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+				this.State = GameNetworkMessage.ReadIntFromPacket(CompressionMission.SiegeLadderStateCompressionInfo, ref bufferReadValid);
+				this.AnimationState = GameNetworkMessage.ReadIntFromPacket(CompressionMission.SiegeLadderAnimationStateCompressionInfo, ref bufferReadValid);
+				this.FallAngularSpeed = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.SiegeMachineComponentAngularSpeedCompressionInfo, ref bufferReadValid);
+				this.LadderFrame = GameNetworkMessage.ReadMatrixFrameFromPacket(ref bufferReadValid);
+				this.HasAnimation = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+				this.LadderAnimationIndex = -1;
+				this.LadderAnimationProgress = 0f;
+				if (this.HasAnimation)
+				{
+					this.LadderAnimationIndex = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationIndexCompressionInfo, ref bufferReadValid);
+					this.LadderAnimationProgress = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.AnimationProgressCompressionInfo, ref bufferReadValid);
+				}
+				return bufferReadValid;
+			}
+		}
 
 		public enum LadderState
 		{

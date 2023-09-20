@@ -116,7 +116,8 @@ namespace TaleWorlds.CampaignSystem.Actions
 						float num6 = 0f;
 						foreach (TroopRosterElement troopRosterElement3 in troopRoster.GetTroopRoster())
 						{
-							num6 += Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(troopRosterElement3.Character, MapEvent.BattleTypes.None, BattleSideEnum.None, false) * (float)troopRosterElement3.Number;
+							float troopPower = Campaign.Current.Models.MilitaryPowerModel.GetTroopPower(troopRosterElement3.Character, BattleSideEnum.Defender, MapEvent.PowerCalculationContext.Siege, 0f);
+							num6 += troopPower * (float)troopRosterElement3.Number;
 						}
 						GainKingdomInfluenceAction.ApplyForLeavingTroopToGarrison(mobileParty.LeaderHero, num6 / 3f);
 						return;

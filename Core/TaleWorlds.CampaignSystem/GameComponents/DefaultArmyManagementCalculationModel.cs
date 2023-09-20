@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Helpers;
+using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
@@ -62,7 +63,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			float num3 = ((num < 0f) ? (1f + MathF.Sqrt(MathF.Abs(MathF.Max(-100f, num))) / 10f) : (1f - MathF.Sqrt(MathF.Abs(MathF.Min(100f, num))) / 20f));
 			float num4 = 0.5f + MathF.Min(1000f, num2) / 100f;
 			float num5 = 0.5f + 1f * (1f - (partySizeScore - this._minimumPartySizeScoreNeeded) / (1f - this._minimumPartySizeScoreNeeded));
-			float num6 = 1f + 1f * MathF.Pow(MathF.Min(Campaign.MapDiagonal * 10f, Campaign.Current.Models.MapDistanceModel.GetDistance(armyLeaderParty, party)) / Campaign.MapDiagonal, 0.67f);
+			float num6 = 1f + 1f * MathF.Pow(MathF.Min(Campaign.MapDiagonal * 10f, MathF.Max(1f, Campaign.Current.Models.MapDistanceModel.GetDistance(armyLeaderParty, party)) / Campaign.MapDiagonal), 0.67f);
 			float num7 = ((party.LeaderHero != null) ? party.LeaderHero.RandomFloat(0.75f, 1.25f) : 1f);
 			float num8 = 1f;
 			float num9 = 1f;
@@ -147,25 +148,29 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					Settlement currentSettlement = mobileParty.CurrentSettlement;
 					if (((currentSettlement != null) ? currentSettlement.SiegeEvent : null) == null && !mobileParty.IsDisbanding && mobileParty.Food > -(mobileParty.FoodChange * 5f) && mobileParty.PartySizeRatio > 0.6f && leaderHero.CanLeadParty() && mobileParty.MapEvent == null && mobileParty.BesiegedSettlement == null)
 					{
-						bool flag3 = false;
-						using (List<ValueTuple<MobileParty, float>>.Enumerator enumerator3 = list2.GetEnumerator())
+						IDisbandPartyCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<IDisbandPartyCampaignBehavior>();
+						if (campaignBehavior == null || !campaignBehavior.IsPartyWaitingForDisband(mobileParty))
 						{
-							while (enumerator3.MoveNext())
+							bool flag3 = false;
+							using (List<ValueTuple<MobileParty, float>>.Enumerator enumerator3 = list2.GetEnumerator())
 							{
-								if (enumerator3.Current.Item1 == mobileParty)
+								while (enumerator3.MoveNext())
 								{
-									flag3 = true;
-									break;
+									if (enumerator3.Current.Item1 == mobileParty)
+									{
+										flag3 = true;
+										break;
+									}
 								}
 							}
-						}
-						if (!flag3)
-						{
-							int num4 = Campaign.Current.Models.ArmyManagementCalculationModel.CalculatePartyInfluenceCost(leaderParty, mobileParty);
-							float totalStrength = mobileParty.Party.TotalStrength;
-							float num5 = 1f - (float)mobileParty.Party.MemberRoster.TotalWounded / (float)mobileParty.Party.MemberRoster.TotalManCount;
-							float num6 = totalStrength / ((float)num4 + 0.1f) * num5;
-							list2.Add(new ValueTuple<MobileParty, float>(mobileParty, num6));
+							if (!flag3)
+							{
+								int num4 = Campaign.Current.Models.ArmyManagementCalculationModel.CalculatePartyInfluenceCost(leaderParty, mobileParty);
+								float totalStrength = mobileParty.Party.TotalStrength;
+								float num5 = 1f - (float)mobileParty.Party.MemberRoster.TotalWounded / (float)mobileParty.Party.MemberRoster.TotalManCount;
+								float num6 = totalStrength / ((float)num4 + 0.1f) * num5;
+								list2.Add(new ValueTuple<MobileParty, float>(mobileParty, num6));
+							}
 						}
 					}
 				}

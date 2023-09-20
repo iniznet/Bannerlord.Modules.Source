@@ -2,7 +2,7 @@
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
-	internal class ChangeRulingClanAction
+	public class ChangeRulingClanAction
 	{
 		private static void ApplyInternal(Kingdom kingdom, Clan clan)
 		{

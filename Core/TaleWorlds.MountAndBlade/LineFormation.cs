@@ -1063,7 +1063,7 @@ namespace TaleWorlds.MountAndBlade
 			return new Vec2?(this.GetLocalPositionOfUnitWithAdjustment(unit.FormationFileIndex, unit.FormationRankIndex, distanceBetweenAgentsAdjustment));
 		}
 
-		public Vec2? GetLocalDirectionOfUnitOrDefault(IFormationUnit unit)
+		public virtual Vec2? GetLocalDirectionOfUnitOrDefault(IFormationUnit unit)
 		{
 			return new Vec2?(Vec2.Forward);
 		}

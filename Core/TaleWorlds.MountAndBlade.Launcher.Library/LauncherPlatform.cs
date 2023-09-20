@@ -93,6 +93,16 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			return File.Exists(BasePath.Name + "Modules/Native/" + "epic.target");
 		}
 
+		public static void SetLauncherMode(bool isLauncherModeActive)
+		{
+			IPlatformModuleExtension platformModuleExtension = LauncherPlatform._platformModuleExtension;
+			if (platformModuleExtension == null)
+			{
+				return;
+			}
+			platformModuleExtension.SetLauncherMode(isLauncherModeActive);
+		}
+
 		private static LauncherPlatformType _platformType;
 
 		private static IPlatformModuleExtension _platformModuleExtension;

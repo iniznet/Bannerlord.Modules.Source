@@ -7,6 +7,6 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 {
 	public abstract class BattleCaptainModel : GameModel
 	{
-		public abstract float GetCaptainRatingForTroopClasses(Hero hero, TroopClassFlag flag, out List<PerkObject> compatiblePerks);
+		public abstract float GetCaptainRatingForTroopUsages(Hero hero, TroopUsageFlags flag, out List<PerkObject> compatiblePerks);
 	}
 }

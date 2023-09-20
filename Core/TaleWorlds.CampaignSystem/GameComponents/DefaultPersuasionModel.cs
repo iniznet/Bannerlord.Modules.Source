@@ -87,7 +87,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		private float GetBonusSuccessChance(PersuasionOptionArgs optionArgs)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(1f, false, null);
-			explainedNumber.AddFactor(MathF.Clamp((float)Hero.MainHero.GetSkillValue(optionArgs.SkillUsed) / 250f * 0.2f, 0f, 0.2f), optionArgs.SkillUsed.Name);
+			explainedNumber.AddFactor(MathF.Clamp((float)(Hero.MainHero.GetSkillValue(optionArgs.SkillUsed) / Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus) * 0.2f, 0f, 0.2f), optionArgs.SkillUsed.Name);
 			if (Hero.MainHero.GetPerkValue(DefaultPerks.Athletics.ImposingStature))
 			{
 				explainedNumber.AddFactor(DefaultPerks.Athletics.ImposingStature.PrimaryBonus, DefaultPerks.Athletics.ImposingStature.Name);

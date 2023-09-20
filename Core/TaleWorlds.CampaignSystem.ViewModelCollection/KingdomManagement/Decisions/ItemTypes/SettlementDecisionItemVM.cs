@@ -85,7 +85,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			}
 			this.MilitasText = ((int)this.Settlement.Militia).ToString();
 			this.MilitasHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetTownMilitiaTooltip(this.Settlement.Town));
-			this.ProsperityText = (this.Settlement.IsTown ? ((int)this.Settlement.Town.Prosperity).ToString() : ((int)this.Settlement.Prosperity).ToString());
+			this.ProsperityText = ((this.Settlement.Town != null) ? ((int)this.Settlement.Town.Prosperity).ToString() : (this.Settlement.IsVillage ? ((int)this.Settlement.Village.Hearth).ToString() : string.Empty));
 			if (this.Settlement.IsTown)
 			{
 				this.ProsperityHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetTownProsperityTooltip(this.Settlement.Town));

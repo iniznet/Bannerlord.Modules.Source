@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TaleWorlds.GauntletUI;
 using TaleWorlds.GauntletUI.BaseTypes;
+using TaleWorlds.Library;
 using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
@@ -18,7 +19,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 		{
 			base.OnLateUpdate(dt);
 			float num = (this.IsMarkersEnabled ? this.TargetAlphaValue : 0f);
-			base.AlphaFactor = Mathf.Lerp(base.AlphaFactor, num, dt * 10f);
+			float num2 = MathF.Clamp(dt * 10f, 0f, 1f);
+			base.AlphaFactor = Mathf.Lerp(base.AlphaFactor, num, num2);
 			bool flag = this._markers.Count > 0;
 			for (int i = 0; i < this._markers.Count; i++)
 			{
@@ -30,32 +32,32 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.NameMarker
 				this._markers.Sort((NameMarkerListPanel m1, NameMarkerListPanel m2) => m1.Rect.Left.CompareTo(m2.Rect.Left));
 				for (int j = 0; j < this._markers.Count; j++)
 				{
-					int num2 = j + 1;
-					while (num2 < this._markers.Count && this._markers[num2].Rect.Left - this._markers[j].Rect.Left <= this._markers[j].Rect.Width)
+					int num3 = j + 1;
+					while (num3 < this._markers.Count && this._markers[num3].Rect.Left - this._markers[j].Rect.Left <= this._markers[j].Rect.Width)
 					{
-						if (this._markers[j].Rect.IsOverlapping(this._markers[num2].Rect))
+						if (this._markers[j].Rect.IsOverlapping(this._markers[num3].Rect))
 						{
-							this._markers[num2].ScaledPositionXOffset += this._markers[j].Rect.Right - this._markers[num2].Rect.Left;
-							this._markers[num2].UpdateRectangle();
+							this._markers[num3].ScaledPositionXOffset += this._markers[j].Rect.Right - this._markers[num3].Rect.Left;
+							this._markers[num3].UpdateRectangle();
 						}
-						num2++;
+						num3++;
 					}
 				}
 				NameMarkerListPanel nameMarkerListPanel = null;
-				float num3 = 3600f;
+				float num4 = 3600f;
 				for (int k = 0; k < this._markers.Count; k++)
 				{
 					if (this._markers[k].IsInScreenBoundaries)
 					{
 						NameMarkerListPanel nameMarkerListPanel2 = this._markers[k];
-						float num4 = base.EventManager.PageSize.X / 2f;
-						float num5 = base.EventManager.PageSize.Y / 2f;
-						float num6 = Mathf.Abs(num4 - nameMarkerListPanel2.Rect.CenterX);
-						float num7 = Mathf.Abs(num5 - nameMarkerListPanel2.Rect.CenterY);
-						float num8 = num6 * num6 + num7 * num7;
-						if (num8 < num3)
+						float num5 = base.EventManager.PageSize.X / 2f;
+						float num6 = base.EventManager.PageSize.Y / 2f;
+						float num7 = Mathf.Abs(num5 - nameMarkerListPanel2.Rect.CenterX);
+						float num8 = Mathf.Abs(num6 - nameMarkerListPanel2.Rect.CenterY);
+						float num9 = num7 * num7 + num8 * num8;
+						if (num9 < num4)
 						{
-							num3 = num8;
+							num4 = num9;
 							nameMarkerListPanel = nameMarkerListPanel2;
 						}
 					}

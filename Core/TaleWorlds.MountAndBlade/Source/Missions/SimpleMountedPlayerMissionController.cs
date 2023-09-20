@@ -22,7 +22,7 @@ namespace TaleWorlds.MountAndBlade.Source.Missions
 			Vec2 vec = matrixFrame.rotation.f.AsVec2;
 			vec = vec.Normalized();
 			agentBuildData2.InitialDirection(vec).Controller(Agent.ControllerType.Player);
-			base.Mission.SpawnAgent(agentBuildData, false).WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp);
+			base.Mission.SpawnAgent(agentBuildData, false).WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp, Equipment.InitialWeaponEquipPreference.Any);
 		}
 
 		public override bool MissionEnded(ref MissionResult missionResult)

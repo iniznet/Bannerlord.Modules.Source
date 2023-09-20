@@ -5,7 +5,6 @@ using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
-using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
@@ -19,11 +18,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		public ClanFiefsVM(Action onRefresh, Action<ClanCardSelectionInfo> openCardSelectionPopup)
 		{
 			this._onRefresh = onRefresh;
-			this._faction = Hero.MainHero.Clan;
+			this._clan = Hero.MainHero.Clan;
 			this._openCardSelectionPopup = openCardSelectionPopup;
 			this._teleportationBehavior = Campaign.Current.GetCampaignBehavior<ITeleportationCampaignBehavior>();
 			this.Settlements = new MBBindingList<ClanSettlementItemVM>();
 			this.Castles = new MBBindingList<ClanSettlementItemVM>();
+			List<MBBindingList<ClanSettlementItemVM>> list = new List<MBBindingList<ClanSettlementItemVM>> { this.Settlements, this.Castles };
+			this.SortController = new ClanFiefsSortControllerVM(list);
 			this.RefreshAllLists();
 			this.RefreshValues();
 		}
@@ -33,9 +34,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			base.RefreshValues();
 			this.TaxText = GameTexts.FindText("str_tax", null).ToString();
 			this.GovernorText = GameTexts.FindText("str_notable_governor", null).ToString();
+			this.ProfitText = GameTexts.FindText("str_profit", null).ToString();
 			this.NameText = GameTexts.FindText("str_sort_by_name_label", null).ToString();
-			this.TownsText = GameTexts.FindText("str_towns", null).ToString();
-			this.CastlesText = GameTexts.FindText("str_castles", null).ToString();
 			this.NoFiefsText = GameTexts.FindText("str_clan_no_fiefs", null).ToString();
 			this.NoGovernorText = this._noGovernorTextSource.ToString();
 			this.Settlements.ApplyActionOnAllItems(delegate(ClanSettlementItemVM x)
@@ -47,11 +47,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 				x.RefreshValues();
 			});
 			ClanSettlementItemVM currentSelectedFief = this.CurrentSelectedFief;
-			if (currentSelectedFief == null)
+			if (currentSelectedFief != null)
 			{
-				return;
+				currentSelectedFief.RefreshValues();
 			}
-			currentSelectedFief.RefreshValues();
+			this.SortController.RefreshValues();
 		}
 
 		public override void OnFinalize()
@@ -63,7 +63,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		{
 			this.Settlements.Clear();
 			this.Castles.Clear();
-			foreach (Settlement settlement in this._faction.Settlements)
+			this.SortController.ResetAllStates();
+			foreach (Settlement settlement in this._clan.Settlements)
 			{
 				if (settlement.IsTown)
 				{
@@ -74,6 +75,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 					this.Castles.Add(new ClanSettlementItemVM(settlement, new Action<ClanSettlementItemVM>(this.OnFiefSelection), new Action(this.OnShowSendMembers), this._teleportationBehavior));
 				}
 			}
+			GameTexts.SetVariable("RANK", GameTexts.FindText("str_towns", null));
+			GameTexts.SetVariable("NUMBER", this.Settlements.Count);
+			this.TownsText = GameTexts.FindText("str_RANK_with_NUM_between_parenthesis", null).ToString();
+			GameTexts.SetVariable("RANK", GameTexts.FindText("str_castles", null));
+			GameTexts.SetVariable("NUMBER", this.Castles.Count);
+			this.CastlesText = GameTexts.FindText("str_RANK_with_NUM_between_parenthesis", null).ToString();
 			this.OnFiefSelection(this.GetDefaultMember());
 		}
 
@@ -207,13 +214,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		private IEnumerable<ClanCardSelectionItemInfo> GetGovernorCandidates()
 		{
 			yield return new ClanCardSelectionItemInfo(this._noGovernorTextSource.CopyTextObject(), false, null, null);
-			foreach (Hero hero in this._faction.Heroes.Where((Hero h) => !h.IsDisabled).Union(this._faction.Companions))
+			foreach (Hero hero in this._clan.Heroes.Where((Hero h) => !h.IsDisabled).Union(this._clan.Companions))
 			{
 				if ((hero.IsActive || hero.IsTraveling) && !hero.IsChild && hero != Hero.MainHero)
 				{
 					Hero hero2 = hero;
 					HeroVM governor = this.CurrentSelectedFief.Governor;
-					if (hero2 != ((governor != null) ? governor.Hero : null))
+					if (hero2 != ((governor != null) ? governor.Hero : null) && hero.CanBeGovernorOrHavePartyRole())
 					{
 						TextObject textObject;
 						bool flag = FactionHelper.IsMainClanMemberAvailableForSendingSettlementAsGovernor(hero, this.GetSettlementOfGovernor(hero), out textObject);
@@ -241,23 +248,37 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			int num = 0;
 			foreach (PerkObject perkObject in governorPerksForHero)
 			{
-				TextObject textObject2 = ((perkObject.PrimaryRole == SkillEffect.PerkRole.Governor) ? perkObject.PrimaryDescription : perkObject.SecondaryDescription);
-				TextObject textObject3 = ClanCardSelectionItemPropertyInfo.CreateLabeledValueText(perkObject.Name, textObject2);
-				if (num == 0)
+				bool flag = perkObject.PrimaryRole == SkillEffect.PerkRole.Governor;
+				bool flag2 = perkObject.SecondaryRole == SkillEffect.PerkRole.Governor;
+				if (flag)
 				{
-					textObject = textObject3;
+					TextObject textObject2 = ClanCardSelectionItemPropertyInfo.CreateLabeledValueText(perkObject.Name, perkObject.PrimaryDescription);
+					this.SetPerksPropertyText(textObject2, ref textObject, ref num);
 				}
-				else
+				if (flag2)
 				{
-					TextObject textObject4 = GameTexts.FindText("str_string_newline_newline_string", null);
-					textObject4.SetTextVariable("STR1", textObject);
-					textObject4.SetTextVariable("STR2", textObject3);
-					textObject = textObject4;
+					TextObject textObject3 = ClanCardSelectionItemPropertyInfo.CreateLabeledValueText(perkObject.Name, perkObject.SecondaryDescription);
+					this.SetPerksPropertyText(textObject3, ref textObject, ref num);
 				}
-				num++;
 			}
 			yield return new ClanCardSelectionItemPropertyInfo(GameTexts.FindText("str_clan_governor_perks", null), textObject);
 			yield break;
+		}
+
+		private void SetPerksPropertyText(TextObject perkText, ref TextObject perksPropertyText, ref int addedPerkCount)
+		{
+			if (addedPerkCount == 0)
+			{
+				perksPropertyText = perkText;
+			}
+			else
+			{
+				TextObject textObject = GameTexts.FindText("str_string_newline_newline_string", null);
+				textObject.SetTextVariable("STR1", perksPropertyText);
+				textObject.SetTextVariable("STR2", perkText);
+				perksPropertyText = textObject;
+			}
+			addedPerkCount++;
 		}
 
 		private void OnGovernorSelectionOver(List<object> selectedItems, Action closePopup)
@@ -277,7 +298,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 				}
 				Hero hero2 = hero;
 				Hero newGovernor = selectedItems.FirstOrDefault<object>() as Hero;
-				if (newGovernor != null || hero2 != null)
+				bool isRemoveGovernor = newGovernor == null;
+				if (!isRemoveGovernor || hero2 != null)
 				{
 					ValueTuple<TextObject, TextObject> governorSelectionConfirmationPopupTexts = CampaignUIHelper.GetGovernorSelectionConfirmationPopupTexts(hero2, newGovernor, this.CurrentSelectedFief.Settlement);
 					InformationManager.ShowInquiry(new InquiryData(governorSelectionConfirmationPopupTexts.Item1.ToString(), governorSelectionConfirmationPopupTexts.Item2.ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), delegate
@@ -287,15 +309,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 						{
 							closePopup4();
 						}
-						ChangeGovernorAction.Apply(this.CurrentSelectedFief.Settlement.Town, newGovernor);
-						Hero newGovernor2 = newGovernor;
-						if (newGovernor2 != null)
+						if (isRemoveGovernor)
 						{
-							MobileParty partyBelongedTo = newGovernor2.PartyBelongedTo;
-							if (partyBelongedTo != null)
-							{
-								partyBelongedTo.RemoveHeroPerkRole(newGovernor);
-							}
+							ChangeGovernorAction.RemoveGovernorOfIfExists(this.CurrentSelectedFief.Settlement.Town);
+						}
+						else
+						{
+							ChangeGovernorAction.Apply(this.CurrentSelectedFief.Settlement.Town, newGovernor);
 						}
 						Action onRefresh = this._onRefresh;
 						if (onRefresh == null)
@@ -385,7 +405,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 
 		private IEnumerable<ClanCardSelectionItemInfo> GetSendMembersCandidates()
 		{
-			foreach (Hero hero in this._faction.Heroes.Where((Hero h) => !h.IsDisabled).Union(this._faction.Companions))
+			foreach (Hero hero in this._clan.Heroes.Where((Hero h) => !h.IsDisabled).Union(this._clan.Companions))
 			{
 				if ((hero.IsActive || hero.IsTraveling) && (hero.CurrentSettlement != this.CurrentSelectedFief.Settlement || hero.PartyBelongedTo != null) && !hero.IsChild && hero != Hero.MainHero)
 				{
@@ -593,6 +613,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		}
 
 		[DataSourceProperty]
+		public string ProfitText
+		{
+			get
+			{
+				return this._profitText;
+			}
+			set
+			{
+				if (value != this._profitText)
+				{
+					this._profitText = value;
+					base.OnPropertyChangedWithValue<string>(value, "ProfitText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public string TownsText
 		{
 			get
@@ -729,7 +766,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 			}
 		}
 
-		private readonly Clan _faction;
+		[DataSourceProperty]
+		public ClanFiefsSortControllerVM SortController
+		{
+			get
+			{
+				return this._sortController;
+			}
+			set
+			{
+				if (value != this._sortController)
+				{
+					this._sortController = value;
+					base.OnPropertyChangedWithValue<ClanFiefsSortControllerVM>(value, "SortController");
+				}
+			}
+		}
+
+		private readonly Clan _clan;
 
 		private readonly Action _onRefresh;
 
@@ -753,6 +807,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 
 		private string _governorText;
 
+		private string _profitText;
+
 		private string _townsText;
 
 		private string _castlesText;
@@ -768,5 +824,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Categorie
 		private HintViewModel _governorActionHint;
 
 		private string _governorActionText;
+
+		private ClanFiefsSortControllerVM _sortController;
 	}
 }

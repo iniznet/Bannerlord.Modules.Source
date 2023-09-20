@@ -8,13 +8,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SyncObjectHitpoints : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public float Hitpoints { get; private set; }
 
-		public SyncObjectHitpoints(MissionObject missionObject, float hitpoints)
+		public SyncObjectHitpoints(MissionObjectId missionObjectId, float hitpoints)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.Hitpoints = hitpoints;
 		}
 
@@ -25,14 +25,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.Hitpoints = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.UsableGameObjectHealthCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteFloatToPacket(MathF.Max(this.Hitpoints, 0f), CompressionMission.UsableGameObjectHealthCompressionInfo);
 		}
 
@@ -43,15 +43,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Synchronize HitPoints: ",
-				this.Hitpoints,
-				" of MissionObject with Id: ",
-				this.MissionObject.Id,
-				" and name: ",
-				this.MissionObject.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Synchronize HitPoints: ", this.Hitpoints, " of MissionObject with Id: ", this.MissionObjectId });
 		}
 	}
 }

@@ -161,22 +161,38 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 				{
 					if (this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.IsRangedWeapon && this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.IsConsumable)
 					{
-						int ammoAmount = this._mission.MainAgent.Equipment.GetAmmoAmount(this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.AmmoClass);
-						if (this._mission.MainAgent.Equipment[wieldedItemIndex].ModifiedMaxAmount == 1 || ammoAmount > 0)
+						int num2;
+						if (!this._mission.MainAgent.Equipment[wieldedItemIndex].Item.PrimaryWeapon.IsConsumable && this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.IsConsumable)
 						{
-							num = ammoAmount;
+							num2 = 1;
+						}
+						else
+						{
+							num2 = this._mission.MainAgent.Equipment.GetAmmoAmount(wieldedItemIndex);
+						}
+						if (this._mission.MainAgent.Equipment[wieldedItemIndex].ModifiedMaxAmount == 1 || num2 > 0)
+						{
+							num = num2;
 						}
 					}
 					else if (this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.IsRangedWeapon)
 					{
 						bool flag2 = this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.WeaponClass == WeaponClass.Crossbow;
-						num = this._mission.MainAgent.Equipment.GetAmmoAmount(this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.AmmoClass) + (int)(flag2 ? this._mission.MainAgent.Equipment[wieldedItemIndex].Ammo : 0);
+						num = this._mission.MainAgent.Equipment.GetAmmoAmount(wieldedItemIndex) + (int)(flag2 ? this._mission.MainAgent.Equipment[wieldedItemIndex].Ammo : 0);
 					}
 					if (!this._mission.MainAgent.Equipment[wieldedItemIndex].IsEmpty)
 					{
-						int maxAmmo = this._mission.MainAgent.Equipment.GetMaxAmmo(this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.AmmoClass);
-						float num2 = (float)maxAmmo * 0.2f;
-						flag = maxAmmo != this.AmmoCount && this.AmmoCount <= MathF.Ceiling(num2);
+						int num3;
+						if (!this._mission.MainAgent.Equipment[wieldedItemIndex].Item.PrimaryWeapon.IsConsumable && this._mission.MainAgent.Equipment[wieldedItemIndex].CurrentUsageItem.IsConsumable)
+						{
+							num3 = 1;
+						}
+						else
+						{
+							num3 = this._mission.MainAgent.Equipment.GetMaxAmmo(wieldedItemIndex);
+						}
+						float num4 = (float)num3 * 0.2f;
+						flag = num3 != this.AmmoCount && this.AmmoCount <= MathF.Ceiling(num4);
 					}
 				}
 				if (wieldedItemIndex2 != EquipmentIndex.None && this._mission.MainAgent.Equipment[wieldedItemIndex2].CurrentUsageItem != null)
@@ -298,8 +314,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 			{
 				if (!agent.Equipment[equipmentIndex].IsEmpty && agent.Equipment[equipmentIndex].CurrentUsageItem.IsRangedWeapon)
 				{
-					currentAmmo = agent.Equipment.GetAmmoAmount(agent.Equipment[equipmentIndex].CurrentUsageItem.AmmoClass);
-					maxAmmo = agent.Equipment.GetMaxAmmo(agent.Equipment[equipmentIndex].CurrentUsageItem.AmmoClass);
+					currentAmmo = agent.Equipment.GetAmmoAmount(equipmentIndex);
+					maxAmmo = agent.Equipment.GetMaxAmmo(equipmentIndex);
 					return;
 				}
 			}

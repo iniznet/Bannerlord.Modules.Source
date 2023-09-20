@@ -228,7 +228,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 					{
 						this.RelationText = this.Relation.ToString();
 					}
-					if (heroObject.Clan == null || heroObject.Clan == CampaignData.NeutralFaction)
+					if (heroObject.Clan == null)
 					{
 						this.ConversedHeroBanner = new ImageIdentifierVM(ImageIdentifierType.Null);
 						this.IsRelationEnabled = false;
@@ -253,7 +253,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 			}
 			this.DialogText = this._conversationManager.CurrentSentenceText;
 			this.AnswerList.Clear();
-			MissionConversationVM._isCurrentlyPlayerSpeaking = this._conversationManager.SpeakerAgent.Character == Hero.MainHero.CharacterObject;
+			MissionConversationVM._isCurrentlyPlayerSpeaking = this._currentDialogCharacter == Hero.MainHero.CharacterObject;
 			this._conversationManager.GetPlayerSentenceOptions();
 			List<ConversationSentenceOption> curOptions = this._conversationManager.CurOptions;
 			int num = ((curOptions != null) ? curOptions.Count : 0);
@@ -271,7 +271,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Conversation
 				this.CurrentSelectedAnswer = new ConversationItemVM();
 			}
 			this.IsLoadingOver = true;
-			this.Persuasion.RefreshPersusasion();
+			PersuasionVM persuasion = this.Persuasion;
+			if (persuasion == null)
+			{
+				return;
+			}
+			persuasion.RefreshPersusasion();
 		}
 
 		private void OnReadyToContinue()

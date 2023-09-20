@@ -18,7 +18,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TournamentLeade
 		public void ExecuteSortByName()
 		{
 			int nameState = this.NameState;
-			this.SetAllStates(TournamentLeaderboardSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.NameState = (nameState + 1) % 3;
 			if (this.NameState == 0)
 			{
@@ -33,7 +33,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TournamentLeade
 		public void ExecuteSortByPrize()
 		{
 			int prizeState = this.PrizeState;
-			this.SetAllStates(TournamentLeaderboardSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.PrizeState = (prizeState + 1) % 3;
 			if (this.PrizeState == 0)
 			{
@@ -48,7 +48,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TournamentLeade
 		public void ExecuteSortByPlacement()
 		{
 			int placementState = this.PlacementState;
-			this.SetAllStates(TournamentLeaderboardSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.PlacementState = (placementState + 1) % 3;
 			if (this.PlacementState == 0)
 			{
@@ -63,7 +63,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TournamentLeade
 		public void ExecuteSortByVictories()
 		{
 			int victoriesState = this.VictoriesState;
-			this.SetAllStates(TournamentLeaderboardSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.VictoriesState = (victoriesState + 1) % 3;
 			if (this.VictoriesState == 0)
 			{
@@ -75,7 +75,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TournamentLeade
 			this.IsVictoriesSelected = true;
 		}
 
-		private void SetAllStates(TournamentLeaderboardSortControllerVM.SortState state)
+		private void SetAllStates(CampaignUIHelper.SortState state)
 		{
 			this.NameState = (int)state;
 			this.PrizeState = (int)state;
@@ -248,13 +248,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TournamentLeade
 		private bool _isPlacementSelected;
 
 		private bool _isVictoriesSelected;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 
 		public abstract class ItemComparerBase : IComparer<TournamentLeaderboardEntryItemVM>
 		{

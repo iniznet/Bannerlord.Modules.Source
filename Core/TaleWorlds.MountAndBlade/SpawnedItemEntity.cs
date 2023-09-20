@@ -286,12 +286,12 @@ namespace TaleWorlds.MountAndBlade
 									GameNetwork.BeginBroadcastModuleEvent();
 									MissionObjectId id = base.Id;
 									GameEntity groundEntityWhenDisabled = this._groundEntityWhenDisabled;
-									GameNetwork.WriteMessage(new StopPhysicsAndSetFrameOfMissionObject(id, (groundEntityWhenDisabled != null) ? groundEntityWhenDisabled.GetFirstScriptOfType<MissionObject>() : null, this._ownerGameEntity.GetFrame()));
+									GameNetwork.WriteMessage(new StopPhysicsAndSetFrameOfMissionObject(id, (groundEntityWhenDisabled != null) ? groundEntityWhenDisabled.GetFirstScriptOfType<MissionObject>().Id : MissionObjectId.Invalid, this._ownerGameEntity.GetFrame()));
 									GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 								}
 							}
 						}
-						if (!this.PhysicsStopped)
+						if (!this.PhysicsStopped && this._disablePhysicsTimer.ElapsedTime() > 0.2f)
 						{
 							Vec3 vec;
 							Vec3 vec2;
@@ -325,7 +325,7 @@ namespace TaleWorlds.MountAndBlade
 									Vec3 vec9 = globalPosition;
 									vec9.z = waterLevelAtPositionMT;
 									SoundEventParameter soundEventParameter = new SoundEventParameter("Size", num);
-									Mission.Current.MakeSound(ItemPhysicsSoundContainer.SoundCodePhysicsWater, vec9, true, false, -1, -1, ref soundEventParameter);
+									Mission.Current.MakeSound(ItemPhysicsSoundContainer.SoundCodePhysicsWater, vec9, false, true, -1, -1, ref soundEventParameter);
 									return;
 								}
 							}
@@ -615,7 +615,7 @@ namespace TaleWorlds.MountAndBlade
 						num3++;
 						break;
 					default:
-						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\SpawnedItemEntity.cs", "OnPhysicsCollision", 778);
+						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Usables\\SpawnedItemEntity.cs", "OnPhysicsCollision", 780);
 						break;
 					}
 				}

@@ -55,15 +55,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			float num2 = MathF.Min(0.33f, 1f / ((float)num + 2f));
 			num2 *= ((clan.Kingdom == Hero.MainHero.MapFaction && !Hero.MainHero.Clan.IsUnderMercenaryService) ? ((clan.Kingdom.Leader == Hero.MainHero) ? 0.5f : 0.75f) : 1f);
 			DiplomacyModel diplomacyModel = Campaign.Current.Models.DiplomacyModel;
-			if (randomFloat < num2 && clan.Influence > (float)diplomacyModel.GetInfluenceCostOfProposingPeace())
+			if (randomFloat < num2 && clan.Influence > (float)diplomacyModel.GetInfluenceCostOfProposingPeace(clan))
 			{
 				kingdomDecision = this.GetRandomPeaceDecision(clan);
 			}
-			else if (randomFloat < num2 * 2f && clan.Influence > (float)diplomacyModel.GetInfluenceCostOfProposingWar(clan.Kingdom))
+			else if (randomFloat < num2 * 2f && clan.Influence > (float)diplomacyModel.GetInfluenceCostOfProposingWar(clan))
 			{
 				kingdomDecision = this.GetRandomWarDecision(clan);
 			}
-			else if (randomFloat < num2 * 2.5f && clan.Influence > (float)(diplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal() * 4))
+			else if (randomFloat < num2 * 2.5f && clan.Influence > (float)(diplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal(clan) * 4))
 			{
 				kingdomDecision = this.GetRandomPolicyDecision(clan);
 			}
@@ -213,7 +213,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				return null;
 			}
-			Kingdom randomElementWithPredicate = Kingdom.All.GetRandomElementWithPredicate((Kingdom x) => x != kingdom && !x.IsAtWarWith(kingdom) && x.GetStanceWith(kingdom).PeaceDeclarationDate.ElapsedDaysUntilNow > 20f);
+			Kingdom randomElementWithPredicate = Kingdom.All.GetRandomElementWithPredicate((Kingdom x) => !x.IsEliminated && x != kingdom && !x.IsAtWarWith(kingdom) && x.GetStanceWith(kingdom).PeaceDeclarationDate.ElapsedDaysUntilNow > 20f);
 			if (randomElementWithPredicate != null && this.ConsiderWar(clan, kingdom, randomElementWithPredicate))
 			{
 				kingdomDecision = new DeclareWarDecision(clan, randomElementWithPredicate);
@@ -240,7 +240,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private bool ConsiderWar(Clan clan, Kingdom kingdom, IFaction otherFaction)
 		{
-			int num = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingWar(kingdom) / 2;
+			int num = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingWar(clan) / 2;
 			if (clan.Influence < (float)num)
 			{
 				return false;
@@ -265,7 +265,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private bool ConsiderPeace(Clan clan, Clan otherClan, Kingdom kingdom, IFaction otherFaction, out MakePeaceKingdomDecision decision)
 		{
 			decision = null;
-			int influenceCostOfProposingPeace = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace();
+			int influenceCostOfProposingPeace = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace(clan);
 			if (clan.Influence < (float)influenceCostOfProposingPeace)
 			{
 				return false;
@@ -356,7 +356,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private float GetKingdomSupportForPeace(Clan clan, Clan otherClan, Kingdom kingdom, IFaction otherFaction)
 		{
-			int num = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace() / 2;
+			int num = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace(clan) / 2;
 			int num2 = -new PeaceBarterable(clan.Leader, kingdom, otherFaction, CampaignTime.Years(1f)).GetValueForFaction(otherFaction);
 			if (otherFaction is Clan && num2 < 0)
 			{
@@ -393,7 +393,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private bool ConsiderPolicy(Clan clan, Kingdom kingdom, PolicyObject policy, bool invert)
 		{
-			int influenceCostOfPolicyProposalAndDisavowal = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal();
+			int influenceCostOfPolicyProposalAndDisavowal = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal(clan);
 			if (clan.Influence < (float)influenceCostOfPolicyProposalAndDisavowal)
 			{
 				return false;
@@ -412,7 +412,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private float GetKingdomSupportForPolicy(Clan clan, Kingdom kingdom, PolicyObject policy, bool invert)
 		{
-			Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal();
+			Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal(clan);
 			return new KingdomElection(new KingdomPolicyDecision(clan, policy, invert)).GetLikelihoodForSponsor(clan);
 		}
 
@@ -436,7 +436,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					return null;
 				}
 				Town randomElement2 = randomElement.Fiefs.GetRandomElement<Town>();
-				if (this.ConsiderAnnex(clan, kingdom, randomElement, randomElement2))
+				if (this.ConsiderAnnex(clan, randomElement2))
 				{
 					kingdomDecision = new SettlementClaimantPreliminaryDecision(clan, randomElement2.Settlement);
 				}
@@ -444,9 +444,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return kingdomDecision;
 		}
 
-		private bool ConsiderAnnex(Clan clan, Kingdom kingdom, Clan targetClan, Town targetSettlement)
+		private bool ConsiderAnnex(Clan clan, Town targetSettlement)
 		{
-			int influenceCostOfAnnexation = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(kingdom);
+			int influenceCostOfAnnexation = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(clan);
 			if (clan.Influence < (float)influenceCostOfAnnexation)
 			{
 				return false;

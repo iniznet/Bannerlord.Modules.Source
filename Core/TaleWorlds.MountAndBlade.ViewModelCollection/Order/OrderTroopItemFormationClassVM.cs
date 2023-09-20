@@ -18,16 +18,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			switch (this.FormationClass)
 			{
 			case FormationClass.Infantry:
-				this.TroopCount = (int)(this._formation.QuerySystem.InfantryUnitRatio * (float)this._formation.CountOfUnits);
+				this.TroopCount = this._formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.Infantry);
 				return;
 			case FormationClass.Ranged:
-				this.TroopCount = (int)(this._formation.QuerySystem.RangedUnitRatio * (float)this._formation.CountOfUnits);
+				this.TroopCount = this._formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.Ranged);
 				return;
 			case FormationClass.Cavalry:
-				this.TroopCount = (int)(this._formation.QuerySystem.CavalryUnitRatio * (float)this._formation.CountOfUnits);
+				this.TroopCount = this._formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.Cavalry);
 				return;
 			case FormationClass.HorseArcher:
-				this.TroopCount = (int)(this._formation.QuerySystem.RangedCavalryUnitRatio * (float)this._formation.CountOfUnits);
+				this.TroopCount = this._formation.GetCountOfUnitsBelongingToLogicalClass(FormationClass.HorseArcher);
 				return;
 			default:
 				return;

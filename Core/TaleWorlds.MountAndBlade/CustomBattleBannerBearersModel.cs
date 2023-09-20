@@ -13,7 +13,7 @@ namespace TaleWorlds.MountAndBlade
 	{
 		public override int GetMinimumFormationTroopCountToBearBanners()
 		{
-			return 3;
+			return 2;
 		}
 
 		public override float GetBannerInteractionDistance(Agent interactingAgent)
@@ -109,7 +109,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return null;
 			}
-			IEnumerable<ItemObject> enumerable = CustomBattleBannerBearersModel.ReplacementWeapons.Where((ItemObject item) => item.Culture != null && item.Culture == agentCharacter.Culture);
+			IEnumerable<ItemObject> enumerable = CustomBattleBannerBearersModel.ReplacementWeapons.Where((ItemObject item) => item.Culture != null && item.Culture.GetCultureCode() == agentCharacter.Culture.GetCultureCode());
 			List<ValueTuple<int, ItemObject>> list = new List<ValueTuple<int, ItemObject>>();
 			int minTierDifference = int.MaxValue;
 			foreach (ItemObject itemObject in enumerable)

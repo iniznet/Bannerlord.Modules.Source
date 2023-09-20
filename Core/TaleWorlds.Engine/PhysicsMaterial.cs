@@ -3,7 +3,7 @@ using TaleWorlds.DotNet;
 
 namespace TaleWorlds.Engine
 {
-	[EngineStruct("int")]
+	[EngineStruct("int", false)]
 	public struct PhysicsMaterial
 	{
 		internal PhysicsMaterial(int index)
@@ -103,6 +103,7 @@ namespace TaleWorlds.Engine
 			return new PhysicsMaterial(index);
 		}
 
+		[CustomEngineStructMemberData("ignoredMember", true)]
 		public readonly int Index;
 
 		public static readonly PhysicsMaterial InvalidPhysicsMaterial = new PhysicsMaterial(-1);

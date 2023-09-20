@@ -1,4 +1,5 @@
 ﻿using System;
+using TaleWorlds.DotNet;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -76,6 +77,7 @@ namespace TaleWorlds.MountAndBlade
 			SingleRecord
 		}
 
+		[EngineStruct("rglTimer_type", false)]
 		public enum TimeType
 		{
 			Application,

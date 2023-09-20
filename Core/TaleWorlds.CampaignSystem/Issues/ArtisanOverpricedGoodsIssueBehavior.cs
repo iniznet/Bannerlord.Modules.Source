@@ -187,7 +187,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=FKtkmwtb}I don't know if you know much about the law here... Craftsmen like me are required to buy our raw materials from local merchants. The other side of the bargain is that they offer us reasonable prices. But they're not doing that! They've come together and agreed on a price that's just too high. They don't care if it ruins us - they can always sell the goods elsewhere.", null);
+					return new TextObject("{=FKtkmwtb}I don't know if you know much about the law here... Craftsmen like me are required to buy our raw materials from local merchants. The other side of the bargain is that they offer us reasonable prices. But they're not doing that! They've come together and agreed on a price that's just too high. They don't care if it ruins us - they can always sell the goods elsewhere.[ib:hip][if:convo_thinking]", null);
 				}
 			}
 
@@ -227,7 +227,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=epcc2knY}Well, you get around, right? It wouldn't be hard for you to collect the {.%}{SELECTED_GOOD}{.%} we need. If you could bring, say {SELECTED_AMOUNT} {.%}{?SELECTED_AMOUNT > 1}{PLURAL(SELECTED_GOOD)}{?}{SELECTED_GOOD}{\\?}{.%} directly to me instead of selling to the merchants, I would gladly pay {REWARD_AMOUNT}{GOLD_ICON} for them. With this, the merchants would have to lower their prices.", null);
+					TextObject textObject = new TextObject("{=epcc2knY}Well, you get around, right? It wouldn't be hard for you to collect the {.%}{SELECTED_GOOD}{.%} we need. If you could bring, say {SELECTED_AMOUNT} {.%}{?SELECTED_AMOUNT > 1}{PLURAL(SELECTED_GOOD)}{?}{SELECTED_GOOD}{\\?}{.%} directly to me instead of selling to the merchants, I would gladly pay {REWARD_AMOUNT}{GOLD_ICON} for them. With this, the merchants would have to lower their prices.[if:convo_calm_friendly][ib:confident3]", null);
 					textObject.SetTextVariable("SELECTED_GOOD", this._requestedTradeGood.Name);
 					textObject.SetTextVariable("SELECTED_AMOUNT", this.RequestedTradeGoodAmount);
 					textObject.SetTextVariable("REWARD_AMOUNT", this.RewardGold);
@@ -240,7 +240,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=XvC1eLR1}Or, if you will not be able to acquire the goods yourself, you can perhaps assign one of your trusted companions to the task. Somewhat with a good understanding of trade and and around {TROOP_NUMBER} {?TROOP_NUMBER}troops{?}troop{\\?} could do it easily enough, along with {GOLD_COST}{GOLD_ICON} denars to make the purchases.", null);
+					TextObject textObject = new TextObject("{=XvC1eLR1}Or, if you will not be able to acquire the goods yourself, you can perhaps assign one of your trusted companions to the task. Somewhat with a good understanding of trade and and around {TROOP_NUMBER} {?TROOP_NUMBER}troops{?}troop{\\?} could do it easily enough, along with {GOLD_COST}{GOLD_ICON} denars to make the purchases.[ib:normal2][if:convo_undecided_open]", null);
 					textObject.SetTextVariable("TROOP_NUMBER", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("GOLD_COST", this.RequiredGoldForAlternativeSolution);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -281,7 +281,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=E9GhODyh}I am very grateful to you for sparing your men to help us get what we need for a fair price.", null);
+					return new TextObject("{=E9GhODyh}I am very grateful to you for sparing your men to help us get what we need for a fair price.[if:convo_approving][ib:normal2]", null);
 				}
 			}
 
@@ -372,7 +372,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				ChangeRelationAction.ApplyPlayerRelation(this.CounterOfferHero, 5, true, true);
 				this.RelationshipChangeWithIssueOwner = -5;
-				base.IssueSettlement.Prosperity -= 30f;
+				base.IssueSettlement.Town.Prosperity -= 30f;
 				TraitLevelingHelper.OnIssueSolvedThroughBetrayal(base.IssueOwner, new Tuple<TraitObject, int>[]
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -50)
@@ -487,13 +487,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 			public override bool AlternativeSolutionCondition(out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
-				return QuestHelper.CheckRosterForAlternativeSolution(MobileParty.MainParty.MemberRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 0, false) && QuestHelper.CheckGoldForAlternativeSolution(this.RequiredGoldForAlternativeSolution, ref explanation);
+				return QuestHelper.CheckRosterForAlternativeSolution(MobileParty.MainParty.MemberRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false) && QuestHelper.CheckGoldForAlternativeSolution(this.RequiredGoldForAlternativeSolution, ref explanation);
 			}
 
 			public override bool DoTroopsSatisfyAlternativeSolution(TroopRoster troopRoster, out TextObject explanation)
 			{
 				explanation = TextObject.Empty;
-				return QuestHelper.CheckRosterForAlternativeSolution(troopRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 0, false);
+				return QuestHelper.CheckRosterForAlternativeSolution(troopRoster, base.GetTotalAlternativeSolutionNeededMenCount(), ref explanation, 2, false);
 			}
 
 			public override void AlternativeSolutionStartConsequence()
@@ -532,7 +532,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				ChangeRelationAction.ApplyPlayerRelation(issueGiver, 5, true, true);
 				ChangeRelationAction.ApplyPlayerRelation(this.CounterOfferHero, -10, true, true);
 				this.CounterOfferHero.AddPower(-10f);
-				issueGiver.CurrentSettlement.Prosperity += 30f;
+				issueGiver.CurrentSettlement.Town.Prosperity += 30f;
 			}
 
 			public override IssueBase.IssueFrequency GetFrequency()
@@ -567,6 +567,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new ArtisanOverpricedGoodsIssueBehavior.ArtisanOverpricedGoodsIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(30f), this._requestedTradeGood, this.RewardGold, this.RequestedTradeGoodAmount, this.CounterOfferHero);
@@ -579,6 +583,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private const int IssueDuration = 30;
 
 			private const int QuestTimeLimit = 30;
+
+			private const int MinimumAlternativeTroopTier = 2;
 
 			[SaveableField(13)]
 			private int _goldReward;
@@ -696,6 +702,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetMerchantDialogFlow(), this);
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			public ArtisanOverpricedGoodsIssueQuest(string questId, Hero questGiver, CampaignTime dueTime, ItemObject requestedTradeGood, int rewardGold, int requestedTradeGoodAmount, Hero counterOfferHero)
 				: base(questId, questGiver, dueTime, rewardGold)
 			{
@@ -708,7 +718,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=e1sSXEOh}This is excellent news. If you could bring the goods, it would be an immense help, and the merchants would have to lower their prices. Thank you.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=e1sSXEOh}This is excellent news. If you could bring the goods, it would be an immense help, and the merchants would have to lower their prices. Thank you.[if:convo_excited][ib:hip2]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				TextObject textObject = new TextObject("{=fKnkkWH1}Have you brought any {.%}{REQUESTED_GOOD}{.%}? My stocks are running out and I need some very soon.", null);
@@ -720,9 +730,9 @@ namespace TaleWorlds.CampaignSystem.Issues
 				TextObject textObject4 = new TextObject("{=1LzohiMf}I brought {AMOUNT_TO_DELIVER} {.%}{?AMOUNT_TO_DELIVER > 1}{PLURAL(REQUESTED_GOOD)}{?}{REQUESTED_GOOD}{\\?}{.%} as we agreed.", null);
 				textObject4.SetTextVariable("AMOUNT_TO_DELIVER", this._requestedTradeGoodAmount - this._givenTradeGoods);
 				textObject4.SetTextVariable("REQUESTED_GOOD", this._requestedTradeGood.Name);
-				TextObject textObject5 = new TextObject("{=cxQGUbUD}I'm so grateful! You've kept my workshop running and my family fed. Please take this money and some extra to cover your costs.", null);
+				TextObject textObject5 = new TextObject("{=cxQGUbUD}I'm so grateful! You've kept my workshop running and my family fed. Please take this money and some extra to cover your costs.[if:convo_grateful][ib:normal2]", null);
 				TextObject textObject6 = new TextObject("{=4uKTfTg9}Sorry. I don't have anything for you this time.", null);
-				TextObject textObject7 = new TextObject("{=YWorGaI1}Ah... We'll get by. I won't lie. It will be hard. I just hope you can deliver some soon.", null);
+				TextObject textObject7 = new TextObject("{=YWorGaI1}Ah... We'll get by. I won't lie. It will be hard. I just hope you can deliver some soon.[if:convo_normal][ib:closed]", null);
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(textObject, null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(textObject2, null)
@@ -794,8 +804,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private DialogFlow GetMerchantDialogFlow()
 			{
 				TextObject textObject = new TextObject("{=YNxGcaJI}I want to talk to you about the outlandish prices you're asking for the goods you sell the artisans.", null);
-				TextObject textObject2 = new TextObject("{=UwEbBanm}These are the laws of our town. The artisans don't complain when the laws require us to buy tools from them.", null);
-				TextObject textObject3 = new TextObject("{=sPEZq0Yk}What's sauce for the goose is sauce for the gander. We've done business for years like this and we're not just going to change things because one party complains.", null);
+				TextObject textObject2 = new TextObject("{=UwEbBanm}These are the laws of our town. The artisans don't complain when the laws require us to buy tools from them.[if:convo_bored][ib:closed2]", null);
+				TextObject textObject3 = new TextObject("{=sPEZq0Yk}What's sauce for the goose is sauce for the gander. We've done business for years like this and we're not just going to change things because one party complains.[if:convo_mocking_teasing][ib:hip]", null);
 				TextObject textObject4 = new TextObject("{=VzzQX4EZ}Maybe you're right. I won't get involved in this.", null);
 				TextObject textObject5 = new TextObject("{=KbFJJfl6}I am sorry. I will do what I must.", null);
 				TextObject textObject6 = new TextObject("{=yccVH4KD}Thank you for listening to the voice of reason.", null);
@@ -829,7 +839,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, -50)
 				});
-				base.QuestGiver.CurrentSettlement.Prosperity -= 30f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 30f;
 				base.CompleteQuestWithFail(textObject);
 			}
 
@@ -840,7 +850,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, 50)
 				});
-				base.QuestGiver.CurrentSettlement.Prosperity += 30f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity += 30f;
 				this.RelationshipChangeWithQuestGiver = 5;
 				if (this.AntagonistHero != null)
 				{
@@ -855,7 +865,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				base.QuestGiver.AddPower(-10f);
 				this.RelationshipChangeWithQuestGiver = -5;
-				base.QuestGiver.CurrentSettlement.Prosperity -= 20f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 20f;
 			}
 
 			protected override void OnTimedOut()
@@ -863,7 +873,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.AddLog(this._timeoutQuestLogText, false);
 				base.QuestGiver.AddPower(-20f);
 				this.RelationshipChangeWithQuestGiver = -5;
-				base.QuestGiver.CurrentSettlement.Prosperity -= 50f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 50f;
 			}
 
 			[SaveableField(20)]

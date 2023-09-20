@@ -33,6 +33,11 @@ namespace TaleWorlds.TwoDimension.Standalone
 			return true;
 		}
 
+		bool IInputManager.IsAnyTouchActive()
+		{
+			return false;
+		}
+
 		bool IInputManager.IsControllerConnected()
 		{
 			return false;
@@ -66,6 +71,21 @@ namespace TaleWorlds.TwoDimension.Standalone
 		}
 
 		float IInputManager.GetMouseMoveY()
+		{
+			throw new NotImplementedException();
+		}
+
+		float IInputManager.GetGyroX()
+		{
+			throw new NotImplementedException();
+		}
+
+		float IInputManager.GetGyroY()
+		{
+			throw new NotImplementedException();
+		}
+
+		float IInputManager.GetGyroZ()
 		{
 			throw new NotImplementedException();
 		}
@@ -133,9 +153,13 @@ namespace TaleWorlds.TwoDimension.Standalone
 		{
 		}
 
-		InputKey IInputManager.GetControllerClickKey()
+		InputKey[] IInputManager.GetClickKeys()
 		{
-			return InputKey.ControllerRDown;
+			return new InputKey[]
+			{
+				InputKey.LeftMouseButton,
+				InputKey.ControllerRDown
+			};
 		}
 
 		public void SetRumbleEffect(float[] lowFrequencyLevels, float[] lowFrequencyDurations, int numLowFrequencyElements, float[] highFrequencyLevels, float[] highFrequencyDurations, int numHighFrequencyElements)
@@ -156,6 +180,11 @@ namespace TaleWorlds.TwoDimension.Standalone
 
 		public void SetLightbarColor(float red, float green, float blue)
 		{
+		}
+
+		Input.ControllerTypes IInputManager.GetControllerType()
+		{
+			return Input.ControllerTypes.Xbox;
 		}
 
 		private GraphicsForm _graphicsForm;

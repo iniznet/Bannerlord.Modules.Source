@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class PSPlayerJoinedToPlayerSessionMessage : Message
 	{
-		public ulong InviterPlayerAccountId { get; }
+		[JsonProperty]
+		public ulong InviterPlayerAccountId { get; private set; }
+
+		public PSPlayerJoinedToPlayerSessionMessage()
+		{
+		}
 
 		public PSPlayerJoinedToPlayerSessionMessage(ulong inviterPlayerAccountId)
 		{

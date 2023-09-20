@@ -45,12 +45,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 
 		private void OnOptionChange(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
-			if (changedManagedOptionsType == 16)
+			if (changedManagedOptionsType == 17)
 			{
 				this._isGeneralFeedEnabled = BannerlordConfig.ReportCasualtiesType < 2;
 				return;
 			}
-			if (changedManagedOptionsType == 18)
+			if (changedManagedOptionsType == 19)
 			{
 				this._isPersonalFeedEnabled = BannerlordConfig.ReportPersonalDamage;
 			}

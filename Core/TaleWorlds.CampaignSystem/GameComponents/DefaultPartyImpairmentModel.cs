@@ -33,7 +33,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override bool CanGetDisorganized(PartyBase party)
 		{
-			return party.IsActive && party.IsMobile && party.MobileParty.MemberRoster.TotalManCount >= 10;
+			return party.IsActive && party.IsMobile && party.MobileParty.MemberRoster.TotalManCount >= 10 && (party.MobileParty.Army == null || party.MobileParty == party.MobileParty.Army.LeaderParty || party.MobileParty.AttachedTo != null);
 		}
 
 		public override float GetVulnerabilityStateDuration(PartyBase party)

@@ -41,22 +41,20 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			explainedNumber.Add(10f, DefaultInventoryCapacityModel._textBase, null);
 			explainedNumber.Add((float)num2 * 2f * 10f, DefaultInventoryCapacityModel._textTroops, null);
 			explainedNumber.Add((float)num * 2f * 10f, DefaultInventoryCapacityModel._textSpareMounts, null);
-			float num4 = (float)num3 * 10f * 10f;
-			float num5 = 0f;
+			ExplainedNumber explainedNumber2 = new ExplainedNumber((float)num3 * 10f * 10f, false, null);
 			if (mobileParty.HasPerk(DefaultPerks.Scouting.BeastWhisperer, true))
 			{
-				num5 += DefaultPerks.Scouting.BeastWhisperer.SecondaryBonus;
+				explainedNumber2.AddFactor(DefaultPerks.Scouting.BeastWhisperer.SecondaryBonus, DefaultPerks.Scouting.BeastWhisperer.Name);
 			}
 			if (mobileParty.HasPerk(DefaultPerks.Riding.DeeperSacks, false))
 			{
-				num5 += DefaultPerks.Riding.DeeperSacks.PrimaryBonus;
+				explainedNumber2.AddFactor(DefaultPerks.Riding.DeeperSacks.PrimaryBonus, DefaultPerks.Riding.DeeperSacks.Name);
 			}
 			if (mobileParty.HasPerk(DefaultPerks.Steward.ArenicosMules, false))
 			{
-				num5 += DefaultPerks.Steward.ArenicosMules.PrimaryBonus;
+				explainedNumber2.AddFactor(DefaultPerks.Steward.ArenicosMules.PrimaryBonus, DefaultPerks.Steward.ArenicosMules.Name);
 			}
-			num4 *= num5 + 1f;
-			explainedNumber.Add(num4, DefaultInventoryCapacityModel._textPackAnimals, null);
+			explainedNumber.Add(explainedNumber2.ResultNumber, DefaultInventoryCapacityModel._textPackAnimals, null);
 			if (mobileParty.HasPerk(DefaultPerks.Trade.CaravanMaster, false))
 			{
 				explainedNumber.AddFactor(DefaultPerks.Trade.CaravanMaster.PrimaryBonus, DefaultPerks.Trade.CaravanMaster.Name);

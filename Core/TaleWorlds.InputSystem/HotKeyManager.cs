@@ -9,20 +9,6 @@ namespace TaleWorlds.InputSystem
 	{
 		public static event HotKeyManager.OnKeybindsChangedEvent OnKeybindsChanged;
 
-		public static void AddAuxiliaryCategory(GameKeyContext debugContext)
-		{
-			if (debugContext.Type == GameKeyContext.GameKeyContextType.AuxiliaryNotSerialized)
-			{
-				HotKeyManager._serializeIgnoredCategories.Add(debugContext.GameKeyCategoryId);
-			}
-			if (HotKeyManager._categories.ContainsKey(debugContext.GameKeyCategoryId))
-			{
-				HotKeyManager._categories[debugContext.GameKeyCategoryId] = debugContext;
-				return;
-			}
-			HotKeyManager._categories.Add(debugContext.GameKeyCategoryId, debugContext);
-		}
-
 		public static string GetHotKeyId(string categoryName, string hotKeyId)
 		{
 			GameKeyContext gameKeyContext;
@@ -30,7 +16,7 @@ namespace TaleWorlds.InputSystem
 			{
 				return gameKeyContext.GetHotKeyId(hotKeyId);
 			}
-			Debug.FailedAssert("Key category with id \"" + categoryName + "\" doesn't exsist.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "GetHotKeyId", 48);
+			Debug.FailedAssert("Key category with id \"" + categoryName + "\" doesn't exsist.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "GetHotKeyId", 29);
 			return "";
 		}
 
@@ -41,7 +27,7 @@ namespace TaleWorlds.InputSystem
 			{
 				return gameKeyContext.GetHotKeyId(hotKeyId);
 			}
-			Debug.FailedAssert("Key category with id \"" + categoryName + "\" doesn't exsist.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "GetHotKeyId", 59);
+			Debug.FailedAssert("Key category with id \"" + categoryName + "\" doesn't exsist.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "GetHotKeyId", 40);
 			return "invalid";
 		}
 
@@ -67,11 +53,16 @@ namespace TaleWorlds.InputSystem
 
 		public static void RegisterInitialContexts(IEnumerable<GameKeyContext> contexts, bool loadKeys)
 		{
+			HotKeyManager._categories.Clear();
 			foreach (GameKeyContext gameKeyContext in contexts)
 			{
 				if (!HotKeyManager._categories.ContainsKey(gameKeyContext.GameKeyCategoryId))
 				{
 					HotKeyManager._categories.Add(gameKeyContext.GameKeyCategoryId, gameKeyContext);
+				}
+				if (gameKeyContext.Type == GameKeyContext.GameKeyContextType.AuxiliaryNotSerialized && !HotKeyManager._serializeIgnoredCategories.Contains(gameKeyContext.GameKeyCategoryId))
+				{
+					HotKeyManager._serializeIgnoredCategories.Add(gameKeyContext.GameKeyCategoryId);
 				}
 			}
 			if (loadKeys)
@@ -172,12 +163,11 @@ namespace TaleWorlds.InputSystem
 									GameKey gameKey = gameKeyContext.GetGameKey(innerText);
 									if (gameKey != null)
 									{
-										XmlElement xmlElement2 = xmlNode["Keys"];
-										XmlElement xmlElement3 = xmlElement2["KeyboardKey"];
-										if (xmlElement3 != null)
+										XmlElement xmlElement2 = xmlNode["Keys"]["KeyboardKey"];
+										if (xmlElement2 != null)
 										{
 											InputKey inputKey;
-											if (Enum.TryParse<InputKey>(xmlElement3.InnerText, out inputKey))
+											if (Enum.TryParse<InputKey>(xmlElement2.InnerText, out inputKey))
 											{
 												if (gameKey.KeyboardKey != null)
 												{
@@ -197,30 +187,6 @@ namespace TaleWorlds.InputSystem
 										{
 											gameKey.KeyboardKey = new Key(InputKey.Invalid);
 										}
-										XmlElement xmlElement4 = xmlElement2["ControllerKey"];
-										if (xmlElement4 != null)
-										{
-											InputKey inputKey2;
-											if (Enum.TryParse<InputKey>(xmlElement4.InnerText, out inputKey2))
-											{
-												if (gameKey.ControllerKey != null)
-												{
-													gameKey.ControllerKey.ChangeKey(inputKey2);
-												}
-												else
-												{
-													gameKey.ControllerKey = new Key(inputKey2);
-												}
-											}
-										}
-										else if (gameKey.DefaultControllerKey != null && gameKey.DefaultControllerKey.InputKey != InputKey.Invalid)
-										{
-											gameKey.ControllerKey = new Key(gameKey.DefaultControllerKey.InputKey);
-										}
-										else
-										{
-											gameKey.ControllerKey = new Key(InputKey.Invalid);
-										}
 									}
 								}
 								else if (HotKeyManager._hotkeyEditEnabled || gameKeyContext.Type == GameKeyContext.GameKeyContextType.AuxiliarySerializedAndShownInOptions)
@@ -231,18 +197,18 @@ namespace TaleWorlds.InputSystem
 										GameAxisKey gameAxisKey = gameKeyContext.GetGameAxisKey(innerText2);
 										if (gameAxisKey != null)
 										{
-											XmlElement xmlElement5 = xmlNode["Keys"];
+											XmlElement xmlElement3 = xmlNode["Keys"];
 											if (!gameAxisKey.IsBinded)
 											{
-												XmlElement xmlElement6 = xmlElement5["PositiveKey"];
-												if (xmlElement6 != null)
+												XmlElement xmlElement4 = xmlElement3["PositiveKey"];
+												if (xmlElement4 != null)
 												{
-													if (xmlElement6.InnerText != "None")
+													if (xmlElement4.InnerText != "None")
 													{
-														InputKey inputKey3;
-														if (Enum.TryParse<InputKey>(xmlElement6.InnerText, out inputKey3))
+														InputKey inputKey2;
+														if (Enum.TryParse<InputKey>(xmlElement4.InnerText, out inputKey2))
 														{
-															gameAxisKey.PositiveKey = new GameKey(-1, gameAxisKey.Id + "_p", attribute, inputKey3, "");
+															gameAxisKey.PositiveKey = new GameKey(-1, gameAxisKey.Id + "_p", attribute, inputKey2, "");
 														}
 													}
 													else
@@ -250,15 +216,15 @@ namespace TaleWorlds.InputSystem
 														gameAxisKey.PositiveKey = null;
 													}
 												}
-												XmlElement xmlElement7 = xmlElement5["NegativeKey"];
-												if (xmlElement7 != null)
+												XmlElement xmlElement5 = xmlElement3["NegativeKey"];
+												if (xmlElement5 != null)
 												{
-													if (xmlElement7.InnerText != "None")
+													if (xmlElement5.InnerText != "None")
 													{
-														InputKey inputKey4;
-														if (Enum.TryParse<InputKey>(xmlElement7.InnerText, out inputKey4))
+														InputKey inputKey3;
+														if (Enum.TryParse<InputKey>(xmlElement5.InnerText, out inputKey3))
 														{
-															gameAxisKey.NegativeKey = new GameKey(-1, gameAxisKey.Id + "_n", attribute, inputKey4, "");
+															gameAxisKey.NegativeKey = new GameKey(-1, gameAxisKey.Id + "_n", attribute, inputKey3, "");
 														}
 													}
 													else
@@ -267,15 +233,15 @@ namespace TaleWorlds.InputSystem
 													}
 												}
 											}
-											XmlElement xmlElement8 = xmlElement5["AxisKey"];
-											if (xmlElement8 != null)
+											XmlElement xmlElement6 = xmlElement3["AxisKey"];
+											if (xmlElement6 != null)
 											{
-												if (xmlElement8.InnerText != "None")
+												if (xmlElement6.InnerText != "None")
 												{
-													InputKey inputKey5;
-													if (Enum.TryParse<InputKey>(xmlElement8.InnerText, out inputKey5))
+													InputKey inputKey4;
+													if (Enum.TryParse<InputKey>(xmlElement6.InnerText, out inputKey4))
 													{
-														gameAxisKey.AxisKey = new Key(inputKey5);
+														gameAxisKey.AxisKey = new Key(inputKey4);
 													}
 												}
 												else
@@ -292,14 +258,14 @@ namespace TaleWorlds.InputSystem
 										if (hotKey != null)
 										{
 											new List<HotKey>();
-											XmlElement xmlElement9 = xmlNode["Keys"];
+											XmlElement xmlElement7 = xmlNode["Keys"];
 											hotKey.Keys = new List<Key>();
-											for (int i = 0; i < xmlElement9.ChildNodes.Count; i++)
+											for (int i = 0; i < xmlElement7.ChildNodes.Count; i++)
 											{
-												InputKey inputKey6;
-												if (Enum.TryParse<InputKey>(xmlElement9.ChildNodes[i].InnerText, out inputKey6))
+												InputKey inputKey5;
+												if (Enum.TryParse<InputKey>(xmlElement7.ChildNodes[i].InnerText, out inputKey5))
 												{
-													hotKey.Keys.Add(new Key(inputKey6));
+													hotKey.Keys.Add(new Key(inputKey5));
 												}
 											}
 										}
@@ -312,7 +278,7 @@ namespace TaleWorlds.InputSystem
 			}
 			catch
 			{
-				Debug.FailedAssert("Couldn't load key bindings.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "Load", 356);
+				Debug.FailedAssert("Couldn't load key bindings.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "Load", 345);
 			}
 		}
 
@@ -405,7 +371,7 @@ namespace TaleWorlds.InputSystem
 			}
 			catch
 			{
-				Debug.FailedAssert("Couldn't save key bindings.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "Save", 468);
+				Debug.FailedAssert("Couldn't save key bindings.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.InputSystem\\HotkeyManager.cs", "Save", 457);
 			}
 		}
 
@@ -413,7 +379,7 @@ namespace TaleWorlds.InputSystem
 
 		private static readonly List<string> _serializeIgnoredCategories = new List<string>();
 
-		private static readonly float _versionOfHotkeys = 2f;
+		private static readonly float _versionOfHotkeys = 3f;
 
 		private static bool _hotkeyEditEnabled = false;
 

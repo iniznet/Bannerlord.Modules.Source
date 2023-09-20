@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.Diamond
 {
 	[DataContract]
+	[JsonConverter(typeof(PeerIdJsonConverter))]
 	[Serializable]
 	public struct PeerId
 	{
@@ -72,6 +74,12 @@ namespace TaleWorlds.Diamond
 		public override string ToString()
 		{
 			return string.Concat(new object[] { this._chunk1, ".", this._chunk2, ".", this._chunk3, " .", this._chunk4 });
+		}
+
+		public static PeerId FromString(string peerIdAsString)
+		{
+			string[] array = peerIdAsString.Split(new char[] { '.' });
+			return new PeerId(ulong.Parse(array[0]), ulong.Parse(array[1]), ulong.Parse(array[2]), ulong.Parse(array[3]));
 		}
 
 		public static bool operator ==(PeerId a, PeerId b)

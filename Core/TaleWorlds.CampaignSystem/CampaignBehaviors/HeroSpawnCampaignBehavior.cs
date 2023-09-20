@@ -97,17 +97,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnCompanionRemoved(Hero companion, RemoveCompanionAction.RemoveCompanionDetail detail)
 		{
-			if (!companion.IsFugitive && !companion.IsDead && detail != RemoveCompanionAction.RemoveCompanionDetail.ByTurningToLord)
+			if (!companion.IsFugitive && !companion.IsDead && detail != RemoveCompanionAction.RemoveCompanionDetail.ByTurningToLord && detail != RemoveCompanionAction.RemoveCompanionDetail.Death && companion.DeathMark == KillCharacterAction.KillCharacterActionDetail.None)
 			{
 				Settlement settlement = this.FindASuitableSettlementToTeleportForHero(companion, 0f);
 				if (settlement == null)
 				{
 					settlement = SettlementHelper.FindRandomSettlement((Settlement x) => x.IsTown);
 				}
-				if (detail != RemoveCompanionAction.RemoveCompanionDetail.Death)
-				{
-					TeleportHeroAction.ApplyImmediateTeleportToSettlement(companion, settlement);
-				}
+				TeleportHeroAction.ApplyImmediateTeleportToSettlement(companion, settlement);
 			}
 		}
 
@@ -123,7 +120,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 			else if (hero.IsActive)
 			{
-				if (hero.CurrentSettlement == null && hero.PartyBelongedTo == null && !hero.IsSpecial)
+				if (hero.CurrentSettlement == null && hero.PartyBelongedTo == null && !hero.IsSpecial && hero.GovernorOf == null)
 				{
 					if (MobileParty.MainParty.MemberRoster.Contains(hero.CharacterObject))
 					{
@@ -152,7 +149,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnNonBanditClanDailyTick(Clan clan)
 		{
-			if (!clan.IsEliminated && clan != Clan.PlayerClan && !clan.IsNeutralClan)
+			if (!clan.IsEliminated && clan != Clan.PlayerClan)
 			{
 				if (clan.IsMinorFaction)
 				{

@@ -249,7 +249,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				track.Culture = party.Party.Culture;
 				if (track.Culture == null)
 				{
-					string text = string.Format("Track culture is null for {0}", party.Name);
+					string text = string.Format("Track culture is null for {0}: {1}", party.StringId, party.Name);
 					Debug.Print(text, 0, Debug.DebugColor.White, 17592186044416UL);
 					Debug.FailedAssert(text, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\MapTracksCampaignBehavior.cs", "RequestTrack", 62);
 				}

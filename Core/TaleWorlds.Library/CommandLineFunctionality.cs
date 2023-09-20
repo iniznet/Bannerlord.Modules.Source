@@ -31,10 +31,9 @@ namespace TaleWorlds.Library
 			{
 				if (CommandLineFunctionality.CheckAssemblyReferencesThis(assembly))
 				{
-					Type[] types = assembly.GetTypes();
-					for (int j = 0; j < types.Length; j++)
+					foreach (Type type in assembly.GetTypesSafe(null))
 					{
-						foreach (MethodInfo methodInfo in types[j].GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+						foreach (MethodInfo methodInfo in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 						{
 							object[] customAttributes = methodInfo.GetCustomAttributes(typeof(CommandLineFunctionality.CommandLineArgumentFunction), false);
 							if (customAttributes != null && customAttributes.Length != 0)
@@ -78,6 +77,18 @@ namespace TaleWorlds.Library
 				}
 				found = true;
 				return commandLineFunction.Call(list);
+			}
+			found = false;
+			return "Could not find the command " + concatName;
+		}
+
+		public static string CallFunction(string concatName, List<string> argList, out bool found)
+		{
+			CommandLineFunctionality.CommandLineFunction commandLineFunction;
+			if (CommandLineFunctionality.AllFunctions.TryGetValue(concatName, out commandLineFunction))
+			{
+				found = true;
+				return commandLineFunction.Call(argList);
 			}
 			found = false;
 			return "Could not find the command " + concatName;

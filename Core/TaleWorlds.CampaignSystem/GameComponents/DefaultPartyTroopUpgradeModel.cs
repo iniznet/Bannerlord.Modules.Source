@@ -78,16 +78,13 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			int troopRecruitmentCost2 = partyWageModel.GetTroopRecruitmentCost(characterObject, null, true);
 			bool flag = characterObject.Occupation == Occupation.Mercenary || characterObject.Occupation == Occupation.Gangster;
 			ExplainedNumber explainedNumber = new ExplainedNumber((float)(troopRecruitmentCost - troopRecruitmentCost2) / ((!flag) ? 2f : 3f), false, null);
-			if (party.IsMobile && party.LeaderHero != null)
+			if (party.MobileParty.HasPerk(DefaultPerks.Steward.SoundReserves, false))
 			{
-				if (party.MobileParty.HasPerk(DefaultPerks.Bow.RenownedArcher, true))
-				{
-					PerkHelper.AddPerkBonusForParty(DefaultPerks.Bow.RenownedArcher, party.MobileParty, false, ref explainedNumber);
-				}
-				if (party.IsMobile && party.LeaderHero != null && party.MobileParty.HasPerk(DefaultPerks.Steward.SoundReserves, false))
-				{
-					PerkHelper.AddPerkBonusForParty(DefaultPerks.Steward.SoundReserves, party.MobileParty, true, ref explainedNumber);
-				}
+				PerkHelper.AddPerkBonusForParty(DefaultPerks.Steward.SoundReserves, party.MobileParty, true, ref explainedNumber);
+			}
+			if (characterObject.IsRanged && party.MobileParty.HasPerk(DefaultPerks.Bow.RenownedArcher, true))
+			{
+				PerkHelper.AddPerkBonusForParty(DefaultPerks.Bow.RenownedArcher, party.MobileParty, false, ref explainedNumber);
 			}
 			if (characterObject.IsInfantry && party.MobileParty.HasPerk(DefaultPerks.Throwing.ThrowingCompetitions, false))
 			{
@@ -100,6 +97,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			else if (characterObject.IsInfantry && PartyBaseHelper.HasFeat(party, DefaultCulturalFeats.SturgianRecruitUpgradeFeat))
 			{
 				explainedNumber.AddFactor(DefaultCulturalFeats.SturgianRecruitUpgradeFeat.EffectBonus, GameTexts.FindText("str_culture", null));
+			}
+			if (flag && party.MobileParty.HasPerk(DefaultPerks.Steward.Contractors, false))
+			{
+				PerkHelper.AddPerkBonusForParty(DefaultPerks.Steward.Contractors, party.MobileParty, true, ref explainedNumber);
 			}
 			return (int)explainedNumber.ResultNumber;
 		}
@@ -137,25 +138,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				return party.MobileParty.HasPerk(requiredPerk, true);
 			}
 			return true;
-		}
-
-		public override bool CanTroopGainXp(PartyBase owner, CharacterObject character)
-		{
-			for (int i = 0; i < character.UpgradeTargets.Length; i++)
-			{
-				CharacterObject characterObject = character.UpgradeTargets[i];
-				int num = owner.MemberRoster.FindIndexOfTroop(character);
-				int elementNumber = owner.MemberRoster.GetElementNumber(num);
-				int elementXp = owner.MemberRoster.GetElementXp(num);
-				int upgradeXpCost = character.GetUpgradeXpCost(owner, i);
-				bool flag = elementXp >= upgradeXpCost * elementNumber;
-				PerkObject perkObject;
-				if (this.DoesPartyHaveRequiredPerksForUpgrade(owner, character, characterObject, out perkObject) && !flag)
-				{
-					return true;
-				}
-			}
-			return false;
 		}
 
 		public override float GetUpgradeChanceForTroopUpgrade(PartyBase party, CharacterObject troop, int upgradeTargetIndex)

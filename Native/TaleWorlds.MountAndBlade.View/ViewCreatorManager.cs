@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.ScreenSystem;
 
@@ -34,7 +35,7 @@ namespace TaleWorlds.MountAndBlade.View
 
 		private static void CheckAssemblyScreens(Assembly assembly)
 		{
-			foreach (Type type in assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
 				object[] customAttributes = type.GetCustomAttributes(typeof(ViewCreatorModule), false);
 				if (customAttributes != null && customAttributes.Length == 1 && customAttributes[0] is ViewCreatorModule)
@@ -73,10 +74,13 @@ namespace TaleWorlds.MountAndBlade.View
 		internal static IEnumerable<MissionBehavior> CreateDefaultMissionBehaviors(Mission mission)
 		{
 			List<MissionBehavior> list = new List<MissionBehavior>();
-			foreach (Type type in ViewCreatorManager._defaultTypes)
+			foreach (KeyValuePair<Type, Type> keyValuePair in ViewCreatorManager._defaultTypes)
 			{
-				MissionBehavior missionBehavior = Activator.CreateInstance(type) as MissionBehavior;
-				list.Add(missionBehavior);
+				if (!keyValuePair.Value.IsAbstract)
+				{
+					MissionBehavior missionBehavior = Activator.CreateInstance(keyValuePair.Value) as MissionBehavior;
+					list.Add(missionBehavior);
+				}
 			}
 			return list;
 		}
@@ -132,7 +136,7 @@ namespace TaleWorlds.MountAndBlade.View
 
 		private static void CheckOverridenViews(Assembly assembly)
 		{
-			foreach (Type type in assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
 				if (typeof(MissionView).IsAssignableFrom(type) || typeof(ScreenBase).IsAssignableFrom(type))
 				{
@@ -142,23 +146,10 @@ namespace TaleWorlds.MountAndBlade.View
 						OverrideView overrideView = customAttributes[0] as OverrideView;
 						if (overrideView != null)
 						{
-							if (!ViewCreatorManager._actualViewTypes.ContainsKey(overrideView.BaseType))
+							ViewCreatorManager._actualViewTypes[overrideView.BaseType] = type;
+							if (ViewCreatorManager._defaultTypes.ContainsKey(overrideView.BaseType))
 							{
-								ViewCreatorManager._actualViewTypes.Add(overrideView.BaseType, type);
-							}
-							else
-							{
-								ViewCreatorManager._actualViewTypes[overrideView.BaseType] = type;
-							}
-							if (ViewCreatorManager._defaultTypes.Contains(overrideView.BaseType))
-							{
-								for (int j = 0; j < ViewCreatorManager._defaultTypes.Count; j++)
-								{
-									if (ViewCreatorManager._defaultTypes[j] == overrideView.BaseType)
-									{
-										ViewCreatorManager._defaultTypes[j] = type;
-									}
-								}
+								ViewCreatorManager._defaultTypes[overrideView.BaseType] = type;
 							}
 						}
 					}
@@ -168,11 +159,11 @@ namespace TaleWorlds.MountAndBlade.View
 
 		private static void CollectDefaults(Assembly assembly)
 		{
-			foreach (Type type in assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
 				if (typeof(MissionBehavior).IsAssignableFrom(type) && type.GetCustomAttributes(typeof(DefaultView), false).Length == 1)
 				{
-					ViewCreatorManager._defaultTypes.Add(type);
+					ViewCreatorManager._defaultTypes.Add(type, type);
 				}
 			}
 		}
@@ -181,6 +172,6 @@ namespace TaleWorlds.MountAndBlade.View
 
 		private static Dictionary<Type, Type> _actualViewTypes = new Dictionary<Type, Type>();
 
-		private static List<Type> _defaultTypes = new List<Type>();
+		private static Dictionary<Type, Type> _defaultTypes = new Dictionary<Type, Type>();
 	}
 }

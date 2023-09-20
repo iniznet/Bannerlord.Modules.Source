@@ -1,4 +1,5 @@
 ﻿using System;
+using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.LinQuick;
 
@@ -52,7 +53,7 @@ namespace TaleWorlds.MountAndBlade
 			WorldPosition worldPosition;
 			if (flag3 && base.Formation.Team.HasAnyFormationsIncludingSpecialThatIsNotEmpty())
 			{
-				float num = ((base.Formation.IsMounted() && base.Formation.Team.QuerySystem.CavalryRatio + base.Formation.Team.QuerySystem.RangedCavalryRatio >= 33.3f) ? 40f : 3f);
+				float num = ((base.Formation.PhysicalClass.IsMounted() && base.Formation.Team.QuerySystem.CavalryRatio + base.Formation.Team.QuerySystem.RangedCavalryRatio >= 33.3f) ? 40f : 3f);
 				if (this._mainFormation != null && this._mainFormation.CountOfUnits > 0)
 				{
 					float num2 = this._mainFormation.Depth + num;
@@ -87,7 +88,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FacingOrder = FacingOrder.FacingOrderLookAtEnemy;
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderDeep;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		protected override float GetAiWeight()

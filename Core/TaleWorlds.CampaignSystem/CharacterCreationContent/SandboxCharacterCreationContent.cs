@@ -117,7 +117,7 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 				DefaultSkills.Crossbow
 			};
 			characterAttribute = DefaultCharacterAttributes.Intelligence;
-			characterCreationCategory.AddCategoryOption(new TextObject("{=v48N6h1t}Urban artisans", null), mblist, characterAttribute, this.FocusToAdd, this.SkillLevelToAdd, this.AttributeLevelToAdd, null, new CharacterCreationOnSelect(this.EmpireArtisanOnConsequence), new CharacterCreationApplyFinalEffects(this.EmpireArtisanOnApply), new TextObject("{=ZKynvffv}Your family owned their own workshop in a city, making goods from raw materials brought in from the countryside. Your father played an active if minor role in the town council, and also served in the militia.", null), null, 0, 0, 0, 0, 0);
+			characterCreationCategory.AddCategoryOption(new TextObject("{=v48N6h1t}Urban artisans", null), mblist, characterAttribute, this.FocusToAdd, this.SkillLevelToAdd, this.AttributeLevelToAdd, null, new CharacterCreationOnSelect(this.EmpireArtisanOnConsequence), new CharacterCreationApplyFinalEffects(this.EmpireArtisanOnApply), new TextObject("{=ueCm5y1C}Your family owned their own workshop in a city, making goods from raw materials brought in from the countryside. Your father played an active if minor role in the town council, and also served in the militia.", null), null, 0, 0, 0, 0, 0);
 			mblist = new MBList<SkillObject>
 			{
 				DefaultSkills.Scouting,

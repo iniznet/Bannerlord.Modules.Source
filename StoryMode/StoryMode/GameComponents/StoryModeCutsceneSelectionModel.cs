@@ -17,7 +17,7 @@ namespace StoryMode.GameComponents
 			}
 			else
 			{
-				sceneNotificationData = new KingdomDestroyedSceneNotificationItem(kingdom);
+				sceneNotificationData = new KingdomDestroyedSceneNotificationItem(kingdom, CampaignTime.Now);
 			}
 			return sceneNotificationData;
 		}

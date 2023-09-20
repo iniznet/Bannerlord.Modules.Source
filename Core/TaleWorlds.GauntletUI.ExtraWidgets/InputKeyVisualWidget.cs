@@ -1,5 +1,6 @@
 ﻿using System;
 using TaleWorlds.GauntletUI.BaseTypes;
+using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.GauntletUI.ExtraWidgets
 {
@@ -14,6 +15,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 
 		private string GetKeyVisualName(string keyID)
 		{
+			Input.ControllerTypes controllerType = Input.ControllerType;
 			string text = "None";
 			uint num = <PrivateImplementationDetails>.ComputeStringHash(keyID);
 			if (num <= 2144691513U)
@@ -38,7 +40,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 										{
 											return text;
 										}
-										goto IL_15AB;
+										goto IL_15CB;
 									}
 									else
 									{
@@ -46,7 +48,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 										{
 											return text;
 										}
-										goto IL_160B;
+										goto IL_1637;
 									}
 								}
 								else if (num != 100894848U)
@@ -59,7 +61,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_1572;
+									goto IL_1578;
 								}
 								else
 								{
@@ -82,7 +84,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_1572;
+									goto IL_1578;
 								}
 								else
 								{
@@ -90,7 +92,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_15A0;
+									goto IL_15C0;
 								}
 							}
 							else if (num != 117964108U)
@@ -113,7 +115,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_1595;
+									goto IL_15B5;
 								}
 							}
 							else
@@ -139,7 +141,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_15CB;
+									goto IL_15F7;
 								}
 								else if (!(keyID == "D0"))
 								{
@@ -156,7 +158,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_15BB;
+								goto IL_15E1;
 							}
 							else
 							{
@@ -164,7 +166,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_15C3;
+								goto IL_15EC;
 							}
 						}
 						else if (num <= 214840165U)
@@ -179,7 +181,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_15B3;
+								goto IL_15D6;
 							}
 							else
 							{
@@ -187,7 +189,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num != 215134355U)
@@ -202,7 +204,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_15DB;
+								goto IL_1607;
 							}
 							else
 							{
@@ -219,7 +221,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num <= 416465783U)
@@ -238,7 +240,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_162B;
+									goto IL_1657;
 								}
 								else
 								{
@@ -246,7 +248,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_15D3;
+									goto IL_15FF;
 								}
 							}
 							else if (num != 332577688U)
@@ -267,7 +269,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num <= 382910545U)
@@ -282,7 +284,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 							else
 							{
@@ -290,7 +292,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num != 389828744U)
@@ -305,7 +307,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 							else
 							{
@@ -313,7 +315,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else
@@ -322,7 +324,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num <= 575450500U)
@@ -339,7 +341,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 							else
 							{
@@ -347,7 +349,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num != 513712005U)
@@ -368,7 +370,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num <= 1044186795U)
@@ -391,7 +393,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num != 1050238388U)
@@ -406,7 +408,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 						else
 						{
@@ -452,7 +454,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_1572;
+									goto IL_1578;
 								}
 							}
 							else if (num != 1174120482U)
@@ -465,7 +467,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1603;
+								goto IL_162F;
 							}
 							else
 							{
@@ -473,7 +475,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num <= 1304745760U)
@@ -488,7 +490,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 							else
 							{
@@ -496,7 +498,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num != 1321523379U)
@@ -511,7 +513,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 							else
 							{
@@ -519,7 +521,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else
@@ -528,7 +530,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num <= 1469573738U)
@@ -553,7 +555,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num != 1428210068U)
@@ -574,7 +576,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_15FB;
+							goto IL_1627;
 						}
 					}
 					else if (num <= 1537849368U)
@@ -589,7 +591,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_157E;
+							goto IL_1584;
 						}
 						else
 						{
@@ -597,7 +599,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num != 1650792303U)
@@ -620,7 +622,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else
@@ -629,7 +631,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_162B;
+						goto IL_1657;
 					}
 				}
 				else if (num <= 1910265404U)
@@ -648,7 +650,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_15B3;
+								goto IL_15D6;
 							}
 							else
 							{
@@ -656,7 +658,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num != 1852896292U)
@@ -669,7 +671,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_15BB;
+							goto IL_15E1;
 						}
 						else
 						{
@@ -677,7 +679,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num <= 1876710166U)
@@ -692,7 +694,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_15C3;
+							goto IL_15EC;
 						}
 						else
 						{
@@ -700,7 +702,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_162B;
+							goto IL_1657;
 						}
 					}
 					else if (num != 1893487785U)
@@ -731,7 +733,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_15CB;
+						goto IL_15F7;
 					}
 				}
 				else if (num <= 2008406340U)
@@ -748,7 +750,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_15A0;
+							goto IL_15C0;
 						}
 						else
 						{
@@ -756,7 +758,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1595;
+							goto IL_15B5;
 						}
 					}
 					else if (num != 1960598261U)
@@ -769,7 +771,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_161B;
+						goto IL_1647;
 					}
 					else
 					{
@@ -777,7 +779,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_15AB;
+						goto IL_15CB;
 					}
 				}
 				else if (num <= 2061263975U)
@@ -792,7 +794,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_15DB;
+						goto IL_1607;
 					}
 					else
 					{
@@ -800,7 +802,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_15D3;
+						goto IL_15FF;
 					}
 				}
 				else if (num != 2083773698U)
@@ -815,7 +817,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_1572;
+						goto IL_1578;
 					}
 					else
 					{
@@ -823,7 +825,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_162B;
+						goto IL_1657;
 					}
 				}
 				else
@@ -832,28 +834,28 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 					{
 						return text;
 					}
-					goto IL_162B;
+					goto IL_1657;
 				}
 				return "0";
-				IL_1595:
+				IL_15B5:
 				return "1";
-				IL_15A0:
+				IL_15C0:
 				return "2";
-				IL_15AB:
-				return "3";
-				IL_15B3:
-				return "4";
-				IL_15BB:
-				return "5";
-				IL_15C3:
-				return "6";
 				IL_15CB:
+				return "3";
+				IL_15D6:
+				return "4";
+				IL_15E1:
+				return "5";
+				IL_15EC:
+				return "6";
+				IL_15F7:
 				return "7";
-				IL_15D3:
+				IL_15FF:
 				return "8";
-				IL_15DB:
+				IL_1607:
 				return "9";
-				IL_162B:
+				IL_1657:
 				return "controllerrstick";
 			}
 			if (num <= 3423339364U)
@@ -884,7 +886,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 									{
 										return text;
 									}
-									goto IL_161B;
+									goto IL_1647;
 								}
 							}
 							else if (num != 2340347977U)
@@ -904,7 +906,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num <= 2457286800U)
@@ -919,7 +921,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 							else
 							{
@@ -927,7 +929,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_160B;
+								goto IL_1637;
 							}
 						}
 						else if (num != 2595691489U)
@@ -950,7 +952,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_161B;
+								goto IL_1647;
 							}
 						}
 						else
@@ -959,7 +961,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_161B;
+							goto IL_1647;
 						}
 					}
 					else if (num <= 2906557000U)
@@ -984,7 +986,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 								{
 									return text;
 								}
-								goto IL_1572;
+								goto IL_1578;
 							}
 						}
 						else if (num != 2769091631U)
@@ -997,7 +999,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 						else
 						{
@@ -1005,7 +1007,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 					}
 					else if (num <= 2952291245U)
@@ -1027,7 +1029,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_161B;
+							goto IL_1647;
 						}
 					}
 					else if (num != 3001337907U)
@@ -1042,7 +1044,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1572;
+							goto IL_1578;
 						}
 						else
 						{
@@ -1050,7 +1052,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 							{
 								return text;
 							}
-							goto IL_1603;
+							goto IL_162F;
 						}
 					}
 					else
@@ -1059,7 +1061,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_1572;
+						goto IL_1578;
 					}
 					return "enter";
 				}
@@ -1196,7 +1198,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_157E;
+						goto IL_1584;
 					}
 					else
 					{
@@ -1360,7 +1362,7 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 						{
 							return text;
 						}
-						goto IL_15FB;
+						goto IL_1627;
 					}
 					else if (!(keyID == "S"))
 					{
@@ -1521,7 +1523,11 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 					{
 						return text;
 					}
-					return text;
+					if (controllerType == Input.ControllerTypes.PlayStationDualShock)
+					{
+						return keyID.ToLower() + "_4";
+					}
+					return keyID.ToLower();
 				}
 				else
 				{
@@ -1562,17 +1568,21 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 				}
 				return text;
 			}
-			IL_1572:
+			IL_1578:
 			return keyID.ToLower();
-			IL_157E:
+			IL_1584:
+			if (controllerType == Input.ControllerTypes.PlayStationDualShock)
+			{
+				return keyID.ToLower() + "_4";
+			}
 			return keyID.ToLower();
-			IL_15FB:
+			IL_1627:
 			return "shift";
-			IL_1603:
+			IL_162F:
 			return "control";
-			IL_160B:
+			IL_1637:
 			return "alt";
-			IL_161B:
+			IL_1647:
 			text = "controllerlstick";
 			return text;
 		}
@@ -1585,6 +1595,11 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 				return;
 			}
 			string text = this.IconsPath + "\\" + visualName;
+			if (Input.IsGamepadActive && (Input.ControllerType == Input.ControllerTypes.PlayStationDualSense || Input.ControllerType == Input.ControllerTypes.PlayStationDualShock))
+			{
+				base.Sprite = base.Context.SpriteData.GetSprite(text + "_ps");
+				return;
+			}
 			base.Sprite = base.Context.SpriteData.GetSprite(text);
 		}
 

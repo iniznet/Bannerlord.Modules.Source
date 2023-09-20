@@ -39,14 +39,14 @@ namespace TaleWorlds.MountAndBlade
 			return commonAIComponent != null && commonAIComponent.IsRetreating;
 		}
 
-		public static void Retreat(this Agent agent)
+		public static void Retreat(this Agent agent, bool useCachingSystem = false)
 		{
 			CommonAIComponent commonAIComponent = agent.CommonAIComponent;
 			if (commonAIComponent == null)
 			{
 				return;
 			}
-			commonAIComponent.Retreat();
+			commonAIComponent.Retreat(useCachingSystem);
 		}
 
 		public static void StopRetreatingMoraleComponent(this Agent agent)
@@ -57,6 +57,26 @@ namespace TaleWorlds.MountAndBlade
 				return;
 			}
 			commonAIComponent.StopRetreating();
+		}
+
+		public static void SetBehaviorValueSet(this Agent agent, HumanAIComponent.BehaviorValueSet behaviorValueSet)
+		{
+			HumanAIComponent humanAIComponent = agent.HumanAIComponent;
+			if (humanAIComponent == null)
+			{
+				return;
+			}
+			humanAIComponent.SetBehaviorValueSet(behaviorValueSet);
+		}
+
+		public static void RefreshBehaviorValues(this Agent agent, MovementOrder.MovementOrderEnum movementOrder, ArrangementOrder.ArrangementOrderEnum arrangementOrder)
+		{
+			HumanAIComponent humanAIComponent = agent.HumanAIComponent;
+			if (humanAIComponent == null)
+			{
+				return;
+			}
+			humanAIComponent.RefreshBehaviorValues(movementOrder, arrangementOrder);
 		}
 
 		public static void SetAIBehaviorValues(this Agent agent, HumanAIComponent.AISimpleBehaviorKind behavior, float y1, float x2, float y2, float x3, float y3)
@@ -84,7 +104,7 @@ namespace TaleWorlds.MountAndBlade
 			return agent.AIStateFlags.HasAnyFlag(Agent.AIStateFlag.UseObjectMoving);
 		}
 
-		public static void AIDefendGameObjectEnable(this Agent agent, UsableMissionObject usedObject, IDetachment detachment, Agent.AIScriptedFrameFlags scriptedFrameFlags = Agent.AIScriptedFrameFlags.NoAttack)
+		public static void AIDefendGameObjectEnable(this Agent agent, UsableMissionObject usedObject, IDetachment detachment)
 		{
 			agent.HumanAIComponent.StartDefendingGameObject(usedObject, detachment);
 		}

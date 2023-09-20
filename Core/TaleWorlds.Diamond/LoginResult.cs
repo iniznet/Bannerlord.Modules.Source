@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
-using TaleWorlds.Localization;
 
 namespace TaleWorlds.Diamond
 {
@@ -18,17 +18,27 @@ namespace TaleWorlds.Diamond
 		public bool Successful { get; private set; }
 
 		[DataMember]
-		public TextObject ErrorCode { get; private set; }
+		public string ErrorCode { get; private set; }
+
+		[DataMember]
+		public Dictionary<string, string> ErrorParameters { get; private set; }
+
+		[DataMember]
+		public string ProviderResponse { get; private set; }
 
 		[DataMember]
 		public LoginResultObject LoginResultObject { get; private set; }
+
+		public LoginResult()
+		{
+		}
 
 		public LoginResult(PeerId peerId, SessionKey sessionKey, LoginResultObject loginResultObject)
 		{
 			this.PeerId = peerId;
 			this.SessionKey = sessionKey;
 			this.Successful = true;
-			this.ErrorCode = new TextObject("", null);
+			this.ErrorCode = "";
 			this.LoginResultObject = loginResultObject;
 		}
 
@@ -37,10 +47,11 @@ namespace TaleWorlds.Diamond
 		{
 		}
 
-		public LoginResult(TextObject errorCode)
+		public LoginResult(string errorCode, Dictionary<string, string> parameters = null)
 		{
 			this.ErrorCode = errorCode;
 			this.Successful = false;
+			this.ErrorParameters = parameters;
 		}
 	}
 }

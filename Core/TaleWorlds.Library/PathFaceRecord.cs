@@ -4,8 +4,6 @@ namespace TaleWorlds.Library
 {
 	public struct PathFaceRecord
 	{
-		public int FaceIndex { get; private set; }
-
 		public PathFaceRecord(int index, int groupIndex, int islandIndex)
 		{
 			this.FaceIndex = index;
@@ -17,6 +15,8 @@ namespace TaleWorlds.Library
 		{
 			return this.FaceIndex != -1;
 		}
+
+		public int FaceIndex;
 
 		public int FaceGroupIndex;
 

@@ -13,13 +13,16 @@ namespace TaleWorlds.MountAndBlade
 
 		public Func<ValueTuple<bool, TextObject>> IsDisabledAndReason { get; private set; }
 
-		public InitialStateOption(string id, TextObject name, int orderIndex, Action action, Func<ValueTuple<bool, TextObject>> isDisabledAndReason)
+		public TextObject EnabledHint { get; private set; }
+
+		public InitialStateOption(string id, TextObject name, int orderIndex, Action action, Func<ValueTuple<bool, TextObject>> isDisabledAndReason, TextObject enabledHint = null)
 		{
 			this.Name = name;
 			this.Id = id;
 			this.OrderIndex = orderIndex;
 			this._action = action;
 			this.IsDisabledAndReason = isDisabledAndReason;
+			this.EnabledHint = enabledHint;
 			TextObject item = this.IsDisabledAndReason().Item2;
 			string.IsNullOrEmpty((item != null) ? item.ToString() : null);
 		}

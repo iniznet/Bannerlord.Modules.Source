@@ -6,7 +6,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Blow")]
+	[EngineStruct("Blow", false)]
 	public struct Blow
 	{
 		public Blow(int ownerId)
@@ -40,7 +40,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public BlowWeaponRecord WeaponRecord;
 
-		public Vec3 Position;
+		public Vec3 GlobalPosition;
 
 		public Vec3 Direction;
 
@@ -64,6 +64,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public AgentAttackType AttackType;
 
+		[CustomEngineStructMemberData("blow_flags")]
 		public BlowFlags BlowFlag;
 
 		public int OwnerId;
@@ -74,13 +75,13 @@ namespace TaleWorlds.MountAndBlade
 
 		public DamageTypes DamageType;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool NoIgnore;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool DamageCalculated;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool IsFallDamage;
 
 		public float DamagedPercentage;

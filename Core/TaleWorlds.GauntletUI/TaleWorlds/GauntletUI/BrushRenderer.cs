@@ -236,15 +236,7 @@ namespace TaleWorlds.GauntletUI
 		private BrushLayerState AnimateBrushLayerState(BrushAnimation animation, BrushLayerAnimation layerAnimation, float brushStateTimer, bool isFirstCycle, BrushLayerState startState, IBrushLayerData source)
 		{
 			BrushLayerState brushLayerState = default(BrushLayerState);
-			if (isFirstCycle)
-			{
-				float num = brushStateTimer * (1f / animation.Duration);
-				brushLayerState.LerpFrom(startState, source, num);
-			}
-			else
-			{
-				brushLayerState.FillFrom(source);
-			}
+			brushLayerState.FillFrom(source);
 			if (layerAnimation != null)
 			{
 				foreach (BrushAnimationProperty brushAnimationProperty in layerAnimation.Collections)
@@ -293,52 +285,52 @@ namespace TaleWorlds.GauntletUI
 					BrushLayerState brushLayerState2 = default(BrushLayerState);
 					IBrushLayerData brushLayerData = null;
 					BrushAnimationKeyFrame brushAnimationKeyFrame4 = null;
-					float num4;
+					float num3;
 					if (brushAnimationKeyFrame2 != null)
 					{
 						if (brushAnimationKeyFrame != null)
 						{
+							float num;
 							float num2;
-							float num3;
 							if (animation.Loop)
 							{
 								if (brushAnimationKeyFrame2.Index == 0)
 								{
-									num2 = brushAnimationKeyFrame2.Time + (animation.Duration - brushAnimationKeyFrame.Time);
+									num = brushAnimationKeyFrame2.Time + (animation.Duration - brushAnimationKeyFrame.Time);
 									if (brushStateTimer >= brushAnimationKeyFrame.Time)
 									{
-										num3 = brushStateTimer - brushAnimationKeyFrame.Time;
+										num2 = brushStateTimer - brushAnimationKeyFrame.Time;
 									}
 									else
 									{
-										num3 = animation.Duration - brushAnimationKeyFrame.Time + brushStateTimer;
+										num2 = animation.Duration - brushAnimationKeyFrame.Time + brushStateTimer;
 									}
 								}
 								else
 								{
-									num2 = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
-									num3 = brushStateTimer - brushAnimationKeyFrame.Time;
+									num = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
+									num2 = brushStateTimer - brushAnimationKeyFrame.Time;
 								}
 							}
 							else
 							{
-								num2 = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
-								num3 = brushStateTimer - brushAnimationKeyFrame.Time;
+								num = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
+								num2 = brushStateTimer - brushAnimationKeyFrame.Time;
 							}
-							num4 = num3 * (1f / num2);
+							num3 = num2 * (1f / num);
 							brushAnimationKeyFrame3 = brushAnimationKeyFrame;
 							brushAnimationKeyFrame4 = brushAnimationKeyFrame2;
 						}
 						else
 						{
-							num4 = brushStateTimer * (1f / brushAnimationKeyFrame2.Time);
+							num3 = brushStateTimer * (1f / brushAnimationKeyFrame2.Time);
 							brushLayerState2 = startState;
 							brushAnimationKeyFrame4 = brushAnimationKeyFrame2;
 						}
 					}
 					else
 					{
-						num4 = (brushStateTimer - brushAnimationKeyFrame.Time) * (1f / (animation.Duration - brushAnimationKeyFrame.Time));
+						num3 = (brushStateTimer - brushAnimationKeyFrame.Time) * (1f / (animation.Duration - brushAnimationKeyFrame.Time));
 						brushAnimationKeyFrame3 = brushAnimationKeyFrame;
 						brushLayerData = source;
 					}
@@ -370,9 +362,9 @@ namespace TaleWorlds.GauntletUI
 					case BrushAnimationProperty.BrushAnimationPropertyType.ExtendTop:
 					case BrushAnimationProperty.BrushAnimationPropertyType.ExtendBottom:
 					{
-						float num5 = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsFloat() : brushLayerState2.GetValueAsFloat(propertyType));
-						float num6 = ((brushLayerData != null) ? brushLayerData.GetValueAsFloat(propertyType) : brushAnimationKeyFrame4.GetValueAsFloat());
-						brushLayerState.SetValueAsFloat(propertyType, MathF.Lerp(num5, num6, num4, 1E-05f));
+						float num4 = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsFloat() : brushLayerState2.GetValueAsFloat(propertyType));
+						float num5 = ((brushLayerData != null) ? brushLayerData.GetValueAsFloat(propertyType) : brushAnimationKeyFrame4.GetValueAsFloat());
+						brushLayerState.SetValueAsFloat(propertyType, MathF.Lerp(num4, num5, num3, 1E-05f));
 						break;
 					}
 					case BrushAnimationProperty.BrushAnimationPropertyType.Color:
@@ -383,7 +375,7 @@ namespace TaleWorlds.GauntletUI
 						Color color = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsColor() : brushLayerState2.GetValueAsColor(propertyType));
 						Color color2 = ((brushLayerData != null) ? brushLayerData.GetValueAsColor(propertyType) : brushAnimationKeyFrame4.GetValueAsColor());
 						BrushAnimationProperty.BrushAnimationPropertyType brushAnimationPropertyType = propertyType;
-						Color color3 = Color.Lerp(color, color2, num4);
+						Color color3 = Color.Lerp(color, color2, num3);
 						brushLayerState.SetValueAsColor(brushAnimationPropertyType, color3);
 						break;
 					}
@@ -392,7 +384,7 @@ namespace TaleWorlds.GauntletUI
 					{
 						Sprite sprite = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsSprite() : null) ?? brushLayerState2.GetValueAsSprite(propertyType);
 						Sprite sprite2 = ((brushLayerData != null) ? brushLayerData.GetValueAsSprite(propertyType) : null) ?? brushAnimationKeyFrame4.GetValueAsSprite();
-						brushLayerState.SetValueAsSprite(propertyType, ((double)num4 <= 0.9) ? sprite : sprite2);
+						brushLayerState.SetValueAsSprite(propertyType, ((double)num3 <= 0.9) ? sprite : sprite2);
 						break;
 					}
 					}
@@ -409,15 +401,7 @@ namespace TaleWorlds.GauntletUI
 		private BrushState AnimateBrushState(BrushAnimation animation, BrushLayerAnimation layerAnimation, float brushStateTimer, bool isFirstCycle, BrushState startState, Style source)
 		{
 			BrushState brushState = default(BrushState);
-			if (isFirstCycle)
-			{
-				float num = brushStateTimer * (1f / animation.Duration);
-				brushState.LerpFrom(startState, source, num);
-			}
-			else
-			{
-				brushState.FillFrom(source);
-			}
+			brushState.FillFrom(source);
 			if (layerAnimation != null)
 			{
 				foreach (BrushAnimationProperty brushAnimationProperty in layerAnimation.Collections)
@@ -459,56 +443,56 @@ namespace TaleWorlds.GauntletUI
 					BrushState brushState2 = default(BrushState);
 					Style style = null;
 					BrushAnimationKeyFrame brushAnimationKeyFrame4 = null;
-					float num4;
+					float num3;
 					if (brushAnimationKeyFrame2 != null)
 					{
 						if (brushAnimationKeyFrame != null)
 						{
+							float num;
 							float num2;
-							float num3;
 							if (animation.Loop)
 							{
 								if (brushAnimationKeyFrame2.Index == 0)
 								{
-									num2 = brushAnimationKeyFrame2.Time + (animation.Duration - brushAnimationKeyFrame.Time);
+									num = brushAnimationKeyFrame2.Time + (animation.Duration - brushAnimationKeyFrame.Time);
 									if (brushStateTimer >= brushAnimationKeyFrame.Time)
 									{
-										num3 = brushStateTimer - brushAnimationKeyFrame.Time;
+										num2 = brushStateTimer - brushAnimationKeyFrame.Time;
 									}
 									else
 									{
-										num3 = animation.Duration - brushAnimationKeyFrame.Time + brushStateTimer;
+										num2 = animation.Duration - brushAnimationKeyFrame.Time + brushStateTimer;
 									}
 								}
 								else
 								{
-									num2 = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
-									num3 = brushStateTimer - brushAnimationKeyFrame.Time;
+									num = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
+									num2 = brushStateTimer - brushAnimationKeyFrame.Time;
 								}
 							}
 							else
 							{
-								num2 = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
-								num3 = brushStateTimer - brushAnimationKeyFrame.Time;
+								num = brushAnimationKeyFrame2.Time - brushAnimationKeyFrame.Time;
+								num2 = brushStateTimer - brushAnimationKeyFrame.Time;
 							}
-							num4 = num3 * (1f / num2);
+							num3 = num2 * (1f / num);
 							brushAnimationKeyFrame3 = brushAnimationKeyFrame;
 							brushAnimationKeyFrame4 = brushAnimationKeyFrame2;
 						}
 						else
 						{
-							num4 = brushStateTimer * (1f / brushAnimationKeyFrame2.Time);
+							num3 = brushStateTimer * (1f / brushAnimationKeyFrame2.Time);
 							brushState2 = startState;
 							brushAnimationKeyFrame4 = brushAnimationKeyFrame2;
 						}
 					}
 					else
 					{
-						num4 = (brushStateTimer - brushAnimationKeyFrame.Time) * (1f / (animation.Duration - brushAnimationKeyFrame.Time));
+						num3 = (brushStateTimer - brushAnimationKeyFrame.Time) * (1f / (animation.Duration - brushAnimationKeyFrame.Time));
 						brushAnimationKeyFrame3 = brushAnimationKeyFrame;
 						style = source;
 					}
-					num4 = MathF.Clamp(num4, 0f, 1f);
+					num3 = MathF.Clamp(num3, 0f, 1f);
 					switch (propertyType)
 					{
 					case BrushAnimationProperty.BrushAnimationPropertyType.ColorFactor:
@@ -537,9 +521,9 @@ namespace TaleWorlds.GauntletUI
 					case BrushAnimationProperty.BrushAnimationPropertyType.ExtendTop:
 					case BrushAnimationProperty.BrushAnimationPropertyType.ExtendBottom:
 					{
-						float num5 = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsFloat() : brushState2.GetValueAsFloat(propertyType));
-						float num6 = ((style != null) ? style.GetValueAsFloat(propertyType) : brushAnimationKeyFrame4.GetValueAsFloat());
-						brushState.SetValueAsFloat(propertyType, MathF.Lerp(num5, num6, num4, 1E-05f));
+						float num4 = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsFloat() : brushState2.GetValueAsFloat(propertyType));
+						float num5 = ((style != null) ? style.GetValueAsFloat(propertyType) : brushAnimationKeyFrame4.GetValueAsFloat());
+						brushState.SetValueAsFloat(propertyType, MathF.Lerp(num4, num5, num3, 1E-05f));
 						break;
 					}
 					case BrushAnimationProperty.BrushAnimationPropertyType.Color:
@@ -550,7 +534,7 @@ namespace TaleWorlds.GauntletUI
 						Color color = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsColor() : brushState2.GetValueAsColor(propertyType));
 						Color color2 = ((style != null) ? style.GetValueAsColor(propertyType) : brushAnimationKeyFrame4.GetValueAsColor());
 						BrushAnimationProperty.BrushAnimationPropertyType brushAnimationPropertyType = propertyType;
-						Color color3 = Color.Lerp(color, color2, num4);
+						Color color3 = Color.Lerp(color, color2, num3);
 						brushState.SetValueAsColor(brushAnimationPropertyType, color3);
 						break;
 					}
@@ -559,7 +543,7 @@ namespace TaleWorlds.GauntletUI
 					{
 						Sprite sprite = ((brushAnimationKeyFrame3 != null) ? brushAnimationKeyFrame3.GetValueAsSprite() : null) ?? brushState2.GetValueAsSprite(propertyType);
 						Sprite sprite2 = ((style != null) ? style.GetValueAsSprite(propertyType) : null) ?? brushAnimationKeyFrame4.GetValueAsSprite();
-						brushState.SetValueAsSprite(propertyType, ((double)num4 <= 0.9) ? sprite : sprite2);
+						brushState.SetValueAsSprite(propertyType, ((double)num3 <= 0.9) ? sprite : sprite2);
 						break;
 					}
 					}

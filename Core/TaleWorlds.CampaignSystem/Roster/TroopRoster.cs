@@ -294,47 +294,32 @@ namespace TaleWorlds.CampaignSystem.Roster
 			return null;
 		}
 
-		private bool KillOneManRandomly(bool includeHeroes = false)
+		private bool KillOneNonHeroTroopRandomly()
 		{
 			CharacterObject characterObject = null;
-			int num = (includeHeroes ? (this.TotalManCount - this.TotalWounded) : (this._totalRegulars - this._totalWoundedRegulars));
+			int num = this._totalRegulars - this._totalWoundedRegulars;
 			bool flag = num > 0;
 			while (flag)
 			{
-				flag = false;
 				int num2 = MBRandom.RandomInt(num);
-				characterObject = this.GetManAtIndexFromFlattenedRosterWithFilter(num2, includeHeroes, true);
-				if (characterObject == null || (!includeHeroes && characterObject.IsHero))
-				{
-					flag = true;
-				}
+				characterObject = this.GetManAtIndexFromFlattenedRosterWithFilter(num2, false, true);
+				flag = characterObject == null;
 			}
 			if (characterObject != null)
 			{
-				if (characterObject.IsHero)
-				{
-					if (characterObject.HeroObject.IsWanderer)
-					{
-						MakeHeroFugitiveAction.Apply(characterObject.HeroObject);
-					}
-					else
-					{
-						characterObject.HeroObject.ChangeState(Hero.CharacterStates.Fugitive);
-					}
-				}
 				this.AddToCounts(characterObject, -1, false, 0, 0, true, -1);
 				return true;
 			}
 			return false;
 		}
 
-		public void KillNumberOfMenRandomly(int numberOfMen, bool includeHeroes)
+		public void KillNumberOfNonHeroTroopsRandomly(int numberOfMen)
 		{
 			bool flag = true;
 			int num = 0;
 			while (num < numberOfMen && flag)
 			{
-				flag = this.KillOneManRandomly(includeHeroes);
+				flag = this.KillOneNonHeroTroopRandomly();
 				num++;
 			}
 		}
@@ -363,6 +348,42 @@ namespace TaleWorlds.CampaignSystem.Roster
 			}
 		}
 
+		public void SwapTroopsAtIndices(int firstIndex, int secondIndex)
+		{
+			if (firstIndex < 0 || firstIndex >= this.Count || secondIndex < 0 || secondIndex >= this.Count)
+			{
+				Debug.FailedAssert("Troop roster swap indices are out of bounds.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Roster\\TroopRoster.cs", "SwapTroopsAtIndices", 395);
+				return;
+			}
+			if (firstIndex == secondIndex)
+			{
+				return;
+			}
+			TroopRosterElement troopRosterElement = this.data[firstIndex];
+			this.data[firstIndex] = this.data[secondIndex];
+			this.data[secondIndex] = troopRosterElement;
+		}
+
+		public void ShiftTroopToIndex(int troopIndex, int targetIndex)
+		{
+			if (troopIndex < 0 || troopIndex >= this.Count || targetIndex < 0 || targetIndex >= this.Count)
+			{
+				Debug.FailedAssert("Troop roster swap indices are out of bounds.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Roster\\TroopRoster.cs", "ShiftTroopToIndex", 413);
+				return;
+			}
+			if (troopIndex == targetIndex)
+			{
+				return;
+			}
+			int num = ((troopIndex < targetIndex) ? 1 : (-1));
+			TroopRosterElement troopRosterElement = this.data[troopIndex];
+			for (int num2 = troopIndex; num2 != targetIndex; num2 += num)
+			{
+				this.data[num2] = this.data[num2 + num];
+			}
+			this.data[targetIndex] = troopRosterElement;
+		}
+
 		public int AddToCountsAtIndex(int index, int countChange, int woundedCountChange = 0, int xpChange = 0, bool removeDepleted = true)
 		{
 			this.UpdateVersion();
@@ -379,7 +400,7 @@ namespace TaleWorlds.CampaignSystem.Roster
 			}
 			else if (num2 < 0)
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Roster\\TroopRoster.cs", "AddToCountsAtIndex", 426);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Roster\\TroopRoster.cs", "AddToCountsAtIndex", 455);
 			}
 			TroopRosterElement[] array2 = this.data;
 			int num3 = index;
@@ -528,7 +549,7 @@ namespace TaleWorlds.CampaignSystem.Roster
 				{
 					if (count + woundedCount <= 0)
 					{
-						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Roster\\TroopRoster.cs", "AddToCounts", 600);
+						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Roster\\TroopRoster.cs", "AddToCounts", 629);
 						return -1;
 					}
 					num = this.AddNewElement(character, insertAtFront, index);
@@ -882,39 +903,6 @@ namespace TaleWorlds.CampaignSystem.Roster
 			this.AddToCountsAtIndex(num, 0, numberToWound, 0, true);
 		}
 
-		public void SlideTroops(int firstTroopIndex, int newIndex)
-		{
-			if (firstTroopIndex == -1 || newIndex == -1 || firstTroopIndex == newIndex)
-			{
-				return;
-			}
-			if (newIndex >= this.data.Length)
-			{
-				this.EnsureLength(newIndex + 1);
-			}
-			TroopRosterElement troopRosterElement = this.data[firstTroopIndex];
-			TroopRosterElement troopRosterElement2 = this.data[newIndex];
-			if (firstTroopIndex > newIndex)
-			{
-				for (int i = firstTroopIndex - 1; i > newIndex; i--)
-				{
-					this.data[i + 1] = this.data[i];
-				}
-				this.data[newIndex] = troopRosterElement;
-				this.data[newIndex + 1] = troopRosterElement2;
-			}
-			else
-			{
-				for (int j = firstTroopIndex + 1; j < newIndex; j++)
-				{
-					this.data[j - 1] = this.data[j];
-				}
-				this.data[newIndex] = troopRosterElement;
-				this.data[newIndex - 1] = troopRosterElement2;
-			}
-			this.UpdateVersion();
-		}
-
 		void ISerializableObject.SerializeTo(IWriter writer)
 		{
 			writer.WriteInt(this.Count);
@@ -967,7 +955,7 @@ namespace TaleWorlds.CampaignSystem.Roster
 			{
 				TroopRosterElement[] array = this.data;
 				int num2 = num;
-				array[num2].TempXp = array[num2].TempXp + gainedXp;
+				array[num2].DeltaXp = array[num2].DeltaXp + gainedXp;
 			}
 		}
 
@@ -975,7 +963,7 @@ namespace TaleWorlds.CampaignSystem.Roster
 		{
 			for (int i = 0; i < this._count; i++)
 			{
-				this.data[i].TempXp = 0;
+				this.data[i].DeltaXp = 0;
 			}
 		}
 

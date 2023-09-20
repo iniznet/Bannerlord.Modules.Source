@@ -121,7 +121,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				foreach (Hero hero in settlement.Notables)
 				{
-					if (hero.CanHaveRecruits)
+					if (hero.CanHaveRecruits && hero.IsAlive)
 					{
 						bool flag = false;
 						CharacterObject basicVolunteer = Campaign.Current.Models.VolunteerModel.GetBasicVolunteer(hero);
@@ -416,42 +416,45 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				foreach (Hero hero in settlement.Notables)
 				{
-					if (mobileParty.IsWageLimitExceeded())
+					if (hero.IsAlive)
 					{
-						break;
-					}
-					int num = MBRandom.RandomInt(6);
-					int num2 = Campaign.Current.Models.VolunteerModel.MaximumIndexHeroCanRecruitFromHero(mobileParty.IsGarrison ? mobileParty.Party.Owner : mobileParty.LeaderHero, hero, -101);
-					for (int i = num; i < num + 6; i++)
-					{
-						int num3 = i % 6;
-						if (num3 >= num2)
+						if (mobileParty.IsWageLimitExceeded())
 						{
 							break;
 						}
-						int num4 = ((mobileParty.LeaderHero != null) ? ((int)MathF.Sqrt((float)mobileParty.LeaderHero.Gold / 10000f)) : 0);
-						float num5 = MBRandom.RandomFloat;
-						for (int j = 0; j < num4; j++)
+						int num = MBRandom.RandomInt(6);
+						int num2 = Campaign.Current.Models.VolunteerModel.MaximumIndexHeroCanRecruitFromHero(mobileParty.IsGarrison ? mobileParty.Party.Owner : mobileParty.LeaderHero, hero, -101);
+						for (int i = num; i < num + 6; i++)
 						{
-							float randomFloat = MBRandom.RandomFloat;
-							if (randomFloat > num5)
+							int num3 = i % 6;
+							if (num3 >= num2)
 							{
-								num5 = randomFloat;
-							}
-						}
-						if (mobileParty.Army != null)
-						{
-							float num6 = ((mobileParty.Army.LeaderParty == mobileParty) ? 0.5f : 0.67f);
-							num5 = MathF.Pow(num5, num6);
-						}
-						float num7 = (float)mobileParty.Party.NumberOfAllMembers / (float)mobileParty.LimitedPartySize;
-						if (num5 > num7 - 0.1f)
-						{
-							CharacterObject characterObject = hero.VolunteerTypes[num3];
-							if (characterObject != null && mobileParty.LeaderHero.Gold > Campaign.Current.Models.PartyWageModel.GetTroopRecruitmentCost(characterObject, mobileParty.LeaderHero, false) && mobileParty.PaymentLimit >= mobileParty.TotalWage + Campaign.Current.Models.PartyWageModel.GetCharacterWage(characterObject))
-							{
-								this.GetRecruitVolunteerFromIndividual(mobileParty, characterObject, hero, num3);
 								break;
+							}
+							int num4 = ((mobileParty.LeaderHero != null) ? ((int)MathF.Sqrt((float)mobileParty.LeaderHero.Gold / 10000f)) : 0);
+							float num5 = MBRandom.RandomFloat;
+							for (int j = 0; j < num4; j++)
+							{
+								float randomFloat = MBRandom.RandomFloat;
+								if (randomFloat > num5)
+								{
+									num5 = randomFloat;
+								}
+							}
+							if (mobileParty.Army != null)
+							{
+								float num6 = ((mobileParty.Army.LeaderParty == mobileParty) ? 0.5f : 0.67f);
+								num5 = MathF.Pow(num5, num6);
+							}
+							float num7 = (float)mobileParty.Party.NumberOfAllMembers / (float)mobileParty.LimitedPartySize;
+							if (num5 > num7 - 0.1f)
+							{
+								CharacterObject characterObject = hero.VolunteerTypes[num3];
+								if (characterObject != null && mobileParty.LeaderHero.Gold > Campaign.Current.Models.PartyWageModel.GetTroopRecruitmentCost(characterObject, mobileParty.LeaderHero, false) && mobileParty.PaymentLimit >= mobileParty.TotalWage + Campaign.Current.Models.PartyWageModel.GetCharacterWage(characterObject))
+								{
+									this.GetRecruitVolunteerFromIndividual(mobileParty, characterObject, hero, num3);
+									break;
+								}
 							}
 						}
 					}
@@ -557,11 +560,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.ApplyInternal(side1Party, individual.CurrentSettlement, individual, subject, 1, bitCode, RecruitmentCampaignBehavior.RecruitingDetail.VolunteerFromIndividual);
 		}
 
-		private void GetRecruitVolunteerFromIndividualToGarrison(MobileParty side1Party, CharacterObject subject, Hero individual, int bitCode)
-		{
-			this.ApplyInternal(side1Party, null, individual, subject, 1, bitCode, RecruitmentCampaignBehavior.RecruitingDetail.VolunteerFromIndividualToGarrison);
-		}
-
 		private void LocationCharactersAreReadyToSpawn(Dictionary<string, int> unusedUsablePointCount)
 		{
 			Settlement settlement = PlayerEncounter.LocationEncounter.Settlement;
@@ -596,7 +594,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddPlayerLine("mercenary_recruit_reject_gold", "mercenary_tavern_talk", "close_window", "{=n5BGNLrc}That sounds good. But I can't afford any more men right now.", new ConversationSentence.OnConditionDelegate(this.conversation_mercenary_recruit_reject_gold_on_condition), null, 100, null, null);
 			campaignGameStarter.AddPlayerLine("mercenary_recruit_reject", "mercenary_tavern_talk", "close_window", "{=I2thb8VU}Sorry. I don't need any other men right now.", new ConversationSentence.OnConditionDelegate(this.conversation_mercenary_recruit_dont_need_men_on_condition), null, 100, null, null);
 			campaignGameStarter.AddDialogLine("mercenary_recruit_end", "mercenary_tavern_talk_hire", "close_window", "{=vbxQoyN3}{RANDOM_HIRE_SENTENCE}", new ConversationSentence.OnConditionDelegate(this.conversation_mercenary_recruit_end_on_condition), null, 100, null);
-			campaignGameStarter.AddDialogLine("mercenary_recruit_start", "start", "close_window", "{=Jhj437BV}Don't worry, I'll be ready. Just having a last drink for the road.", new ConversationSentence.OnConditionDelegate(this.conversation_mercenary_recruited_on_condition), null, 100, null);
+			campaignGameStarter.AddDialogLine("mercenary_recruit_start_2", "start", "close_window", "{=Jhj437BV}Don't worry, I'll be ready. Just having a last drink for the road.", new ConversationSentence.OnConditionDelegate(this.conversation_mercenary_recruited_on_condition), null, 100, null);
 		}
 
 		private bool buy_mercenaries_condition(MenuCallbackArgs args)
@@ -753,7 +751,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private CharacterObject _selectedTroop;
 
-		public class RecruitmentCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class RecruitmentCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public RecruitmentCampaignBehaviorTypeDefiner()
 				: base(881200)

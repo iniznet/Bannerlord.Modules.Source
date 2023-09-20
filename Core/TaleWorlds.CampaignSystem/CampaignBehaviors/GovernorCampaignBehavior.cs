@@ -20,6 +20,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
 			CampaignEvents.OnHeroChangedClanEvent.AddNonSerializedListener(this, new Action<Hero, Clan>(this.OnHeroChangedClan));
+			CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, new Action(this.OnGameLoadFinished));
+		}
+
+		private void OnGameLoadFinished()
+		{
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			{
+				foreach (Town town in Town.AllFiefs)
+				{
+					if (town.Governor != null && town != town.Governor.GovernorOf)
+					{
+						town.Governor = null;
+					}
+				}
+			}
 		}
 
 		public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
@@ -32,7 +47,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if ((settlement.IsTown || settlement.IsCastle) && settlement.Town.Governor != null)
 			{
 				Hero governor = settlement.Town.Governor;
-				if (governor.GetPerkValue(DefaultPerks.Charm.InBloom) && MBRandom.RandomFloat < DefaultPerks.Charm.MeaningfulFavors.SecondaryBonus)
+				if (governor.GetPerkValue(DefaultPerks.Charm.InBloom) && MBRandom.RandomFloat <= DefaultPerks.Charm.InBloom.SecondaryBonus)
 				{
 					Hero randomElementWithPredicate = settlement.Notables.GetRandomElementWithPredicate((Hero x) => x.IsFemale != governor.IsFemale);
 					if (randomElementWithPredicate != null)
@@ -40,7 +55,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 						ChangeRelationAction.ApplyRelationChangeBetweenHeroes(governor.Clan.Leader, randomElementWithPredicate, 1, true);
 					}
 				}
-				if (governor.GetPerkValue(DefaultPerks.Charm.YoungAndRespectful) && MBRandom.RandomFloat < DefaultPerks.Charm.MeaningfulFavors.SecondaryBonus)
+				if (governor.GetPerkValue(DefaultPerks.Charm.YoungAndRespectful) && MBRandom.RandomFloat <= DefaultPerks.Charm.YoungAndRespectful.SecondaryBonus)
 				{
 					Hero randomElementWithPredicate2 = settlement.Notables.GetRandomElementWithPredicate((Hero x) => x.IsFemale == governor.IsFemale);
 					if (randomElementWithPredicate2 != null)
@@ -48,7 +63,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 						ChangeRelationAction.ApplyRelationChangeBetweenHeroes(governor.Clan.Leader, randomElementWithPredicate2, 1, true);
 					}
 				}
-				if (governor.GetPerkValue(DefaultPerks.Charm.MeaningfulFavors) && MBRandom.RandomFloat < DefaultPerks.Charm.MeaningfulFavors.SecondaryBonus)
+				if (governor.GetPerkValue(DefaultPerks.Charm.MeaningfulFavors) && MBRandom.RandomFloat <= DefaultPerks.Charm.MeaningfulFavors.SecondaryBonus)
 				{
 					foreach (Hero hero in settlement.Notables)
 					{
@@ -82,8 +97,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddDialogLine("governor_talk_kingdom_creation_reply", "governor_kingdom_creation_reply", "governor_kingdom_creation_culture_selection", "{=ZyNjXUHc}I am at your command.", null, null, 100, null);
 			starter.AddDialogLine("governor_talk_kingdom_creation_culture_selection", "governor_kingdom_creation_culture_selection", "governor_kingdom_creation_culture_selection_options", "{=jxEVSu98}The language of our documents, and our customary laws... Whose should we use?", null, null, 100, null);
 			starter.AddPlayerLine("governor_talk_kingdom_creation_culture_selection_option", "governor_kingdom_creation_culture_selection_options", "governor_kingdom_creation_culture_selected", "{CULTURE_OPTION_0}", new ConversationSentence.OnConditionDelegate(this.governor_talk_kingdom_creation_culture_option_0_on_condition), new ConversationSentence.OnConsequenceDelegate(this.governor_talk_kingdom_creation_culture_option_0_on_consequence), 100, null, null);
-			starter.AddPlayerLine("governor_talk_kingdom_creation_culture_selection_option", "governor_kingdom_creation_culture_selection_options", "governor_kingdom_creation_culture_selected", "{CULTURE_OPTION_1}", new ConversationSentence.OnConditionDelegate(this.governor_talk_kingdom_creation_culture_option_1_on_condition), new ConversationSentence.OnConsequenceDelegate(this.governor_talk_kingdom_creation_culture_option_1_on_consequence), 100, null, null);
-			starter.AddPlayerLine("governor_talk_kingdom_creation_culture_selection_option", "governor_kingdom_creation_culture_selection_options", "governor_kingdom_creation_culture_selected", "{CULTURE_OPTION_2}", new ConversationSentence.OnConditionDelegate(this.governor_talk_kingdom_creation_culture_option_2_on_condition), new ConversationSentence.OnConsequenceDelegate(this.governor_talk_kingdom_creation_culture_option_2_on_consequence), 100, null, null);
+			starter.AddPlayerLine("governor_talk_kingdom_creation_culture_selection_option_2", "governor_kingdom_creation_culture_selection_options", "governor_kingdom_creation_culture_selected", "{CULTURE_OPTION_1}", new ConversationSentence.OnConditionDelegate(this.governor_talk_kingdom_creation_culture_option_1_on_condition), new ConversationSentence.OnConsequenceDelegate(this.governor_talk_kingdom_creation_culture_option_1_on_consequence), 100, null, null);
+			starter.AddPlayerLine("governor_talk_kingdom_creation_culture_selection_option_3", "governor_kingdom_creation_culture_selection_options", "governor_kingdom_creation_culture_selected", "{CULTURE_OPTION_2}", new ConversationSentence.OnConditionDelegate(this.governor_talk_kingdom_creation_culture_option_2_on_condition), new ConversationSentence.OnConsequenceDelegate(this.governor_talk_kingdom_creation_culture_option_2_on_consequence), 100, null, null);
 			starter.AddPlayerLine("governor_talk_kingdom_creation_culture_selection_other", "governor_kingdom_creation_culture_selection_options", "governor_kingdom_creation_culture_selection", "{=kcuNzSvf}I have another people in mind.", new ConversationSentence.OnConditionDelegate(this.governor_talk_kingdom_creation_culture_other_on_condition), new ConversationSentence.OnConsequenceDelegate(this.governor_talk_kingdom_creation_culture_other_on_consequence), 100, null, null);
 			starter.AddPlayerLine("governor_talk_kingdom_creation_culture_selection_cancel", "governor_kingdom_creation_culture_selection_options", "governor_kingdom_creation_exit", "{=hbzs5tLd}On second thought, perhaps now is not the right time.", null, null, 100, null, null);
 			starter.AddDialogLine("governor_talk_kingdom_creation_exit_reply", "governor_kingdom_creation_exit", "close_window", "{=ppi6eVos}As you wish.", null, null, 100, null);

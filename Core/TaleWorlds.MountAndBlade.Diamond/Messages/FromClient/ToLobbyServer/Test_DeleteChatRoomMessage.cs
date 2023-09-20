@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class Test_DeleteChatRoomMessage : Message
 	{
+		[JsonProperty]
 		public Guid ChatRoomId { get; private set; }
+
+		public Test_DeleteChatRoomMessage()
+		{
+		}
 
 		public Test_DeleteChatRoomMessage(Guid chatRoomId)
 		{

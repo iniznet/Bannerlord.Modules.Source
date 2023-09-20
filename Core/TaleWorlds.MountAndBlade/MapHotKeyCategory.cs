@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaleWorlds.Engine.Options;
 using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class MapHotKeyCategory : GameKeyContext
+	public sealed class MapHotKeyCategory : GameKeyContext
 	{
 		public MapHotKeyCategory()
 			: base("MapHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)
@@ -21,6 +22,10 @@ namespace TaleWorlds.MountAndBlade
 				new Key(InputKey.LeftMouseButton),
 				new Key(InputKey.ControllerRDown)
 			};
+			if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.EnableTouchpadMouse) != 0f)
+			{
+				list.Add(new Key(InputKey.ControllerLOptionTap));
+			}
 			base.RegisterHotKey(new HotKey("MapClick", "MapHotKeyCategory", list, HotKey.Modifiers.None, HotKey.Modifiers.None), true);
 			List<Key> list2 = new List<Key>
 			{
@@ -67,8 +72,8 @@ namespace TaleWorlds.MountAndBlade
 			base.RegisterGameKey(gameKey2, true);
 			base.RegisterGameKey(gameKey4, true);
 			base.RegisterGameKey(gameKey3, true);
-			base.RegisterGameAxisKey(new GameAxisKey("MovementAxisX", InputKey.ControllerLStick, gameKey3, gameKey4, GameAxisKey.AxisType.X), true);
-			base.RegisterGameAxisKey(new GameAxisKey("MovementAxisY", InputKey.ControllerLStick, gameKey, gameKey2, GameAxisKey.AxisType.Y), true);
+			base.RegisterGameAxisKey(new GameAxisKey("MapMovementAxisX", InputKey.ControllerLStick, gameKey3, gameKey4, GameAxisKey.AxisType.X), true);
+			base.RegisterGameAxisKey(new GameAxisKey("MapMovementAxisY", InputKey.ControllerLStick, gameKey, gameKey2, GameAxisKey.AxisType.Y), true);
 		}
 
 		public const string CategoryId = "MapHotKeyCategory";
@@ -91,9 +96,9 @@ namespace TaleWorlds.MountAndBlade
 
 		public const int MapMoveRight = 47;
 
-		public const string MovementAxisX = "MovementAxisX";
+		public const string MovementAxisX = "MapMovementAxisX";
 
-		public const string MovementAxisY = "MovementAxisY";
+		public const string MovementAxisY = "MapMovementAxisY";
 
 		public const int MapFastMove = 54;
 

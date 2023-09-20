@@ -696,7 +696,7 @@ namespace TaleWorlds.MountAndBlade
 					aistateFlag &= ~Agent.AIStateFlag.Cautious;
 					break;
 				default:
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Agent.cs", "CurrentWatchState", 899);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Agent.cs", "CurrentWatchState", 900);
 					break;
 				}
 				this.AIStateFlags = aistateFlag;
@@ -732,7 +732,7 @@ namespace TaleWorlds.MountAndBlade
 					if (GameNetwork.IsServer && this.HasBeenBuilt && this.Mission.GetMissionBehavior<MissionNetworkComponent>() != null)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new AgentSetFormation(this, (value != null) ? value.Index : (-1)));
+						GameNetwork.WriteMessage(new AgentSetFormation(this.Index, (value != null) ? value.Index : (-1)));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 					}
 					this.SetNativeFormationNo((value != null) ? value.Index : (-1));
@@ -750,6 +750,10 @@ namespace TaleWorlds.MountAndBlade
 					this._formation = value;
 					if (this._formation != null)
 					{
+						if (!this._formation.HasBeenPositioned)
+						{
+							this._formation.SetPositioning(new WorldPosition?(this.GetWorldPosition()), new Vec2?(this.LookDirection.AsVec2), null);
+						}
 						this._formation.AddUnit(this);
 						if (detachment != null && this._formation.Detachments.IndexOf(detachment) >= 0 && detachment.IsStandingPointAvailableForAgent(this))
 						{
@@ -836,7 +840,7 @@ namespace TaleWorlds.MountAndBlade
 						if (networkCommunicator != null && !networkCommunicator.IsServerPeer)
 						{
 							GameNetwork.BeginModuleEventAsServer(networkCommunicator);
-							GameNetwork.WriteMessage(new SetAgentIsPlayer(this, this.Controller != Agent.ControllerType.AI));
+							GameNetwork.WriteMessage(new SetAgentIsPlayer(this.Index, this.Controller != Agent.ControllerType.AI));
 							GameNetwork.EndModuleEventAsServer();
 						}
 					}
@@ -856,7 +860,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					return this.Team.Color;
 				}
-				Debug.FailedAssert("Clothing color is not set.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Agent.cs", "ClothingColor1", 1090);
+				Debug.FailedAssert("Clothing color is not set.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Agent.cs", "ClothingColor1", 1098);
 				return uint.MaxValue;
 			}
 		}
@@ -927,18 +931,15 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				bool flag = false;
 				ActionIndexValueCache currentActionValue = this.GetCurrentActionValue(1);
-				int num = Agent.TauntCheerActions.Length;
-				for (int i = 0; i < num; i++)
+				for (int i = 0; i < Agent.DefaultTauntActions.Length; i++)
 				{
-					if (Agent.TauntCheerActions[i] == currentActionValue)
+					if (Agent.DefaultTauntActions[i] != null && Agent.DefaultTauntActions[i] == currentActionValue)
 					{
-						flag = true;
-						break;
+						return true;
 					}
 				}
-				return flag;
+				return false;
 			}
 		}
 
@@ -988,7 +989,7 @@ namespace TaleWorlds.MountAndBlade
 						NetworkCommunicator networkCommunicator = ((value != null) ? value.GetNetworkPeer() : null);
 						this.SetNetworkPeer(networkCommunicator);
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetAgentPeer(this, networkCommunicator));
+						GameNetwork.WriteMessage(new SetAgentPeer(this.Index, networkCommunicator));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 					}
 				}
@@ -1233,7 +1234,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new StartSwitchingWeaponUsageIndex(this, slotIndex, usageIndex, Agent.MovementFlagToDirection(this.MovementFlags)));
+				GameNetwork.WriteMessage(new StartSwitchingWeaponUsageIndex(this.Index, slotIndex, usageIndex, Agent.MovementFlagToDirection(this.MovementFlags)));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 		}
@@ -1245,7 +1246,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetWeaponReloadPhase(this, slotIndex, reloadPhase));
+				GameNetwork.WriteMessage(new SetWeaponReloadPhase(this.Index, slotIndex, reloadPhase));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 		}
@@ -1259,7 +1260,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetWeaponAmmoData(this, slotIndex, ammoSlotIndex, totalAmmo));
+					GameNetwork.WriteMessage(new SetWeaponAmmoData(this.Index, slotIndex, ammoSlotIndex, totalAmmo));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 			}
@@ -1275,7 +1276,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetWeaponAmmoData(this, slotIndex, EquipmentIndex.None, totalAmmo));
+					GameNetwork.WriteMessage(new SetWeaponAmmoData(this.Index, slotIndex, EquipmentIndex.None, totalAmmo));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 			}
@@ -1446,7 +1447,7 @@ namespace TaleWorlds.MountAndBlade
 		public float GetWeaponInaccuracy(EquipmentIndex weaponSlotIndex, int weaponUsageIndex)
 		{
 			WeaponComponentData weaponComponentDataForUsage = this.Equipment[weaponSlotIndex].GetWeaponComponentDataForUsage(weaponUsageIndex);
-			return MissionGameModels.Current.AgentStatCalculateModel.GetWeaponInaccuracy(this, weaponComponentDataForUsage, MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(this.Character, this.Origin, this.Formation, weaponComponentDataForUsage.RelevantSkill));
+			return MissionGameModels.Current.AgentStatCalculateModel.GetWeaponInaccuracy(this, weaponComponentDataForUsage, MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(this, weaponComponentDataForUsage.RelevantSkill));
 		}
 
 		[MBCallback]
@@ -1518,7 +1519,7 @@ namespace TaleWorlds.MountAndBlade
 					num = this.Equipment[wieldedItemIndex].CurrentUsageIndex;
 				}
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetWieldedItemIndex(this, isOffHand, isWieldedInstantly, isWieldedOnSpawn, this.GetWieldedItemIndex(isOffHand ? Agent.HandIndex.OffHand : Agent.HandIndex.MainHand), num));
+				GameNetwork.WriteMessage(new SetWieldedItemIndex(this.Index, isOffHand, isWieldedInstantly, isWieldedOnSpawn, this.GetWieldedItemIndex(isOffHand ? Agent.HandIndex.OffHand : Agent.HandIndex.MainHand), num));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			this.CheckEquipmentForCapeClothSimulationStateChange();
@@ -1553,7 +1554,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetAgentTargetPosition(this, ref targetPosition));
+					GameNetwork.WriteMessage(new SetAgentTargetPosition(this.Index, ref targetPosition));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 			}
@@ -1573,7 +1574,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetAgentTargetPositionAndDirection(this, ref targetPosition, ref targetDirection));
+					GameNetwork.WriteMessage(new SetAgentTargetPositionAndDirection(this.Index, ref targetPosition, ref targetDirection));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 			}
@@ -1611,7 +1612,7 @@ namespace TaleWorlds.MountAndBlade
 				if (sync && GameNetwork.IsServer && this.Mission.HasMissionBehavior<MissionNetworkComponent>())
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new AgentSetTeam(this, team));
+					GameNetwork.WriteMessage(new AgentSetTeam(this.Index, (team != null) ? team.TeamIndex : (-1)));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				foreach (MissionBehavior missionBehavior in Mission.Current.MissionBehaviors)
@@ -1634,6 +1635,16 @@ namespace TaleWorlds.MountAndBlade
 		public void SetWieldedItemIndexAsClient(Agent.HandIndex handIndex, EquipmentIndex equipmentIndex, bool isWieldedInstantly, bool isWieldedOnSpawn, int mainHandCurrentUsageIndex)
 		{
 			MBAPI.IMBAgent.SetWieldedItemIndexAsClient(this.GetPtr(), (int)handIndex, (int)equipmentIndex, isWieldedInstantly, isWieldedOnSpawn, mainHandCurrentUsageIndex);
+		}
+
+		public void SetPreciseRangedAimingEnabled(bool set)
+		{
+			if (set)
+			{
+				this.SetScriptedFlags(this.GetScriptedFlags() | Agent.AIScriptedFrameFlags.RangerCanMoveForClearTarget);
+				return;
+			}
+			this.SetScriptedFlags(this.GetScriptedFlags() & ~Agent.AIScriptedFrameFlags.RangerCanMoveForClearTarget);
 		}
 
 		public void SetAsConversationAgent(bool set)
@@ -1687,11 +1698,6 @@ namespace TaleWorlds.MountAndBlade
 			this.RandomizeColors = shouldRandomize;
 		}
 
-		public void SetAlwaysAttackInMelee(bool attack)
-		{
-			MBAPI.IMBAgent.SetAlwaysAttackInMelee(this.GetPtr(), attack);
-		}
-
 		[MBCallback]
 		internal void OnRemoveWeapon(EquipmentIndex slotIndex)
 		{
@@ -1703,9 +1709,9 @@ namespace TaleWorlds.MountAndBlade
 			MBAPI.IMBAgent.SetFormationFrameDisabled(this.GetPtr());
 		}
 
-		public void SetFormationFrameEnabled(WorldPosition position, Vec2 direction, float formationDirectionEnforcingFactor)
+		public void SetFormationFrameEnabled(WorldPosition position, Vec2 direction, Vec2 positionVelocity, float formationDirectionEnforcingFactor)
 		{
-			MBAPI.IMBAgent.SetFormationFrameEnabled(this.GetPtr(), position, direction, formationDirectionEnforcingFactor);
+			MBAPI.IMBAgent.SetFormationFrameEnabled(this.GetPtr(), position, direction, positionVelocity, formationDirectionEnforcingFactor);
 			if (this.Mission.IsTeleportingAgents)
 			{
 				this.TeleportToPosition(position.GetGroundVec3());
@@ -1736,7 +1742,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new WeaponUsageIndexChangeMessage(this, slotIndex, usageIndex));
+				GameNetwork.WriteMessage(new WeaponUsageIndexChangeMessage(this.Index, slotIndex, usageIndex));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 		}
@@ -1771,14 +1777,9 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetWeaponNetworkData(this, slotIndex, amount));
+				GameNetwork.WriteMessage(new SetWeaponNetworkData(this.Index, slotIndex, amount));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
-		}
-
-		public void SetMinimumSpeed(float speed)
-		{
-			MBAPI.IMBAgent.SetMinimumSpeed(this.GetPtr(), speed);
 		}
 
 		public void SetAttackState(int attackState)
@@ -1804,11 +1805,6 @@ namespace TaleWorlds.MountAndBlade
 		public void SetScriptedFlags(Agent.AIScriptedFrameFlags flags)
 		{
 			MBAPI.IMBAgent.SetScriptedFlags(this.GetPtr(), (int)flags);
-		}
-
-		public void GetDebugValues(float[] values, ref int valueCount)
-		{
-			MBAPI.IMBAgent.GetDebugValues(this.GetPtr(), values, ref valueCount);
 		}
 
 		public void SetScriptedCombatFlags(Agent.AISpecialCombatModeFlags flags)
@@ -1875,9 +1871,34 @@ namespace TaleWorlds.MountAndBlade
 			return MBAPI.IMBAgent.GetSelectedMountIndex(this.GetPtr());
 		}
 
+		public int GetFiringOrder()
+		{
+			return MBAPI.IMBAgent.GetFiringOrder(this.GetPtr());
+		}
+
+		public void SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum order)
+		{
+			MBAPI.IMBAgent.SetFiringOrder(this.GetPtr(), (int)order);
+		}
+
 		public int GetRidingOrder()
 		{
 			return MBAPI.IMBAgent.GetRidingOrder(this.GetPtr());
+		}
+
+		public void SetRidingOrder(RidingOrder.RidingOrderEnum order)
+		{
+			MBAPI.IMBAgent.SetRidingOrder(this.GetPtr(), (int)order);
+		}
+
+		public int GetTargetFormationIndex()
+		{
+			return MBAPI.IMBAgent.GetTargetFormationIndex(this.GetPtr());
+		}
+
+		public void SetTargetFormationIndex(int targetFormationIndex)
+		{
+			MBAPI.IMBAgent.SetTargetFormationIndex(this.GetPtr(), targetFormationIndex);
 		}
 
 		public void SetAgentFacialAnimation(Agent.FacialAnimChannel channel, string animationName, bool loop)
@@ -1898,21 +1919,6 @@ namespace TaleWorlds.MountAndBlade
 		public void SetDirectionChangeTendency(float tendency)
 		{
 			MBAPI.IMBAgent.SetDirectionChangeTendency(this.GetPtr(), tendency);
-		}
-
-		public void SetFiringOrder(int order)
-		{
-			MBAPI.IMBAgent.SetFiringOrder(this.GetPtr(), order);
-		}
-
-		public void SetSoundOcclusion(float value)
-		{
-			MBAPI.IMBAgent.SetSoundOcclusion(this.GetPtr(), value);
-		}
-
-		public void SetRidingOrder(int order)
-		{
-			MBAPI.IMBAgent.SetRidingOrder(this.GetPtr(), order);
 		}
 
 		public float GetBattleImportance()
@@ -1937,7 +1943,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetAgentPrefabComponentVisibility(this, componentIndex, visibility));
+				GameNetwork.WriteMessage(new SetAgentPrefabComponentVisibility(this.Index, componentIndex, visibility));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 		}
@@ -1948,7 +1954,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetAgentActionSet(this, animationSystemData));
+				GameNetwork.WriteMessage(new SetAgentActionSet(this.Index, animationSystemData));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 		}
@@ -2228,6 +2234,16 @@ namespace TaleWorlds.MountAndBlade
 			return MBAPI.IMBAgent.GetTargetAgent(this.GetPtr());
 		}
 
+		public void SetTargetAgent(Agent agent)
+		{
+			MBAPI.IMBAgent.SetTargetAgent(this.GetPtr(), (agent != null) ? agent.Index : (-1));
+		}
+
+		public void SetAutomaticTargetSelection(bool enable)
+		{
+			MBAPI.IMBAgent.SetAutomaticTargetSelection(this.GetPtr(), enable);
+		}
+
 		public AgentFlag GetAgentFlags()
 		{
 			return AgentHelper.GetAgentFlags(this.FlagsPointer);
@@ -2258,9 +2274,9 @@ namespace TaleWorlds.MountAndBlade
 			return MBAPI.IMBAgent.GetDefendMovementFlag(this.GetPtr());
 		}
 
-		public Agent.UsageDirection GetAttackDirection(bool doAiCheck)
+		public Agent.UsageDirection GetAttackDirection()
 		{
-			return MBAPI.IMBAgent.GetAttackDirection(this.GetPtr(), doAiCheck);
+			return MBAPI.IMBAgent.GetAttackDirection(this.GetPtr());
 		}
 
 		public WeaponInfo GetWieldedWeaponInfo(Agent.HandIndex handIndex)
@@ -2447,7 +2463,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return this.GetAgentDrivenPropertyValue(DrivenProperty.ArmorTorso);
 			}
-			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Agent.cs", "GetBaseArmorEffectivenessForBodyPart", 2778);
+			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Agent.cs", "GetBaseArmorEffectivenessForBodyPart", 2812);
 			return this.GetAgentDrivenPropertyValue(DrivenProperty.ArmorTorso);
 		}
 
@@ -2547,9 +2563,9 @@ namespace TaleWorlds.MountAndBlade
 			return !gameObject.IsDisabledForAgent(this) && gameObject.IsUsableByAgent(this);
 		}
 
-		public bool CanMoveDirectlyToPosition(in WorldPosition worldPosition)
+		public bool CanMoveDirectlyToPosition(in Vec2 position)
 		{
-			return MBAPI.IMBAgent.CanMoveDirectlyToPosition(this.GetPtr(), worldPosition);
+			return MBAPI.IMBAgent.CanMoveDirectlyToPosition(this.GetPtr(), position);
 		}
 
 		public bool CanInteractableWeaponBePickedUp(SpawnedItemEntity spawnedItem)
@@ -2707,7 +2723,7 @@ namespace TaleWorlds.MountAndBlade
 							if (GameNetwork.IsServer)
 							{
 								GameNetwork.BeginBroadcastModuleEvent();
-								GameNetwork.WriteMessage(new ConsumeWeaponAmount(spawnedItemEntity, num2));
+								GameNetwork.WriteMessage(new ConsumeWeaponAmount(spawnedItemEntity.Id, num2));
 								GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 							}
 						}
@@ -2764,10 +2780,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (flag)
 			{
-				foreach (MissionBehavior missionBehavior in this.Mission.MissionBehaviors)
-				{
-					missionBehavior.OnItemPickup(this, spawnedItemEntity);
-				}
+				this.Mission.TriggerOnItemPickUpEvent(this, spawnedItemEntity);
 			}
 		}
 
@@ -2817,8 +2830,8 @@ namespace TaleWorlds.MountAndBlade
 
 		public bool CheckSkillForMounting(Agent mountAgent)
 		{
-			int skillValue = this.Character.GetSkillValue(DefaultSkills.Riding);
-			return (this.GetAgentFlags() & AgentFlag.CanRide) > AgentFlag.None && (float)skillValue >= mountAgent.GetAgentDrivenPropertyValue(DrivenProperty.MountDifficulty);
+			int effectiveSkill = MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(this, DefaultSkills.Riding);
+			return (this.GetAgentFlags() & AgentFlag.CanRide) > AgentFlag.None && (float)effectiveSkill >= mountAgent.GetAgentDrivenPropertyValue(DrivenProperty.MountDifficulty);
 		}
 
 		public void InitializeSpawnEquipment(Equipment spawnEquipment)
@@ -2845,9 +2858,8 @@ namespace TaleWorlds.MountAndBlade
 
 		public void UpdateFormationOrders()
 		{
-			if (this.Formation != null)
+			if (this.Formation != null && !this.IsRetreating())
 			{
-				this.SetFiringOrder((int)this.Formation.FiringOrder.OrderEnum);
 				this.EnforceShieldUsage(ArrangementOrder.GetShieldDirectionOfUnit(this.Formation, this, this.Formation.ArrangementOrder.OrderEnum));
 			}
 		}
@@ -2887,6 +2899,12 @@ namespace TaleWorlds.MountAndBlade
 		public void UpdateSpawnEquipmentAndRefreshVisuals(Equipment newSpawnEquipment)
 		{
 			this.SpawnEquipment = newSpawnEquipment;
+			if (GameNetwork.IsServerOrRecorder)
+			{
+				GameNetwork.BeginBroadcastModuleEvent();
+				GameNetwork.WriteMessage(new SynchronizeAgentSpawnEquipment(this.Index, this.SpawnEquipment));
+				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
+			}
 			this.AgentVisuals.ClearVisualComponents(false);
 			this.Mission.OnEquipItemsFromSpawnEquipment(this, Agent.CreationType.FromCharacterObj);
 			this.AgentVisuals.ClearAllWeaponMeshes();
@@ -2897,9 +2915,9 @@ namespace TaleWorlds.MountAndBlade
 			this.CheckEquipmentForCapeClothSimulationStateChange();
 			this.EquipItemsFromSpawnEquipment(true);
 			this.UpdateAgentProperties();
-			if (!Mission.Current.DoesMissionRequireCivilianEquipment)
+			if (!Mission.Current.DoesMissionRequireCivilianEquipment && !GameNetwork.IsClientOrReplay)
 			{
-				this.WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp);
+				this.WieldInitialWeapons(Agent.WeaponWieldActionType.InstantAfterPickUp, TaleWorlds.Core.Equipment.InitialWeaponEquipPreference.Any);
 			}
 			this.PreloadForRendering();
 		}
@@ -2999,7 +3017,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new ClearAgentTargetFrame(this));
+					GameNetwork.WriteMessage(new ClearAgentTargetFrame(this.Index));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 			}
@@ -3118,7 +3136,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new StopUsingObject(this, isSuccessful));
+					GameNetwork.WriteMessage(new StopUsingObject(this.Index, isSuccessful));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this.CurrentlyUsedGameObject.OnUseStopped(this, isSuccessful, this._usedObjectPreferenceIndex);
@@ -3144,19 +3162,22 @@ namespace TaleWorlds.MountAndBlade
 					this.AIMoveToGameObjectDisable();
 				}
 			}
-			if (this.IsAIControlled)
+			if (this.State == AgentState.Active)
 			{
-				this.DisableScriptedMovement();
-				if (usableMachine != null)
+				if (this.IsAIControlled)
 				{
-					foreach (StandingPoint standingPoint in usableMachine.StandingPoints)
+					this.DisableScriptedMovement();
+					if (usableMachine != null)
 					{
-						standingPoint.FavoredUser = this;
+						foreach (StandingPoint standingPoint in usableMachine.StandingPoints)
+						{
+							standingPoint.FavoredUser = this;
+						}
 					}
 				}
+				this.AfterStoppedUsingMissionObject(usableMachine, currentlyUsedGameObject, usableMissionObject, isSuccessful, flags);
 			}
-			this.AfterStoppedUsingMissionObject(usableMachine, currentlyUsedGameObject, usableMissionObject, isSuccessful, flags);
-			this.Mission.OnObjectStoppedBeingUsed(this, currentlyUsedGameObject);
+			this.Mission.OnObjectStoppedBeingUsed(this, this.CurrentlyUsedGameObject);
 			this._components.ForEach(delegate(AgentComponent ac)
 			{
 				ac.OnStopUsingGameObject();
@@ -3197,7 +3218,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsClient)
 			{
 				GameNetwork.BeginModuleEventAsClient();
-				GameNetwork.WriteMessage(new RequestUseObject(targetObject, preferenceIndex));
+				GameNetwork.WriteMessage(new RequestUseObject(targetObject.Id, preferenceIndex));
 				GameNetwork.EndModuleEventAsClient();
 				return;
 			}
@@ -3281,7 +3302,7 @@ namespace TaleWorlds.MountAndBlade
 			Agent.Hitter hitter = this._hitterList.Find((Agent.Hitter h) => h.HitterPeer == peer && h.IsFriendlyHit == isFriendlyHit);
 			if (hitter == null)
 			{
-				hitter = new Agent.Hitter(peer, damage, Environment.TickCount, isFriendlyHit);
+				hitter = new Agent.Hitter(peer, damage, isFriendlyHit);
 				this._hitterList.Add(hitter);
 				return;
 			}
@@ -3345,7 +3366,7 @@ namespace TaleWorlds.MountAndBlade
 			this._equipmentOnOffHandBeforeUsingObject = this.GetWieldedItemIndex(Agent.HandIndex.OffHand);
 			usedObject.OnUse(this);
 			this.Mission.OnObjectUsed(this, usedObject);
-			if (usedObject.IsInstantUse && !GameNetwork.IsClientOrReplay && this.IsActive())
+			if (usedObject.IsInstantUse && !GameNetwork.IsClientOrReplay && this.IsActive() && this.InteractingWithAnyGameObject())
 			{
 				this.StopUsingGameObject(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
 			}
@@ -3517,32 +3538,42 @@ namespace TaleWorlds.MountAndBlade
 		public bool RemoveComponent(AgentComponent agentComponent)
 		{
 			bool flag = this._components.Remove(agentComponent);
-			if (this.CommonAIComponent == agentComponent)
+			if (flag)
 			{
-				this.CommonAIComponent = null;
-				return flag;
-			}
-			if (this.HumanAIComponent == agentComponent)
-			{
-				this.HumanAIComponent = null;
+				agentComponent.OnComponentRemoved();
+				if (this.CommonAIComponent == agentComponent)
+				{
+					this.CommonAIComponent = null;
+					return flag;
+				}
+				if (this.HumanAIComponent == agentComponent)
+				{
+					this.HumanAIComponent = null;
+				}
 			}
 			return flag;
 		}
 
-		public void CancelCheering()
+		public void HandleTaunt(int tauntIndex, bool isDefaultTaunt)
 		{
+			if (tauntIndex < 0)
+			{
+				return;
+			}
+			if (isDefaultTaunt)
+			{
+				ActionIndexCache actionIndexCache = Agent.DefaultTauntActions[tauntIndex];
+				this.SetActionChannel(1, actionIndexCache, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
+				this.MakeVoice(SkinVoiceManager.VoiceType.Victory, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
+				return;
+			}
 			if (!GameNetwork.IsClientOrReplay)
 			{
-				this.SetActionChannel(1, ActionIndexCache.act_none, true, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
-			}
-		}
-
-		public void HandleCheer(int indexOfCheer)
-		{
-			if (indexOfCheer < Agent.TauntCheerActions.Length && !GameNetwork.IsClientOrReplay)
-			{
-				this.MakeVoice(SkinVoiceManager.VoiceType.Victory, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
-				this.SetActionChannel(1, Agent.TauntCheerActions[indexOfCheer], false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
+				ActionIndexCache suitableTauntAction = CosmeticsManagerHelper.GetSuitableTauntAction(this, tauntIndex);
+				if (suitableTauntAction.Index >= 0)
+				{
+					this.SetActionChannel(1, suitableTauntAction, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
+				}
 			}
 		}
 
@@ -3554,7 +3585,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsMultiplayer)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new BarkAgent(this, indexOfBark));
+					GameNetwork.WriteMessage(new BarkAgent(this.Index, indexOfBark));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.ExcludeOtherTeamPlayers, this.MissionPeer.GetNetworkPeer());
 				}
 			}
@@ -3684,12 +3715,12 @@ namespace TaleWorlds.MountAndBlade
 			this.CheckEquipmentForCapeClothSimulationStateChange();
 		}
 
-		public void WieldInitialWeapons(Agent.WeaponWieldActionType wieldActionType = Agent.WeaponWieldActionType.InstantAfterPickUp)
+		public void WieldInitialWeapons(Agent.WeaponWieldActionType wieldActionType = Agent.WeaponWieldActionType.InstantAfterPickUp, Equipment.InitialWeaponEquipPreference initialWeaponEquipPreference = TaleWorlds.Core.Equipment.InitialWeaponEquipPreference.Any)
 		{
 			EquipmentIndex wieldedItemIndex = this.GetWieldedItemIndex(Agent.HandIndex.MainHand);
 			EquipmentIndex wieldedItemIndex2 = this.GetWieldedItemIndex(Agent.HandIndex.OffHand);
 			bool flag;
-			this.SpawnEquipment.GetInitialWeaponIndicesToEquip(out wieldedItemIndex, out wieldedItemIndex2, out flag);
+			this.SpawnEquipment.GetInitialWeaponIndicesToEquip(out wieldedItemIndex, out wieldedItemIndex2, out flag, initialWeaponEquipPreference);
 			if (wieldedItemIndex2 != EquipmentIndex.None)
 			{
 				this.TryToWieldWeaponInSlot(wieldedItemIndex2, wieldActionType, true);
@@ -3711,7 +3742,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetWeaponNetworkData(this, slotIndex, hitPoints));
+				GameNetwork.WriteMessage(new SetWeaponNetworkData(this.Index, slotIndex, hitPoints));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			foreach (AgentComponent agentComponent in this._components)
@@ -3793,7 +3824,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			outBlow = blow;
 			outBlow.InflictedDamage = blow.SelfInflictedDamage;
-			outBlow.Position = this.Position;
+			outBlow.GlobalPosition = this.Position;
 			outBlow.BoneIndex = 0;
 			outBlow.BlowFlag = BlowFlags.None;
 			outCollisionData = collisionData;
@@ -3845,10 +3876,16 @@ namespace TaleWorlds.MountAndBlade
 					if (this._yellTimer > 0f)
 					{
 						this._yellTimer -= dt;
-						return;
 					}
-					this.MakeVoice((this.MountAgent != null) ? SkinVoiceManager.VoiceType.HorseRally : SkinVoiceManager.VoiceType.Yell, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
-					this._wantsToYell = false;
+					else
+					{
+						this.MakeVoice((this.MountAgent != null) ? SkinVoiceManager.VoiceType.HorseRally : SkinVoiceManager.VoiceType.Yell, SkinVoiceManager.CombatVoiceNetworkPredictionType.NoPrediction);
+						this._wantsToYell = false;
+					}
+				}
+				if (this.IsPlayerControlled && this.IsCheering && this.MovementInputVector != Vec2.Zero)
+				{
+					this.SetActionChannel(1, ActionIndexCache.act_none, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true);
 					return;
 				}
 			}
@@ -3901,7 +3938,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new RemoveEquippedWeapon(this, slotIndex));
+				GameNetwork.WriteMessage(new RemoveEquippedWeapon(this.Index, slotIndex));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			this.Equipment[slotIndex] = MissionWeapon.Invalid;
@@ -3914,7 +3951,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new EquipWeaponWithNewEntity(this, slotIndex, weapon));
+				GameNetwork.WriteMessage(new EquipWeaponWithNewEntity(this.Index, slotIndex, weapon));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			this.Equipment[slotIndex] = weapon;
@@ -3939,7 +3976,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new AttachWeaponToWeaponInAgentEquipmentSlot(attachedWeapon, this, slotIndex, attachedWeaponFrame));
+					GameNetwork.WriteMessage(new AttachWeaponToWeaponInAgentEquipmentSlot(attachedWeapon, this.Index, slotIndex, attachedWeaponFrame));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this.AttachWeaponToWeaponAux(slotIndex, ref attachedWeapon, null, ref attachedWeaponFrame);
@@ -3952,7 +3989,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new EquipWeaponFromSpawnedItemEntity(this, slotIndex, spawnedItemEntity, removeWeapon));
+				GameNetwork.WriteMessage(new EquipWeaponFromSpawnedItemEntity(this.Index, slotIndex, spawnedItemEntity.Id, removeWeapon));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			if (spawnedItemEntity.GameEntity.Parent != null && spawnedItemEntity.GameEntity.Parent.HasScriptOfType<SpawnedItemEntity>())
@@ -4026,7 +4063,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new AddPrefabComponentToAgentBone(this, prefabName, boneIndex));
+				GameNetwork.WriteMessage(new AddPrefabComponentToAgentBone(this.Index, prefabName, boneIndex));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			return count;
@@ -4147,6 +4184,11 @@ namespace TaleWorlds.MountAndBlade
 				origin.OnAgentRemoved(this.Health);
 			}
 			this.RelieveFromCaptaincy();
+			Team team = this.Team;
+			if (team != null)
+			{
+				team.OnAgentRemoved(this);
+			}
 			if (this.Formation != null)
 			{
 				this.Formation.Team.DetachmentManager.OnAgentRemoved(this);
@@ -4241,11 +4283,11 @@ namespace TaleWorlds.MountAndBlade
 				if (flags.HasAnyFlag(Agent.StopUsingGameObjectFlags.DefendAfterStoppingUsingGameObject))
 				{
 					UsableMissionObject usableMissionObject = usedObject ?? movingToOrDefendingObject;
-					this.AIDefendGameObjectEnable(usableMissionObject, usableMachine, Agent.AIScriptedFrameFlags.NoAttack);
+					this.AIDefendGameObjectEnable(usableMissionObject, usableMachine);
 				}
 			}
 			StandingPoint standingPoint;
-			if (this.State == AgentState.Active && (standingPoint = usedObject as StandingPoint) != null && standingPoint.AutoEquipWeaponsOnUseStopped && !flags.HasAnyFlag(Agent.StopUsingGameObjectFlags.DoNotWieldWeaponAfterStoppingUsingGameObject))
+			if ((standingPoint = usedObject as StandingPoint) != null && standingPoint.AutoEquipWeaponsOnUseStopped && !flags.HasAnyFlag(Agent.StopUsingGameObjectFlags.DoNotWieldWeaponAfterStoppingUsingGameObject))
 			{
 				bool flag = !isSuccessful;
 				bool flag2 = this._equipmentOnMainHandBeforeUsingObject != EquipmentIndex.None;
@@ -4424,7 +4466,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private float GetMissileRangeWithHeightDifference()
 		{
-			if (this.IsMount || !this.IsRangedCached || this.Formation == null || this.Formation.QuerySystem.ClosestEnemyFormation == null)
+			if (this.IsMount || (!this.IsRangedCached && !this.HasThrownCached) || this.Formation == null || this.Formation.QuerySystem.ClosestEnemyFormation == null)
 			{
 				return 0f;
 			}
@@ -4445,23 +4487,23 @@ namespace TaleWorlds.MountAndBlade
 		{
 			b.BaseMagnitude = MathF.Min(b.BaseMagnitude, 1000f);
 			b.DamagedPercentage = (float)b.InflictedDamage / this.HealthLimit;
-			Agent agent = ((b.OwnerId != -1) ? this.Mission.FindAgentWithIndex(b.OwnerId) : this);
+			Agent agent = ((b.OwnerId != -1) ? this.Mission.FindAgentWithIndex(b.OwnerId) : null);
 			if (!b.BlowFlag.HasAnyFlag(BlowFlags.NoSound))
 			{
 				bool flag = b.IsBlowCrit(this.Monster.HitPoints * 4);
 				bool flag2 = b.IsBlowLow(this.Monster.HitPoints);
-				bool flag3 = agent != null && agent.IsHuman;
+				bool flag3 = agent == null || agent.IsHuman;
 				bool flag4 = b.BlowFlag.HasAnyFlag(BlowFlags.NonTipThrust);
 				int hitSound = b.WeaponRecord.GetHitSound(flag3, flag, flag2, flag4, b.AttackType, b.DamageType);
 				float soundParameterForArmorType = Agent.GetSoundParameterForArmorType(this.GetProtectorArmorMaterialOfBone(b.BoneIndex));
 				SoundEventParameter soundEventParameter = new SoundEventParameter("Armor Type", soundParameterForArmorType);
-				this.Mission.MakeSound(hitSound, b.Position, false, true, b.OwnerId, this.Index, ref soundEventParameter);
+				this.Mission.MakeSound(hitSound, b.GlobalPosition, false, true, b.OwnerId, this.Index, ref soundEventParameter);
 				if (b.IsMissile && agent != null)
 				{
 					int soundCodeMissionCombatPlayerhit = CombatSoundContainer.SoundCodeMissionCombatPlayerhit;
-					this.Mission.MakeSoundOnlyOnRelatedPeer(soundCodeMissionCombatPlayerhit, b.Position, agent.Index);
+					this.Mission.MakeSoundOnlyOnRelatedPeer(soundCodeMissionCombatPlayerhit, b.GlobalPosition, agent.Index);
 				}
-				this.Mission.AddSoundAlarmFactorToAgents(b.OwnerId, b.Position, 15f);
+				this.Mission.AddSoundAlarmFactorToAgents(b.OwnerId, b.GlobalPosition, 15f);
 			}
 			if (b.InflictedDamage <= 0)
 			{
@@ -4554,7 +4596,7 @@ namespace TaleWorlds.MountAndBlade
 			if (this.SyncHealthToAllClients && (!this.IsMount || this.RiderAgent != null))
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetAgentHealth(this, (int)this.Health));
+				GameNetwork.WriteMessage(new SetAgentHealth(this.Index, (int)this.Health));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 				return;
 			}
@@ -4581,7 +4623,7 @@ namespace TaleWorlds.MountAndBlade
 			if (networkCommunicator2 != null && !networkCommunicator2.IsServerPeer)
 			{
 				GameNetwork.BeginModuleEventAsServer(networkCommunicator2);
-				GameNetwork.WriteMessage(new SetAgentHealth(this, (int)this.Health));
+				GameNetwork.WriteMessage(new SetAgentHealth(this.Index, (int)this.Health));
 				GameNetwork.EndModuleEventAsServer();
 			}
 		}
@@ -4654,7 +4696,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private const float ChainAttackDetectionTimeout = 0.75f;
 
-		public static readonly ActionIndexCache[] TauntCheerActions = new ActionIndexCache[]
+		public static readonly ActionIndexCache[] DefaultTauntActions = new ActionIndexCache[]
 		{
 			ActionIndexCache.Create("act_taunt_cheer_1"),
 			ActionIndexCache.Create("act_taunt_cheer_2"),
@@ -4774,11 +4816,10 @@ namespace TaleWorlds.MountAndBlade
 		{
 			public float Damage { get; private set; }
 
-			public Hitter(MissionPeer peer, float damage, int time, bool isFriendlyHit)
+			public Hitter(MissionPeer peer, float damage, bool isFriendlyHit)
 			{
 				this.HitterPeer = peer;
 				this.Damage = damage;
-				this.Time = time;
 				this.IsFriendlyHit = isFriendlyHit;
 			}
 
@@ -4792,8 +4833,6 @@ namespace TaleWorlds.MountAndBlade
 			public readonly MissionPeer HitterPeer;
 
 			public readonly bool IsFriendlyHit;
-
-			public readonly int Time;
 		}
 
 		public struct AgentLastHitInfo
@@ -4951,17 +4990,18 @@ namespace TaleWorlds.MountAndBlade
 		}
 
 		[Flags]
-		public enum AIStateFlag
+		[EngineStruct("Ai_state_flag", false)]
+		public enum AIStateFlag : uint
 		{
-			None = 0,
-			Cautious = 1,
-			Alarmed = 2,
-			Paused = 4,
-			UseObjectMoving = 8,
-			UseObjectUsing = 16,
-			UseObjectWaiting = 32,
-			Guard = 64,
-			ColumnwiseFollow = 128
+			None = 0U,
+			Cautious = 1U,
+			Alarmed = 2U,
+			Paused = 4U,
+			UseObjectMoving = 8U,
+			UseObjectUsing = 16U,
+			UseObjectWaiting = 32U,
+			Guard = 64U,
+			ColumnwiseFollow = 128U
 		}
 
 		public enum WatchState
@@ -4978,7 +5018,7 @@ namespace TaleWorlds.MountAndBlade
 			Immortal
 		}
 
-		[EngineStruct("Agent_controller_type")]
+		[EngineStruct("Agent_controller_type", false)]
 		public enum ControllerType
 		{
 			None,
@@ -5029,6 +5069,7 @@ namespace TaleWorlds.MountAndBlade
 			num_facial_anim_channels
 		}
 
+		[EngineStruct("Action_code_type", false)]
 		public enum ActionCodeType
 		{
 			Other,
@@ -5096,7 +5137,7 @@ namespace TaleWorlds.MountAndBlade
 			JumpAllEnd = 28
 		}
 
-		[EngineStruct("Agent_guard_mode")]
+		[EngineStruct("Agent_guard_mode", false)]
 		public enum GuardMode
 		{
 			None = -1,
@@ -5112,6 +5153,7 @@ namespace TaleWorlds.MountAndBlade
 			OffHand
 		}
 
+		[EngineStruct("rglInt8", false)]
 		public enum KillInfo : sbyte
 		{
 			Invalid = -1,
@@ -5183,7 +5225,7 @@ namespace TaleWorlds.MountAndBlade
 			UnderRangedAttack
 		}
 
-		[EngineStruct("Usage_direction")]
+		[EngineStruct("Usage_direction", false)]
 		public enum UsageDirection
 		{
 			None = -1,
@@ -5203,7 +5245,7 @@ namespace TaleWorlds.MountAndBlade
 			AttackAny = 9
 		}
 
-		[EngineStruct("Weapon_wield_action_type")]
+		[EngineStruct("Weapon_wield_action_type", false)]
 		public enum WeaponWieldActionType
 		{
 			WithAnimation,

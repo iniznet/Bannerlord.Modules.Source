@@ -47,7 +47,7 @@ namespace TaleWorlds.MountAndBlade
 				textObject = GameTexts.FindText("str_formation_ai_soldier_instruction_text", null);
 				MBInformationManager.AddQuickInformation(textObject, 2000, Mission.Current.MainAgent.Character, "");
 			}
-			if (Game.Current.GameType != MultiplayerGame.Current)
+			if (!GameNetwork.IsMultiplayer)
 			{
 				this.InformSergeantPlayer();
 				this._lastPlayerInformTime = Mission.Current.CurrentTime;
@@ -59,6 +59,10 @@ namespace TaleWorlds.MountAndBlade
 		}
 
 		public virtual void OnBehaviorCanceled()
+		{
+		}
+
+		public virtual void OnAgentRemoved(Agent agent)
 		{
 		}
 
@@ -162,6 +166,10 @@ namespace TaleWorlds.MountAndBlade
 		public override int GetHashCode()
 		{
 			return base.GetHashCode();
+		}
+
+		public virtual void OnDeploymentFinished()
+		{
 		}
 
 		protected FormationAI.BehaviorSide _behaviorSide;

@@ -95,7 +95,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=kOxu3Lw0}Yes... I run caravans, as you may know. I lose a few to bandits from time to time, but generally my caravans are sufficiently well guarded to scare off the small gangs and move quickly enough to outrun the big ones.The problem is that there's a new bandit chief out there who knows his business, who has outfitted his men with horses and uses proper cavalry tactics.I’ve lost three caravans in a row, and I can’t afford to keep this up for long.", null);
+					return new TextObject("{=kOxu3Lw0}Yes... I run caravans, as you may know. I lose a few to bandits from time to time, but generally my caravans are sufficiently well guarded to scare off the small gangs and move quickly enough to outrun the big ones.The problem is that there's a new bandit chief out there who knows his business, who has outfitted his men with horses and uses proper cavalry tactics.I’ve lost three caravans in a row, and I can’t afford to keep this up for long.[if:convo_stern][ib:hip]", null);
 				}
 			}
 
@@ -119,7 +119,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=iWWKTOik}I've got a trick up my sleeve. We'll bait them. I've paid some of my workers to spread rumors about a particularly fat caravan laden with silverware heading out towards {TARGET_SETTLEMENT}. It is a trap, of course. I've got a bunch of mercenaries going with it, disguised as packers. But they could use some backup. Go and follow my caravan. Stay at a proper distance, until they are attacked. Then move in to finish the bandits once and for all. My caravan master will pay you {REWARD}{GOLD_ICON} when the fight is over.", null);
+					TextObject textObject = new TextObject("{=iWWKTOik}I've got a trick up my sleeve. We'll bait them. I've paid some of my workers to spread rumors about a particularly fat caravan laden with silverware heading out towards {TARGET_SETTLEMENT}. It is a trap, of course. I've got a bunch of mercenaries going with it, disguised as packers. But they could use some backup. Go and follow my caravan. Stay at a proper distance, until they are attacked. Then move in to finish the bandits once and for all. My caravan master will pay you {REWARD}{GOLD_ICON} when the fight is over.[if:convo_mocking_revenge][ib:confident2]", null);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("REWARD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -139,7 +139,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=jiFCxZ4B}In that case you should send a good commander with some {TROOP_COUNT} men, just to be safe. And I'll send them back to you in {RETURN_DAYS} days. ", null);
+					TextObject textObject = new TextObject("{=jiFCxZ4B}In that case you should send a good commander with some {TROOP_COUNT} men, just to be safe. And I'll send them back to you in {RETURN_DAYS} days. [if:convo_normal][ib:closed]", null);
 					textObject.SetTextVariable("TROOP_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("RETURN_DAYS", base.GetTotalAlternativeSolutionDurationInDays());
 					return textObject;
@@ -296,6 +296,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -597,10 +601,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=1sbbbOyr}Excellent... I'm counting on you! The caravan will be leaving soon.", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=1sbbbOyr}Excellent... I'm counting on you! The caravan will be leaving soon.[if:convo_normal][ib:hip]", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.OnQuestAccepted))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine("{=5o9udV96}Yes? You should go already. The caravan is on its way.", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver && !this._isCaravanSaved)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine("{=5o9udV96}Yes? You should go already. The caravan is on its way.[if:convo_annoyed][ib:normal2]", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver && !this._isCaravanSaved)
 					.BeginPlayerOptions()
 					.PlayerOption("{=DKiLA9f2}Don't worry, I'll find them.", null)
 					.NpcLine("{=ddEu5IFQ}I hope so.", null, null)
@@ -621,7 +625,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					return CharacterObject.OneToOneConversationCharacter == ConversationHelper.GetConversationCharacterPartyLeader(this._caravanParty.Party) && this._isCaravanSaved;
 				})
 					.PlayerLine("{=MKbLhn9d}I'm glad we caught up to you in time.", null)
-					.NpcLine("{=yxg91L0a}We'll tell everyone what you did. Please take some of these goods in compensation. We have no intention to sell them anyway. Safe travels, {?PLAYER.GENDER}milady{?}sir{\\?}.", null, null)
+					.NpcLine("{=yxg91L0a}We'll tell everyone what you did.[if:convo_happy][ib:normal2] Please take some of these goods in compensation. We have no intention to sell them anyway. Safe travels, {?PLAYER.GENDER}milady{?}sir{\\?}.", null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.OnQuestSucceeded;
@@ -649,13 +653,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._caravanParty.SetPartyUsedByQuest(true);
 				base.AddTrackedObject(this._caravanParty);
 				MobilePartyHelper.TryMatchPartySpeedWithItemWeight(this._caravanParty, MobileParty.MainParty.Speed * 0.7f, null);
-				Settlement closestHideout = SettlementHelper.FindNearestHideout((Settlement x) => x.IsActive, null);
-				Clan clan = Clan.BanditFactions.FirstOrDefault((Clan t) => t.Culture == closestHideout.Culture);
-				this._banditParty = BanditPartyComponent.CreateBanditParty("caravan_ambush_quest_" + clan.Name, clan, closestHideout.Hideout, false);
+				Settlement settlement = SettlementHelper.FindNearestHideout((Settlement x) => x.IsActive, null);
+				Clan clan = Clan.BanditFactions.FirstOrDefault((Clan x) => x.StringId == "looters");
+				this._banditParty = BanditPartyComponent.CreateBanditParty("caravan_ambush_quest_" + clan.Name, clan, settlement.Hideout, false);
 				Vec2 gatePosition = this._targetSettlement.GatePosition;
 				PartyTemplateObject partyTemplateObject = Campaign.Current.ObjectManager.GetObject<PartyTemplateObject>("kingdom_hero_party_caravan_ambushers") ?? clan.DefaultPartyTemplate;
 				this._banditParty.InitializeMobilePartyAroundPosition(partyTemplateObject, gatePosition, 0.2f, 0.1f, -1);
-				this._banditParty.SetCustomName(clan.Name);
+				this._banditParty.SetCustomName(new TextObject("{=u1Pkt4HC}Raiders", null));
 				Campaign.Current.MobilePartyLocator.UpdateLocator(this._banditParty);
 				this._banditParty.MemberRoster.Clear();
 				this._banditParty.SetPartyUsedByQuest(true);
@@ -710,9 +714,9 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.CompleteQuestWithSuccess();
 			}
 
-			private void HourlyTick()
+			protected override void HourlyTick()
 			{
-				if (this._caravanParty != null && base.IsOngoing)
+				if (this._caravanParty != null && this._banditParty != null && base.IsOngoing)
 				{
 					if (this._caravanParty.MapEvent == null && !this._isCaravanSaved)
 					{
@@ -763,7 +767,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				if (party == this._caravanParty)
 				{
-					Debug.FailedAssert("Caravan has arrived at settlement without encountering the bandits", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Issues\\CaravanAmbushIssueBehavior.cs", "OnSettlementEntered", 697);
+					Debug.FailedAssert("Caravan has arrived at settlement without encountering the bandits", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Issues\\CaravanAmbushIssueBehavior.cs", "OnSettlementEntered", 698);
 					DestroyPartyAction.Apply(this._caravanParty.Party, this._caravanParty);
 					this._caravanParty = null;
 					this._banditParty.Ai.SetDoNotMakeNewDecisions(false);
@@ -773,7 +777,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void RegisterEvents()
 			{
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 				CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.MapEventEnded));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.MapEventStarted));
 				CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
@@ -902,17 +905,16 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.SetDialogs();
-				MobileParty caravanParty = this._caravanParty;
-				if (caravanParty != null)
+				if (this._banditParty.MapEvent != null && this._banditParty.MapEvent.DefenderSide.LeaderParty.MobileParty != this._caravanParty)
 				{
-					caravanParty.SetPartyUsedByQuest(true);
+					this._banditParty.MapEvent.FinalizeEvent();
 				}
-				MobileParty banditParty = this._banditParty;
-				if (banditParty == null)
+				if (!this._banditParty.Ai.DoNotMakeNewDecisions || this._banditParty.TargetParty != this._caravanParty)
 				{
-					return;
+					SetPartyAiAction.GetActionForEngagingParty(this._banditParty, this._caravanParty);
+					this._banditParty.Ai.SetDoNotMakeNewDecisions(true);
+					this._banditParty.IgnoreByOtherPartiesTill(base.QuestDueTime);
 				}
-				banditParty.SetPartyUsedByQuest(true);
 			}
 
 			private const int VicinityCheckFailedRelationPenalty = -5;

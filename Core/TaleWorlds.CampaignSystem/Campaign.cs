@@ -78,6 +78,9 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
+		[SaveableProperty(83)]
+		public bool EnabledCheatsBefore { get; set; }
+
 		[SaveableProperty(82)]
 		public string PlatformID { get; private set; }
 
@@ -181,8 +184,6 @@ namespace TaleWorlds.CampaignSystem
 		public DefaultSiegeStrategies DefaultSiegeStrategies { get; private set; }
 
 		internal MBReadOnlyList<PerkObject> AllPerks { get; private set; }
-
-		public PlayerUpdateTracker PlayerUpdateTracker { get; private set; }
 
 		public DefaultSkillEffects DefaultSkillEffects { get; private set; }
 
@@ -326,8 +327,9 @@ namespace TaleWorlds.CampaignSystem
 				{
 					return mapState.MenuContext;
 				}
+				GameState activeState = gameStateManager.ActiveState;
 				MapState mapState2;
-				if (gameStateManager.ActiveState.Predecessor != null && (mapState2 = gameStateManager.ActiveState.Predecessor as MapState) != null)
+				if (((activeState != null) ? activeState.Predecessor : null) != null && (mapState2 = gameStateManager.ActiveState.Predecessor as MapState) != null)
 				{
 					return mapState2.MenuContext;
 				}
@@ -411,6 +413,10 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
+		public Equipment DeadBattleEquipment { get; set; }
+
+		public Equipment DeadCivilianEquipment { get; set; }
+
 		public void InitializeMainParty()
 		{
 			this.InitializeSinglePlayerReferences();
@@ -426,14 +432,14 @@ namespace TaleWorlds.CampaignSystem
 			this._campaignEntitySystem = new EntitySystem<CampaignEntityComponent>();
 			this.PlayerFormationPreferences = this._playerFormationPreferences.GetReadOnlyDictionary<CharacterObject, FormationClass>();
 			this.SpeedUpMultiplier = 4f;
+			if (this.UniqueGameId == null && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202))
+			{
+				this.UniqueGameId = "oldSave";
+			}
 		}
 
 		private void InitializeForSavedGame()
 		{
-			foreach (CampaignEntityComponent campaignEntityComponent in this._campaignEntitySystem.GetComponents())
-			{
-				campaignEntityComponent.OnLoadSavedGame();
-			}
 			foreach (Settlement settlement in Settlement.All)
 			{
 				settlement.Party.OnFinishLoadState();
@@ -482,6 +488,7 @@ namespace TaleWorlds.CampaignSystem
 			this.CharacterRelationManager.AfterLoad();
 			CampaignEventDispatcher.Instance.OnGameEarlyLoaded(starter);
 			TroopRoster.CalculateCachedStatsOnLoad();
+			this.KingdomManager.OnLoad();
 			CampaignEventDispatcher.Instance.OnGameLoaded(starter);
 			this.InitializeForSavedGame();
 			this._tickData.InitializeDataCache();
@@ -541,11 +548,11 @@ namespace TaleWorlds.CampaignSystem
 		{
 			foreach (Settlement settlement in Settlement.All)
 			{
-				settlement.Party.UpdateVisibilityAndInspected(0f, false);
+				settlement.Party.UpdateVisibilityAndInspected(0f);
 			}
 			foreach (MobileParty mobileParty in this.MobileParties)
 			{
-				mobileParty.Party.UpdateVisibilityAndInspected(0f, false);
+				mobileParty.Party.UpdateVisibilityAndInspected(0f);
 			}
 		}
 
@@ -563,6 +570,7 @@ namespace TaleWorlds.CampaignSystem
 		internal void DailyTick(MBCampaignEvent campaignEvent, object[] delegateParams)
 		{
 			this.PlayerProgress = (this.PlayerProgress + Campaign.Current.Models.PlayerProgressionModel.GetPlayerProgress()) / 2f;
+			Debug.Print("Before Daily Tick: " + CampaignTime.Now.ToString(), 0, Debug.DebugColor.White, 17592186044416UL);
 			CampaignEventDispatcher.Instance.DailyTick();
 			if ((int)this.CampaignStartTime.ElapsedDaysUntilNow % 7 == 0)
 			{
@@ -739,11 +747,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public void RegisterFadingVisual(IPartyVisual visual)
-		{
-			this._tickData.RegisterFadingVisual(visual);
-		}
-
 		internal void Tick()
 		{
 			int curMapFrame = this._curMapFrame;
@@ -807,11 +810,6 @@ namespace TaleWorlds.CampaignSystem
 			this._hourlyTickEvent.AddHandler(new MBCampaignEvent.CampaignEventDelegate(this.HourlyTick));
 		}
 
-		public void UnregisterFadingVisual(IPartyVisual visual)
-		{
-			this._tickData.UnregisterFadingVisual(visual);
-		}
-
 		private void PartiesThink(float dt)
 		{
 			for (int i = 0; i < this.MobileParties.Count; i++)
@@ -822,7 +820,12 @@ namespace TaleWorlds.CampaignSystem
 
 		public TComponent GetEntityComponent<TComponent>() where TComponent : CampaignEntityComponent
 		{
-			return this._campaignEntitySystem.GetComponent<TComponent>();
+			EntitySystem<CampaignEntityComponent> campaignEntitySystem = this._campaignEntitySystem;
+			if (campaignEntitySystem == null)
+			{
+				return default(TComponent);
+			}
+			return campaignEntitySystem.GetComponent<TComponent>();
 		}
 
 		public TComponent AddEntityComponent<TComponent>() where TComponent : CampaignEntityComponent, new()
@@ -1108,6 +1111,12 @@ namespace TaleWorlds.CampaignSystem
 			this._concepts = objectManager.GetObjectTypeList<Concept>();
 		}
 
+		private void InitializeDefaultEquipments()
+		{
+			this.DeadBattleEquipment = Game.Current.ObjectManager.GetObject<MBEquipmentRoster>("default_battle_equipment_roster_neutral").DefaultEquipment;
+			this.DeadCivilianEquipment = Game.Current.ObjectManager.GetObject<MBEquipmentRoster>("default_civilian_equipment_roster_neutral").DefaultEquipment;
+		}
+
 		public override void OnDestroy()
 		{
 			this.WaitAsyncTasks();
@@ -1118,9 +1127,7 @@ namespace TaleWorlds.CampaignSystem
 				mapSceneWrapper.Destroy();
 			}
 			ConversationManager.Clear();
-			CampaignData.OnGameEnd();
 			MBTextManager.ClearAll();
-			CampaignSiegeTestStatic.Destruct();
 			GameSceneDataManager.Destroy();
 			this.CampaignInformationManager.DeRegisterEvents();
 			MBSaveLoad.OnGameDestroy();
@@ -1313,6 +1320,7 @@ namespace TaleWorlds.CampaignSystem
 				this.CampaignObjectManager.InitializeOnNewGame();
 			}
 			this.InitializeCachedLists();
+			this.InitializeDefaultEquipments();
 			this.NameGenerator.Initialize();
 			base.CurrentGame.OnGameStart();
 			base.GameManager.OnGameInitializationFinished(base.CurrentGame);
@@ -1356,7 +1364,6 @@ namespace TaleWorlds.CampaignSystem
 			this.DefaultSiegeStrategies = new DefaultSiegeStrategies();
 			this.DefaultSkillEffects = new DefaultSkillEffects();
 			this.DefaultFeats = new DefaultCulturalFeats();
-			this.PlayerUpdateTracker = new PlayerUpdateTracker();
 		}
 
 		private void InitializeManagers()
@@ -1730,7 +1737,7 @@ namespace TaleWorlds.CampaignSystem
 			{
 				PartyBase.MainParty.SetAsCameraFollowParty();
 			}
-			PartyBase.MainParty.UpdateVisibilityAndInspected(0f, true);
+			PartyBase.MainParty.UpdateVisibilityAndInspected(0f);
 			if (Hero.MainHero.Mother != null)
 			{
 				Hero.MainHero.Mother.SetHasMet();
@@ -1794,6 +1801,11 @@ namespace TaleWorlds.CampaignSystem
 			collectedObjects.Add(this.CampaignInformationManager);
 			collectedObjects.Add(this.VisualTrackerManager);
 			collectedObjects.Add(this.PlayerTraitDeveloper);
+		}
+
+		internal static object AutoGeneratedGetMemberValueEnabledCheatsBefore(object o)
+		{
+			return ((Campaign)o).EnabledCheatsBefore;
 		}
 
 		internal static object AutoGeneratedGetMemberValuePlatformID(object o)

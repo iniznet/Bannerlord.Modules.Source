@@ -4,7 +4,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class FaceGenHotkeyCategory : GameKeyContext
+	public sealed class FaceGenHotkeyCategory : GameKeyContext
 	{
 		public FaceGenHotkeyCategory()
 			: base("FaceGenHotkeyCategory", 108, GameKeyContext.GameKeyContextType.Default)
@@ -41,19 +41,19 @@ namespace TaleWorlds.MountAndBlade
 
 		public const string Zoom = "Zoom";
 
-		public const string Rotate = "Rotate";
-
 		public const string ControllerRotationAxis = "CameraAxisX";
 
 		public const string ControllerCameraUpDownAxis = "CameraAxisY";
+
+		public const string Rotate = "Rotate";
 
 		public const string Ascend = "Ascend";
 
 		public const string Copy = "Copy";
 
-		public const string Paste = "Paste";
-
 		public const int ControllerZoomIn = 55;
+
+		public const string Paste = "Paste";
 
 		public const int ControllerZoomOut = 56;
 	}

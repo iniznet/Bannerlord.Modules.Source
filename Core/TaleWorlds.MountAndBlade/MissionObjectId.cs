@@ -48,5 +48,7 @@ namespace TaleWorlds.MountAndBlade
 		public readonly int Id;
 
 		public readonly bool CreatedAtRuntime;
+
+		public static readonly MissionObjectId Invalid = new MissionObjectId(-1, false);
 	}
 }

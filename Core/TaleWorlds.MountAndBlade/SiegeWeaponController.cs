@@ -63,7 +63,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsClient)
 			{
 				GameNetwork.BeginModuleEventAsClient();
-				GameNetwork.WriteMessage(new SelectSiegeWeapon(weapon));
+				GameNetwork.WriteMessage(new SelectSiegeWeapon(weapon.Id));
 				GameNetwork.EndModuleEventAsClient();
 			}
 			this._selectedWeapons.Add(weapon);
@@ -97,7 +97,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsClient)
 			{
 				GameNetwork.BeginModuleEventAsClient();
-				GameNetwork.WriteMessage(new UnselectSiegeWeapon(weapon));
+				GameNetwork.WriteMessage(new UnselectSiegeWeapon(weapon.Id));
 				GameNetwork.EndModuleEventAsClient();
 			}
 			this._selectedWeapons.Remove(weapon);

@@ -283,19 +283,19 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			foreach (FlattenedTroopRosterElement flattenedTroopRosterElement in this._roster)
 			{
 				CharacterObject troop = flattenedTroopRosterElement.Troop;
-				bool flag = Campaign.Current.Models.PartyTroopUpgradeModel.CanTroopGainXp(this.Party, troop);
-				if (!flattenedTroopRosterElement.IsKilled && flattenedTroopRosterElement.XpGained > 0 && flag)
+				int num2;
+				if (!flattenedTroopRosterElement.IsKilled && flattenedTroopRosterElement.XpGained > 0 && MobilePartyHelper.CanTroopGainXp(this.Party, troop, out num2))
 				{
-					int num2 = Campaign.Current.Models.PartyTrainingModel.CalculateXpGainFromBattles(flattenedTroopRosterElement, this.Party);
-					int num3 = Campaign.Current.Models.PartyTrainingModel.GenerateSharedXp(troop, num2, this.Party.MobileParty);
-					if (num3 > 0)
+					int num3 = Campaign.Current.Models.PartyTrainingModel.CalculateXpGainFromBattles(flattenedTroopRosterElement, this.Party);
+					int num4 = Campaign.Current.Models.PartyTrainingModel.GenerateSharedXp(troop, num3, this.Party.MobileParty);
+					if (num4 > 0)
 					{
-						num += num3;
-						num2 -= num3;
+						num += num4;
+						num3 -= num4;
 					}
 					if (!troop.IsHero)
 					{
-						this.Party.MemberRoster.AddXpToTroop(num2, troop);
+						this.Party.MemberRoster.AddXpToTroop(num3, troop);
 					}
 				}
 			}

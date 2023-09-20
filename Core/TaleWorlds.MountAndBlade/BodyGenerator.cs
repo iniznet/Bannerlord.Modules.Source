@@ -21,19 +21,19 @@ namespace TaleWorlds.MountAndBlade
 		{
 			this.CurrentBodyProperties = this.Character.GetBodyProperties(this.Character.Equipment, -1);
 			FaceGenerationParams faceGenerationParams = FaceGenerationParams.Create();
-			faceGenerationParams._currentRace = this.Character.Race;
-			faceGenerationParams._currentGender = (this.Character.IsFemale ? 1 : 0);
-			faceGenerationParams._curAge = this.Character.Age;
+			faceGenerationParams.CurrentRace = this.Character.Race;
+			faceGenerationParams.CurrentGender = (this.Character.IsFemale ? 1 : 0);
+			faceGenerationParams.CurrentAge = this.Character.Age;
 			MBBodyProperties.GetParamsFromKey(ref faceGenerationParams, this.CurrentBodyProperties, isDressed && this.Character.Equipment.EarsAreHidden, isDressed && this.Character.Equipment.MouthIsHidden);
-			faceGenerationParams.SetRaceGenderAndAdjustParams(faceGenerationParams._currentRace, faceGenerationParams._currentGender, (int)faceGenerationParams._curAge);
+			faceGenerationParams.SetRaceGenderAndAdjustParams(faceGenerationParams.CurrentRace, faceGenerationParams.CurrentGender, (int)faceGenerationParams.CurrentAge);
 			return faceGenerationParams;
 		}
 
 		public void RefreshFace(FaceGenerationParams faceGenerationParams, bool hasEquipment)
 		{
 			MBBodyProperties.ProduceNumericKeyWithParams(faceGenerationParams, hasEquipment && this.Character.Equipment.EarsAreHidden, hasEquipment && this.Character.Equipment.MouthIsHidden, ref this.CurrentBodyProperties);
-			this.Race = faceGenerationParams._currentRace;
-			this.IsFemale = faceGenerationParams._currentGender == 1;
+			this.Race = faceGenerationParams.CurrentRace;
+			this.IsFemale = faceGenerationParams.CurrentGender == 1;
 		}
 
 		public void SaveCurrentCharacter()

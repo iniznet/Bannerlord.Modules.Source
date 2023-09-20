@@ -230,7 +230,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderWide;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		public override TextObject GetBehaviorString()
@@ -239,7 +238,7 @@ namespace TaleWorlds.MountAndBlade
 			if (base.Formation.QuerySystem.ClosestEnemyFormation != null)
 			{
 				behaviorString.SetTextVariable("AI_SIDE", GameTexts.FindText("str_formation_ai_side_strings", base.Formation.QuerySystem.ClosestEnemyFormation.Formation.AI.Side.ToString()));
-				behaviorString.SetTextVariable("CLASS", GameTexts.FindText("str_formation_class_string", base.Formation.QuerySystem.ClosestEnemyFormation.Formation.PrimaryClass.GetName()));
+				behaviorString.SetTextVariable("CLASS", GameTexts.FindText("str_formation_class_string", base.Formation.QuerySystem.ClosestEnemyFormation.Formation.PhysicalClass.GetName()));
 			}
 			return behaviorString;
 		}

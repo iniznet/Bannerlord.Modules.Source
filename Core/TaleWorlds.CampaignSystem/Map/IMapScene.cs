@@ -27,7 +27,7 @@ namespace TaleWorlds.CampaignSystem.Map
 
 		Vec2 GetAccessiblePointNearPosition(Vec2 position, float radius);
 
-		bool GetPathBetweenAIFaces(PathFaceRecord startingFace, PathFaceRecord endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path);
+		bool GetPathBetweenAIFaces(PathFaceRecord startingFace, PathFaceRecord endingFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, NavigationPath path, int[] excludedFaceIds = null);
 
 		bool GetPathDistanceBetweenAIFaces(PathFaceRecord startingAiFace, PathFaceRecord endingAiFace, Vec2 startingPosition, Vec2 endingPosition, float agentRadius, float distanceLimit, out float distance);
 
@@ -43,7 +43,7 @@ namespace TaleWorlds.CampaignSystem.Map
 
 		float GetWinterTimeFactor();
 
-		void GetTerrainHeightandNormal(Vec2 position, out float height, out Vec3 normal);
+		void GetTerrainHeightAndNormal(Vec2 position, out float height, out Vec3 normal);
 
 		float GetFaceVertexZ(PathFaceRecord navMeshFace);
 
@@ -54,8 +54,6 @@ namespace TaleWorlds.CampaignSystem.Map
 		Vec2 GetTerrainSize();
 
 		uint GetSceneLevel(string name);
-
-		void SetSoundParameters(float tod, int season, float cameraHeight);
 
 		void SetSceneLevels(List<string> levels);
 

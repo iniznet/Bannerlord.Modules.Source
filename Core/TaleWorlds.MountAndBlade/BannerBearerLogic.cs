@@ -138,14 +138,25 @@ namespace TaleWorlds.MountAndBlade
 			base.OnBehaviorInitialize();
 			MissionGameModels.Current.BattleBannerBearersModel.InitializeModel(this);
 			this.AgentSpawnLogic = base.Mission.GetMissionBehavior<MissionAgentSpawnLogic>();
+			base.Mission.OnItemPickUp += this.OnItemPickup;
+			base.Mission.OnItemDrop += this.OnItemDrop;
+			this._initialSpawnEquipments.Clear();
 		}
 
 		protected override void OnEndMission()
 		{
 			base.OnEndMission();
 			MissionGameModels.Current.BattleBannerBearersModel.FinalizeModel();
+			base.Mission.OnItemPickUp -= this.OnItemPickup;
+			base.Mission.OnItemDrop -= this.OnItemDrop;
 			this.AgentSpawnLogic = null;
 			this._isMissionEnded = true;
+		}
+
+		public override void OnDeploymentFinished()
+		{
+			this._initialSpawnEquipments.Clear();
+			this._isMissionEnded = false;
 		}
 
 		public override void OnMissionTick(float dt)
@@ -168,7 +179,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override void OnItemPickup(Agent agent, SpawnedItemEntity spawnedItem)
+		public void OnItemPickup(Agent agent, SpawnedItemEntity spawnedItem)
 		{
 			if (!BannerBearerLogic.IsBannerItem(spawnedItem.WeaponCopy.Item))
 			{
@@ -183,7 +194,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override void OnItemDrop(Agent agent, SpawnedItemEntity spawnedItem)
+		public void OnItemDrop(Agent agent, SpawnedItemEntity spawnedItem)
 		{
 			if (!BannerBearerLogic.IsBannerItem(spawnedItem.WeaponCopy.Item))
 			{
@@ -201,13 +212,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (affectedAgent.Banner != null && agentState == AgentState.Routed)
 			{
-				GameEntity weaponEntityFromEquipmentSlot = affectedAgent.GetWeaponEntityFromEquipmentSlot(EquipmentIndex.ExtraWeaponSlot);
-				BannerBearerLogic.FormationBannerController formationControllerFromBannerEntity = this.GetFormationControllerFromBannerEntity(weaponEntityFromEquipmentSlot);
-				if (formationControllerFromBannerEntity != null)
-				{
-					this.RemoveBannerEntity(formationControllerFromBannerEntity, weaponEntityFromEquipmentSlot);
-					formationControllerFromBannerEntity.UpdateAgentStats(false);
-				}
+				this.RemoveBannerOfAgent(affectedAgent);
 			}
 		}
 
@@ -219,17 +224,26 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public Agent RespawnAsBannerBearer(Agent agent, bool isAlarmed, bool wieldInitialWeapons, bool forceDismounted, string specialActionSetSuffix = null, bool useTroopClassForSpawn = false)
+		public void UpdateAgent(Agent agent, bool willBecomeBannerBearer)
 		{
-			Formation formation = agent.Formation;
-			BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
-			ItemObject bannerItem = formationControllerFromFormation.BannerItem;
-			Agent agent2 = base.Mission.RespawnTroop(agent, isAlarmed, wieldInitialWeapons, forceDismounted, specialActionSetSuffix, bannerItem, useTroopClassForSpawn);
-			agent2.UpdateCachedAndFormationValues(false, false);
-			GameEntity weaponEntityFromEquipmentSlot = agent2.GetWeaponEntityFromEquipmentSlot(EquipmentIndex.ExtraWeaponSlot);
-			this.AddBannerEntity(formationControllerFromFormation, weaponEntityFromEquipmentSlot);
-			formationControllerFromFormation.OnBannerEntityPickedUp(weaponEntityFromEquipmentSlot, agent2);
-			return agent2;
+			if (willBecomeBannerBearer)
+			{
+				Formation formation = agent.Formation;
+				BannerBearerLogic.FormationBannerController formationControllerFromFormation = this.GetFormationControllerFromFormation(formation);
+				ItemObject bannerItem = formationControllerFromFormation.BannerItem;
+				Equipment equipment = this.CreateBannerEquipmentForAgent(agent, bannerItem);
+				agent.UpdateSpawnEquipmentAndRefreshVisuals(equipment);
+				GameEntity weaponEntityFromEquipmentSlot = agent.GetWeaponEntityFromEquipmentSlot(EquipmentIndex.ExtraWeaponSlot);
+				this.AddBannerEntity(formationControllerFromFormation, weaponEntityFromEquipmentSlot);
+				formationControllerFromFormation.OnBannerEntityPickedUp(weaponEntityFromEquipmentSlot, agent);
+			}
+			else if (agent.Banner != null)
+			{
+				this.RemoveBannerOfAgent(agent);
+				agent.UpdateSpawnEquipmentAndRefreshVisuals(this._initialSpawnEquipments[agent]);
+			}
+			agent.UpdateCachedAndFormationValues(false, false);
+			agent.SetIsAIPaused(true);
 		}
 
 		public Agent SpawnBannerBearer(IAgentOriginBase troopOrigin, bool isPlayerSide, Formation formation, bool spawnWithHorse, bool isReinforcement, int formationTroopCount, int formationTroopIndex, bool isAlarmed, bool wieldInitialWeapons, bool forceDismounted, Vec3? initialPosition, Vec2? initialDirection, string specialActionSetSuffix = null, bool useTroopClassForSpawn = false)
@@ -281,6 +295,35 @@ namespace TaleWorlds.MountAndBlade
 			return null;
 		}
 
+		private Equipment CreateBannerEquipmentForAgent(Agent agent, ItemObject bannerItem)
+		{
+			Equipment spawnEquipment = agent.SpawnEquipment;
+			if (!this._initialSpawnEquipments.ContainsKey(agent))
+			{
+				this._initialSpawnEquipments[agent] = spawnEquipment;
+			}
+			Equipment equipment = new Equipment(spawnEquipment);
+			ItemObject bannerBearerReplacementWeapon = MissionGameModels.Current.BattleBannerBearersModel.GetBannerBearerReplacementWeapon(agent.Character);
+			equipment[EquipmentIndex.WeaponItemBeginSlot] = new EquipmentElement(bannerBearerReplacementWeapon, null, null, false);
+			for (int i = 1; i < 4; i++)
+			{
+				equipment[i] = default(EquipmentElement);
+			}
+			equipment[EquipmentIndex.ExtraWeaponSlot] = new EquipmentElement(bannerItem, null, null, false);
+			return equipment;
+		}
+
+		private void RemoveBannerOfAgent(Agent agent)
+		{
+			GameEntity weaponEntityFromEquipmentSlot = agent.GetWeaponEntityFromEquipmentSlot(EquipmentIndex.ExtraWeaponSlot);
+			BannerBearerLogic.FormationBannerController formationControllerFromBannerEntity = this.GetFormationControllerFromBannerEntity(weaponEntityFromEquipmentSlot);
+			if (formationControllerFromBannerEntity != null)
+			{
+				this.RemoveBannerEntity(formationControllerFromBannerEntity, weaponEntityFromEquipmentSlot);
+				formationControllerFromBannerEntity.UpdateAgentStats(false);
+			}
+		}
+
 		private static void ForceDropAgentBanner(Agent agent)
 		{
 			if (agent != null)
@@ -297,6 +340,8 @@ namespace TaleWorlds.MountAndBlade
 		private readonly Dictionary<UIntPtr, BannerBearerLogic.FormationBannerController> _bannerToFormationMap = new Dictionary<UIntPtr, BannerBearerLogic.FormationBannerController>();
 
 		private readonly Dictionary<Formation, BannerBearerLogic.FormationBannerController> _formationBannerData = new Dictionary<Formation, BannerBearerLogic.FormationBannerController>();
+
+		private readonly Dictionary<Agent, Equipment> _initialSpawnEquipments = new Dictionary<Agent, Equipment>();
 
 		private readonly BasicMissionTimer _bannerSearcherUpdateTimer;
 
@@ -592,32 +637,7 @@ namespace TaleWorlds.MountAndBlade
 					BattleSideEnum side2 = this._mission.PlayerTeam.Side;
 					foreach (ValueTuple<Agent, bool> valueTuple in list)
 					{
-						int num3 = MissionAgentSpawnLogic.MaxNumberOfAgentsForMission - this._mission.AllAgents.Count;
-						Agent item = valueTuple.Item1;
-						int num4 = (item.HasMount ? 2 : 1);
-						if (num3 >= num4)
-						{
-							IAgentOriginBase origin = item.Origin;
-							Agent agent4;
-							if (valueTuple.Item2)
-							{
-								agent4 = this._bannerLogic.RespawnAsBannerBearer(item, true, true, false, null, this._mission.IsSallyOutBattle);
-							}
-							else
-							{
-								agent4 = this._mission.RespawnTroop(item, true, true, false, null, null, this._mission.IsSallyOutBattle);
-								agent4.UpdateCachedAndFormationValues(false, false);
-							}
-							agent4.SetIsAIPaused(true);
-						}
-						else
-						{
-							Debug.FailedAssert("Banner bearer logic cannot respawn agent within formation " + (int)this.Formation.FormationIndex + " as mission does not have enough quota.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\FormationBannerController.cs", "UpdateBannerBearersForDeployment", 389);
-							if (num4 == 1)
-							{
-								break;
-							}
-						}
+						this._bannerLogic.UpdateAgent(valueTuple.Item1, valueTuple.Item2);
 					}
 				}
 				this.UpdateAgentStats(false);

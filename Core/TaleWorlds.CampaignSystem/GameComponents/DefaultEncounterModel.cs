@@ -4,7 +4,6 @@ using System.Linq;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
@@ -55,19 +54,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override bool IsEncounterExemptFromHostileActions(PartyBase side1, PartyBase side2)
 		{
-			if (side1 != null && side2 != null)
-			{
-				Hero owner = side1.Owner;
-				if (((owner != null) ? owner.Clan : null) != CampaignData.NeutralFaction)
-				{
-					Hero owner2 = side2.Owner;
-					if (((owner2 != null) ? owner2.Clan : null) != CampaignData.NeutralFaction && (!side1.IsMobile || side1.MobileParty.ActualClan != CampaignData.NeutralFaction) && (!side2.IsMobile || side2.MobileParty.ActualClan != CampaignData.NeutralFaction) && (!side1.IsMobile || !side1.MobileParty.IsCustomParty || !(side1.MobileParty.PartyComponent as CustomPartyComponent).AvoidHostileActions))
-					{
-						return side2.IsMobile && side2.MobileParty.IsCustomParty && (side2.MobileParty.PartyComponent as CustomPartyComponent).AvoidHostileActions;
-					}
-				}
-			}
-			return true;
+			return side1 == null || side2 == null || (side1.IsMobile && side1.MobileParty.AvoidHostileActions) || (side2.IsMobile && side2.MobileParty.AvoidHostileActions);
 		}
 
 		public override Hero GetLeaderOfSiegeEvent(SiegeEvent siegeEvent, BattleSideEnum side)
@@ -80,11 +67,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this.GetLeaderOfEventInternal(mapEvent.GetMapEventSide(side).Parties.Select((MapEventParty x) => x.Party).ToList<PartyBase>());
 		}
 
-		private bool IsFactionLeader(Hero hero)
-		{
-			return hero.MapFaction.IsKingdomFaction && hero.IsFactionLeader;
-		}
-
 		private bool IsArmyLeader(Hero hero)
 		{
 			MobileParty partyBelongedTo = hero.PartyBelongedTo;
@@ -93,7 +75,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private int GetLeadingScore(Hero hero)
 		{
-			if (!this.IsFactionLeader(hero) && !this.IsArmyLeader(hero))
+			if (!hero.IsKingdomLeader && !this.IsArmyLeader(hero))
 			{
 				return this.GetCharacterSergeantScore(hero);
 			}
@@ -115,27 +97,27 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 						hero = leaderHero;
 						num = leadingScore;
 					}
-					bool flag = this.IsFactionLeader(leaderHero);
-					bool flag2 = this.IsArmyLeader(leaderHero);
-					bool flag3 = this.IsFactionLeader(hero);
-					bool flag4 = this.IsArmyLeader(hero);
-					if (flag)
+					bool isKingdomLeader = leaderHero.IsKingdomLeader;
+					bool flag = this.IsArmyLeader(leaderHero);
+					bool isKingdomLeader2 = hero.IsKingdomLeader;
+					bool flag2 = this.IsArmyLeader(hero);
+					if (isKingdomLeader)
 					{
-						if (!flag3 || leadingScore > num)
+						if (!isKingdomLeader2 || leadingScore > num)
 						{
 							hero = leaderHero;
 							num = leadingScore;
 						}
 					}
-					else if (flag2)
+					else if (flag)
 					{
-						if ((!flag3 && !flag4) || (flag4 && !flag3 && leadingScore > num))
+						if ((!isKingdomLeader2 && !flag2) || (flag2 && !isKingdomLeader2 && leadingScore > num))
 						{
 							hero = leaderHero;
 							num = leadingScore;
 						}
 					}
-					else if (!flag3 && !flag4 && leadingScore > num)
+					else if (!isKingdomLeader2 && !flag2 && leadingScore > num)
 					{
 						hero = leaderHero;
 						num = leadingScore;
@@ -201,6 +183,33 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				return settlement.Hideout.GetNextDefenderParty(ref partyIndex, mapEventType);
 			}
 			return null;
+		}
+
+		public override MapEventComponent CreateMapEventComponentForEncounter(PartyBase attackerParty, PartyBase defenderParty, MapEvent.BattleTypes battleType)
+		{
+			MapEventComponent mapEventComponent = null;
+			switch (battleType)
+			{
+			case MapEvent.BattleTypes.FieldBattle:
+				mapEventComponent = FieldBattleEventComponent.CreateFieldBattleEvent(attackerParty, defenderParty);
+				break;
+			case MapEvent.BattleTypes.Raid:
+				mapEventComponent = RaidEventComponent.CreateRaidEvent(attackerParty, defenderParty);
+				break;
+			case MapEvent.BattleTypes.Siege:
+				Campaign.Current.MapEventManager.StartSiegeMapEvent(attackerParty, defenderParty);
+				break;
+			case MapEvent.BattleTypes.Hideout:
+				mapEventComponent = HideoutEventComponent.CreateHideoutEvent(attackerParty, defenderParty);
+				break;
+			case MapEvent.BattleTypes.SallyOut:
+				Campaign.Current.MapEventManager.StartSallyOutMapEvent(attackerParty, defenderParty);
+				break;
+			case MapEvent.BattleTypes.SiegeOutside:
+				Campaign.Current.MapEventManager.StartSiegeOutsideMapEvent(attackerParty, defenderParty);
+				break;
+			}
+			return mapEventComponent;
 		}
 	}
 }

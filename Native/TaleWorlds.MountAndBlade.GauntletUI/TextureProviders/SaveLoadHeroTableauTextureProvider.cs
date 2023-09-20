@@ -82,10 +82,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			}
 		}
 
-		public override void Clear()
+		public override void Clear(bool clearNextFrame)
 		{
 			this._tableau.OnFinalize();
-			base.Clear();
+			base.Clear(clearNextFrame);
 		}
 
 		public override Texture GetTexture(TwoDimensionContext twoDimensionContext, string name)

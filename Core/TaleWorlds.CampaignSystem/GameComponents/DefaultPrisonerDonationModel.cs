@@ -18,7 +18,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			if (relation <= 0)
 			{
 				float num3 = 1f - (float)relation / 200f;
-				if (donatedHero.MapFaction.IsKingdomFaction && donatedHero.IsFactionLeader)
+				if (donatedHero.IsKingdomLeader)
 				{
 					num = MathF.Min(40f, MathF.Pow((float)num2, 0.5f) * 0.5f) * num3;
 				}
@@ -43,7 +43,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				{
 					Hero heroObject = character.HeroObject;
 					float num2 = MathF.Pow((float)Campaign.Current.Models.RansomValueCalculationModel.PrisonerRansomValue(heroObject.CharacterObject, donatingParty.LeaderHero), 0.4f);
-					if (heroObject.MapFaction.IsKingdomFaction && heroObject.IsFactionLeader)
+					if (heroObject.IsKingdomLeader)
 					{
 						num = num2;
 					}

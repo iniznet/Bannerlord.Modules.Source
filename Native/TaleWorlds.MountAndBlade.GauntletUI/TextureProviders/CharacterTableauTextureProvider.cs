@@ -9,6 +9,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 {
 	public class CharacterTableauTextureProvider : TextureProvider
 	{
+		public float CustomAnimationProgressRatio
+		{
+			get
+			{
+				return this._characterTableau.GetCustomAnimationProgressRatio();
+			}
+		}
+
 		public string BannerCodeText
 		{
 			set
@@ -145,6 +153,68 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			}
 		}
 
+		public bool IsPlayingCustomAnimations
+		{
+			get
+			{
+				CharacterTableau characterTableau = this._characterTableau;
+				return characterTableau != null && characterTableau.IsRunningCustomAnimation;
+			}
+			set
+			{
+				if (value)
+				{
+					this._characterTableau.StartCustomAnimation();
+					return;
+				}
+				this._characterTableau.StopCustomAnimation();
+			}
+		}
+
+		public bool ShouldLoopCustomAnimation
+		{
+			get
+			{
+				return this._characterTableau.ShouldLoopCustomAnimation;
+			}
+			set
+			{
+				this._characterTableau.ShouldLoopCustomAnimation = value;
+			}
+		}
+
+		public int LeftHandWieldedEquipmentIndex
+		{
+			set
+			{
+				this._characterTableau.SetLeftHandWieldedEquipmentIndex(value);
+			}
+		}
+
+		public int RightHandWieldedEquipmentIndex
+		{
+			set
+			{
+				this._characterTableau.SetRightHandWieldedEquipmentIndex(value);
+			}
+		}
+
+		public float CustomAnimationWaitDuration
+		{
+			set
+			{
+				this._characterTableau.CustomAnimationWaitDuration = value;
+			}
+		}
+
+		public string CustomAnimation
+		{
+			set
+			{
+				this._characterTableau.SetCustomAnimation(value);
+			}
+		}
+
 		public bool IsHidden
 		{
 			get
@@ -165,10 +235,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			this._characterTableau = new CharacterTableau();
 		}
 
-		public override void Clear()
+		public override void Clear(bool clearNextFrame)
 		{
 			this._characterTableau.OnFinalize();
-			base.Clear();
+			base.Clear(clearNextFrame);
 		}
 
 		private void CheckTexture()

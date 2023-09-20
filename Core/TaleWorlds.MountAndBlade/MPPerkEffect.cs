@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Xml;
+using TaleWorlds.MountAndBlade.Network.Gameplay.Perks;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -11,7 +12,7 @@ namespace TaleWorlds.MountAndBlade
 	{
 		static MPPerkEffect()
 		{
-			foreach (Type type in from t in Assembly.GetAssembly(typeof(MPPerkEffect)).GetTypes()
+			foreach (Type type in from t in PerkAssemblyCollection.GetPerkAssemblyTypes()
 				where t.IsClass && !t.IsAbstract && t.IsSubclassOf(typeof(MPPerkEffect))
 				select t)
 			{

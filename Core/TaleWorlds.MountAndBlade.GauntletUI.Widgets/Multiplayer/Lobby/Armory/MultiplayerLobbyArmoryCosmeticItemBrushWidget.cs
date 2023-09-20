@@ -11,6 +11,15 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Armory
 		{
 		}
 
+		public override void SetState(string stateName)
+		{
+		}
+
+		private void OnUsageChanged()
+		{
+			base.SetState(this.IsUsed ? "Selected" : "Default");
+		}
+
 		private void OnRarityChanged()
 		{
 			switch (this.Rarity)
@@ -27,6 +36,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Armory
 				return;
 			default:
 				return;
+			}
+		}
+
+		[Editor(false)]
+		public bool IsUsed
+		{
+			get
+			{
+				return this._isUsed;
+			}
+			set
+			{
+				if (value != this._isUsed)
+				{
+					this._isUsed = value;
+					base.OnPropertyChanged(value, "IsUsed");
+					this.OnUsageChanged();
+				}
 			}
 		}
 
@@ -49,6 +76,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Lobby.Armory
 		}
 
 		private const string BaseBrushName = "MPLobby.Armory.CosmeticButton";
+
+		private bool _isUsed;
 
 		private int _rarity;
 	}

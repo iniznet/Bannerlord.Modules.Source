@@ -56,7 +56,7 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 		{
 			get
 			{
-				return "";
+				return "event:/ui/notification/trait_change";
 			}
 		}
 

@@ -106,6 +106,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.RandomizeHint = new HintViewModel(GameTexts.FindText("str_randomize", null), null);
 			this.UndoHint = new HintViewModel(GameTexts.FindText("str_undo", null), null);
 			this.RedoHint = new HintViewModel(GameTexts.FindText("str_redo", null), null);
+			this.OrderDisabledReasonHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetOrdersDisabledReasonTooltip(this.CraftingOrderPopup.CraftingOrders, this._getCurrentCraftingHero().Hero));
 			this._primaryPropertyList.ApplyActionOnAllItems(delegate(CraftingListPropertyItem x)
 			{
 				x.RefreshValues();
@@ -203,7 +204,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 				}
 				break;
 			}
-			Debug.FailedAssert("Invalid tier filter", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Crafting\\WeaponDesign\\WeaponDesignVM.cs", "FilterPieces", 217);
+			Debug.FailedAssert("Invalid tier filter", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Crafting\\WeaponDesign\\WeaponDesignVM.cs", "FilterPieces", 218);
 			IL_9B:
 			foreach (TierFilterTypeVM tierFilterTypeVM in this.TierFilters)
 			{
@@ -254,7 +255,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			WeaponDesign design = selector.Design;
 			if (design == null)
 			{
-				Debug.FailedAssert("History design returned null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Crafting\\WeaponDesign\\WeaponDesignVM.cs", "OnSelectItemFromHistory", 280);
+				Debug.FailedAssert("History design returned null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Crafting\\WeaponDesign\\WeaponDesignVM.cs", "OnSelectItemFromHistory", 281);
 				return;
 			}
 			ValueTuple<CraftingPiece, int>[] array = new ValueTuple<CraftingPiece, int>[design.UsedPieces.Length];
@@ -320,6 +321,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			WeaponDescription statWeaponUsage = ((text != null) ? MBObjectManager.Instance.GetObject<WeaponDescription>(text) : null);
 			WeaponClassVM currentWeaponClass = this.GetCurrentWeaponClass();
 			this._shouldRecordHistory = false;
+			this._isAutoSelectingPieces = true;
 			Func<CraftingPieceVM, bool> <>9__3;
 			foreach (CraftingPieceListVM craftingPieceListVM in this.PieceLists)
 			{
@@ -334,7 +336,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 					if (craftingPieceVM == null)
 					{
 						IOrderedEnumerable<CraftingPieceVM> orderedEnumerable = from p in craftingPieceListVM.Pieces
-							orderby p.PlayerHasPiece descending, p.IsNewlyUnlocked descending
+							orderby p.PlayerHasPiece descending, !p.IsNewlyUnlocked descending
 							select p;
 						Func<CraftingPieceVM, bool> func;
 						if ((func = <>9__3) == null)
@@ -350,6 +352,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 				}
 			}
 			this._shouldRecordHistory = true;
+			this._isAutoSelectingPieces = false;
 		}
 
 		private void InitializeDefaultFromLogic()
@@ -427,7 +430,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		private void AddClassFlagsToPiece(CraftingPieceVM piece)
 		{
-			WeaponComponentData weaponWithUsageIndex = this._crafting.GetCurrentCraftedItemObject(false, null).GetWeaponWithUsageIndex(this.SecondaryUsageSelector.SelectedIndex);
+			WeaponComponentData weaponWithUsageIndex = this._crafting.GetCurrentCraftedItemObject(false).GetWeaponWithUsageIndex(this.SecondaryUsageSelector.SelectedIndex);
 			int indexOfUsageDataWithId = this._crafting.CurrentCraftingTemplate.GetIndexOfUsageDataWithId(weaponWithUsageIndex.WeaponDescriptionId);
 			WeaponDescription weaponDescription = this._crafting.CurrentCraftingTemplate.WeaponDescriptions.ElementAtOrDefault(indexOfUsageDataWithId);
 			if (weaponDescription != null)
@@ -470,41 +473,45 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		{
 			this.DesignResultPropertyList.Clear();
 			int num = this.SecondaryUsageSelector.SelectedIndex;
-			this.TrySetSecondaryUsageIndex(num);
-			this.RefreshStats();
 			if (this.IsInOrderMode)
 			{
 				WeaponComponentData orderWeapon = this.ActiveCraftingOrder.CraftingOrder.GetStatWeapon();
-				num = this._crafting.GetCurrentCraftedItemObject(false, null).Weapons.FindIndex((WeaponComponentData x) => x.WeaponDescriptionId == orderWeapon.WeaponDescriptionId);
+				num = this._crafting.GetCurrentCraftedItemObject(false).Weapons.FindIndex((WeaponComponentData x) => x.WeaponDescriptionId == orderWeapon.WeaponDescriptionId);
 			}
+			this.TrySetSecondaryUsageIndex(num);
+			this.RefreshStats();
+			ItemModifier currentItemModifier = this._craftingBehavior.GetCurrentItemModifier();
 			foreach (CraftingListPropertyItem craftingListPropertyItem in this.PrimaryPropertyList)
 			{
 				float num2 = 0f;
-				bool flag = false;
-				if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.Weight)
+				bool flag = craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.Weight;
+				if (currentItemModifier != null)
 				{
-					num2 = this.OverridenData.WeightOverriden;
-					flag = true;
-				}
-				else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.SwingDamage)
-				{
-					num2 = (float)this.OverridenData.SwingDamageOverriden;
-				}
-				else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.SwingSpeed)
-				{
-					num2 = (float)this.OverridenData.SwingSpeedOverriden;
-				}
-				else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.ThrustDamage)
-				{
-					num2 = (float)this.OverridenData.ThrustDamageOverriden;
-				}
-				else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.ThrustSpeed)
-				{
-					num2 = (float)this.OverridenData.ThrustSpeedOverriden;
-				}
-				else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.Handling)
-				{
-					num2 = (float)this.OverridenData.Handling;
+					float num3 = craftingListPropertyItem.PropertyValue;
+					if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.SwingDamage)
+					{
+						num3 = (float)currentItemModifier.ModifyDamage((int)craftingListPropertyItem.PropertyValue);
+					}
+					else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.SwingSpeed)
+					{
+						num3 = (float)currentItemModifier.ModifySpeed((int)craftingListPropertyItem.PropertyValue);
+					}
+					else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.ThrustDamage)
+					{
+						num3 = (float)currentItemModifier.ModifyDamage((int)craftingListPropertyItem.PropertyValue);
+					}
+					else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.ThrustSpeed)
+					{
+						num3 = (float)currentItemModifier.ModifySpeed((int)craftingListPropertyItem.PropertyValue);
+					}
+					else if (craftingListPropertyItem.Type == CraftingTemplate.CraftingStatTypes.Handling)
+					{
+						num3 = (float)currentItemModifier.ModifySpeed((int)craftingListPropertyItem.PropertyValue);
+					}
+					if (num3 != craftingListPropertyItem.PropertyValue)
+					{
+						num2 = num3 - craftingListPropertyItem.PropertyValue;
+					}
 				}
 				if (this.IsInOrderMode)
 				{
@@ -560,7 +567,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 			this.CraftingOrderPopup.RefreshOrders();
 			this.CraftingHistory.RefreshAvailability();
-			this.IsOrderButtonActive = this.CraftingOrderPopup.HasOrders;
+			this.IsOrderButtonActive = this.CraftingOrderPopup.HasEnabledOrders;
 			Action onRefresh = this._onRefresh;
 			if (onRefresh != null)
 			{
@@ -613,22 +620,51 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.CraftingOrderPopup.IsVisible = false;
 		}
 
+		public void ExecuteOpenOrdersTab()
+		{
+			if (this.IsInFreeMode)
+			{
+				MBBindingList<CraftingOrderItemVM> craftingOrders = this.CraftingOrderPopup.CraftingOrders;
+				CraftingOrderItemVM craftingOrderItemVM;
+				if (craftingOrders == null)
+				{
+					craftingOrderItemVM = null;
+				}
+				else
+				{
+					craftingOrderItemVM = craftingOrders.FirstOrDefault((CraftingOrderItemVM x) => x.IsEnabled);
+				}
+				CraftingOrderItemVM craftingOrderItemVM2 = craftingOrderItemVM;
+				if (craftingOrderItemVM2 != null)
+				{
+					this.CraftingOrderPopup.SelectOrder(craftingOrderItemVM2);
+					return;
+				}
+				this.CraftingOrderPopup.ExecuteOpenPopup();
+			}
+		}
+
 		public void ExecuteOpenWeaponClassSelectionPopup()
 		{
 			this.WeaponClassSelectionPopup.UpdateNewlyUnlockedPiecesCount(this._newlyUnlockedPieces);
-			this.WeaponClassSelectionPopup.ExecuteOpenPopup();
-			if (this.IsInFreeMode)
-			{
-				this.WeaponClassSelectionPopup.WeaponClasses.ApplyActionOnAllItems(delegate(WeaponClassVM x)
-				{
-					x.IsSelected = x.SelectionIndex == this._selectedWeaponClassIndex;
-				});
-				return;
-			}
 			this.WeaponClassSelectionPopup.WeaponClasses.ApplyActionOnAllItems(delegate(WeaponClassVM x)
 			{
-				x.IsSelected = false;
+				x.IsSelected = x.SelectionIndex == this._selectedWeaponClassIndex;
 			});
+			this.WeaponClassSelectionPopup.ExecuteOpenPopup();
+		}
+
+		public void ExecuteOpenFreeBuildTab()
+		{
+			if (this.IsInOrderMode)
+			{
+				this.WeaponClassSelectionPopup.UpdateNewlyUnlockedPiecesCount(this._newlyUnlockedPieces);
+				this.WeaponClassSelectionPopup.WeaponClasses.ApplyActionOnAllItems(delegate(WeaponClassVM x)
+				{
+					x.IsSelected = false;
+				});
+				this.WeaponClassSelectionPopup.ExecuteSelectWeaponClass(0);
+			}
 		}
 
 		public void CreateCraftingResultPopup()
@@ -709,6 +745,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			this.RefreshCurrentHeroSkillLevel();
 			this.RefreshDifficulty();
 			this.CraftingOrderPopup.RefreshOrders();
+			this.IsOrderButtonActive = this.CraftingOrderPopup.HasEnabledOrders;
 		}
 
 		public void ChangeModeIfHeroIsUnavailable()
@@ -718,6 +755,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			{
 				this.RefreshWeaponDesignMode(null, -1, false);
 			}
+		}
+
+		public void ExecuteBeginHeroHint()
+		{
+			CraftingOrderItemVM activeCraftingOrder = this._activeCraftingOrder;
+			if (((activeCraftingOrder != null) ? activeCraftingOrder.CraftingOrder.OrderOwner : null) != null)
+			{
+				InformationManager.ShowTooltip(typeof(Hero), new object[]
+				{
+					this._activeCraftingOrder.CraftingOrder.OrderOwner,
+					false
+				});
+			}
+		}
+
+		public void ExecuteEndHeroHint()
+		{
+			MBInformationManager.HideInformations();
 		}
 
 		public void ExecuteRandomize()
@@ -779,7 +834,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			bool flag = true;
 			if (this.IsInOrderMode)
 			{
-				ItemObject currentCraftedItemObject = this._crafting.GetCurrentCraftedItemObject(false, null);
+				ItemObject currentCraftedItemObject = this._crafting.GetCurrentCraftedItemObject(false);
 				flag = this.ActiveCraftingOrder.CraftingOrder.CanHeroCompleteOrder(this._getCurrentCraftingHero().Hero, currentCraftedItemObject);
 			}
 			return flag;
@@ -795,7 +850,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 					{
 						this._craftingBehavior.CompleteOrder(Settlement.CurrentSettlement.Town, this.ActiveCraftingOrder.CraftingOrder, this.CraftedItemObject, this._getCurrentCraftingHero().Hero);
 						this.CraftedItemObject = null;
-						this.RefreshWeaponDesignMode(null, this._selectedWeaponClassIndex, false);
+						this.CraftingOrderPopup.RefreshOrders();
+						CraftingOrderItemVM craftingOrderItemVM = this.CraftingOrderPopup.CraftingOrders.FirstOrDefault((CraftingOrderItemVM x) => x.IsEnabled);
+						if (craftingOrderItemVM != null)
+						{
+							this.CraftingOrderPopup.SelectOrder(craftingOrderItemVM);
+						}
+						else
+						{
+							this.ExecuteOpenFreeBuildTab();
+						}
 					}
 					else
 					{
@@ -803,6 +867,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 						int guardSize = this.GuardSize;
 						int handleSize = this.HandleSize;
 						int pommelSize = this.PommelSize;
+						ItemModifier currentItemModifier = this._craftingBehavior.GetCurrentItemModifier();
 						ICraftingCampaignBehavior craftingBehavior = this._craftingBehavior;
 						Func<CraftingAvailableHeroItemVM> getCurrentCraftingHero = this._getCurrentCraftingHero;
 						Hero hero;
@@ -815,7 +880,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 							CraftingAvailableHeroItemVM craftingAvailableHeroItemVM = getCurrentCraftingHero();
 							hero = ((craftingAvailableHeroItemVM != null) ? craftingAvailableHeroItemVM.Hero : null);
 						}
-						craftingBehavior.CreateCraftedWeaponInFreeBuildMode(hero, this._crafting.CurrentWeaponDesign, this.ModifierTier, this.OverridenData);
+						craftingBehavior.CreateCraftedWeaponInFreeBuildMode(hero, this._crafting.CurrentWeaponDesign, currentItemModifier);
 						this.RefreshWeaponDesignMode(null, this._selectedWeaponClassIndex, false);
 						this.BladeSize = bladeSize;
 						this.GuardSize = guardSize;
@@ -830,7 +895,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		public void RegisterTempItemObject()
 		{
-			this._tempItemObjectForVisual = this._crafting.GetCurrentCraftedItemObject(true, null);
+			this._tempItemObjectForVisual = this._crafting.GetCurrentCraftedItemObject(true);
 			this._tempItemObjectForVisual.StringId = this._tempItemObjectForVisual.WeaponDesign.HashedCode;
 			MBObjectManager.Instance.RegisterObject<ItemObject>(this._tempItemObjectForVisual);
 			if (MBObjectManager.Instance.GetObject<ItemObject>(this._tempItemObjectForVisual.StringId) == null)
@@ -840,6 +905,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			}
 			this.CraftedItemVisual.StringId = this._tempItemObjectForVisual.StringId;
 			this.IsWeaponCivilian = this._tempItemObjectForVisual.IsCivilian;
+		}
+
+		public void AddCraftingModifier(WeaponDesign weaponDesign, Hero hero)
+		{
+			ItemModifier craftedWeaponModifier = Campaign.Current.Models.SmithingModel.GetCraftedWeaponModifier(weaponDesign, hero);
+			this._craftingBehavior.SetCurrentItemModifier(craftedWeaponModifier);
 		}
 
 		public void UnregisterTempItemObject()
@@ -852,7 +923,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		private bool DoesCurrentItemHaveSecondaryUsage(int usageIndex)
 		{
-			return usageIndex >= 0 && usageIndex < this._crafting.GetCurrentCraftedItemObject(false, null).Weapons.Count;
+			return usageIndex >= 0 && usageIndex < this._crafting.GetCurrentCraftedItemObject(false).Weapons.Count;
 		}
 
 		private void TrySetSecondaryUsageIndex(int usageIndex)
@@ -877,7 +948,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		{
 			int num = this.SecondaryUsageSelector.SelectedIndex;
 			this.SecondaryUsageSelector.Refresh(new List<string>(), 0, new Action<SelectorVM<CraftingSecondaryUsageItemVM>>(this.UpdateSecondaryUsageIndex));
-			MBReadOnlyList<WeaponComponentData> weapons = this._crafting.GetCurrentCraftedItemObject(false, null).Weapons;
+			MBReadOnlyList<WeaponComponentData> weapons = this._crafting.GetCurrentCraftedItemObject(false).Weapons;
 			int num2 = 0;
 			for (int i = 0; i < weapons.Count; i++)
 			{
@@ -905,7 +976,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			List<CraftingStatData> list = this._crafting.GetStatDatas(this.SecondaryUsageSelector.SelectedIndex).ToList<CraftingStatData>();
 			WeaponComponentData weaponComponentData = (this.IsInOrderMode ? this.ActiveCraftingOrder.CraftingOrder.GetStatWeapon() : null);
 			IEnumerable<CraftingStatData> enumerable = (this.IsInOrderMode ? this.GetOrderStatDatas(this.ActiveCraftingOrder.CraftingOrder) : null);
-			ItemObject currentCraftedItemObject = this._crafting.GetCurrentCraftedItemObject(false, null);
+			ItemObject currentCraftedItemObject = this._crafting.GetCurrentCraftedItemObject(false);
 			WeaponComponentData weaponWithUsageIndex = currentCraftedItemObject.GetWeaponWithUsageIndex(this.SecondaryUsageSelector.SelectedIndex);
 			bool flag = weaponComponentData == null || weaponComponentData.WeaponDescriptionId == weaponWithUsageIndex.WeaponDescriptionId;
 			if (enumerable != null)
@@ -1004,7 +1075,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			CraftingPiece.PieceTypes pieceType = (CraftingPiece.PieceTypes)piece.PieceType;
 			this._pieceListsDictionary[pieceType].SelectedPiece.IsSelected = false;
 			bool updatePiece = this._updatePiece;
-			this.UnsetPieceNewlyUnlocked(piece);
+			if (!this._isAutoSelectingPieces)
+			{
+				this.UnsetPieceNewlyUnlocked(piece);
+			}
 			if (updatePiece)
 			{
 				this._crafting.SwitchToPiece(piece.CraftingPiece);
@@ -1818,6 +1892,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		}
 
 		[DataSourceProperty]
+		public BasicTooltipViewModel OrderDisabledReasonHint
+		{
+			get
+			{
+				return this._orderDisabledReasonHint;
+			}
+			set
+			{
+				if (value != this._orderDisabledReasonHint)
+				{
+					this._orderDisabledReasonHint = value;
+					base.OnPropertyChangedWithValue<BasicTooltipViewModel>(value, "OrderDisabledReasonHint");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public HintViewModel ShowOnlyUnlockedPiecesHint
 		{
 			get
@@ -2202,10 +2293,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 
 		public const int MAX_SKILL_LEVEL = 300;
 
-		public int ModifierTier;
-
-		public Crafting.OverrideData OverridenData;
-
 		public ItemObject CraftedItemObject;
 
 		private int _selectedWeaponClassIndex;
@@ -2243,6 +2330,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		private TextObject _difficultyTextobj = new TextObject("{=cbbUzYX3}Difficulty: {DIFFICULTY}", null);
 
 		private TextObject _orderDifficultyTextObj = new TextObject("{=8szijlHj}Order Difficulty: {DIFFICULTY}", null);
+
+		private bool _isAutoSelectingPieces;
 
 		private bool _shouldRecordHistory;
 
@@ -2339,6 +2428,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		private HintViewModel _redoHint;
 
 		private HintViewModel _showOnlyUnlockedPiecesHint;
+
+		private BasicTooltipViewModel _orderDisabledReasonHint;
 
 		private CraftingOrderItemVM _activeCraftingOrder;
 

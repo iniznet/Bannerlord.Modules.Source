@@ -77,6 +77,12 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 		internal void GiveShareOfLootToParty(TroopRoster memberRoster, TroopRoster prisonerRoster, ItemRoster itemRoster, PartyBase winnerParty, float lootAmount, MapEvent mapEvent)
 		{
 			bool flag = winnerParty == PartyBase.MainParty;
+			bool flag2 = winnerParty.IsMobile && winnerParty.MobileParty.IsMilitia;
+			bool flag3 = winnerParty.IsMobile && winnerParty.MobileParty.IsGarrison;
+			bool flag4 = flag2 && winnerParty.MobileParty.CurrentSettlement != null && winnerParty.MobileParty.CurrentSettlement.IsVillage;
+			bool flag5 = winnerParty.IsMobile && winnerParty.MobileParty.IsVillager;
+			bool flag6 = winnerParty.IsMobile && winnerParty.MobileParty.IsCaravan;
+			bool flag7 = winnerParty.IsMobile && winnerParty.MobileParty.IsBandit;
 			List<TroopRosterElement> list = new List<TroopRosterElement>((int)((float)this.LootedMembers.TotalManCount * MathF.Min(lootAmount * 1.3f, 1f)));
 			foreach (TroopRosterElement troopRosterElement in this.LootedMembers.GetTroopRoster())
 			{
@@ -113,18 +119,28 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			}
 			foreach (TroopRosterElement troopRosterElement5 in list)
 			{
+				PartyBase partyBase = winnerParty;
+				if (flag2 || flag3)
+				{
+					partyBase = winnerParty.MobileParty.HomeSettlement.Party;
+					prisonerRoster = partyBase.PrisonRoster;
+				}
 				if (troopRosterElement5.Character.IsHero)
 				{
 					if (!flag && winnerParty.IsMobile)
 					{
-						TakePrisonerAction.Apply(winnerParty, troopRosterElement5.Character.HeroObject);
+						TakePrisonerAction.Apply(partyBase, troopRosterElement5.Character.HeroObject);
+						if ((flag4 || flag5 || flag6) && !troopRosterElement5.Character.IsPlayerCharacter)
+						{
+							EndCaptivityAction.ApplyByReleasedAfterBattle(troopRosterElement5.Character.HeroObject);
+						}
 					}
-					else
+					else if (!flag4)
 					{
 						prisonerRoster.AddToCounts(troopRosterElement5.Character, troopRosterElement5.Number, false, 0, 0, true, -1);
 					}
 				}
-				else
+				else if (!flag4 && !flag5 && !flag6)
 				{
 					prisonerRoster.AddToCounts(troopRosterElement5.Character, troopRosterElement5.Number, false, 0, 0, true, -1);
 				}
@@ -140,8 +156,15 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 					int num2 = 0;
 					for (int k = 0; k < elementNumber; k++)
 					{
-						if ((!characterAtIndex.IsHero || !characterAtIndex.HeroObject.IsReleased) && MBRandom.RandomFloat < partySavePrisonerAsMemberShareProbability && (flag || elementNumber + memberRoster.TotalManCount <= num))
+						bool flag8 = characterAtIndex.IsHero && characterAtIndex.HeroObject.IsReleased;
+						bool flag9 = flag7 && characterAtIndex.Occupation != Occupation.Bandit;
+						bool flag10 = flag3 && characterAtIndex.Occupation == Occupation.Bandit;
+						if (!flag8 && !flag9 && !flag10 && MBRandom.RandomFloat < partySavePrisonerAsMemberShareProbability)
 						{
+							if (!flag && memberRoster.TotalManCount + 1 > num)
+							{
+								break;
+							}
 							if (characterAtIndex.IsHero && !flag)
 							{
 								EndCaptivityAction.ApplyByReleasedAfterBattle(characterAtIndex.HeroObject);
@@ -179,33 +202,36 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 					this.CasualtiesInBattle.AddToCounts(characterAtIndex2, -num3, false, 0, 0, true, -1);
 				}
 			}
-			ItemRoster itemRoster2 = new ItemRoster();
-			CampaignEventDispatcher.Instance.CollectLoots(mapEvent, winnerParty, this.LootedItems, itemRoster2, mblist, lootAmount);
-			for (int n = 0; n < itemRoster2.Count; n++)
+			if (!flag3 && !flag2)
 			{
-				itemRoster.Add(itemRoster2[n]);
-			}
-			CampaignEventDispatcher.Instance.OnLootDistributedToParty(mapEvent, winnerParty, this.LootedItems);
-			ExplainedNumber explainedNumber = new ExplainedNumber(1f, false, null);
-			if (winnerParty.IsMobile)
-			{
-				CharacterObject effectivePartyLeaderForSkill = SkillHelper.GetEffectivePartyLeaderForSkill(winnerParty);
-				if (effectivePartyLeaderForSkill != null)
+				ItemRoster itemRoster2 = new ItemRoster();
+				CampaignEventDispatcher.Instance.CollectLoots(mapEvent, winnerParty, this.LootedItems, itemRoster2, mblist, lootAmount);
+				for (int n = 0; n < itemRoster2.Count; n++)
 				{
-					SkillHelper.AddSkillBonusForCharacter(DefaultSkills.Roguery, DefaultSkillEffects.RogueryLootBonus, effectivePartyLeaderForSkill, ref explainedNumber, -1, true, 0);
+					itemRoster.Add(itemRoster2[n]);
 				}
-			}
-			if (winnerParty == PartyBase.MainParty)
-			{
-				IEnumerable<ItemRosterElement> enumerable = this.LootCasualties(mblist, explainedNumber.ResultNumber);
-				itemRoster.Add(enumerable);
-				return;
-			}
-			if (winnerParty.LeaderHero != null)
-			{
-				int num4 = MathF.Round((float)this.LootCasualtiesToGold(mblist, explainedNumber.ResultNumber) * explainedNumber.ResultNumber);
-				num4 = (int)((float)num4 * Campaign.Current.Models.BattleRewardModel.GetAITradePenalty());
-				winnerParty.LeaderHero.Gold += num4;
+				CampaignEventDispatcher.Instance.OnLootDistributedToParty(mapEvent, winnerParty, this.LootedItems);
+				ExplainedNumber explainedNumber = new ExplainedNumber(1f, false, null);
+				if (winnerParty.IsMobile)
+				{
+					CharacterObject effectivePartyLeaderForSkill = SkillHelper.GetEffectivePartyLeaderForSkill(winnerParty);
+					if (effectivePartyLeaderForSkill != null)
+					{
+						SkillHelper.AddSkillBonusForCharacter(DefaultSkills.Roguery, DefaultSkillEffects.RogueryLootBonus, effectivePartyLeaderForSkill, ref explainedNumber, -1, true, 0);
+					}
+				}
+				if (winnerParty == PartyBase.MainParty)
+				{
+					IEnumerable<ItemRosterElement> enumerable = this.LootCasualties(mblist, explainedNumber.ResultNumber);
+					itemRoster.Add(enumerable);
+					return;
+				}
+				if (winnerParty.LeaderHero != null)
+				{
+					int num4 = MathF.Round((float)this.LootCasualtiesToGold(mblist, explainedNumber.ResultNumber) * explainedNumber.ResultNumber);
+					num4 = (int)((float)num4 * Campaign.Current.Models.BattleRewardModel.GetAITradePenalty());
+					winnerParty.LeaderHero.Gold += num4;
+				}
 			}
 		}
 
@@ -215,19 +241,16 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			List<EquipmentElement> list = new List<EquipmentElement>();
 			foreach (TroopRosterElement troopRosterElement in shareFromCasualties)
 			{
-				for (int i = 0; i < 1; i++)
+				list.Clear();
+				int num = MBRandom.RoundRandomized(lootFactor);
+				for (int i = 0; i < num; i++)
 				{
-					list.Clear();
-					int num = MBRandom.RoundRandomized(lootFactor);
-					for (int j = 0; j < num; j++)
+					float num2 = Campaign.Current.Models.BattleRewardModel.GetExpectedLootedItemValue(troopRosterElement.Character);
+					num2 *= MBRandom.RandomFloatRanged(0.75f, 1.25f);
+					EquipmentElement lootedItem = Campaign.Current.Models.BattleRewardModel.GetLootedItemFromTroop(troopRosterElement.Character, num2);
+					if (lootedItem.Item != null && !lootedItem.Item.NotMerchandise && list.Count((EquipmentElement x) => x.Item.Type == lootedItem.Item.Type) == 0)
 					{
-						float num2 = Campaign.Current.Models.BattleRewardModel.GetExpectedLootedItemValue(troopRosterElement.Character);
-						num2 *= MBRandom.RandomFloatRanged(0.75f, 1.25f);
-						EquipmentElement lootedItem = Campaign.Current.Models.BattleRewardModel.GetLootedItemFromTroop(troopRosterElement.Character, num2);
-						if (lootedItem.Item != null && !lootedItem.Item.NotMerchandise && list.Count((EquipmentElement x) => x.Item.Type == lootedItem.Item.Type) == 0)
-						{
-							itemRoster.AddToCounts(lootedItem, 1);
-						}
+						itemRoster.AddToCounts(lootedItem, 1);
 					}
 				}
 			}

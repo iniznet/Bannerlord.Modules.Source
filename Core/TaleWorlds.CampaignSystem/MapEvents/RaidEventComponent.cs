@@ -47,6 +47,9 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			return ((RaidEventComponent)o)._raidProductionRewards;
 		}
 
+		[SaveableProperty(20)]
+		public float RaidDamage { get; private set; }
+
 		public MapEventSide DefenderSide
 		{
 			get
@@ -86,9 +89,6 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 				return base.MapEvent.BattleState;
 			}
 		}
-
-		[SaveableProperty(20)]
-		public float RaidDamage { get; private set; }
 
 		protected RaidEventComponent(MapEvent mapEvent)
 			: base(mapEvent)
@@ -305,7 +305,7 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 						this.MapEventSettlement.SettlementHitPoints = 0f;
 						base.MapEvent.BattleState = BattleState.AttackerVictory;
 						finish = true;
-						this.MapEventSettlement.Party.Visuals.RefreshLevelMask(this.MapEventSettlement.Party);
+						this.MapEventSettlement.Party.SetLevelMaskIsDirty();
 					}
 					this._nextSettlementDamage = 0f;
 					return;

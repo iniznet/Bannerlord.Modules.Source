@@ -86,7 +86,7 @@ namespace TaleWorlds.MountAndBlade
 			internal int LastAgentLoopIndex;
 		}
 
-		[EngineStruct("Managed_proximity_map_search_struct")]
+		[EngineStruct("Managed_proximity_map_search_struct", false)]
 		[Serializable]
 		internal struct ProximityMapSearchStructInternal
 		{

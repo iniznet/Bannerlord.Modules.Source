@@ -3,7 +3,6 @@ using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Map;
-using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -86,10 +85,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 						{
 							PlayerEncounter.Finish(true);
 						}
-						MapEvent mapEvent = mobileParty.MapEvent;
-						if (mapEvent != null)
+						if (mobileParty.MapEvent != null)
 						{
-							mapEvent.FinalizeEvent();
+							mobileParty.MapEvent.FinalizeEvent();
+						}
+						if (mobileParty.SiegeEvent != null)
+						{
+							mobileParty.SiegeEvent.FinalizeSiegeEvent();
 						}
 						if (mobileParty.Army != null && mobileParty.Army.LeaderParty == mobileParty)
 						{

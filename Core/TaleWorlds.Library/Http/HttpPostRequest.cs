@@ -1,9 +1,6 @@
 ﻿using System;
-using System.IO;
-using System.Net;
-using System.Runtime.CompilerServices;
+using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace TaleWorlds.Library.Http
 {
@@ -17,29 +14,25 @@ namespace TaleWorlds.Library.Http
 
 		public Exception Exception { get; private set; }
 
-		static HttpPostRequest()
+		public HttpPostRequest(HttpClient httpClient, string address, string postData)
+			: this(httpClient, address, postData, new Version("1.1"))
 		{
-			ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 		}
 
-		public HttpPostRequest(string address, string postData)
+		public HttpPostRequest(HttpClient httpClient, string address, string postData, Version version)
 		{
+			this._httpClient = httpClient;
 			this._postData = postData;
 			this._address = address;
 			this.State = HttpRequestTaskState.NotStarted;
-			this._readBuffer = new byte[1024];
-			this._requestData = new StringBuilder("");
 			this.ResponseData = "";
+			this._versionToUse = version;
 		}
 
 		private void SetFinishedAsSuccessful(string responseData)
 		{
 			this.Successful = true;
 			this.ResponseData = responseData;
-			if (this._httpWebResponse != null)
-			{
-				this._httpWebResponse.Close();
-			}
 			this.State = HttpRequestTaskState.Finished;
 		}
 
@@ -47,10 +40,6 @@ namespace TaleWorlds.Library.Http
 		{
 			this.Successful = false;
 			this.Exception = e;
-			if (this._httpWebResponse != null)
-			{
-				this._httpWebResponse.Close();
-			}
 			this.State = HttpRequestTaskState.Finished;
 		}
 
@@ -59,63 +48,31 @@ namespace TaleWorlds.Library.Http
 			this.DoTask();
 		}
 
-		private void ClearRequestStream(Task<Stream> streamTask)
-		{
-			HttpPostRequest.<>c__DisplayClass29_0 CS$<>8__locals1 = new HttpPostRequest.<>c__DisplayClass29_0();
-			CS$<>8__locals1.streamTask = streamTask;
-			CS$<>8__locals1.<>4__this = this;
-			Task.Run(delegate
-			{
-				HttpPostRequest.<>c__DisplayClass29_0.<<ClearRequestStream>b__0>d <<ClearRequestStream>b__0>d;
-				<<ClearRequestStream>b__0>d.<>4__this = CS$<>8__locals1;
-				<<ClearRequestStream>b__0>d.<>t__builder = AsyncTaskMethodBuilder.Create();
-				<<ClearRequestStream>b__0>d.<>1__state = -1;
-				AsyncTaskMethodBuilder <>t__builder = <<ClearRequestStream>b__0>d.<>t__builder;
-				<>t__builder.Start<HttpPostRequest.<>c__DisplayClass29_0.<<ClearRequestStream>b__0>d>(ref <<ClearRequestStream>b__0>d);
-				return <<ClearRequestStream>b__0>d.<>t__builder.Task;
-			});
-		}
-
-		private async Task DoTask()
+		private async void DoTask()
 		{
 			this.State = HttpRequestTaskState.Working;
 			try
 			{
 				Debug.Print("Http Post Request to " + this._address, 0, Debug.DebugColor.White, 17592186044416UL);
-				byte[] postData = Encoding.Unicode.GetBytes(this._postData);
-				this._httpWebRequest = (HttpWebRequest)WebRequest.Create(this._address);
-				this._httpWebRequest.Accept = "application/json";
-				this._httpWebRequest.ContentType = "application/json; charset=utf-16";
-				this._httpWebRequest.Method = "POST";
-				this._httpWebRequest.ContentLength = (long)postData.Length;
-				this._httpWebRequest.UserAgent = "TaleWorlds Client";
-				this._httpWebRequest.TransferEncoding = "";
-				Stream stream = await this._httpWebRequest.GetRequestStreamAsync();
-				Stream requestStream = stream;
-				await requestStream.WriteAsync(postData, 0, postData.Length);
-				requestStream.Close();
-				this._httpWebResponse = (HttpWebResponse)(await this._httpWebRequest.GetResponseAsync());
-				this._responseStream = this._httpWebResponse.GetResponseStream();
-				int num;
-				do
+				using (HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, this._address))
 				{
-					num = await this._responseStream.ReadAsync(this._readBuffer, 0, 1024);
-					if (num > 0)
+					requestMessage.Version = this._versionToUse;
+					requestMessage.Headers.Add("Accept", "application/json");
+					requestMessage.Headers.Add("UserAgent", "TaleWorlds Client");
+					requestMessage.Content = new StringContent(this._postData, Encoding.Unicode, "application/json");
+					HttpResponseMessage httpResponseMessage = await this._httpClient.SendAsync(requestMessage);
+					using (HttpResponseMessage response = httpResponseMessage)
 					{
-						string @string = Encoding.ASCII.GetString(this._readBuffer, 0, num);
-						this._requestData.Append(@string);
+						Debug.Print(string.Concat(new object[] { "Protocol version used for post request to ", this._address, " is: ", response.Version }), 0, Debug.DebugColor.White, 17592186044416UL);
+						using (HttpContent content = response.Content)
+						{
+							this.SetFinishedAsSuccessful(await content.ReadAsStringAsync());
+						}
+						HttpContent content = null;
 					}
+					HttpResponseMessage response = null;
 				}
-				while (num > 0);
-				string text = "";
-				if (this._requestData.Length > 1)
-				{
-					text = this._requestData.ToString();
-				}
-				this._responseStream.Close();
-				this.SetFinishedAsSuccessful(text);
-				postData = null;
-				requestStream = null;
+				HttpRequestMessage requestMessage = null;
 			}
 			catch (Exception ex)
 			{
@@ -123,20 +80,12 @@ namespace TaleWorlds.Library.Http
 			}
 		}
 
-		private const int BufferSize = 1024;
-
-		private HttpWebRequest _httpWebRequest;
-
-		private HttpWebResponse _httpWebResponse;
-
-		private Stream _responseStream;
-
-		private readonly byte[] _readBuffer;
-
-		private readonly StringBuilder _requestData;
+		private HttpClient _httpClient;
 
 		private readonly string _address;
 
 		private string _postData;
+
+		private Version _versionToUse;
 	}
 }

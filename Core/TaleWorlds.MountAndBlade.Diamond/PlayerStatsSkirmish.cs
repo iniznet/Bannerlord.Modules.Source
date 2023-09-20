@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.Diamond
@@ -10,6 +11,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public int Score { get; set; }
 
+		[JsonIgnore]
 		public int AverageScore
 		{
 			get

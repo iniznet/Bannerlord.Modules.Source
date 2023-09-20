@@ -129,7 +129,7 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 
 		private const float _modifierFactorLowerLimit = 0.8f;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame wait_pos_ground = MatrixFrame.Zero;
 
 		[EditorVisibleScriptComponentVariable(true)]
@@ -182,11 +182,11 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 
 		public bool EnableAutoGhostMovement;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		[RestrictedAccess]
 		public MatrixFrame ai_barrier_l = MatrixFrame.Zero;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		[RestrictedAccess]
 		public MatrixFrame ai_barrier_r = MatrixFrame.Zero;
 

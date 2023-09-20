@@ -113,7 +113,12 @@ namespace TaleWorlds.CampaignSystem
 				campaignTime = HeroHelper.GetRandomBirthDayForAge((float)age);
 			}
 			newCharacter.HeroObject.SetBirthDay(campaignTime);
-			newCharacter.HeroObject.BornSettlement = SettlementHelper.FindRandomSettlement((Settlement x) => x.IsTown && x.Culture == newCharacter.Culture);
+			Settlement settlement = SettlementHelper.FindRandomSettlement((Settlement x) => x.IsTown && (newCharacter.Culture.StringId == "neutral_culture" || x.Culture == newCharacter.Culture));
+			if (settlement == null)
+			{
+				settlement = SettlementHelper.FindRandomSettlement((Settlement x) => x.IsTown);
+			}
+			newCharacter.HeroObject.BornSettlement = settlement;
 			newCharacter.HeroObject.StaticBodyProperties = BodyProperties.GetRandomBodyProperties(template.Race, template.IsFemale, template.GetBodyPropertiesMin(false), template.GetBodyPropertiesMax(), 0, MBRandom.RandomInt(), newCharacter.HairTags, newCharacter.BeardTags, newCharacter.TattooTags).StaticProperties;
 			newCharacter.HeroObject.Weight = 0f;
 			newCharacter.HeroObject.Build = 0f;
@@ -202,11 +207,6 @@ namespace TaleWorlds.CampaignSystem
 			{
 				num -= 30;
 				num2 += 30;
-			}
-			if (hero.GetTraitLevel(DefaultTraits.HeavyBuild) > 0)
-			{
-				num -= 10;
-				num2 += 10;
 			}
 			int num3 = -1;
 			int num4 = -1;
@@ -431,8 +431,38 @@ namespace TaleWorlds.CampaignSystem
 
 		public static Hero DeliverOffSpring(Hero mother, Hero father, bool isOffspringFemale)
 		{
-			Debug.SilentAssert(mother.CharacterObject.Race == father.CharacterObject.Race, "", false, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\HeroCreator.cs", "DeliverOffSpring", 477);
+			Debug.SilentAssert(mother.CharacterObject.Race == father.CharacterObject.Race, "", false, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\HeroCreator.cs", "DeliverOffSpring", 482);
 			Hero hero = HeroCreator.CreateNewHero(isOffspringFemale ? mother.CharacterObject : father.CharacterObject, 0);
+			hero.ClearTraits();
+			float randomFloat = MBRandom.RandomFloat;
+			int num;
+			if ((double)randomFloat < 0.1)
+			{
+				num = 0;
+			}
+			else if ((double)randomFloat < 0.5)
+			{
+				num = 1;
+			}
+			else if ((double)randomFloat < 0.9)
+			{
+				num = 2;
+			}
+			else
+			{
+				num = 3;
+			}
+			List<TraitObject> list = DefaultTraits.Personality.ToList<TraitObject>();
+			list.Shuffle<TraitObject>();
+			for (int i = 0; i < Math.Min(list.Count, num); i++)
+			{
+				int num2 = (((double)MBRandom.RandomFloat < 0.5) ? MBRandom.RandomInt(list[i].MinValue, 0) : MBRandom.RandomInt(1, list[i].MaxValue + 1));
+				hero.SetTraitLevel(list[i], num2);
+			}
+			foreach (TraitObject traitObject in TraitObject.All.Except(DefaultTraits.Personality))
+			{
+				hero.SetTraitLevel(traitObject, ((double)MBRandom.RandomFloat < 0.5) ? mother.GetTraitLevel(traitObject) : father.GetTraitLevel(traitObject));
+			}
 			hero.SetNewOccupation(isOffspringFemale ? mother.Occupation : father.Occupation);
 			int becomeChildAge = Campaign.Current.Models.AgeModel.BecomeChildAge;
 			hero.CharacterObject.IsFemale = isOffspringFemale;
@@ -449,7 +479,7 @@ namespace TaleWorlds.CampaignSystem
 			}
 			else
 			{
-				Debug.FailedAssert("Equipment template not found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\HeroCreator.cs", "DeliverOffSpring", 505);
+				Debug.FailedAssert("Equipment template not found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\HeroCreator.cs", "DeliverOffSpring", 547);
 			}
 			TextObject textObject;
 			TextObject textObject2;
@@ -458,10 +488,10 @@ namespace TaleWorlds.CampaignSystem
 			hero.HeroDeveloper.DeriveSkillsFromTraits(true, null);
 			BodyProperties bodyProperties = mother.BodyProperties;
 			BodyProperties bodyProperties2 = father.BodyProperties;
-			int num = (isOffspringFemale ? mother.CharacterObject.GetDefaultFaceSeed(1) : father.CharacterObject.GetDefaultFaceSeed(1));
+			int num3 = MBRandom.RandomInt();
 			string text = (isOffspringFemale ? mother.HairTags : father.HairTags);
 			string text2 = (isOffspringFemale ? mother.TattooTags : father.TattooTags);
-			hero.StaticBodyProperties = BodyProperties.GetRandomBodyProperties(mother.CharacterObject.Race, isOffspringFemale, bodyProperties, bodyProperties2, 1, num, text, father.BeardTags, text2).StaticProperties;
+			hero.StaticBodyProperties = BodyProperties.GetRandomBodyProperties(mother.CharacterObject.Race, isOffspringFemale, bodyProperties, bodyProperties2, 1, num3, text, father.BeardTags, text2).StaticProperties;
 			hero.BornSettlement = HeroCreator.DecideBornSettlement(hero);
 			if (mother == Hero.MainHero || father == Hero.MainHero)
 			{

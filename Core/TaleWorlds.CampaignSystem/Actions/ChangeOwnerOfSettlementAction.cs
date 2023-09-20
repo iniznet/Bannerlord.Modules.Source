@@ -24,15 +24,12 @@ namespace TaleWorlds.CampaignSystem.Actions
 				{
 					settlement.AddGarrisonParty(false);
 				}
-				if (settlement.Town.Governor != null)
-				{
-					ChangeGovernorAction.RemoveGovernorOf(settlement.Town.Governor);
-				}
+				ChangeGovernorAction.RemoveGovernorOfIfExists(settlement.Town);
 			}
-			settlement.Party.Visuals.SetMapIconAsDirty();
+			settlement.Party.SetVisualAsDirty();
 			foreach (Village village in settlement.BoundVillages)
 			{
-				village.Settlement.Party.Visuals.SetMapIconAsDirty();
+				village.Settlement.Party.SetVisualAsDirty();
 				if (village.VillagerPartyComponent != null && newOwner != null)
 				{
 					foreach (MobileParty mobileParty in MobileParty.All)
@@ -77,12 +74,8 @@ namespace TaleWorlds.CampaignSystem.Actions
 						}
 					}
 				}
-				if (settlement.Party.SiegeEvent != null && !settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction.IsAtWarWith(mapFaction))
+				if (settlement.Party.SiegeEvent != null && !settlement.Party.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction.IsAtWarWith(mapFaction))
 				{
-					if (settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
-					{
-						GameMenu.ActivateGameMenu("siege_attacker_left");
-					}
 					settlement.Party.SiegeEvent.FinalizeSiegeEvent();
 				}
 				foreach (Clan clan in Clan.NonBanditFactions)

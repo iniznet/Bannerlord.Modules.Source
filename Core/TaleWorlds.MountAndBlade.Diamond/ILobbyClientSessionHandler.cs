@@ -53,6 +53,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		void OnPartyInvitationReceived(string inviterPlayerName, PlayerId inviterPlayerId);
 
+		void OnPartyJoinRequestReceived(PlayerId playerId, PlayerId viaPlayerId, string viaFriendName);
+
 		void OnPartyInvitationInvalidated();
 
 		void OnPlayerInvitedToParty(PlayerId playerId);

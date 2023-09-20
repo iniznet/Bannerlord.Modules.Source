@@ -38,7 +38,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			starter.AddGameMenuOption("army_wait", "leave_army", "{=hSdJ0UUv}Leave Army", new GameMenuOption.OnConditionDelegate(this.wait_menu_army_leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.wait_menu_army_leave_on_consequence), true, -1, false, null);
 			starter.AddGameMenuOption("army_wait", "abandon_army", "{=0vnegjxf}Abandon Army", new GameMenuOption.OnConditionDelegate(this.wait_menu_army_abandon_on_condition), new GameMenuOption.OnConsequenceDelegate(this.wait_menu_army_abandon_on_consequence), true, -1, false, null);
 			starter.AddWaitGameMenu("army_wait_at_settlement", "{=0gwQGnm4}{ARMY_OWNER_TEXT} {ARMY_BEHAVIOR}", new OnInitDelegate(this.wait_menu_army_wait_at_settlement_on_init), new OnConditionDelegate(this.wait_menu_army_wait_on_condition), null, new OnTickDelegate(this.wait_menu_army_wait_at_settlement_on_tick), GameMenu.MenuAndOptionType.WaitMenuHideProgressAndHoursOption, GameOverlays.MenuOverlayType.None, 0f, GameMenu.MenuFlags.None, null);
-			starter.AddGameMenuOption("army_wait_at_settlement", "enter_settlement", "{=eabR87ne}Enter Settlement", new GameMenuOption.OnConditionDelegate(this.wait_menu_army_enter_settlement_on_condition), new GameMenuOption.OnConsequenceDelegate(this.wait_menu_army_enter_settlement_on_consequence), false, -1, false, null);
+			starter.AddGameMenuOption("army_wait_at_settlement", "enter_settlement", "{=!}{ENTER_SETTLEMENT}", new GameMenuOption.OnConditionDelegate(this.wait_menu_army_enter_settlement_on_condition), new GameMenuOption.OnConsequenceDelegate(this.wait_menu_army_enter_settlement_on_consequence), false, -1, false, null);
 			starter.AddGameMenuOption("army_wait_at_settlement", "leave_army", "{=hSdJ0UUv}Leave Army", new GameMenuOption.OnConditionDelegate(this.wait_menu_army_leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.wait_menu_army_leave_on_consequence), true, -1, false, null);
 			starter.AddGameMenu("army_dispersed", "{=!}{ARMY_DISPERSE_REASON}", null, GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
 			starter.AddGameMenuOption("army_dispersed", "army_dispersed_continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(this.army_dispersed_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.army_dispersed_continue_on_consequence), false, -1, false, null);
@@ -193,7 +193,39 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private bool wait_menu_army_enter_settlement_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Submenu;
-			return (MobileParty.MainParty.Army != null && MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.MapEvent == null && MobileParty.MainParty.BesiegedSettlement == null) || (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && MobileParty.MainParty.Army.LeaderParty.LastVisitedSettlement != null && MobileParty.MainParty.Army.LeaderParty.LastVisitedSettlement.Position2D.Distance(MobileParty.MainParty.Army.LeaderParty.Position2D) < 1f);
+			if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && MobileParty.MainParty.MapEvent == null && MobileParty.MainParty.BesiegedSettlement == null)
+			{
+				Settlement settlement = null;
+				if (MobileParty.MainParty.CurrentSettlement != null)
+				{
+					settlement = MobileParty.MainParty.CurrentSettlement;
+				}
+				else if (MobileParty.MainParty.Army.LeaderParty.LastVisitedSettlement != null && MobileParty.MainParty.Army.LeaderParty.LastVisitedSettlement.Position2D.Distance(MobileParty.MainParty.Army.LeaderParty.Position2D) < 1f)
+				{
+					settlement = MobileParty.MainParty.Army.LeaderParty.LastVisitedSettlement;
+				}
+				if (settlement != null)
+				{
+					if (settlement.IsTown)
+					{
+						MBTextManager.SetTextVariable("ENTER_SETTLEMENT", "{=bkoJ57h3}Enter the Town", false);
+					}
+					else if (settlement.IsCastle)
+					{
+						MBTextManager.SetTextVariable("ENTER_SETTLEMENT", "{=aa3kbW8j}Enter the Castle", false);
+					}
+					else if (settlement.IsVillage)
+					{
+						MBTextManager.SetTextVariable("ENTER_SETTLEMENT", "{=8UzRj1YW}Enter the Village", false);
+					}
+					else
+					{
+						MBTextManager.SetTextVariable("ENTER_SETTLEMENT", "{=eabR87ne}Enter the Settlement", false);
+					}
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private void wait_menu_army_enter_settlement_on_consequence(MenuCallbackArgs args)
@@ -236,7 +268,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (Settlement.CurrentSettlement != null)
 			{
 				LeaveSettlementAction.ApplyForParty(MobileParty.MainParty);
-				PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+				PartyBase.MainParty.SetVisualAsDirty();
 			}
 			MobileParty.MainParty.Army = null;
 		}

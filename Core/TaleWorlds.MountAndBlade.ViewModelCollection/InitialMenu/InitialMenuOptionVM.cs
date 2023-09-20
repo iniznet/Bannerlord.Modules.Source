@@ -11,6 +11,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.InitialMenu
 		{
 			this.InitialStateOption = initialStateOption;
 			this.DisabledHint = new HintViewModel(initialStateOption.IsDisabledAndReason().Item2, null);
+			this.EnabledHint = new HintViewModel(initialStateOption.EnabledHint, null);
 		}
 
 		public void ExecuteAction()
@@ -47,6 +48,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.InitialMenu
 		}
 
 		[DataSourceProperty]
+		public HintViewModel EnabledHint
+		{
+			get
+			{
+				return this._enabledHint;
+			}
+			set
+			{
+				if (value != this._enabledHint)
+				{
+					this._enabledHint = value;
+					base.OnPropertyChangedWithValue<HintViewModel>(value, "EnabledHint");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public string NameText
 		{
 			get
@@ -67,5 +85,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.InitialMenu
 		public readonly InitialStateOption InitialStateOption;
 
 		private HintViewModel _disabledHint;
+
+		private HintViewModel _enabledHint;
 	}
 }

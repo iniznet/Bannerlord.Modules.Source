@@ -7,15 +7,15 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SpawnAttachedWeaponOnCorpse : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public int AttachedIndex { get; private set; }
 
 		public int ForcedIndex { get; private set; }
 
-		public SpawnAttachedWeaponOnCorpse(Agent agent, int attachedIndex, int forcedIndex)
+		public SpawnAttachedWeaponOnCorpse(int agentIndex, int attachedIndex, int forcedIndex)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.AttachedIndex = attachedIndex;
 			this.ForcedIndex = forcedIndex;
 		}
@@ -27,7 +27,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.AttachedIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.WeaponAttachmentIndexCompressionInfo, ref flag);
 			this.ForcedIndex = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.MissionObjectIDCompressionInfo, ref flag);
 			return flag;
@@ -35,7 +35,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteIntToPacket(this.AttachedIndex, CompressionMission.WeaponAttachmentIndexCompressionInfo);
 			GameNetworkMessage.WriteIntToPacket(this.ForcedIndex, CompressionBasic.MissionObjectIDCompressionInfo);
 		}
@@ -47,13 +47,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"SpawnAttachedWeaponOnCorpse with index: ",
-				this.Agent.Index,
-				", and with ID: ",
-				this.ForcedIndex
-			});
+			return string.Concat(new object[] { "SpawnAttachedWeaponOnCorpse with agent-index: ", this.AgentIndex, ", and with ID: ", this.ForcedIndex });
 		}
 	}
 }

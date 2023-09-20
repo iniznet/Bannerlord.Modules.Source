@@ -200,7 +200,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				formation.SetMovementOrder(MovementOrder.MovementOrderStop);
 				formation.FiringOrder = FiringOrder.FiringOrderHoldYourFire;
-				formation.ReleaseFormationFromAI();
+				formation.SetControlledByAI(false, false);
 			}
 		}
 

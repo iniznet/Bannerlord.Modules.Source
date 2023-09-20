@@ -7,7 +7,7 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetAgentActionSet : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public MBActionSet ActionSet { get; private set; }
 
@@ -21,9 +21,9 @@ namespace NetworkMessages.FromServer
 
 		public float StepSize { get; private set; }
 
-		public SetAgentActionSet(Agent agent, AnimationSystemData animationSystemData)
+		public SetAgentActionSet(int agentIndex, AnimationSystemData animationSystemData)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.ActionSet = animationSystemData.ActionSet;
 			this.NumPaces = animationSystemData.NumPaces;
 			this.MonsterUsageSetIndex = animationSystemData.MonsterUsageSetIndex;
@@ -39,7 +39,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.ActionSet = GameNetworkMessage.ReadActionSetReferenceFromPacket(CompressionMission.ActionSetCompressionInfo, ref flag);
 			this.NumPaces = GameNetworkMessage.ReadIntFromPacket(CompressionMission.NumberOfPacesCompressionInfo, ref flag);
 			this.MonsterUsageSetIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.MonsterUsageSetCompressionInfo, ref flag);
@@ -51,7 +51,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteActionSetReferenceToPacket(this.ActionSet, CompressionMission.ActionSetCompressionInfo);
 			GameNetworkMessage.WriteIntToPacket(this.NumPaces, CompressionMission.NumberOfPacesCompressionInfo);
 			GameNetworkMessage.WriteIntToPacket(this.MonsterUsageSetIndex, CompressionMission.MonsterUsageSetCompressionInfo);
@@ -67,15 +67,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set ActionSet: ",
-				this.ActionSet,
-				" on agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index
-			});
+			return string.Concat(new object[] { "Set ActionSet: ", this.ActionSet, " on agent with agent-index: ", this.AgentIndex });
 		}
 	}
 }

@@ -65,6 +65,16 @@ namespace TaleWorlds.GauntletUI
 			this._emptyCount++;
 		}
 
+		public void Clear()
+		{
+			for (int i = 0; i < this._widgetLists.Length; i++)
+			{
+				this._widgetLists[i].Clear();
+			}
+			this._widgetLists = null;
+			this._emptyCount = 0;
+		}
+
 		internal void RemoveFromIndex(int index)
 		{
 			this._widgetLists[this._currentBufferIndex][index] = this._emptyWidget;

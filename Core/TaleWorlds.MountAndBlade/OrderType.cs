@@ -41,8 +41,6 @@ namespace TaleWorlds.MountAndBlade
 		RideFree,
 		Mount,
 		Dismount,
-		UseAnyWeapon,
-		UseBluntWeaponsOnly,
 		AIControlOn,
 		AIControlOff,
 		Transfer,

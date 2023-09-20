@@ -493,20 +493,13 @@ namespace TaleWorlds.Library
 
 		public static void CollectPropertiesAndMethods()
 		{
-			foreach (Assembly assembly in ViewModel.GetViewModelAssemblies())
+			Assembly[] viewModelAssemblies = ViewModel.GetViewModelAssemblies();
+			for (int i = 0; i < viewModelAssemblies.Length; i++)
 			{
-				Type[] array = new Type[0];
-				try
+				List<Type> typesSafe = viewModelAssemblies[i].GetTypesSafe(null);
+				for (int j = 0; j < typesSafe.Count; j++)
 				{
-					array = assembly.GetTypes();
-				}
-				catch (Exception ex)
-				{
-					Debug.Print(ex.Message, 0, Debug.DebugColor.White, 17592186044416UL);
-					Debug.Print(ex.StackTrace, 0, Debug.DebugColor.White, 17592186044416UL);
-				}
-				foreach (Type type in array)
-				{
+					Type type = typesSafe[j];
 					if (typeof(IViewModel).IsAssignableFrom(type) && typeof(IViewModel) != type)
 					{
 						ViewModel.DataSourceTypeBindingPropertiesCollection propertiesOfType = ViewModel.GetPropertiesOfType(type);

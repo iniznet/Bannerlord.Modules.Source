@@ -102,7 +102,7 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 
 		private const float _modifierFactorLowerLimit = 0.8f;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame wait_pos_ground = MatrixFrame.Zero;
 
 		[EditorVisibleScriptComponentVariable(true)]

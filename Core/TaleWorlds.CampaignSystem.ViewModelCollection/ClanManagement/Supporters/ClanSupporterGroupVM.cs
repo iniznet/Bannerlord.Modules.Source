@@ -34,8 +34,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 		public void Refresh()
 		{
 			TextObject textObject = GameTexts.FindText("str_amount_with_influence_icon", null);
+			this.TotalInfluenceBonus = (float)this.Supporters.Count * this._influenceBonus;
 			TextObject textObject2 = GameTexts.FindText("str_plus_with_number", null);
-			textObject2.SetTextVariable("NUMBER", ((float)this.Supporters.Count * this._influenceBonus).ToString("F2"));
+			textObject2.SetTextVariable("NUMBER", this.TotalInfluenceBonus.ToString("F2"));
 			textObject.SetTextVariable("AMOUNT", textObject2.ToString());
 			textObject.SetTextVariable("INFLUENCE_ICON", "{=!}<img src=\"General\\Icons\\Influence@2x\" extend=\"7\">");
 			this.TotalInfluence = textObject.ToString();
@@ -76,6 +77,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 				{
 					this._titleText = value;
 					base.OnPropertyChangedWithValue<string>(value, "TitleText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public float TotalInfluenceBonus
+		{
+			get
+			{
+				return this._totalInfluenceBonus;
+			}
+			private set
+			{
+				if (value != this._totalInfluenceBonus)
+				{
+					this._totalInfluenceBonus = value;
+					base.OnPropertyChangedWithValue(value, "TotalInfluenceBonus");
 				}
 			}
 		}
@@ -182,5 +200,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.Supporter
 		private bool _isSelected;
 
 		private MBBindingList<ClanSupporterItemVM> _supporters;
+
+		private float _totalInfluenceBonus;
 	}
 }

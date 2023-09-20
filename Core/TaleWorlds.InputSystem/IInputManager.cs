@@ -11,9 +11,13 @@ namespace TaleWorlds.InputSystem
 
 		float GetMouseScrollValue();
 
+		Input.ControllerTypes GetControllerType();
+
 		bool IsMouseActive();
 
 		bool IsControllerConnected();
+
+		bool IsAnyTouchActive();
 
 		void PressKey(InputKey key);
 
@@ -28,6 +32,12 @@ namespace TaleWorlds.InputSystem
 		float GetMouseMoveX();
 
 		float GetMouseMoveY();
+
+		float GetGyroX();
+
+		float GetGyroY();
+
+		float GetGyroZ();
 
 		float GetMouseSensitivity();
 
@@ -53,7 +63,7 @@ namespace TaleWorlds.InputSystem
 
 		void SetCursorFriction(float frictionValue);
 
-		InputKey GetControllerClickKey();
+		InputKey[] GetClickKeys();
 
 		void SetRumbleEffect(float[] lowFrequencyLevels, float[] lowFrequencyDurations, int numLowFrequencyElements, float[] highFrequencyLevels, float[] highFrequencyDurations, int numHighFrequencyElements);
 

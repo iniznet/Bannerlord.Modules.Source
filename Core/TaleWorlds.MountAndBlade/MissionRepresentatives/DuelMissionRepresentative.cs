@@ -96,7 +96,7 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 									onDuelRequestSentEvent(focusedAgent.MissionPeer);
 								}
 								GameNetwork.BeginModuleEventAsClient();
-								GameNetwork.WriteMessage(new NetworkMessages.FromClient.DuelRequest(focusedAgent));
+								GameNetwork.WriteMessage(new NetworkMessages.FromClient.DuelRequest(focusedAgent.Index));
 								GameNetwork.EndModuleEventAsClient();
 								return;
 							}
@@ -131,7 +131,9 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 
 		private void HandleServerEventDuelRequest(NetworkMessages.FromServer.DuelRequest message)
 		{
-			this.DuelRequested(message.RequesterAgent, message.SelectedAreaTroopType);
+			Agent agentFromIndex = Mission.MissionNetworkHelper.GetAgentFromIndex(message.RequesterAgentIndex, false);
+			Mission.MissionNetworkHelper.GetAgentFromIndex(message.RequestedAgentIndex, false);
+			this.DuelRequested(agentFromIndex, message.SelectedAreaTroopType);
 		}
 
 		private void HandleServerEventDuelSessionStarted(DuelSessionStarted message)
@@ -192,7 +194,7 @@ namespace TaleWorlds.MountAndBlade.MissionRepresentatives
 				if (!base.IsMine)
 				{
 					GameNetwork.BeginModuleEventAsServer(base.Peer);
-					GameNetwork.WriteMessage(new NetworkMessages.FromServer.DuelRequest(requesterAgent, base.ControlledAgent, selectedAreaTroopType));
+					GameNetwork.WriteMessage(new NetworkMessages.FromServer.DuelRequest(requesterAgent.Index, base.ControlledAgent.Index, selectedAreaTroopType));
 					GameNetwork.EndModuleEventAsServer();
 					return;
 				}

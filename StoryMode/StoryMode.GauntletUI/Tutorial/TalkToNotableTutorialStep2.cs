@@ -17,12 +17,12 @@ namespace StoryMode.GauntletUI.Tutorial
 
 		public override bool IsConditionsMetForCompletion()
 		{
-			return this._startedTalkingWithNotable;
+			return this._hasTalkedToNotable;
 		}
 
 		public override void OnPlayerStartTalkFromMenuOverlay(Hero hero)
 		{
-			this._startedTalkingWithNotable = hero.IsNotable && !hero.IsPlayerCompanion;
+			this._hasTalkedToNotable = hero.IsHeadman;
 		}
 
 		public override TutorialContexts GetTutorialsRelevantContext()
@@ -35,6 +35,6 @@ namespace StoryMode.GauntletUI.Tutorial
 			return TutorialHelper.CurrentContext == 4 && TutorialHelper.IsCharacterPopUpWindowOpen;
 		}
 
-		private bool _startedTalkingWithNotable;
+		private bool _hasTalkedToNotable;
 	}
 }

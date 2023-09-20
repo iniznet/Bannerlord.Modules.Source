@@ -26,14 +26,10 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 			isFromWidget = false;
 			float scale = scope.ParentWidget.EventManager.Context.Scale;
-			Vector2 vector;
-			vector..ctor(discoveryRectangle.X, discoveryRectangle.Y);
-			Vector2 vector2;
-			vector2..ctor(discoveryRectangle.X2, discoveryRectangle.Y);
-			Vector2 vector3;
-			vector3..ctor(discoveryRectangle.X2, discoveryRectangle.Y2);
-			Vector2 vector4;
-			vector4..ctor(discoveryRectangle.X, discoveryRectangle.Y2);
+			Vector2 vector = new Vector2(discoveryRectangle.X, discoveryRectangle.Y);
+			Vector2 vector2 = new Vector2(discoveryRectangle.X2, discoveryRectangle.Y);
+			Vector2 vector3 = new Vector2(discoveryRectangle.X2, discoveryRectangle.Y2);
+			Vector2 vector4 = new Vector2(discoveryRectangle.X, discoveryRectangle.Y2);
 			if (movement == GamepadNavigationTypes.Up)
 			{
 				lineBegin = vector4;
@@ -65,11 +61,9 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 		internal static void GetRelatedLineOfWidget(Widget widget, GamepadNavigationTypes movement, out Vector2 lineBegin, out Vector2 lineEnd)
 		{
 			Vector2 globalPosition = widget.GlobalPosition;
-			Vector2 vector;
-			vector..ctor(widget.GlobalPosition.X + widget.Size.X, widget.GlobalPosition.Y);
+			Vector2 vector = new Vector2(widget.GlobalPosition.X + widget.Size.X, widget.GlobalPosition.Y);
 			Vector2 vector2 = widget.GlobalPosition + widget.Size;
-			Vector2 vector3;
-			vector3..ctor(widget.GlobalPosition.X, widget.GlobalPosition.Y + widget.Size.Y);
+			Vector2 vector3 = new Vector2(widget.GlobalPosition.X, widget.GlobalPosition.Y + widget.Size.Y);
 			if (movement == GamepadNavigationTypes.Up)
 			{
 				lineBegin = vector3;
@@ -105,37 +99,29 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			Rectangle rectangle = new Rectangle(globalPosition.X, globalPosition.Y, size.X, size.Y);
 			if (movement == GamepadNavigationTypes.Up)
 			{
-				Vector2 vector;
-				vector..ctor(rectangle.X, rectangle.Y2);
-				Vector2 vector2;
-				vector2..ctor(rectangle.X2, rectangle.Y2);
+				Vector2 vector = new Vector2(rectangle.X, rectangle.Y2);
+				Vector2 vector2 = new Vector2(rectangle.X2, rectangle.Y2);
 				closestPointOnEdge = GamepadNavigationHelper.GetClosestPointOnLineSegment(vector, vector2, point);
 				return Vector2.Distance(closestPointOnEdge, point);
 			}
 			if (movement == GamepadNavigationTypes.Right)
 			{
-				Vector2 vector3;
-				vector3..ctor(rectangle.X, rectangle.Y);
-				Vector2 vector4;
-				vector4..ctor(rectangle.X, rectangle.Y2);
+				Vector2 vector3 = new Vector2(rectangle.X, rectangle.Y);
+				Vector2 vector4 = new Vector2(rectangle.X, rectangle.Y2);
 				closestPointOnEdge = GamepadNavigationHelper.GetClosestPointOnLineSegment(vector3, vector4, point);
 				return Vector2.Distance(closestPointOnEdge, point);
 			}
 			if (movement == GamepadNavigationTypes.Down)
 			{
-				Vector2 vector5;
-				vector5..ctor(rectangle.X, rectangle.Y);
-				Vector2 vector6;
-				vector6..ctor(rectangle.X2, rectangle.Y);
+				Vector2 vector5 = new Vector2(rectangle.X, rectangle.Y);
+				Vector2 vector6 = new Vector2(rectangle.X2, rectangle.Y);
 				closestPointOnEdge = GamepadNavigationHelper.GetClosestPointOnLineSegment(vector5, vector6, point);
 				return Vector2.Distance(closestPointOnEdge, point);
 			}
 			if (movement == GamepadNavigationTypes.Left)
 			{
-				Vector2 vector7;
-				vector7..ctor(rectangle.X2, rectangle.Y);
-				Vector2 vector8;
-				vector8..ctor(rectangle.X2, rectangle.Y2);
+				Vector2 vector7 = new Vector2(rectangle.X2, rectangle.Y);
+				Vector2 vector8 = new Vector2(rectangle.X2, rectangle.Y2);
 				closestPointOnEdge = GamepadNavigationHelper.GetClosestPointOnLineSegment(vector7, vector8, point);
 				return Vector2.Distance(closestPointOnEdge, point);
 			}
@@ -190,10 +176,11 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 
 		internal static Vector2 GetMovementVectorForNavigation(GamepadNavigationTypes navigationMovement)
 		{
-			Vector2 vector = default(Vector2);
-			vector.X = (float)((navigationMovement == GamepadNavigationTypes.Right) ? 1 : ((navigationMovement == GamepadNavigationTypes.Left) ? (-1) : 0));
-			vector.Y = (float)((navigationMovement == GamepadNavigationTypes.Up) ? (-1) : ((navigationMovement == GamepadNavigationTypes.Down) ? 1 : 0));
-			return Vector2.Normalize(vector);
+			return Vector2.Normalize(new Vector2
+			{
+				X = (float)((navigationMovement == GamepadNavigationTypes.Right) ? 1 : ((navigationMovement == GamepadNavigationTypes.Left) ? (-1) : 0)),
+				Y = (float)((navigationMovement == GamepadNavigationTypes.Up) ? (-1) : ((navigationMovement == GamepadNavigationTypes.Down) ? 1 : 0))
+			});
 		}
 
 		internal static GamepadNavigationScope GetClosestChildScopeAtDirection(GamepadNavigationScope parentScope, Vector2 fromPosition, GamepadNavigationTypes movement, bool checkForAutoGain, out float distanceToScope)

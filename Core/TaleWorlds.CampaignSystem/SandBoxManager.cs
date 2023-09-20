@@ -5,9 +5,7 @@ using TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors;
 using TaleWorlds.CampaignSystem.CampaignBehaviors.BarterBehaviors;
 using TaleWorlds.CampaignSystem.CampaignBehaviors.CommentBehaviors;
 using TaleWorlds.CampaignSystem.GameComponents;
-using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.Issues;
-using TaleWorlds.CampaignSystem.Overlay;
 using TaleWorlds.CampaignSystem.TournamentGames;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -38,7 +36,6 @@ namespace TaleWorlds.CampaignSystem
 		public void Initialize(CampaignGameStarter gameStarter)
 		{
 			this.GameStarter = gameStarter;
-			SandBoxManager.AddGameTests(gameStarter);
 			gameStarter.AddBehavior(new PartyUpgraderCampaignBehavior());
 			gameStarter.AddBehavior(new EncounterGameMenuBehavior());
 			gameStarter.AddBehavior(new PlayerCaptivityCampaignBehavior());
@@ -70,6 +67,7 @@ namespace TaleWorlds.CampaignSystem
 			gameStarter.AddBehavior(new SettlementClaimantCampaignBehavior());
 			gameStarter.AddBehavior(new TradeRumorsCampaignBehavior());
 			gameStarter.AddBehavior(new NotablesCampaignBehavior());
+			gameStarter.AddBehavior(new LordConversationsCampaignBehavior());
 			gameStarter.AddBehavior(new CompanionsCampaignBehavior());
 			gameStarter.AddBehavior(new RetrainOutlawPartyMembersBehavior());
 			gameStarter.AddBehavior(new RecruitPrisonersCampaignBehavior());
@@ -141,7 +139,7 @@ namespace TaleWorlds.CampaignSystem
 			gameStarter.AddBehavior(new CrimeCampaignBehavior());
 			gameStarter.AddBehavior(new PlayerArmyWaitBehavior());
 			gameStarter.AddBehavior(new ClanVariablesCampaignBehavior());
-			gameStarter.AddBehavior(new CheatsCampaignBehavior());
+			gameStarter.AddBehavior(new FactionDiscontinuationCampaignBehavior());
 			gameStarter.AddBehavior(new AgingCampaignBehavior());
 			gameStarter.AddBehavior(new BattleCampaignBehavior());
 			gameStarter.AddBehavior(new WorkshopsCampaignBehavior());
@@ -185,6 +183,7 @@ namespace TaleWorlds.CampaignSystem
 			gameStarter.AddBehavior(new LordNeedsGarrisonTroopsIssueQuestBehavior());
 			gameStarter.AddBehavior(new TheConquestOfSettlementIssueBehavior());
 			gameStarter.AddBehavior(new VillageNeedsCraftingMaterialsIssueBehavior());
+			gameStarter.AddBehavior(new SmugglersIssueBehavior());
 			gameStarter.AddBehavior(new LordNeedsHorsesIssueBehavior());
 			gameStarter.AddBehavior(new LordsNeedsTutorIssueBehavior());
 			gameStarter.AddBehavior(new LordWantsRivalCapturedIssueBehavior());
@@ -195,6 +194,7 @@ namespace TaleWorlds.CampaignSystem
 			gameStarter.AddBehavior(new ScoutEnemyGarrisonsIssueBehavior());
 			gameStarter.AddBehavior(new VillageNeedsToolsIssueBehavior());
 			gameStarter.AddBehavior(new GangLeaderNeedsRecruitsIssueBehavior());
+			gameStarter.AddBehavior(new GangLeaderNeedsSpecialWeaponsIssueBehavior());
 			gameStarter.AddBehavior(new LesserNobleRevoltIssueBehavior());
 			gameStarter.AddBehavior(new BettingFraudIssueBehavior());
 			gameStarter.AddBehavior(new DiscardItemsCampaignBehavior());
@@ -202,6 +202,7 @@ namespace TaleWorlds.CampaignSystem
 			gameStarter.AddBehavior(new DisorganizedStateCampaignBehavior());
 			gameStarter.AddBehavior(new PerkResetCampaignBehavior());
 			gameStarter.AddBehavior(new SiegeAmbushCampaignBehavior());
+			gameStarter.AddBehavior(new MapWeatherCampaignBehavior());
 			gameStarter.AddModel(new DefaultCharacterDevelopmentModel());
 			gameStarter.AddModel(new DefaultValuationModel());
 			gameStarter.AddModel(new DefaultItemDiscardModel());
@@ -371,7 +372,7 @@ namespace TaleWorlds.CampaignSystem
 						}
 						else
 						{
-							Debug.FailedAssert("saved a characterobject but not its heroobject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\SandBoxManager.cs", "InitializeCharactersAfterLoad", 431);
+							Debug.FailedAssert("saved a characterobject but not its heroobject", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\SandBoxManager.cs", "InitializeCharactersAfterLoad", 436);
 							list.Add(characterObject);
 						}
 					}
@@ -381,17 +382,6 @@ namespace TaleWorlds.CampaignSystem
 					Campaign.Current.ObjectManager.UnregisterObject(characterObject2);
 				}
 			}
-		}
-
-		private static void AddGameTests(CampaignGameStarter gameInitializer)
-		{
-			gameInitializer.AddGameMenu("leave", "{=!}You shouldn't see this.", null, GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.AutoSelectFirst, null);
-			gameInitializer.AddGameMenuOption("leave", "none", "", null, delegate(MenuCallbackArgs args)
-			{
-				GameMenu.ExitToLast();
-			}, false, -1, false, null);
-			GenericTestStatics.AddGameMenus(gameInitializer);
-			CampaignSiegeTestStatic.AddGameMenu(gameInitializer);
 		}
 
 		protected override void OnTick(float dt)

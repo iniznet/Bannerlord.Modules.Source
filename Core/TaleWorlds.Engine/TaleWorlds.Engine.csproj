@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D5E}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C77}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Engine</RootNamespace>
     <AssemblyName>TaleWorlds.Engine</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,10 +30,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="netstandard" />
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -65,6 +66,7 @@
     <Compile Include="EngineScreenManager.cs" />
     <Compile Include="EntityFlags.cs" />
     <Compile Include="EntityVisibilityFlags.cs" />
+    <Compile Include="FtlCapsuleData.cs" />
     <Compile Include="GameEntity.cs" />
     <Compile Include="GameEntityComponent.cs" />
     <Compile Include="GameEntityPhysicsExtensions.cs" />
@@ -100,6 +102,7 @@
     <Compile Include="InputSystem\DebugHotKeyCategory.cs" />
     <Compile Include="InputSystem\EngineInputManager.cs" />
     <Compile Include="Intersection.cs" />
+    <Compile Include="IntersectionDetails.cs" />
     <Compile Include="IntersectionType.cs" />
     <Compile Include="IParticleSystem.cs" />
     <Compile Include="IPath.cs" />
@@ -208,28 +211,24 @@
     <Compile Include="ZValidityState.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.DotNet\TaleWorlds.DotNet.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d5d}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c76}</Project>
       <Name>TaleWorlds.DotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d66}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7f}</Project>
       <Name>TaleWorlds.InputSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d6a}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c83}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ScreenSystem\TaleWorlds.ScreenSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d7c}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c96}</Project>
       <Name>TaleWorlds.ScreenSystem</Name>
     </ProjectReference>
   </ItemGroup>

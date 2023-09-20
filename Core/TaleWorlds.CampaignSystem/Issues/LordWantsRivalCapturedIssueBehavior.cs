@@ -14,7 +14,6 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.Issues
@@ -50,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						Func<Hero, bool> func;
 						if ((func = <>9__1) == null)
 						{
-							func = (<>9__1 = (Hero noble) => noble.IsAlive && !noble.IsFactionLeader && noble.PartyBelongedTo != null && noble.PartyBelongedTo.MemberRoster.TotalHealthyCount >= 50 && (float)noble.GetRelation(issueGiver) <= -10f);
+							func = (<>9__1 = (Hero noble) => noble.IsAlive && !noble.IsKingdomLeader && noble.PartyBelongedTo != null && noble.PartyBelongedTo.MemberRoster.TotalHealthyCount >= 50 && (float)noble.GetRelation(issueGiver) <= -10f);
 						}
 						targetHero = lords.GetRandomElementWithPredicate(func);
 						num2++;
@@ -120,7 +119,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=uc4M4bhG}Well, there is something I want. There is one {?TARGET_HERO.GENDER}lady{?}lord{\\?} of the {TARGET_FACTION} with whom I have a long, long relationship. And not a friendly one. Even though we are not now at war, as long as {?TARGET_HERO.GENDER}she{?}he{\\?} is free, I know my life and lands are not safe. As I say, it won't be easy at all. But whoever manages to do that, bring {?TARGET_HERO.GENDER}her{?}him{\\?} back alive to me, having my gratitude aside, will be a very rich man indeed.", null);
+					TextObject textObject = new TextObject("{=uc4M4bhG}Well, there is something I want. There is one {?TARGET_HERO.GENDER}lady{?}lord{\\?} of the {TARGET_FACTION} with whom I have a long, long relationship. And not a friendly one. Even though we are not now at war, as long as {?TARGET_HERO.GENDER}she{?}he{\\?} is free, I know my life and lands are not safe. As I say, it won't be easy at all. But whoever manages to do that, bring {?TARGET_HERO.GENDER}her{?}him{\\?} back alive to me, having my gratitude aside, will be a very rich man indeed.[if:convo_grave][ib:closed2]", null);
 					StringHelpers.SetCharacterProperties("TARGET_HERO", this._targetHero.CharacterObject, textObject, false);
 					textObject.SetTextVariable("TARGET_FACTION", this._targetHero.Clan.Name);
 					return textObject;
@@ -141,7 +140,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=zKhvUmeH}{?TARGET_HERO.GENDER}She{?}He{\\?} is {TARGET_HERO.NAME} from {TARGET_HERO.CLAN}. I want {?TARGET_HERO.GENDER}her{?}him{\\?} brought to me, so I can settle this score once and for all. I have {BASE_REWARD}{GOLD_ICON} that I have set aside. If you can bring me {TARGET_HERO.LINK} alive within a year, it is yours to claim.", null);
+					TextObject textObject = new TextObject("{=zKhvUmeH}{?TARGET_HERO.GENDER}She{?}He{\\?} is {TARGET_HERO.NAME} from {TARGET_HERO.CLAN}. I want {?TARGET_HERO.GENDER}her{?}him{\\?} brought to me, so I can settle this score once and for all. I have {BASE_REWARD}{GOLD_ICON} that I have set aside. If you can bring me {TARGET_HERO.LINK} alive within a year, it is yours to claim.[if:convo_bared_teeth][ib:closed2]", null);
 					StringHelpers.SetCharacterProperties("TARGET_HERO", this._targetHero.CharacterObject, textObject, true);
 					textObject.SetTextVariable("BASE_REWARD", this.RewardGold);
 					GameTexts.SetVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -248,6 +247,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -402,17 +405,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private TextObject _targetDiedLogText
-			{
-				get
-				{
-					TextObject textObject = new TextObject("{=Ny2i62w5}{TARGET_HERO} died and your agreement with {ISSUE_OWNER.LINK} has been canceled.", null);
-					StringHelpers.SetCharacterProperties("TARGET_HERO", this._targetHero.CharacterObject, textObject, false);
-					StringHelpers.SetCharacterProperties("ISSUE_OWNER", base.QuestGiver.CharacterObject, textObject, false);
-					return textObject;
-				}
-			}
-
 			private TextObject _questGiverCapturedTargetHero
 			{
 				get
@@ -472,7 +464,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=qaKh6vRl}Let's see if you are as good as your word. If you really manage, I admit, I will be very impressed. I look forward to meeting you again.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=qaKh6vRl}Let's see if you are as good as your word. If you really manage, I admit, I will be very impressed. I look forward to meeting you again.[if:convo_mocking_aristocratic][ib:closed]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=xFHb9nAk}Have you been able to find {?TARGET_HERO.GENDER}her{?}his{\\?} whereabouts yet?", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
@@ -483,17 +475,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=ZkVP4RYV}Yes, I've captured {?TARGET_HERO.GENDER}her{?}him{\\?}.", null), null)
 					.Condition(() => this.PlayerCapturedTargetHero)
-					.NpcLine(new TextObject("{=qvlln5ej}Thanks, I knew I could trust you.", null), null, null)
+					.NpcLine(new TextObject("{=qvlln5ej}Thanks, I knew I could trust you.[if:convo_happy][ib:confident2]", null), null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.PlayerDeliveredPrisonerQuestSuccess;
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=fwQtClVo}I will deal with {?TARGET_HERO.GENDER}her{?}him{\\?} right away! ", null), null)
-					.NpcLine(new TextObject("{=fr4F4IQc}It's good to hear that, {PLAYER.NAME}. ", null), null, null)
+					.NpcLine(new TextObject("{=fr4F4IQc}It's good to hear that, {PLAYER.NAME}.[if:convo_relaxed_happy][ib:hip] ", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=18NtjryL}Not yet, but I will soon.", null), null)
-					.NpcLine(new TextObject("{=zs8rZnf8}I will be waiting for your good news {PLAYER.NAME}.", null), null, null)
+					.NpcLine(new TextObject("{=zs8rZnf8}I will be waiting for your good news {PLAYER.NAME}.[if:convo_relaxed_happy][ib:hip]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetTargetHeroDialogFlow(), this);
@@ -504,17 +496,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetTargetHeroDialogFlow()
 			{
-				TextObject textObject = new TextObject("{=Mn4bI9Jg}What are you doing? Are you another one of {QUEST_GIVER.NAME}'s lackeys? Do you think you can hunt me like an animal.[ib:closed][if:convo_angry]", null);
+				TextObject textObject = new TextObject("{=Mn4bI9Jg}What are you doing? Are you another one of {QUEST_GIVER.NAME}'s lackeys? Do you think you can hunt me like an animal.[if:convo_confused_normal][ib:closed]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
-				TextObject textObject2 = new TextObject("{=qOhDHFyH}Are you another one of {QUEST_GIVER.NAME}'s lackeys? Did {?QUEST_GIVER.GENDER}she{?}he{\\?} send you to hunt me like an animal? Well, I think you've found you've caught not a hare but a lion.", null);
+				TextObject textObject2 = new TextObject("{=qOhDHFyH}Are you another one of {QUEST_GIVER.NAME}'s lackeys? Did {?QUEST_GIVER.GENDER}she{?}he{\\?} send you to hunt me like an animal? Well, I think you've found you've caught not a hare but a lion.[if:convo_confused_annoyed][ib:aggressive]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject2, false);
 				return DialogFlow.CreateDialogFlow("start", 125).BeginNpcOptions().NpcOption(textObject2, new ConversationSentence.OnConditionDelegate(this.target_hero_encounter_agressive_condition), null, null)
-					.NpcLine(new TextObject("{=TzvGs0v1}Well I guess it's too late to change your mind now, I decided to make an example of you.", null), null, null)
+					.NpcLine(new TextObject("{=TzvGs0v1}Well I guess it's too late to change your mind now, I decided to make an example of you.[if:convo_furious][ib:warrior]", null), null, null)
 					.CloseDialog()
 					.NpcOption(textObject, new ConversationSentence.OnConditionDelegate(this.target_hero_encounter_default_condition), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=WoAgHDrN}I'm bringing you in, one way or the other.", null), null)
-					.NpcLine(new TextObject("{=hzCTbbLP}You think you've caught a hare but instead you've caught a lion.[ib:closed][if:convo_bared_teeth]", null), null, null)
+					.NpcLine(new TextObject("{=hzCTbbLP}You think you've caught a hare but instead you've caught a lion.[if:convo_furious][ib:warrior]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.player_target_hero_encounter_consequence))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=pZm7HRDG}Don't worry I have no intention to attack.", null), null)
@@ -530,13 +522,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetTargetHeroCounterOffer1DialogFlow()
 			{
-				TextObject textObject = new TextObject("{=dYa9oVSP}Fate is cruel. So, I am your prisoner. But you don't need to do {QUEST_GIVER.NAME}'s dirty work. For the sake of your honor, {?PLAYER.GENDER}lady{?}sir{\\?}, listen to me!", null);
+				TextObject textObject = new TextObject("{=dYa9oVSP}Fate is cruel. So, I am your prisoner. But you don't need to do {QUEST_GIVER.NAME}'s dirty work. For the sake of your honor, {?PLAYER.GENDER}lady{?}sir{\\?}, listen to me![if:convo_nervous2][ib:nervous]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
-				TextObject textObject2 = new TextObject("{=zliqo1Y8}{?PLAYER.GENDER}Madam{?}Sir{\\?}, I will pay double whatever {?QUEST_GIVER.GENDER}she{?}he{\\?} promised to release me. Believe me, you don't want a reputation as {?QUEST_GIVER.GENDER}her{?}his{\\?} kidnapper-for-hire.", null);
+				TextObject textObject2 = new TextObject("{=zliqo1Y8}{?PLAYER.GENDER}Madam{?}Sir{\\?}, I will pay double whatever {?QUEST_GIVER.GENDER}she{?}he{\\?} promised to release me. Believe me, you don't want a reputation as {?QUEST_GIVER.GENDER}her{?}his{\\?} kidnapper-for-hire.[if:convo_grave][ib:normal2]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
-				TextObject textObject3 = new TextObject("{=uBcBuDKV}It's no worse than taking {QUEST_GIVER.NAME}'s silver in the first place for this task. Do think it over.", null);
+				TextObject textObject3 = new TextObject("{=uBcBuDKV}It's no worse than taking {QUEST_GIVER.NAME}'s silver in the first place for this task. Do think it over.[if:convo_normal][ib:normal]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(textObject, null, null).Condition(new ConversationSentence.OnConditionDelegate(this.after_taken_prisoner_counter_offer_condition))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.FirstCounterOfferFinished))
@@ -546,10 +538,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=rFriAZcL}Can you really pay me {BASE_REWARD_X_2}{GOLD_ICON} for your freedom?", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.set_reward_x_2_and_gold_icon))
-					.NpcLine(new TextObject("{=59ijHPtR}Yes. That is a lot but yes I can pay that.", null), null, null)
+					.NpcLine(new TextObject("{=59ijHPtR}Yes. That is a lot but yes I can pay that.[if:convo_nonchalant][ib:confident]", null), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=E8wdxbui}All right, I accept. I release you now. Now pay me.", null), null)
-					.NpcLine(new TextObject("{=bWbcuOji}Yes. That is a lot but yes I can pay that. Thank you {?PLAYER.GENDER}milady{?}my Lord{\\?}. I knew we could reach an agreement.", null), null, null)
+					.NpcLine(new TextObject("{=bWbcuOji}Yes. That is a lot but yes I can pay that. Thank you {?PLAYER.GENDER}milady{?}my Lord{\\?}. I knew we could reach an agreement.[if:convo_grateful][ib:confident]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestFailCounterOfferAccepted))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=MacG8ikN}I will think about it.", null), null)
@@ -561,7 +553,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.CloseDialog()
 					.EndPlayerOptions()
 					.PlayerOption(new TextObject("{=2v0eQ755}Sorry, not interested.", null), null)
-					.NpcLine(new TextObject("{=D1biQObM}I will pay double whatever {ISSUE_OWNER.NAME} is paying you! Please consider my offer!", null), null, null)
+					.NpcLine(new TextObject("{=D1biQObM}I will pay double whatever {ISSUE_OWNER.NAME} is paying you! Please consider my offer![if:convo_nervous2][ib:nervous]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 			}
@@ -582,18 +574,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetQuestGiversAgentDialogFlow()
 			{
-				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=lYhWyuCM}Greetings {?PLAYER.GENDER}milady{?}sir{\\?}, {QUEST_GIVER.NAME} has sent me to collect {TARGET_HERO.NAME}.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.quest_givers_agent_dialog_condition))
+				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=lYhWyuCM}Greetings {?PLAYER.GENDER}milady{?}sir{\\?}, {QUEST_GIVER.NAME} has sent me to collect {TARGET_HERO.NAME}.[if:convo_nonchalant][ib:demure2]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.quest_givers_agent_dialog_condition))
 					.NpcLine(new TextObject("{=1PCaW5YI}My liege {QUEST_GIVER.NAME} also instructed me to present you the sum of {REWARD_GOLD}{GOLD_ICON} denars for the prisoners exchange.", null), null, null)
-					.NpcLine(new TextObject("{=Mt1cSesD}My {?PLAYER.GENDER}lady{?}lord{\\?} also instructed me to express {?QUEST_GIVER.GENDER}her{?}his{\\?} gratitude for your services, and admiration for your skill.", null), null, null)
+					.NpcLine(new TextObject("{=Mt1cSesD}My {?PLAYER.GENDER}lady{?}lord{\\?} also instructed me to express {?PLAYER.GENDER}her{?}his{\\?} gratitude for your services, and admiration for your skill.[if:convo_bemused][ib:demure]", null), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=itHCs6bB}I'm delivering {?TARGET_HERO.GENDER}her{?}him{\\?} as I promised.", null), null)
-					.NpcLine(new TextObject("{=RScf2bnd}Thank you {?PLAYER.GENDER}milady{?}sir{\\?}. My liege {?QUEST_GIVER.GENDER}lady{?}lord{\\?} {QUEST_GIVER.NAME} sends {?QUEST_GIVER.GENDER}her{?}his{\\?} regards. Here is the reward {?QUEST_GIVER.GENDER}she{?}he{\\?} has promised. I must take my leave now.", null), null, null)
+					.NpcLine(new TextObject("{=RScf2bnd}Thank you {?PLAYER.GENDER}milady{?}sir{\\?}. My liege {?QUEST_GIVER.GENDER}lady{?}lord{\\?} {QUEST_GIVER.NAME} sends {?QUEST_GIVER.GENDER}her{?}his{\\?} regards. Here is the reward {?QUEST_GIVER.GENDER}she{?}he{\\?} has promised. I must take my leave now.[if:convo_bemused][ib:demure]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.PlayerDeliveredPrisonerQuestSuccess))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=uHY7NqZf}I can't do this. I am releasing {TARGET_HERO.NAME}. Tell your master that {TARGET_HERO.NAME} is no longer a prisoner.", null), null)
-					.NpcLine(new TextObject("{=A8NttdZY}My {?QUEST_GIVER.GENDER}lady{?}lord{\\?} will be furious that you are going back on your word.", null), null, null)
+					.NpcLine(new TextObject("{=A8NttdZY}My {?QUEST_GIVER.GENDER}lady{?}lord{\\?} will be furious that you are going back on your word.[if:convo_annoyed][ib:closed2]", null), null, null)
 					.PlayerLine(new TextObject("{=UaSddsa2}My decision is final.", null), null)
-					.NpcLine(new TextObject("{=XrUPGyRO}You will regret your decision...", null), null, null)
+					.NpcLine(new TextObject("{=XrUPGyRO}You will regret your decision...[if:convo_grave][ib:closed]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestFailCounterOfferAccepted));
@@ -706,6 +698,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.OnPlayerBattleEndEvent.AddNonSerializedListener(this, new Action<MapEvent>(this.OnPlayerBattleEventEnded));
@@ -749,18 +745,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 			{
-				if (victim == this._targetHero)
+				if (victim == this._targetHero && killer == Hero.MainHero)
 				{
-					if (killer == Hero.MainHero)
-					{
-						base.AddLog(this._targetKilledByPlayerLogText, false);
-						GainRenownAction.Apply(Hero.MainHero, 10f, false);
-						this.RelationshipChangeWithQuestGiver = 10;
-						base.CompleteQuestWithSuccess();
-						return;
-					}
-					base.CompleteQuestWithCancel(null);
-					base.AddLog(this._targetDiedLogText, false);
+					base.AddLog(this._targetKilledByPlayerLogText, false);
+					GainRenownAction.Apply(Hero.MainHero, 10f, false);
+					this.RelationshipChangeWithQuestGiver = 10;
+					base.CompleteQuestWithSuccess();
 				}
 			}
 
@@ -768,7 +758,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				if (this.PlayerCapturedTargetHero && hero == Hero.MainHero && party == MobileParty.MainParty && settlement.IsFortification && settlement.OwnerClan == base.QuestGiver.Clan)
 				{
-					this._questGiversAgentCharacterObject = MBObjectManager.Instance.GetObject<CharacterObject>("guard_" + base.QuestGiver.Culture.StringId);
+					this._questGiversAgentCharacterObject = base.QuestGiver.Culture.Guard;
 					CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, PartyBase.MainParty, false, false, false, false, false, false), new ConversationCharacterData(this._questGiversAgentCharacterObject, null, false, false, false, false, false, false));
 				}
 			}

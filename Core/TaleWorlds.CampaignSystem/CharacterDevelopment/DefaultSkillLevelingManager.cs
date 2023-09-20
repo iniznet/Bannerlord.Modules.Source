@@ -254,10 +254,15 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		public void OnPrisonerSell(MobileParty mobileParty, float count)
+		public void OnPrisonerSell(MobileParty mobileParty, in TroopRoster prisonerRoster)
 		{
-			float num = 6f * count;
-			DefaultSkillLevelingManager.OnPartySkillExercised(mobileParty, DefaultSkills.Roguery, num, SkillEffect.PerkRole.PartyLeader);
+			int num = 0;
+			for (int i = 0; i < prisonerRoster.Count; i++)
+			{
+				num += prisonerRoster.data[i].Character.Tier * prisonerRoster.data[i].Number;
+			}
+			int num2 = num * 2;
+			DefaultSkillLevelingManager.OnPartySkillExercised(mobileParty, DefaultSkills.Roguery, (float)num2, SkillEffect.PerkRole.PartyLeader);
 		}
 
 		public void OnSurgeryApplied(MobileParty party, bool surgerySuccess, int troopTier)
@@ -440,20 +445,21 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				foreach (FlattenedTroopRosterElement flattenedTroopRosterElement in flattenedTroopRoster)
 				{
 					CharacterObject troop = flattenedTroopRosterElement.Troop;
-					bool flag = Campaign.Current.Models.PartyTroopUpgradeModel.CanTroopGainXp(party, troop);
+					int num;
+					bool flag = MobilePartyHelper.CanTroopGainXp(party, troop, out num);
 					if (!flattenedTroopRosterElement.IsKilled && flattenedTroopRosterElement.XpGained > 0 && !flag)
 					{
-						float num = ((troop.Occupation == Occupation.Bandit) ? 0.05f : 0.025f);
-						float num2 = (float)flattenedTroopRosterElement.XpGained * num;
+						float num2 = ((troop.Occupation == Occupation.Bandit) ? 0.05f : 0.025f);
+						float num3 = (float)flattenedTroopRosterElement.XpGained * num2;
 						SkillObject skillObject = ((troop.Occupation == Occupation.Bandit) ? DefaultSkills.Roguery : DefaultSkills.Leadership);
-						float num3;
-						if (dictionary.TryGetValue(skillObject, out num3))
+						float num4;
+						if (dictionary.TryGetValue(skillObject, out num4))
 						{
-							dictionary[skillObject] = num3 + num2;
+							dictionary[skillObject] = num4 + num3;
 						}
 						else
 						{
-							dictionary[skillObject] = num2;
+							dictionary[skillObject] = num3;
 						}
 					}
 				}
@@ -510,6 +516,11 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
+		public void OnWarehouseProduction(EquipmentElement production)
+		{
+			Hero.MainHero.AddSkillXp(DefaultSkills.Trade, Campaign.Current.Models.WorkshopModel.GetTradeXpPerWarehouseProduction(production));
+		}
+
 		private static void OnPersonalSkillExercised(Hero hero, SkillObject skill, float skillXp, bool shouldNotify = true)
 		{
 			if (hero != null)
@@ -546,6 +557,11 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 				return;
 			}
 			effectiveRoleHolder.AddSkillXp(skill, skillXp);
+		}
+
+		void ISkillLevelingManager.OnPrisonerSell(MobileParty mobileParty, in TroopRoster prisonerRoster)
+		{
+			this.OnPrisonerSell(mobileParty, prisonerRoster);
 		}
 
 		private const float TacticsXpCoefficient = 0.02f;

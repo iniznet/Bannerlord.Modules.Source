@@ -58,6 +58,32 @@ namespace TaleWorlds.MountAndBlade
 			{
 				base.Formation.FormOrder = FormOrder.FormOrderCustom(this._tacticalArcherPosition.Width);
 			}
+			foreach (Team team in base.Formation.Team.Mission.Teams)
+			{
+				if (team.IsEnemyOf(base.Formation.Team))
+				{
+					if (!this._areStrategicArcherAreasAbandoned)
+					{
+						if (team.QuerySystem.InsideWallsRatio > 0.6f)
+						{
+							base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
+							this._areStrategicArcherAreasAbandoned = true;
+							break;
+						}
+						break;
+					}
+					else
+					{
+						if (team.QuerySystem.InsideWallsRatio <= 0.4f)
+						{
+							base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderScatter;
+							this._areStrategicArcherAreasAbandoned = false;
+							break;
+						}
+						break;
+					}
+				}
+			}
 		}
 
 		protected override void OnBehaviorActivatedAux()
@@ -67,7 +93,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderScatter;
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderWide;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		public override float NavmeshlessTargetPositionPenalty
@@ -86,5 +111,7 @@ namespace TaleWorlds.MountAndBlade
 		private GameEntity _archerPosition;
 
 		private TacticalPosition _tacticalArcherPosition;
+
+		private bool _areStrategicArcherAreasAbandoned;
 	}
 }

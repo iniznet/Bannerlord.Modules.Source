@@ -83,10 +83,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 						defenderChanged = true;
 						this._defenderLeadingParty = new GameMenuPartyItemVM(new Action<GameMenuPartyItemVM>(this.ExecuteOnSetAsActiveContextMenuItem), settlement);
 					}
-					if (this._attackerLeadingParty == null || this._attackerLeadingParty.Party != siegeEvent.BesiegerCamp.BesiegerParty.Party)
+					if (this._attackerLeadingParty == null || this._attackerLeadingParty.Party != siegeEvent.BesiegerCamp.LeaderParty.Party)
 					{
 						attackerChanged = true;
-						this._attackerLeadingParty = new GameMenuPartyItemVM(new Action<GameMenuPartyItemVM>(this.ExecuteOnSetAsActiveContextMenuItem), siegeEvent.BesiegerCamp.BesiegerParty.Party, false);
+						this._attackerLeadingParty = new GameMenuPartyItemVM(new Action<GameMenuPartyItemVM>(this.ExecuteOnSetAsActiveContextMenuItem), siegeEvent.BesiegerCamp.LeaderParty.Party, false);
 					}
 					this.DefenderWallHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetSiegeWallTooltip(settlement.Town.GetWallLevel(), MathF.Ceiling(settlement.SettlementTotalWallHitPoints)));
 					this.IsSiege = true;
@@ -906,13 +906,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 				double num2 = 0.0;
 				foreach (GameMenuPartyItemVM gameMenuPartyItemVM2 in mbbindingList)
 				{
-					int num3 = MathF.Ceiling(gameMenuPartyItemVM2.Party.MobileParty.Food / -gameMenuPartyItemVM2.Party.MobileParty.FoodChange);
-					num2 += (double)Math.Max(num3, 0);
+					float num3 = gameMenuPartyItemVM2.Party.MobileParty.Food / -gameMenuPartyItemVM2.Party.MobileParty.FoodChange;
+					num2 += (double)Math.Max(num3, 0f);
 					string daysUntilNoFood = CampaignUIHelper.GetDaysUntilNoFood(gameMenuPartyItemVM2.Party.MobileParty.Food, gameMenuPartyItemVM2.Party.MobileParty.FoodChange);
 					list.Add(new TooltipProperty(gameMenuPartyItemVM2.Party.MobileParty.Name.ToString(), daysUntilNoFood, 0, false, TooltipProperty.TooltipPropertyFlags.None));
 				}
 				list.Add(new TooltipProperty("", string.Empty, 0, false, TooltipProperty.TooltipPropertyFlags.RundownSeperator));
-				list.Add(new TooltipProperty(new TextObject("{=rwKBR4NE}Average Days Until Food Runs Out", null).ToString(), CampaignUIHelper.GetDaysUntilNoFood((float)num2, (float)mbbindingList.Count), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				list.Add(new TooltipProperty(new TextObject("{=rwKBR4NE}Average Days Until Food Runs Out", null).ToString(), MathF.Ceiling(num2 / (double)mbbindingList.Count).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
 			}
 			return list;
 		}

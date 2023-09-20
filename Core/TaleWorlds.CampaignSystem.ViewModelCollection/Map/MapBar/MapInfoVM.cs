@@ -3,6 +3,7 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Library;
+using TaleWorlds.Library.Information;
 using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
@@ -11,7 +12,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 	{
 		public MapInfoVM()
 		{
-			this.DenarHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetGoldTooltip(Clan.PlayerClan));
+			this.DenarTooltip = CampaignUIHelper.GetDenarTooltip();
 			this.HealthHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetPlayerHitpointsTooltip());
 			this.InfluenceHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetInfluenceTooltip(Clan.PlayerClan));
 			this.AvailableTroopsHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetMainPartyHealthTooltip());
@@ -152,18 +153,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 		}
 
 		[DataSourceProperty]
-		public BasicTooltipViewModel DenarHint
+		public TooltipTriggerVM DenarTooltip
 		{
 			get
 			{
-				return this._denarHint;
+				return this._denarTooltip;
 			}
 			set
 			{
-				if (value != this._denarHint)
+				if (value != this._denarTooltip)
 				{
-					this._denarHint = value;
-					base.OnPropertyChangedWithValue<BasicTooltipViewModel>(value, "DenarHint");
+					this._denarTooltip = value;
+					base.OnPropertyChangedWithValue<TooltipTriggerVM>(value, "DenarTooltip");
 				}
 			}
 		}
@@ -735,7 +736,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 
 		private bool _isMainHeroSick;
 
-		private BasicTooltipViewModel _denarHint;
+		private TooltipTriggerVM _denarTooltip;
 
 		private BasicTooltipViewModel _influenceHint;
 

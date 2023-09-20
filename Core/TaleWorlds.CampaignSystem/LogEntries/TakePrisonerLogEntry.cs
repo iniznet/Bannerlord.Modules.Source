@@ -55,7 +55,7 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 		{
 			get
 			{
-				return CampaignTime.Weeks(24f);
+				return CampaignTime.Weeks(12f);
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 				textObject = new TextObject("{=Ebb7aH3T}{PRISONER_LORD.LINK}{?PRISONER_LORD_HAS_FACTION_LINK} of the {PRISONER_LORD_FACTION_LINK}{?}{\\?} has been taken prisoner by {CAPTURER_LORD.LINK}{?CAPTURER_LORD_HAS_FACTION_LINK} of the {CAPTURER_LORD_FACTION_LINK}{?}{\\?}.", null);
 				StringHelpers.SetCharacterProperties("CAPTURER_LORD", this.CapturerHero.CharacterObject, textObject, false);
 				Clan clan = this.CapturerHero.Clan;
-				if (clan != null && !clan.IsMinorFaction && this.CapturerHero.MapFaction != CampaignData.NeutralFaction)
+				if (clan != null && !clan.IsMinorFaction)
 				{
 					textObject.SetTextVariable("CAPTURER_LORD_FACTION_LINK", this.CapturerHero.MapFaction.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("CAPTURER_LORD_HAS_FACTION_LINK", 1);
@@ -118,7 +118,7 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 			textObject.SetTextVariable("CAPTOR_FACTION", this.CapturerPartyMapFaction.InformalName);
 			StringHelpers.SetCharacterProperties("PRISONER_LORD", this.Prisoner.CharacterObject, textObject, false);
 			Clan clan2 = this.Prisoner.Clan;
-			if (clan2 != null && !clan2.IsMinorFaction && this.Prisoner.MapFaction != CampaignData.NeutralFaction)
+			if (clan2 != null && !clan2.IsMinorFaction)
 			{
 				textObject.SetTextVariable("PRISONER_LORD_FACTION_LINK", this.Prisoner.MapFaction.EncyclopediaLinkWithName);
 				textObject.SetTextVariable("PRISONER_LORD_HAS_FACTION_LINK", 1);

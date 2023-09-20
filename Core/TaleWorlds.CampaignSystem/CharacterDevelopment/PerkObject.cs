@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Helpers;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -44,9 +45,9 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		public SkillEffect.EffectIncrementType SecondaryIncrementType { get; private set; }
 
-		public TroopClassFlag PrimaryTroopClassMask { get; private set; }
+		public TroopUsageFlags PrimaryTroopUsageMask { get; private set; }
 
-		public TroopClassFlag SecondaryTroopClassMask { get; private set; }
+		public TroopUsageFlags SecondaryTroopUsageMask { get; private set; }
 
 		public TextObject PrimaryDescription { get; private set; }
 
@@ -65,15 +66,15 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 		{
 		}
 
-		public void Initialize(string name, SkillObject skill, int requiredSkillValue, PerkObject alternativePerk, string primaryDescription, SkillEffect.PerkRole primaryRole, float primaryBonus, SkillEffect.EffectIncrementType incrementType, string secondaryDescription = "", SkillEffect.PerkRole secondaryRole = SkillEffect.PerkRole.None, float secondaryBonus = 0f, SkillEffect.EffectIncrementType secondaryIncrementType = SkillEffect.EffectIncrementType.Invalid, TroopClassFlag primaryTroopClassMask = TroopClassFlag.None, TroopClassFlag secondaryTroopClassMask = TroopClassFlag.None)
+		public void Initialize(string name, SkillObject skill, int requiredSkillValue, PerkObject alternativePerk, string primaryDescription, SkillEffect.PerkRole primaryRole, float primaryBonus, SkillEffect.EffectIncrementType incrementType, string secondaryDescription = "", SkillEffect.PerkRole secondaryRole = SkillEffect.PerkRole.None, float secondaryBonus = 0f, SkillEffect.EffectIncrementType secondaryIncrementType = SkillEffect.EffectIncrementType.Invalid, TroopUsageFlags primaryTroopUsageMask = TroopUsageFlags.Undefined, TroopUsageFlags secondaryTroopUsageMask = TroopUsageFlags.Undefined)
 		{
 			this.PrimaryDescription = new TextObject(primaryDescription, null);
 			this.SecondaryDescription = new TextObject(secondaryDescription, null);
-			this.SetDescriptionTextVariable(this.PrimaryDescription, primaryBonus, incrementType);
+			PerkHelper.SetDescriptionTextVariable(this.PrimaryDescription, primaryBonus, incrementType);
 			TextObject textObject;
 			if (secondaryDescription != "")
 			{
-				this.SetDescriptionTextVariable(this.SecondaryDescription, secondaryBonus, secondaryIncrementType);
+				PerkHelper.SetDescriptionTextVariable(this.SecondaryDescription, secondaryBonus, secondaryIncrementType);
 				textObject = GameTexts.FindText("str_string_newline_newline_string", null);
 				textObject.SetTextVariable("STR1", this.PrimaryDescription);
 				textObject.SetTextVariable("STR2", this.SecondaryDescription);
@@ -97,25 +98,14 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			this.SecondaryBonus = secondaryBonus;
 			this.PrimaryIncrementType = incrementType;
 			this.SecondaryIncrementType = ((secondaryIncrementType == SkillEffect.EffectIncrementType.Invalid) ? this.PrimaryIncrementType : secondaryIncrementType);
-			this.PrimaryTroopClassMask = primaryTroopClassMask;
-			this.SecondaryTroopClassMask = secondaryTroopClassMask;
+			this.PrimaryTroopUsageMask = primaryTroopUsageMask;
+			this.SecondaryTroopUsageMask = secondaryTroopUsageMask;
 			base.AfterInitialized();
 		}
 
 		public override string ToString()
 		{
 			return base.Name.ToString();
-		}
-
-		private void SetDescriptionTextVariable(TextObject description, float bonus, SkillEffect.EffectIncrementType effectIncrementType)
-		{
-			float num = ((effectIncrementType == SkillEffect.EffectIncrementType.AddFactor) ? (bonus * 100f) : bonus);
-			if (bonus > 0f)
-			{
-				description.SetTextVariable("VALUE", "+" + num);
-				return;
-			}
-			description.SetTextVariable("VALUE", string.Concat(num));
 		}
 	}
 }

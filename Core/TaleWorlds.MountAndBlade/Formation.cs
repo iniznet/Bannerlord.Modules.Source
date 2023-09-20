@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
@@ -30,13 +31,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public event Action<Formation, ArrangementOrder.ArrangementOrderEnum> OnAfterArrangementOrderApplied;
 
-		public FormationClass PrimaryClass
-		{
-			get
-			{
-				return this.QuerySystem.MainClass;
-			}
-		}
+		public Formation.RetreatPositionCacheSystem RetreatPositionCache { get; private set; } = new Formation.RetreatPositionCacheSystem(2);
 
 		public int CountOfUnits
 		{
@@ -202,7 +197,25 @@ namespace TaleWorlds.MountAndBlade
 
 		public FormationAI AI { get; private set; }
 
-		public Formation TargetFormation { get; set; }
+		public Formation TargetFormation
+		{
+			get
+			{
+				return this._targetFormation;
+			}
+			private set
+			{
+				if (this._targetFormation != value)
+				{
+					this._targetFormation = value;
+					this.ApplyActionOnEachUnit(delegate(Agent agent)
+					{
+						Formation value2 = value;
+						agent.SetTargetFormationIndex((value2 != null) ? value2.Index : (-1));
+					}, null);
+				}
+			}
+		}
 
 		public FormationQuerySystem QuerySystem { get; private set; }
 
@@ -226,8 +239,6 @@ namespace TaleWorlds.MountAndBlade
 
 		public bool ContainsAgentVisuals { get; set; }
 
-		public FiringOrder FiringOrder { get; set; }
-
 		public Agent PlayerOwner
 		{
 			get
@@ -237,7 +248,7 @@ namespace TaleWorlds.MountAndBlade
 			set
 			{
 				this._playerOwner = value;
-				this._isAIControlled = value == null;
+				this.SetControlledByAI(value == null, false);
 			}
 		}
 
@@ -253,7 +264,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServer)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new InitializeFormation(this, this.Team, this._bannerCode));
+					GameNetwork.WriteMessage(new InitializeFormation(this, this.Team.TeamIndex, this._bannerCode));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.None, null);
 				}
 			}
@@ -363,7 +374,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				if (this.FormOrder.OrderEnum == FormOrder.FormOrderEnum.Custom)
 				{
-					this.FormOrder = FormOrder.FormOrderCustom(Formation.TransformCustomWidthBetweenArrangementOrientations(this._arrangementOrder.OrderEnum, value.OrderEnum, this.FormOrder.CustomFlankWidth));
+					this.FormOrder = FormOrder.FormOrderCustom(Formation.TransformCustomWidthBetweenArrangementOrientations(this._arrangementOrder.OrderEnum, value.OrderEnum, this.Arrangement.FlankWidth));
 				}
 				this._arrangementOrder = value;
 				this._arrangementOrder.OnApply(this);
@@ -402,22 +413,29 @@ namespace TaleWorlds.MountAndBlade
 					this._ridingOrder = value;
 					this.ApplyActionOnEachUnit(delegate(Agent agent)
 					{
-						agent.SetRidingOrder((int)value.OrderEnum);
+						agent.SetRidingOrder(value.OrderEnum);
 					}, null);
 					this.Arrangement_OnShapeChanged();
 				}
 			}
 		}
 
-		public WeaponUsageOrder WeaponUsageOrder
+		public FiringOrder FiringOrder
 		{
 			get
 			{
-				return this._weaponUsageOrder;
+				return this._firingOrder;
 			}
 			set
 			{
-				this._weaponUsageOrder = value;
+				if (this._firingOrder != value)
+				{
+					this._firingOrder = value;
+					this.ApplyActionOnEachUnit(delegate(Agent agent)
+					{
+						agent.SetFiringOrder(value.OrderEnum);
+					}, null);
+				}
 			}
 		}
 
@@ -443,31 +461,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public IEnumerable<FormationClass> SecondaryClasses
-		{
-			get
-			{
-				FormationClass primaryClass = this.PrimaryClass;
-				if (primaryClass != FormationClass.Infantry && this.QuerySystem.InfantryUnitRatio > 0f)
-				{
-					yield return FormationClass.Infantry;
-				}
-				if (primaryClass != FormationClass.Ranged && this.QuerySystem.RangedUnitRatio > 0f)
-				{
-					yield return FormationClass.Ranged;
-				}
-				if (primaryClass != FormationClass.Cavalry && this.QuerySystem.CavalryUnitRatio > 0f)
-				{
-					yield return FormationClass.Cavalry;
-				}
-				if (primaryClass != FormationClass.HorseArcher && this.QuerySystem.RangedCavalryUnitRatio > 0f)
-				{
-					yield return FormationClass.HorseArcher;
-				}
-				yield break;
-			}
-		}
-
 		public float Width
 		{
 			get
@@ -488,15 +481,64 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public FormationClass InitialClass
+		public FormationClass RepresentativeClass
 		{
 			get
 			{
-				if (this._initialClass == FormationClass.NumberOfAllFormations)
+				return this._representativeClass;
+			}
+		}
+
+		public FormationClass LogicalClass
+		{
+			get
+			{
+				return this._logicalClass;
+			}
+		}
+
+		public IEnumerable<FormationClass> SecondaryLogicalClasses
+		{
+			get
+			{
+				FormationClass primaryLogicalClass = this.LogicalClass;
+				if (primaryLogicalClass == FormationClass.NumberOfAllFormations)
 				{
-					return this.FormationIndex;
+					yield break;
 				}
-				return this._initialClass;
+				List<ValueTuple<FormationClass, int>> list = new List<ValueTuple<FormationClass, int>>();
+				for (int i = 0; i < this._logicalClassCounts.Length; i++)
+				{
+					if (this._logicalClassCounts[i] > 0)
+					{
+						list.Add(new ValueTuple<FormationClass, int>((FormationClass)i, this._logicalClassCounts[i]));
+					}
+				}
+				if (list.Count > 0)
+				{
+					list.Sort(Comparer<ValueTuple<FormationClass, int>>.Create(delegate([TupleElementNames(new string[] { "fClass", "count" })] ValueTuple<FormationClass, int> x, [TupleElementNames(new string[] { "fClass", "count" })] ValueTuple<FormationClass, int> y)
+					{
+						if (x.Item2 < y.Item2)
+						{
+							return 1;
+						}
+						if (x.Item2 <= y.Item2)
+						{
+							return 0;
+						}
+						return -1;
+					}));
+					foreach (ValueTuple<FormationClass, int> valueTuple in list)
+					{
+						if (valueTuple.Item1 != primaryLogicalClass)
+						{
+							yield return valueTuple.Item1;
+						}
+					}
+					List<ValueTuple<FormationClass, int>>.Enumerator enumerator = default(List<ValueTuple<FormationClass, int>>.Enumerator);
+				}
+				yield break;
+				yield break;
 			}
 		}
 
@@ -521,6 +563,39 @@ namespace TaleWorlds.MountAndBlade
 				}
 				this.Arrangement_OnWidthChanged();
 				this.Arrangement_OnShapeChanged();
+			}
+		}
+
+		public FormationClass PhysicalClass
+		{
+			get
+			{
+				return this.QuerySystem.MainClass;
+			}
+		}
+
+		public IEnumerable<FormationClass> SecondaryPhysicalClasses
+		{
+			get
+			{
+				FormationClass primaryPhysicalClass = this.PhysicalClass;
+				if (primaryPhysicalClass != FormationClass.Infantry && this.QuerySystem.InfantryUnitRatio > 0f)
+				{
+					yield return FormationClass.Infantry;
+				}
+				if (primaryPhysicalClass != FormationClass.Ranged && this.QuerySystem.RangedUnitRatio > 0f)
+				{
+					yield return FormationClass.Ranged;
+				}
+				if (primaryPhysicalClass != FormationClass.Cavalry && this.QuerySystem.CavalryUnitRatio > 0f)
+				{
+					yield return FormationClass.Cavalry;
+				}
+				if (primaryPhysicalClass != FormationClass.HorseArcher && this.QuerySystem.RangedCavalryUnitRatio > 0f)
+				{
+					yield return FormationClass.HorseArcher;
+				}
+				yield break;
 			}
 		}
 
@@ -747,6 +822,7 @@ namespace TaleWorlds.MountAndBlade
 				this._movementOrder = input;
 				this._movementOrder.OnApply(this);
 			}
+			this.SetTargetFormation(null);
 		}
 
 		public void SetControlledByAI(bool isControlledByAI, bool enforceNotSplittableByAI = false)
@@ -774,6 +850,21 @@ namespace TaleWorlds.MountAndBlade
 				}
 				this._enforceNotSplittableByAI = false;
 			}
+		}
+
+		public void SetTargetFormation(Formation targetFormation)
+		{
+			this.TargetFormation = targetFormation;
+		}
+
+		public void OnDeploymentFinished()
+		{
+			FormationAI ai = this.AI;
+			if (ai == null)
+			{
+				return;
+			}
+			ai.OnDeploymentFinished();
 		}
 
 		public void ResetArrangementOrderTickTimer()
@@ -884,25 +975,30 @@ namespace TaleWorlds.MountAndBlade
 			return this.GetUnitWithIndex(0);
 		}
 
-		public int GetCountOfUnitsInClass(FormationClass formationClass, bool excludeBannerBearer)
+		public int GetCountOfUnitsBelongingToLogicalClass(FormationClass logicalClass)
+		{
+			return this._logicalClassCounts[(int)logicalClass];
+		}
+
+		public int GetCountOfUnitsBelongingToPhysicalClass(FormationClass physicalClass, bool excludeBannerBearers)
 		{
 			int num = 0;
 			foreach (IFormationUnit formationUnit in this.Arrangement.GetAllUnits())
 			{
 				bool flag = false;
-				switch (formationClass)
+				switch (physicalClass)
 				{
 				case FormationClass.Infantry:
-					flag = (excludeBannerBearer ? QueryLibrary.IsInfantryWithoutBanner((Agent)formationUnit) : QueryLibrary.IsInfantry((Agent)formationUnit));
+					flag = (excludeBannerBearers ? QueryLibrary.IsInfantryWithoutBanner((Agent)formationUnit) : QueryLibrary.IsInfantry((Agent)formationUnit));
 					break;
 				case FormationClass.Ranged:
-					flag = (excludeBannerBearer ? QueryLibrary.IsRangedWithoutBanner((Agent)formationUnit) : QueryLibrary.IsRanged((Agent)formationUnit));
+					flag = (excludeBannerBearers ? QueryLibrary.IsRangedWithoutBanner((Agent)formationUnit) : QueryLibrary.IsRanged((Agent)formationUnit));
 					break;
 				case FormationClass.Cavalry:
-					flag = (excludeBannerBearer ? QueryLibrary.IsCavalryWithoutBanner((Agent)formationUnit) : QueryLibrary.IsCavalry((Agent)formationUnit));
+					flag = (excludeBannerBearers ? QueryLibrary.IsCavalryWithoutBanner((Agent)formationUnit) : QueryLibrary.IsCavalry((Agent)formationUnit));
 					break;
 				case FormationClass.HorseArcher:
-					flag = (excludeBannerBearer ? QueryLibrary.IsRangedCavalryWithoutBanner((Agent)formationUnit) : QueryLibrary.IsRangedCavalry((Agent)formationUnit));
+					flag = (excludeBannerBearers ? QueryLibrary.IsRangedCavalryWithoutBanner((Agent)formationUnit) : QueryLibrary.IsRangedCavalry((Agent)formationUnit));
 					break;
 				}
 				if (flag)
@@ -913,19 +1009,19 @@ namespace TaleWorlds.MountAndBlade
 			foreach (Agent agent in this._detachedUnits)
 			{
 				bool flag2 = false;
-				switch (formationClass)
+				switch (physicalClass)
 				{
 				case FormationClass.Infantry:
-					flag2 = (excludeBannerBearer ? QueryLibrary.IsInfantryWithoutBanner(agent) : QueryLibrary.IsInfantry(agent));
+					flag2 = (excludeBannerBearers ? QueryLibrary.IsInfantryWithoutBanner(agent) : QueryLibrary.IsInfantry(agent));
 					break;
 				case FormationClass.Ranged:
-					flag2 = (excludeBannerBearer ? QueryLibrary.IsRangedWithoutBanner(agent) : QueryLibrary.IsRanged(agent));
+					flag2 = (excludeBannerBearers ? QueryLibrary.IsRangedWithoutBanner(agent) : QueryLibrary.IsRanged(agent));
 					break;
 				case FormationClass.Cavalry:
-					flag2 = (excludeBannerBearer ? QueryLibrary.IsCavalryWithoutBanner(agent) : QueryLibrary.IsCavalry(agent));
+					flag2 = (excludeBannerBearers ? QueryLibrary.IsCavalryWithoutBanner(agent) : QueryLibrary.IsCavalry(agent));
 					break;
 				case FormationClass.HorseArcher:
-					flag2 = (excludeBannerBearer ? QueryLibrary.IsRangedCavalryWithoutBanner(agent) : QueryLibrary.IsRangedCavalry(agent));
+					flag2 = (excludeBannerBearers ? QueryLibrary.IsRangedCavalryWithoutBanner(agent) : QueryLibrary.IsRangedCavalry(agent));
 					break;
 				}
 				if (flag2)
@@ -1227,7 +1323,7 @@ namespace TaleWorlds.MountAndBlade
 				case MovementOrder.MovementStateEnum.StandGround:
 					return unit.GetWorldPosition();
 				default:
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Formation.cs", "GetOrderPositionOfUnit", 1438);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Formation.cs", "GetOrderPositionOfUnit", 1567);
 					return WorldPosition.Invalid;
 				}
 			}
@@ -1304,7 +1400,13 @@ namespace TaleWorlds.MountAndBlade
 					IEnumerable<Agent> enumerable2 = this._detachedUnits;
 					enumerable3 = enumerable2;
 				}
-				return enumerable3.Average((Agent u) => u.RunSpeedCached) * num.Value;
+				float num3 = enumerable3.Average((Agent u) => u.RunSpeedCached);
+				FormationQuerySystem.FormationIntegrityDataGroup formationIntegrityData = this.QuerySystem.FormationIntegrityData;
+				if (formationIntegrityData.DeviationOfPositionsExcludeFarAgents < formationIntegrityData.AverageMaxUnlimitedSpeedExcludeFarAgents * 0.25f)
+				{
+					return num3 * num.Value;
+				}
+				return num3;
 			}
 		}
 
@@ -1671,13 +1773,16 @@ namespace TaleWorlds.MountAndBlade
 
 		public void OnMassUnitTransferEnd()
 		{
-			this.FormOrder = this.FormOrder;
+			this.ReapplyFormOrder();
 			this.QuerySystem.Expire();
 			this.Team.QuerySystem.ExpireAfterUnitAddRemove();
-			this.PostponeCostlyOperations = false;
-			if (this._formationClassNeedsUpdate)
+			if (this._logicalClassNeedsUpdate)
 			{
-				this.CalculateFormationClass();
+				this.CalculateLogicalClass();
+			}
+			if (this.CountOfUnits == 0)
+			{
+				this._representativeClass = FormationClass.NumberOfAllFormations;
 			}
 			if (Mission.Current.IsTeleportingAgents)
 			{
@@ -1687,6 +1792,7 @@ namespace TaleWorlds.MountAndBlade
 					agent.UpdateCachedAndFormationValues(true, false);
 				}, null);
 			}
+			this.PostponeCostlyOperations = false;
 		}
 
 		public void OnBatchUnitRemovalStart()
@@ -1698,9 +1804,13 @@ namespace TaleWorlds.MountAndBlade
 		public void OnBatchUnitRemovalEnd()
 		{
 			this.Arrangement.OnBatchRemoveEnd();
-			this.FormOrder = this.FormOrder;
+			this.ReapplyFormOrder();
 			this.QuerySystem.ExpireAfterUnitAddRemove();
 			this.Team.QuerySystem.ExpireAfterUnitAddRemove();
+			if (this._logicalClassNeedsUpdate)
+			{
+				this.CalculateLogicalClass();
+			}
 			this.PostponeCostlyOperations = false;
 		}
 
@@ -1708,7 +1818,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (!this.PostponeCostlyOperations)
 			{
-				this.FormOrder = this.FormOrder;
+				this.ReapplyFormOrder();
 				this.QuerySystem.ExpireAfterUnitAddRemove();
 				Team team = this.Team;
 				if (team != null)
@@ -1770,11 +1880,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public void ReleaseFormationFromAI()
-		{
-			this._isAIControlled = false;
-		}
-
 		public void ResetMovementOrderPositionCache()
 		{
 			this._movementOrder.ResetPositionCache();
@@ -1807,7 +1912,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 			foreach (Formation formation3 in this.Team.FormationsIncludingEmpty)
 			{
+				formation3.CalculateLogicalClass();
 				formation3.PostponeCostlyOperations = false;
+			}
+			if (this.CountOfUnits == 0)
+			{
+				this._representativeClass = FormationClass.NumberOfAllFormations;
 			}
 			return enumerable;
 		}
@@ -1817,6 +1927,12 @@ namespace TaleWorlds.MountAndBlade
 			this.PostponeCostlyOperations = true;
 			target.PostponeCostlyOperations = true;
 			this.Team.MasterOrderController.TransferUnits(this, target, unitCount);
+			this.CalculateLogicalClass();
+			target.CalculateLogicalClass();
+			if (this.CountOfUnits == 0)
+			{
+				this._representativeClass = FormationClass.NumberOfAllFormations;
+			}
 			this.PostponeCostlyOperations = false;
 			target.PostponeCostlyOperations = false;
 			this.QuerySystem.Expire();
@@ -2018,24 +2134,26 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (unit.Character != null)
 			{
-				if (this._initialClass == FormationClass.NumberOfAllFormations)
-				{
-					this._initialClass = (FormationClass)unit.Character.DefaultFormationGroup;
-				}
-				else if (this._initialClass != (FormationClass)unit.Character.DefaultFormationGroup)
+				FormationClass formationClass = this.Team.Mission.GetAgentTroopClass(this.Team.Side, unit.Character).DefaultClass();
+				this._logicalClassCounts[(int)formationClass]++;
+				if (this._logicalClass != formationClass)
 				{
 					if (this.PostponeCostlyOperations)
 					{
-						this._formationClassNeedsUpdate = true;
+						this._logicalClassNeedsUpdate = true;
 					}
 					else
 					{
-						this.CalculateFormationClass();
-						this._formationClassNeedsUpdate = false;
+						this.CalculateLogicalClass();
+						this._logicalClassNeedsUpdate = false;
 					}
 				}
 			}
 			this._movementOrder.OnUnitJoinOrLeave(this, unit, true);
+			Formation targetFormation = this.TargetFormation;
+			unit.SetTargetFormationIndex((targetFormation != null) ? targetFormation.Index : (-1));
+			unit.SetFiringOrder(this.FiringOrder.OrderEnum);
+			unit.SetRidingOrder(this.RidingOrder.OrderEnum);
 			this.OnUnitAddedOrRemoved();
 			Action<Formation, Agent> onUnitAdded = this.OnUnitAdded;
 			if (onUnitAdded != null)
@@ -2044,10 +2162,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (!countOfUnits && this.CountOfUnits > 0)
 			{
-				if (Mission.Current.Mode == MissionMode.Battle && !this.IsAIControlled)
-				{
-					this.SetControlledByAI(true, false);
-				}
 				TeamAIComponent teamAI = this.Team.TeamAI;
 				if (teamAI == null)
 				{
@@ -2071,6 +2185,23 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.Arrangement.RemoveUnit(unit);
 			}
+			if (unit.Character != null)
+			{
+				FormationClass formationClass = this.Team.Mission.GetAgentTroopClass(this.Team.Side, unit.Character).DefaultClass();
+				this._logicalClassCounts[(int)formationClass]--;
+				if (this._logicalClass == formationClass)
+				{
+					if (this.PostponeCostlyOperations)
+					{
+						this._logicalClassNeedsUpdate = true;
+					}
+					else
+					{
+						this.CalculateLogicalClass();
+						this._logicalClassNeedsUpdate = false;
+					}
+				}
+			}
 			if (unit.IsPlayerTroop)
 			{
 				this.IsPlayerTroopInFormation = false;
@@ -2087,7 +2218,14 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.OnUndetachableNonPlayerUnitRemoved(unit);
 			}
+			if (Mission.Current.Mode != MissionMode.Deployment && !this.IsAIControlled && this.CountOfUnits == 0)
+			{
+				this.SetControlledByAI(true, false);
+			}
 			this._movementOrder.OnUnitJoinOrLeave(this, unit, false);
+			unit.SetTargetFormationIndex(-1);
+			unit.SetFiringOrder(FiringOrder.RangedWeaponUsageOrderEnum.FireAtWill);
+			unit.SetRidingOrder(RidingOrder.RidingOrderEnum.Free);
 			this.OnUnitAddedOrRemoved();
 			Action<Formation, Agent> onUnitRemoved = this.OnUnitRemoved;
 			if (onUnitRemoved == null)
@@ -2105,6 +2243,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this._looseDetachedUnits.Add(unit);
 			}
+			unit.SetBehaviorValueSet(HumanAIComponent.BehaviorValueSet.DefaultDetached);
 			this.OnUnitAttachedOrDetached();
 		}
 
@@ -2115,6 +2254,7 @@ namespace TaleWorlds.MountAndBlade
 			this.Arrangement.AddUnit(unit);
 			unit.Detachment = null;
 			unit.DetachmentWeight = -1f;
+			this._movementOrder.OnUnitJoinOrLeave(this, unit, true);
 			this.OnUnitAttachedOrDetached();
 		}
 
@@ -2150,6 +2290,11 @@ namespace TaleWorlds.MountAndBlade
 			while (!this._movementOrder.IsApplicable(this) && num++ < 10)
 			{
 				this.SetMovementOrder(this._movementOrder.GetSubstituteOrder(this));
+			}
+			Formation targetFormation = this.TargetFormation;
+			if (targetFormation != null && targetFormation.CountOfUnits <= 0)
+			{
+				this.TargetFormation = null;
 			}
 			if (this._arrangementOrderTickOccasionallyTimer.Check(Mission.Current.CurrentTime))
 			{
@@ -2218,7 +2363,7 @@ namespace TaleWorlds.MountAndBlade
 			arrangement2.RearrangeTo(arrangement);
 			arrangement.RearrangeFrom(arrangement2);
 			arrangement2.RearrangeTransferUnits(arrangement);
-			this.FormOrder = this.FormOrder;
+			this.ReapplyFormOrder();
 			this._movementOrder.OnArrangementChanged(this);
 		}
 
@@ -2253,6 +2398,11 @@ namespace TaleWorlds.MountAndBlade
 			this._overridenHasAnyMountedUnit = null;
 		}
 
+		public override int GetHashCode()
+		{
+			return (int)(this.Team.TeamIndex * 10 + this.FormationIndex);
+		}
+
 		internal bool IsUnitDetachedForDebug(Agent unit)
 		{
 			return this._detachedUnits.Contains(unit);
@@ -2260,7 +2410,7 @@ namespace TaleWorlds.MountAndBlade
 
 		internal IEnumerable<IFormationUnit> GetUnitsToPopWithPriorityFunction(int count, Func<Agent, int> priorityFunction, List<Agent> excludedHeroes, bool excludeBannerman)
 		{
-			Formation.<>c__DisplayClass317_0 CS$<>8__locals1 = new Formation.<>c__DisplayClass317_0();
+			Formation.<>c__DisplayClass329_0 CS$<>8__locals1 = new Formation.<>c__DisplayClass329_0();
 			CS$<>8__locals1.excludedHeroes = excludedHeroes;
 			CS$<>8__locals1.excludeBannerman = excludeBannerman;
 			CS$<>8__locals1.priorityFunction = priorityFunction;
@@ -2284,8 +2434,8 @@ namespace TaleWorlds.MountAndBlade
 			CS$<>8__locals1.bestFit = int.MaxValue;
 			while (num > 0 && CS$<>8__locals1.bestFit > 0 && list2.Count > 0)
 			{
-				Formation.<>c__DisplayClass317_1 CS$<>8__locals2 = new Formation.<>c__DisplayClass317_1();
-				Formation.<>c__DisplayClass317_0 CS$<>8__locals3 = CS$<>8__locals1;
+				Formation.<>c__DisplayClass329_1 CS$<>8__locals2 = new Formation.<>c__DisplayClass329_1();
+				Formation.<>c__DisplayClass329_0 CS$<>8__locals3 = CS$<>8__locals1;
 				IEnumerable<Agent> enumerable = list2;
 				Func<Agent, int> func;
 				if ((func = CS$<>8__locals1.<>9__3) == null)
@@ -2293,7 +2443,7 @@ namespace TaleWorlds.MountAndBlade
 					func = (CS$<>8__locals1.<>9__3 = (Agent unit) => CS$<>8__locals1.priorityFunction(unit));
 				}
 				CS$<>8__locals3.bestFit = enumerable.Max(func);
-				Formation.<>c__DisplayClass317_1 CS$<>8__locals4 = CS$<>8__locals2;
+				Formation.<>c__DisplayClass329_1 CS$<>8__locals4 = CS$<>8__locals2;
 				Func<IFormationUnit, bool> func2;
 				if ((func2 = CS$<>8__locals1.<>9__4) == null)
 				{
@@ -2420,14 +2570,14 @@ namespace TaleWorlds.MountAndBlade
 			this.FormOrder = target.FormOrder;
 			this.SetPositioning(null, null, new int?(target.UnitSpacing));
 			this.RidingOrder = target.RidingOrder;
-			this.WeaponUsageOrder = target.WeaponUsageOrder;
 			this.FiringOrder = target.FiringOrder;
-			this._isAIControlled = target.IsAIControlled || !target.Team.IsPlayerGeneral;
+			this.SetControlledByAI(target.IsAIControlled || !target.Team.IsPlayerGeneral, false);
 			if (target.AI.Side != FormationAI.BehaviorSide.BehaviorSideNotSet)
 			{
 				this.AI.Side = target.AI.Side;
 			}
 			this.SetMovementOrder(target._movementOrder);
+			this.TargetFormation = target.TargetFormation;
 			this.FacingOrder = target.FacingOrder;
 			this.ArrangementOrder = target.ArrangementOrder;
 		}
@@ -2495,7 +2645,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private void OnUnitAttachedOrDetached()
 		{
-			this.FormOrder = this.FormOrder;
+			this.ReapplyFormOrder();
 		}
 
 		[Conditional("DEBUG")]
@@ -2563,7 +2713,6 @@ namespace TaleWorlds.MountAndBlade
 			this.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
 			IL_EB:
 			this.RidingOrder = RidingOrder.RidingOrderFree;
-			this.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 			this.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			this.Width = 0f * (this.Interval + this.UnitDiameter) + this.UnitDiameter;
 			this.HasBeenPositioned = false;
@@ -2590,40 +2739,35 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private void CalculateFormationClass()
+		private void ReapplyFormOrder()
 		{
-			int[] array = new int[4];
+			FormOrder formOrder = this.FormOrder;
+			if (this.FormOrder.OrderEnum == FormOrder.FormOrderEnum.Custom && this.ArrangementOrder.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Circle)
+			{
+				formOrder.CustomFlankWidth = this.Arrangement.FlankWidth;
+			}
+			this.FormOrder = formOrder;
+		}
+
+		private void CalculateLogicalClass()
+		{
 			int num = 0;
-			int num2 = 0;
-			foreach (IFormationUnit formationUnit in this.Arrangement.GetAllUnits())
+			FormationClass formationClass = FormationClass.NumberOfAllFormations;
+			for (int i = 0; i < this._logicalClassCounts.Length; i++)
 			{
-				Agent agent = formationUnit as Agent;
-				if (agent != null)
+				FormationClass formationClass2 = (FormationClass)i;
+				int num2 = this._logicalClassCounts[i];
+				if (num2 > num)
 				{
-					int[] array2 = array;
-					int defaultFormationGroup = agent.Character.DefaultFormationGroup;
-					int num3 = array2[defaultFormationGroup] + 1;
-					array2[defaultFormationGroup] = num3;
-					if (num3 > num)
-					{
-						num = array[agent.Character.DefaultFormationGroup];
-						num2 = agent.Character.DefaultFormationGroup;
-					}
+					num = num2;
+					formationClass = formationClass2;
 				}
 			}
-			foreach (Agent agent2 in this._detachedUnits)
+			this._logicalClass = formationClass;
+			if (this._logicalClass != FormationClass.NumberOfAllFormations)
 			{
-				int[] array3 = array;
-				int defaultFormationGroup2 = agent2.Character.DefaultFormationGroup;
-				int num3 = array3[defaultFormationGroup2] + 1;
-				array3[defaultFormationGroup2] = num3;
-				if (num3 > num)
-				{
-					num = array[agent2.Character.DefaultFormationGroup];
-					num2 = agent2.Character.DefaultFormationGroup;
-				}
+				this._representativeClass = this._logicalClass;
 			}
-			this._initialClass = (FormationClass)num2;
 		}
 
 		private void SmoothAverageUnitPosition(float dt)
@@ -2857,16 +3001,15 @@ namespace TaleWorlds.MountAndBlade
 			return currentCustomWidth;
 		}
 
-		public override int GetHashCode()
-		{
-			return (int)(this.Team.TeamIndex * 10 + this.FormationIndex);
-		}
-
 		public const float AveragePositionCalculatePeriod = 0.05f;
 
 		public const int MinimumUnitSpacing = 0;
 
 		public const int MaximumUnitSpacing = 2;
+
+		public const int RetreatPositionDistanceCacheCount = 2;
+
+		public const float RetreatPositionCacheUseDistanceSquared = 400f;
 
 		private static Formation _simulationFormationTemp;
 
@@ -2884,9 +3027,13 @@ namespace TaleWorlds.MountAndBlade
 
 		public Vec2? ReferencePosition;
 
-		private FormationClass _initialClass = FormationClass.NumberOfAllFormations;
+		private FormationClass _representativeClass = FormationClass.NumberOfAllFormations;
 
-		private bool _formationClassNeedsUpdate;
+		private bool _logicalClassNeedsUpdate;
+
+		private FormationClass _logicalClass = FormationClass.NumberOfAllFormations;
+
+		private int[] _logicalClassCounts = new int[4];
 
 		private Agent _playerOwner;
 
@@ -2920,7 +3067,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private RidingOrder _ridingOrder;
 
-		private WeaponUsageOrder _weaponUsageOrder;
+		private FiringOrder _firingOrder;
 
 		private Agent _captain;
 
@@ -2943,6 +3090,8 @@ namespace TaleWorlds.MountAndBlade
 		private bool _isArrangementShapeChanged;
 
 		private int _currentSpawnIndex;
+
+		private Formation _targetFormation;
 
 		private class AgentArrangementData : IFormationUnit
 		{
@@ -2974,6 +3123,37 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.Formation = arrangement;
 			}
+		}
+
+		public class RetreatPositionCacheSystem
+		{
+			public RetreatPositionCacheSystem(int cacheCount)
+			{
+				this._retreatPositionDistance = new List<ValueTuple<Vec2, WorldPosition>>(2);
+			}
+
+			public WorldPosition GetRetreatPositionFromCache(Vec2 agentPosition)
+			{
+				for (int i = this._retreatPositionDistance.Count - 1; i >= 0; i--)
+				{
+					if (this._retreatPositionDistance[i].Item1.DistanceSquared(agentPosition) < 400f)
+					{
+						return this._retreatPositionDistance[i].Item2;
+					}
+				}
+				return WorldPosition.Invalid;
+			}
+
+			public void AddNewPositionToCache(Vec2 agentPostion, WorldPosition retreatingPosition)
+			{
+				if (this._retreatPositionDistance.Count >= 2)
+				{
+					this._retreatPositionDistance.RemoveAt(0);
+				}
+				this._retreatPositionDistance.Add(new ValueTuple<Vec2, WorldPosition>(agentPostion, retreatingPosition));
+			}
+
+			private List<ValueTuple<Vec2, WorldPosition>> _retreatPositionDistance;
 		}
 	}
 }

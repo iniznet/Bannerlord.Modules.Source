@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using TaleWorlds.Library;
 using TaleWorlds.SaveSystem.Definition;
@@ -14,6 +16,46 @@ namespace TaleWorlds.SaveSystem
 		{
 			SaveManager._definitionContext = new DefinitionContext();
 			SaveManager._definitionContext.FillWithCurrentTypes();
+		}
+
+		public static List<Type> CheckSaveableTypes()
+		{
+			List<Type> list = new List<Type>();
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			for (int i = 0; i < assemblies.Length; i++)
+			{
+				foreach (Type type in assemblies[i].GetTypesSafe(null))
+				{
+					PropertyInfo[] properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+					foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
+					{
+						Attribute[] array = fieldInfo.GetCustomAttributes(typeof(SaveableFieldAttribute)).ToArray<Attribute>();
+						if (array.Length != 0)
+						{
+							SaveableFieldAttribute saveableFieldAttribute = (SaveableFieldAttribute)array[0];
+							Type fieldType = fieldInfo.FieldType;
+							if (!SaveManager._definitionContext.HasDefinition(fieldType) && !list.Contains(fieldType) && !fieldType.IsInterface && fieldType.FullName != null)
+							{
+								list.Add(fieldType);
+							}
+						}
+					}
+					foreach (PropertyInfo propertyInfo in properties)
+					{
+						Attribute[] array3 = propertyInfo.GetCustomAttributes(typeof(SaveablePropertyAttribute)).ToArray<Attribute>();
+						if (array3.Length != 0)
+						{
+							SaveablePropertyAttribute saveablePropertyAttribute = (SaveablePropertyAttribute)array3[0];
+							Type propertyType = propertyInfo.PropertyType;
+							if (!SaveManager._definitionContext.HasDefinition(propertyType) && !list.Contains(propertyType) && !propertyType.IsInterface && propertyType.FullName != null)
+							{
+								list.Add(propertyType);
+							}
+						}
+					}
+				}
+			}
+			return list;
 		}
 
 		public static SaveOutput Save(object target, MetaData metaData, string saveName, ISaveDriver driver)
@@ -34,49 +76,46 @@ namespace TaleWorlds.SaveSystem
 			}
 			else
 			{
-				using (new PerformanceTestBlock("Save Context"))
+				Debug.Print("------Saving with new context. Save name: " + saveName + "------", 0, Debug.DebugColor.White, 17592186044416UL);
+				SaveContext saveContext;
+				string text2;
+				if ((saveContext = new SaveContext(SaveManager._definitionContext)).Save(target, metaData, out text2))
 				{
-					Debug.Print("Saving with new context", 0, Debug.DebugColor.White, 17592186044416UL);
-					SaveContext saveContext = new SaveContext(SaveManager._definitionContext);
-					string text2;
-					if (saveContext.Save(target, metaData, out text2))
+					try
 					{
-						try
+						Task<SaveResultWithMessage> task = driver.Save(saveName, 1, metaData, saveContext.SaveData);
+						if (task.IsCompleted)
 						{
-							Task<SaveResultWithMessage> task = driver.Save(saveName, 1, metaData, saveContext.SaveData);
-							if (task.IsCompleted)
+							if (task.Result.SaveResult == SaveResult.Success)
 							{
-								if (task.Result.SaveResult == SaveResult.Success)
-								{
-									saveOutput = SaveOutput.CreateSuccessful(saveContext.SaveData);
-								}
-								else
-								{
-									saveOutput = SaveOutput.CreateFailed(new SaveError[]
-									{
-										new SaveError(task.Result.Message)
-									}, task.Result.SaveResult);
-								}
+								saveOutput = SaveOutput.CreateSuccessful(saveContext.SaveData);
 							}
 							else
 							{
-								saveOutput = SaveOutput.CreateContinuing(task);
+								saveOutput = SaveOutput.CreateFailed(new SaveError[]
+								{
+									new SaveError(task.Result.Message)
+								}, task.Result.SaveResult);
 							}
-							return saveOutput;
 						}
-						catch (Exception ex)
+						else
 						{
-							return SaveOutput.CreateFailed(new SaveError[]
-							{
-								new SaveError(ex.Message)
-							}, SaveResult.GeneralFailure);
+							saveOutput = SaveOutput.CreateContinuing(task);
 						}
+						return saveOutput;
 					}
-					saveOutput = SaveOutput.CreateFailed(new SaveError[]
+					catch (Exception ex)
 					{
-						new SaveError(text2)
-					}, SaveResult.GeneralFailure);
+						return SaveOutput.CreateFailed(new SaveError[]
+						{
+							new SaveError(ex.Message)
+						}, SaveResult.GeneralFailure);
+					}
 				}
+				saveOutput = SaveOutput.CreateFailed(new SaveError[]
+				{
+					new SaveError(text2)
+				}, SaveResult.GeneralFailure);
 			}
 			return saveOutput;
 		}

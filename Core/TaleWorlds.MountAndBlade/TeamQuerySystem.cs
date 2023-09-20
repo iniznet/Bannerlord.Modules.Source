@@ -42,6 +42,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public FormationQuerySystem MedianTargetFormation
+		{
+			get
+			{
+				return this._medianTargetFormation.Value;
+			}
+		}
+
 		public WorldPosition MedianTargetFormationPosition
 		{
 			get
@@ -395,7 +403,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				return <>4__this.AveragePosition;
 			}, 5f);
-			this._medianTargetFormationPosition = new QueryData<WorldPosition>(delegate
+			this._medianTargetFormation = new QueryData<FormationQuerySystem>(delegate
 			{
 				float num4 = float.MaxValue;
 				Formation formation2 = null;
@@ -419,7 +427,15 @@ namespace TaleWorlds.MountAndBlade
 				}
 				if (formation2 != null)
 				{
-					return formation2.QuerySystem.MedianPosition;
+					return formation2.QuerySystem;
+				}
+				return null;
+			}, 1f);
+			this._medianTargetFormationPosition = new QueryData<WorldPosition>(delegate
+			{
+				if (<>4__this.MedianTargetFormation != null)
+				{
+					return <>4__this.MedianTargetFormation.MedianPosition;
 				}
 				return <>4__this.MedianPosition;
 			}, 1f);
@@ -748,7 +764,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					float currentTime = MBCommon.GetTotalMissionTime();
 					int num28 = 0;
-					Func<Agent, bool> <>9__34;
+					Func<Agent, bool> <>9__35;
 					foreach (Team team16 in <>4__this._mission.Teams)
 					{
 						if (team16.IsFriendOf(<>4__this.Team))
@@ -761,9 +777,9 @@ namespace TaleWorlds.MountAndBlade
 									int num29 = num28;
 									Formation formation8 = formation7;
 									Func<Agent, bool> func;
-									if ((func = <>9__34) == null)
+									if ((func = <>9__35) == null)
 									{
-										func = (<>9__34 = (Agent agent) => currentTime - agent.LastRangedHitTime < 10f && !agent.Equipment.HasShield());
+										func = (<>9__35 = (Agent agent) => currentTime - agent.LastRangedHitTime < 10f && !agent.Equipment.HasShield());
 									}
 									num28 = num29 + formation8.GetCountOfUnitsWithCondition(func);
 								}
@@ -837,6 +853,8 @@ namespace TaleWorlds.MountAndBlade
 		private readonly QueryData<Vec2> _averagePosition;
 
 		private readonly QueryData<Vec2> _averageEnemyPosition;
+
+		private readonly QueryData<FormationQuerySystem> _medianTargetFormation;
 
 		private readonly QueryData<WorldPosition> _medianTargetFormationPosition;
 

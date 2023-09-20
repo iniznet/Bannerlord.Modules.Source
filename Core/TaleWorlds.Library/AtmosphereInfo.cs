@@ -3,12 +3,22 @@ using System.Runtime.InteropServices;
 
 namespace TaleWorlds.Library
 {
-	[StructLayout(LayoutKind.Sequential)]
-	public class AtmosphereInfo
+	public struct AtmosphereInfo
 	{
-		public AtmosphereInfo()
+		public bool IsValid
 		{
-			this.AtmosphereName = "";
+			get
+			{
+				return !string.IsNullOrEmpty(this.AtmosphereName);
+			}
+		}
+
+		public static AtmosphereInfo GetInvalidAtmosphereInfo()
+		{
+			return new AtmosphereInfo
+			{
+				AtmosphereName = ""
+			};
 		}
 
 		public void DeserializeFrom(IReader reader)
@@ -59,6 +69,6 @@ namespace TaleWorlds.Library
 		public PostProcessInformation PostProInfo;
 
 		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]
-		public string AtmosphereTypeName;
+		public string InterpolatedAtmosphereName;
 	}
 }

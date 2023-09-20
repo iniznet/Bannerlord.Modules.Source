@@ -199,6 +199,23 @@ namespace StoryMode.GauntletUI.Tutorial
 			}
 		}
 
+		public static bool CanPlayerAssignHimselfToFormation
+		{
+			get
+			{
+				if (!TutorialHelper.IsOrderOfBattleOpenAndReady)
+				{
+					return false;
+				}
+				Mission mission = Mission.Current;
+				if (mission == null)
+				{
+					return false;
+				}
+				return mission.PlayerTeam.FormationsIncludingEmpty.Any((Formation x) => x.CountOfUnits > 0 && x.Captain == null);
+			}
+		}
+
 		public static bool IsPlayerInAFight
 		{
 			get
@@ -450,6 +467,22 @@ namespace StoryMode.GauntletUI.Tutorial
 					}
 				}
 				return false;
+			}
+		}
+
+		public static int BuyGrainAmount
+		{
+			get
+			{
+				return 2;
+			}
+		}
+
+		public static int RecruitTroopAmount
+		{
+			get
+			{
+				return 4;
 			}
 		}
 

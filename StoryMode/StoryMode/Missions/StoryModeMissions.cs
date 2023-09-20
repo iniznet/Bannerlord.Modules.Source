@@ -36,7 +36,6 @@ namespace StoryMode.Missions
 				new BattleAgentLogic(),
 				new AgentHumanAILogic(),
 				new MissionCrimeHandler(),
-				new MissionDebugHandler(),
 				new MissionHardBorderPlacer(),
 				new MissionBoundaryPlacer(),
 				new MissionBoundaryCrossingHandler(),

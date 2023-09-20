@@ -4,7 +4,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	[EngineStruct("ftlSphere_data")]
+	[EngineStruct("ftlSphere_data", false)]
 	public struct SphereData
 	{
 		public SphereData(float radius, Vec3 origin)

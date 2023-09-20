@@ -35,6 +35,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			list.Add(new DeploymentMissionView());
 			ISiegeDeploymentView siegeDeploymentView = missionView as ISiegeDeploymentView;
 			list.Add(new MissionEntitySelectionUIHandler(new Action<GameEntity>(siegeDeploymentView.OnEntitySelection), new Action<GameEntity>(siegeDeploymentView.OnEntityHover)));
+			list.Add(new MissionFormationTargetSelectionHandler());
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
 			list.Add(new MissionBoundaryWallView());
 			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 1, 2f));
@@ -70,6 +71,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			list.Add(new DeploymentMissionView());
 			ISiegeDeploymentView siegeDeploymentView = missionView as ISiegeDeploymentView;
 			list.Add(new MissionEntitySelectionUIHandler(new Action<GameEntity>(siegeDeploymentView.OnEntitySelection), new Action<GameEntity>(siegeDeploymentView.OnEntityHover)));
+			list.Add(new MissionFormationTargetSelectionHandler());
 			list.Add(ViewCreator.CreateMissionBoundaryCrossingView());
 			list.Add(new MissionDeploymentBoundaryMarker(new BorderFlagEntityFactory("swallowtail_banner"), 0, 2f));
 			list.Add(ViewCreator.CreateMissionFormationMarkerUIHandler(mission));

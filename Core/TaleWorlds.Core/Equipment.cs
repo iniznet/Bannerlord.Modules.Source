@@ -157,7 +157,7 @@ namespace TaleWorlds.Core
 				this[equipmentIndexFromOldEquipmentIndexName] = new EquipmentElement(@object, null, null, false);
 				return;
 			}
-			Debug.FailedAssert(((@object == null) ? TextObject.Empty : @object.Name) + " does not fit to slot " + equipmentIndexFromOldEquipmentIndexName, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Equipment.cs", "DeserializeNode", 161);
+			Debug.FailedAssert(((@object == null) ? TextObject.Empty : @object.Name) + " does not fit to slot " + equipmentIndexFromOldEquipmentIndexName, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Equipment.cs", "DeserializeNode", 168);
 		}
 
 		public static EquipmentIndex GetEquipmentIndexFromOldEquipmentIndexName(string oldEquipmentIndexName)
@@ -749,39 +749,36 @@ namespace TaleWorlds.Core
 			return equipmentFromSlot;
 		}
 
-		public void GetInitialWeaponIndicesToEquip(out EquipmentIndex mainHandWeaponIndex, out EquipmentIndex offHandWeaponIndex, out bool isMainHandNotUsableWithOneHand)
+		public void GetInitialWeaponIndicesToEquip(out EquipmentIndex mainHandWeaponIndex, out EquipmentIndex offHandWeaponIndex, out bool isMainHandNotUsableWithOneHand, Equipment.InitialWeaponEquipPreference initialWeaponEquipPreference = Equipment.InitialWeaponEquipPreference.Any)
 		{
 			mainHandWeaponIndex = EquipmentIndex.None;
 			offHandWeaponIndex = EquipmentIndex.None;
 			isMainHandNotUsableWithOneHand = false;
-			foreach (EquipmentIndex equipmentIndex in new EquipmentIndex[]
+			EquipmentIndex[] array = new EquipmentIndex[]
 			{
 				EquipmentIndex.ExtraWeaponSlot,
 				EquipmentIndex.WeaponItemBeginSlot,
 				EquipmentIndex.Weapon1,
 				EquipmentIndex.Weapon2,
 				EquipmentIndex.Weapon3
-			})
+			};
+			bool flag = false;
+			bool flag2 = false;
+			foreach (EquipmentIndex equipmentIndex in array)
 			{
 				if (!this[equipmentIndex].IsEmpty)
 				{
 					ItemObject item = this[equipmentIndex].Item;
-					if (mainHandWeaponIndex == EquipmentIndex.None && !item.ItemFlags.HasAnyFlag(ItemFlags.HeldInOffHand))
+					if ((mainHandWeaponIndex == EquipmentIndex.None || (initialWeaponEquipPreference == Equipment.InitialWeaponEquipPreference.MeleeForMainHand && !flag) || (initialWeaponEquipPreference == Equipment.InitialWeaponEquipPreference.RangedForMainHand && !flag2)) && !item.ItemFlags.HasAnyFlag(ItemFlags.HeldInOffHand))
 					{
 						mainHandWeaponIndex = equipmentIndex;
-						if (item.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.NotUsableWithOneHand))
-						{
-							isMainHandNotUsableWithOneHand = true;
-						}
+						isMainHandNotUsableWithOneHand = item.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.NotUsableWithOneHand);
+						flag = item.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.MeleeWeapon);
+						flag2 = item.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.RangedWeapon);
 					}
 					else if (offHandWeaponIndex == EquipmentIndex.None && item.ItemFlags.HasAnyFlag(ItemFlags.HeldInOffHand))
 					{
 						offHandWeaponIndex = equipmentIndex;
-						if (item.PrimaryWeapon.WeaponFlags.HasAnyFlag(WeaponFlags.NotUsableWithOneHand))
-						{
-							mainHandWeaponIndex = EquipmentIndex.None;
-							return;
-						}
 					}
 				}
 			}
@@ -811,6 +808,13 @@ namespace TaleWorlds.Core
 			NoUnderwear,
 			FullUnderwear,
 			OnlyTop
+		}
+
+		public enum InitialWeaponEquipPreference
+		{
+			Any,
+			MeleeForMainHand,
+			RangedForMainHand
 		}
 	}
 }

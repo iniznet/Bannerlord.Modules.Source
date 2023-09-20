@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Helpers;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Extensions;
 using TaleWorlds.CampaignSystem.GameState;
@@ -28,7 +27,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		{
 			this._usageType = InventoryManager.Instance.CurrentMode;
 			this._inventoryLogic = inventoryLogic;
-			this._playerUpdateTracker = Campaign.Current.PlayerUpdateTracker;
 			this._viewDataTracker = Campaign.Current.GetCampaignBehavior<IViewDataTracker>();
 			this._getItemUsageSetFlags = getItemUsageSetFlags;
 			this._fiveStackShortcutkeyText = fiveStackShortcutkeyText;
@@ -91,6 +89,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 				this.InitializeInventory();
 			}
 			this.RightInventoryOwnerGold = Hero.MainHero.Gold;
+			if (this._inventoryLogic.OtherSideCapacityData != null)
+			{
+				this.OtherSideHasCapacity = this._inventoryLogic.OtherSideCapacityData.GetCapacity() != -1;
+			}
 			this.IsOtherInventoryGoldRelevant = this._usageType != InventoryMode.Loot;
 			this.PlayerInventorySortController = new SPInventorySortControllerVM(ref this._rightItemListVM);
 			this.OtherInventorySortController = new SPInventorySortControllerVM(ref this._leftItemListVM);
@@ -120,6 +122,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			{
 				this._characterList.SelectedIndex = 0;
 			}
+			this.BannerTypeCode = 24;
+			InventoryTradeVM.RemoveZeroCounts += this.ExecuteRemoveZeroCounts;
 			Game.Current.EventManager.RegisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 			this.RefreshValues();
 		}
@@ -182,8 +186,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.EquipHint = new HintViewModel(GameTexts.FindText("str_inventory_equip", null), null);
 			this.UnequipHint = new HintViewModel(GameTexts.FindText("str_inventory_unequip", null), null);
 			this.ResetHint = new HintViewModel(GameTexts.FindText("str_reset", null), null);
-			this.CapacityExceededHint = new HintViewModel(GameTexts.FindText("str_capacity_exceeded_hint", null), null);
-			this.CapacityExceededText = GameTexts.FindText("str_capacity_exceeded", null).ToString();
+			this.PlayerSideCapacityExceededText = GameTexts.FindText("str_capacity_exceeded", null).ToString();
+			this.PlayerSideCapacityExceededHint = new HintViewModel(GameTexts.FindText("str_capacity_exceeded_hint", null), null);
+			if (this._inventoryLogic.OtherSideCapacityData != null)
+			{
+				TextObject capacityExceededWarningText = this._inventoryLogic.OtherSideCapacityData.GetCapacityExceededWarningText();
+				this.OtherSideCapacityExceededText = ((capacityExceededWarningText != null) ? capacityExceededWarningText.ToString() : null);
+				this.OtherSideCapacityExceededHint = new HintViewModel(this._inventoryLogic.OtherSideCapacityData.GetCapacityExceededHintText(), null);
+			}
 			this.SetBuyAllHint();
 			this.SetSellAllHint();
 			if (this._usageType == InventoryMode.Loot || this._usageType == InventoryMode.Stash)
@@ -235,6 +245,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			SPItemVM.ProcessItemSlaughter = null;
 			SPItemVM.ProcessItemDonate = null;
 			SPItemVM.OnFocus = null;
+			InventoryTradeVM.RemoveZeroCounts -= this.ExecuteRemoveZeroCounts;
 			Game.Current.EventManager.UnregisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 			this.ItemPreview.OnFinalize();
 			this.ItemPreview = null;
@@ -258,6 +269,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			SPItemVM.OnFocus = null;
 			this.MainCharacter.OnFinalize();
 			this._isFinalized = true;
+			this._inventoryLogic = null;
 			base.OnFinalize();
 		}
 
@@ -485,8 +497,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			MBTextManager.SetTextVariable("ITEM_COST", item.ItemCost);
 			if (this.IsEntireStackModifierActive && !cameFromTradeData)
 			{
-				ItemRosterElement? itemRosterElement;
-				this.TransactionCount = ((this._inventoryLogic.FindItemFromSide(InventoryLogic.InventorySide.PlayerInventory, item.ItemRosterElement.EquipmentElement) != null) ? itemRosterElement.GetValueOrDefault().Amount : 0);
+				ItemRosterElement? itemRosterElement = this._inventoryLogic.FindItemFromSide(InventoryLogic.InventorySide.PlayerInventory, item.ItemRosterElement.EquipmentElement);
+				this.TransactionCount = ((itemRosterElement != null) ? itemRosterElement.GetValueOrDefault().Amount : 0);
 			}
 			else if (this.IsFiveStackModifierActive && !cameFromTradeData)
 			{
@@ -797,7 +809,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 						{
 							spitemVM.ItemRosterElement.Amount = transferCommandResult.FinalNumber;
 							spitemVM.ItemCount = transferCommandResult.FinalNumber;
-							spitemVM.ItemCost = this._inventoryLogic.GetItemPrice(spitemVM.ItemRosterElement, transferCommandResult.ResultSide == InventoryLogic.InventorySide.OtherInventory);
+							spitemVM.ItemCost = this._inventoryLogic.GetItemPrice(spitemVM.ItemRosterElement.EquipmentElement, transferCommandResult.ResultSide == InventoryLogic.InventorySide.OtherInventory);
 							list.Add(spitemVM);
 							if (!hashSet.Contains(spitemVM.ItemRosterElement.EquipmentElement.Item.GetItemCategory()))
 							{
@@ -895,13 +907,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 
 		private void RefreshInformationValues()
 		{
+			TextObject textObject = GameTexts.FindText("str_LEFT_over_RIGHT", null);
 			int inventoryCapacity = PartyBase.MainParty.InventoryCapacity;
 			int num = MathF.Ceiling(this._equipmentCount);
-			GameTexts.SetVariable("LEFT", num.ToString());
-			GameTexts.SetVariable("RIGHT", inventoryCapacity.ToString());
-			MBTextManager.SetTextVariable("newline", "\n", false);
-			this.EquipmentCountText = GameTexts.FindText("str_LEFT_over_RIGHT", null).ToString();
-			this.EquipmentCountWarned = num > inventoryCapacity;
+			textObject.SetTextVariable("LEFT", num.ToString());
+			textObject.SetTextVariable("RIGHT", inventoryCapacity.ToString());
+			this.PlayerEquipmentCountText = textObject.ToString();
+			this.PlayerEquipmentCountWarned = num > inventoryCapacity;
+			if (this.OtherSideHasCapacity)
+			{
+				int num2 = MathF.Ceiling(this.LeftItemListVM.Sum((SPItemVM x) => x.ItemRosterElement.GetRosterElementWeight()));
+				int capacity = this._inventoryLogic.OtherSideCapacityData.GetCapacity();
+				textObject.SetTextVariable("LEFT", num2);
+				textObject.SetTextVariable("RIGHT", capacity);
+				this.OtherEquipmentCountText = textObject.ToString();
+				this.OtherEquipmentCountWarned = num2 > capacity;
+			}
 			this.NoSaddleText = new TextObject("{=QSPrSsHv}No Saddle!", null).ToString();
 			this.NoSaddleHint = new HintViewModel(new TextObject("{=VzCoqt8D}No sadle equipped. -10% penalty to mounted speed and maneuver.", null), null);
 			SPItemVM characterMountSlot = this.CharacterMountSlot;
@@ -1270,32 +1291,41 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			if (this._inventoryLogic.LeftRosterName != null)
 			{
 				this.LeftInventoryOwnerName = this._inventoryLogic.LeftRosterName.ToString();
-				return;
-			}
-			Settlement settlement = this._currentCharacter.HeroObject.CurrentSettlement;
-			if (settlement != null)
-			{
-				this.LeftInventoryOwnerName = settlement.Name.ToString();
-				this.ProductionTooltip = new BasicTooltipViewModel(() => CampaignUIHelper.GetSettlementProductionTooltip(settlement));
-				this.IsTradingWithSettlement = !settlement.IsHideout;
-				if (this._inventoryLogic.InventoryListener != null)
+				Settlement settlement2 = this._currentCharacter.HeroObject.CurrentSettlement;
+				if (settlement2 != null && InventoryManager.Instance.CurrentMode == InventoryMode.Warehouse)
 				{
-					this.LeftInventoryOwnerGold = this._inventoryLogic.InventoryListener.GetGold();
+					this.IsTradingWithSettlement = true;
+					this.ProductionTooltip = new BasicTooltipViewModel(() => CampaignUIHelper.GetSettlementProductionTooltip(settlement2));
 					return;
 				}
 			}
 			else
 			{
-				PartyBase oppositePartyFromListener = this._inventoryLogic.OppositePartyFromListener;
-				MobileParty mobileParty = ((oppositePartyFromListener != null) ? oppositePartyFromListener.MobileParty : null);
-				if (mobileParty != null && (mobileParty.IsCaravan || mobileParty.IsVillager))
+				Settlement settlement = this._currentCharacter.HeroObject.CurrentSettlement;
+				if (settlement != null)
 				{
-					this.LeftInventoryOwnerName = mobileParty.Name.ToString();
-					InventoryListener inventoryListener = this._inventoryLogic.InventoryListener;
-					this.LeftInventoryOwnerGold = ((inventoryListener != null) ? inventoryListener.GetGold() : 0);
-					return;
+					this.LeftInventoryOwnerName = settlement.Name.ToString();
+					this.ProductionTooltip = new BasicTooltipViewModel(() => CampaignUIHelper.GetSettlementProductionTooltip(settlement));
+					this.IsTradingWithSettlement = !settlement.IsHideout;
+					if (this._inventoryLogic.InventoryListener != null)
+					{
+						this.LeftInventoryOwnerGold = this._inventoryLogic.InventoryListener.GetGold();
+						return;
+					}
 				}
-				this.LeftInventoryOwnerName = GameTexts.FindText("str_loot", null).ToString();
+				else
+				{
+					PartyBase oppositePartyFromListener = this._inventoryLogic.OppositePartyFromListener;
+					MobileParty mobileParty = ((oppositePartyFromListener != null) ? oppositePartyFromListener.MobileParty : null);
+					if (mobileParty != null && (mobileParty.IsCaravan || mobileParty.IsVillager))
+					{
+						this.LeftInventoryOwnerName = mobileParty.Name.ToString();
+						InventoryListener inventoryListener = this._inventoryLogic.InventoryListener;
+						this.LeftInventoryOwnerGold = ((inventoryListener != null) ? inventoryListener.GetGold() : 0);
+						return;
+					}
+					this.LeftInventoryOwnerName = GameTexts.FindText("str_loot", null).ToString();
+				}
 			}
 		}
 
@@ -1353,7 +1383,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		private void RefreshCharacterTotalWeight()
 		{
 			CharacterObject currentCharacter = this._currentCharacter;
-			float num = ((currentCharacter != null && currentCharacter.GetPerkValue(DefaultPerks.Athletics.FormFittingArmor)) ? (1f + DefaultPerks.Athletics.FormFittingArmor.PrimaryBonus / 100f) : 1f);
+			float num = ((currentCharacter != null && currentCharacter.GetPerkValue(DefaultPerks.Athletics.FormFittingArmor)) ? (1f + DefaultPerks.Athletics.FormFittingArmor.PrimaryBonus) : 1f);
 			this.CurrentCharacterTotalEncumbrance = MathF.Round(this.ActiveEquipment.GetTotalWeightOfWeapons() + this.ActiveEquipment.GetTotalWeightOfArmor(true) * num, 1).ToString("0.0");
 		}
 
@@ -1526,67 +1556,106 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._inventoryLogic.DonateItem(item.ItemRosterElement);
 		}
 
+		private float GetCapacityBudget(MobileParty party, bool isBuy)
+		{
+			if (isBuy)
+			{
+				int? num = ((party != null) ? new int?(party.InventoryCapacity) : null);
+				float? num2 = ((num != null) ? new float?((float)num.GetValueOrDefault()) : null) - this._equipmentCount;
+				if (num2 == null)
+				{
+					return 0f;
+				}
+				return num2.GetValueOrDefault();
+			}
+			else
+			{
+				if (this._inventoryLogic.OtherSideCapacityData != null)
+				{
+					return (float)this._inventoryLogic.OtherSideCapacityData.GetCapacity() - this.LeftItemListVM.Sum((SPItemVM x) => x.ItemRosterElement.GetRosterElementWeight());
+				}
+				return 0f;
+			}
+		}
+
 		private void TransferAll(bool isBuy)
 		{
 			this.IsRefreshed = false;
 			List<TransferCommand> list = new List<TransferCommand>(this.LeftItemListVM.Count);
 			MBBindingList<SPItemVM> mbbindingList = (isBuy ? this.LeftItemListVM : this.RightItemListVM);
-			List<SPItemVM> list2 = new List<SPItemVM>();
-			object obj;
+			MobileParty mobileParty;
 			if (!isBuy)
 			{
 				PartyBase oppositePartyFromListener = this._inventoryLogic.OppositePartyFromListener;
-				obj = ((oppositePartyFromListener != null) ? oppositePartyFromListener.MobileParty : null);
+				mobileParty = ((oppositePartyFromListener != null) ? oppositePartyFromListener.MobileParty : null);
 			}
 			else
 			{
-				obj = MobileParty.MainParty;
+				mobileParty = MobileParty.MainParty;
 			}
+			MobileParty mobileParty2 = mobileParty;
 			float num = 0f;
-			object obj2 = obj;
-			int? num2 = ((obj2 != null) ? new int?(obj2.InventoryCapacity) : null);
-			float num3 = (((num2 != null) ? new float?((float)num2.GetValueOrDefault()) : null) - (isBuy ? this._equipmentCount : 0f)) ?? 0f;
+			float num2 = this.GetCapacityBudget(mobileParty2, isBuy);
 			SPItemVM spitemVM = mbbindingList.FirstOrDefault((SPItemVM x) => !x.IsFiltered && !x.IsLocked);
-			float num4 = ((spitemVM != null) ? spitemVM.ItemRosterElement.EquipmentElement.GetEquipmentElementWeight() : 0f);
-			bool flag = !isBuy || num3 <= num4;
+			float num3 = ((spitemVM != null) ? spitemVM.ItemRosterElement.EquipmentElement.GetEquipmentElementWeight() : 0f);
+			bool flag = num2 <= num3;
 			InventoryLogic.InventorySide inventorySide = (isBuy ? InventoryLogic.InventorySide.OtherInventory : InventoryLogic.InventorySide.PlayerInventory);
 			InventoryLogic.InventorySide inventorySide2 = (isBuy ? InventoryLogic.InventorySide.PlayerInventory : InventoryLogic.InventorySide.OtherInventory);
+			List<SPItemVM> list2 = new List<SPItemVM>();
+			bool flag2 = this._inventoryLogic.CanInventoryCapacityIncrease(inventorySide2);
 			for (int i = 0; i < mbbindingList.Count; i++)
 			{
 				SPItemVM spitemVM2 = mbbindingList[i];
 				if (spitemVM2 != null && !spitemVM2.IsFiltered && spitemVM2 != null && !spitemVM2.IsLocked && spitemVM2 != null && spitemVM2.IsTransferable)
 				{
-					int num5 = spitemVM2.ItemRosterElement.Amount;
+					int num4 = spitemVM2.ItemRosterElement.Amount;
 					if (!flag)
 					{
 						float equipmentElementWeight = spitemVM2.ItemRosterElement.EquipmentElement.GetEquipmentElementWeight();
-						float num6 = equipmentElementWeight * (float)num5;
-						if (spitemVM2.ItemRosterElement.EquipmentElement.Item.HasHorseComponent)
+						float num5 = num + equipmentElementWeight * (float)num4;
+						if (flag2)
 						{
-							list2.Add(spitemVM2);
-							goto IL_256;
+							if (this._inventoryLogic.GetCanItemIncreaseInventoryCapacity(mbbindingList[i].ItemRosterElement.EquipmentElement.Item))
+							{
+								list2.Add(mbbindingList[i]);
+								goto IL_29E;
+							}
+							if (num5 >= num2 && list2.Count > 0)
+							{
+								List<TransferCommand> list3 = new List<TransferCommand>(list2.Count);
+								for (int j = 0; j < list2.Count; j++)
+								{
+									SPItemVM spitemVM3 = list2[j];
+									TransferCommand transferCommand = TransferCommand.Transfer(spitemVM3.ItemRosterElement.Amount, inventorySide, inventorySide2, spitemVM3.ItemRosterElement, EquipmentIndex.None, EquipmentIndex.None, this._currentCharacter, !this.IsInWarSet);
+									list3.Add(transferCommand);
+								}
+								this._inventoryLogic.AddTransferCommands(list3);
+								list3.Clear();
+								list2.Clear();
+								num2 = this.GetCapacityBudget(mobileParty2, isBuy);
+							}
 						}
-						num += num6;
-						if (num5 > 0 && num > num3)
+						if (num4 > 0 && num5 > num2)
 						{
-							num5 = MBMath.ClampInt(num5, 0, num5 - MathF.Ceiling((num - num3) / equipmentElementWeight));
+							num4 = MBMath.ClampInt(num4, 0, MathF.Floor((num2 - num) / equipmentElementWeight));
 							i = mbbindingList.Count;
 						}
+						num += (float)num4 * equipmentElementWeight;
 					}
-					if (num5 > 0)
+					if (num4 > 0)
 					{
-						TransferCommand transferCommand = TransferCommand.Transfer(num5, inventorySide, inventorySide2, spitemVM2.ItemRosterElement, EquipmentIndex.None, EquipmentIndex.None, this._currentCharacter, !this.IsInWarSet);
-						list.Add(transferCommand);
+						TransferCommand transferCommand2 = TransferCommand.Transfer(num4, inventorySide, inventorySide2, spitemVM2.ItemRosterElement, EquipmentIndex.None, EquipmentIndex.None, this._currentCharacter, !this.IsInWarSet);
+						list.Add(transferCommand2);
 					}
 				}
-				IL_256:;
+				IL_29E:;
 			}
-			if (num < num3)
+			if (num <= num2)
 			{
-				foreach (SPItemVM spitemVM3 in list2)
+				foreach (SPItemVM spitemVM4 in list2)
 				{
-					TransferCommand transferCommand2 = TransferCommand.Transfer(spitemVM3.ItemRosterElement.Amount, inventorySide, inventorySide2, spitemVM3.ItemRosterElement, EquipmentIndex.None, EquipmentIndex.None, this._currentCharacter, !this.IsInWarSet);
-					list.Add(transferCommand2);
+					TransferCommand transferCommand3 = TransferCommand.Transfer(spitemVM4.ItemRosterElement.Amount, inventorySide, inventorySide2, spitemVM4.ItemRosterElement, EquipmentIndex.None, EquipmentIndex.None, this._currentCharacter, !this.IsInWarSet);
+					list.Add(transferCommand3);
 				}
 			}
 			this._inventoryLogic.AddTransferCommands(list);
@@ -1924,7 +1993,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 					{
 						this.IsCivilianFilterHighlightEnabled = false;
 					}
-					if (obj.NewNotificationElementID != "InventoryOtherBannerItems" && this._isBannerItemsHighlightApplied)
+					if (obj.NewNotificationElementID != "InventoryOtherBannerItems" && this.IsBannerItemsHighlightApplied)
 					{
 						this.SetBannerItemsHighlightState(false);
 						this.IsCivilianFilterHighlightEnabled = false;
@@ -1946,9 +2015,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 					{
 						this.IsCivilianFilterHighlightEnabled = true;
 					}
-					if (!this._isBannerItemsHighlightApplied && this._latestTutorialElementID == "InventoryOtherBannerItems")
+					if (!this.IsBannerItemsHighlightApplied && this._latestTutorialElementID == "InventoryOtherBannerItems")
 					{
-						this._isBannerItemsHighlightApplied = true;
+						this.IsBannerItemsHighlightApplied = true;
 						this.ExecuteFilterMisc();
 						this.SetBannerItemsHighlightState(true);
 						return;
@@ -1969,10 +2038,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 					{
 						this.IsCivilianFilterHighlightEnabled = false;
 					}
-					if (this._isBannerItemsHighlightApplied)
+					if (this.IsBannerItemsHighlightApplied)
 					{
 						this.SetBannerItemsHighlightState(false);
-						this._isBannerItemsHighlightApplied = false;
+						this.IsBannerItemsHighlightApplied = false;
 					}
 				}
 			}
@@ -2083,6 +2152,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 				{
 					this._isDoneDisabled = value;
 					base.OnPropertyChangedWithValue(value, "IsDoneDisabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool OtherSideHasCapacity
+		{
+			get
+			{
+				return this._otherSideHasCapacity;
+			}
+			set
+			{
+				if (value != this._otherSideHasCapacity)
+				{
+					this._otherSideHasCapacity = value;
+					base.OnPropertyChangedWithValue(value, "OtherSideHasCapacity");
 				}
 			}
 		}
@@ -2858,18 +2944,35 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		}
 
 		[DataSourceProperty]
-		public HintViewModel CapacityExceededHint
+		public HintViewModel PlayerSideCapacityExceededHint
 		{
 			get
 			{
-				return this._capacityExceededHint;
+				return this._playerSideCapacityExceededHint;
 			}
 			set
 			{
-				if (value != this._capacityExceededHint)
+				if (value != this._playerSideCapacityExceededHint)
 				{
-					this._capacityExceededHint = value;
-					base.OnPropertyChangedWithValue<HintViewModel>(value, "CapacityExceededHint");
+					this._playerSideCapacityExceededHint = value;
+					base.OnPropertyChangedWithValue<HintViewModel>(value, "PlayerSideCapacityExceededHint");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public HintViewModel OtherSideCapacityExceededHint
+		{
+			get
+			{
+				return this._otherSideCapacityExceededHint;
+			}
+			set
+			{
+				if (value != this._otherSideCapacityExceededHint)
+				{
+					this._otherSideCapacityExceededHint = value;
+					base.OnPropertyChangedWithValue<HintViewModel>(value, "OtherSideCapacityExceededHint");
 				}
 			}
 		}
@@ -3064,18 +3167,35 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		}
 
 		[DataSourceProperty]
-		public string CapacityExceededText
+		public string PlayerSideCapacityExceededText
 		{
 			get
 			{
-				return this._capacityExceededText;
+				return this._playerSideCapacityExceededText;
 			}
 			set
 			{
-				if (value != this._capacityExceededText)
+				if (value != this._playerSideCapacityExceededText)
 				{
-					this._capacityExceededText = value;
-					base.OnPropertyChangedWithValue<string>(value, "CapacityExceededText");
+					this._playerSideCapacityExceededText = value;
+					base.OnPropertyChangedWithValue<string>(value, "PlayerSideCapacityExceededText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string OtherSideCapacityExceededText
+		{
+			get
+			{
+				return this._otherSideCapacityExceededText;
+			}
+			set
+			{
+				if (value != this._otherSideCapacityExceededText)
+				{
+					this._otherSideCapacityExceededText = value;
+					base.OnPropertyChangedWithValue<string>(value, "OtherSideCapacityExceededText");
 				}
 			}
 		}
@@ -3151,23 +3271,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		}
 
 		[DataSourceProperty]
-		public bool EquipmentCountWarned
-		{
-			get
-			{
-				return this._equipmentCountWarned;
-			}
-			set
-			{
-				if (value != this._equipmentCountWarned)
-				{
-					this._equipmentCountWarned = value;
-					base.OnPropertyChangedWithValue(value, "EquipmentCountWarned");
-				}
-			}
-		}
-
-		[DataSourceProperty]
 		public bool NoSaddleWarned
 		{
 			get
@@ -3185,18 +3288,69 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		}
 
 		[DataSourceProperty]
-		public string EquipmentCountText
+		public bool PlayerEquipmentCountWarned
 		{
 			get
 			{
-				return this._equipmentCountText;
+				return this._playerEquipmentCountWarned;
 			}
 			set
 			{
-				if (value != this._equipmentCountText)
+				if (value != this._playerEquipmentCountWarned)
 				{
-					this._equipmentCountText = value;
-					base.OnPropertyChangedWithValue<string>(value, "EquipmentCountText");
+					this._playerEquipmentCountWarned = value;
+					base.OnPropertyChangedWithValue(value, "PlayerEquipmentCountWarned");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool OtherEquipmentCountWarned
+		{
+			get
+			{
+				return this._otherEquipmentCountWarned;
+			}
+			set
+			{
+				if (value != this._otherEquipmentCountWarned)
+				{
+					this._otherEquipmentCountWarned = value;
+					base.OnPropertyChangedWithValue(value, "OtherEquipmentCountWarned");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string OtherEquipmentCountText
+		{
+			get
+			{
+				return this._otherEquipmentCountText;
+			}
+			set
+			{
+				if (value != this._otherEquipmentCountText)
+				{
+					this._otherEquipmentCountText = value;
+					base.OnPropertyChangedWithValue<string>(value, "OtherEquipmentCountText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string PlayerEquipmentCountText
+		{
+			get
+			{
+				return this._playerEquipmentCountText;
+			}
+			set
+			{
+				if (value != this._playerEquipmentCountText)
+				{
+					this._playerEquipmentCountText = value;
+					base.OnPropertyChangedWithValue<string>(value, "PlayerEquipmentCountText");
 				}
 			}
 		}
@@ -3864,6 +4018,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
+		[DataSourceProperty]
+		public bool IsBannerItemsHighlightApplied
+		{
+			get
+			{
+				return this._isBannerItemsHighlightApplied;
+			}
+			set
+			{
+				if (value != this._isBannerItemsHighlightApplied)
+				{
+					this._isBannerItemsHighlightApplied = value;
+					base.OnPropertyChangedWithValue(value, "IsBannerItemsHighlightApplied");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public int BannerTypeCode
+		{
+			get
+			{
+				return this._bannerTypeCode;
+			}
+			set
+			{
+				if (value != this._bannerTypeCode)
+				{
+					this._bannerTypeCode = value;
+					base.OnPropertyChangedWithValue(value, "BannerTypeCode");
+				}
+			}
+		}
+
 		private TextObject GetPreviousCharacterKeyText()
 		{
 			if (this.PreviousCharacterInputKey == null || this._getKeyTextFromKeyId == null)
@@ -4108,17 +4296,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
-		private readonly PlayerUpdateTracker _playerUpdateTracker;
-
-		private readonly IViewDataTracker _viewDataTracker;
-
 		public bool DoNotSync;
 
-		private TroopRoster _rightTroopRoster;
+		private readonly Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> _getItemUsageSetFlags;
 
-		private TroopRoster _leftTroopRoster;
-
-		private bool _isFinalized;
+		private readonly IViewDataTracker _viewDataTracker;
 
 		public bool IsFiveStackModifierActive;
 
@@ -4126,41 +4308,45 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 
 		private readonly int _donationMaxShareableXp;
 
+		private readonly TroopRoster _rightTroopRoster;
+
+		private InventoryMode _usageType = InventoryMode.Trade;
+
+		private readonly TroopRoster _leftTroopRoster;
+
+		private int _lastComparedItemIndex;
+
 		private readonly Stack<SPItemVM> _equipAfterTransferStack;
+
+		private int _currentInventoryCharacterIndex;
 
 		private bool _isTrading;
 
-		private InventoryLogic _inventoryLogic;
+		private bool _isFinalized;
 
 		private bool _isCharacterEquipmentDirty;
 
-		private CharacterObject _currentCharacter;
-
-		private int _currentInventoryCharacterIndex;
+		private float _equipmentCount;
 
 		private string _selectedTooltipItemStringID = "";
 
 		private string _comparedTooltipItemStringID = "";
 
+		private InventoryLogic _inventoryLogic;
+
+		private CharacterObject _currentCharacter;
+
 		private SPItemVM _selectedItem;
-
-		private int _lastComparedItemIndex;
-
-		private float _equipmentCount;
-
-		private readonly Func<WeaponComponentData, ItemObject.ItemUsageSetFlags> _getItemUsageSetFlags;
-
-		private List<ItemVM> _comparedItemList;
-
-		private Func<string, TextObject> _getKeyTextFromKeyId;
-
-		private InventoryMode _usageType = InventoryMode.Trade;
 
 		private string _fiveStackShortcutkeyText;
 
 		private string _entireStackShortcutkeyText;
 
+		private List<ItemVM> _comparedItemList;
+
 		private List<string> _lockedItemIDs;
+
+		private Func<string, TextObject> _getKeyTextFromKeyId;
 
 		private readonly List<int> _everyItemType = new List<int>
 		{
@@ -4192,6 +4378,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		private string _leftInventoryLabel;
 
 		private string _rightInventoryLabel;
+
+		private bool _otherSideHasCapacity;
 
 		private bool _isDoneDisabled;
 
@@ -4279,11 +4467,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 
 		private HintViewModel _sellHint;
 
-		private HintViewModel _capacityExceededHint;
+		private HintViewModel _playerSideCapacityExceededHint;
 
 		private HintViewModel _noSaddleHint;
 
 		private HintViewModel _donationLblHint;
+
+		private HintViewModel _otherSideCapacityExceededHint;
 
 		private BasicTooltipViewModel _equipmentMaxCountHint;
 
@@ -4345,19 +4535,25 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 
 		private bool _isDonationXpGainExceedsMax;
 
-		private bool _equipmentCountWarned;
-
 		private bool _noSaddleWarned;
+
+		private bool _otherEquipmentCountWarned;
+
+		private bool _playerEquipmentCountWarned;
 
 		private bool _isTradingWithSettlement;
 
-		private string _equipmentCountText;
+		private string _otherEquipmentCountText;
+
+		private string _playerEquipmentCountText;
 
 		private string _noSaddleText;
 
-		private string _capacityExceededText;
-
 		private string _leftSearchText = "";
+
+		private string _playerSideCapacityExceededText;
+
+		private string _otherSideCapacityExceededText;
 
 		private string _rightSearchText = "";
 
@@ -4378,6 +4574,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		private SPInventorySortControllerVM _otherInventorySortController;
 
 		private SPInventorySortControllerVM _playerInventorySortController;
+
+		private int _bannerTypeCode;
 
 		private string _leftInventoryOwnerName;
 

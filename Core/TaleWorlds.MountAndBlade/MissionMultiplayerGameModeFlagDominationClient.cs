@@ -18,7 +18,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				return this.GameType != MissionLobbyComponent.MultiplayerGameType.Captain;
+				return this.GameType != MultiplayerGameType.Captain;
 			}
 		}
 
@@ -38,7 +38,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override MissionLobbyComponent.MultiplayerGameType GameType
+		public override MultiplayerGameType GameType
 		{
 			get
 			{
@@ -82,11 +82,11 @@ namespace TaleWorlds.MountAndBlade
 			this._scoreboardComponent = Mission.Current.GetMissionBehavior<MissionScoreboardComponent>();
 			if (MultiplayerOptions.OptionType.SingleSpawn.GetBoolValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions))
 			{
-				this._currentGameType = ((MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) > 0) ? MissionLobbyComponent.MultiplayerGameType.Captain : MissionLobbyComponent.MultiplayerGameType.Battle);
+				this._currentGameType = ((MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) > 0) ? MultiplayerGameType.Captain : MultiplayerGameType.Battle);
 			}
 			else
 			{
-				this._currentGameType = MissionLobbyComponent.MultiplayerGameType.Skirmish;
+				this._currentGameType = MultiplayerGameType.Skirmish;
 			}
 			this.ResetTeamPowers(1f);
 			this._capturePointOwners = new Team[3];
@@ -152,7 +152,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (missionPeer.Team != base.Mission.SpectatorTeam)
 				{
-					if (this.GameType == MissionLobbyComponent.MultiplayerGameType.Captain && base.IsRoundInProgress)
+					if (this.GameType == MultiplayerGameType.Captain && base.IsRoundInProgress)
 					{
 						Formation controlledFormation = missionPeer.ControlledFormation;
 						if (controlledFormation != null)
@@ -211,13 +211,13 @@ namespace TaleWorlds.MountAndBlade
 				float num2 = -1f;
 				switch (this.GameType)
 				{
-				case MissionLobbyComponent.MultiplayerGameType.Battle:
+				case MultiplayerGameType.Battle:
 					num2 = 210f;
 					break;
-				case MissionLobbyComponent.MultiplayerGameType.Captain:
+				case MultiplayerGameType.Captain:
 					num2 = 180f;
 					break;
-				case MissionLobbyComponent.MultiplayerGameType.Skirmish:
+				case MultiplayerGameType.Skirmish:
 					num2 = 120f;
 					break;
 				default:
@@ -276,7 +276,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (flagCapturePoint.FlagIndex == flagDominationCapturePointMessage.FlagIndex)
 				{
-					this.OnCapturePointOwnerChanged(flagCapturePoint, flagDominationCapturePointMessage.OwnerTeam);
+					this.OnCapturePointOwnerChanged(flagCapturePoint, Mission.MissionNetworkHelper.GetTeamFromTeamIndex(flagDominationCapturePointMessage.OwnerTeamIndex));
 					break;
 				}
 			}
@@ -474,12 +474,12 @@ namespace TaleWorlds.MountAndBlade
 					if (component.ControlledAgent != null && component.ControlledAgent.IsActive())
 					{
 						MultiplayerClassDivisions.MPHeroClass mpheroClassForCharacter = MultiplayerClassDivisions.GetMPHeroClassForCharacter(component.ControlledAgent.Character);
-						num2 += ((this._currentGameType == MissionLobbyComponent.MultiplayerGameType.Battle) ? mpheroClassForCharacter.TroopBattleCost : mpheroClassForCharacter.TroopCost);
+						num2 += ((this._currentGameType == MultiplayerGameType.Battle) ? mpheroClassForCharacter.TroopBattleCost : mpheroClassForCharacter.TroopCost);
 					}
 					num++;
 				}
 			}
-			if (this._currentGameType == MissionLobbyComponent.MultiplayerGameType.Battle)
+			if (this._currentGameType == MultiplayerGameType.Battle)
 			{
 				num3 = 120;
 			}
@@ -631,7 +631,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private MissionScoreboardComponent _scoreboardComponent;
 
-		private MissionLobbyComponent.MultiplayerGameType _currentGameType;
+		private MultiplayerGameType _currentGameType;
 
 		private Team[] _capturePointOwners;
 

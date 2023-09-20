@@ -13,9 +13,17 @@ namespace TaleWorlds.MountAndBlade
 			this._state = state;
 		}
 
-		protected override void OnFrameTick(float dt)
+		protected sealed override void OnFrameTick(float dt)
 		{
 			base.OnFrameTick(dt);
+			if (ScreenManager.TopScreen == this)
+			{
+				this.OnProfileSelectionTick(dt);
+			}
+		}
+
+		protected virtual void OnProfileSelectionTick(float dt)
+		{
 		}
 
 		protected void OnActivateProfileSelection()

@@ -10,9 +10,7 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 
 		public abstract int CalculateWeaponDesignDifficulty(WeaponDesign weaponDesign);
 
-		public abstract int GetModifierTierForSmithedWeapon(WeaponDesign weaponDesign, Hero weaponsmith);
-
-		public abstract Crafting.OverrideData GetModifierChanges(int modifierTier, Hero hero, WeaponComponentData weapon);
+		public abstract ItemModifier GetCraftedWeaponModifier(WeaponDesign weaponDesign, Hero weaponsmith);
 
 		public abstract IEnumerable<Crafting.RefiningFormula> GetRefiningFormulas(Hero weaponsmith);
 

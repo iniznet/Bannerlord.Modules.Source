@@ -28,7 +28,7 @@ namespace TaleWorlds.MountAndBlade
 
 		protected internal virtual Agent.AIScriptedFrameFlags GetScriptedFrameFlags(Agent agent)
 		{
-			return Agent.AIScriptedFrameFlags.NoAttack;
+			return Agent.AIScriptedFrameFlags.None;
 		}
 
 		public void Tick(Agent agentToCompareTo, Formation formationToCompareTo, Team potentialUsersTeam, float dt)
@@ -87,7 +87,7 @@ namespace TaleWorlds.MountAndBlade
 				for (int i = standingPoint.GetDefendingAgentCount() - 1; i >= 0; i--)
 				{
 					Agent agent = standingPoint.DefendingAgents[i];
-					if ((agentToCompareTo == null || agent == agentToCompareTo) && (formationToCompareTo == null || (agent != null && agent.IsAIControlled && agent.Formation == formationToCompareTo)) && ((potentialUsersTeam != null && !this.UsableMachine.IsDisabledForBattleSideAI(potentialUsersTeam.Side)) || agent.IsRunningAway))
+					if ((agentToCompareTo == null || agent == agentToCompareTo) && (formationToCompareTo == null || (agent != null && agent.IsAIControlled && agent.Formation == formationToCompareTo)) && (this.HasActionCompleted || (potentialUsersTeam != null && !this.UsableMachine.IsDisabledForBattleSideAI(potentialUsersTeam.Side)) || agent.IsRunningAway))
 					{
 						this.HandleAgentStopUsingStandingPoint(agent, standingPoint);
 					}
@@ -191,7 +191,7 @@ namespace TaleWorlds.MountAndBlade
 							if (GameNetwork.IsServerOrRecorder)
 							{
 								GameNetwork.BeginBroadcastModuleEvent();
-								GameNetwork.WriteMessage(new AgentTeleportToFrame(agent, userFrameForAgent.Origin.GetGroundVec3(), vec));
+								GameNetwork.WriteMessage(new AgentTeleportToFrame(agent.Index, userFrameForAgent.Origin.GetGroundVec3(), vec));
 								GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 							}
 						}

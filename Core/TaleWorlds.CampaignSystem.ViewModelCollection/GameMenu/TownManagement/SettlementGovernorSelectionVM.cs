@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Library;
 
@@ -12,31 +12,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 		{
 			this._settlement = settlement;
 			this._onDone = onDone;
-			this.AvailableGovernors = new MBBindingList<SettlementGovernorSelectionItemVM>();
-			this.AvailableGovernors.Add(new SettlementGovernorSelectionItemVM(null, new Action<SettlementGovernorSelectionItemVM>(this.OnSelection)));
+			this.AvailableGovernors = new MBBindingList<SettlementGovernorSelectionItemVM>
+			{
+				new SettlementGovernorSelectionItemVM(null, new Action<SettlementGovernorSelectionItemVM>(this.OnSelection))
+			};
 			if (((settlement != null) ? settlement.OwnerClan : null) != null)
 			{
-				foreach (Hero hero in settlement.OwnerClan.Heroes)
+				using (List<Hero>.Enumerator enumerator = settlement.OwnerClan.Heroes.GetEnumerator())
 				{
-					if (this.IsHeroApplicableForGovernor(hero))
+					while (enumerator.MoveNext())
 					{
-						this.AvailableGovernors.Add(new SettlementGovernorSelectionItemVM(hero, new Action<SettlementGovernorSelectionItemVM>(this.OnSelection)));
+						Hero hero = enumerator.Current;
+						if (Campaign.Current.Models.ClanPoliticsModel.CanHeroBeGovernor(hero) && !this.AvailableGovernors.Any((SettlementGovernorSelectionItemVM G) => G.Governor == hero) && (hero.GovernorOf == this._settlement.Town || hero.GovernorOf == null))
+						{
+							this.AvailableGovernors.Add(new SettlementGovernorSelectionItemVM(hero, new Action<SettlementGovernorSelectionItemVM>(this.OnSelection)));
+						}
 					}
 				}
 			}
-		}
-
-		private bool IsHeroApplicableForGovernor(Hero hero)
-		{
-			if (!hero.IsDead && !hero.IsDisabled && !hero.IsChild && hero.CanBeGovernorOrHavePartyRole() && hero != Hero.MainHero)
-			{
-				MobileParty partyBelongedTo = hero.PartyBelongedTo;
-				if (((partyBelongedTo != null) ? partyBelongedTo.LeaderHero : null) != hero && (hero.GovernorOf == this._settlement.Town || hero.GovernorOf == null) && !hero.IsFugitive && !hero.IsReleased)
-				{
-					return !this.AvailableGovernors.Any((SettlementGovernorSelectionItemVM G) => G.Governor == hero);
-				}
-			}
-			return false;
 		}
 
 		public override void RefreshValues()

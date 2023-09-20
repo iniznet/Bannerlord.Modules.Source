@@ -411,6 +411,12 @@ namespace TaleWorlds.Engine
 		[EngineMethod("get_bounding_box_max", false)]
 		Vec3 GetBoundingBoxMax(UIntPtr entityId);
 
+		[EngineMethod("get_physics_bounding_box_min", false)]
+		Vec3 GetPhysicsBoundingBoxMin(UIntPtr entityId);
+
+		[EngineMethod("get_physics_bounding_box_max", false)]
+		Vec3 GetPhysicsBoundingBoxMax(UIntPtr entityId);
+
 		[EngineMethod("has_frame_changed", false)]
 		bool HasFrameChanged(UIntPtr entityId);
 
@@ -431,6 +437,9 @@ namespace TaleWorlds.Engine
 
 		[EngineMethod("get_mesh_bended_position", false)]
 		void GetMeshBendedPosition(UIntPtr entityId, ref MatrixFrame worldSpacePosition, ref MatrixFrame output);
+
+		[EngineMethod("compute_trajectory_volume", false)]
+		void ComputeTrajectoryVolume(UIntPtr gameEntity, float missileSpeed, float verticalAngleMaxInDegrees, float verticalAngleMinInDegrees, float horizontalAngleRangeInDegrees, float airFrictionConstant);
 
 		[EngineMethod("break_prefab", false)]
 		void BreakPrefab(UIntPtr entityId);

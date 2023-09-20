@@ -40,8 +40,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		public static bool WeaponTypeDebugEnabled { get; private set; }
-
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<ItemObject>("_latestCraftedItem", ref this._latestCraftedItem);
@@ -51,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<List<WeaponDesign>>("_craftingHistory", ref this._craftingHistory);
 			dataStore.SyncData<Dictionary<CraftingTemplate, List<CraftingPiece>>>("_openedPartsDictionary", ref this._openedPartsDictionary);
 			dataStore.SyncData<Dictionary<CraftingTemplate, float>>("_openNewPartXpDictionary", ref this._openNewPartXpDictionary);
-			if (dataStore.IsLoading && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 26219))
+			if (dataStore.IsLoading && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 24202))
 			{
 				List<CraftingPiece> list = new List<CraftingPiece>();
 				dataStore.SyncData<List<CraftingPiece>>("_openedParts", ref list);
@@ -77,7 +75,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			CampaignEvents.OnNewGameCreatedPartialFollowUpEndEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreatedPartialFollowUpEnd));
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
-			CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, Crafting.OverrideData, bool>(this.OnNewItemCrafted));
+			CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, ItemModifier, bool>(this.OnNewItemCrafted));
 			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 			CampaignEvents.DailyTickSettlementEvent.AddNonSerializedListener(this, new Action<Settlement>(this.DailyTickSettlement));
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
@@ -204,7 +202,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return num;
 		}
 
-		private void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
+		private void OnNewItemCrafted(ItemObject itemObject, ItemModifier overridenItemModifier, bool isCraftingOrderItem)
 		{
 			if (!this._craftedItemDictionary.ContainsKey(itemObject))
 			{
@@ -289,7 +287,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			foreach (KeyValuePair<ItemObject, CraftingCampaignBehavior.CraftedItemInitializationData> keyValuePair in this._craftedItemDictionary)
 			{
 				WeaponDesign weaponDesign = keyValuePair.Value.CraftedData;
-				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 26219))
+				if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
 				{
 					WeaponDesignElement[] array = new WeaponDesignElement[keyValuePair.Value.CraftedData.UsedPieces.Length];
 					for (int i = 0; i < keyValuePair.Value.CraftedData.UsedPieces.Length; i++)
@@ -298,19 +296,36 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 					weaponDesign = new WeaponDesign(weaponDesign.Template, weaponDesign.WeaponName, array);
 				}
-				ItemObject itemObject = Crafting.InitializePreCraftedWeaponOnLoad(keyValuePair.Key, weaponDesign, keyValuePair.Value.ItemName, keyValuePair.Value.Culture, null);
-				if (itemObject == DefaultItems.Trash || itemObject == null)
+				bool flag = true;
+				WeaponDesignElement[] usedPieces = weaponDesign.UsedPieces;
+				for (int j = 0; j < usedPieces.Length; j++)
 				{
-					list.Add(keyValuePair.Key);
-					if (MBObjectManager.Instance.GetObject(keyValuePair.Key.Id) != null)
+					if (!usedPieces[j].IsValid)
 					{
-						MBObjectManager.Instance.UnregisterObject(keyValuePair.Key);
+						flag = false;
+						break;
+					}
+				}
+				if (flag)
+				{
+					ItemObject itemObject = Crafting.InitializePreCraftedWeaponOnLoad(keyValuePair.Key, weaponDesign, keyValuePair.Value.ItemName, keyValuePair.Value.Culture);
+					if (itemObject == DefaultItems.Trash || itemObject == null)
+					{
+						list.Add(keyValuePair.Key);
+						if (MBObjectManager.Instance.GetObject(keyValuePair.Key.Id) != null)
+						{
+							MBObjectManager.Instance.UnregisterObject(keyValuePair.Key);
+						}
+					}
+					else
+					{
+						ItemObject.InitAsPlayerCraftedItem(ref itemObject);
+						itemObject.IsReady = true;
 					}
 				}
 				else
 				{
-					ItemObject.InitAsPlayerCraftedItem(ref itemObject);
-					itemObject.IsReady = true;
+					list.Add(keyValuePair.Key);
 				}
 			}
 			foreach (ItemObject itemObject2 in list)
@@ -321,10 +336,36 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				foreach (CraftingOrder craftingOrder in keyValuePair2.Value.Slots)
 				{
-					if (craftingOrder != null)
+					if (craftingOrder != null && !craftingOrder.IsPreCraftedWeaponDesignValid())
 					{
-						craftingOrder.InitializeCraftingOrderOnLoad();
+						keyValuePair2.Value.RemoveTownOrder(craftingOrder);
 					}
+				}
+				List<CraftingOrder> list2 = new List<CraftingOrder>();
+				foreach (CraftingOrder craftingOrder2 in keyValuePair2.Value.CustomOrders)
+				{
+					if (craftingOrder2.IsPreCraftedWeaponDesignValid())
+					{
+						list2.Add(craftingOrder2);
+					}
+				}
+				foreach (CraftingOrder craftingOrder3 in list2)
+				{
+					keyValuePair2.Value.RemoveCustomOrder(craftingOrder3);
+				}
+			}
+			foreach (KeyValuePair<Town, CraftingCampaignBehavior.CraftingOrderSlots> keyValuePair3 in this.CraftingOrders)
+			{
+				foreach (CraftingOrder craftingOrder4 in keyValuePair3.Value.Slots)
+				{
+					if (craftingOrder4 != null)
+					{
+						craftingOrder4.InitializeCraftingOrderOnLoad();
+					}
+				}
+				foreach (CraftingOrder craftingOrder5 in keyValuePair3.Value.CustomOrders)
+				{
+					craftingOrder5.InitializeCraftingOrderOnLoad();
 				}
 			}
 		}
@@ -508,6 +549,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			hero.AddSkillXp(DefaultSkills.Crafting, (float)Campaign.Current.Models.SmithingModel.GetSkillXpForRefining(ref refineFormula));
 			int energyCostForRefining = Campaign.Current.Models.SmithingModel.GetEnergyCostForRefining(ref refineFormula, hero);
 			this.SetHeroCraftingStamina(hero, this.GetHeroCraftingStamina(hero) - energyCostForRefining);
+			CampaignEventDispatcher.Instance.OnItemsRefined(hero, refineFormula);
 		}
 
 		public void DoSmelting(Hero hero, EquipmentElement equipmentElement)
@@ -530,18 +572,25 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			CampaignEventDispatcher.Instance.OnEquipmentSmeltedByHero(hero, equipmentElement);
 		}
 
-		public ItemObject CreateCraftedWeaponInFreeBuildMode(Hero hero, WeaponDesign weaponDesign, int modifierTier, Crafting.OverrideData overrideData)
+		public ItemObject CreateCraftedWeaponInFreeBuildMode(Hero hero, WeaponDesign weaponDesign, ItemModifier weaponModifier = null)
 		{
 			CraftingCampaignBehavior.SpendMaterials(weaponDesign);
-			Campaign.Current.Models.SmithingModel.CalculateWeaponDesignDifficulty(weaponDesign);
 			CraftingState craftingState;
 			if ((craftingState = GameStateManager.Current.ActiveState as CraftingState) != null)
 			{
-				ItemObject currentCraftedItemObject = craftingState.CraftingLogic.GetCurrentCraftedItemObject(true, overrideData);
+				ItemObject currentCraftedItemObject = craftingState.CraftingLogic.GetCurrentCraftedItemObject(true);
 				ItemObject.InitAsPlayerCraftedItem(ref currentCraftedItemObject);
 				MBObjectManager.Instance.RegisterObject<ItemObject>(currentCraftedItemObject);
-				PartyBase.MainParty.ItemRoster.AddToCounts(currentCraftedItemObject, 1);
-				CampaignEventDispatcher.Instance.OnNewItemCrafted(currentCraftedItemObject, overrideData, false);
+				if (weaponModifier == null)
+				{
+					PartyBase.MainParty.ItemRoster.AddToCounts(currentCraftedItemObject, 1);
+				}
+				else
+				{
+					EquipmentElement equipmentElement = new EquipmentElement(currentCraftedItemObject, weaponModifier, null, false);
+					PartyBase.MainParty.ItemRoster.AddToCounts(equipmentElement, 1);
+				}
+				CampaignEventDispatcher.Instance.OnNewItemCrafted(currentCraftedItemObject, weaponModifier, false);
 				hero.AddSkillXp(DefaultSkills.Crafting, (float)Campaign.Current.Models.SmithingModel.GetSkillXpForSmithingInFreeBuildMode(currentCraftedItemObject));
 				int energyCostForSmithing = Campaign.Current.Models.SmithingModel.GetEnergyCostForSmithing(currentCraftedItemObject, hero);
 				this.SetHeroCraftingStamina(hero, this.GetHeroCraftingStamina(hero) - energyCostForSmithing);
@@ -556,17 +605,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return null;
 		}
 
-		public ItemObject CreateCraftedWeaponInCraftingOrderMode(Hero crafterHero, CraftingOrder craftingOrder, WeaponDesign weaponDesign, int modifierTier, Crafting.OverrideData overrideData)
+		public ItemObject CreateCraftedWeaponInCraftingOrderMode(Hero crafterHero, CraftingOrder craftingOrder, WeaponDesign weaponDesign)
 		{
 			CraftingCampaignBehavior.SpendMaterials(weaponDesign);
 			SmithingModel smithingModel = Campaign.Current.Models.SmithingModel;
 			CraftingState craftingState;
 			if ((craftingState = GameStateManager.Current.ActiveState as CraftingState) != null)
 			{
-				ItemObject currentCraftedItemObject = craftingState.CraftingLogic.GetCurrentCraftedItemObject(true, overrideData);
+				ItemObject currentCraftedItemObject = craftingState.CraftingLogic.GetCurrentCraftedItemObject(true);
 				ItemObject.InitAsPlayerCraftedItem(ref currentCraftedItemObject);
 				MBObjectManager.Instance.RegisterObject<ItemObject>(currentCraftedItemObject);
-				Campaign.Current.CampaignEvents.OnNewItemCrafted(currentCraftedItemObject, overrideData, true);
+				Campaign.Current.CampaignEvents.OnNewItemCrafted(currentCraftedItemObject, null, true);
 				float num = craftingOrder.GetOrderExperience(currentCraftedItemObject) + (float)Campaign.Current.Models.SmithingModel.GetSkillXpForSmithingInCraftingOrderMode(currentCraftedItemObject);
 				crafterHero.AddSkillXp(DefaultSkills.Crafting, num);
 				int energyCostForSmithing = Campaign.Current.Models.SmithingModel.GetEnergyCostForSmithing(currentCraftedItemObject, crafterHero);
@@ -647,18 +696,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (float)num + town.Prosperity / 500f;
 		}
 
-		public CraftingOrder CreateRandomQuestOrderForHero(Hero orderOwner, string questId)
-		{
-			float randomOrderDifficulty = this.GetRandomOrderDifficulty(orderOwner.CurrentSettlement.Town);
-			int num = (int)randomOrderDifficulty / 40;
-			CraftingTemplate randomElement = CraftingTemplate.All.GetRandomElement<CraftingTemplate>();
-			WeaponDesign weaponDesign = new WeaponDesign(randomElement, new TextObject("{=!}crafing order attempt 1", null), this.GetWeaponPieces(randomElement, num));
-			CraftingOrder craftingOrder = new CraftingOrder(orderOwner, randomOrderDifficulty, weaponDesign, randomElement, -1);
-			this._craftingOrders[orderOwner.CurrentSettlement.Town].AddQuestOrder(questId, craftingOrder);
-			return craftingOrder;
-		}
-
-		public CraftingOrder CreateQuestOrderForHero(Hero orderOwner, string questId, float orderDifficulty = -1f, WeaponDesign weaponDesign = null, CraftingTemplate craftingTemplate = null)
+		public CraftingOrder CreateCustomOrderForHero(Hero orderOwner, float orderDifficulty = -1f, WeaponDesign weaponDesign = null, CraftingTemplate craftingTemplate = null)
 		{
 			if (orderDifficulty < 0f)
 			{
@@ -671,10 +709,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (weaponDesign == null)
 			{
 				int num = (int)orderDifficulty / 40;
-				weaponDesign = new WeaponDesign(craftingTemplate, new TextObject("{=!}crafing order attempt 1", null), this.GetWeaponPieces(craftingTemplate, num));
+				weaponDesign = new WeaponDesign(craftingTemplate, TextObject.Empty, this.GetWeaponPieces(craftingTemplate, num));
 			}
 			CraftingOrder craftingOrder = new CraftingOrder(orderOwner, orderDifficulty, weaponDesign, craftingTemplate, -1);
-			this._craftingOrders[orderOwner.CurrentSettlement.Town].AddQuestOrder(questId, craftingOrder);
+			this._craftingOrders[orderOwner.CurrentSettlement.Town].AddCustomOrder(craftingOrder);
 			return craftingOrder;
 		}
 
@@ -871,27 +909,45 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			int num2;
 			this.GetOrderResult(craftingOrder, craftedItem, out flag, out textObject, out textObject2, out num2);
 			GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, num, false);
-			if (craftingOrder.IsLordOrder)
+			if (this._craftingOrders[town].CustomOrders.Contains(craftingOrder))
 			{
-				this.ChangeCraftedOrderWithTheNoblesWeaponIfItIsBetter(craftedItem, craftingOrder);
-				if (craftingOrder.OrderOwner.PartyBelongedTo != null)
-				{
-					this.GiveTroopToNobleAtWeaponTier((int)craftedItem.Tier, craftingOrder.OrderOwner);
-				}
-				if (flag && completerHero.GetPerkValue(DefaultPerks.Crafting.SteelMaker3))
-				{
-					ChangeRelationAction.ApplyRelationChangeBetweenHeroes(completerHero, craftingOrder.OrderOwner, (int)DefaultPerks.Crafting.SteelMaker3.SecondaryBonus, true);
-				}
+				this._craftingOrders[town].RemoveCustomOrder(craftingOrder);
 			}
 			else
 			{
-				craftingOrder.OrderOwner.AddPower((float)(craftedItem.Tier + 1));
-				if (flag && completerHero.GetPerkValue(DefaultPerks.Crafting.ExperiencedSmith))
+				if (craftingOrder.IsLordOrder)
 				{
-					ChangeRelationAction.ApplyRelationChangeBetweenHeroes(completerHero, craftingOrder.OrderOwner, (int)DefaultPerks.Crafting.ExperiencedSmith.SecondaryBonus, true);
+					this.ChangeCraftedOrderWithTheNoblesWeaponIfItIsBetter(craftedItem, craftingOrder);
+					if (craftingOrder.OrderOwner.PartyBelongedTo != null)
+					{
+						this.GiveTroopToNobleAtWeaponTier((int)craftedItem.Tier, craftingOrder.OrderOwner);
+					}
+					if (flag && completerHero.GetPerkValue(DefaultPerks.Crafting.SteelMaker3))
+					{
+						ChangeRelationAction.ApplyRelationChangeBetweenHeroes(completerHero, craftingOrder.OrderOwner, (int)DefaultPerks.Crafting.SteelMaker3.SecondaryBonus, true);
+					}
 				}
+				else
+				{
+					craftingOrder.OrderOwner.AddPower((float)(craftedItem.Tier + 1));
+					if (flag && completerHero.GetPerkValue(DefaultPerks.Crafting.ExperiencedSmith))
+					{
+						ChangeRelationAction.ApplyRelationChangeBetweenHeroes(completerHero, craftingOrder.OrderOwner, (int)DefaultPerks.Crafting.ExperiencedSmith.SecondaryBonus, true);
+					}
+				}
+				this._craftingOrders[town].RemoveTownOrder(craftingOrder);
 			}
-			this._craftingOrders[town].RemoveTownOrder(craftingOrder);
+			CampaignEventDispatcher.Instance.OnCraftingOrderCompleted(town, craftingOrder, craftedItem, completerHero);
+		}
+
+		public ItemModifier GetCurrentItemModifier()
+		{
+			return this._currentItemModifier;
+		}
+
+		public void SetCurrentItemModifier(ItemModifier modifier)
+		{
+			this._currentItemModifier = modifier;
 		}
 
 		private void RemoveOrdersOfHeroWithoutCompletionIfExists(Hero hero)
@@ -907,6 +963,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 				}
 			}
+		}
+
+		public void CancelCustomOrder(Town town, CraftingOrder craftingOrder)
+		{
+			if (this._craftingOrders[town].CustomOrders.Contains(craftingOrder))
+			{
+				this._craftingOrders[town].RemoveCustomOrder(craftingOrder);
+				return;
+			}
+			Debug.FailedAssert("Trying to cancel a custom order that doesn't exist.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\CraftingCampaignBehavior.cs", "CancelCustomOrder", 1235);
 		}
 
 		private void CancelOrder(Town town, CraftingOrder craftingOrder)
@@ -970,41 +1036,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			noble.PartyBelongedTo.AddElementToMemberRoster(characterObject, 1, false);
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("unlock_all_crafting_pieces", "campaign")]
-		public static string UnlockCraftingPieces(List<string> strings)
-		{
-			string text = "";
-			if (!CampaignCheats.CheckCheatUsage(ref text))
-			{
-				return text;
-			}
-			if (!CampaignCheats.CheckParameters(strings, 0) || CampaignCheats.CheckHelp(strings))
-			{
-				return "Format is \"campaign.unlock_all_crafting_pieces\".";
-			}
-			CraftingCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<CraftingCampaignBehavior>();
-			if (campaignBehavior == null)
-			{
-				return "Can not find Crafting Campaign Behavior!";
-			}
-			foreach (CraftingTemplate craftingTemplate in CraftingTemplate.All)
-			{
-				if (!campaignBehavior._openedPartsDictionary.ContainsKey(craftingTemplate))
-				{
-					campaignBehavior._openedPartsDictionary.Add(craftingTemplate, new List<CraftingPiece>());
-				}
-				if (!campaignBehavior._openNewPartXpDictionary.ContainsKey(craftingTemplate))
-				{
-					campaignBehavior._openNewPartXpDictionary.Add(craftingTemplate, 0f);
-				}
-				foreach (CraftingPiece craftingPiece in craftingTemplate.Pieces)
-				{
-					campaignBehavior.OpenPart(craftingPiece, craftingTemplate, false);
-				}
-			}
-			return "Success";
-		}
-
 		private const float WaitTargetHours = 8f;
 
 		private const float CraftingOrderReplaceChance = 0.05f;
@@ -1025,6 +1056,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private ItemObject _latestCraftedItem;
 
+		private ItemModifier _currentItemModifier;
+
 		private Dictionary<CraftingTemplate, List<CraftingPiece>> _openedPartsDictionary = new Dictionary<CraftingTemplate, List<CraftingPiece>>();
 
 		private Dictionary<CraftingTemplate, float> _openNewPartXpDictionary = new Dictionary<CraftingTemplate, float>();
@@ -1037,7 +1070,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private Dictionary<Town, CraftingCampaignBehavior.CraftingOrderSlots> _craftingOrders = new Dictionary<Town, CraftingCampaignBehavior.CraftingOrderSlots>();
 
-		public class CraftingCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class CraftingCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public CraftingCampaignBehaviorTypeDefiner()
 				: base(150000)
@@ -1056,6 +1089,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				base.ConstructContainerDefinition(typeof(Dictionary<ItemObject, CraftingCampaignBehavior.CraftedItemInitializationData>));
 				base.ConstructContainerDefinition(typeof(Dictionary<Hero, CraftingCampaignBehavior.HeroCraftingRecord>));
 				base.ConstructContainerDefinition(typeof(Dictionary<Town, CraftingCampaignBehavior.CraftingOrderSlots>));
+				base.ConstructContainerDefinition(typeof(List<CraftingOrder>));
 			}
 		}
 
@@ -1132,6 +1166,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		public class CraftingOrderSlots
 		{
+			public MBReadOnlyList<CraftingOrder> CustomOrders
+			{
+				get
+				{
+					return this._customOrders;
+				}
+			}
+
 			public CraftingOrderSlots()
 			{
 				this.Slots = new CraftingOrder[6];
@@ -1139,14 +1181,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					this.Slots[i] = null;
 				}
-				this._questOrders = new Dictionary<string, List<CraftingOrder>>();
-				this.QuestOrders = this._questOrders.GetReadOnlyDictionary<string, List<CraftingOrder>>();
+				this._customOrders = new MBList<CraftingOrder>();
 			}
 
 			[LoadInitializationCallback]
-			private void OnLoad(MetaData metaData)
+			private void OnLoad()
 			{
-				this.QuestOrders = this._questOrders.GetReadOnlyDictionary<string, List<CraftingOrder>>();
+				if (this._customOrders == null)
+				{
+					this._customOrders = new MBList<CraftingOrder>();
+				}
 			}
 
 			public bool IsThereAvailableSlot()
@@ -1183,23 +1227,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				this.Slots[craftingOrder.DifficultyLevel] = null;
 			}
 
-			internal void AddQuestOrder(string questId, CraftingOrder order)
+			internal void AddCustomOrder(CraftingOrder order)
 			{
-				if (!this._questOrders.ContainsKey(questId))
-				{
-					this._questOrders.Add(questId, new List<CraftingOrder>());
-				}
-				this._questOrders[questId].Add(order);
+				this._customOrders.Add(order);
 			}
 
-			internal void RemoveQuestOrder(string questId, CraftingOrder order)
+			internal void RemoveCustomOrder(CraftingOrder order)
 			{
-				this._questOrders[questId].Remove(order);
-			}
-
-			internal void RemoveAllQuestOrders(string questId)
-			{
-				this._questOrders.Remove(questId);
+				this._customOrders.Remove(order);
 			}
 
 			internal static void AutoGeneratedStaticCollectObjectsCraftingOrderSlots(object o, List<object> collectedObjects)
@@ -1210,7 +1245,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
 			{
 				collectedObjects.Add(this.Slots);
-				collectedObjects.Add(this._questOrders);
+				collectedObjects.Add(this._customOrders);
 			}
 
 			internal static object AutoGeneratedGetMemberValueSlots(object o)
@@ -1218,9 +1253,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				return ((CraftingCampaignBehavior.CraftingOrderSlots)o).Slots;
 			}
 
-			internal static object AutoGeneratedGetMemberValue_questOrders(object o)
+			internal static object AutoGeneratedGetMemberValue_customOrders(object o)
 			{
-				return ((CraftingCampaignBehavior.CraftingOrderSlots)o)._questOrders;
+				return ((CraftingCampaignBehavior.CraftingOrderSlots)o)._customOrders;
 			}
 
 			private const int SlotCount = 6;
@@ -1228,10 +1263,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			[SaveableField(10)]
 			public CraftingOrder[] Slots;
 
-			[SaveableField(20)]
-			private readonly Dictionary<string, List<CraftingOrder>> _questOrders;
-
-			public MBReadOnlyDictionary<string, List<CraftingOrder>> QuestOrders;
+			[SaveableField(30)]
+			private MBList<CraftingOrder> _customOrders;
 		}
 	}
 }

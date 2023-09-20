@@ -65,20 +65,13 @@ namespace TaleWorlds.GauntletUI.PrefabSystem
 		private void FindGeneratedPrefabCreators()
 		{
 			this._prefabCreators.Clear();
-			foreach (Assembly assembly in this._assemblies)
+			Assembly[] assemblies = this._assemblies;
+			for (int i = 0; i < assemblies.Length; i++)
 			{
-				Type[] array = new Type[0];
-				try
+				List<Type> typesSafe = assemblies[i].GetTypesSafe(null);
+				for (int j = 0; j < typesSafe.Count; j++)
 				{
-					array = assembly.GetTypes();
-				}
-				catch (Exception ex)
-				{
-					Debug.Print(ex.Message, 0, Debug.DebugColor.White, 17592186044416UL);
-					Debug.Print(ex.StackTrace, 0, Debug.DebugColor.White, 17592186044416UL);
-				}
-				foreach (Type type in array)
-				{
+					Type type = typesSafe[j];
 					if (typeof(IGeneratedUIPrefabCreator).IsAssignableFrom(type) && typeof(IGeneratedUIPrefabCreator) != type)
 					{
 						IGeneratedUIPrefabCreator generatedUIPrefabCreator = (IGeneratedUIPrefabCreator)Activator.CreateInstance(type);

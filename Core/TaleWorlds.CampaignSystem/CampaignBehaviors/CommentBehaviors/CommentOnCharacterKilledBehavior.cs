@@ -19,13 +19,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.CommentBehaviors
 
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
 		{
-			if (!Clan.BanditFactions.Contains(victim.Clan) && victim.Clan != CampaignData.NeutralFaction)
+			if (victim.Clan != null && !Clan.BanditFactions.Contains(victim.Clan))
 			{
 				CharacterKilledLogEntry characterKilledLogEntry = new CharacterKilledLogEntry(victim, killer, detail);
 				LogEntry.AddLogEntry(characterKilledLogEntry);
 				if (this.IsRelatedToPlayer(victim))
 				{
-					Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new DeathMapNotification(victim, killer, characterKilledLogEntry.GetEncyclopediaText(), detail));
+					Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new DeathMapNotification(victim, killer, characterKilledLogEntry.GetEncyclopediaText(), detail, CampaignTime.Now));
 				}
 			}
 		}

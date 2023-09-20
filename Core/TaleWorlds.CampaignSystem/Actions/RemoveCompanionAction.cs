@@ -42,11 +42,14 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 			if (detail == RemoveCompanionAction.RemoveCompanionDetail.Fire)
 			{
-				companion.ChangeState(Hero.CharacterStates.Fugitive);
 				companion.CompanionOf = null;
 				if (companion.PartyBelongedToAsPrisoner != null)
 				{
 					EndCaptivityAction.ApplyByEscape(companion, null);
+				}
+				else
+				{
+					MakeHeroFugitiveAction.Apply(companion);
 				}
 				if (companion.IsWanderer)
 				{

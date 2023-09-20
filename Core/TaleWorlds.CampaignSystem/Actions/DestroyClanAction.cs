@@ -36,7 +36,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 					KillCharacterAction.ApplyByRemove(hero, false, true);
 				}
 			}
-			if (details != DestroyClanAction.DestroyClanActionDetails.ClanLeaderDeath && destroyedClan.Leader.IsAlive && destroyedClan.Leader.DeathMark == KillCharacterAction.KillCharacterActionDetail.None)
+			if (details != DestroyClanAction.DestroyClanActionDetails.ClanLeaderDeath && destroyedClan.Leader != null && destroyedClan.Leader.IsAlive && destroyedClan.Leader.DeathMark == KillCharacterAction.KillCharacterActionDetail.None)
 			{
 				KillCharacterAction.ApplyByRemove(destroyedClan.Leader, false, true);
 			}

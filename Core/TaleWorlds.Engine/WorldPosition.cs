@@ -4,7 +4,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	[EngineStruct("rglWorld_position::Plain_world_position")]
+	[EngineStruct("rglWorld_position::Plain_world_position", false)]
 	public struct WorldPosition
 	{
 		internal WorldPosition(UIntPtr scenePointer, Vec3 position)
@@ -220,6 +220,7 @@ namespace TaleWorlds.Engine
 
 		private Vec2 _lastValidZPosition;
 
+		[CustomEngineStructMemberData("z_validity_state")]
 		public ZValidityState State;
 
 		public static readonly WorldPosition Invalid = new WorldPosition(UIntPtr.Zero, UIntPtr.Zero, Vec3.Invalid, false);

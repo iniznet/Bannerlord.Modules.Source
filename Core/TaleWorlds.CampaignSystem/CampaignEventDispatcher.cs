@@ -7,6 +7,7 @@ using TaleWorlds.CampaignSystem.BarterSystem;
 using TaleWorlds.CampaignSystem.BarterSystem.Barterables;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Conversation.Persuasion;
+using TaleWorlds.CampaignSystem.CraftingSystem;
 using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -252,12 +253,12 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public override void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemObject item, int count, bool showNotification)
+		public override void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemRosterElement itemRosterElement, bool showNotification)
 		{
 			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
 			for (int i = 0; i < eventReceivers.Length; i++)
 			{
-				eventReceivers[i].OnHeroOrPartyGaveItem(giver, receiver, item, count, showNotification);
+				eventReceivers[i].OnHeroOrPartyGaveItem(giver, receiver, itemRosterElement, showNotification);
 			}
 		}
 
@@ -549,6 +550,15 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
+		public override void OnMobilePartyQuestStatusChanged(MobileParty party, bool isUsedByQuest)
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].OnMobilePartyQuestStatusChanged(party, isUsedByQuest);
+			}
+		}
+
 		public override void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
@@ -717,6 +727,15 @@ namespace TaleWorlds.CampaignSystem
 			for (int i = 0; i < eventReceivers.Length; i++)
 			{
 				eventReceivers[i].OnKingdomDestroyed(destroyedKingdom);
+			}
+		}
+
+		public override void CanKingdomBeDiscontinued(Kingdom kingdom, ref bool result)
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].CanKingdomBeDiscontinued(kingdom, ref result);
 			}
 		}
 
@@ -1791,12 +1810,12 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public override void OnHideoutBattleCompleted(BattleSideEnum winnerSide, MapEvent mapEvent)
+		public override void OnHideoutBattleCompleted(BattleSideEnum winnerSide, HideoutEventComponent hideoutEventComponent)
 		{
 			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
 			for (int i = 0; i < eventReceivers.Length; i++)
 			{
-				eventReceivers[i].OnHideoutBattleCompleted(winnerSide, mapEvent);
+				eventReceivers[i].OnHideoutBattleCompleted(winnerSide, hideoutEventComponent);
 			}
 		}
 
@@ -1809,21 +1828,39 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public override void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
+		public override void OnNewItemCrafted(ItemObject itemObject, ItemModifier overriddenItemModifier, bool isCraftingOrderItem)
 		{
 			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
 			for (int i = 0; i < eventReceivers.Length; i++)
 			{
-				eventReceivers[i].OnNewItemCrafted(itemObject, overrideData, isCraftingOrderItem);
+				eventReceivers[i].OnNewItemCrafted(itemObject, overriddenItemModifier, isCraftingOrderItem);
 			}
 		}
 
-		public override void OnWorkshopChanged(Workshop workshop, Hero oldOwner, WorkshopType oldType)
+		public override void OnWorkshopInitialized(Workshop workshop)
 		{
 			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
 			for (int i = 0; i < eventReceivers.Length; i++)
 			{
-				eventReceivers[i].OnWorkshopChanged(workshop, oldOwner, oldType);
+				eventReceivers[i].OnWorkshopInitialized(workshop);
+			}
+		}
+
+		public override void OnWorkshopOwnerChanged(Workshop workshop, Hero oldOwner)
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].OnWorkshopOwnerChanged(workshop, oldOwner);
+			}
+		}
+
+		public override void OnWorkshopTypeChanged(Workshop workshop)
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].OnWorkshopTypeChanged(workshop);
 			}
 		}
 
@@ -2007,6 +2044,24 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
+		public override void OnCraftingOrderCompleted(Town town, CraftingOrder craftingOrder, ItemObject craftedItem, Hero completerHero)
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].OnCraftingOrderCompleted(town, craftingOrder, craftedItem, completerHero);
+			}
+		}
+
+		public override void OnItemsRefined(Hero hero, Crafting.RefiningFormula refineFormula)
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].OnItemsRefined(hero, refineFormula);
+			}
+		}
+
 		public override void CanHeroLeadParty(Hero hero, ref bool result)
 		{
 			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
@@ -2117,6 +2172,15 @@ namespace TaleWorlds.CampaignSystem
 			for (int i = 0; i < eventReceivers.Length; i++)
 			{
 				eventReceivers[i].OnHeroUnregistered(hero);
+			}
+		}
+
+		public override void OnConfigChanged()
+		{
+			CampaignEventReceiver[] eventReceivers = this._eventReceivers;
+			for (int i = 0; i < eventReceivers.Length; i++)
+			{
+				eventReceivers[i].OnConfigChanged();
 			}
 		}
 

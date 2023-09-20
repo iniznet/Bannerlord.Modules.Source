@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using TaleWorlds.Library;
 using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.CampaignSystem.Encyclopedia
@@ -32,7 +33,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia
 			}
 			foreach (Assembly assembly3 in list2)
 			{
-				list.AddRange(assembly3.GetTypes());
+				list.AddRange(assembly3.GetTypesSafe(null));
 			}
 			foreach (Type type in list)
 			{

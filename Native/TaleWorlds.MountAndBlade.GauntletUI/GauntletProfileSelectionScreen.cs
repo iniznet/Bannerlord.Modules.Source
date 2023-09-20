@@ -72,9 +72,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			this._dataSource = null;
 		}
 
-		protected override void OnFrameTick(float dt)
+		protected override void OnProfileSelectionTick(float dt)
 		{
-			base.OnFrameTick(dt);
+			base.OnProfileSelectionTick(dt);
 			if (!this._state.IsDirectPlayPossible || !this._gauntletLayer.Input.IsHotKeyReleased("Play"))
 			{
 				if (this._gauntletLayer.Input.IsHotKeyReleased("SelectProfile"))

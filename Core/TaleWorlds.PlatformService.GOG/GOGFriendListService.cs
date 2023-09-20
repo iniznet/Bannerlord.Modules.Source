@@ -82,6 +82,10 @@ namespace TaleWorlds.PlatformService.GOG
 
 		IEnumerable<PlayerId> IFriendListService.GetAllFriends()
 		{
+			if (!GalaxyInstance.User().IsLoggedOn())
+			{
+				yield break;
+			}
 			IFriends friends = GalaxyInstance.Friends();
 			int friendCount = (int)friends.GetFriendCount();
 			int num;

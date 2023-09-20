@@ -37,12 +37,19 @@ namespace TaleWorlds.CampaignSystem
 
 		internal void AfterLoad()
 		{
-			foreach (StanceLink stanceLink in this._stances.GetStanceLinks())
+			foreach (StanceLink stanceLink in this._stances.GetStanceLinks().ToList<StanceLink>())
 			{
 				if (stanceLink.Faction1 != stanceLink.Faction2)
 				{
-					FactionManager.AddStanceToFaction(stanceLink.Faction1, stanceLink);
-					FactionManager.AddStanceToFaction(stanceLink.Faction2, stanceLink);
+					if (!stanceLink.Faction1.IsEliminated && !stanceLink.Faction2.IsEliminated)
+					{
+						FactionManager.AddStanceToFaction(stanceLink.Faction1, stanceLink);
+						FactionManager.AddStanceToFaction(stanceLink.Faction2, stanceLink);
+					}
+					else
+					{
+						this.RemoveStance(stanceLink);
+					}
 				}
 			}
 		}
@@ -61,9 +68,12 @@ namespace TaleWorlds.CampaignSystem
 
 		private void AddStance(IFaction faction1, IFaction faction2, StanceLink stanceLink)
 		{
-			this._stances.AddStance(stanceLink);
-			FactionManager.AddStanceToFaction(faction1, stanceLink);
-			FactionManager.AddStanceToFaction(faction2, stanceLink);
+			if (!faction1.IsEliminated && !faction2.IsEliminated)
+			{
+				this._stances.AddStance(stanceLink);
+				FactionManager.AddStanceToFaction(faction1, stanceLink);
+				FactionManager.AddStanceToFaction(faction2, stanceLink);
+			}
 		}
 
 		private void RemoveStance(StanceLink stance)
@@ -128,12 +138,12 @@ namespace TaleWorlds.CampaignSystem
 
 		public static bool IsAtWarAgainstFaction(IFaction faction1, IFaction faction2)
 		{
-			return faction1 != null && faction2 != null && faction1 != faction2 && FactionManager.Instance.GetStanceLinkInternal(faction1, faction2).IsAtWar;
+			return faction1 != null && faction2 != null && faction1 != faction2 && !faction1.IsEliminated && !faction2.IsEliminated && FactionManager.Instance.GetStanceLinkInternal(faction1, faction2).IsAtWar;
 		}
 
 		public static bool IsAlliedWithFaction(IFaction faction1, IFaction faction2)
 		{
-			if (faction1 == null || faction2 == null)
+			if (faction1 == null || faction2 == null || faction1.IsEliminated || faction2.IsEliminated)
 			{
 				return false;
 			}
@@ -147,7 +157,7 @@ namespace TaleWorlds.CampaignSystem
 
 		public static bool IsNeutralWithFaction(IFaction faction1, IFaction faction2)
 		{
-			if (faction1 == null || faction2 == null || faction1 == faction2)
+			if (faction1 == null || faction2 == null || faction1 == faction2 || faction1.IsEliminated || faction2.IsEliminated)
 			{
 				return false;
 			}

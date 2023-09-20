@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class ChangeUsernameMessage : Message
 	{
-		public string Username { get; }
+		[JsonProperty]
+		public string Username { get; private set; }
+
+		public ChangeUsernameMessage()
+		{
+		}
 
 		public ChangeUsernameMessage(string username)
 		{

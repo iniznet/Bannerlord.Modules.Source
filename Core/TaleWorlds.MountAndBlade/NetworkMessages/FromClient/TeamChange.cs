@@ -11,23 +11,10 @@ namespace NetworkMessages.FromClient
 
 		public int TeamIndex { get; private set; }
 
-		public Team Team
-		{
-			get
-			{
-				if (Mission.Current == null || this.TeamIndex < 0)
-				{
-					return null;
-				}
-				MBTeam mbteam = new MBTeam(Mission.Current, this.TeamIndex);
-				return Mission.Current.Teams.Find(mbteam);
-			}
-		}
-
-		public TeamChange(bool autoAssign, Team team)
+		public TeamChange(bool autoAssign, int teamIndex)
 		{
 			this.AutoAssign = autoAssign;
-			this.TeamIndex = ((team == null) ? MBTeam.InvalidTeam.Index : team.MBTeam.Index);
+			this.TeamIndex = teamIndex;
 		}
 
 		public TeamChange()
@@ -61,9 +48,7 @@ namespace NetworkMessages.FromClient
 
 		protected override string OnGetLogFormat()
 		{
-			string text = "Changed team to: ";
-			Team team = this.Team;
-			return text + (((team != null) ? team.ToString() : null) ?? "null");
+			return "Changed team to: " + this.TeamIndex;
 		}
 	}
 }

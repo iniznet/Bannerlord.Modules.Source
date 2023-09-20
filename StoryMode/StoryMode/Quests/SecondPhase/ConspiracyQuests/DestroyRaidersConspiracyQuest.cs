@@ -192,7 +192,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, new Action<PartyBase, Hero>(this.OnHeroTakenPrisoner));
-			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 			CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, new Action<MobileParty, PartyBase>(this.MobilePartyDestroyed));
 			CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.OnGameMenuOpened));
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.MapEventEnded));
@@ -266,7 +265,7 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 			if (settlement == null)
 			{
-				Debug.FailedAssert("Destroy raiders conspiracy quest settlement is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Quests\\SecondPhase\\ConspiracyQuests\\DestroyRaidersConspiracyQuest.cs", "DetermineTargetSettlement", 305);
+				Debug.FailedAssert("Destroy raiders conspiracy quest settlement is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Quests\\SecondPhase\\ConspiracyQuests\\DestroyRaidersConspiracyQuest.cs", "DetermineTargetSettlement", 304);
 				settlement = Extensions.GetRandomElementWithPredicate<Settlement>(Settlement.All, (Settlement t) => t.IsTown || t.IsCastle);
 			}
 			return settlement;
@@ -426,12 +425,12 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 		{
 			if (prisoner.Clan != Clan.PlayerClan && capturer.IsMobile && (this._regularRaiderParties.Contains(capturer.MobileParty) || this._specialRaiderParty == capturer.MobileParty))
 			{
-				Debug.FailedAssert("Hero has been taken prisoner by conspiracy raider party", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Quests\\SecondPhase\\ConspiracyQuests\\DestroyRaidersConspiracyQuest.cs", "OnHeroTakenPrisoner", 525);
+				Debug.FailedAssert("Hero has been taken prisoner by conspiracy raider party", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Quests\\SecondPhase\\ConspiracyQuests\\DestroyRaidersConspiracyQuest.cs", "OnHeroTakenPrisoner", 524);
 				EndCaptivityAction.ApplyByEscape(prisoner, null);
 			}
 		}
 
-		private void HourlyTick()
+		protected override void HourlyTick()
 		{
 			foreach (MobileParty mobileParty in this._regularRaiderParties)
 			{
@@ -460,7 +459,7 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 
 		private DialogFlow GetConspiracyCaptainDialogue()
 		{
-			return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=bzmcPtZ6}We know you. We were told to look out for you. We know what you're planning with {MENTOR.NAME}. You will fail, and you will die.", null, null).Condition(delegate
+			return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=bzmcPtZ6}We know you. We were told to look out for you. We know what you're planning with {MENTOR.NAME}. You will fail, and you will die.[ib:closed][if:convo_predatory]", null, null).Condition(delegate
 			{
 				StringHelpers.SetCharacterProperties("MENTOR", base.QuestGiver.CharacterObject, null, false);
 				return CharacterObject.OneToOneConversationCharacter == this._conspiracyCaptainCharacter && this._specialRaiderParty != null && !this._specialPartyProgressTracker.HasBeenCompleted();
@@ -478,7 +477,7 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 				{
 					PlayerEncounter.LeaveEncounter = true;
 				})
-				.NpcLine("{=9aY0ifwi}We shall meet again...", null, null)
+				.NpcLine("{=9aY0ifwi}We shall meet again...[if:convo_insulted]", null, null)
 				.CloseDialog()
 				.EndPlayerOptions()
 				.CloseDialog();
@@ -498,7 +497,7 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			}
 			Clan.PlayerClan.AddRenown(5f, true);
 			this._targetSettlement.Town.Security += 5f;
-			this._targetSettlement.Prosperity += 5f;
+			this._targetSettlement.Town.Prosperity += 5f;
 			base.AddLog(this._destroyRaidersQuestSucceededLogText, false);
 			base.CompleteQuestWithSuccess();
 		}

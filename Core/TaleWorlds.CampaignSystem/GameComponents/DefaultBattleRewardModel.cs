@@ -58,8 +58,8 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			float playerPartyContributionRate = mapEventSide.GetPlayerPartyContributionRate();
 			float num = (mapEvent.StrengthOfSide[(int)PartyBase.MainParty.Side] - PlayerEncounter.Current.PlayerPartyInitialStrength) / (mapEvent.StrengthOfSide[(int)PartyBase.MainParty.OpponentSide] + 1f);
 			float num2 = ((num < 1f) ? (1f + (1f - num)) : ((num < 3f) ? (0.5f * (3f - num)) : 0f));
-			float renownValue = mapEvent.GetRenownValue((mapEventSide == mapEvent.AttackerSide) ? BattleSideEnum.Attacker : BattleSideEnum.Defender);
-			ExplainedNumber explainedNumber = new ExplainedNumber(0.75f + MathF.Pow(playerPartyContributionRate * 1.3f * (num2 + renownValue), 0.67f), false, null);
+			float renownValueAtMapEventEnd = mapEvent.GetRenownValueAtMapEventEnd((mapEventSide == mapEvent.AttackerSide) ? BattleSideEnum.Attacker : BattleSideEnum.Defender);
+			ExplainedNumber explainedNumber = new ExplainedNumber(0.75f + MathF.Pow(playerPartyContributionRate * 1.3f * (num2 + renownValueAtMapEventEnd), 0.67f), false, null);
 			if (Hero.MainHero.GetPerkValue(DefaultPerks.Charm.Camaraderie))
 			{
 				explainedNumber.AddFactor(DefaultPerks.Charm.Camaraderie.PrimaryBonus, DefaultPerks.Charm.Camaraderie.Name);
@@ -129,8 +129,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override EquipmentElement GetLootedItemFromTroop(CharacterObject character, float targetValue)
 		{
+			bool flag = MobileParty.MainParty.HasPerk(DefaultPerks.Engineering.Metallurgy, false);
 			Equipment randomElement = character.AllEquipments.GetRandomElement<Equipment>();
-			return this.GetRandomItem(randomElement, targetValue);
+			EquipmentElement randomItem = this.GetRandomItem(randomElement, targetValue);
+			if (flag && randomItem.ItemModifier != null && randomItem.ItemModifier.PriceMultiplier < 1f && MBRandom.RandomFloat < DefaultPerks.Engineering.Metallurgy.PrimaryBonus)
+			{
+				randomItem = new EquipmentElement(randomItem.Item, null, null, false);
+			}
+			return randomItem;
 		}
 
 		private EquipmentElement GetRandomItem(Equipment equipment, float targetValue = 0f)
@@ -199,7 +205,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		public override float GetPartySavePrisonerAsMemberShareProbability(PartyBase winnerParty, float lootAmount)
 		{
 			float num = lootAmount;
-			if (winnerParty.IsMobile && winnerParty.MobileParty.IsBandit && winnerParty.MobileParty.CurrentSettlement != null && winnerParty.MobileParty.CurrentSettlement.IsHideout)
+			if (winnerParty.IsMobile && (winnerParty.MobileParty.IsVillager || winnerParty.MobileParty.IsCaravan || winnerParty.MobileParty.IsMilitia || (winnerParty.MobileParty.IsBandit && winnerParty.MobileParty.CurrentSettlement != null && winnerParty.MobileParty.CurrentSettlement.IsHideout)))
 			{
 				num = 0f;
 			}
@@ -216,6 +222,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 0.018181818f;
 		}
 
-		private static int[] _indices = new int[12];
+		private static readonly int[] _indices = new int[12];
 	}
 }

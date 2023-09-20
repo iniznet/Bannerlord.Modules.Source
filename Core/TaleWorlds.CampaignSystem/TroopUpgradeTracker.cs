@@ -99,7 +99,7 @@ namespace TaleWorlds.CampaignSystem
 				}
 				if (num2 > 0)
 				{
-					num = (el.Xp + el.TempXp) / num2;
+					num = (el.Xp + el.DeltaXp) / num2;
 				}
 			}
 			return MathF.Max(MathF.Min(el.Number, num), 0);

@@ -247,14 +247,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			}
 		}
 
-		public static TraitObject BossFightingSkills
-		{
-			get
-			{
-				return DefaultTraits.Instance._traitBossFightingSkills;
-			}
-		}
-
 		public static TraitObject WandererEquipment
 		{
 			get
@@ -268,38 +260,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			get
 			{
 				return DefaultTraits.Instance._traitGentryEquipment;
-			}
-		}
-
-		public static TraitObject MuscularBuild
-		{
-			get
-			{
-				return DefaultTraits.Instance._traitMuscularBuild;
-			}
-		}
-
-		public static TraitObject HeavyBuild
-		{
-			get
-			{
-				return DefaultTraits.Instance._traitHeavyBuild;
-			}
-		}
-
-		public static TraitObject LightBuild
-		{
-			get
-			{
-				return DefaultTraits.Instance._traitLightBuild;
-			}
-		}
-
-		public static TraitObject OutOfShapeBuild
-		{
-			get
-			{
-				return DefaultTraits.Instance._traitOutOfShapeBuild;
 			}
 		}
 
@@ -356,22 +316,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			get
 			{
 				return DefaultTraits.Instance._traitThug;
-			}
-		}
-
-		public static TraitObject Thief
-		{
-			get
-			{
-				return DefaultTraits.Instance._traitThief;
-			}
-		}
-
-		public static TraitObject Gambler
-		{
-			get
-			{
-				return DefaultTraits.Instance._traitGambler;
 			}
 		}
 
@@ -462,13 +406,7 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			this._traitCrossbowmanStyle = this.Create("CrossbowmanStyle");
 			this._traitPeltastFightingSkills = this.Create("PeltastFightingSkills");
 			this._traitHuscarlFightingSkills = this.Create("HuscarlFightingSkills");
-			this._traitBossFightingSkills = this.Create("BossFightingSkills");
-			this._traitHeavyBuild = this.Create("HeavyBuild");
-			this._traitMuscularBuild = this.Create("MuscularBuild");
-			this._traitOutOfShapeBuild = this.Create("OutOfShapeBuild");
-			this._traitLightBuild = this.Create("LightBuild");
 			this._traitScarred = this.Create("Scarred");
-			this._traitOneEyed = this.Create("OneEyed");
 			this._traitRomanHair = this.Create("RomanHair");
 			this._traitCelticHair = this.Create("CelticHair");
 			this._traitArabianHair = this.Create("ArabianHair");
@@ -478,10 +416,7 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			this._traitWandererEquipment = this.Create("WandererEquipment");
 			this._traitGentryEquipment = this.Create("GentryEquipment");
 			this._traitThug = this.Create("Thug");
-			this._traitThief = this.Create("Thief");
-			this._traitGambler = this.Create("Gambler");
 			this._traitSmuggler = this.Create("Smuggler");
-			this._traitIsMercenary = this.Create("Mercenary");
 			this._traitEgalitarian = this.Create("Egalitarian");
 			this._traitOligarchic = this.Create("Oligarchic");
 			this._traitAuthoritarian = this.Create("Authoritarian");
@@ -525,13 +460,7 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			this._traitCrossbowmanStyle.Initialize(new TextObject("{=!}CrossbowmanStyle", null), new TextObject("{=!}CrossbowmanStyle Description", null), true, 0, 20);
 			this._traitPeltastFightingSkills.Initialize(new TextObject("{=!}PeltastFightingSkills", null), new TextObject("{=!}PeltastFightingSkills Description", null), true, 0, 20);
 			this._traitHuscarlFightingSkills.Initialize(new TextObject("{=!}HuscarlFightingSkills", null), new TextObject("{=!}HuscarlFightingSkills Description", null), true, 0, 20);
-			this._traitBossFightingSkills.Initialize(new TextObject("{=!}BossFightingSkills", null), new TextObject("{=!}BossFightingSkills Description", null), true, 0, 20);
-			this._traitHeavyBuild.Initialize(new TextObject("{=!}HeavyBuild", null), new TextObject("{=!}HeavyBuild Description", null), true, 0, 20);
-			this._traitMuscularBuild.Initialize(new TextObject("{=!}MuscularBuild", null), new TextObject("{=!}MuscularBuild Description", null), true, 0, 20);
-			this._traitOutOfShapeBuild.Initialize(new TextObject("{=!}OutOfShapeBuild", null), new TextObject("{=!}OutOfShapeBuild Description", null), true, 0, 20);
-			this._traitLightBuild.Initialize(new TextObject("{=!}LightBuild", null), new TextObject("{=!}LightBuild Description", null), true, 0, 20);
 			this._traitScarred.Initialize(new TextObject("{=!}Scarred", null), new TextObject("{=!}Scarred Description", null), true, 0, 20);
-			this._traitOneEyed.Initialize(new TextObject("{=!}OneEyed", null), new TextObject("{=!}OneEyed Description", null), true, 0, 20);
 			this._traitRomanHair.Initialize(new TextObject("{=!}RomanHair", null), new TextObject("{=!}RomanHair Description", null), true, 0, 20);
 			this._traitCelticHair.Initialize(new TextObject("{=!}CelticHair", null), new TextObject("{=!}CelticHair Description", null), true, 0, 20);
 			this._traitArabianHair.Initialize(new TextObject("{=!}ArabianHair", null), new TextObject("{=!}ArabianHair Description", null), true, 0, 20);
@@ -541,10 +470,7 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			this._traitWandererEquipment.Initialize(new TextObject("{=!}WandererEquipment", null), new TextObject("{=!}WandererEquipment Description", null), true, 0, 20);
 			this._traitGentryEquipment.Initialize(new TextObject("{=!}GentryEquipment", null), new TextObject("{=!}GentryEquipment Description", null), true, 0, 20);
 			this._traitThug.Initialize(new TextObject("{=thugtrait}Thug", null), new TextObject("{=Fjnw9ooa}Indicates a gang member specialized in extortion", null), true, 0, 20);
-			this._traitThief.Initialize(new TextObject("{=eWRlQ4XU}Thief", null), new TextObject("{=dCbdYqVw}Indicates a gang member specialized in theft and fencing", null), true, 0, 20);
-			this._traitGambler.Initialize(new TextObject("{=LgSTrjuk}Gambler", null), new TextObject("{=0Euf4iPM}Indicates a gang member specialized in running gambling dens", null), true, 0, 20);
 			this._traitSmuggler.Initialize(new TextObject("{=eeWx1yYd}Smuggler", null), new TextObject("{=87c7IhkZ}Indicates a gang member specialized in smuggling", null), true, 0, 20);
-			this._traitIsMercenary.Initialize(new TextObject("{=zCQaPTOK}Mercenary", null), new TextObject("{=!}Mercenary Description", null), false, 0, 20);
 			this._traitEgalitarian.Initialize(new TextObject("{=HMFb1gaq}Egalitarian", null), new TextObject("{=!}Egalitarian Description", null), false, 0, 20);
 			this._traitOligarchic.Initialize(new TextObject("{=hR6Zo6pD}Oligarchic", null), new TextObject("{=!}Oligarchic Description", null), false, 0, 20);
 			this._traitAuthoritarian.Initialize(new TextObject("{=NaMPa4ML}Authoritarian", null), new TextObject("{=!}Authoritarian Description", null), false, 0, 20);
@@ -598,16 +524,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		private TraitObject _traitTraderSkills;
 
-		private TraitObject _traitHeavyBuild;
-
-		private TraitObject _traitMuscularBuild;
-
-		private TraitObject _traitOutOfShapeBuild;
-
-		private TraitObject _traitLightBuild;
-
-		private TraitObject _traitOneEyed;
-
 		private TraitObject _traitScarred;
 
 		private TraitObject _traitRomanHair;
@@ -621,8 +537,6 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 		private TraitObject _traitFrankishHair;
 
 		private TraitObject _traitSteppeHair;
-
-		private TraitObject _traitIsMercenary;
 
 		private TraitObject _traitFrequency;
 
@@ -650,17 +564,11 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		private TraitObject _traitHuscarlFightingSkills;
 
-		private TraitObject _traitBossFightingSkills;
-
 		private TraitObject _traitWandererEquipment;
 
 		private TraitObject _traitGentryEquipment;
 
 		private TraitObject _traitThug;
-
-		private TraitObject _traitThief;
-
-		private TraitObject _traitGambler;
 
 		private TraitObject _traitSmuggler;
 

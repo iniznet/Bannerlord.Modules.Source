@@ -33,9 +33,9 @@ namespace TaleWorlds.MountAndBlade
 
 		public event MissionMultiplayerDuel.OnDuelEndedDelegate OnDuelEnded;
 
-		public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
+		public override MultiplayerGameType GetMissionType()
 		{
-			return MissionLobbyComponent.MultiplayerGameType.Duel;
+			return MultiplayerGameType.Duel;
 		}
 
 		public override void AfterStart()
@@ -84,9 +84,14 @@ namespace TaleWorlds.MountAndBlade
 		private bool HandleClientEventDuelRequest(NetworkCommunicator peer, GameNetworkMessage baseMessage)
 		{
 			NetworkMessages.FromClient.DuelRequest duelRequest = (NetworkMessages.FromClient.DuelRequest)baseMessage;
-			if (peer != null && peer.GetComponent<MissionPeer>() != null && peer.GetComponent<MissionPeer>().ControlledAgent != null && duelRequest.RequestedAgent != null && duelRequest.RequestedAgent.IsActive())
+			MissionPeer missionPeer = ((peer != null) ? peer.GetComponent<MissionPeer>() : null);
+			if (missionPeer != null)
 			{
-				this.DuelRequestReceived(peer.GetComponent<MissionPeer>(), duelRequest.RequestedAgent.MissionPeer);
+				Agent agentFromIndex = Mission.MissionNetworkHelper.GetAgentFromIndex(duelRequest.RequestedAgentIndex, false);
+				if (agentFromIndex != null && agentFromIndex.IsActive())
+				{
+					this.DuelRequestReceived(missionPeer, agentFromIndex.MissionPeer);
+				}
 			}
 			return true;
 		}
@@ -351,7 +356,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				return;
 			}
-			Debug.FailedAssert("IsHavingDuel(duel.RequesteePeer) || IsHavingDuel(duel.RequesterPeer)", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerGameModeLogics\\ServerGameModeLogics\\MissionMultiplayerDuel.cs", "PrepareDuel", 700);
+			Debug.FailedAssert("IsHavingDuel(duel.RequesteePeer) || IsHavingDuel(duel.RequesterPeer)", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\Multiplayer\\MissionNetworkLogics\\MultiplayerGameModeLogics\\ServerGameModeLogics\\MissionMultiplayerDuel.cs", "PrepareDuel", 707);
 		}
 
 		private void StartDuel(MissionMultiplayerDuel.DuelInfo duel)
@@ -501,6 +506,16 @@ namespace TaleWorlds.MountAndBlade
 						GameNetwork.BeginModuleEventAsServer(networkPeer);
 						GameNetwork.WriteMessage(new DuelPointsUpdateMessage(component));
 						GameNetwork.EndModuleEventAsServer();
+					}
+					if (networkPeer != networkCommunicator)
+					{
+						MissionPeer component2 = networkCommunicator.GetComponent<MissionPeer>();
+						if (component2 != null)
+						{
+							GameNetwork.BeginModuleEventAsServer(networkPeer);
+							GameNetwork.WriteMessage(new SyncPerksForCurrentlySelectedTroop(networkCommunicator, component2.Perks[component2.SelectedTroopIndex]));
+							GameNetwork.EndModuleEventAsServer();
+						}
 					}
 				}
 				for (int i = 0; i < this._activeDuels.Count; i++)

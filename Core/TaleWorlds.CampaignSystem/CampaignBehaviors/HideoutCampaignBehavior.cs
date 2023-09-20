@@ -66,13 +66,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		protected void AddGameMenus(CampaignGameStarter campaignGameStarter)
 		{
-			campaignGameStarter.AddGameMenu("hideout_place", "{=Vo64LSGP}{HIDEOUT_TEXT}", new OnInitDelegate(this.game_menu_hideout_place_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
+			campaignGameStarter.AddGameMenu("hideout_place", "{=!}{HIDEOUT_TEXT}", new OnInitDelegate(this.game_menu_hideout_place_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
 			campaignGameStarter.AddGameMenuOption("hideout_place", "wait", "{=4Sb0d8FY}Wait until nightfall to attack", new GameMenuOption.OnConditionDelegate(this.game_menu_wait_until_nightfall_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_wait_until_nightfall_on_consequence), false, -1, false, null);
 			campaignGameStarter.AddGameMenuOption("hideout_place", "attack", "{=zxMOqlhs}Attack", new GameMenuOption.OnConditionDelegate(this.game_menu_attack_hideout_parties_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_encounter_attack_on_consequence), false, -1, false, null);
 			campaignGameStarter.AddGameMenuOption("hideout_place", "leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(this.leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_hideout_leave_on_consequence), true, -1, false, null);
 			campaignGameStarter.AddWaitGameMenu("hideout_wait", "{=VLLAOXve}Waiting until nightfall to ambush", null, new OnConditionDelegate(this.hideout_wait_menu_on_condition), new OnConsequenceDelegate(this.hideout_wait_menu_on_consequence), new OnTickDelegate(this.hideout_wait_menu_on_tick), GameMenu.MenuAndOptionType.WaitMenuShowOnlyProgressOption, GameOverlays.MenuOverlayType.None, this._hideoutWaitTargetHours, GameMenu.MenuFlags.None, null);
 			campaignGameStarter.AddGameMenuOption("hideout_wait", "leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(this.leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_hideout_leave_on_consequence), true, -1, false, null);
-			campaignGameStarter.AddGameMenu("hideout_after_wait", "{=Vo64LSGP}{HIDEOUT_TEXT}", new OnInitDelegate(this.hideout_after_wait_menu_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
+			campaignGameStarter.AddGameMenu("hideout_after_wait", "{=!}{HIDEOUT_TEXT}", new OnInitDelegate(this.hideout_after_wait_menu_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
 			campaignGameStarter.AddGameMenuOption("hideout_after_wait", "attack", "{=zxMOqlhs}Attack", new GameMenuOption.OnConditionDelegate(this.game_menu_attack_hideout_parties_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_encounter_attack_on_consequence), false, -1, false, null);
 			campaignGameStarter.AddGameMenuOption("hideout_after_wait", "leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(this.leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_hideout_leave_on_consequence), true, -1, false, null);
 			campaignGameStarter.AddGameMenu("hideout_after_defeated_and_saved", "{=1zLZf5rw}The rest of your men rushed to your help, dragging you out to safety and driving the bandits back into hiding.", new OnInitDelegate(this.game_menu_hideout_after_defeated_and_saved_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -113,6 +113,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		[GameMenuInitializationHandler("hideout_wait")]
 		[GameMenuInitializationHandler("hideout_after_wait")]
+		[GameMenuInitializationHandler("hideout_after_defeated_and_saved")]
 		private static void game_menu_hideout_ui_place_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
@@ -196,7 +197,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 			if (!flag && num > 0 && Hero.MainHero.IsWounded)
 			{
-				GameTexts.SetVariable("HIDEOUT_TEXT", "{=fMekM2UH}{HIDEOUT_DESCRIPTION}. You can not attack since your wounds do not allow you.");
+				GameTexts.SetVariable("HIDEOUT_TEXT", "{=fMekM2UH}{HIDEOUT_DESCRIPTION} You can not attack since your wounds do not allow you.");
 			}
 			if (MobileParty.MainParty.CurrentSettlement == null)
 			{
@@ -250,7 +251,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					ChangeRelationAction.ApplyPlayerRelation(leader, (int)DefaultPerks.Charm.EffortForThePeople.PrimaryBonus, true, true);
 				}
 			}
-			MBTextManager.SetTextVariable("RELATION_VALUE", 2);
+			MBTextManager.SetTextVariable("RELATION_VALUE", (int)DefaultPerks.Charm.EffortForThePeople.PrimaryBonus);
 			MBInformationManager.AddQuickInformation(new TextObject("{=o0qwDa0q}Your relation increased by {RELATION_VALUE} with nearby notables.", null), 0, null, "");
 		}
 

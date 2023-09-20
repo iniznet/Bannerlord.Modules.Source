@@ -19,7 +19,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 				{
 					return;
 				}
-				navigationHandler.OpenKingdom();
+				navigationHandler.OpenKingdom(this._otherFaction);
 			};
 		}
 

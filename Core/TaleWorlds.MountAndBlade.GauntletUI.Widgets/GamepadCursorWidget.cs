@@ -74,8 +74,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 
 		private void UpdateTargetOffsets(float ratio)
 		{
-			Vector2 vector;
-			vector..ctor(base.EventManager.LeftUsableAreaStart, base.EventManager.TopUsableAreaStart);
+			Vector2 vector = new Vector2(base.EventManager.LeftUsableAreaStart, base.EventManager.TopUsableAreaStart);
 			float num;
 			float num2;
 			float num3;

@@ -27,11 +27,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.PropertyLbl = ((description != null) ? description.ToString() : null);
 			this.IsExceedingBeneficial = this.CheckIfExceedingIsBeneficial();
 			this.SeparatorText = new TextObject("{=dB6cFDmz}/", null).ToString();
-			bool flag = this.CheckIfUsingIntegerValue(this.PropertyValue, this.Type);
-			this.PropertyValueText = (flag ? this.PropertyValue.ToString("F0") : ((this.PropertyValue < 10f) ? this.PropertyValue.ToString("F2") : this.PropertyValue.ToString("F1")));
+			this.PropertyValueText = CampaignUIHelper.GetFormattedItemPropertyText(this.PropertyValue, this.GetIsTypeRequireInteger(this.Type));
 			if (this.HasValidTarget)
 			{
-				this.TargetValueText = (flag ? this.TargetValue.ToString("F0") : ((this.TargetValue < 10f) ? this.TargetValue.ToString("F2") : this.TargetValue.ToString("F1")));
+				this.TargetValueText = CampaignUIHelper.GetFormattedItemPropertyText(this.TargetValue, this.GetIsTypeRequireInteger(this.Type));
 			}
 		}
 
@@ -40,11 +39,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			return this.Type > CraftingTemplate.CraftingStatTypes.Weight;
 		}
 
-		private bool CheckIfUsingIntegerValue(float propertyValue, CraftingTemplate.CraftingStatTypes type)
+		private bool GetIsTypeRequireInteger(CraftingTemplate.CraftingStatTypes type)
 		{
-			bool flag = type == CraftingTemplate.CraftingStatTypes.StackAmount;
-			bool flag2 = propertyValue >= 100f;
-			return flag || flag2;
+			return type == CraftingTemplate.CraftingStatTypes.StackAmount;
 		}
 
 		[DataSourceProperty]

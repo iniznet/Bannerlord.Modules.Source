@@ -14,6 +14,7 @@ namespace StoryMode.ViewModelCollection.Missions
 		{
 			this.ObjectiveItems = new MBBindingList<TrainingFieldObjectiveItemVM>();
 			this.RefreshValues();
+			this.UpdateIsGamepadActive();
 		}
 
 		public override void RefreshValues()
@@ -54,6 +55,11 @@ namespace StoryMode.ViewModelCollection.Missions
 		public void UpdateTimerText(string timerText)
 		{
 			this.TimerText = (string.IsNullOrEmpty(timerText) ? "" : timerText);
+		}
+
+		public void UpdateIsGamepadActive()
+		{
+			this.IsGamepadActive = Input.IsGamepadActive;
 		}
 
 		[DataSourceProperty]
@@ -158,6 +164,23 @@ namespace StoryMode.ViewModelCollection.Missions
 			}
 		}
 
+		[DataSourceProperty]
+		public bool IsGamepadActive
+		{
+			get
+			{
+				return this._isGamepadActive;
+			}
+			set
+			{
+				if (value != this._isGamepadActive)
+				{
+					this._isGamepadActive = value;
+					base.OnPropertyChangedWithValue(value, "IsGamepadActive");
+				}
+			}
+		}
+
 		private TextObject _objectiveText;
 
 		private MBBindingList<TrainingFieldObjectiveItemVM> _objectiveItems;
@@ -171,5 +194,7 @@ namespace StoryMode.ViewModelCollection.Missions
 		private string _rightStickAbbreviatedText;
 
 		private int _currentMouseObjective;
+
+		private bool _isGamepadActive;
 	}
 }

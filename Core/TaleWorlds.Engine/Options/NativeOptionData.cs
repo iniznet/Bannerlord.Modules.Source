@@ -52,47 +52,51 @@ namespace TaleWorlds.Engine.Options
 		public ValueTuple<string, bool> GetIsDisabledAndReasonID()
 		{
 			NativeOptions.NativeOptionsType type = this.Type;
-			if (type <= NativeOptions.NativeOptionsType.DLSS)
+			if (type <= NativeOptions.NativeOptionsType.ResolutionScale)
 			{
-				if (type != NativeOptions.NativeOptionsType.ResolutionScale)
+				if (type != NativeOptions.NativeOptionsType.GyroAimSensitivity)
 				{
-					if (type == NativeOptions.NativeOptionsType.DLSS)
+					if (type == NativeOptions.NativeOptionsType.ResolutionScale)
 					{
-						if (!NativeOptions.GetIsDLSSAvailable())
+						if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DLSS) != 0f)
 						{
-							return new ValueTuple<string, bool>("str_dlss_not_available", true);
+							return new ValueTuple<string, bool>("str_dlss_enabled", true);
+						}
+						if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DynamicResolution) != 0f)
+						{
+							return new ValueTuple<string, bool>("str_dynamic_resolution_enabled", true);
 						}
 					}
 				}
-				else
+				else if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.EnableGyroAssistedAim) != 1f)
 				{
-					if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DLSS) != 0f)
-					{
-						return new ValueTuple<string, bool>("str_dlss_enabled", true);
-					}
-					if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DynamicResolution) != 0f)
-					{
-						return new ValueTuple<string, bool>("str_dynamic_resolution_enabled", true);
-					}
+					return new ValueTuple<string, bool>("str_gyro_disabled", true);
 				}
 			}
-			else if (type != NativeOptions.NativeOptionsType.DynamicResolution)
+			else if (type != NativeOptions.NativeOptionsType.DLSS)
 			{
-				if (type == NativeOptions.NativeOptionsType.DynamicResolutionTarget)
+				if (type != NativeOptions.NativeOptionsType.DynamicResolution)
 				{
-					if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DynamicResolution) == 0f)
+					if (type == NativeOptions.NativeOptionsType.DynamicResolutionTarget)
 					{
-						return new ValueTuple<string, bool>("str_dynamic_resolution_disabled", true);
-					}
-					if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DLSS) != 0f)
-					{
-						return new ValueTuple<string, bool>("str_dlss_enabled", true);
+						if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DynamicResolution) == 0f)
+						{
+							return new ValueTuple<string, bool>("str_dynamic_resolution_disabled", true);
+						}
+						if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DLSS) != 0f)
+						{
+							return new ValueTuple<string, bool>("str_dlss_enabled", true);
+						}
 					}
 				}
+				else if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DLSS) != 0f)
+				{
+					return new ValueTuple<string, bool>("str_dlss_enabled", true);
+				}
 			}
-			else if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.DLSS) != 0f)
+			else if (!NativeOptions.GetIsDLSSAvailable())
 			{
-				return new ValueTuple<string, bool>("str_dlss_enabled", true);
+				return new ValueTuple<string, bool>("str_dlss_not_available", true);
 			}
 			return new ValueTuple<string, bool>(string.Empty, false);
 		}

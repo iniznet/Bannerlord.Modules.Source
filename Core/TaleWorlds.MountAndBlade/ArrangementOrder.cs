@@ -11,15 +11,15 @@ namespace TaleWorlds.MountAndBlade
 	{
 		public static int GetUnitSpacingOf(ArrangementOrder.ArrangementOrderEnum a)
 		{
-			if (a == ArrangementOrder.ArrangementOrderEnum.Loose)
+			switch (a)
 			{
+			case ArrangementOrder.ArrangementOrderEnum.Loose:
 				return 6;
+			case ArrangementOrder.ArrangementOrderEnum.ShieldWall:
+			case ArrangementOrder.ArrangementOrderEnum.Square:
+				return 0;
 			}
-			if (a != ArrangementOrder.ArrangementOrderEnum.ShieldWall)
-			{
-				return 2;
-			}
-			return 0;
+			return 2;
 		}
 
 		public static bool GetUnitLooseness(ArrangementOrder.ArrangementOrderEnum a)
@@ -106,21 +106,8 @@ namespace TaleWorlds.MountAndBlade
 					agent.EnforceShieldUsage(shieldDirectionOfUnit);
 				}
 				agent.UpdateAgentProperties();
+				agent.RefreshBehaviorValues(formation.GetReadonlyMovementOrderReference().OrderEnum, orderEnum);
 			}, null);
-			if (formation.GetReadonlyMovementOrderReference().OrderEnum != MovementOrder.MovementOrderEnum.Charge && formation.GetReadonlyMovementOrderReference().OrderEnum != MovementOrder.MovementOrderEnum.ChargeToTarget)
-			{
-				if (this.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Circle && this.OrderEnum != ArrangementOrder.ArrangementOrderEnum.ShieldWall && this.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Square && this.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Column)
-				{
-					formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetDefaultMoveBehaviorValues), null);
-					return;
-				}
-				if (this.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Column)
-				{
-					formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetDefensiveArrangementMoveBehaviorValues), null);
-					return;
-				}
-				formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetFollowBehaviorValues), null);
-			}
 		}
 
 		public void SoftUpdate(Formation formation)
@@ -320,7 +307,7 @@ namespace TaleWorlds.MountAndBlade
 					return new WorldPosition[] { center8, center9, center10, center11 };
 				}
 				default:
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\ArrangementOrder.cs", "CreateStrategicAreas", 379);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\ArrangementOrder.cs", "CreateStrategicAreas", 362);
 					return new WorldPosition[0];
 				}
 			}();

@@ -2,7 +2,6 @@
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
-using TaleWorlds.Library.EventSystem;
 using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.Input
@@ -15,31 +14,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Input
 
 		private InputKeyItemVM()
 		{
-			EventManager eventManager = Game.Current.EventManager;
-			if (eventManager == null)
-			{
-				return;
-			}
-			eventManager.RegisterEvent<GamepadActiveStateChangedEvent>(new Action<GamepadActiveStateChangedEvent>(this.OnGamepadActiveStateChanged));
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Combine(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
 		public override void OnFinalize()
 		{
 			base.OnFinalize();
-			Game game = Game.Current;
-			if (game == null)
-			{
-				return;
-			}
-			EventManager eventManager = game.EventManager;
-			if (eventManager == null)
-			{
-				return;
-			}
-			eventManager.UnregisterEvent<GamepadActiveStateChangedEvent>(new Action<GamepadActiveStateChangedEvent>(this.OnGamepadActiveStateChanged));
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
-		private void OnGamepadActiveStateChanged(GamepadActiveStateChangedEvent obj)
+		private void OnGamepadActiveStateChanged()
 		{
 			this.ForceRefresh();
 		}
@@ -59,7 +43,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Input
 		private void ForceRefresh()
 		{
 			this.UpdateVisibility();
-			if (this.GameKey != null)
+			if (this.GameKey != null && Game.Current != null)
 			{
 				string text;
 				if (!Input.IsGamepadActive)
@@ -77,7 +61,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Input
 				this.KeyName = ((forcedName != null) ? forcedName.ToString() : null) ?? Game.Current.GameTextManager.FindText("str_key_name", this.GameKey.GroupId + "_" + this.GameKey.StringId).ToString();
 				return;
 			}
-			if (this.HotKey != null)
+			if (this.HotKey != null && Game.Current != null)
 			{
 				string text2;
 				if (!Input.IsGamepadActive)
@@ -149,11 +133,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Input
 			return inputKeyItemVM;
 		}
 
-		public static InputKeyItemVM CreateFromForcedID(string forcedID, TextObject forcedName)
+		public static InputKeyItemVM CreateFromForcedID(string forcedID, TextObject forcedName, bool isConsoleOnly)
 		{
 			InputKeyItemVM inputKeyItemVM = new InputKeyItemVM();
 			inputKeyItemVM._forcedID = forcedID;
 			inputKeyItemVM._forcedName = forcedName;
+			inputKeyItemVM._isVisibleToConsoleOnly = isConsoleOnly;
 			inputKeyItemVM.ForceRefresh();
 			return inputKeyItemVM;
 		}

@@ -136,7 +136,8 @@ namespace TaleWorlds.CampaignSystem.GameMenus
 			LeadAssault,
 			DonateTroops,
 			DonatePrisoners,
-			SiegeAmbush
+			SiegeAmbush,
+			Warehouse
 		}
 
 		[Flags]

@@ -7,11 +7,11 @@ namespace NetworkMessages.FromClient
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromClient)]
 	public sealed class SetFollowedAgent : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
-		public SetFollowedAgent(Agent agent)
+		public SetFollowedAgent(int agentIndex)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 		}
 
 		public SetFollowedAgent()
@@ -21,13 +21,13 @@ namespace NetworkMessages.FromClient
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()

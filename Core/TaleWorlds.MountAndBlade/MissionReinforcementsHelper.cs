@@ -32,11 +32,7 @@ namespace TaleWorlds.MountAndBlade
 			foreach (IAgentOriginBase agentOriginBase in troopOrigins)
 			{
 				priorityQueue.Clear();
-				FormationClass formationClass = agentOriginBase.Troop.GetFormationClass().FallbackClass();
-				if (mission.IsSiegeBattle)
-				{
-					formationClass = formationClass.SiegeClass();
-				}
+				FormationClass agentTroopClass = Mission.Current.GetAgentTroopClass(battleSide, agentOriginBase.Troop);
 				bool flag = Mission.Current.PlayerTeam.Side == battleSide;
 				Team agentTeam = Mission.GetAgentTeam(agentOriginBase, flag);
 				foreach (Formation formation in agentTeam.FormationsIncludingEmpty)
@@ -49,7 +45,7 @@ namespace TaleWorlds.MountAndBlade
 						{
 							reinforcementFormationData.Initialize(formation, MissionReinforcementsHelper._localInitTime);
 						}
-						MissionReinforcementsHelper.ReinforcementFormationPriority priority = reinforcementFormationData.GetPriority(formationClass);
+						MissionReinforcementsHelper.ReinforcementFormationPriority priority = reinforcementFormationData.GetPriority(agentTroopClass);
 						if (priorityQueue.IsEmpty<KeyValuePair<MissionReinforcementsHelper.ReinforcementFormationPriority, Formation>>() || priority >= priorityQueue.Peek().Key)
 						{
 							priorityQueue.Enqueue(priority, formation);
@@ -59,10 +55,10 @@ namespace TaleWorlds.MountAndBlade
 				Formation formation2 = MissionReinforcementsHelper.FindBestFormationAmong(priorityQueue);
 				if (formation2 == null)
 				{
-					formation2 = agentTeam.GetFormation(formationClass);
+					formation2 = agentTeam.GetFormation(agentTroopClass);
 				}
 				int formationIndex2 = (int)formation2.FormationIndex;
-				MissionReinforcementsHelper._reinforcementFormationsData[formation2.Team.TeamIndex, formationIndex2].AddProspectiveTroop(formationClass);
+				MissionReinforcementsHelper._reinforcementFormationsData[formation2.Team.TeamIndex, formationIndex2].AddProspectiveTroop(agentTroopClass);
 				ValueTuple<IAgentOriginBase, int> valueTuple = new ValueTuple<IAgentOriginBase, int>(agentOriginBase, formationIndex2);
 				list.Add(valueTuple);
 			}
@@ -89,7 +85,7 @@ namespace TaleWorlds.MountAndBlade
 						break;
 					}
 					Formation value = keyValuePair.Value;
-					if (key2 == 3)
+					if (key2 == 3 || key2 == 4)
 					{
 						if (formation == null || value.FormationIndex < formation.FormationIndex)
 						{
@@ -124,7 +120,7 @@ namespace TaleWorlds.MountAndBlade
 				float num5 = MathF.Min(1f, num4 / 62500f);
 				num3 = MathF.Max(0f, 1f - num5);
 			}
-			return 0.4f * num2 + 0.6f * num3;
+			return 0.6f * num2 + 0.4f * num3;
 		}
 
 		private const float DominantClassThreshold = 0.5f;
@@ -137,9 +133,10 @@ namespace TaleWorlds.MountAndBlade
 
 		public enum ReinforcementFormationPriority
 		{
-			Dominant = 5,
-			Common = 4,
-			Empty = 3,
+			Dominant = 6,
+			Common = 5,
+			EmptyRepresentativeMatch = 4,
+			EmptyNoMatch = 3,
 			AlternativeDominant = 2,
 			AlternativeCommon = 1,
 			Default = 0
@@ -169,6 +166,7 @@ namespace TaleWorlds.MountAndBlade
 				this._expectedTroopCountPerClass = new int[4];
 				this._expectedTotalTroopCount = 0;
 				this._isClassified = false;
+				this._representativeClass = FormationClass.NumberOfAllFormations;
 				this._troopClasses = new bool[4];
 			}
 
@@ -181,6 +179,7 @@ namespace TaleWorlds.MountAndBlade
 				this._expectedTroopCountPerClass[3] = (int)(formation.QuerySystem.RangedCavalryUnitRatio * (float)countOfUnits);
 				this._expectedTotalTroopCount = countOfUnits;
 				this._isClassified = false;
+				this._representativeClass = formation.RepresentativeClass;
 				this._initTime = initTime;
 			}
 
@@ -200,33 +199,40 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (this._expectedTotalTroopCount == 0)
 				{
-					return MissionReinforcementsHelper.ReinforcementFormationPriority.Empty;
-				}
-				if (!this._isClassified)
-				{
-					this.Classify();
-				}
-				bool flag;
-				if (this.HasTroopClass(troopClass, out flag))
-				{
-					if (!flag)
+					if (this._representativeClass == troopClass)
 					{
-						return MissionReinforcementsHelper.ReinforcementFormationPriority.Common;
+						return MissionReinforcementsHelper.ReinforcementFormationPriority.EmptyRepresentativeMatch;
 					}
-					return MissionReinforcementsHelper.ReinforcementFormationPriority.Dominant;
+					return MissionReinforcementsHelper.ReinforcementFormationPriority.EmptyNoMatch;
 				}
 				else
 				{
-					FormationClass formationClass = troopClass.AlternativeClass();
-					if (!this.HasTroopClass(formationClass, out flag))
+					if (!this._isClassified)
 					{
-						return MissionReinforcementsHelper.ReinforcementFormationPriority.Default;
+						this.Classify();
 					}
-					if (!flag)
+					bool flag;
+					if (this.HasTroopClass(troopClass, out flag))
 					{
-						return MissionReinforcementsHelper.ReinforcementFormationPriority.AlternativeCommon;
+						if (!flag)
+						{
+							return MissionReinforcementsHelper.ReinforcementFormationPriority.Common;
+						}
+						return MissionReinforcementsHelper.ReinforcementFormationPriority.Dominant;
 					}
-					return MissionReinforcementsHelper.ReinforcementFormationPriority.AlternativeDominant;
+					else
+					{
+						FormationClass formationClass = troopClass.AlternativeClass();
+						if (!this.HasTroopClass(formationClass, out flag))
+						{
+							return MissionReinforcementsHelper.ReinforcementFormationPriority.Default;
+						}
+						if (!flag)
+						{
+							return MissionReinforcementsHelper.ReinforcementFormationPriority.AlternativeCommon;
+						}
+						return MissionReinforcementsHelper.ReinforcementFormationPriority.AlternativeDominant;
+					}
 				}
 			}
 
@@ -291,6 +297,8 @@ namespace TaleWorlds.MountAndBlade
 			private int _expectedTotalTroopCount;
 
 			private bool[] _troopClasses;
+
+			private FormationClass _representativeClass;
 		}
 	}
 }

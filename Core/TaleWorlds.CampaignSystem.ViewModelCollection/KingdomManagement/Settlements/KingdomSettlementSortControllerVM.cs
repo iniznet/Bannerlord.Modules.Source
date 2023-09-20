@@ -19,7 +19,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 		private void ExecuteSortByType()
 		{
 			int typeState = this.TypeState;
-			this.SetAllStates(KingdomSettlementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.TypeState = (typeState + 1) % 3;
 			if (this.TypeState == 0)
 			{
@@ -33,7 +33,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 		private void ExecuteSortByName()
 		{
 			int nameState = this.NameState;
-			this.SetAllStates(KingdomSettlementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.NameState = (nameState + 1) % 3;
 			if (this.NameState == 0)
 			{
@@ -47,7 +47,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 		private void ExecuteSortByOwner()
 		{
 			int ownerState = this.OwnerState;
-			this.SetAllStates(KingdomSettlementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.OwnerState = (ownerState + 1) % 3;
 			if (this.OwnerState == 0)
 			{
@@ -61,7 +61,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 		private void ExecuteSortByProsperity()
 		{
 			int prosperityState = this.ProsperityState;
-			this.SetAllStates(KingdomSettlementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.ProsperityState = (prosperityState + 1) % 3;
 			if (this.ProsperityState == 0)
 			{
@@ -75,7 +75,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 		private void ExecuteSortByDefenders()
 		{
 			int defendersState = this.DefendersState;
-			this.SetAllStates(KingdomSettlementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.DefendersState = (defendersState + 1) % 3;
 			if (this.DefendersState == 0)
 			{
@@ -87,7 +87,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 			this.IsDefendersSelected = true;
 		}
 
-		private void SetAllStates(KingdomSettlementSortControllerVM.SortState state)
+		private void SetAllStates(CampaignUIHelper.SortState state)
 		{
 			this.TypeState = (int)state;
 			this.NameState = (int)state;
@@ -302,13 +302,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 		private bool _isProsperitySelected;
 
 		private bool _isDefendersSelected;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 
 		public abstract class ItemComparerBase : IComparer<KingdomSettlementItemVM>
 		{

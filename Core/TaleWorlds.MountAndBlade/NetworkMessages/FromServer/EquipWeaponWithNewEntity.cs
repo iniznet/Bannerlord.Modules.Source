@@ -14,11 +14,11 @@ namespace NetworkMessages.FromServer
 
 		public EquipmentIndex SlotIndex { get; private set; }
 
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
-		public EquipWeaponWithNewEntity(Agent agent, EquipmentIndex slot, MissionWeapon weapon)
+		public EquipWeaponWithNewEntity(int agentIndex, EquipmentIndex slot, MissionWeapon weapon)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.SlotIndex = slot;
 			this.Weapon = weapon;
 		}
@@ -29,7 +29,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			ModuleNetworkData.WriteWeaponReferenceToPacket(this.Weapon);
 			GameNetworkMessage.WriteIntToPacket((int)this.SlotIndex, CompressionMission.ItemSlotCompressionInfo);
 		}
@@ -37,7 +37,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.Weapon = ModuleNetworkData.ReadWeaponReferenceFromPacket(MBObjectManager.Instance, ref flag);
 			this.SlotIndex = (EquipmentIndex)GameNetworkMessage.ReadIntFromPacket(CompressionMission.ItemSlotCompressionInfo, ref flag);
 			return flag;
@@ -50,7 +50,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			if (this.Agent == null)
+			if (this.AgentIndex < 0)
 			{
 				return "Not equipping weapon because there is no agent to equip it to,";
 			}
@@ -60,10 +60,8 @@ namespace NetworkMessages.FromServer
 				(!this.Weapon.IsEmpty) ? this.Weapon.Item.Name : TextObject.Empty,
 				" from SlotIndex: ",
 				this.SlotIndex,
-				" on agent: ",
-				this.Agent.Name,
-				" with index: ",
-				this.Agent.Index
+				" on agent with agent-index: ",
+				this.AgentIndex
 			});
 		}
 	}

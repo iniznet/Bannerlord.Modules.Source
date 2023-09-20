@@ -29,6 +29,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			this._refreshKingdomManagement = refreshKingdomManagement;
 			this._examinedDecisionsSinceInit = new List<KingdomDecision>();
 			this._examinedDecisionsSinceInit.AddRange(Clan.PlayerClan.Kingdom.UnresolvedDecisions.Where((KingdomDecision d) => d.ShouldBeCancelled()));
+			this._solvedDecisionsSinceInit = new List<KingdomDecision>();
+			CampaignEvents.KingdomDecisionConcluded.AddNonSerializedListener(this, new Action<KingdomDecision, DecisionOutcome, bool>(this.OnKingdomDecisionConcluded));
 			this.IsRefreshed = true;
 			this.RefreshValues();
 		}
@@ -48,6 +50,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 		public void OnFrameTick()
 		{
 			this.IsActive = this.IsCurrentDecisionActive;
+			IEnumerable<KingdomDecision> enumerable = Clan.PlayerClan.Kingdom.UnresolvedDecisions.Except(this._examinedDecisionsSinceInit);
 			if (this._shouldCheckForDecision)
 			{
 				if (this.CurrentDecision != null)
@@ -58,16 +61,27 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 						return;
 					}
 				}
-				if (Clan.PlayerClan.Kingdom.UnresolvedDecisions.Except(this._examinedDecisionsSinceInit).Any<KingdomDecision>())
+				if (enumerable.Any<KingdomDecision>())
 				{
-					this.QueryForNextDecision();
+					KingdomDecision kingdomDecision = this._solvedDecisionsSinceInit.LastOrDefault<KingdomDecision>();
+					KingdomDecision kingdomDecision2 = ((kingdomDecision != null) ? kingdomDecision.GetFollowUpDecision() : null);
+					if (kingdomDecision2 != null)
+					{
+						this.HandleDecision(kingdomDecision2);
+						return;
+					}
+					this.HandleNextDecision();
 				}
 			}
 		}
 
-		public void QueryForNextDecision()
+		public void HandleNextDecision()
 		{
-			KingdomDecision curDecision = Clan.PlayerClan.Kingdom.UnresolvedDecisions.Except(this._examinedDecisionsSinceInit).FirstOrDefault<KingdomDecision>();
+			this.HandleDecision(Clan.PlayerClan.Kingdom.UnresolvedDecisions.Except(this._examinedDecisionsSinceInit).FirstOrDefault<KingdomDecision>());
+		}
+
+		public void HandleDecision(KingdomDecision curDecision)
+		{
 			KingdomDecision curDecision2 = curDecision;
 			if (curDecision2 != null && !curDecision2.ShouldBeCancelled())
 			{
@@ -141,6 +155,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			this._shouldCheckForDecision = true;
 		}
 
+		private void OnKingdomDecisionConcluded(KingdomDecision decision, DecisionOutcome outcome, bool isPlayerInvolved)
+		{
+			if (isPlayerInvolved)
+			{
+				this._solvedDecisionsSinceInit.Add(decision);
+			}
+		}
+
 		private DecisionItemBaseVM GetDecisionItemBasedOnType(KingdomDecision decision)
 		{
 			SettlementClaimantDecision settlementClaimantDecision;
@@ -178,7 +200,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 			{
 				return new KingSelectionDecisionItemVM(kingSelectionKingdomDecision, new Action(this.OnDecisionOver));
 			}
-			Debug.FailedAssert("No defined decision type for this decision! This shouldn't happen", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\KingdomManagement\\Decisions\\KingdomDecisionsVM.cs", "GetDecisionItemBasedOnType", 169);
+			Debug.FailedAssert("No defined decision type for this decision! This shouldn't happen", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\KingdomManagement\\Decisions\\KingdomDecisionsVM.cs", "GetDecisionItemBasedOnType", 193);
 			return new DecisionItemBaseVM(decision, new Action(this.OnDecisionOver));
 		}
 
@@ -192,6 +214,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 				currentDecision.OnFinalize();
 			}
 			this.CurrentDecision = null;
+			CampaignEvents.KingdomDecisionConcluded.ClearListeners(this);
 		}
 
 		public void SetDoneInputKey(HotKey hotKey)
@@ -302,6 +325,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Decisi
 		}
 
 		private List<KingdomDecision> _examinedDecisionsSinceInit;
+
+		private List<KingdomDecision> _solvedDecisionsSinceInit;
 
 		private readonly Action _refreshKingdomManagement;
 

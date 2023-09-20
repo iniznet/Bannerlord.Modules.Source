@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class RangedSiegeWeaponChangeProjectile : GameNetworkMessage
 	{
-		public RangedSiegeWeapon RangedSiegeWeapon { get; private set; }
+		public MissionObjectId RangedSiegeWeaponId { get; private set; }
 
 		public int Index { get; private set; }
 
-		public RangedSiegeWeaponChangeProjectile(RangedSiegeWeapon rangedSiegeWeapon, int index)
+		public RangedSiegeWeaponChangeProjectile(MissionObjectId rangedSiegeWeaponId, int index)
 		{
-			this.RangedSiegeWeapon = rangedSiegeWeapon;
+			this.RangedSiegeWeaponId = rangedSiegeWeaponId;
 			this.Index = index;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.RangedSiegeWeapon = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as RangedSiegeWeapon;
+			this.RangedSiegeWeaponId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.Index = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoIndexCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.RangedSiegeWeapon);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.RangedSiegeWeaponId);
 			GameNetworkMessage.WriteIntToPacket(this.Index, CompressionMission.RangedSiegeWeaponAmmoIndexCompressionInfo);
 		}
 
@@ -42,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Changed Projectile Type Index to: ",
-				this.Index,
-				" on RangedSiegeWeapon with ID: ",
-				this.RangedSiegeWeapon.Id,
-				" and name: ",
-				this.RangedSiegeWeapon.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Changed Projectile Type Index to: ", this.Index, " on RangedSiegeWeapon with ID: ", this.RangedSiegeWeaponId });
 		}
 	}
 }

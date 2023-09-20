@@ -163,7 +163,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				{
 					explainedNumber.Add(buildingEffectAmount, building2.Name, null);
 				}
-				if (building2.BuildingType == DefaultBuildingTypes.SettlementAquaducts || building2.BuildingType == DefaultBuildingTypes.CastleGranary || building2.BuildingType == DefaultBuildingTypes.SettlementGranary)
+				if (building2.CurrentLevel > 0 && (building2.BuildingType == DefaultBuildingTypes.SettlementAquaducts || building2.BuildingType == DefaultBuildingTypes.CastleGranary || building2.BuildingType == DefaultBuildingTypes.SettlementGranary))
 				{
 					PerkHelper.AddPerkBonusForTown(DefaultPerks.Medicine.CleanInfrastructure, fortification, ref explainedNumber);
 				}

@@ -45,8 +45,8 @@ namespace TaleWorlds.MountAndBlade
 					{
 						if (currentActionValue2 == ActionIndexValueCache.act_none && (currentActionValue == ExitDoor.act_pickup_middle_end || currentActionValue == ExitDoor.act_pickup_middle_end_left_stance))
 						{
-							Mission.Current.EndMission();
 							userAgent.StopUsingGameObject(true, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
+							Mission.Current.EndMission();
 						}
 						else if (currentActionValue2 != ActionIndexValueCache.act_none || !userAgent.SetActionChannel(0, userAgent.GetIsLeftStance() ? ExitDoor.act_pickup_middle_begin_left_stance : ExitDoor.act_pickup_middle_begin, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true))
 						{

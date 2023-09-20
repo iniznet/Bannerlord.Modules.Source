@@ -99,7 +99,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			{
 				MobileParty mobileParty = (MobileParty)subject;
 				owner.Ai.SetMoveEscortParty(mobileParty);
-				if (owner != MobileParty.MainParty && owner.Army == null && mobileParty.Army != null)
+				if (owner.IsLordParty && mobileParty.IsLordParty && owner != MobileParty.MainParty && owner.Army == null && mobileParty.Army != null)
 				{
 					owner.Army = mobileParty.Army;
 				}

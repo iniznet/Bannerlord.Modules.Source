@@ -78,7 +78,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 			if (sellPrisonersDetail != SellPrisonersAction.SellPrisonersDetail.SellSettlementPrisoners)
 			{
-				SkillLevelingManager.OnPrisonerSell(sellerParty, (float)troopRoster2.TotalManCount);
+				SkillLevelingManager.OnPrisonerSell(sellerParty, troopRoster2);
 				CampaignEventDispatcher.Instance.OnPrisonerSold(sellerParty, troopRoster2, currentSettlement);
 			}
 		}

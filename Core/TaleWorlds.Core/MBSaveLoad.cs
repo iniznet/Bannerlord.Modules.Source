@@ -126,6 +126,7 @@ namespace TaleWorlds.Core
 			{
 				MBSaveLoad.ActiveSaveSlotName = MBSaveLoad.GetNextAvailableSaveName();
 			}
+			Debug.Print("QuickSaveCurrentGame: " + MBSaveLoad.ActiveSaveSlotName, 0, Debug.DebugColor.White, 17592186044416UL);
 			MBSaveLoad.OverwriteSaveAux(campaignMetaData, MBSaveLoad.ActiveSaveSlotName, onSaveCompleted);
 		}
 
@@ -133,12 +134,14 @@ namespace TaleWorlds.Core
 		{
 			MBSaveLoad.IncrementAutoSaveIndex();
 			string autoSaveName = MBSaveLoad.GetAutoSaveName();
+			Debug.Print("AutoSaveCurrentGame: " + autoSaveName, 0, Debug.DebugColor.White, 17592186044416UL);
 			MBSaveLoad.OverwriteSaveAux(campaignMetaData, autoSaveName, onSaveCompleted);
 		}
 
 		public static void SaveAsCurrentGame(CampaignSaveMetaDataArgs campaignMetaData, string saveName, Action<ValueTuple<SaveResult, string>> onSaveCompleted)
 		{
 			MBSaveLoad.ActiveSaveSlotName = saveName;
+			Debug.Print("SaveAsCurrentGame: " + saveName, 0, Debug.DebugColor.White, 17592186044416UL);
 			MBSaveLoad.OverwriteSaveAux(campaignMetaData, saveName, onSaveCompleted);
 		}
 
@@ -259,7 +262,7 @@ namespace TaleWorlds.Core
 			{
 				if (result == SaveResult.PlatformFileHelperFailure)
 				{
-					Debug.FailedAssert("Save Failed:\n" + Common.PlatformFileHelper.GetError(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\MBSaveLoad.cs", "ShowErrorFromResult", 309);
+					Debug.FailedAssert("Save Failed:\n" + Common.PlatformFileHelper.GetError(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\MBSaveLoad.cs", "ShowErrorFromResult", 311);
 				}
 				if (!MBSaveLoad.DoNotShowSaveErrorAgain)
 				{
@@ -282,7 +285,7 @@ namespace TaleWorlds.Core
 			{
 				Debug.Print("Unable to create save game data", 0, Debug.DebugColor.White, 17592186044416UL);
 				Debug.Print(ex.Message, 0, Debug.DebugColor.White, 17592186044416UL);
-				Debug.SilentAssert(ModuleHelper.GetModules().Any((ModuleInfo m) => !m.IsOfficial), ex.Message, false, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\MBSaveLoad.cs", "SaveGame", 342);
+				Debug.SilentAssert(ModuleHelper.GetModules().Any((ModuleInfo m) => !m.IsOfficial), ex.Message, false, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\MBSaveLoad.cs", "SaveGame", 344);
 			}
 		}
 

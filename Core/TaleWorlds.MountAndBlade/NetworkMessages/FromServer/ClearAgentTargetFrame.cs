@@ -7,11 +7,11 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class ClearAgentTargetFrame : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
-		public ClearAgentTargetFrame(Agent agent)
+		public ClearAgentTargetFrame(int agentIndex)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 		}
 
 		public ClearAgentTargetFrame()
@@ -21,13 +21,13 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -37,13 +37,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Clear target frame on agent with name: ",
-				this.Agent.Name,
-				" and index: ",
-				this.Agent.Index
-			});
+			return "Clear target frame on agent with agent-index: " + this.AgentIndex;
 		}
 	}
 }

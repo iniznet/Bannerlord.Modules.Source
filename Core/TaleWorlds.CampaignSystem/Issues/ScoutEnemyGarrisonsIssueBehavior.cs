@@ -33,7 +33,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 		private bool ConditionsHold(Hero issueGiver, out List<Settlement> settlements)
 		{
 			settlements = new List<Settlement>();
-			if (issueGiver.IsFactionLeader && !issueGiver.IsMinorFactionHero && !issueGiver.IsPrisoner)
+			if (issueGiver.MapFaction.IsKingdomFaction && issueGiver.IsFactionLeader && !issueGiver.IsMinorFactionHero && !issueGiver.IsPrisoner && !issueGiver.IsFugitive)
 			{
 				if (issueGiver.GetMapPoint() != null)
 				{
@@ -66,7 +66,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		private static bool SuitableSettlementCondition(Settlement settlement, Hero issueGiver)
 		{
-			return settlement.IsFortification && settlement.MapFaction.IsAtWarWith(issueGiver.MapFaction) && (!settlement.IsUnderSiege || settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction != Hero.MainHero.MapFaction);
+			return settlement.IsFortification && settlement.MapFaction.IsAtWarWith(issueGiver.MapFaction) && (!settlement.IsUnderSiege || settlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction != Hero.MainHero.MapFaction);
 		}
 
 		private const IssueBase.IssueFrequency ScoutEnemyGarrisonsIssueFrequency = IssueBase.IssueFrequency.VeryCommon;
@@ -131,7 +131,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=rrCkJgtd}We don't know enough about the enemy, where they are strong and where they are weak. I don't want to lead a huge army through their territory on a wild goose hunt. We need someone to ride through there swiftly, scouting out their garrisons. Can you do this?", null);
+					return new TextObject("{=rrCkJgtd}We don't know enough about the enemy, [ib:closed][if:convo_thinking]where they are strong and where they are weak. I don't want to lead a huge army through their territory on a wild goose hunt. We need someone to ride through there swiftly, scouting out their garrisons. Can you do this?", null);
 				}
 			}
 
@@ -149,7 +149,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=seEyGLMz}Go deep into {ENEMY} territory, to {SETTLEMENT_1}, {SETTLEMENT_2} and {SETTLEMENT_3}. I want to know every detail about them, what sort of fortifications they have, whether the walls are well-manned or undergarrisoned, and any other enemy forces in the vicinity.", null);
+					TextObject textObject = new TextObject("{=seEyGLMz}Go deep into {ENEMY} territory, to {SETTLEMENT_1}, {SETTLEMENT_2} and {SETTLEMENT_3}. [ib:hip][if:convo_normal]I want to know every detail about them, what sort of fortifications they have, whether the walls are well-manned or undergarrisoned, and any other enemy forces in the vicinity.", null);
 					textObject.SetTextVariable("ENEMY", this._settlement1.MapFaction.Name);
 					textObject.SetTextVariable("SETTLEMENT_1", this._settlement1.Name);
 					textObject.SetTextVariable("SETTLEMENT_2", this._settlement2.Name);
@@ -199,6 +199,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new ScoutEnemyGarrisonsIssueBehavior.ScoutEnemyGarrisonsQuest(questId, base.IssueOwner, this._settlement1, this._settlement2, this._settlement3);
@@ -219,7 +223,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					flag |= IssueBase.PreconditionFlags.Relation;
 					relationHero = issueGiver;
 				}
-				if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader)
+				if (Hero.MainHero.IsKingdomLeader)
 				{
 					flag |= IssueBase.PreconditionFlags.MainHeroIsKingdomLeader;
 				}
@@ -250,7 +254,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					flag = this.TryToUpdateSettlements();
 				}
-				return flag;
+				return flag && base.IssueOwner.MapFaction.IsKingdomFaction;
 			}
 
 			protected override float GetIssueEffectAmountInternal(IssueEffect issueEffect)
@@ -461,14 +465,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=lyGvyZK4}Very well. When you reach one of their fortresses, spend some time observing. Don't move on to the next one at once. You don't need to find me to report back the details, just send your messengers.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=x3TO0gkN}Is there any progress on the task I gave you?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=x3TO0gkN}Is there any progress on the task I gave you?[ib:closed][if:convo_normal]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += MapEventHelper.OnConversationEnd;
 					})
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=W5ab31gQ}Soon, commander. We are still working on it.", null), null)
-					.NpcLine(new TextObject("{=U3LR7dyK}Good. I'll be waiting for your messengers.", null), null, null)
+					.NpcLine(new TextObject("{=U3LR7dyK}Good. I'll be waiting for your messengers.[if:convo_thinking]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=v75k1FoT}Not yet. We need to make more preparations.", null), null)
 					.NpcLine(new TextObject("{=zYKeYZAo}All right. Don't rush this but also don't wait too long.", null), null, null)
@@ -492,10 +496,9 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 				CampaignEvents.ArmyDispersed.AddNonSerializedListener(this, new Action<Army, Army.ArmyDispersionReason, bool>(this.OnArmyDispersed));
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 			}
 
-			private void OnHourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing)
 				{

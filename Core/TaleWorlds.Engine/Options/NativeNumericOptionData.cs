@@ -34,6 +34,8 @@ namespace TaleWorlds.Engine.Options
 					}
 					return 0.3f;
 				case NativeOptions.NativeOptionsType.InvertMouseYAxis:
+				case NativeOptions.NativeOptionsType.EnableVibration:
+				case NativeOptions.NativeOptionsType.EnableGyroAssistedAim:
 					break;
 				case NativeOptions.NativeOptionsType.MouseYMovementScale:
 					if (!isMin)
@@ -42,6 +44,12 @@ namespace TaleWorlds.Engine.Options
 					}
 					return 0.25f;
 				case NativeOptions.NativeOptionsType.TrailAmount:
+					if (!isMin)
+					{
+						return 1f;
+					}
+					return 0f;
+				case NativeOptions.NativeOptionsType.GyroAimSensitivity:
 					if (!isMin)
 					{
 						return 1f;

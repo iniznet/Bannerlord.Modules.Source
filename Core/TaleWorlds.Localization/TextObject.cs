@@ -303,7 +303,7 @@ namespace TaleWorlds.Localization
 		}
 
 		[SaveableField(1)]
-		internal string Value;
+		public string Value;
 
 		public static TextObject Empty = new TextObject("", null);
 

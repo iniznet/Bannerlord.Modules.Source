@@ -160,10 +160,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=DUB6zfSe}I have a bit of a dispute with {TARGET_SETTLEMENT}. I recently purchased the right to graze cattle in the nearby pastures from a landowner there. But now some of the herders are making problems.", null);
+					TextObject textObject = new TextObject("{=DUB6zfSe}I have a bit of a dispute with {TARGET_SETTLEMENT}. I recently purchased the right to graze cattle in the nearby pastures from a landowner there. But now some of the herders are making problems.[if:convo_thinking][ib:closed]", null);
 					if (base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaCurt)
 					{
-						textObject = new TextObject("{=0TyPBryV}I recently bought the right to graze cattle near the village of {TARGET_SETTLEMENT}. Good pastureland is hard to find. But now the locals are giving my herdsmen trouble.", null);
+						textObject = new TextObject("{=0TyPBryV}I recently bought the right to graze cattle near the village of {TARGET_SETTLEMENT}. Good pastureland is hard to find. But now the locals are giving my herdsmen trouble.[if:convo_thinking][ib:closed]", null);
 					}
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
 					return textObject;
@@ -182,10 +182,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=Je7SWXK3}They claim that I don't have the right to graze there, that village land can't be bought and sold like that. But look, I spent my silver. I won't get it back. Meanwhile, I can't afford to wait. I need someone to ride along with my herdsmen and my cattle can graze, one way or the other, even if it means violence. I can't let my herd just starve.", null);
+					TextObject textObject = new TextObject("{=Je7SWXK3}They claim that I don't have the right to graze there, that village land can't be bought and sold like that. But look, I spent my silver. I won't get it back. Meanwhile, I can't afford to wait. I need someone to ride along with my herdsmen and my cattle can graze, one way or the other, even if it means violence. I can't let my herd just starve.[if:convo_bored][ib:hip]", null);
 					if (base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaCurt)
 					{
-						textObject = new TextObject("{=5ehlbXm6}They don't want to share the pastures. But I spent my silver, and I hold the title deed. I need someone to ride along with my herdsmen and clear off anyone who gets in their way.", null);
+						textObject = new TextObject("{=5ehlbXm6}They don't want to share the pastures. But I spent my silver, and I hold the title deed. I need someone to ride along with my herdsmen and clear off anyone who gets in their way.[if:convo_stern][ib:hip]", null);
 					}
 					return textObject;
 				}
@@ -195,7 +195,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=wodLHjnh}You or one of your companions with some {ALTERNATIVE_TROOP_AMOUNT} men should do the job. Either way I am willing to pay you {REWARD}{GOLD_ICON}. I doubt they'd stand up long to real warriors.", null);
+					TextObject textObject = new TextObject("{=wodLHjnh}You or one of your companions with some {ALTERNATIVE_TROOP_AMOUNT} men should do the job. Either way I am willing to pay you {REWARD}{GOLD_ICON}. I doubt they'd stand up long to real warriors.[if:convo_mocking_teasing][ib:closed2]", null);
 					textObject.SetTextVariable("REWARD", this.RewardGold);
 					textObject.SetTextVariable("ALTERNATIVE_TROOP_AMOUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -242,7 +242,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=BH17ZNSe}I don't think we'll have any more problems at {TARGET_SETTLEMENT}, thanks to your men. Please give them our thanks, {?PLAYER.GENDER}madam{?}sir{\\?}.", null);
+					TextObject textObject = new TextObject("{=BH17ZNSe}I don't think we'll have any more problems at {TARGET_SETTLEMENT}, thanks to your men. Please give them our thanks, {?PLAYER.GENDER}madam{?}sir{\\?}.[if:convo_mocking_teasing][ib:hip]", null);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
 					return textObject;
 				}
@@ -252,10 +252,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=8INOZiew}Thank you, both for looking out for my interests and upholding the law.", null);
+					TextObject textObject = new TextObject("{=8INOZiew}Thank you, [if:convo_normal][ib:confident]both for looking out for my interests and upholding the law.", null);
 					if (base.IssueOwner.CharacterObject.GetPersona() == DefaultTraits.PersonaCurt)
 					{
-						textObject = new TextObject("{=UsuOXc25}Thanks. Show those troublemakers that the law is the law.", null);
+						textObject = new TextObject("{=UsuOXc25}Thanks. [if:convo_stern][ib:closed]Show those troublemakers that the law is the law.", null);
 					}
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					return textObject;
@@ -378,6 +378,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -645,13 +649,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=qkYCWjTA}I appreciate it. I wait for the good news.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=FogJnYH9}Any news about the pastures?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=FogJnYH9}Any news about the pastures?[if:convo_undecided_open][ib:closed]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=wErSpkjy}I'm still working on it.", null), null)
-					.NpcLine(new TextObject("{=L1JyetPq}I am glad to hear that.", null), null, null)
+					.NpcLine(new TextObject("{=xolucdbr}I am glad to hear that.[if:convo_undecided_open]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=7o68QryW}Not yet. I have some other business to attend to.", null), null)
-					.NpcLine(new TextObject("{=bEab8stb}Okay. I'm waiting for your good news.", null), null, null)
+					.NpcLine(new TextObject("{=bEab8stb}Okay. I'm waiting for your good news.[if:convo_undecided_open]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -659,14 +663,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetRivalPartyDialogues()
 			{
-				TextObject textObject = new TextObject("{=Rt2w61N8}Don't get involved in this. We've grazed our herds on these hillsides since our fathers' fathers' time. We don't care if one rich bastard gave a couple of bags of silver to another rich bastard. We don't care about title deeds or courts of law or any of that. Custom is custom, and we're not going anywhere!", null);
+				TextObject textObject = new TextObject("{=Rt2w61N8}Don't get involved in this. [if:convo_confused_normal][ib:hip]We've grazed our herds on these hillsides since our fathers' fathers' time. We don't care if one rich bastard gave a couple of bags of silver to another rich bastard. We don't care about title deeds or courts of law or any of that. Custom is custom, and we're not going anywhere!", null);
 				TextObject textObject2 = new TextObject("{=YPTZ2et7}Calm down. You're right. No one has the right to sell your ancestral lands. These herdsmen can take their cattle elsewhere.", null);
 				TextObject textObject3 = new TextObject("{=R1W5Il2d}You can take your grievances to your lord, or to whoever sold the land. The law says a buyer has rights, and you need to clear out.", null);
-				TextObject textObject4 = new TextObject("{=l3ALRD7c}You're just a rich bastard's lackey.", null);
-				TextObject textObject5 = new TextObject("{=YLjksPbk}You're a kind {?PLAYER.GENDER}woman, madam{?}man, sir{\\?}. You understand what poor folk like us are up against.", null);
+				TextObject textObject4 = new TextObject("{=l3ALRD7c}You're just a rich bastard's lackey.[if:convo_confused_annoyed][ib:closed]", null);
+				TextObject textObject5 = new TextObject("{=YLjksPbk}You're a kind {?PLAYER.GENDER}woman, [if:convo_happy]madam{?}man, sir{\\?}. You understand what poor folk like us are up against.", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject4, false);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject5, false);
-				TextObject textObject6 = new TextObject("{=ybb0ToHE}We will protect our lands!", null);
+				TextObject textObject6 = new TextObject("{=ybb0ToHE}We will protect our lands![if:convo_thinking]", null);
 				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(textObject, null, null).Condition(new ConversationSentence.OnConditionDelegate(this.RivalPartyTalkOnCondition))
 					.BeginPlayerOptions()
 					.PlayerOption(textObject2, null)
@@ -776,7 +780,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._rivalMobileParty.IgnoreForHours(720f);
 				this._rivalMobileParty.Ai.SetDoNotMakeNewDecisions(true);
 				SetPartyAiAction.GetActionForEngagingParty(this._rivalMobileParty, this._herdersMobileParty);
-				this._rivalMobileParty.Party.Visuals.SetMapIconAsDirty();
+				this._rivalMobileParty.TargetPosition = this._herdersMobileParty.Position2D;
+				this._rivalMobileParty.Party.SetVisualAsDirty();
 				base.AddTrackedObject(this._rivalMobileParty);
 				this._rivalMobileParty.Aggressiveness = 0f;
 			}
@@ -804,7 +809,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._herdersMobileParty.ItemRoster.AddToCounts(MBObjectManager.Instance.GetObject<ItemObject>("sumpter_horse"), MathF.Ceiling(2f + 5f * this._issueDifficultyMultiplier));
 				this._herdersMobileParty.IgnoreForHours(720f);
 				this._herdersMobileParty.Ai.SetDoNotMakeNewDecisions(true);
-				this._herdersMobileParty.Party.Visuals.SetMapIconAsDirty();
+				this._herdersMobileParty.Party.SetVisualAsDirty();
 				base.AddTrackedObject(this._herdersMobileParty);
 				this._herdersMobileParty.Aggressiveness = 0f;
 				Vec2 vec = this._targetSettlement.GetPosition2D;
@@ -906,7 +911,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnHourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing)
 				{
@@ -972,7 +977,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._warDeclaredCancelLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._warDeclaredCancelLog, false);
 			}
 
 			protected override void InitializeQuestOnGameLoad()
@@ -993,7 +998,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 				CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 				CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, new Action<MobileParty, PartyBase>(this.OnMobilePartyDestroyed));

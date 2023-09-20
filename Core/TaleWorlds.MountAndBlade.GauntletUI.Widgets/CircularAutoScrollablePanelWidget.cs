@@ -116,6 +116,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 				{
 					this._currentScrollValue = 1f;
 				}
+				if (this.ShouldResetImmediately)
+				{
+					this._currentScrollValue = 0f;
+					this.InnerPanel.ScaledPositionYOffset = 0f;
+				}
 			}
 		}
 
@@ -138,6 +143,21 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 
 		public CircularAutoScrollablePanelWidget.ScrollMovementType ScrollType { get; set; }
 
+		public bool ShouldResetImmediately
+		{
+			get
+			{
+				return this._shouldResetImmediately;
+			}
+			set
+			{
+				if (value != this._shouldResetImmediately)
+				{
+					this._shouldResetImmediately = value;
+				}
+			}
+		}
+
 		private float _currentScrollValue;
 
 		private bool _autoScroll;
@@ -149,6 +169,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 		private int _direction = 1;
 
 		private float _maxScroll;
+
+		private bool _shouldResetImmediately = true;
 
 		public enum ScrollMovementType
 		{

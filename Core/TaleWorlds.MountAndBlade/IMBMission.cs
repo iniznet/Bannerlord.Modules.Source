@@ -96,6 +96,9 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("is_position_inside_boundaries", false)]
 		bool IsPositionInsideBoundaries(UIntPtr missionPointer, Vec2 position);
 
+		[EngineMethod("is_position_inside_any_blocker_nav_mesh_face_2d", false)]
+		bool IsPositionInsideAnyBlockerNavMeshFace2D(UIntPtr missionPointer, Vec2 position);
+
 		[EngineMethod("get_alternate_position_for_navmeshless_or_out_of_bounds_position", false)]
 		WorldPosition GetAlternatePositionForNavmeshlessOrOutOfBoundsPosition(UIntPtr ptr, ref Vec2 directionTowards, ref WorldPosition originalPosition, ref float positionPenalty);
 
@@ -116,6 +119,9 @@ namespace TaleWorlds.MountAndBlade
 
 		[EngineMethod("get_missile_range", false)]
 		float GetMissileRange(float missileStartingSpeed, float heightDifference);
+
+		[EngineMethod("compute_exact_missile_range_at_height_difference", false)]
+		float ComputeExactMissileRangeAtHeightDifference(float targetHeightDifference, float initialSpeed, float airFrictionConstant, float maxDuration);
 
 		[EngineMethod("prepare_missile_weapon_for_drop", false)]
 		void PrepareMissileWeaponForDrop(UIntPtr missionPointer, int missileIndex);

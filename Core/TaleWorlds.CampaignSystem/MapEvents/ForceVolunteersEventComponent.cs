@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 
 namespace TaleWorlds.CampaignSystem.MapEvents
@@ -28,6 +29,11 @@ namespace TaleWorlds.CampaignSystem.MapEvents
 			MapEvent mapEvent = new MapEvent();
 			ForceVolunteersEventComponent forceVolunteersEventComponent = new ForceVolunteersEventComponent(mapEvent);
 			mapEvent.Initialize(attackerParty, defenderParty, forceVolunteersEventComponent, MapEvent.BattleTypes.IsForcingVolunteers);
+			Settlement settlement = defenderParty.Settlement;
+			if (((settlement != null) ? settlement.MilitiaPartyComponent : null) != null)
+			{
+				defenderParty.Settlement.MilitiaPartyComponent.MobileParty.MapEventSide = mapEvent.DefenderSide;
+			}
 			Campaign.Current.MapEventManager.OnMapEventCreated(mapEvent);
 			return forceVolunteersEventComponent;
 		}

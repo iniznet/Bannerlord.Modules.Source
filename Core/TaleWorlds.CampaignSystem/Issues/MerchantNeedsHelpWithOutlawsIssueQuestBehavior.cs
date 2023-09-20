@@ -131,7 +131,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=ib6ltlM0}Yes... We've always had trouble with bandits, but recently we've had a lot more than our share. The hills outside of town are infested. A lot of us are afraid to take their goods to market. Some have been murdered. People tell me, 'I'm getting so desperate, maybe I'll turn bandit myself.' It's bad...", null);
+					return new TextObject("{=ib6ltlM0}Yes... We've always had trouble with bandits, but recently we've had a lot more than our share. The hills outside of town are infested. A lot of us are afraid to take their goods to market. Some have been murdered. People tell me, 'I'm getting so desperate, maybe I'll turn bandit myself.' It's bad...[ib:demure2][if:convo_dismayed]", null);
 				}
 			}
 
@@ -147,7 +147,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=DlRMT7XD}Well, {?PLAYER.GENDER}my lady{?}sir{\\?}, you'll never get all those outlaws, but if word gets around that you took down some of the most vicious ones - let's say {TOTAL_COUNT} bands of brigands - robbing us wouldn't seem so lucrative. Maybe the rest would go bother someone else... Do you think you can help us?", null);
+					TextObject textObject = new TextObject("{=DlRMT7XD}Well, {?PLAYER.GENDER}my lady{?}sir{\\?}, you'll never get all those outlaws,[if:convo_thinking] but if word gets around that you took down some of the most vicious ones - let's say {TOTAL_COUNT} bands of brigands - robbing us wouldn't seem so lucrative. Maybe the rest would go bother someone else... Do you think you can help us?", null);
 					StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject, false);
 					textObject.SetTextVariable("TOTAL_COUNT", this.TotalPartyCount);
 					return textObject;
@@ -158,7 +158,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=5RjvnQ3d}I bet even a party of {ALTERNATIVE_COUNT} properly trained men accompanied by one of your lieutenants can handle any band they find. Give them {TOTAL_DAYS} days, say... That will make a difference.", null);
+					TextObject textObject = new TextObject("{=5RjvnQ3d}I bet even a party of {ALTERNATIVE_COUNT} properly trained men accompanied by one of your lieutenants can handle any band they find. Give them {TOTAL_DAYS} days, say... That will make a difference.[if:convo_undecided_open]", null);
 					textObject.SetTextVariable("ALTERNATIVE_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("TOTAL_DAYS", base.GetTotalAlternativeSolutionDurationInDays());
 					return textObject;
@@ -198,7 +198,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=PexmGuOd}{?PLAYER.GENDER}Madam{?}Sir{\\?}, I am happy to tell that the men you left are patrolling, and already we feel safer. Thank you again.", null);
+					return new TextObject("{=PexmGuOd}{?PLAYER.GENDER}Madam{?}Sir{\\?}, I am happy to tell that the men you left are patrolling, and already we feel safer. Thank you again.[ib:demure][if:convo_grateful]", null);
 				}
 			}
 
@@ -322,12 +322,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				if (base.IssueOwner.CurrentSettlement.IsVillage && base.IssueOwner.CurrentSettlement.Village.TradeBound != null)
 				{
 					base.IssueOwner.CurrentSettlement.Village.Bound.Town.Security += 5f;
-					base.IssueOwner.CurrentSettlement.Village.Bound.Prosperity += 5f;
+					base.IssueOwner.CurrentSettlement.Village.Bound.Town.Prosperity += 5f;
 				}
 				else if (base.IssueOwner.CurrentSettlement.IsTown)
 				{
 					base.IssueOwner.CurrentSettlement.Town.Security += 5f;
-					base.IssueOwner.CurrentSettlement.Prosperity += 5f;
+					base.IssueOwner.CurrentSettlement.Town.Prosperity += 5f;
 				}
 				Hero.MainHero.Clan.AddRenown(1f, true);
 			}
@@ -336,11 +336,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				if (base.IssueOwner.CurrentSettlement.IsVillage)
 				{
-					base.IssueOwner.CurrentSettlement.Village.Bound.Prosperity -= 10f;
+					base.IssueOwner.CurrentSettlement.Village.Bound.Town.Prosperity -= 10f;
 				}
 				else if (base.IssueOwner.CurrentSettlement.IsTown)
 				{
-					base.IssueOwner.CurrentSettlement.Prosperity -= 10f;
+					base.IssueOwner.CurrentSettlement.Town.Prosperity -= 10f;
 				}
 				this.RelationshipChangeWithIssueOwner = -5;
 			}
@@ -380,9 +380,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
-				return new MerchantNeedsHelpWithOutlawsIssueQuestBehavior.MerchantNeedsHelpWithOutlawsIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(20f), this.RewardGold, this.TotalPartyCount);
+				return new MerchantNeedsHelpWithOutlawsIssueQuestBehavior.MerchantNeedsHelpWithOutlawsIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(20f), this.RewardGold, this.TotalPartyCount, this.RelatedHideout);
 			}
 
 			protected override void CompleteIssueWithTimedOutConsequences()
@@ -414,6 +418,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				base.AutoGeneratedInstanceCollectObjects(collectedObjects);
 				collectedObjects.Add(this._validPartiesList);
+				collectedObjects.Add(this._relatedHideout);
 				collectedObjects.Add(this._questProgressLogTest);
 			}
 
@@ -435,6 +440,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 			internal static object AutoGeneratedGetMemberValue_validPartiesList(object o)
 			{
 				return ((MerchantNeedsHelpWithOutlawsIssueQuestBehavior.MerchantNeedsHelpWithOutlawsIssueQuest)o)._validPartiesList;
+			}
+
+			internal static object AutoGeneratedGetMemberValue_relatedHideout(object o)
+			{
+				return ((MerchantNeedsHelpWithOutlawsIssueQuestBehavior.MerchantNeedsHelpWithOutlawsIssueQuest)o)._relatedHideout;
 			}
 
 			internal static object AutoGeneratedGetMemberValue_questProgressLogTest(object o)
@@ -561,34 +571,36 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			public MerchantNeedsHelpWithOutlawsIssueQuest(string questId, Hero giverHero, CampaignTime duration, int rewardGold, int totalPartyCount)
+			public MerchantNeedsHelpWithOutlawsIssueQuest(string questId, Hero giverHero, CampaignTime duration, int rewardGold, int totalPartyCount, Hideout relatedHideout)
 				: base(questId, giverHero, duration, rewardGold)
 			{
 				this._totalPartyCount = totalPartyCount;
 				this._destroyedPartyCount = 0;
 				this._recruitedPartyCount = 0;
 				this._validPartiesList = new List<MobileParty>();
+				this._relatedHideout = relatedHideout;
+				this.AddHideoutPartiesToValidPartiesList();
 				this.SetDialogs();
 				base.InitializeQuestOnCreation();
 			}
 
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=PQIYPCDn}Very good. I will be waiting for the good news then. Once you return, I'm ready to offer a reward of {REWARD_GOLD}{GOLD_ICON} denars. Just make sure that you defeat at least {TROOP_COUNT} bands no more than a day's ride away from here.", null);
+				TextObject textObject = new TextObject("{=PQIYPCDn}Very good. I will be waiting for the good news then. Once you return, I'm ready to offer a reward of {REWARD_GOLD}{GOLD_ICON} denars. Just make sure that you defeat at least {TROOP_COUNT} bands no more than a day's ride away from here.[ib:normal][if:convo_bemused]", null);
 				textObject.SetTextVariable("REWARD_GOLD", this.RewardGold);
 				textObject.SetTextVariable("TROOP_COUNT", this._totalPartyCount);
 				textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(textObject, null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=jjTcNhKE}Have you been able to find any bandits yet?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=jjTcNhKE}Have you been able to find any bandits yet?[if:convo_undecided_open]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=mU45Th70}We're off to hunt them now.", null), null)
-					.NpcLine(new TextObject("{=u9vtceCV}You are a savior.", null), null, null)
+					.NpcLine(new TextObject("{=u9vtceCV}You are a savior.[if:convo_astonished]", null), null, null)
 					.CloseDialog()
 					.Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.PlayerOption(new TextObject("{=QPv1b7f8}I haven't had the time yet.", null), null)
-					.NpcLine(new TextObject("{=6ba4n9n6}We are waiting for your good news {?PLAYER.GENDER}my lady{?}sir{\\?}.", null), null, null)
+					.NpcLine(new TextObject("{=6ba4n9n6}We are waiting for your good news {?PLAYER.GENDER}my lady{?}sir{\\?}.[if:convo_focused_happy]", null), null, null)
 					.CloseDialog()
 					.Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.EndPlayerOptions()
@@ -615,6 +627,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				MBInformationManager.AddQuickInformation(textObject, 0, null, "");
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.HourlyTickPartyEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.HourlyTickParty));
@@ -624,6 +640,59 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.VillageBeingRaided.AddNonSerializedListener(this, new Action<Village>(this.OnVillageRaided));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 				CampaignEvents.BanditPartyRecruited.AddNonSerializedListener(this, new Action<MobileParty>(this.OnBanditPartyRecruited));
+				CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
+				CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
+				CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, new Action(this.OnGameLoadFinished));
+			}
+
+			private void OnGameLoadFinished()
+			{
+				if (this._relatedHideout == null)
+				{
+					Settlement settlement = SettlementHelper.FindNearestHideout((Settlement x) => x.Hideout.IsInfested, null);
+					if (settlement != null)
+					{
+						float num;
+						Campaign.Current.Models.MapDistanceModel.GetDistance(base.QuestGiver.CurrentSettlement, settlement, 100f, out num);
+						if (num < 50f)
+						{
+							this._relatedHideout = settlement.Hideout;
+						}
+					}
+					if (this._relatedHideout != null)
+					{
+						this.AddHideoutPartiesToValidPartiesList();
+						return;
+					}
+					base.CompleteQuestWithCancel(null);
+				}
+			}
+
+			private void AddHideoutPartiesToValidPartiesList()
+			{
+				foreach (MobileParty mobileParty in this._relatedHideout.Settlement.Parties)
+				{
+					if (mobileParty.IsBandit)
+					{
+						this._validPartiesList.Add(mobileParty);
+					}
+				}
+			}
+
+			private void OnSettlementLeft(MobileParty party, Settlement settlement)
+			{
+				if (this._validPartiesList.Contains(party) && settlement.IsHideout && settlement.Hideout == this._relatedHideout)
+				{
+					this._validPartiesList.Remove(party);
+				}
+			}
+
+			private void OnSettlementEntered(MobileParty party, Settlement settlement, Hero hero)
+			{
+				if (party != null && party.IsBandit && settlement.IsHideout && settlement.Hideout == this._relatedHideout)
+				{
+					this._validPartiesList.Add(party);
+				}
 			}
 
 			private void OnBanditPartyRecruited(MobileParty banditParty)
@@ -663,7 +732,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog, false);
 			}
 
 			private void MobilePartyDestroyed(MobileParty mobileParty, PartyBase destroyerParty)
@@ -730,12 +799,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				if (base.QuestGiver.CurrentSettlement.IsVillage && base.QuestGiver.CurrentSettlement.Village.TradeBound != null)
 				{
 					base.QuestGiver.CurrentSettlement.Village.Bound.Town.Security += 5f;
-					base.QuestGiver.CurrentSettlement.Village.Bound.Prosperity += 5f;
+					base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity += 5f;
 				}
 				else if (base.QuestGiver.CurrentSettlement.IsTown)
 				{
 					base.QuestGiver.CurrentSettlement.Town.Security += 5f;
-					base.QuestGiver.CurrentSettlement.Prosperity += 5f;
+					base.QuestGiver.CurrentSettlement.Town.Prosperity += 5f;
 				}
 				Hero.MainHero.Clan.AddRenown(1f, true);
 				base.CompleteQuestWithSuccess();
@@ -746,11 +815,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.RelationshipChangeWithQuestGiver = -5;
 				if (base.QuestGiver.CurrentSettlement.IsVillage)
 				{
-					base.QuestGiver.CurrentSettlement.Village.Bound.Prosperity -= 10f;
+					base.QuestGiver.CurrentSettlement.Village.Bound.Town.Prosperity -= 10f;
 				}
 				else if (base.QuestGiver.CurrentSettlement.IsTown)
 				{
-					base.QuestGiver.CurrentSettlement.Prosperity -= 10f;
+					base.QuestGiver.CurrentSettlement.Town.Prosperity -= 10f;
 				}
 				base.AddLog(this._timeoutLog, false);
 			}
@@ -785,6 +854,9 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			[SaveableField(40)]
 			private List<MobileParty> _validPartiesList;
+
+			[SaveableField(70)]
+			private Hideout _relatedHideout;
 
 			[SaveableField(60)]
 			private JournalLog _questProgressLogTest;

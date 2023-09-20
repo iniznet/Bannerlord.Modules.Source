@@ -40,13 +40,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				explainedNumber.Add(DefaultPerks.Medicine.FortitudeTonic.PrimaryBonus, DefaultPerks.Medicine.FortitudeTonic.Name, null);
 			}
-			if (character.GetPerkValue(DefaultPerks.Athletics.MightyBlow) && character.GetSkillValue(DefaultSkills.Athletics) > 250)
+			if (character.GetPerkValue(DefaultPerks.Athletics.MightyBlow))
 			{
-				int num = character.GetSkillValue(DefaultSkills.Athletics) - 250;
-				if (num > 0)
-				{
-					explainedNumber.Add((float)num, DefaultPerks.Athletics.MightyBlow.Name, null);
-				}
+				int num = character.GetSkillValue(DefaultSkills.Athletics) - Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus;
+				explainedNumber.Add((float)num, DefaultPerks.Athletics.MightyBlow.Name, null);
 			}
 			return explainedNumber;
 		}

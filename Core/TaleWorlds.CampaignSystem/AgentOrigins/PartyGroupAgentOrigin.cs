@@ -178,7 +178,8 @@ namespace TaleWorlds.CampaignSystem.AgentOrigins
 				return false;
 			}
 			bool flag = party.Owner == Hero.MainHero;
-			bool flag2 = party.MapFaction.Leader == Hero.MainHero;
+			IFaction mapFaction = party.MapFaction;
+			bool flag2 = ((mapFaction != null) ? mapFaction.Leader : null) == Hero.MainHero;
 			bool flag3 = party.MobileParty != null && party.MobileParty.DefaultBehavior == AiBehavior.EscortParty && party.MobileParty.TargetParty == MobileParty.MainParty;
 			bool flag4 = party.MobileParty != null && party.MobileParty.Army != null && party.MobileParty.Army.LeaderParty == MobileParty.MainParty;
 			Settlement mapEventSettlement = party.MapEvent.MapEventSettlement;

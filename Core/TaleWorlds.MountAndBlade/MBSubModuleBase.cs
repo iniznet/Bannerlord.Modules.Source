@@ -93,5 +93,9 @@ namespace TaleWorlds.MountAndBlade
 		public virtual void OnInitialState()
 		{
 		}
+
+		protected internal virtual void OnNetworkTick(float dt)
+		{
+		}
 	}
 }

@@ -10,8 +10,26 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.MapConversation
 			: base(context)
 		{
 			base.TextureProviderName = "MapConversationTextureProvider";
-			this._isRenderRequestedPreviousFrame = true;
+			this._isRenderRequestedPreviousFrame = false;
 			base.UpdateTextureWidget();
+			base.EventManager.AddAfterFinalizedCallback(new Action(this.OnEventManagerIsFinalized));
+		}
+
+		private void OnEventManagerIsFinalized()
+		{
+			if (!this._setForClearNextFrame)
+			{
+				TextureProvider textureProvider = base.TextureProvider;
+				if (textureProvider == null)
+				{
+					return;
+				}
+				textureProvider.Clear(false);
+			}
+		}
+
+		protected override void OnDisconnectedFromRoot()
+		{
 		}
 
 		[Editor(false)]
@@ -46,6 +64,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.MapConversation
 					this._isTableauEnabled = value;
 					base.OnPropertyChanged(value, "IsTableauEnabled");
 					base.SetTextureProviderProperty("IsEnabled", value);
+					if (this._isTableauEnabled)
+					{
+						this._isRenderRequestedPreviousFrame = true;
+					}
 				}
 			}
 		}

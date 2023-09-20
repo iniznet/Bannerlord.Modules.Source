@@ -4,7 +4,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class ScoreboardHotKeyCategory : GameKeyContext
+	public sealed class ScoreboardHotKeyCategory : GameKeyContext
 	{
 		public ScoreboardHotKeyCategory()
 			: base("ScoreboardHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)

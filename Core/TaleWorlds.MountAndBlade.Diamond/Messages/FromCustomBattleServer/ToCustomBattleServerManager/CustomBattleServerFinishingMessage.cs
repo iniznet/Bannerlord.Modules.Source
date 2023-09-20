@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.PlayerServices;
@@ -10,16 +11,23 @@ namespace Messages.FromCustomBattleServer.ToCustomBattleServerManager
 	[Serializable]
 	public class CustomBattleServerFinishingMessage : Message
 	{
-		public GameLog[] GameLogs { get; }
+		[JsonProperty]
+		public GameLog[] GameLogs { get; private set; }
 
-		public Dictionary<ValueTuple<PlayerId, string, string>, int> BadgeDataDictionary { get; }
+		[JsonProperty]
+		public List<BadgeDataEntry> BadgeDataEntries { get; private set; }
 
-		public MultipleBattleResult BattleResult { get; }
+		[JsonProperty]
+		public MultipleBattleResult BattleResult { get; private set; }
+
+		public CustomBattleServerFinishingMessage()
+		{
+		}
 
 		public CustomBattleServerFinishingMessage(GameLog[] gameLogs, Dictionary<ValueTuple<PlayerId, string, string>, int> badgeDataDictionary, MultipleBattleResult battleResult)
 		{
 			this.GameLogs = gameLogs;
-			this.BadgeDataDictionary = badgeDataDictionary;
+			this.BadgeDataEntries = BadgeDataEntry.ToList(badgeDataDictionary);
 			this.BattleResult = battleResult;
 		}
 	}

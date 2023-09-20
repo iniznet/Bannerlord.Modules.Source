@@ -126,8 +126,6 @@ namespace TaleWorlds.MountAndBlade
 			case OrderType.CohesionLow:
 			case OrderType.HoldFire:
 			case OrderType.FireAtWill:
-			case OrderType.UseAnyWeapon:
-			case OrderType.UseBluntWeaponsOnly:
 				return;
 			case OrderType.Mount:
 			case OrderType.Dismount:
@@ -144,10 +142,10 @@ namespace TaleWorlds.MountAndBlade
 				DeploymentHandler.<OrderController_OnOrderIssued_Aux>g__ForceUpdateFormationParams|10_0(ref CS$<>8__locals1);
 				return;
 			case OrderType.PointDefence:
-				Debug.FailedAssert("will be removed", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\DeploymentHandler.cs", "OrderController_OnOrderIssued_Aux", 184);
+				Debug.FailedAssert("will be removed", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\DeploymentHandler.cs", "OrderController_OnOrderIssued_Aux", 182);
 				return;
 			}
-			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\DeploymentHandler.cs", "OrderController_OnOrderIssued_Aux", 187);
+			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\DeploymentHandler.cs", "OrderController_OnOrderIssued_Aux", 185);
 		}
 
 		public void ForceUpdateAllUnits()
@@ -183,7 +181,7 @@ namespace TaleWorlds.MountAndBlade
 						return match.Value;
 					}
 				}
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\DeploymentHandler.cs", "SetDeploymentBoundary", 239);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Missions\\MissionLogics\\DeploymentHandler.cs", "SetDeploymentBoundary", 237);
 				return null;
 			};
 			Func<GameEntity, bool> <>9__2;

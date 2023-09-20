@@ -79,7 +79,7 @@ namespace TaleWorlds.CampaignSystem.CharacterCreationContent
 			this.CharacterCreation.ApplyFinalEffects();
 			Game.Current.GameStateManager.UnregisterActiveStateDisableRequest(this);
 			Game.Current.GameStateManager.CleanAndPushState(Game.Current.GameStateManager.CreateState<MapState>(), 0);
-			PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+			PartyBase.MainParty.SetVisualAsDirty();
 			ICharacterCreationStateHandler handler = this._handler;
 			if (handler != null)
 			{

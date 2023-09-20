@@ -171,7 +171,7 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 				mobileParty.MemberRoster.AddToCounts(characterObject, 1, true, 0, 0, true, -1);
 			}
 			mobileParty.ActualClan = this.Owner.Clan;
-			mobileParty.Party.Visuals.SetMapIconAsDirty();
+			mobileParty.Party.SetVisualAsDirty();
 			mobileParty.InitializePartyTrade(10000 + ((this.Owner.Clan == Clan.PlayerClan) ? 5000 : 0));
 			if (caravanItems != null)
 			{
@@ -245,10 +245,10 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 
 		public static void TransferCaravanOwnership(MobileParty caravan, Hero newOwner, Settlement homeSettlement)
 		{
-			CaravanPartyComponent caravanPartyComponent = new CaravanPartyComponent(homeSettlement, newOwner, caravan.PartyComponent.Leader);
+			CaravanPartyComponent caravanPartyComponent = new CaravanPartyComponent(homeSettlement, newOwner, caravan.LeaderHero);
 			caravan.PartyComponent = caravanPartyComponent;
 			caravanPartyComponent.InitializeCaravanProperties();
-			caravan.Party.Visuals.SetMapIconAsDirty();
+			caravan.Party.SetVisualAsDirty();
 		}
 
 		public const int DefaultCaravanPartyTradeInitialGold = 10000;

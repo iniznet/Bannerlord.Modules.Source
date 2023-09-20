@@ -293,10 +293,10 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 		{
 			public override int Compare(EncyclopediaListItem x, EncyclopediaListItem y)
 			{
-				return base.CompareSettlements(x, y, new DefaultEncyclopediaSettlementPage.EncyclopediaListSettlementComparer.SettlementVisibilityComparerDelegate(this.CompareVisibility), new Func<Settlement, Settlement, int>(DefaultEncyclopediaSettlementPage.EncyclopediaListSettlementProsperityComparer.ProsperityComparison));
+				return base.CompareFiefs(x, y, new DefaultEncyclopediaSettlementPage.EncyclopediaListSettlementComparer.SettlementVisibilityComparerDelegate(this.CompareVisibility), new Func<Town, Town, int>(DefaultEncyclopediaSettlementPage.EncyclopediaListSettlementProsperityComparer.ProsperityComparison));
 			}
 
-			private static int ProsperityComparison(Settlement t1, Settlement t2)
+			private static int ProsperityComparison(Town t1, Town t2)
 			{
 				return t1.Prosperity.CompareTo(t2.Prosperity);
 			}
@@ -306,14 +306,18 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				Settlement settlement;
 				if ((settlement = item.Object as Settlement) == null)
 				{
-					Debug.FailedAssert("Unable to get the prosperity of a non-settlement object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaSettlementPage.cs", "GetComparedValueText", 326);
+					Debug.FailedAssert("Unable to get the prosperity of a non-settlement object.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaSettlementPage.cs", "GetComparedValueText", 330);
 					return "";
+				}
+				if (settlement.IsVillage)
+				{
+					return this._emptyValue.ToString();
 				}
 				if (!DefaultEncyclopediaSettlementPage.CanPlayerSeeValuesOf(settlement))
 				{
 					return this._missingValue.ToString();
 				}
-				return ((int)settlement.Prosperity).ToString();
+				return ((int)settlement.Town.Prosperity).ToString();
 			}
 		}
 
@@ -348,7 +352,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				Settlement settlement2;
 				if ((settlement = x.Object as Settlement) == null || (settlement2 = y.Object as Settlement) == null)
 				{
-					Debug.FailedAssert("Both objects should be settlements.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaSettlementPage.cs", "CompareSettlements", 375);
+					Debug.FailedAssert("Both objects should be settlements.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaSettlementPage.cs", "CompareSettlements", 379);
 					return 0;
 				}
 				int num;
@@ -377,7 +381,7 @@ namespace TaleWorlds.CampaignSystem.Encyclopedia.Pages
 				Settlement settlement2;
 				if ((settlement = x.Object as Settlement) == null || (settlement2 = y.Object as Settlement) == null)
 				{
-					Debug.FailedAssert("Unable to compare loyalty of non-fief (castle or town) objects.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaSettlementPage.cs", "CompareFiefs", 399);
+					Debug.FailedAssert("Unable to compare loyalty of non-fief (castle or town) objects.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encyclopedia\\Pages\\DefaultEncyclopediaSettlementPage.cs", "CompareFiefs", 403);
 					return 0;
 				}
 				int num = settlement.IsVillage.CompareTo(settlement2.IsVillage);

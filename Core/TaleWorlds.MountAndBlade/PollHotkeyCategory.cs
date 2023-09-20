@@ -3,7 +3,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class PollHotkeyCategory : GameKeyContext
+	public sealed class PollHotkeyCategory : GameKeyContext
 	{
 		public PollHotkeyCategory()
 			: base("PollHotkeyCategory", 108, GameKeyContext.GameKeyContextType.Default)

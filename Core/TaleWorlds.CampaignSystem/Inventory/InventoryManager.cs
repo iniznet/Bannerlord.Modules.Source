@@ -80,7 +80,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 				}
 			}
 			this._inventoryLogic = new InventoryLogic(null);
-			this._inventoryLogic.Initialize(itemRoster, MobileParty.MainParty, false, true, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, leftRosterName, null);
+			this._inventoryLogic.Initialize(itemRoster, MobileParty.MainParty, false, true, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, leftRosterName, null, null);
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(this._inventoryLogic);
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
@@ -126,7 +126,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			bool flag = false;
 			bool flag2 = false;
 			Hero leaderHero2 = rightParty.LeaderHero;
-			inventoryLogic2.Initialize(itemRoster, itemRoster2, memberRoster, flag, flag2, (leaderHero2 != null) ? leaderHero2.CharacterObject : null, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null);
+			inventoryLogic2.Initialize(itemRoster, itemRoster2, memberRoster, flag, flag2, (leaderHero2 != null) ? leaderHero2.CharacterObject : null, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null, null);
 			InventoryManager.Instance._doneLogicExtrasDelegate = doneLogicExtrasDelegate;
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(inventoryLogic);
@@ -136,7 +136,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		public static void OpenScreenAsInventoryForCraftedItemDecomposition(MobileParty party, CharacterObject character, InventoryManager.DoneLogicExtrasDelegate doneLogicExtrasDelegate)
 		{
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
-			InventoryManager.Instance._inventoryLogic.Initialize(new ItemRoster(), party.ItemRoster, party.MemberRoster, false, false, character, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null);
+			InventoryManager.Instance._inventoryLogic.Initialize(new ItemRoster(), party.ItemRoster, party.MemberRoster, false, false, character, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null, null);
 			InventoryManager.Instance._doneLogicExtrasDelegate = doneLogicExtrasDelegate;
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
@@ -146,7 +146,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		public static void OpenScreenAsInventoryOf(MobileParty party, CharacterObject character)
 		{
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
-			InventoryManager.Instance._inventoryLogic.Initialize(new ItemRoster(), party.ItemRoster, party.MemberRoster, false, true, character, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null);
+			InventoryManager.Instance._inventoryLogic.Initialize(new ItemRoster(), party.ItemRoster, party.MemberRoster, false, true, character, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null, null);
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
@@ -162,7 +162,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			bool flag = false;
 			bool flag2 = false;
 			Hero leaderHero = rightParty.LeaderHero;
-			inventoryLogic.Initialize(itemRoster, itemRoster2, memberRoster, flag, flag2, (leaderHero != null) ? leaderHero.CharacterObject : null, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, leftParty.MemberRoster);
+			inventoryLogic.Initialize(itemRoster, itemRoster2, memberRoster, flag, flag2, (leaderHero != null) ? leaderHero.CharacterObject : null, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, leftParty.MemberRoster, null);
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
@@ -189,7 +189,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 			ItemRoster itemRoster = itemRostersToLoot[PartyBase.MainParty];
 			InventoryManager.Instance._currentMode = InventoryMode.Loot;
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
-			InventoryManager.Instance._inventoryLogic.Initialize(itemRoster, MobileParty.MainParty.ItemRoster, MobileParty.MainParty.MemberRoster, false, true, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null);
+			InventoryManager.Instance._inventoryLogic.Initialize(itemRoster, MobileParty.MainParty.ItemRoster, MobileParty.MainParty.MemberRoster, false, true, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, null, null, null);
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
@@ -199,7 +199,17 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Stash;
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
-			InventoryManager.Instance._inventoryLogic.Initialize(stash, MobileParty.MainParty, false, false, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, new TextObject("{=nZbaYvVx}Stash", null), null);
+			InventoryManager.Instance._inventoryLogic.Initialize(stash, MobileParty.MainParty, false, false, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, new TextObject("{=nZbaYvVx}Stash", null), null, null);
+			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
+			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
+			Game.Current.GameStateManager.PushState(inventoryState, 0);
+		}
+
+		public static void OpenScreenAsWarehouse(ItemRoster stash, InventoryLogic.CapacityData otherSideCapacity)
+		{
+			InventoryManager.Instance._currentMode = InventoryMode.Warehouse;
+			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
+			InventoryManager.Instance._inventoryLogic.Initialize(stash, MobileParty.MainParty, false, false, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, new TextObject("{=anTRftmb}Warehouse", null), null, otherSideCapacity);
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
 			Game.Current.GameStateManager.PushState(inventoryState, 0);
@@ -209,7 +219,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Default;
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(null);
-			InventoryManager.Instance._inventoryLogic.Initialize(items, MobileParty.MainParty.ItemRoster, MobileParty.MainParty.MemberRoster, false, true, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, leftRosterName, null);
+			InventoryManager.Instance._inventoryLogic.Initialize(items, MobileParty.MainParty.ItemRoster, MobileParty.MainParty.MemberRoster, false, true, CharacterObject.PlayerCharacter, InventoryManager.InventoryCategoryType.None, InventoryManager.GetCurrentMarketData(), false, leftRosterName, null, null);
 			InventoryManager.Instance._doneLogicExtrasDelegate = doneLogicDelegate;
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
@@ -220,7 +230,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Trade;
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(caravan.Party);
-			InventoryManager.Instance._inventoryLogic.Initialize(caravan.Party.ItemRoster, PartyBase.MainParty.ItemRoster, PartyBase.MainParty.MemberRoster, true, true, CharacterObject.PlayerCharacter, merchantItemType, InventoryManager.GetCurrentMarketData(), false, null, null);
+			InventoryManager.Instance._inventoryLogic.Initialize(caravan.Party.ItemRoster, PartyBase.MainParty.ItemRoster, PartyBase.MainParty.MemberRoster, true, true, CharacterObject.PlayerCharacter, merchantItemType, InventoryManager.GetCurrentMarketData(), false, null, null, null);
 			InventoryManager.Instance._inventoryLogic.SetInventoryListener(new InventoryManager.CaravanInventoryListener(caravan));
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();
 			inventoryState.InitializeLogic(InventoryManager.Instance._inventoryLogic);
@@ -236,7 +246,7 @@ namespace TaleWorlds.CampaignSystem.Inventory
 		{
 			InventoryManager.Instance._currentMode = InventoryMode.Trade;
 			InventoryManager.Instance._inventoryLogic = new InventoryLogic(settlementComponent.Owner);
-			InventoryManager.Instance._inventoryLogic.Initialize(leftRoster, PartyBase.MainParty.ItemRoster, PartyBase.MainParty.MemberRoster, true, true, CharacterObject.PlayerCharacter, merchantItemType, InventoryManager.GetCurrentMarketData(), false, null, null);
+			InventoryManager.Instance._inventoryLogic.Initialize(leftRoster, PartyBase.MainParty.ItemRoster, PartyBase.MainParty.MemberRoster, true, true, CharacterObject.PlayerCharacter, merchantItemType, InventoryManager.GetCurrentMarketData(), false, null, null, null);
 			InventoryManager.Instance._inventoryLogic.SetInventoryListener(new InventoryManager.MerchantInventoryListener(settlementComponent));
 			InventoryManager.Instance._doneLogicExtrasDelegate = doneLogicExtrasDelegate;
 			InventoryState inventoryState = Game.Current.GameStateManager.CreateState<InventoryState>();

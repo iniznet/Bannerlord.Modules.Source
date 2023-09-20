@@ -116,6 +116,14 @@ namespace TaleWorlds.Core
 			}
 		}
 
+		public virtual bool RequiresTutorial
+		{
+			get
+			{
+				return true;
+			}
+		}
+
 		public GameType()
 		{
 			this._stepNo = GameTypeLoadingStates.InitializeFirstStep;

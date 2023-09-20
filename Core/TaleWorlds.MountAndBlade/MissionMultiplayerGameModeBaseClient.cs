@@ -50,7 +50,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public abstract MissionLobbyComponent.MultiplayerGameType GameType { get; }
+		public abstract MultiplayerGameType GameType { get; }
 
 		public abstract int GetGoldAmount();
 

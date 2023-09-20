@@ -3,7 +3,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class GenericGameKeyContext : GameKeyContext
+	public sealed class GenericGameKeyContext : GameKeyContext
 	{
 		public static GenericGameKeyContext Current { get; private set; }
 

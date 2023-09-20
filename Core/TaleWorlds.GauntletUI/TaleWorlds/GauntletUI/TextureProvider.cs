@@ -17,7 +17,7 @@ namespace TaleWorlds.GauntletUI
 		{
 		}
 
-		public virtual void Clear()
+		public virtual void Clear(bool clearNextFrame)
 		{
 			this._getGetMethodCache.Clear();
 		}

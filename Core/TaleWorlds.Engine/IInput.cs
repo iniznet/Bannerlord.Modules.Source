@@ -43,6 +43,9 @@ namespace TaleWorlds.Engine
 		[EngineMethod("get_virtual_key_code", false)]
 		int GetVirtualKeyCode(InputKey key);
 
+		[EngineMethod("get_controller_type", false)]
+		int GetControllerType();
+
 		[EngineMethod("set_clipboard_text", false)]
 		void SetClipboardText(string text);
 
@@ -57,6 +60,15 @@ namespace TaleWorlds.Engine
 
 		[EngineMethod("get_mouse_move_y", false)]
 		float GetMouseMoveY();
+
+		[EngineMethod("get_gyro_x", false)]
+		float GetGyroX();
+
+		[EngineMethod("get_gyro_y", false)]
+		float GetGyroY();
+
+		[EngineMethod("get_gyro_z", false)]
+		float GetGyroZ();
 
 		[EngineMethod("get_mouse_position_x", false)]
 		float GetMousePositionX();
@@ -81,6 +93,9 @@ namespace TaleWorlds.Engine
 
 		[EngineMethod("is_key_released", false)]
 		bool IsKeyReleased(InputKey key);
+
+		[EngineMethod("is_any_touch_active", false)]
+		bool IsAnyTouchActive();
 
 		[EngineMethod("set_cursor_position", false)]
 		void SetCursorPosition(int x, int y);

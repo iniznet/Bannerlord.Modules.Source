@@ -1,4 +1,5 @@
 ﻿using System;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
@@ -24,13 +25,17 @@ namespace TaleWorlds.MountAndBlade
 
 		private Vec2 GetDirectionAux(Formation f, Agent targetAgent)
 		{
-			if (f.IsMounted() && targetAgent != null && targetAgent.Velocity.LengthSquared > targetAgent.RunSpeedCached * targetAgent.RunSpeedCached * 0.09f)
+			if (f.PhysicalClass.IsMounted() && targetAgent != null && targetAgent.Velocity.LengthSquared > targetAgent.RunSpeedCached * targetAgent.RunSpeedCached * 0.09f)
 			{
 				return targetAgent.Velocity.AsVec2.Normalized();
 			}
 			if (this.OrderEnum == FacingOrder.FacingOrderEnum.LookAtDirection)
 			{
 				return this._lookAtDirection;
+			}
+			if (f.Arrangement is CircularFormation || f.Arrangement is SquareFormation)
+			{
+				return f.Direction;
 			}
 			Vec2 currentPosition = f.CurrentPosition;
 			Vec2 weightedAverageEnemyPosition = f.QuerySystem.WeightedAverageEnemyPosition;

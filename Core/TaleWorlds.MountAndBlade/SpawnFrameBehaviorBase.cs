@@ -80,6 +80,10 @@ namespace TaleWorlds.MountAndBlade
 			return globalFrame;
 		}
 
+		public void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
+		{
+		}
+
 		private const string ExcludeMountedTag = "exclude_mounted";
 
 		private const string ExcludeFootmenTag = "exclude_footmen";

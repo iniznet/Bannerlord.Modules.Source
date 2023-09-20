@@ -11,13 +11,19 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 		public override void RegisterEvents()
 		{
 			CampaignEvents.AiHourlyTickEvent.AddNonSerializedListener(this, new Action<MobileParty, PartyThinkParams>(this.AiHourlyTick));
+			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
+		}
+
+		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+		{
+			this._disbandPartyCampaignBehavior = Campaign.Current.GetCampaignBehavior<IDisbandPartyCampaignBehavior>();
 		}
 
 		public override void SyncData(IDataStore dataStore)
 		{
 		}
 
-		public void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
+		private void AiHourlyTick(MobileParty mobileParty, PartyThinkParams p)
 		{
 			if (mobileParty.CurrentSettlement != null && mobileParty.CurrentSettlement.SiegeEvent != null)
 			{
@@ -141,8 +147,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 										{
 											float num31 = MathF.Sqrt(num29);
 											num28 *= 0.25f + 0.75f * (MathF.Max(0f, num31 - 5f) / 20f);
+											if (!mobileParty.IsDisbanding)
+											{
+												IDisbandPartyCampaignBehavior disbandPartyCampaignBehavior = this._disbandPartyCampaignBehavior;
+												if (disbandPartyCampaignBehavior == null || !disbandPartyCampaignBehavior.IsPartyWaitingForDisband(mobileParty))
+												{
+													goto IL_68D;
+												}
+											}
+											num28 *= 0.25f;
 										}
 									}
+									IL_68D:
 									p.CurrentObjectiveValue = num28;
 									AiBehavior aiBehavior = AiBehavior.GoAroundParty;
 									AIBehaviorTuple aibehaviorTuple = new AIBehaviorTuple(mobileParty3, aiBehavior, false);
@@ -155,5 +171,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.AiBehaviors
 				}
 			}
 		}
+
+		private IDisbandPartyCampaignBehavior _disbandPartyCampaignBehavior;
 	}
 }

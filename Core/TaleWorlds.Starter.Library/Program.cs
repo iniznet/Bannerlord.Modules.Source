@@ -8,8 +8,24 @@ namespace TaleWorlds.Starter.Library
 {
 	public class Program
 	{
+		private static void WriteErrorLog(string text)
+		{
+			string text2 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "Mount and Blade II Bannerlord");
+			if (!Directory.Exists(text2))
+			{
+				Directory.CreateDirectory(text2);
+			}
+			text2 = Path.Combine(text2, "logs");
+			if (!Directory.Exists(text2))
+			{
+				Directory.CreateDirectory(text2);
+			}
+			File.WriteAllText(Path.Combine(text2, "starter_log.txt"), text);
+		}
+
 		private static int Starter()
 		{
+			string text = "";
 			try
 			{
 				Assembly.LoadFrom("TaleWorlds.DotNet.dll").GetType("TaleWorlds.DotNet.Controller").GetMethod("SetEngineMethodsAsDotNet")
@@ -19,40 +35,39 @@ namespace TaleWorlds.Starter.Library
 						new Program.InitializerDelegate(MBDotNet.PassManagedInitializeMethodPointerDotNet),
 						new Program.InitializerDelegate(MBDotNet.PassManagedEngineCallbackMethodPointersDotNet)
 					});
+				for (int i = 0; i < Program._args.Length; i++)
+				{
+					string text2 = Program._args[i];
+					text += text2;
+					if (i + 1 < Program._args.Length)
+					{
+						text += " ";
+					}
+				}
+				MBDotNet.SetCurrentDirectory(Directory.GetCurrentDirectory());
 			}
 			catch (FileNotFoundException ex)
 			{
-				Console.WriteLine("Exception: " + ex);
-				Console.WriteLine("Fusion Log: " + ex.FusionLog);
-				Console.WriteLine("Exception detailed: " + ex.ToString());
+				string text3 = "Exception: " + ex;
+				text3 = text3 + "Fusion Log: " + ex.FusionLog + "\n";
+				text3 = text3 + "Exception detailed: " + ex.ToString() + "\n";
 				if (ex.InnerException != null)
 				{
-					Console.WriteLine("Inner Exception: " + ex.InnerException);
+					text3 = string.Concat(new object[] { text3, "Inner Exception: ", ex.InnerException, "\n" });
 				}
-				Console.WriteLine("Press a key to continue...");
-				Console.ReadKey();
+				Program.WriteErrorLog(text3);
+				return 25;
 			}
 			catch (Exception ex2)
 			{
-				Console.WriteLine("Exception: " + ex2);
+				string text4 = "Exception: " + ex2;
 				if (ex2.InnerException != null)
 				{
-					Console.WriteLine("Inner Exception: " + ex2.InnerException);
+					text4 = text4 + "Inner Exception: " + ex2.InnerException;
 				}
-				Console.WriteLine("Press a key to continue...");
-				Console.ReadKey();
+				Program.WriteErrorLog(text4);
+				return 25;
 			}
-			string text = "";
-			for (int i = 0; i < Program._args.Length; i++)
-			{
-				string text2 = Program._args[i];
-				text += text2;
-				if (i + 1 < Program._args.Length)
-				{
-					text += " ";
-				}
-			}
-			MBDotNet.SetCurrentDirectory(Directory.GetCurrentDirectory());
 			return MBDotNet.WotsMainDotNet(text);
 		}
 

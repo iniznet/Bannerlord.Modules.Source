@@ -26,17 +26,8 @@ namespace TaleWorlds.MountAndBlade
 
 		public void Form()
 		{
-			int unitCountWithOverride = base.GetUnitCountWithOverride();
 			int num;
-			int maximumRankCount = SquareFormation.GetMaximumRankCount(unitCountWithOverride, out num);
-			if (unitCountWithOverride <= num * (num - 1))
-			{
-				base.DisableRearOfLastRank = true;
-			}
-			else
-			{
-				base.DisableRearOfLastRank = false;
-			}
+			int maximumRankCount = SquareFormation.GetMaximumRankCount(base.GetUnitCountWithOverride(), out num);
 			base.FormFromRankCount(maximumRankCount);
 		}
 	}

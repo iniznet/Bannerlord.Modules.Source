@@ -15,10 +15,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 {
 	public class OrderOfBattleVM : ViewModel
 	{
-		public bool IsOrderPreconfigured { get; protected set; }
-
-		public List<ValueTuple<int, List<int>>> CurrentConfiguration { get; private set; }
-
 		protected int TotalFormationCount
 		{
 			get
@@ -26,6 +22,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				return this._mission.PlayerTeam.FormationsIncludingEmpty.Count;
 			}
 		}
+
+		public List<ValueTuple<int, List<int>>> CurrentConfiguration { get; private set; }
+
+		public bool IsOrderPreconfigured { get; protected set; }
 
 		public OrderOfBattleVM()
 		{
@@ -184,7 +184,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 					Func<OrderOfBattleFormationClassVM, bool> func;
 					if ((func = <>9__2) == null)
 					{
-						func = (<>9__2 = (OrderOfBattleFormationClassVM fc) => fc.Class == f.Formation.PrimaryClass);
+						func = (<>9__2 = (OrderOfBattleFormationClassVM fc) => fc.Class == f.Formation.PhysicalClass);
 					}
 					return classes.Any(func);
 				});
@@ -325,17 +325,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			this.RefreshValues();
 		}
 
-		private void SetAllFormationsLockState(bool isLocked)
-		{
-			for (int i = 0; i < this._allFormations.Count; i++)
-			{
-				for (int j = 0; j < this._allFormations[i].Classes.Count; j++)
-				{
-					this._allFormations[i].Classes[j].SetWeightAdjustmentLock(isLocked);
-				}
-			}
-		}
-
 		private void UpdateTroopTypeLookUpTable()
 		{
 			for (FormationClass formationClass = FormationClass.Infantry; formationClass < FormationClass.NumberOfDefaultFormations; formationClass++)
@@ -362,6 +351,17 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			foreach (OrderOfBattleFormationItemVM orderOfBattleFormationItemVM in this._allFormations)
 			{
 				orderOfBattleFormationItemVM.OnSizeChanged();
+			}
+		}
+
+		private void SetAllFormationsLockState(bool isLocked)
+		{
+			for (int i = 0; i < this._allFormations.Count; i++)
+			{
+				for (int j = 0; j < this._allFormations[i].Classes.Count; j++)
+				{
+					this._allFormations[i].Classes[j].SetWeightAdjustmentLock(isLocked);
+				}
 			}
 		}
 
@@ -544,7 +544,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 					}
 					else
 					{
-						Debug.FailedAssert("Failed to find an initial formation for hero: " + this._allHeroes[i].Agent.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "SetInitialHeroFormations", 622);
+						Debug.FailedAssert("Failed to find an initial formation for hero: " + this._allHeroes[i].Agent.Name, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "SetInitialHeroFormations", 623);
 					}
 				}
 			}
@@ -816,7 +816,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 		protected void AssignCommander(Agent agent, OrderOfBattleFormationItemVM formationItem)
 		{
 			OrderOfBattleHeroItemVM orderOfBattleHeroItemVM = this._allHeroes.FirstOrDefault((OrderOfBattleHeroItemVM h) => h.Agent == agent);
-			if (formationItem != null && orderOfBattleHeroItemVM != null)
+			if (formationItem != null && orderOfBattleHeroItemVM != null && formationItem.Commander != orderOfBattleHeroItemVM)
 			{
 				if (formationItem.HasCommander)
 				{
@@ -975,6 +975,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			eventManager.TriggerEvent<OrderOfBattleFormationWeightChangedEvent>(new OrderOfBattleFormationWeightChangedEvent((belongedFormationItem != null) ? belongedFormationItem.Formation : null));
 		}
 
+		private void DistributeTroops(OrderOfBattleFormationClassVM formationClass)
+		{
+			List<Tuple<Formation, int, Team.TroopFilter, List<Agent>>> massTransferDataForFormation = this.GetMassTransferDataForFormation(formationClass);
+			if (massTransferDataForFormation.Count > 0)
+			{
+				this._orderController.RearrangeFormationsAccordingToFilters(Agent.Main.Team, massTransferDataForFormation);
+				this.RefreshFormationsWithClass(formationClass.Class);
+			}
+		}
+
 		private void DistributeWeights(OrderOfBattleFormationClassVM formationClass)
 		{
 			List<OrderOfBattleFormationClassVM> matchingClasses = OrderOfBattleUIHelper.GetMatchingClasses(this._allFormations, formationClass, (OrderOfBattleFormationClassVM fc) => !fc.IsLocked);
@@ -1043,7 +1053,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				}
 				if (num3 == num2)
 				{
-					Debug.FailedAssert("Failed to sum up all weights to 100", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "DistributeWeights", 1149);
+					Debug.FailedAssert("Failed to sum up all weights to 100", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\OrderOfBattle\\OrderOfBattleVM.cs", "DistributeWeights", 1162);
 					break;
 				}
 			}
@@ -1235,16 +1245,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			}
 		}
 
-		private void DistributeTroops(OrderOfBattleFormationClassVM formationClass)
-		{
-			List<Tuple<Formation, int, Team.TroopFilter, List<Agent>>> massTransferDataForFormation = this.GetMassTransferDataForFormation(formationClass);
-			if (massTransferDataForFormation.Count > 0)
-			{
-				this._orderController.RearrangeFormationsAccordingToFilters(Agent.Main.Team, massTransferDataForFormation);
-				this.RefreshFormationsWithClass(formationClass.Class);
-			}
-		}
-
 		private List<Agent> GetLockedAgents()
 		{
 			List<Agent> list = new List<Agent>();
@@ -1260,16 +1260,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				}
 			}
 			return list;
-		}
-
-		private void TransferAllAvailableTroopsToFormation(OrderOfBattleFormationItemVM formation, FormationClass formationClass)
-		{
-			List<Tuple<Formation, int, Team.TroopFilter, List<Agent>>> massTransferDataForFormationClass = this.GetMassTransferDataForFormationClass(formation.Formation, formationClass);
-			if (massTransferDataForFormationClass.Count > 0)
-			{
-				this._orderController.RearrangeFormationsAccordingToFilters(Agent.Main.Team, massTransferDataForFormationClass);
-				this.RefreshFormationsWithClass(formationClass);
-			}
 		}
 
 		private void OnFormationClassChanged(OrderOfBattleFormationClassVM formationClassItem, FormationClass newFormationClass)
@@ -1392,6 +1382,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 			EventManager eventManager = Game.Current.EventManager;
 			OrderOfBattleFormationItemVM belongedFormationItem = formationClassItem.BelongedFormationItem;
 			eventManager.TriggerEvent<OrderOfBattleFormationClassChangedEvent>(new OrderOfBattleFormationClassChangedEvent((belongedFormationItem != null) ? belongedFormationItem.Formation : null));
+		}
+
+		private void TransferAllAvailableTroopsToFormation(OrderOfBattleFormationItemVM formation, FormationClass formationClass)
+		{
+			List<Tuple<Formation, int, Team.TroopFilter, List<Agent>>> massTransferDataForFormationClass = this.GetMassTransferDataForFormationClass(formation.Formation, formationClass);
+			if (massTransferDataForFormationClass.Count > 0)
+			{
+				this._orderController.RearrangeFormationsAccordingToFilters(Agent.Main.Team, massTransferDataForFormationClass);
+				this.RefreshFormationsWithClass(formationClass);
+			}
 		}
 
 		private void RefreshMissingFormations()
@@ -1665,6 +1665,91 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 		}
 
 		[DataSourceProperty]
+		public bool IsPoolAcceptingHeroTroops
+		{
+			get
+			{
+				return this._isPoolAcceptingHeroTroops;
+			}
+			set
+			{
+				if (value != this._isPoolAcceptingHeroTroops)
+				{
+					this._isPoolAcceptingHeroTroops = value;
+					base.OnPropertyChangedWithValue(value, "IsPoolAcceptingHeroTroops");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool CanStartMission
+		{
+			get
+			{
+				return this._canStartMission;
+			}
+			set
+			{
+				if (value != this._canStartMission)
+				{
+					this._canStartMission = value;
+					base.OnPropertyChangedWithValue(value, "CanStartMission");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string BeginMissionText
+		{
+			get
+			{
+				return this._beginMissionText;
+			}
+			set
+			{
+				if (value != this._beginMissionText)
+				{
+					this._beginMissionText = value;
+					base.OnPropertyChangedWithValue<string>(value, "BeginMissionText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool HasSelectedHeroes
+		{
+			get
+			{
+				return this._hasSelectedHeroes;
+			}
+			set
+			{
+				if (value != this._hasSelectedHeroes)
+				{
+					this._hasSelectedHeroes = value;
+					base.OnPropertyChangedWithValue(value, "HasSelectedHeroes");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public MBBindingList<OrderOfBattleFormationItemVM> FormationsFirstHalf
+		{
+			get
+			{
+				return this._formationsFirstHalf;
+			}
+			set
+			{
+				if (value != this._formationsFirstHalf)
+				{
+					this._formationsFirstHalf = value;
+					base.OnPropertyChangedWithValue<MBBindingList<OrderOfBattleFormationItemVM>>(value, "FormationsFirstHalf");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public bool IsEnabled
 		{
 			get
@@ -1677,6 +1762,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				{
 					this._isEnabled = value;
 					base.OnPropertyChangedWithValue(value, "IsEnabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool AreCameraControlsEnabled
+		{
+			get
+			{
+				return this._areCameraControlsEnabled;
+			}
+			set
+			{
+				if (value != this._areCameraControlsEnabled)
+				{
+					this._areCameraControlsEnabled = value;
+					base.OnPropertyChangedWithValue(value, "AreCameraControlsEnabled");
 				}
 			}
 		}
@@ -1716,74 +1818,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 		}
 
 		[DataSourceProperty]
-		public bool AreCameraControlsEnabled
-		{
-			get
-			{
-				return this._areCameraControlsEnabled;
-			}
-			set
-			{
-				if (value != this._areCameraControlsEnabled)
-				{
-					this._areCameraControlsEnabled = value;
-					base.OnPropertyChangedWithValue(value, "AreCameraControlsEnabled");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public bool IsPoolAcceptingHeroTroops
-		{
-			get
-			{
-				return this._isPoolAcceptingHeroTroops;
-			}
-			set
-			{
-				if (value != this._isPoolAcceptingHeroTroops)
-				{
-					this._isPoolAcceptingHeroTroops = value;
-					base.OnPropertyChangedWithValue(value, "IsPoolAcceptingHeroTroops");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public bool CanStartMission
-		{
-			get
-			{
-				return this._canStartMission;
-			}
-			set
-			{
-				if (value != this._canStartMission)
-				{
-					this._canStartMission = value;
-					base.OnPropertyChangedWithValue(value, "CanStartMission");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public bool HasSelectedHeroes
-		{
-			get
-			{
-				return this._hasSelectedHeroes;
-			}
-			set
-			{
-				if (value != this._hasSelectedHeroes)
-				{
-					this._hasSelectedHeroes = value;
-					base.OnPropertyChangedWithValue(value, "HasSelectedHeroes");
-				}
-			}
-		}
-
-		[DataSourceProperty]
 		public int SelectedHeroCount
 		{
 			get
@@ -1801,18 +1835,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 		}
 
 		[DataSourceProperty]
-		public string BeginMissionText
+		public HintViewModel ClearSelectionHint
 		{
 			get
 			{
-				return this._beginMissionText;
+				return this._clearSelectionHint;
 			}
 			set
 			{
-				if (value != this._beginMissionText)
+				if (value != this._clearSelectionHint)
 				{
-					this._beginMissionText = value;
-					base.OnPropertyChangedWithValue<string>(value, "BeginMissionText");
+					this._clearSelectionHint = value;
+					base.OnPropertyChangedWithValue<HintViewModel>(value, "ClearSelectionHint");
 				}
 			}
 		}
@@ -1830,23 +1864,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				{
 					this._autoDeployText = value;
 					base.OnPropertyChangedWithValue<string>(value, "AutoDeployText");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public HintViewModel ClearSelectionHint
-		{
-			get
-			{
-				return this._clearSelectionHint;
-			}
-			set
-			{
-				if (value != this._clearSelectionHint)
-				{
-					this._clearSelectionHint = value;
-					base.OnPropertyChangedWithValue<HintViewModel>(value, "ClearSelectionHint");
 				}
 			}
 		}
@@ -1898,23 +1915,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 				{
 					this._lastSelectedHeroItem = value;
 					base.OnPropertyChangedWithValue<OrderOfBattleHeroItemVM>(value, "LastSelectedHeroItem");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public MBBindingList<OrderOfBattleFormationItemVM> FormationsFirstHalf
-		{
-			get
-			{
-				return this._formationsFirstHalf;
-			}
-			set
-			{
-				if (value != this._formationsFirstHalf)
-				{
-					this._formationsFirstHalf = value;
-					base.OnPropertyChangedWithValue<MBBindingList<OrderOfBattleFormationItemVM>>(value, "FormationsFirstHalf");
 				}
 			}
 		}
@@ -2050,27 +2050,27 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 
 		private readonly TextObject _selectAllHintText = new TextObject("{=YwbymaBc}Select all heroes", null);
 
-		private readonly TextObject _clearSelectionHintText = new TextObject("{=Sbb8YcJM}Deselect all selected heroes", null);
-
-		private readonly List<OrderOfBattleHeroItemVM> _selectedHeroes;
-
-		protected readonly List<OrderOfBattleHeroItemVM> _allHeroes;
-
-		private bool _isInitialized;
-
 		private bool _isSaving;
 
-		protected List<OrderOfBattleFormationItemVM> _allFormations;
-
-		private List<FormationClass> _availableTroopTypes;
-
-		private bool _isUnitDeployRefreshed;
+		private readonly TextObject _clearSelectionHintText = new TextObject("{=Sbb8YcJM}Deselect all selected heroes", null);
 
 		private Dictionary<FormationClass, int> _visibleTroopTypeCountLookup;
 
+		private bool _isUnitDeployRefreshed;
+
 		private Action<int> _selectFormationAtIndex;
 
+		private readonly List<OrderOfBattleHeroItemVM> _selectedHeroes;
+
 		private Action<int> _deselectFormationAtIndex;
+
+		protected readonly List<OrderOfBattleHeroItemVM> _allHeroes;
+
+		private List<FormationClass> _availableTroopTypes;
+
+		private bool _isInitialized;
+
+		protected List<OrderOfBattleFormationItemVM> _allFormations;
 
 		private Action _clearFormationSelection;
 
@@ -2108,27 +2108,27 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.OrderOfBattle
 
 		private bool _isPoolAcceptingHeroTroops;
 
+		private string _beginMissionText;
+
 		private bool _hasSelectedHeroes;
 
 		private int _selectedHeroCount;
 
 		private MBBindingList<OrderOfBattleFormationItemVM> _formationsSecondHalf;
 
-		private string _beginMissionText;
-
-		private string _autoDeployText;
-
 		private HintViewModel _missingFormationsHint;
-
-		private MBBindingList<OrderOfBattleHeroItemVM> _unassignedHeroes;
 
 		private HintViewModel _selectAllHint;
 
 		private HintViewModel _clearSelectionHint;
 
-		private MBBindingList<OrderOfBattleFormationItemVM> _formationsFirstHalf;
+		private string _autoDeployText;
+
+		private MBBindingList<OrderOfBattleHeroItemVM> _unassignedHeroes;
 
 		private OrderOfBattleHeroItemVM _lastSelectedHeroItem;
+
+		private MBBindingList<OrderOfBattleFormationItemVM> _formationsFirstHalf;
 
 		private string _latestTutorialElementID;
 

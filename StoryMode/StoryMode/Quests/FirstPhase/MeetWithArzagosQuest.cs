@@ -68,29 +68,33 @@ namespace StoryMode.Quests.FirstPhase
 			this.SetDialogs();
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		protected override void SetDialogs()
 		{
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("lord_start", 110).NpcLine(new TextObject("{=unOLk4PY}So. Who are you, and what brings you to me?", null), null, null).Condition(() => Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero == StoryModeHeroes.AntiImperialMentor && !this._metAntiImperialMentor)
 				.PlayerLine(new TextObject("{=5QiuMoe6}I believe I have a piece of the Dragon Banner of Calradios.", null), null)
-				.NpcLine(new TextObject("{=uvbCyLiR}Is that true? Well, that is interesting.", null), null, null)
-				.NpcLine(new TextObject("{=pOuGX9j0}You may have one piece of the banner, but it's of little use in itself. You'll have to find the other parts. But once you can bring together the pieces, you'll have something of tremendous value.", null), null, null)
+				.NpcLine(new TextObject("{=uvbCyLiR}Is that true? Well, that is interesting.[ib:normal][if:convo_astonished]", null), null, null)
+				.NpcLine(new TextObject("{=pOuGX9j0}You may have one piece of the banner, but it's of little use in itself. You'll have to find the other parts. But once you can bring together the pieces, you'll have something of tremendous value.[if:convo_pondering]", null), null, null)
 				.PlayerLine(new TextObject("{=t71lPdyb}How so?", null), null)
-				.NpcLine(new TextObject("{=SmVwMrUM}The banner of Calradios is part of a legend. It was said to be carried by Calradios the Great, who first led his people to this land, to conquer and despoil. The legend says that no army led by a true son of Calradios shall be defeated in battle.", null), null, null)
-				.NpcLine(new TextObject("{=cNwejsNl}Convenient legend, eh? Of course the Calradians have been defeated many times, but I guess those were not 'true sons.' Still, you could say it represents the strength and endurance of this empire.", null), null, null)
+				.NpcLine(new TextObject("{=SmVwMrUM}The banner of Calradios is part of a legend. It was said to be carried by Calradios the Great, who first led his people to this land, to conquer and despoil. The legend says that no army led by a true son of Calradios shall be defeated in battle.[ib:confident2][if:convo_thinking]", null), null, null)
+				.NpcLine(new TextObject("{=cNwejsNl}Convenient legend, eh? Of course the Calradians have been defeated many times, but I guess those were not 'true sons.' Still, you could say it represents the strength and endurance of this empire.[ib:normal][if:convo_focused_happy]", null), null, null)
 				.PlayerLine(new TextObject("{=FBp2ranI}So, can you help me find a buyer for it?", null), null)
-				.NpcLine(new TextObject("{=3G64Ej64}A buyer? I can help you do far more than that.", null), null, null)
+				.NpcLine(new TextObject("{=3G64Ej64}A buyer? I can help you do far more than that.[if:convo_astonished]", null), null, null)
 				.PlayerLine(new TextObject("{=MnmblprY}So, where can I find the other pieces?", null), null)
-				.NpcLine(new TextObject("{=Fgta5mF6}Before I answer, you and I need to know more about each other. I don't know what you know about me.  I was a citizen of the Empire. I was a commander in the imperial armies. But I am not imperial.", null), null, null)
-				.NpcLine(new TextObject("{=R5kLv5kg}I am what they call Palaic. Palaic is a language that is no longer spoken, except by a few old people. Even the word 'Palaic' is imperial. We are a people who have forgotten who we are.", null), null, null)
-				.NpcLine(new TextObject("{=cfTiiEEM}The Empire has a genius for destruction - the destruction of languages, traditions, gods. It takes our fortresses, slaughters our men, and turns our children into its own children.", null), null, null)
-				.NpcLine(new TextObject("{=qoA4UPly}Nothing can bring the Palaic people back. They are now imperial. But it is an insult to our name, to our gods, to our memory, that the state which destroyed our shrines and fortresses should last and thrive.", null), null, null)
-				.NpcLine(new TextObject("{=rMem50oz}I have vowed that this Empire shall not survive this civil war, if I can do anything to stop it. And believe me, if I had that banner, there is very much something I could do.", null), null, null)
+				.NpcLine(new TextObject("{=Fgta5mF6}Before I answer, you and I need to know more about each other. I don't know what you know about me.  I was a citizen of the Empire. I was a commander in the imperial armies. But I am not imperial.[ib:confident][if:convo_thinking]", null), null, null)
+				.NpcLine(new TextObject("{=R5kLv5kg}I am what they call Palaic. Palaic is a language that is no longer spoken, except by a few old people. Even the word 'Palaic' is imperial. We are a people who have forgotten who we are.[if:convo_focused_voice]", null), null, null)
+				.NpcLine(new TextObject("{=cfTiiEEM}The Empire has a genius for destruction - the destruction of languages, traditions, gods. It takes our fortresses, slaughters our men, and turns our children into its own children.[if:convo_focused_voice]", null), null, null)
+				.NpcLine(new TextObject("{=qoA4UPly}Nothing can bring the Palaic people back. They are now imperial. But it is an insult to our name, to our gods, to our memory, that the state which destroyed our shrines and fortresses should last and thrive.[if:convo_empathic_voice]", null), null, null)
+				.NpcLine(new TextObject("{=rMem50oz}I have vowed that this Empire shall not survive this civil war, if I can do anything to stop it. And believe me, if I had that banner, there is very much something I could do.[if:convo_angry_voice]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.ActivateAssembleTheBannerQuest))
 				.BeginPlayerOptions()
 				.PlayerOption(new TextObject("{=tkXKef0Z}I too would see the empire destroyed.", null), null)
-				.NpcLine(new TextObject("{=1CLNFbzR}Good. Then I will tell you what I know. I heard about one other piece.", null), null, null)
-				.NpcLine(new TextObject("{=4WZ9zJbF}I do not know where the other pieces are, you may need to keep searching for them.", null), null, null)
-				.NpcLine(new TextObject("{=TcRH7abK}When you have recovered all pieces, return to me and I'll help you put them to use.", null), null, null)
+				.NpcLine(new TextObject("{=4RaspRbe}Good. Then I will tell you what I know. I heard about one other piece.[if:convo_calm_friendly]", null), null, null)
+				.NpcLine(new TextObject("{=4WZ9zJbF}I do not know where the other pieces are, you may need to keep searching for them.[if:convo_confused_normal]", null), null, null)
+				.NpcLine(new TextObject("{=TcRH7abK}When you have recovered all pieces, return to me and I'll help you put them to use.[if:convo_calm_friendly]", null), null, null)
 				.Consequence(delegate
 				{
 					Campaign.Current.ConversationManager.ConversationEndOneShot += base.CompleteQuestWithSuccess;
@@ -101,23 +105,27 @@ namespace StoryMode.Quests.FirstPhase
 				{
 					this._metAntiImperialMentor = true;
 				})
-				.NpcLine(new TextObject("{=7ULaG8aT}Then you can come back when you made your mind up.", null), null, null)
+				.Consequence(delegate
+				{
+					Hero.OneToOneConversationHero.SetHasMet();
+				})
+				.NpcLine(new TextObject("{=7ULaG8aT}Then you can come back when you made your mind up.[ib:closed][if:convo_insulted]", null), null, null)
 				.CloseDialog()
 				.EndPlayerOptions()
 				.CloseDialog(), this);
-			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("lord_start", 110).NpcLine(new TextObject("{=oaSTbNwz}So have you made up your mind now?", null), null, null).Condition(() => Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero == StoryModeHeroes.AntiImperialMentor && this._metAntiImperialMentor)
+			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("lord_start", 110).NpcLine(new TextObject("{=bHveKDUI}So have you made up your mind now?[ib:closed][if:convo_nonchalant]", null), null, null).Condition(() => Hero.OneToOneConversationHero != null && Hero.OneToOneConversationHero == StoryModeHeroes.AntiImperialMentor && this._metAntiImperialMentor)
 				.BeginPlayerOptions()
 				.PlayerOption(new TextObject("{=upyNhwZ9}Yes, I intend to use the banner to help destroy the empire.", null), null)
-				.NpcLine(new TextObject("{=1CLNFbzR}Good. Then I will tell you what I know. I heard about one other piece.", null), null, null)
-				.NpcLine(new TextObject("{=4WZ9zJbF}I do not know where the other pieces are, you may need to keep searching for them.", null), null, null)
-				.NpcLine(new TextObject("{=TcRH7abK}When you have recovered all pieces, return to me and I'll help you put them to use.", null), null, null)
+				.NpcLine(new TextObject("{=TEgoba7R}Good. Then I will tell you what I know. I heard about one other piece.[ib:confident2][if:convo_calm_friendly]", null), null, null)
+				.NpcLine(new TextObject("{=ijyROgb4}I do not know where the other pieces are, you may need to keep searching for them.[if:convo_thinking]", null), null, null)
+				.NpcLine(new TextObject("{=TcRH7abK}When you have recovered all pieces, return to me and I'll help you put them to use.[if:convo_calm_friendly]", null), null, null)
 				.Consequence(delegate
 				{
 					Campaign.Current.ConversationManager.ConversationEndOneShot += base.CompleteQuestWithSuccess;
 				})
 				.CloseDialog()
 				.PlayerOption(new TextObject("{=ibm9EEPa}No, I need more time to decide.", null), null)
-				.NpcLine(new TextObject("{=7ULaG8aT}Then you can come back when you made your mind up.", null), null, null)
+				.NpcLine(new TextObject("{=7ULaG8aT}Then you can come back when you made your mind up.[ib:closed][if:convo_insulted]", null), null, null)
 				.CloseDialog()
 				.EndPlayerOptions()
 				.CloseDialog(), this);

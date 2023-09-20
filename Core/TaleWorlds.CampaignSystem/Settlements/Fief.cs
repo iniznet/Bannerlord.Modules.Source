@@ -19,14 +19,6 @@ namespace TaleWorlds.CampaignSystem.Settlements
 			return ((Fief)o).FoodStocks;
 		}
 
-		public float Prosperity
-		{
-			get
-			{
-				return base.Owner.Settlement.Prosperity;
-			}
-		}
-
 		[SaveableProperty(100)]
 		public float FoodStocks { get; set; }
 

@@ -53,7 +53,7 @@ namespace TaleWorlds.CampaignSystem.Election
 
 		public override int GetProposalInfluenceCost()
 		{
-			return Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal();
+			return Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal(base.ProposerClan);
 		}
 
 		public override TextObject GetGeneralTitle()

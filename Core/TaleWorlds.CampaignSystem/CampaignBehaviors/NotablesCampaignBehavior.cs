@@ -34,7 +34,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			foreach (Hero hero in Hero.DeadOrDisabledHeroes.ToList<Hero>())
 			{
-				if (hero.IsDead && ((hero.IsNotable && hero.DeathDay.ElapsedDaysUntilNow >= 7f) || (hero.IsWanderer && hero.DeathDay.ElapsedDaysUntilNow >= 70f)))
+				if (hero.IsDead && hero.IsNotable && hero.DeathDay.ElapsedDaysUntilNow >= 7f)
 				{
 					Campaign.Current.CampaignObjectManager.UnregisterDeadHero(hero);
 				}
@@ -402,35 +402,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("add_supporters_for_main_hero", "campaign")]
-		public static string AddSupportersForMainHero(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			if (CampaignCheats.CheckHelp(strings) || !CampaignCheats.CheckParameters(strings, 1))
-			{
-				return "" + "Usage : campaign.add_supporters_for_main_hero [Number]" + "\n";
-			}
-			string text = "";
-			int num;
-			if (int.TryParse(strings[0], out num))
-			{
-				for (int i = 0; i < num; i++)
-				{
-					Hero randomElementWithPredicate = Hero.AllAliveHeroes.GetRandomElementWithPredicate((Hero x) => !x.IsChild && x.SupporterOf != Clan.PlayerClan);
-					if (randomElementWithPredicate != null)
-					{
-						randomElementWithPredicate.SupporterOf = Clan.PlayerClan;
-						text = text + "supporter added: " + randomElementWithPredicate.Name.ToString() + "\n";
-					}
-				}
-				return text + "\nSuccess";
-			}
-			return "Please enter a number";
-		}
-
 		private const int GoldLimitForNotablesToStartGainingPower = 10000;
 
 		private const int GoldLimitForNotablesToStartLosingPower = 5000;
@@ -440,8 +411,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private const int CaravanGoldLowLimit = 5000;
 
 		private const int RemoveNotableCharacterAfterDays = 7;
-
-		private const int RemoveWandererCharacterAfterDays = 70;
 
 		private Dictionary<Settlement, int> _settlementPassedDaysForWeeklyTick;
 	}

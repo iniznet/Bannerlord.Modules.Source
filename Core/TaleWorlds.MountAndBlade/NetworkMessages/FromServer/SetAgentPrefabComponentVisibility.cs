@@ -7,15 +7,15 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetAgentPrefabComponentVisibility : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public int ComponentIndex { get; private set; }
 
 		public bool Visibility { get; private set; }
 
-		public SetAgentPrefabComponentVisibility(Agent agent, int componentIndex, bool visibility)
+		public SetAgentPrefabComponentVisibility(int agentIndex, int componentIndex, bool visibility)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.ComponentIndex = componentIndex;
 			this.Visibility = visibility;
 		}
@@ -27,7 +27,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.ComponentIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.AgentPrefabComponentIndexCompressionInfo, ref flag);
 			this.Visibility = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
@@ -35,7 +35,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteIntToPacket(this.ComponentIndex, CompressionMission.AgentPrefabComponentIndexCompressionInfo);
 			GameNetworkMessage.WriteBoolToPacket(this.Visibility);
 		}
@@ -53,10 +53,8 @@ namespace NetworkMessages.FromServer
 				this.ComponentIndex,
 				" to be ",
 				this.Visibility ? "visible" : "invisible",
-				" on Agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index
+				" on Agent with agent-index: ",
+				this.AgentIndex
 			});
 		}
 	}

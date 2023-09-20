@@ -5,6 +5,11 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	[Serializable]
 	public class BattlePlayerStatsSiege : BattlePlayerStatsBase
 	{
+		public BattlePlayerStatsSiege()
+		{
+			base.GameType = "Siege";
+		}
+
 		public int WallsBreached { get; set; }
 
 		public int SiegeEngineKills { get; set; }

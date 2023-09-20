@@ -17,12 +17,7 @@ namespace StoryMode.GauntletUI.Tutorial
 
 		public override bool IsConditionsMetForCompletion()
 		{
-			return this._playerRecruitedTroop;
-		}
-
-		public override void OnPlayerStartRecruitment(CharacterObject obj)
-		{
-			this._playerRecruitedTroop = true;
+			return this._recruitedTroopCount >= TutorialHelper.RecruitTroopAmount;
 		}
 
 		public override TutorialContexts GetTutorialsRelevantContext()
@@ -30,11 +25,16 @@ namespace StoryMode.GauntletUI.Tutorial
 			return 5;
 		}
 
+		public override void OnPlayerRecruitedUnit(CharacterObject obj, int count)
+		{
+			this._recruitedTroopCount += count;
+		}
+
 		public override bool IsConditionsMetForActivation()
 		{
 			return TutorialHelper.PlayerCanRecruit && TutorialHelper.CurrentContext == 5;
 		}
 
-		private bool _playerRecruitedTroop;
+		private int _recruitedTroopCount;
 	}
 }

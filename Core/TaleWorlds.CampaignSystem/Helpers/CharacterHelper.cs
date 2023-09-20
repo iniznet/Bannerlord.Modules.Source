@@ -54,43 +54,43 @@ namespace Helpers
 			if (character.Occupation == Occupation.Lord)
 			{
 				IFaction mapFaction = character.HeroObject.MapFaction;
-				uint num = ((mapFaction != null) ? mapFaction.Color : CampaignData.NeutralFaction.Color);
+				uint num = ((mapFaction != null) ? mapFaction.Color : 4291609515U);
 				IFaction mapFaction2 = character.HeroObject.MapFaction;
-				return new ValueTuple<uint, uint>(num, (mapFaction2 != null) ? mapFaction2.Color2 : CampaignData.NeutralFaction.Color2);
+				return new ValueTuple<uint, uint>(num, (mapFaction2 != null) ? mapFaction2.Color2 : 4291609515U);
 			}
 			string stringId = cultureObject.StringId;
 			if (stringId == "empire")
 			{
 				IFaction mapFaction3 = character.HeroObject.MapFaction;
-				return new ValueTuple<uint, uint>((mapFaction3 != null) ? mapFaction3.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.EmpireHeroClothColors));
+				return new ValueTuple<uint, uint>((mapFaction3 != null) ? mapFaction3.Color : 4291609515U, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.EmpireHeroClothColors));
 			}
 			if (stringId == "sturgia")
 			{
 				IFaction mapFaction4 = character.HeroObject.MapFaction;
-				return new ValueTuple<uint, uint>((mapFaction4 != null) ? mapFaction4.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.SturgiaHeroClothColors));
+				return new ValueTuple<uint, uint>((mapFaction4 != null) ? mapFaction4.Color : 4291609515U, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.SturgiaHeroClothColors));
 			}
 			if (stringId == "aserai")
 			{
 				IFaction mapFaction5 = character.HeroObject.MapFaction;
-				return new ValueTuple<uint, uint>((mapFaction5 != null) ? mapFaction5.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.AseraiHeroClothColors));
+				return new ValueTuple<uint, uint>((mapFaction5 != null) ? mapFaction5.Color : 4291609515U, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.AseraiHeroClothColors));
 			}
 			if (stringId == "vlandia")
 			{
 				IFaction mapFaction6 = character.HeroObject.MapFaction;
-				return new ValueTuple<uint, uint>((mapFaction6 != null) ? mapFaction6.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.VlandiaHeroClothColors));
+				return new ValueTuple<uint, uint>((mapFaction6 != null) ? mapFaction6.Color : 4291609515U, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.VlandiaHeroClothColors));
 			}
 			if (stringId == "battania")
 			{
 				IFaction mapFaction7 = character.HeroObject.MapFaction;
-				return new ValueTuple<uint, uint>((mapFaction7 != null) ? mapFaction7.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.BattaniaHeroClothColors));
+				return new ValueTuple<uint, uint>((mapFaction7 != null) ? mapFaction7.Color : 4291609515U, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.BattaniaHeroClothColors));
 			}
 			if (!(stringId == "khuzait"))
 			{
 				IFaction mapFaction8 = character.HeroObject.MapFaction;
-				return new ValueTuple<uint, uint>((mapFaction8 != null) ? mapFaction8.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.EmpireHeroClothColors));
+				return new ValueTuple<uint, uint>((mapFaction8 != null) ? mapFaction8.Color : 4291609515U, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.EmpireHeroClothColors));
 			}
 			IFaction mapFaction9 = character.HeroObject.MapFaction;
-			return new ValueTuple<uint, uint>((mapFaction9 != null) ? mapFaction9.Color : CampaignData.NeutralFaction.Color, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.KhuzaitHeroClothColors));
+			return new ValueTuple<uint, uint>((mapFaction9 != null) ? mapFaction9.Color : 4291609515U, CharacterHelper.GetDeterministicColorFromListForHero(character.HeroObject, CampaignData.KhuzaitHeroClothColors));
 		}
 
 		private static uint GetDeterministicColorFromListForHero(Hero hero, uint[] colors)
@@ -163,7 +163,7 @@ namespace Helpers
 			string text6 = "convo_approving";
 			string text7 = "convo_thinking";
 			string text8 = "convo_focused_happy";
-			string text9 = "convo_calm_happy";
+			string text9 = "convo_calm_friendly";
 			string text10 = "convo_annoyed";
 			string text11 = "convo_undecided_closed";
 			string text12 = "convo_bored";
@@ -273,13 +273,13 @@ namespace Helpers
 							text = ((MBRandom.RandomFloat <= 0.7f) ? "demure" : "confident");
 						}
 					}
-					else if (relation < 0)
+					else if (relation <= -20)
 					{
 						if (superiorityState >= 0)
 						{
 							if (persona == DefaultTraits.PersonaSoftspoken)
 							{
-								text = (character.IsFemale ? "closed" : "warrior");
+								text = (character.IsFemale ? "closed" : "warrior2");
 							}
 							else if (persona == DefaultTraits.PersonaIronic)
 							{
@@ -307,7 +307,7 @@ namespace Helpers
 							{
 								if (flag3)
 								{
-									text = ((MBRandom.RandomFloat <= 0.5f) ? "closed" : "aggressive");
+									text = ((MBRandom.RandomFloat <= 0.5f) ? "closed" : "warrior");
 								}
 								else
 								{
@@ -316,11 +316,11 @@ namespace Helpers
 							}
 							else
 							{
-								text = (character.IsFemale ? "closed" : "warrior");
+								text = (character.IsFemale ? "closed" : "warrior2");
 							}
 						}
 					}
-					else if (relation >= 0 && superiorityState >= 0)
+					else if (superiorityState >= 0)
 					{
 						if (persona == DefaultTraits.PersonaIronic)
 						{
@@ -376,7 +376,7 @@ namespace Helpers
 								}
 								else
 								{
-									text = ((MBRandom.RandomFloat <= 0.4f) ? "warrior" : "closed");
+									text = ((MBRandom.RandomFloat <= 0.4f) ? "warrior2" : "closed");
 								}
 							}
 							else
@@ -562,7 +562,7 @@ namespace Helpers
 			else if (character.Occupation == Occupation.Villager || character.Occupation == Occupation.Townsfolk)
 			{
 				int deterministicHashCode = character.StringId.GetDeterministicHashCode();
-				if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.Prosperity < (float)(200 * (Settlement.CurrentSettlement.IsTown ? 5 : 1)) && deterministicHashCode % 2 == 0)
+				if (Settlement.CurrentSettlement != null && Settlement.CurrentSettlement.Town != null && Settlement.CurrentSettlement.Town.Prosperity < (float)(200 * (Settlement.CurrentSettlement.IsTown ? 5 : 1)) && deterministicHashCode % 2 == 0)
 				{
 					return text18;
 				}

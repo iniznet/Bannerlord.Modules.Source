@@ -10,6 +10,7 @@ namespace TaleWorlds.PlayerServices
 		Forced,
 		GOG,
 		GDK,
-		PS
+		PS,
+		GOGReal
 	}
 }

@@ -53,7 +53,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private void OnGameLoaded()
 		{
 			this.InitializeIconIdAndFrequencies();
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 26219))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 24202))
 			{
 				foreach (Settlement settlement in Settlement.All)
 				{
@@ -99,6 +99,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				this._rebelClansAndDaysPassedAfterCreation.Remove(destroyedClan);
 			}
+			if (destroyedClan.IsRebelClan)
+			{
+				for (int i = destroyedClan.Heroes.Count - 1; i >= 0; i--)
+				{
+					Hero hero = destroyedClan.Heroes[i];
+					Campaign.Current.CampaignObjectManager.UnregisterDeadHero(hero);
+				}
+			}
 		}
 
 		private void DailyTickClan(Clan clan)
@@ -133,6 +141,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 						{
 							KillCharacterAction.ApplyByRemove(hero, false, true);
 						}
+						else if (this._rebelClansAndDaysPassedAfterCreation[clan] > 90 && hero.PartyBelongedTo != null && hero.PartyBelongedTo.MapEvent == null)
+						{
+							KillCharacterAction.ApplyByRemove(hero, false, true);
+						}
 					}
 				}
 			}
@@ -157,7 +169,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		private void StartRebellionEvent(Settlement settlement)
+		public void StartRebellionEvent(Settlement settlement)
 		{
 			Clan ownerClan = settlement.OwnerClan;
 			this.CreateRebelPartyAndClan(settlement);
@@ -237,7 +249,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				ChangeRelationAction.ApplyRelationChangeBetweenHeroes(mapFaction.Leader, hero2, MBRandom.RandomInt(-85, -75), true);
 				foreach (Kingdom kingdom in Kingdom.All)
 				{
-					if (kingdom.Culture != mapFaction.Culture)
+					if (!kingdom.IsEliminated && kingdom.Culture != mapFaction.Culture)
 					{
 						int num = 0;
 						foreach (Town town in kingdom.Fiefs)
@@ -414,30 +426,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 				}
 			}
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("rebellion_enabled", "campaign")]
-		public static string SetRebellionEnabled(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			if (CampaignCheats.CheckHelp(strings) || !CampaignCheats.CheckParameters(strings, 1))
-			{
-				return "Format is campaign.rebellion_enabled [1/0]\".";
-			}
-			if (!(strings[0] == "0") && !(strings[0] == "1"))
-			{
-				return "Wrong input";
-			}
-			RebellionsCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<RebellionsCampaignBehavior>();
-			if (campaignBehavior != null)
-			{
-				campaignBehavior._rebellionEnabled = strings[0] == "1";
-				return "Rebellion is" + (campaignBehavior._rebellionEnabled ? " enabled" : " disabled");
-			}
-			return "Rebellions Campaign behavior not found";
 		}
 
 		private const int UpdateClanAfterDays = 30;

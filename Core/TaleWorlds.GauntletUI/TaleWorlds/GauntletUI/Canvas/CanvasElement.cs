@@ -83,8 +83,7 @@ namespace TaleWorlds.GauntletUI.Canvas
 
 		protected sealed override Vector2 Layout()
 		{
-			Vector2 vector;
-			vector..ctor(this.PositionX, this.PositionY);
+			Vector2 vector = new Vector2(this.PositionX, this.PositionY);
 			if (this._usingRelativeX)
 			{
 				vector.X = base.Parent.Width * this.RelativePositionX;

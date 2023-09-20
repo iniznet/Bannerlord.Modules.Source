@@ -25,29 +25,34 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 26219))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
 			{
 				foreach (Hero hero in Hero.AllAliveHeroes)
 				{
-					if (hero != Hero.MainHero && hero.IsPrisoner)
+					if (hero != Hero.MainHero)
 					{
-						if (hero.PartyBelongedToAsPrisoner == null)
+						if (hero.IsPrisoner)
 						{
-							if (hero.CurrentSettlement == null)
+							bool flag = hero.PartyBelongedToAsPrisoner != null && hero.PartyBelongedToAsPrisoner.IsMobile && hero.PartyBelongedToAsPrisoner.MobileParty.IsMilitia;
+							bool flag2 = hero.PartyBelongedToAsPrisoner != null && !hero.PartyBelongedToAsPrisoner.MapFaction.IsAtWarWith(hero.MapFaction);
+							if (hero.PartyBelongedToAsPrisoner == null)
 							{
+								if (hero.CurrentSettlement == null)
+								{
+									MakeHeroFugitiveAction.Apply(hero);
+								}
+							}
+							else if (flag || flag2)
+							{
+								EndCaptivityAction.ApplyByEscape(hero, null);
 								MakeHeroFugitiveAction.Apply(hero);
 							}
 						}
-						else if (hero.PartyBelongedToAsPrisoner.IsMobile && hero.PartyBelongedToAsPrisoner.MobileParty.IsMilitia)
+						else if (hero.PartyBelongedToAsPrisoner != null)
 						{
-							EndCaptivityAction.ApplyByEscape(hero, null);
+							hero.PartyBelongedToAsPrisoner.PrisonRoster.RemoveTroop(hero.CharacterObject, 1, default(UniqueTroopDescriptor), 0);
 							MakeHeroFugitiveAction.Apply(hero);
 						}
-					}
-					if (hero != Hero.MainHero && !hero.IsPrisoner && hero.PartyBelongedToAsPrisoner != null)
-					{
-						hero.PartyBelongedToAsPrisoner.PrisonRoster.RemoveTroop(hero.CharacterObject, 1, default(UniqueTroopDescriptor), 0);
-						MakeHeroFugitiveAction.Apply(hero);
 					}
 				}
 			}

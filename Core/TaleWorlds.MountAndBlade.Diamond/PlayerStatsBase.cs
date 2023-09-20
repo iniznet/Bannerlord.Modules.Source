@@ -1,25 +1,35 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.PlayerServices;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
+	[JsonConverter(typeof(PlayerStatsBaseJsonConverter))]
 	[Serializable]
 	public class PlayerStatsBase
 	{
+		[JsonProperty]
 		public PlayerId PlayerId { get; private set; }
 
+		[JsonProperty]
 		public int KillCount { get; set; }
 
+		[JsonProperty]
 		public int DeathCount { get; set; }
 
+		[JsonProperty]
 		public int AssistCount { get; set; }
 
+		[JsonProperty]
 		public int WinCount { get; set; }
 
+		[JsonProperty]
 		public int LoseCount { get; set; }
 
+		[JsonProperty]
 		public int ForfeitCount { get; set; }
 
+		[JsonIgnore]
 		public float AverageKillPerDeath
 		{
 			get
@@ -28,6 +38,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonProperty]
 		public string GameType { get; set; }
 
 		public void FillWith(PlayerId playerId, int killCount, int deathCount, int assistCount, int winCount, int loseCount, int forfeitCount)

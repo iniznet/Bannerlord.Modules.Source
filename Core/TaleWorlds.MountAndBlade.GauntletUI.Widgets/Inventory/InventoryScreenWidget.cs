@@ -69,6 +69,17 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			return null;
 		}
 
+		private Widget GetFirstBannerItem()
+		{
+			ListPanel listPanel = this.OtherInventoryListWidget.InnerPanel as ListPanel;
+			ListPanel listPanel2 = ((listPanel != null) ? listPanel.GetChild(0) : null) as ListPanel;
+			if (listPanel2 == null)
+			{
+				return null;
+			}
+			return listPanel2.FindChild((Widget x) => (x as InventoryItemTupleWidget).ItemType == this.BannerTypeCode);
+		}
+
 		protected override void OnUpdate(float dt)
 		{
 			base.OnUpdate(dt);
@@ -203,6 +214,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 					this.UpdateScrollTarget(this._newAddedItem.IsRightSide);
 				}
 				this._newAddedItem = null;
+			}
+			if (this._scrollToBannersInFrames > -1)
+			{
+				if (this._scrollToBannersInFrames == 0)
+				{
+					this.OtherInventoryListWidget.ScrollToChild(this.GetFirstBannerItem(), -1f, 0.2f, 0, 0, 0.35f, 0f);
+				}
+				this._scrollToBannersInFrames--;
 			}
 			if (this._focusLostThisFrame)
 			{
@@ -734,6 +753,44 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 			}
 		}
 
+		[Editor(false)]
+		public bool IsBannerTutorialActive
+		{
+			get
+			{
+				return this._isBannerTutorialActive;
+			}
+			set
+			{
+				if (value != this._isBannerTutorialActive)
+				{
+					this._isBannerTutorialActive = value;
+					base.OnPropertyChanged(value, "IsBannerTutorialActive");
+					if (value)
+					{
+						this._scrollToBannersInFrames = 1;
+					}
+				}
+			}
+		}
+
+		[Editor(false)]
+		public int BannerTypeCode
+		{
+			get
+			{
+				return this._bannerTypeCode;
+			}
+			set
+			{
+				if (value != this._bannerTypeCode)
+				{
+					this._bannerTypeCode = value;
+					base.OnPropertyChanged(value, "BannerTypeCode");
+				}
+			}
+		}
+
 		private void OnNewInventoryItemAdded(Widget parentWidget, Widget addedWidget)
 		{
 			InventoryItemTupleWidget inventoryItemTupleWidget;
@@ -758,6 +815,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 		private int _tooltipHiddenFrameCount;
 
 		private bool _eventsRegistered;
+
+		private int _scrollToBannersInFrames = -1;
 
 		private InputKeyVisualWidget _previousCharacterInputKeyVisual;
 
@@ -796,5 +855,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Inventory
 		private bool _focusLostThisFrame;
 
 		private bool _isFocusedOnItemList;
+
+		private bool _isBannerTutorialActive;
+
+		private int _bannerTypeCode;
 	}
 }

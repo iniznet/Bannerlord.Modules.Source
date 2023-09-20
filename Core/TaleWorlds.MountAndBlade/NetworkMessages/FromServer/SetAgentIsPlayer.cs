@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetAgentIsPlayer : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public bool IsPlayer { get; private set; }
 
-		public SetAgentIsPlayer(Agent agent, bool isPlayer)
+		public SetAgentIsPlayer(int agentIndex, bool isPlayer)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.IsPlayer = isPlayer;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.IsPlayer = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteBoolToPacket(this.IsPlayer);
 		}
 
@@ -42,14 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set Controller is player on Agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index,
-				this.IsPlayer ? " - TRUE." : " - FALSE."
-			});
+			return "Set Controller is player on Agent with agent-index: " + this.AgentIndex + (this.IsPlayer ? " - TRUE." : " - FALSE.");
 		}
 	}
 }

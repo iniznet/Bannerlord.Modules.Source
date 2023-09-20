@@ -201,7 +201,7 @@ namespace TaleWorlds.Diamond.ClientApplication
 			Assembly[] array = diamondAssemblies;
 			for (int i = 0; i < array.Length; i++)
 			{
-				foreach (Type type2 in array[i].GetTypes())
+				foreach (Type type2 in array[i].GetTypesSafe(null))
 				{
 					if (type2.Name == name)
 					{

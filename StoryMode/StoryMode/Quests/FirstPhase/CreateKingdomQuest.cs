@@ -170,6 +170,10 @@ namespace StoryMode.Quests.FirstPhase
 			this.SetDialogs();
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		private DialogFlow GetMentorDialogueFlow()
 		{
 			return DialogFlow.CreateDialogFlow("quest_discuss", 300).NpcLine("{=kbyqtszZ}I'm listening..", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
@@ -284,8 +288,7 @@ namespace StoryMode.Quests.FirstPhase
 				base.CompleteQuestWithSuccess();
 				return;
 			}
-			base.AddLog(this._questFailedLogText, false);
-			base.CompleteQuestWithFail(null);
+			base.CompleteQuestWithCancel(this._questFailedLogText);
 		}
 
 		protected override void RegisterEvents()

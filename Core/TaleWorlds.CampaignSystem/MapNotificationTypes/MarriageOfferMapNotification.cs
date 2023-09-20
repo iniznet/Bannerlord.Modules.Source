@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.SaveSystem;
 
@@ -61,7 +63,17 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 
 		public override bool IsValid()
 		{
-			return Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(this.Suitor, this.Maiden);
+			bool flag = Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(this.Suitor, this.Maiden);
+			if (flag && MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			{
+				MarriageOfferCampaignBehavior behavior = Campaign.Current.CampaignBehaviorManager.GetBehavior<MarriageOfferCampaignBehavior>();
+				flag = behavior != null && behavior.IsThereActiveMarriageOffer;
+			}
+			if (!flag)
+			{
+				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this.Suitor, this.Maiden);
+			}
+			return flag;
 		}
 	}
 }

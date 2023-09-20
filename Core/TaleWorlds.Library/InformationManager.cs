@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace TaleWorlds.Library
 {
@@ -20,6 +21,16 @@ namespace TaleWorlds.Library
 		public static event Action<TextInquiryData, bool, bool> OnShowTextInquiry;
 
 		public static event Action OnHideInquiry;
+
+		[TupleElementNames(new string[] { "tooltipType", "onRefreshData", "movieName" })]
+		public static IReadOnlyDictionary<Type, ValueTuple<Type, object, string>> RegisteredTypes
+		{
+			[return: TupleElementNames(new string[] { "tooltipType", "onRefreshData", "movieName" })]
+			get
+			{
+				return InformationManager._registeredTypes;
+			}
+		}
 
 		public static void DisplayMessage(InformationMessage message)
 		{
@@ -150,6 +161,22 @@ namespace TaleWorlds.Library
 			return InformationManager.GetIsAnyTooltipActive() && InformationManager.GetIsAnyTooltipExtended();
 		}
 
+		public static void RegisterTooltip<TRegistered, TTooltip>(Action<TTooltip, object[]> onRefreshData, string movieName) where TTooltip : TooltipBaseVM
+		{
+			Type typeFromHandle = typeof(TRegistered);
+			Type typeFromHandle2 = typeof(TTooltip);
+			InformationManager._registeredTypes[typeFromHandle] = new ValueTuple<Type, object, string>(typeFromHandle2, onRefreshData, movieName);
+		}
+
+		public static void UnregisterTooltip<TRegistered>()
+		{
+			Type typeFromHandle = typeof(TRegistered);
+			if (InformationManager._registeredTypes.ContainsKey(typeFromHandle))
+			{
+				InformationManager._registeredTypes.Remove(typeFromHandle);
+			}
+		}
+
 		public static void Clear()
 		{
 			InformationManager.DisplayMessageInternal = null;
@@ -162,6 +189,9 @@ namespace TaleWorlds.Library
 		}
 
 		public static Func<bool> IsAnyInquiryActive;
+
+		[TupleElementNames(new string[] { "tooltipType", "onRefreshData", "movieName" })]
+		private static Dictionary<Type, ValueTuple<Type, object, string>> _registeredTypes = new Dictionary<Type, ValueTuple<Type, object, string>>();
 
 		private static List<Func<bool>> _isAnyTooltipActiveCallbacks = new List<Func<bool>>();
 

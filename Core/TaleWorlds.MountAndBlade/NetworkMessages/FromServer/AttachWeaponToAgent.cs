@@ -12,16 +12,16 @@ namespace NetworkMessages.FromServer
 	{
 		public MissionWeapon Weapon { get; private set; }
 
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public sbyte BoneIndex { get; private set; }
 
 		public MatrixFrame AttachLocalFrame { get; private set; }
 
-		public AttachWeaponToAgent(MissionWeapon weapon, Agent agent, sbyte boneIndex, MatrixFrame attachLocalFrame)
+		public AttachWeaponToAgent(MissionWeapon weapon, int agentIndex, sbyte boneIndex, MatrixFrame attachLocalFrame)
 		{
 			this.Weapon = weapon;
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.BoneIndex = boneIndex;
 			this.AttachLocalFrame = attachLocalFrame;
 		}
@@ -33,7 +33,7 @@ namespace NetworkMessages.FromServer
 		protected override void OnWrite()
 		{
 			ModuleNetworkData.WriteWeaponReferenceToPacket(this.Weapon);
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteIntToPacket((int)this.BoneIndex, CompressionMission.BoneIndexCompressionInfo);
 			GameNetworkMessage.WriteVec3ToPacket(this.AttachLocalFrame.origin, CompressionBasic.LocalPositionCompressionInfo);
 			GameNetworkMessage.WriteRotationMatrixToPacket(this.AttachLocalFrame.rotation);
@@ -43,7 +43,7 @@ namespace NetworkMessages.FromServer
 		{
 			bool flag = true;
 			this.Weapon = ModuleNetworkData.ReadWeaponReferenceFromPacket(MBObjectManager.Instance, ref flag);
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.BoneIndex = (sbyte)GameNetworkMessage.ReadIntFromPacket(CompressionMission.BoneIndexCompressionInfo, ref flag);
 			Vec3 vec = GameNetworkMessage.ReadVec3FromPacket(CompressionBasic.LocalPositionCompressionInfo, ref flag);
 			Mat3 mat = GameNetworkMessage.ReadRotationMatrixFromPacket(ref flag);
@@ -67,10 +67,8 @@ namespace NetworkMessages.FromServer
 				(!this.Weapon.IsEmpty) ? this.Weapon.Item.Name : TextObject.Empty,
 				" to bone index: ",
 				this.BoneIndex,
-				" on agent: ",
-				this.Agent.Name,
-				" with index: ",
-				this.Agent.Index
+				" on agent agent-index: ",
+				this.AgentIndex
 			});
 		}
 	}

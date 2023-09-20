@@ -14,56 +14,32 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.ClassLoadout
 
 		private void UpdateColor()
 		{
-			if (string.IsNullOrEmpty(this.FactionCode))
-			{
-				return;
-			}
-			string factionColorCode = WidgetsMultiplayerHelper.GetFactionColorCode(this.FactionCode.ToLower(), this.UseSecondary);
 			foreach (Style style in base.Brush.Styles)
 			{
 				foreach (StyleLayer styleLayer in style.Layers)
 				{
-					styleLayer.Color = Color.ConvertStringToColor(factionColorCode);
+					styleLayer.Color = this.CultureColor;
 				}
 			}
 		}
 
-		public string FactionCode
+		public Color CultureColor
 		{
 			get
 			{
-				return this._factionCode;
+				return this._cultureColor;
 			}
 			set
 			{
-				if (value != this._factionCode)
+				if (value != this._cultureColor)
 				{
-					this._factionCode = value;
-					base.OnPropertyChanged<string>(value, "FactionCode");
+					this._cultureColor = value;
+					base.OnPropertyChanged(value, "CultureColor");
 					this.UpdateColor();
 				}
 			}
 		}
 
-		public bool UseSecondary
-		{
-			get
-			{
-				return this._useSecondary;
-			}
-			set
-			{
-				if (value != this._useSecondary)
-				{
-					this._useSecondary = value;
-					base.OnPropertyChanged(value, "UseSecondary");
-					this.UpdateColor();
-				}
-			}
-		}
-
-		private string _factionCode;
-
-		private bool _useSecondary;
+		private Color _cultureColor;
 	}
 }

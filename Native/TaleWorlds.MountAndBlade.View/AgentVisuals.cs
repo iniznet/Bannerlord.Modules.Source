@@ -266,9 +266,9 @@ namespace TaleWorlds.MountAndBlade.View
 			}
 		}
 
-		public void Tick(AgentVisuals parentAgentVisuals, float dt, bool entityMoving = false, float speed = 0f)
+		public void Tick(AgentVisuals parentAgentVisuals, float dt, bool isEntityMoving = false, float speed = 0f)
 		{
-			this._data.AgentVisuals.Tick((parentAgentVisuals != null) ? parentAgentVisuals._data.AgentVisuals : null, dt, entityMoving, speed);
+			this._data.AgentVisuals.Tick((parentAgentVisuals != null) ? parentAgentVisuals._data.AgentVisuals : null, dt, isEntityMoving, speed);
 		}
 
 		public static AgentVisuals Create(AgentVisualsData data, string name, bool isRandomProgress, bool needBatchedVersionForWeaponMeshes, bool forceUseFaceCache)

@@ -42,7 +42,7 @@ namespace TaleWorlds.MountAndBlade
 
 		protected internal override void OnInit()
 		{
-			this._weapons = new List<SynchedMissionObject>();
+			this._weapons = new MBList<SynchedMissionObject>();
 		}
 
 		public override void AfterMissionStart()
@@ -154,7 +154,7 @@ namespace TaleWorlds.MountAndBlade
 			onDeploymentPointTypeDetermined(this);
 		}
 
-		public List<SynchedMissionObject> GetWeaponsUnder()
+		public MBList<SynchedMissionObject> GetWeaponsUnder()
 		{
 			TeamAISiegeComponent teamAISiegeComponent;
 			List<SiegeWeapon> list;
@@ -170,15 +170,16 @@ namespace TaleWorlds.MountAndBlade
 					where se.HasScriptOfType<SiegeWeapon>()
 					select se.GetScriptComponents<SiegeWeapon>().FirstOrDefault<SiegeWeapon>()).ToList<SiegeWeapon>();
 			}
-			IEnumerable<SynchedMissionObject> enumerable = from ssw in list
-				where ssw.GameEntity.HasTag(this.SiegeWeaponTag) || (ssw.GameEntity.Parent != null && ssw.GameEntity.Parent.HasTag(this.SiegeWeaponTag))
-				select (ssw);
-			Vec3 globalPosition = base.GameEntity.GlobalPosition;
-			float radiusSquared = this.Radius * this.Radius;
-			IEnumerable<SynchedMissionObject> enumerable2 = from ssw in list
-				where ssw.GameEntity != this.GameEntity && ssw.GameEntity.GlobalPosition.DistanceSquared(globalPosition) < radiusSquared
-				select (ssw);
-			return enumerable.Concat(enumerable2).Distinct<SynchedMissionObject>().ToList<SynchedMissionObject>();
+			MBList<SynchedMissionObject> mblist = new MBList<SynchedMissionObject>();
+			float num = this.Radius * this.Radius;
+			foreach (SiegeWeapon siegeWeapon in list)
+			{
+				if (siegeWeapon.GameEntity.HasTag(this.SiegeWeaponTag) || (siegeWeapon.GameEntity.Parent != null && siegeWeapon.GameEntity.Parent.HasTag(this.SiegeWeaponTag)) || (siegeWeapon.GameEntity != base.GameEntity && siegeWeapon.GameEntity.GlobalPosition.DistanceSquared(base.GameEntity.GlobalPosition) < num))
+				{
+					mblist.Add(siegeWeapon);
+				}
+			}
+			return mblist;
 		}
 
 		public IEnumerable<SpawnerBase> GetSpawnersForEditor()
@@ -387,21 +388,21 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		private DeploymentPoint.DeploymentPointType _deploymentPointType;
-
-		private List<SiegeLadder> _associatedSiegeLadders;
-
-		private bool _isBreachSideDeploymentPoint;
-
 		public BattleSideEnum Side = BattleSideEnum.Attacker;
 
 		public float Radius = 3f;
 
 		public string SiegeWeaponTag = "dpWeapon";
 
-		private List<SynchedMissionObject> _weapons;
-
 		private readonly List<GameEntity> _highlightedEntites = new List<GameEntity>();
+
+		private DeploymentPoint.DeploymentPointType _deploymentPointType;
+
+		private List<SiegeLadder> _associatedSiegeLadders;
+
+		private bool _isBreachSideDeploymentPoint;
+
+		private MBList<SynchedMissionObject> _weapons;
 
 		public enum DeploymentPointType
 		{

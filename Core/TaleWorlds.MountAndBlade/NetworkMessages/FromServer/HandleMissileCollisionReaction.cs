@@ -16,15 +16,15 @@ namespace NetworkMessages.FromServer
 
 		public bool IsAttachedFrameLocal { get; private set; }
 
-		public Agent AttackerAgent { get; private set; }
+		public int AttackerAgentIndex { get; private set; }
 
-		public Agent AttachedAgent { get; private set; }
+		public int AttachedAgentIndex { get; private set; }
 
 		public bool AttachedToShield { get; private set; }
 
 		public sbyte AttachedBoneIndex { get; private set; }
 
-		public MissionObject AttachedMissionObject { get; private set; }
+		public MissionObjectId AttachedMissionObjectId { get; private set; }
 
 		public Vec3 BounceBackVelocity { get; private set; }
 
@@ -32,17 +32,17 @@ namespace NetworkMessages.FromServer
 
 		public int ForcedSpawnIndex { get; private set; }
 
-		public HandleMissileCollisionReaction(int missileIndex, Mission.MissileCollisionReaction collisionReaction, MatrixFrame attachLocalFrame, bool isAttachedFrameLocal, Agent attackerAgent, Agent attachedAgent, bool attachedToShield, sbyte attachedBoneIndex, MissionObject attachedMissionObject, Vec3 bounceBackVelocity, Vec3 bounceBackAngularVelocity, int forcedSpawnIndex)
+		public HandleMissileCollisionReaction(int missileIndex, Mission.MissileCollisionReaction collisionReaction, MatrixFrame attachLocalFrame, bool isAttachedFrameLocal, int attackerAgentIndex, int attachedAgentIndex, bool attachedToShield, sbyte attachedBoneIndex, MissionObjectId attachedMissionObjectId, Vec3 bounceBackVelocity, Vec3 bounceBackAngularVelocity, int forcedSpawnIndex)
 		{
 			this.MissileIndex = missileIndex;
 			this.CollisionReaction = collisionReaction;
 			this.AttachLocalFrame = attachLocalFrame;
 			this.IsAttachedFrameLocal = isAttachedFrameLocal;
-			this.AttackerAgent = attackerAgent;
-			this.AttachedAgent = attachedAgent;
+			this.AttackerAgentIndex = attackerAgentIndex;
+			this.AttachedAgentIndex = attachedAgentIndex;
 			this.AttachedToShield = attachedToShield;
 			this.AttachedBoneIndex = attachedBoneIndex;
-			this.AttachedMissionObject = attachedMissionObject;
+			this.AttachedMissionObjectId = attachedMissionObjectId;
 			this.BounceBackVelocity = bounceBackVelocity;
 			this.BounceBackAngularVelocity = bounceBackAngularVelocity;
 			this.ForcedSpawnIndex = forcedSpawnIndex;
@@ -57,16 +57,16 @@ namespace NetworkMessages.FromServer
 			bool flag = true;
 			this.MissileIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.MissileCompressionInfo, ref flag);
 			this.CollisionReaction = (Mission.MissileCollisionReaction)GameNetworkMessage.ReadIntFromPacket(CompressionMission.MissileCollisionReactionCompressionInfo, ref flag);
-			this.AttackerAgent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
-			this.AttachedAgent = null;
+			this.AttackerAgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
+			this.AttachedAgentIndex = -1;
 			this.AttachedToShield = false;
 			this.AttachedBoneIndex = -1;
-			this.AttachedMissionObject = null;
+			this.AttachedMissionObjectId = MissionObjectId.Invalid;
 			if (this.CollisionReaction == Mission.MissileCollisionReaction.Stick || this.CollisionReaction == Mission.MissileCollisionReaction.BounceBack)
 			{
 				if (GameNetworkMessage.ReadBoolFromPacket(ref flag))
 				{
-					this.AttachedAgent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
+					this.AttachedAgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 					this.AttachedToShield = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 					if (!this.AttachedToShield)
 					{
@@ -75,7 +75,7 @@ namespace NetworkMessages.FromServer
 				}
 				else
 				{
-					this.AttachedMissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+					this.AttachedMissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 				}
 			}
 			if (this.CollisionReaction != Mission.MissileCollisionReaction.BecomeInvisible && this.CollisionReaction != Mission.MissileCollisionReaction.PassThrough)
@@ -115,14 +115,14 @@ namespace NetworkMessages.FromServer
 		{
 			GameNetworkMessage.WriteIntToPacket(this.MissileIndex, CompressionMission.MissileCompressionInfo);
 			GameNetworkMessage.WriteIntToPacket((int)this.CollisionReaction, CompressionMission.MissileCollisionReactionCompressionInfo);
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.AttackerAgent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AttackerAgentIndex);
 			if (this.CollisionReaction == Mission.MissileCollisionReaction.Stick || this.CollisionReaction == Mission.MissileCollisionReaction.BounceBack)
 			{
-				bool flag = this.AttachedAgent != null;
+				bool flag = this.AttachedAgentIndex >= 0;
 				GameNetworkMessage.WriteBoolToPacket(flag);
 				if (flag)
 				{
-					GameNetworkMessage.WriteAgentReferenceToPacket(this.AttachedAgent);
+					GameNetworkMessage.WriteAgentIndexToPacket(this.AttachedAgentIndex);
 					GameNetworkMessage.WriteBoolToPacket(this.AttachedToShield);
 					if (!this.AttachedToShield)
 					{
@@ -131,7 +131,7 @@ namespace NetworkMessages.FromServer
 				}
 				else
 				{
-					GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.AttachedMissionObject);
+					GameNetworkMessage.WriteMissionObjectIdToPacket((this.AttachedMissionObjectId.Id >= 0) ? this.AttachedMissionObjectId : MissionObjectId.Invalid);
 				}
 			}
 			if (this.CollisionReaction != Mission.MissileCollisionReaction.BecomeInvisible && this.CollisionReaction != Mission.MissileCollisionReaction.PassThrough)
@@ -164,28 +164,25 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			object[] array = new object[16];
-			array[0] = "Handle Missile Collision with index: ";
-			array[1] = this.MissileIndex;
-			array[2] = " collision reaction: ";
-			array[3] = this.CollisionReaction;
-			array[4] = " AttackerAgent index: ";
-			int num = 5;
-			Agent attackerAgent = this.AttackerAgent;
-			array[num] = ((attackerAgent != null) ? attackerAgent.Index : (-1));
-			array[6] = " AttachedAgent index: ";
-			int num2 = 7;
-			Agent attachedAgent = this.AttachedAgent;
-			array[num2] = ((attachedAgent != null) ? attachedAgent.Index : (-1));
-			array[8] = " AttachedToShield: ";
-			array[9] = this.AttachedToShield.ToString();
-			array[10] = " AttachedBoneIndex: ";
-			array[11] = this.AttachedBoneIndex;
-			array[12] = " AttachedMissionObject id: ";
-			array[13] = ((this.AttachedMissionObject != null) ? this.AttachedMissionObject.Id.ToString() : "-1");
-			array[14] = " ForcedSpawnIndex: ";
-			array[15] = this.ForcedSpawnIndex;
-			return string.Concat(array);
+			return string.Concat(new object[]
+			{
+				"Handle Missile Collision with index: ",
+				this.MissileIndex,
+				" collision reaction: ",
+				this.CollisionReaction,
+				" AttackerAgent index: ",
+				this.AttackerAgentIndex,
+				" AttachedAgent index: ",
+				this.AttachedAgentIndex,
+				" AttachedToShield: ",
+				this.AttachedToShield.ToString(),
+				" AttachedBoneIndex: ",
+				this.AttachedBoneIndex,
+				" AttachedMissionObject id: ",
+				(this.AttachedMissionObjectId != MissionObjectId.Invalid) ? this.AttachedMissionObjectId.Id.ToString() : "-1",
+				" ForcedSpawnIndex: ",
+				this.ForcedSpawnIndex
+			});
 		}
 	}
 }

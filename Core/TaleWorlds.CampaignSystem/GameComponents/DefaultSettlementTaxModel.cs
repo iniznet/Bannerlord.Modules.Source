@@ -116,7 +116,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				}
 				if (town.Governor != null && town.Governor.GetPerkValue(DefaultPerks.Steward.PriceOfLoyalty))
 				{
-					int num2 = town.Governor.GetSkillValue(DefaultSkills.Steward) - 250;
+					int num2 = town.Governor.GetSkillValue(DefaultSkills.Steward) - Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus;
 					result.AddFactor(DefaultPerks.Steward.PriceOfLoyalty.SecondaryBonus * (float)num2, DefaultPerks.Steward.PriceOfLoyalty.Name);
 				}
 				if (town.OwnerClan.Culture.HasFeat(DefaultCulturalFeats.KhuzaitDecreasedTaxFeat))

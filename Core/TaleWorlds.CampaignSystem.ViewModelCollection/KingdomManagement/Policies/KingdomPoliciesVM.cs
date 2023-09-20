@@ -17,7 +17,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Polici
 			this.OtherPolicies = new MBBindingList<KingdomPolicyItemVM>();
 			this.DoneHint = new HintViewModel();
 			this._playerKingdom = Hero.MainHero.MapFaction as Kingdom;
-			this.ProposalAndDisavowalCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal();
+			this.ProposalAndDisavowalCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfPolicyProposalAndDisavowal(Clan.PlayerClan);
 			base.IsAcceptableItemSelected = false;
 			this.RefreshValues();
 			this.ExecuteSwitchMode();

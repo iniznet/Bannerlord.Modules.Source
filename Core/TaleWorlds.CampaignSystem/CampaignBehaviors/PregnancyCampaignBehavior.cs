@@ -64,7 +64,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Settlement settlement2;
 			MobileParty mobileParty2;
 			this.GetLocation(spouse, out settlement2, out mobileParty2);
-			return (settlement != null && settlement == settlement2) || (hero.Clan != Hero.MainHero.Clan && MBRandom.RandomFloat < 0.2f);
+			return (settlement != null && settlement == settlement2) || (mobileParty != null && mobileParty == mobileParty2) || (hero.Clan != Hero.MainHero.Clan && MBRandom.RandomFloat < 0.2f);
 		}
 
 		private void GetLocation(Hero hero, out Settlement heroSettlement, out MobileParty heroParty)
@@ -139,7 +139,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private List<PregnancyCampaignBehavior.Pregnancy> _heroPregnancies = new List<PregnancyCampaignBehavior.Pregnancy>();
 
-		public class PregnancyCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class PregnancyCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public PregnancyCampaignBehaviorTypeDefiner()
 				: base(110000)

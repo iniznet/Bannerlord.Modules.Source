@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -287,9 +286,9 @@ namespace TaleWorlds.CampaignSystem.Encounters
 				if (PlayerEncounter.Current._encounteredParty.IsSettlement)
 				{
 					SiegeEvent siegeEvent = PlayerEncounter.Current._encounteredParty.SiegeEvent;
-					if (((siegeEvent != null) ? siegeEvent.BesiegerCamp.BesiegerParty.MapEvent : null) != null)
+					if (((siegeEvent != null) ? siegeEvent.BesiegerCamp.LeaderParty.MapEvent : null) != null)
 					{
-						return PlayerEncounter.Current._encounteredParty.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent;
+						return PlayerEncounter.Current._encounteredParty.SiegeEvent.BesiegerCamp.LeaderParty.MapEvent;
 					}
 				}
 				return null;
@@ -435,14 +434,6 @@ namespace TaleWorlds.CampaignSystem.Encounters
 			}
 		}
 
-		public bool IsSallyOutAmbush
-		{
-			get
-			{
-				return this._isSallyOutAmbush;
-			}
-		}
-
 		public static BattleSimulation CurrentBattleSimulation
 		{
 			get
@@ -545,10 +536,6 @@ namespace TaleWorlds.CampaignSystem.Encounters
 			{
 				PlayerEncounter.Finish(forcePlayerOutFromSettlement);
 			}
-			else if (!CampaignSiegeTestStatic.IsSiegeTestBuild)
-			{
-				Debug.FailedAssert("Usage of RestartPlayerEncounter might be invalid.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "RestartPlayerEncounter", 408);
-			}
 			PlayerEncounter.Start();
 			PlayerEncounter.Current.SetupFields(attackerParty, defenderParty);
 		}
@@ -567,11 +554,11 @@ namespace TaleWorlds.CampaignSystem.Encounters
 			if (defenderParty.MapEvent != null && attackerParty != MobileParty.MainParty.Party && defenderParty != MobileParty.MainParty.Party)
 			{
 				this._mapEvent = defenderParty.MapEvent;
-				if (MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, this._mapEvent, BattleSideEnum.Defender))
+				if (this._mapEvent.CanPartyJoinBattle(PartyBase.MainParty, BattleSideEnum.Defender))
 				{
 					MobileParty.MainParty.Party.MapEventSide = this._mapEvent.DefenderSide;
 				}
-				else if (MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, this._mapEvent, BattleSideEnum.Attacker))
+				else if (this._mapEvent.CanPartyJoinBattle(PartyBase.MainParty, BattleSideEnum.Attacker))
 				{
 					MobileParty.MainParty.Party.MapEventSide = this._mapEvent.AttackerSide;
 				}
@@ -591,22 +578,22 @@ namespace TaleWorlds.CampaignSystem.Encounters
 					{
 						if (defenderParty.MapEvent != null)
 						{
-							if (MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, defenderParty.MapEvent, BattleSideEnum.Attacker))
+							if (defenderParty.MapEvent.CanPartyJoinBattle(PartyBase.MainParty, BattleSideEnum.Attacker))
 							{
 								PlayerEncounter.JoinBattle(BattleSideEnum.Attacker);
 							}
-							else if (MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, defenderParty.MapEvent, BattleSideEnum.Defender))
+							else if (defenderParty.MapEvent.CanPartyJoinBattle(PartyBase.MainParty, BattleSideEnum.Defender))
 							{
 								PlayerEncounter.JoinBattle(BattleSideEnum.Defender);
 							}
 							else
 							{
-								Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "Init", 474);
+								Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "Init", 465);
 							}
 						}
 						else
 						{
-							Debug.FailedAssert("If there is no map event we should create one in order to join battle", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "Init", 479);
+							Debug.FailedAssert("If there is no map event we should create one in order to join battle", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "Init", 470);
 						}
 					}
 					this.CheckNearbyPartiesToJoinPlayerMapEvent();
@@ -694,7 +681,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 		{
 			if (PlayerEncounter.Battle != null)
 			{
-				if (MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, PlayerEncounter.Battle, PartyBase.MainParty.Side))
+				if (PlayerEncounter.Battle.CanPartyJoinBattle(PartyBase.MainParty, PartyBase.MainParty.Side))
 				{
 					newParty.Party.MapEventSide = PartyBase.MainParty.MapEventSide;
 					return;
@@ -705,7 +692,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 				}
 				MobileParty.MainParty.Ai.SetMoveModeHold();
 				string newPartyJoinMenu = Campaign.Current.Models.EncounterGameMenuModel.GetNewPartyJoinMenu(newParty);
-				if (MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, PlayerEncounter.Battle, PartyBase.MainParty.OpponentSide))
+				if (PlayerEncounter.Battle.CanPartyJoinBattle(PartyBase.MainParty, PartyBase.MainParty.OpponentSide))
 				{
 					newParty.Party.MapEventSide = PartyBase.MainParty.MapEventSide.OtherSide;
 				}
@@ -825,12 +812,12 @@ namespace TaleWorlds.CampaignSystem.Encounters
 			string text;
 			if (mblist.IsEmpty<SingleplayerBattleSceneData>())
 			{
-				Debug.FailedAssert("Battle scene for map patch with scene index " + mapPatch.sceneIndex + " does not exist. Picking a random scene", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetBattleSceneForMapPatch", 748);
+				Debug.FailedAssert("Battle scene for map patch with scene index " + mapPatch.sceneIndex + " does not exist. Picking a random scene", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetBattleSceneForMapPatch", 739);
 				text = GameSceneDataManager.Instance.SingleplayerBattleScenes.GetRandomElement<SingleplayerBattleSceneData>().SceneID;
 			}
 			else if (mblist.Count > 1)
 			{
-				Debug.FailedAssert("Multiple battle scenes for map patch with scene index " + mapPatch.sceneIndex + " are defined. Picking a matching scene randomly", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetBattleSceneForMapPatch", 753);
+				Debug.FailedAssert("Multiple battle scenes for map patch with scene index " + mapPatch.sceneIndex + " are defined. Picking a matching scene randomly", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetBattleSceneForMapPatch", 744);
 				text = mblist.GetRandomElement<SingleplayerBattleSceneData>().SceneID;
 			}
 			else
@@ -922,16 +909,16 @@ namespace TaleWorlds.CampaignSystem.Encounters
 					}
 					else if (this._defenderParty.Settlement.IsHideout)
 					{
-						this._mapEvent = Campaign.Current.MapEventManager.StartHideoutMapEvent(this._attackerParty, this._defenderParty);
+						this._mapEvent = HideoutEventComponent.CreateHideoutEvent(this._attackerParty, this._defenderParty).MapEvent;
 					}
 					else
 					{
-						Debug.FailedAssert("Proper mapEvent type could not be set for the battle.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "StartBattleInternal", 873);
+						Debug.FailedAssert("Proper mapEvent type could not be set for the battle.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "StartBattleInternal", 864);
 					}
 				}
 				else if (this._isSallyOutAmbush)
 				{
-					this._mapEvent = Campaign.Current.MapEventManager.StartSiegeMapEvent(this._attackerParty, this._defenderParty);
+					this._mapEvent = SiegeAmbushEventComponent.CreateSiegeAmbushEvent(this._attackerParty, this._defenderParty).MapEvent;
 				}
 				else if (this._attackerParty.IsMobile && this._attackerParty.MobileParty.CurrentSettlement != null && this._attackerParty.MobileParty.CurrentSettlement.SiegeEvent != null)
 				{
@@ -943,7 +930,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 				}
 				else
 				{
-					this._mapEvent = Campaign.Current.MapEventManager.StartBattleMapEvent(this._attackerParty, this._defenderParty);
+					this._mapEvent = FieldBattleEventComponent.CreateFieldBattleEvent(this._attackerParty, this._defenderParty).MapEvent;
 				}
 			}
 			this.CheckNearbyPartiesToJoinPlayerMapEvent();
@@ -1151,7 +1138,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 						this.DoEnd();
 						break;
 					default:
-						Debug.FailedAssert("[DEBUG]Invalid map event state: " + this._mapEventState, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "UpdateInternal", 1151);
+						Debug.FailedAssert("[DEBUG]Invalid map event state: " + this._mapEventState, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "UpdateInternal", 1142);
 						break;
 					}
 				}
@@ -1274,7 +1261,9 @@ namespace TaleWorlds.CampaignSystem.Encounters
 				{
 					Debug.Print(string.Concat(new object[]
 					{
-						"party name: ",
+						"party: ",
+						mapEventParty.Party.Id,
+						": ",
 						mapEventParty.Party.Name,
 						", strength: ",
 						mapEventParty.Party.TotalStrength,
@@ -1295,9 +1284,10 @@ namespace TaleWorlds.CampaignSystem.Encounters
 					{
 						List<MapEventParty> list = this._mapEvent.AttackerSide.Parties.ToList<MapEventParty>();
 						this._mapEvent.FinishBattleAndKeepSiegeEvent();
+						this._mapEvent = null;
 						foreach (MapEventParty mapEventParty2 in list)
 						{
-							mapEventParty2.Party.Visuals.SetMapIconAsDirty();
+							mapEventParty2.Party.SetVisualAsDirty();
 							if (mapEventParty2.Party.IsMobile)
 							{
 								mapEventParty2.Party.MobileParty.Ai.SetMoveBesiegeSettlement(Settlement.CurrentSettlement);
@@ -1456,6 +1446,10 @@ namespace TaleWorlds.CampaignSystem.Encounters
 
 		public void SetIsSallyOutAmbush(bool value)
 		{
+			if (PlayerEncounter.Current._isSallyOutAmbush && !value)
+			{
+				this._campaignBattleResult = null;
+			}
 			PlayerEncounter.Current._isSallyOutAmbush = value;
 		}
 
@@ -1747,12 +1741,12 @@ namespace TaleWorlds.CampaignSystem.Encounters
 					{
 						if (flag2)
 						{
-							mapEventSettlement.SettlementComponent.IsTaken = true;
+							EncounterManager.StartSettlementEncounter((MobileParty.MainParty.Army != null) ? MobileParty.MainParty.Army.LeaderParty : MobileParty.MainParty, mapEventSettlement);
+							GameMenu.SwitchToMenu("menu_settlement_taken");
+							return;
 						}
-						EncounterManager.StartSettlementEncounter((MobileParty.MainParty.Army != null) ? MobileParty.MainParty.Army.LeaderParty : MobileParty.MainParty, mapEventSettlement);
-						return;
 					}
-					if (PlayerEncounter.InsideSettlement)
+					else if (PlayerEncounter.InsideSettlement)
 					{
 						PlayerEncounter.LeaveSettlement();
 						return;
@@ -1830,7 +1824,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 		{
 			if (this._doesBattleContinue || this._campaignBattleResult != null)
 			{
-				this._doesBattleContinue = MapEventHelper.CheckIfBattleShouldContinueAfterBattleMission(this._mapEvent, this._campaignBattleResult);
+				this._doesBattleContinue = this._mapEvent.CheckIfBattleShouldContinueAfterBattleMission(this._campaignBattleResult);
 			}
 			return this._doesBattleContinue;
 		}
@@ -1839,7 +1833,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 		{
 			if (this._mapEvent != null)
 			{
-				if (this._mapEvent.HasWinner || this._mapEvent.DiplomaticallyFinished || (this._mapEvent.IsRaid && this._mapEvent.MapEventSettlement.SettlementHitPoints.ApproximatelyEqualsTo(0f, 1E-05f)))
+				if (this._mapEvent.HasWinner || this._mapEvent.DiplomaticallyFinished || this._mapEvent.IsSiegeAmbush || (this._mapEvent.IsRaid && this._mapEvent.MapEventSettlement.SettlementHitPoints.ApproximatelyEqualsTo(0f, 1E-05f)))
 				{
 					MobileParty mobileParty = this._mapEvent.AttackerSide.LeaderParty.MobileParty;
 					bool flag = this._mapEvent.IsRaid && this._mapEvent.BattleState == BattleState.AttackerVictory && !this._mapEvent.MapEventSettlement.SettlementHitPoints.ApproximatelyEqualsTo(0f, 1E-05f);
@@ -1997,7 +1991,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 		{
 			LeaveSettlementAction.ApplyForParty(MobileParty.MainParty);
 			PlayerEncounter.LocationEncounter = null;
-			PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+			PartyBase.MainParty.SetVisualAsDirty();
 		}
 
 		public static void InitSimulation(FlattenedTroopRoster selectedTroopsForPlayerSide, FlattenedTroopRoster selectedTroopsForOtherSide)
@@ -2019,22 +2013,38 @@ namespace TaleWorlds.CampaignSystem.Encounters
 			GameMenu.ActivateGameMenu(encounterInterrupedType);
 		}
 
+		public static void StartSiegeAmbushMission()
+		{
+			Settlement mapEventSettlement = PlayerEncounter.Battle.MapEventSettlement;
+			SiegeEvent playerSiegeEvent = PlayerSiege.PlayerSiegeEvent;
+			Settlement.SiegeState currentSiegeState = mapEventSettlement.CurrentSiegeState;
+			if (currentSiegeState == Settlement.SiegeState.OnTheWalls)
+			{
+				List<MissionSiegeWeapon> preparedAndActiveSiegeEngines = playerSiegeEvent.GetPreparedAndActiveSiegeEngines(playerSiegeEvent.GetSiegeEventSide(BattleSideEnum.Attacker));
+				List<MissionSiegeWeapon> preparedAndActiveSiegeEngines2 = playerSiegeEvent.GetPreparedAndActiveSiegeEngines(playerSiegeEvent.GetSiegeEventSide(BattleSideEnum.Defender));
+				bool flag = preparedAndActiveSiegeEngines.Exists((MissionSiegeWeapon data) => data.Type == DefaultSiegeEngineTypes.SiegeTower);
+				int wallLevel = mapEventSettlement.Town.GetWallLevel();
+				CampaignMission.OpenSiegeMissionWithDeployment(mapEventSettlement.LocationComplex.GetLocationWithId("center").GetSceneName(wallLevel), mapEventSettlement.SettlementWallSectionHitPointsRatioList.ToArray(), flag, preparedAndActiveSiegeEngines, preparedAndActiveSiegeEngines2, PlayerEncounter.Current.PlayerSide == BattleSideEnum.Attacker, wallLevel, true, false);
+				return;
+			}
+			if (currentSiegeState - Settlement.SiegeState.InTheLordsHall > 1)
+			{
+				return;
+			}
+			Debug.FailedAssert("Siege state is invalid!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "StartSiegeAmbushMission", 2250);
+		}
+
 		public static void StartVillageBattleMission()
 		{
 			Settlement mapEventSettlement = PlayerEncounter.Battle.MapEventSettlement;
-			if (BanditLoopTestStatic.IsBanditLoopTest)
-			{
-				CampaignMission.OpenBattleMission("empire_village_b");
-				return;
-			}
 			int num = (mapEventSettlement.IsTown ? mapEventSettlement.Town.GetWallLevel() : 1);
-			CampaignMission.OpenBattleMission(mapEventSettlement.LocationComplex.GetScene("village_center", num));
+			CampaignMission.OpenBattleMission(mapEventSettlement.LocationComplex.GetScene("village_center", num), true);
 		}
 
-		public static void StartCombatMissionWithDialogueInTownCenter(CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam)
+		public static void StartCombatMissionWithDialogueInTownCenter(CharacterObject characterToTalkTo)
 		{
 			int wallLevel = Settlement.CurrentSettlement.Town.GetWallLevel();
-			CampaignMission.OpenCombatMissionWithDialogue(Settlement.CurrentSettlement.LocationComplex.GetScene("center", wallLevel), characterToTalkTo, allyTroopsWithFixedTeam, wallLevel);
+			CampaignMission.OpenCombatMissionWithDialogue(Settlement.CurrentSettlement.LocationComplex.GetScene("center", wallLevel), characterToTalkTo, wallLevel);
 		}
 
 		public static void StartHostileAction()
@@ -2112,7 +2122,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 				}
 				else
 				{
-					Debug.FailedAssert("Player side party null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetPlayerStrengthRatioInEncounter", 2335);
+					Debug.FailedAssert("Player side party null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetPlayerStrengthRatioInEncounter", 2362);
 				}
 			}
 			foreach (MobileParty mobileParty2 in list2)
@@ -2123,7 +2133,7 @@ namespace TaleWorlds.CampaignSystem.Encounters
 				}
 				else
 				{
-					Debug.FailedAssert("Opponent side party null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetPlayerStrengthRatioInEncounter", 2347);
+					Debug.FailedAssert("Opponent side party null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Encounters\\PlayerEncounter.cs", "GetPlayerStrengthRatioInEncounter", 2374);
 				}
 			}
 			if (num2 <= 0f)

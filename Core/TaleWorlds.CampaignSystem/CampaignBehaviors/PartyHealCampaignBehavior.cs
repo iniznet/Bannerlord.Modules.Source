@@ -69,7 +69,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnBattleEndCheckPerkEffects(MapEvent mapEvent)
 		{
-			if ((mapEvent.EventType == MapEvent.BattleTypes.FieldBattle || mapEvent.EventType == MapEvent.BattleTypes.Siege || mapEvent.EventType == MapEvent.BattleTypes.SiegeOutside || mapEvent.EventType == MapEvent.BattleTypes.Hideout || mapEvent.EventType == MapEvent.BattleTypes.SallyOut) && mapEvent.HasWinner)
+			if (mapEvent.EventType != MapEvent.BattleTypes.IsForcingVolunteers && mapEvent.EventType != MapEvent.BattleTypes.IsForcingSupplies && mapEvent.HasWinner)
 			{
 				foreach (PartyBase partyBase in mapEvent.InvolvedParties)
 				{

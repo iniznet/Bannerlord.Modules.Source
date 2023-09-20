@@ -37,7 +37,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				{
 					explainedNumber.AddFactor(DefaultPerks.Scouting.DayTraveler.SecondaryBonus, DefaultPerks.Scouting.DayTraveler.Name);
 				}
-				if (!party.IsMoving && party.StationaryStartTime.ElapsedHoursUntilNow > 1f && effectiveScout.GetPerkValue(DefaultPerks.Scouting.VantagePoint))
+				if (!party.IsMoving && party.StationaryStartTime.ElapsedHoursUntilNow >= 1f && effectiveScout.GetPerkValue(DefaultPerks.Scouting.VantagePoint))
 				{
 					explainedNumber.AddFactor(DefaultPerks.Scouting.VantagePoint.PrimaryBonus, DefaultPerks.Scouting.VantagePoint.Name);
 				}
@@ -51,7 +51,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 							num2 += (float)party.MemberRoster.GetElementNumber(i);
 						}
 					}
-					if (num2 / (float)party.MemberRoster.TotalManCount > 0.5f)
+					if (num2 / (float)party.MemberRoster.TotalManCount >= 0.5f)
 					{
 						explainedNumber.AddFactor(DefaultPerks.Scouting.MountedScouts.PrimaryBonus, DefaultPerks.Scouting.MountedScouts.Name);
 					}

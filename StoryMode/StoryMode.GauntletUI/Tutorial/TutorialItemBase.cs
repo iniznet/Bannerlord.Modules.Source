@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using SandBox.View.Map;
 using SandBox.ViewModelCollection.MapSiege;
 using SandBox.ViewModelCollection.Missions.NameMarker;
@@ -99,6 +100,14 @@ namespace StoryMode.GauntletUI.Tutorial
 		}
 
 		public virtual void OnNewCompanionAdded(Hero obj)
+		{
+		}
+
+		public virtual void OnPlayerRecruitedUnit(CharacterObject obj, int count)
+		{
+		}
+
+		public virtual void OnPlayerInventoryExchange(List<ValueTuple<ItemRosterElement, int>> purchasedItems, List<ValueTuple<ItemRosterElement, int>> soldItems, bool isTrading)
 		{
 		}
 

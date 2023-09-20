@@ -48,7 +48,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
-			if (changedManagedOptionsType == 21)
+			if (changedManagedOptionsType == 22)
 			{
 				MissionAgentStatusVM dataSource = this._dataSource;
 				if (dataSource == null)

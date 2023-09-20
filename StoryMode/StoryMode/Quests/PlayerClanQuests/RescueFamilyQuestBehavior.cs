@@ -302,16 +302,16 @@ namespace StoryMode.Quests.PlayerClanQuests
 
 			private MobileParty CreateRaiderParty(int number, bool isBanditBossParty)
 			{
-				MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("rescue_family_quest_raider_party_" + number, StoryModeHeroes.RadiersClan, this._hideout.Hideout, isBanditBossParty);
+				MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("rescue_family_quest_raider_party_" + number, this._hideout.OwnerClan, this._hideout.Hideout, isBanditBossParty);
 				TroopRoster troopRoster = new TroopRoster(mobileParty.Party);
 				CharacterObject @object = Campaign.Current.ObjectManager.GetObject<CharacterObject>(this._hideout.Culture.StringId + "_bandit");
 				troopRoster.AddToCounts(@object, 5, false, 0, 0, true, -1);
 				TroopRoster troopRoster2 = new TroopRoster(mobileParty.Party);
 				mobileParty.InitializeMobilePartyAtPosition(troopRoster, troopRoster2, this._hideout.Position2D);
 				mobileParty.SetCustomName(new TextObject("{=u1Pkt4HC}Raiders", null));
-				mobileParty.ActualClan = StoryModeHeroes.RadiersClan;
+				mobileParty.ActualClan = this._hideout.OwnerClan;
 				mobileParty.Position2D = this._hideout.Position2D;
-				mobileParty.Party.Visuals.SetMapIconAsDirty();
+				mobileParty.Party.SetVisualAsDirty();
 				float totalStrength = mobileParty.Party.TotalStrength;
 				int num = (int)(1f * MBRandom.RandomFloat * 20f * totalStrength + 50f);
 				mobileParty.InitializePartyTrade(num);
@@ -341,7 +341,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 				CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
 				CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.OnGameMenuOpened));
 				CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 				CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 			}
 
@@ -466,50 +465,50 @@ namespace StoryMode.Quests.PlayerClanQuests
 				}
 			}
 
-			private void HourlyTick()
+			protected override void HourlyTick()
 			{
 				this.CheckIfHideoutIsReady();
 			}
 
 			protected override void SetDialogs()
 			{
-				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 160).NpcLine(new TextObject("{=1yi00v5w}{PLAYER.NAME}! Good to see you. Believe it or not, I mean that. I've been looking for you...[if:happy][ib:demure]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.radagos_reunion_conversation_condition))
+				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 160).NpcLine(new TextObject("{=1yi00v5w}{PLAYER.NAME}! Good to see you. Believe it or not, I mean that. I've been looking for you...[if:convo_calm_friendly][ib:normal2]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.radagos_reunion_conversation_condition))
 					.PlayerLine(new TextObject("{=pCNSEPEP}You escaped? Where's my brother? What happened?", null), null)
-					.NpcLine(new TextObject("{=xknCpvcb}Calm down, now. I'll tell you everything.", null), null, null)
-					.NpcLine(new TextObject("{=X1TJNkBV}We found your little brother and sister. But my former partner {HIDEOUT_BOSS.LINK} betrayed me. We came into his camp to negotiate the kids' release, and he seized us right then and there.", null), null, null)
+					.NpcLine(new TextObject("{=xknCpvcb}Calm down, now. I'll tell you everything.[ib:closed2][if:convo_grave]", null), null, null)
+					.NpcLine(new TextObject("{=X1TJNkBV}We found your little brother and sister. But my former partner {HIDEOUT_BOSS.LINK} betrayed me. We came into his camp to negotiate the kids' release, and he seized us right then and there.[if:convo_angry_voice]", null), null, null)
 					.NpcLine(new TextObject("{=UpUqL368}What scum, eh? Even in this profession, double-crossing your comrades is frowned upon.", null), null, null)
-					.NpcLine(new TextObject("{=bJjAqCxk}I escaped - one of his men, a little guiltier than the rest, cut my bonds when the others were sleeping - but I can't let a traitor live. So I decided to find you and offer you a deal.[if:idle_angry][ib:warrior]", null), null, null)
+					.NpcLine(new TextObject("{=bJjAqCxk}I escaped - one of his men, a little guiltier than the rest, cut my bonds when the others were sleeping - but I can't let a traitor live. So I decided to find you and offer you a deal.[if:convo_focused_voice][ib:hip]", null), null, null)
 					.NpcLine(new TextObject("{=PlpNTQqf}I know where {HIDEOUT_BOSS.LINK} is now. If you agree, we can attack together and save your kin.", null), null, null)
-					.NpcLine(new TextObject("{=mmQRCHUM}But in return, I will have the pleasure of killing that bastard. So what do you say?[if:convo_mocking_revenge][ib:confident]", null), null, null)
+					.NpcLine(new TextObject("{=mmQRCHUM}But in return, I will have the pleasure of killing that bastard. So what do you say?[if:convo_snide_voice][ib:confident2]", null), null, null)
 					.PlayerLine(new TextObject("{=ypDmy5Rn}Uh, how can we possibly trust each other?", null), null)
-					.NpcLine(new TextObject("{=VbJvL8yB}Oh you can't trust me. But you need me, and I figure you have enough men that you could easily slit my throat pretty quickly if I lead you into a trap. And I don't need to trust you - you're my vehicle of revenge, not my partner.", null), null, null)
+					.NpcLine(new TextObject("{=VbJvL8yB}Oh you can't trust me. But you need me, and I figure you have enough men that you could easily slit my throat pretty quickly if I lead you into a trap. And I don't need to trust you - you're my vehicle of revenge, not my partner.[if:convo_grave]", null), null, null)
 					.PlayerLine(new TextObject("{=ft6zzDrJ}I can live with that. Let's go.", null), null)
-					.NpcLine(new TextObject("{=HT9hW29s}Splendid! But I have a few things to do. There is a hideout near this city. {HIDEOUT_BOSS.LINK} keeps your siblings there. I will join you right where the path leads up, just out of sight of their scouts.[if:idle_normal][ib:normal]", null), null, null)
+					.NpcLine(new TextObject("{=HT9hW29s}Splendid! But I have a few things to do. There is a hideout near this city. {HIDEOUT_BOSS.LINK} keeps your siblings there. I will join you right where the path leads up, just out of sight of their scouts.[if:convo_snide_voice][ib:hip]", null), null, null)
 					.PlayerLine(new TextObject("{=GicEcLx2}See you there then. But, remember, if this is a trap or something, that will cost you your life.", null), null)
-					.NpcLine(new TextObject("{=8b4Ndfep}Oh of course. I have no doubts on that score.", null), null, null)
+					.NpcLine(new TextObject("{=8b4Ndfep}Oh of course. I have no doubts on that score.[if:convo_nonchalant]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.radagos_reunion_conversation_consequence))
 					.CloseDialog(), this);
-				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 160).NpcLine(new TextObject("{=rDuegB1L}You've finally arrived! I have a few things to say before we attack.[ib:confident][if:convo_nonchalant]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.radagos_hideout_conversation_condition))
-					.NpcLine(new TextObject("{=1T7p0O7B}We have to be clever. {HIDEOUT_BOSS.LINK} is a cunning fellow, in a low and base kind of way.", null), null, null)
+				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 160).NpcLine(new TextObject("{=rDuegB1L}You've finally arrived! I have a few things to say before we attack.[ib:confident2][if:convo_nonchalant]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.radagos_hideout_conversation_condition))
+					.NpcLine(new TextObject("{=1T7p0O7B}We have to be clever. {HIDEOUT_BOSS.LINK} is a cunning fellow, in a low and base kind of way.[if:convo_normal]", null), null, null)
 					.PlayerLine(new TextObject("{=a29lmPLd}I defeated you before. I know how your gang operates. Less talking, more raiding. C'mon...", null), null)
-					.NpcLine(new TextObject("{=QbsDYITB}That you did, that you did. Lead on, then.[ib:closed][if:convo_nonchalant]", null), null, null)
+					.NpcLine(new TextObject("{=QbsDYITB}That you did, that you did. Lead on, then.[ib:closed2][if:convo_calm_friendly]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.radagos_hideout_conversation_consequence))
 					.CloseDialog(), this);
-				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 160).NpcLine(new TextObject("{=PiKISvfu}{PLAYER.NAME}! I knew you'd come. Great Heaven. Damn, {?PLAYER.GENDER}sister{?}brother{\\?}, nothing can stop you! I love you, {?PLAYER.GENDER}sister{?}brother{\\?}.[if:happy][ib:demure]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.brother_hideout_conversation_condition))
+				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 160).NpcLine(new TextObject("{=PiKISvfu}{PLAYER.NAME}! I knew you'd come. Great Heaven. Damn, {?PLAYER.GENDER}sister{?}brother{\\?}, nothing can stop you! I love you, {?PLAYER.GENDER}sister{?}brother{\\?}.[if:convo_calm_friendly][ib:aggressive2]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.brother_hideout_conversation_condition))
 					.PlayerLine(new TextObject("{=DIKPGwj1}So glad to see you safe. Is everyone okay?", null), null)
-					.NpcLine(new TextObject("{=xachJ1hb}Yes, we are all fine. The little ones are scared but fine... We need to be quick and get the hell out of this place.[if:idle_insulted][ib:closed]", null), null, null)
+					.NpcLine(new TextObject("{=xachJ1hb}Yes, we are all fine. The little ones are scared but fine... We need to be quick and get the hell out of this place.[if:convo_calm_friendly][ib:confident]", null), null, null)
 					.NpcLine(new TextObject("{=p3Kia1OO}I'll take them to the nearest fortress immediately. They will be safe there.", null), null, null)
-					.NpcLine(new TextObject("{=IC9Vg5MA}Meet me there later, when you're ready to tell me everything.[if:idle_normal][ib:normal]", null), null, null)
+					.NpcLine(new TextObject("{=IC9Vg5MA}Meet me there later, when you're ready to tell me everything.[if:convo_normal][ib:normal2]", null), null, null)
 					.PlayerLine(new TextObject("{=LrItHItu}Okay brother, be careful. Take care.", null), null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.brother_hideout_conversation_consequence;
 					})
 					.CloseDialog(), this);
-				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=0I9siaQY}Bastards... You're the kin of my captives, right? I saw {RADAGOS.LINK} with you. You know he can't be trusted?[if:idle_angry][ib:warrior]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.bandit_hideout_boss_fight_start_on_condition))
+				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=0I9siaQY}Bastards... You're the kin of my captives, right? I saw {RADAGOS.LINK} with you. You know he can't be trusted?[if:convo_confused_annoyed][ib:aggressive]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.bandit_hideout_boss_fight_start_on_condition))
 					.PlayerLine(new TextObject("{=mWMkslbn}He led us here. Where are my brothers and my sister?", null), null)
-					.NpcLine(new TextObject("{=heoCaRIr}Nah... There's no more talking. Kill me or I kill you, that's how this ends.[ib:confident]", null), null, null)
-					.NpcLine(new TextObject("{=2GeiKTlS}I'll do you the honor of duelling you, and my men will stand down if you win.", null), null, null)
+					.NpcLine(new TextObject("{=heoCaRIr}Nah... There's no more talking. Kill me or I kill you, that's how this ends.[ib:warrior][if:convo_bared_teeth]", null), null, null)
+					.NpcLine(new TextObject("{=2GeiKTlS}I'll do you the honor of duelling you, and my men will stand down if you win.[if:convo_predatory]", null), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=ImLQNYWC}Very well - I'll duel you.", null), null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.bandit_hideout_start_duel_fight_on_consequence))
@@ -519,7 +518,7 @@ namespace StoryMode.Quests.PlayerClanQuests
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog(), this);
-				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=G9iXmhGK}Look, we can still talk. I'll give you a pouch of silver.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.hideout_boss_prisoner_talk_condition))
+				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=G9iXmhGK}Look, we can still talk. I'll give you a pouch of silver.[ib:weary][if:convo_confused_voice]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.hideout_boss_prisoner_talk_condition))
 					.PlayerLine(new TextObject("{=fM4eSVps}You said talking was a waste of time. You are {RADAGOS.NAME}'s property, now.", null), null)
 					.Consequence(delegate
 					{
@@ -527,12 +526,12 @@ namespace StoryMode.Quests.PlayerClanQuests
 					})
 					.CloseDialog(), this);
 				string text;
-				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=3dhvmJDp}Well... Looks like we've gotten your kin back to you, so my end of our deal is complete. I'll be making myself scarce now.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.goodbye_conversation_with_radagos_condition))
+				Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=3dhvmJDp}Well... Looks like we've gotten your kin back to you, so my end of our deal is complete. I'll be making myself scarce now.[ib:hip][if:convo_uncomfortable_voice]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.goodbye_conversation_with_radagos_condition))
 					.GetOutputToken(ref text)
-					.NpcLine(new TextObject("{=C79Xxm1b}Don't let your conscience bother you about letting me go, by the way. I won't get back into slaving. Burned too many bridges with my old colleagues, you might say. I'll find some other way to earn my keep - mercenary work, perhaps. Anyway, maybe our paths will cross again.", null), null, null)
+					.NpcLine(new TextObject("{=C79Xxm1b}Don't let your conscience bother you about letting me go, by the way. I won't get back into slaving. Burned too many bridges with my old colleagues, you might say. I'll find some other way to earn my keep - mercenary work, perhaps. Anyway, maybe our paths will cross again.[if:convo_empathic_voice]", null), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=c1Q2irLi}Your men killed my parents. Did you really think you would not be punished?", null), null)
-					.NpcLine(new TextObject("{=W7hi7jS4}Eh, well, I dared to hope, I suppose. All right then, I'm not going to grovel to you, so get it over with.", null), null, null)
+					.NpcLine(new TextObject("{=W7hi7jS4}Eh, well, I dared to hope, I suppose. All right then, I'm not going to grovel to you, so get it over with.[ib:hip][if:convo_uncomfortable_voice]", null), null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=kz5PJbV1}I shall. For your many crimes, {RADAGOS.NAME}, your life is forfeit.", null), null)
 					.Consequence(delegate
@@ -677,7 +676,7 @@ namespace StoryMode.Quests.PlayerClanQuests
 				TextObject textObject = new TextObject("{=kzgbBrYo}As you leave the hideout, {RADAGOS.LINK} comes to you and asks to talk.", null);
 				StringHelpers.SetCharacterProperties("RADAGOS", this._radagos.CharacterObject, textObject, false);
 				base.AddGameMenu("radagos_goodbye_menu", textObject, new OnInitDelegate(this.radagos_goodbye_menu_on_init), 0, 0);
-				base.AddGameMenuOption("radagos_goodbye_menu", "radagos_goodbye_menu_continue", new TextObject("{=DM6luo3c}Continue", null), new GameMenuOption.OnConditionDelegate(this.radagos_goodbye_menu_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.radagos_goodbye_menu_continue_on_consequence), false, -1, null);
+				base.AddGameMenuOption("radagos_goodbye_menu", "radagos_goodbye_menu_continue", new TextObject("{=DM6luo3c}Continue", null), new GameMenuOption.OnConditionDelegate(this.radagos_goodbye_menu_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.radagos_goodbye_menu_continue_on_consequence), false, -1);
 			}
 
 			private void radagos_goodbye_menu_on_init(MenuCallbackArgs args)

@@ -49,7 +49,7 @@ namespace Helpers
 				TextObject disabledReasonTextForHero = Campaign.Current.Models.AlleyModel.GetDisabledReasonTextForHero(item, alley, item2);
 				list.Add(new InquiryElement(item.CharacterObject, item.Name.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(item.CharacterObject)), item2 == DefaultAlleyModel.AlleyMemberAvailabilityDetail.Available || item2 == DefaultAlleyModel.AlleyMemberAvailabilityDetail.AvailableWithDelay, disabledReasonTextForHero.ToString()));
 			}
-			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData("Select companion", "Select a companion to lead this alley.", list, true, 1, GameTexts.FindText("str_done", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), affirmativeAction, negativeAction, ""), true, false);
+			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=FLXzhZCo}Select companion", null).ToString(), new TextObject("{=QGlhXD4F}Select a companion to lead this alley.", null).ToString(), list, true, 1, 1, GameTexts.FindText("str_done", null).ToString(), new TextObject("{=3CpNUnVl}Cancel", null).ToString(), affirmativeAction, negativeAction, ""), true, false);
 		}
 	}
 }

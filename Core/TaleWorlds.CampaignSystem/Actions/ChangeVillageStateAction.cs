@@ -13,12 +13,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			{
 				village.VillageState = newState;
 				CampaignEventDispatcher.Instance.OnVillageStateChanged(village, villageState, village.VillageState, raiderParty);
-				IPartyVisual visuals = village.Settlement.Party.Visuals;
-				if (visuals == null)
-				{
-					return;
-				}
-				visuals.RefreshLevelMask(village.Settlement.Party);
+				village.Settlement.Party.SetLevelMaskIsDirty();
 			}
 		}
 

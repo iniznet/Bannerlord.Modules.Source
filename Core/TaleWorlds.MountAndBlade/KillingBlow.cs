@@ -6,7 +6,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Killing_blow")]
+	[EngineStruct("Killing_blow", false)]
 	public struct KillingBlow
 	{
 		public KillingBlow(Blow b, Vec3 ragdollImpulsePoint, Vec3 ragdollImpulseAmount, int deathAction, int weaponItemKind, Agent.KillInfo overrideKillInfo = Agent.KillInfo.Invalid)
@@ -20,7 +20,7 @@ namespace TaleWorlds.MountAndBlade
 			this.OwnerId = b.OwnerId;
 			this.VictimBodyPart = b.VictimBodyPart;
 			this.WeaponClass = (int)b.WeaponRecord.WeaponClass;
-			this.BlowPosition = b.Position;
+			this.BlowPosition = b.GlobalPosition;
 			this.WeaponRecordWeaponFlags = b.WeaponRecord.WeaponFlags;
 			this.WeaponItemKind = weaponItemKind;
 			this.InflictedDamage = b.InflictedDamage;
@@ -59,10 +59,10 @@ namespace TaleWorlds.MountAndBlade
 
 		public int InflictedDamage;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool IsMissile;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool IsValid;
 	}
 }

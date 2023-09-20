@@ -25,7 +25,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				}
 				foreach (Settlement settlement in all.Where(func))
 				{
-					settlement.Party.Visuals.SetMapIconAsDirty();
+					settlement.Party.SetVisualAsDirty();
 				}
 				IEnumerable<MobileParty> all2 = MobileParty.All;
 				Func<MobileParty, bool> func2;
@@ -36,7 +36,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				}
 				foreach (MobileParty mobileParty in all2.Where(func2))
 				{
-					mobileParty.Party.Visuals.SetMapIconAsDirty();
+					mobileParty.Party.SetVisualAsDirty();
 				}
 			}
 			CampaignEventDispatcher.Instance.OnMakePeace(faction1, faction2, detail);

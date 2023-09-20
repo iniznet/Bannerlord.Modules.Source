@@ -524,7 +524,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					float num10 = totalStrength + ((militiaPartyComponent != null) ? militiaPartyComponent.MobileParty.Party.TotalStrength : 0f);
 					num3 += ((num10 < (float)(200 * num9)) ? (0.25f * ((float)(200 * num9) - num10) * (float)num8 * (float)num9) : 0f);
 				}
-				if (town.IsUnderSiege && town.Settlement.SiegeEvent != null && town.Settlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction == factionDeclaredWar && (MobileParty.MainParty.SiegeEvent == null || MobileParty.MainParty.SiegeEvent.BesiegedSettlement != town.Settlement))
+				if (town.IsUnderSiege && town.Settlement.SiegeEvent != null && town.Settlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction == factionDeclaredWar && (MobileParty.MainParty.SiegeEvent == null || MobileParty.MainParty.SiegeEvent.BesiegedSettlement != town.Settlement))
 				{
 					num7 += 100 * num8 * num9;
 				}
@@ -830,11 +830,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			float num18 = 0.3f * MathF.Min(100000f, factionDeclaredWar.Settlements.Sum(delegate(Settlement s)
 			{
-				if (s.Culture != factionDeclaresWar.Culture)
+				if (s.Culture != factionDeclaresWar.Culture || !s.IsFortification)
 				{
 					return 0f;
 				}
-				return s.Prosperity * 0.5f * DefaultDiplomacyModel.ProsperityValueFactor;
+				return s.Town.Prosperity * 0.5f * DefaultDiplomacyModel.ProsperityValueFactor;
 			}));
 			int num19 = 0;
 			foreach (Town town in factionDeclaresWar.Fiefs)
@@ -1320,28 +1320,28 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 50;
 		}
 
-		public override int GetInfluenceCostOfExpellingClan()
+		public override int GetInfluenceCostOfExpellingClan(Clan proposingClan)
 		{
-			return 200;
-		}
-
-		public override int GetInfluenceCostOfProposingPeace()
-		{
-			ExplainedNumber explainedNumber = new ExplainedNumber(100f, false, null);
-			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(ref explainedNumber);
+			ExplainedNumber explainedNumber = new ExplainedNumber(200f, false, null);
+			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(proposingClan, ref explainedNumber);
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
-		public override int GetInfluenceCostOfProposingWar(Kingdom proposingKingdom)
+		public override int GetInfluenceCostOfProposingPeace(Clan proposingClan)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(100f, false, null);
-			float num = 1f;
-			if (proposingKingdom.ActivePolicies.Contains(DefaultPolicies.WarTax))
+			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(proposingClan, ref explainedNumber);
+			return MathF.Round(explainedNumber.ResultNumber);
+		}
+
+		public override int GetInfluenceCostOfProposingWar(Clan proposingClan)
+		{
+			ExplainedNumber explainedNumber = new ExplainedNumber(200f, false, null);
+			if (proposingClan.Kingdom.ActivePolicies.Contains(DefaultPolicies.WarTax) && proposingClan == proposingClan.Kingdom.RulingClan)
 			{
-				num = 2f;
+				explainedNumber.AddFactor(1f, null);
 			}
-			explainedNumber.AddFactor(num, null);
-			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(ref explainedNumber);
+			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(proposingClan, ref explainedNumber);
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
@@ -1355,21 +1355,22 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 1;
 		}
 
-		public override int GetInfluenceCostOfAnnexation(Kingdom proposingKingdom)
+		public override int GetInfluenceCostOfAnnexation(Clan proposingClan)
 		{
-			float num = 1f;
-			if (proposingKingdom != null)
+			ExplainedNumber explainedNumber = new ExplainedNumber(200f, false, null);
+			if (proposingClan.Kingdom != null)
 			{
-				if (proposingKingdom.ActivePolicies.Contains(DefaultPolicies.FeudalInheritance))
+				if (proposingClan.Kingdom.ActivePolicies.Contains(DefaultPolicies.FeudalInheritance))
 				{
-					num *= 2f;
+					explainedNumber.AddFactor(1f, null);
 				}
-				if (proposingKingdom.ActivePolicies.Contains(DefaultPolicies.PrecarialLandTenure))
+				if (proposingClan.Kingdom.ActivePolicies.Contains(DefaultPolicies.PrecarialLandTenure) && proposingClan == proposingClan.Kingdom.RulingClan)
 				{
-					num *= 0.5f;
+					explainedNumber.AddFactor(-0.5f, null);
 				}
 			}
-			return (int)(200f * num);
+			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(proposingClan, ref explainedNumber);
+			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
 		public override int GetInfluenceCostOfChangingLeaderOfArmy()
@@ -1396,10 +1397,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return -4;
 		}
 
-		public override int GetInfluenceCostOfPolicyProposalAndDisavowal()
+		public override int GetInfluenceCostOfPolicyProposalAndDisavowal(Clan proposerClan)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(100f, false, null);
-			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(ref explainedNumber);
+			this.GetPerkEffectsOnKingdomDecisionInfluenceCost(proposerClan, ref explainedNumber);
 			return MathF.Round(explainedNumber.ResultNumber);
 		}
 
@@ -1408,9 +1409,9 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return 2;
 		}
 
-		private void GetPerkEffectsOnKingdomDecisionInfluenceCost(ref ExplainedNumber cost)
+		private void GetPerkEffectsOnKingdomDecisionInfluenceCost(Clan proposingClan, ref ExplainedNumber cost)
 		{
-			if (Hero.MainHero.GetPerkValue(DefaultPerks.Charm.Firebrand))
+			if (proposingClan.Leader.GetPerkValue(DefaultPerks.Charm.Firebrand))
 			{
 				cost.AddFactor(DefaultPerks.Charm.Firebrand.PrimaryBonus, DefaultPerks.Charm.Firebrand.Name);
 			}
@@ -1442,9 +1443,8 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override void GetHeroesForEffectiveRelation(Hero hero1, Hero hero2, out Hero effectiveHero1, out Hero effectiveHero2)
 		{
-			Clan neutralFaction = CampaignData.NeutralFaction;
-			effectiveHero1 = ((hero1.Clan != null && hero1.Clan != neutralFaction) ? hero1.Clan.Leader : hero1);
-			effectiveHero2 = ((hero2.Clan != null && hero2.Clan != neutralFaction) ? hero2.Clan.Leader : hero2);
+			effectiveHero1 = ((hero1.Clan != null) ? hero1.Clan.Leader : hero1);
+			effectiveHero2 = ((hero2.Clan != null) ? hero2.Clan.Leader : hero2);
 			if (effectiveHero1 == effectiveHero2 || (hero1.IsPlayerCompanion && hero2.IsHumanPlayerCharacter) || (hero1.IsPlayerCompanion && hero2.IsHumanPlayerCharacter))
 			{
 				effectiveHero1 = hero1;

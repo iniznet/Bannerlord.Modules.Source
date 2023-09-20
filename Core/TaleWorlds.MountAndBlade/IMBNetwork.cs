@@ -33,6 +33,9 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("prepare_new_udp_session", false)]
 		void PrepareNewUdpSession(int player, int sessionKey);
 
+		[EngineMethod("get_active_udp_sessions_ip_address", false)]
+		string GetActiveUdpSessionsIpAddress();
+
 		[EngineMethod("can_add_new_players_on_server", false)]
 		bool CanAddNewPlayersOnServer(int numPlayers);
 
@@ -105,8 +108,8 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("write_byte_array_to_packet", false)]
 		void WriteByteArrayToPacket(byte[] value, int offset, int size);
 
-		[EngineMethod("increase_total_upload_limit", false)]
-		void IncreaseTotalUploadLimit(int value);
+		[EngineMethod("set_server_bandwidth_limit_in_mbps", false)]
+		void SetServerBandwidthLimitInMbps(double value);
 
 		[EngineMethod("reset_debug_variables", false)]
 		void ResetDebugVariables();

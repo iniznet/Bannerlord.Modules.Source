@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetSiegeMachineMovementDistance : GameNetworkMessage
 	{
-		public UsableMachine UsableMachine { get; private set; }
+		public MissionObjectId UsableMachineId { get; private set; }
 
 		public float Distance { get; private set; }
 
-		public SetSiegeMachineMovementDistance(UsableMachine usableMachine, float distance)
+		public SetSiegeMachineMovementDistance(MissionObjectId usableMachineId, float distance)
 		{
-			this.UsableMachine = usableMachine;
+			this.UsableMachineId = usableMachineId;
 			this.Distance = distance;
 		}
 
@@ -24,15 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			MissionObject missionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
-			this.UsableMachine = missionObject as UsableMachine;
+			this.UsableMachineId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.Distance = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.PositionCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.UsableMachine);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.UsableMachineId);
 			GameNetworkMessage.WriteFloatToPacket(this.Distance, CompressionBasic.PositionCompressionInfo);
 		}
 
@@ -43,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set Movement Distance: ",
-				this.Distance,
-				" of SiegeMachine with ID: ",
-				this.UsableMachine.Id,
-				" and name: ",
-				this.UsableMachine.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Set Movement Distance: ", this.Distance, " of SiegeMachine with ID: ", this.UsableMachineId });
 		}
 	}
 }

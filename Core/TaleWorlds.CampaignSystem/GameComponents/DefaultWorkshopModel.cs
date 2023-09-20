@@ -1,7 +1,10 @@
 ﻿using System;
+using Helpers;
+using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Settlements.Workshops;
+using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
@@ -9,11 +12,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 {
 	public class DefaultWorkshopModel : WorkshopModel
 	{
-		public override int MaxWorkshopLevel
+		public override int WarehouseCapacity
 		{
 			get
 			{
-				return 3;
+				return 6000;
 			}
 		}
 
@@ -25,69 +28,101 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		public override int GetInitialCapital(int level)
+		public override int CapitalLowLimit
 		{
-			return 10000;
-		}
-
-		public override int GetDailyExpense(int level)
-		{
-			return 100;
-		}
-
-		public override float GetPolicyEffectToProduction(Town town)
-		{
-			float num = 1f;
-			if (town.Settlement.OwnerClan.Kingdom != null)
+			get
 			{
-				if (town.Settlement.OwnerClan.Kingdom.ActivePolicies.Contains(DefaultPolicies.ForgivenessOfDebts))
+				return 5000;
+			}
+		}
+
+		public override int InitialCapital
+		{
+			get
+			{
+				return 10000;
+			}
+		}
+
+		public override int DailyExpense
+		{
+			get
+			{
+				return 100;
+			}
+		}
+
+		public override int DefaultWorkshopCountInSettlement
+		{
+			get
+			{
+				return 4;
+			}
+		}
+
+		public override int MaximumWorkshopsPlayerCanHave
+		{
+			get
+			{
+				return this.GetMaxWorkshopCountForClanTier(Campaign.Current.Models.ClanTierModel.MaxClanTier);
+			}
+		}
+
+		public override ExplainedNumber GetEffectiveConversionSpeedOfProduction(Workshop workshop, float speed, bool includeDescription)
+		{
+			ExplainedNumber explainedNumber = new ExplainedNumber(speed, includeDescription, new TextObject("{=basevalue}Base", null));
+			Settlement settlement = workshop.Settlement;
+			if (settlement.OwnerClan.Kingdom != null)
+			{
+				if (settlement.OwnerClan.Kingdom.ActivePolicies.Contains(DefaultPolicies.ForgivenessOfDebts))
 				{
-					num -= 0.05f;
+					explainedNumber.AddFactor(-0.05f, DefaultPolicies.ForgivenessOfDebts.Name);
 				}
-				if (town.Settlement.OwnerClan.Kingdom.ActivePolicies.Contains(DefaultPolicies.StateMonopolies))
+				if (settlement.OwnerClan.Kingdom.ActivePolicies.Contains(DefaultPolicies.StateMonopolies))
 				{
-					num -= 0.1f;
+					explainedNumber.AddFactor(-0.1f, DefaultPolicies.StateMonopolies.Name);
 				}
 			}
-			return num;
+			PerkHelper.AddPerkBonusForTown(DefaultPerks.Trade.MercenaryConnections, settlement.Town, ref explainedNumber);
+			PerkHelper.AddPerkBonusForCharacter(DefaultPerks.Steward.Sweatshops, workshop.Owner.CharacterObject, true, ref explainedNumber);
+			return explainedNumber;
 		}
 
-		public override int GetUpgradeCost(int currentLevel)
+		public override int GetMaxWorkshopCountForClanTier(int tier)
 		{
-			return 5000;
+			return tier + 1;
 		}
 
-		public override int GetMaxWorkshopCountForTier(int tier)
+		public override int GetCostForPlayer(Workshop workshop)
 		{
-			return 1 + tier;
+			return workshop.WorkshopType.EquipmentCost + (int)workshop.Settlement.Town.Prosperity * 3 + this.InitialCapital;
 		}
 
-		public override int GetBuyingCostForPlayer(Workshop workshop)
+		public override int GetCostForNotable(Workshop workshop)
 		{
-			return workshop.WorkshopType.EquipmentCost + (int)workshop.Settlement.Prosperity * 3 + this.GetInitialCapital(workshop.Level);
+			return (workshop.WorkshopType.EquipmentCost + (int)workshop.Settlement.Town.Prosperity / 2 + workshop.Capital) / 2;
 		}
 
-		public override int GetSellingCost(Workshop workshop)
-		{
-			return (workshop.WorkshopType.EquipmentCost + (int)workshop.Settlement.Prosperity / 2 + workshop.Capital) / 2;
-		}
-
-		public override Hero SelectNextOwnerForWorkshop(Town town, Workshop workshop, Hero excludedHero, int requiredGold = 0)
+		public override Hero GetNotableOwnerForWorkshop(Settlement settlement)
 		{
 			Hero hero = null;
-			int num = int.MaxValue;
-			float num2 = 0f;
-			foreach (Hero hero2 in town.Settlement.Notables)
+			float num = 0f;
+			foreach (Hero hero2 in settlement.Notables)
 			{
-				if (hero2 != excludedHero && hero2.Gold >= requiredGold)
+				int count = hero2.OwnedWorkshops.Count;
+				float num2 = hero2.Power / MathF.Pow(10f, (float)count);
+				num += num2;
+			}
+			num *= MBRandom.RandomFloat;
+			foreach (Hero hero3 in settlement.Notables)
+			{
+				int count2 = hero3.OwnedWorkshops.Count;
+				float num3 = hero3.Power / MathF.Pow(10f, (float)count2);
+				num -= num3;
+				if (num < 0f)
 				{
-					int count = hero2.OwnedWorkshops.Count;
-					float num3 = hero2.Power / (float)count;
-					if (num3 > num2 || (MathF.Abs(num3 - num2) < 1E-45f && count < num))
-					{
-						hero = hero2;
-						num = count;
-					}
+					hero = hero3;
+					break;
 				}
 			}
 			return hero;
@@ -95,15 +130,20 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override int GetConvertProductionCost(WorkshopType workshopType)
 		{
-			return 2000;
+			return workshopType.EquipmentCost;
 		}
 
 		public override bool CanPlayerSellWorkshop(Workshop workshop, out TextObject explanation)
 		{
-			int sellingCost = Campaign.Current.Models.WorkshopModel.GetSellingCost(workshop);
-			Hero hero = Campaign.Current.Models.WorkshopModel.SelectNextOwnerForWorkshop(workshop.Settlement.Town, workshop, workshop.Owner, sellingCost);
-			explanation = ((hero == null) ? new TextObject("{=oqPf2Gdp}There isn't any prospective buyer in the town.", null) : TextObject.Empty);
-			return hero != null;
+			Campaign.Current.Models.WorkshopModel.GetCostForNotable(workshop);
+			Hero notableOwnerForWorkshop = Campaign.Current.Models.WorkshopModel.GetNotableOwnerForWorkshop(workshop.Settlement);
+			explanation = ((notableOwnerForWorkshop == null) ? new TextObject("{=oqPf2Gdp}There isn't any prospective buyer in the town.", null) : TextObject.Empty);
+			return notableOwnerForWorkshop != null;
+		}
+
+		public override float GetTradeXpPerWarehouseProduction(EquipmentElement production)
+		{
+			return (float)production.GetBaseValue() * 0.1f;
 		}
 	}
 }

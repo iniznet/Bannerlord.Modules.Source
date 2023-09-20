@@ -146,14 +146,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		public IPartyVisual Visuals
-		{
-			get
-			{
-				return this._visual;
-			}
-		}
-
 		public void OnVisibilityChanged(bool value)
 		{
 			MapEvent mapEvent = this.MapEvent;
@@ -162,12 +154,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				mapEvent.PartyVisibilityChanged(this, value);
 			}
 			CampaignEventDispatcher.Instance.OnPartyVisibilityChanged(this);
-			IPartyVisual visuals = this.Visuals;
-			if (visuals == null)
-			{
-				return;
-			}
-			visuals.SetVisualVisible(value);
+			this.SetVisualAsDirty();
 		}
 
 		[SaveableProperty(1)]
@@ -310,6 +297,18 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
+		public bool LevelMaskIsDirty { get; private set; }
+
+		public void SetLevelMaskIsDirty()
+		{
+			this.LevelMaskIsDirty = true;
+		}
+
+		public void OnLevelMaskUpdated()
+		{
+			this.LevelMaskIsDirty = false;
+		}
+
 		public int Index
 		{
 			get
@@ -373,6 +372,10 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			get
 			{
+				if (this.MapFaction == null)
+				{
+					return new Tuple<uint, uint>(4291609515U, 4291609515U);
+				}
 				return new Tuple<uint, uint>(this.MapFaction.Color, this.MapFaction.Color2);
 			}
 		}
@@ -381,6 +384,10 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			get
 			{
+				if (this.MapFaction == null)
+				{
+					return new Tuple<uint, uint>(4291609515U, 4291609515U);
+				}
 				return new Tuple<uint, uint>(this.MapFaction.AlternativeColor, this.MapFaction.AlternativeColor2);
 			}
 		}
@@ -436,7 +443,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				{
 					if (value != null && this.IsMobile && this.MapEvent != null && this.MapEvent.DefenderSide.LeaderParty == this)
 					{
-						Debug.FailedAssert(string.Format("Double MapEvent For {0}", this.Name), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyBase.cs", "MapEventSide", 234);
+						Debug.FailedAssert(string.Format("Double MapEvent For {0}", this.Name), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyBase.cs", "MapEventSide", 246);
 					}
 					if (this._mapEventSide != null)
 					{
@@ -503,7 +510,7 @@ namespace TaleWorlds.CampaignSystem.Party
 					PlayerCaptivity.CaptorParty = this;
 				}
 			}
-			if (this.IsMobile && this.MobileParty.IsCaravan && !this.MobileParty.IsCurrentlyUsedByAQuest && this._customOwner != null && this.MobileParty.PartyComponent.PartyOwner != this.Owner)
+			if (this.IsMobile && this.MobileParty.IsCaravan && !this.MobileParty.IsCurrentlyUsedByAQuest && this._customOwner != null && this.MobileParty.Owner != this.Owner)
 			{
 				this.SetCustomOwner(null);
 			}
@@ -514,9 +521,13 @@ namespace TaleWorlds.CampaignSystem.Party
 					this.PrisonRoster.RemoveTroop(troopRosterElement.Character, 1, default(UniqueTroopDescriptor), 0);
 				}
 			}
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			{
+				this.MemberRoster.RemoveZeroCounts();
+			}
 		}
 
-		private void InitCache()
+		internal void InitCache()
 		{
 			this._partyMemberSizeLastCheckVersion = -1;
 			this._prisonerSizeLastCheckVersion = -1;
@@ -677,7 +688,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			if (tier < 0)
 			{
-				Debug.FailedAssert("Requested men count for negative tier.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyBase.cs", "GetNumberOfHealthyMenOfTier", 444);
+				Debug.FailedAssert("Requested men count for negative tier.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyBase.cs", "GetNumberOfHealthyMenOfTier", 461);
 				return 0;
 			}
 			bool flag = false;
@@ -761,7 +772,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.PrisonRoster = new TroopRoster(this);
 			this.MemberRoster.NumberChangedCallback = new NumberChangedCallback(this.MemberRosterNumberChanged);
 			this.PrisonRoster.IsPrisonRoster = true;
-			this._visual = Campaign.Current.VisualCreator.CreatePartyVisual();
 		}
 
 		private void RecalculateNumberOfMenWithHorses()
@@ -865,25 +875,24 @@ namespace TaleWorlds.CampaignSystem.Party
 		private float CalculateStrength()
 		{
 			float num = 0f;
+			float num2 = 0f;
+			MapEvent.PowerCalculationContext powerCalculationContext = MapEvent.PowerCalculationContext.Default;
+			BattleSideEnum battleSideEnum = BattleSideEnum.Defender;
+			if (this.MapEvent != null)
+			{
+				num2 = Campaign.Current.Models.MilitaryPowerModel.GetLeaderModifierInMapEvent(this.MapEvent, this.Side);
+				powerCalculationContext = this.MapEvent.SimulationContext;
+			}
 			for (int i = 0; i < this.MemberRoster.Count; i++)
 			{
 				TroopRosterElement elementCopyAtIndex = this.MemberRoster.GetElementCopyAtIndex(i);
 				if (elementCopyAtIndex.Character != null)
 				{
-					num += (float)(elementCopyAtIndex.Number - elementCopyAtIndex.WoundedNumber) * Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(elementCopyAtIndex.Character, MapEvent.BattleTypes.None, BattleSideEnum.None, false);
+					float troopPower = Campaign.Current.Models.MilitaryPowerModel.GetTroopPower(elementCopyAtIndex.Character, battleSideEnum, powerCalculationContext, num2);
+					num += (float)(elementCopyAtIndex.Number - elementCopyAtIndex.WoundedNumber) * troopPower;
 				}
 			}
 			return num;
-		}
-
-		internal void Tick(float realDt, float dt)
-		{
-			bool flag = (this.IsMobile ? this.MobileParty.IsActive : this.Settlement.IsActive);
-		}
-
-		public void VisualTick(float realDt, float dt, ref int dirtyPartiesCount, ref PartyBase[] dirtyPartiesList)
-		{
-			this.Visuals.Tick(realDt, dt, this, ref dirtyPartiesCount, ref dirtyPartiesList);
 		}
 
 		internal bool GetCharacterFromPartyRank(int partyRank, out CharacterObject character, out PartyBase party, out int stackIndex, bool includeWoundeds = false)
@@ -927,7 +936,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		public void UpdateVisibilityAndInspected(float mainPartySeeingRange = 0f, bool tickVisuals = false)
+		public void UpdateVisibilityAndInspected(float mainPartySeeingRange = 0f)
 		{
 			bool flag = false;
 			bool flag2 = false;
@@ -981,6 +990,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			if (((mobileParty != null) ? mobileParty.Army : null) != null && mobileParty.Army.LeaderParty.AttachedParties.IndexOf(mobileParty) >= 0)
 			{
 				isVisible = mobileParty.Army.LeaderParty.IsVisible;
+				return;
+			}
+			if (mobileParty != null && MobileParty.MainParty.CurrentSettlement != null && MobileParty.MainParty.CurrentSettlement.SiegeEvent != null && MobileParty.MainParty.CurrentSettlement.SiegeEvent.BesiegerCamp.IsBesiegerSideParty(mobileParty))
+			{
+				isVisible = true;
 				return;
 			}
 			float num = PartyBase.CalculateVisibilityRangeOfMapPoint(mapPoint, mainPartySeeingRange);
@@ -1062,10 +1076,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		internal void WeightSurroundedFaces(int weight, bool isTown, int level)
-		{
-		}
-
 		public void SetAsCameraFollowParty()
 		{
 			Campaign.Current.CameraFollowParty = this;
@@ -1073,17 +1083,26 @@ namespace TaleWorlds.CampaignSystem.Party
 
 		internal void OnFinishLoadState()
 		{
-			this._visual = Campaign.Current.VisualCreator.CreatePartyVisual();
-			this.Visuals.OnStartup(this);
-			bool flag = (this.IsSettlement ? this.Settlement.IsVisible : this.MobileParty.IsVisible);
-			this.Visuals.SetVisualVisible(flag);
-			this.Visuals.SetMapIconAsDirty();
+			this.SetVisualAsDirty();
 			MobileParty mobileParty = this.MobileParty;
 			if (mobileParty != null)
 			{
 				mobileParty.OnFinishLoadState();
 			}
 			this.MemberRoster.NumberChangedCallback = new NumberChangedCallback(this.MemberRosterNumberChanged);
+		}
+
+		[CachedData]
+		public bool IsVisualDirty { get; private set; }
+
+		public void SetVisualAsDirty()
+		{
+			this.IsVisualDirty = true;
+		}
+
+		public void OnVisualsUpdated()
+		{
+			this.IsVisualDirty = false;
 		}
 
 		internal void OnHeroAdded(Hero heroObject)
@@ -1144,11 +1163,8 @@ namespace TaleWorlds.CampaignSystem.Party
 			TerrainType.Dune,
 			TerrainType.Bridge,
 			TerrainType.Forest,
-			TerrainType.ShallowRiver
+			TerrainType.Fording
 		};
-
-		[CachedData]
-		private IPartyVisual _visual;
 
 		[SaveableField(15)]
 		private int _remainingFoodPercentage;

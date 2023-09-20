@@ -59,7 +59,7 @@ namespace NetworkMessages.FromServer
 				}
 				this.Equipment.AddEquipmentToSlotWithoutAgent(equipmentIndex, equipmentElement);
 			}
-			this.BodyPropertiesSeed = GameNetworkMessage.ReadIntFromPacket(CompressionGeneric.RandomSeedCompressionInfo, ref flag);
+			this.BodyPropertiesSeed = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.RandomSeedCompressionInfo, ref flag);
 			this.IsFemale = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			this.SelectedEquipmentSetIndex = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.MissionObjectIDCompressionInfo, ref flag);
 			this.TroopCountInFormation = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.PlayerCompressionInfo, ref flag);
@@ -77,7 +77,7 @@ namespace NetworkMessages.FromServer
 			{
 				ModuleNetworkData.WriteItemReferenceToPacket(this.Equipment.GetEquipmentFromSlot(equipmentIndex));
 			}
-			GameNetworkMessage.WriteIntToPacket(this.BodyPropertiesSeed, CompressionGeneric.RandomSeedCompressionInfo);
+			GameNetworkMessage.WriteIntToPacket(this.BodyPropertiesSeed, CompressionBasic.RandomSeedCompressionInfo);
 			GameNetworkMessage.WriteBoolToPacket(this.IsFemale);
 			GameNetworkMessage.WriteIntToPacket(this.SelectedEquipmentSetIndex, CompressionBasic.MissionObjectIDCompressionInfo);
 			GameNetworkMessage.WriteIntToPacket(this.TroopCountInFormation, CompressionBasic.PlayerCompressionInfo);

@@ -68,7 +68,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 
 		protected internal override void OnMouseScroll()
 		{
-			float num = base.EventManager.DeltaMouseScroll * 0.2f;
+			float num = base.EventManager.DeltaMouseScroll * this.MouseScrollSpeed;
 			if ((Input.IsKeyDown(InputKey.LeftShift) || Input.IsKeyDown(InputKey.RightShift) || this.VerticalScrollbar == null) && this.HorizontalScrollbar != null)
 			{
 				this._horizontalScrollVelocity += num;
@@ -88,8 +88,8 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 
 		protected internal override void OnRightStickMovement()
 		{
-			float num = -base.EventManager.RightStickHorizontalScrollAmount * 0.2f;
-			float num2 = base.EventManager.RightStickVerticalScrollAmount * 0.2f;
+			float num = -base.EventManager.RightStickHorizontalScrollAmount * this.ControllerScrollSpeed;
+			float num2 = base.EventManager.RightStickVerticalScrollAmount * this.ControllerScrollSpeed;
 			this._horizontalScrollVelocity += num;
 			this._verticalScrollVelocity += num2;
 			this.StopAllInterpolations();
@@ -238,8 +238,15 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 						{
 							this.HorizontalScrollbar.Handle.ScaledSuggestedWidth = this.HorizontalScrollbar.Size.X * (this.ClipRect.Size.X / this.InnerPanel.Size.X);
 						}
-						this._scrollOffset += this._horizontalScrollVelocity;
-						this._horizontalScrollVelocity *= MathF.Max(0f, 1f - 8f * dt);
+						if (MathF.Abs(this._horizontalScrollVelocity) > 0.001f)
+						{
+							this._scrollOffset += this._horizontalScrollVelocity * (dt / 0.016f) * (Input.Resolution.X / 1920f);
+							this._horizontalScrollVelocity = MathF.Lerp(this._horizontalScrollVelocity, 0f, 1f - MathF.Pow(0.001f, dt), 1E-05f);
+						}
+						else
+						{
+							this._horizontalScrollVelocity = 0f;
+						}
 						this.InnerPanel.ScaledPositionXOffset = this._scrollOffset;
 						this.AdjustHorizontalScrollBar();
 						if (this.InnerPanel.HorizontalAlignment == HorizontalAlignment.Center)
@@ -301,8 +308,15 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 						{
 							this.VerticalScrollbar.Handle.ScaledSuggestedHeight = this.VerticalScrollbar.Size.Y * (this.ClipRect.Size.Y / this.InnerPanel.Size.Y);
 						}
-						this._scrollOffset += this._verticalScrollVelocity;
-						this._verticalScrollVelocity *= MathF.Max(0f, 1f - 8f * dt);
+						if (MathF.Abs(this._verticalScrollVelocity) > 0.001f)
+						{
+							this._scrollOffset += this._verticalScrollVelocity * (dt / 0.016f) * (Input.Resolution.Y / 1080f);
+							this._verticalScrollVelocity = MathF.Lerp(this._verticalScrollVelocity, 0f, 1f - MathF.Pow(0.001f, dt), 1E-05f);
+						}
+						else
+						{
+							this._verticalScrollVelocity = 0f;
+						}
 						this.InnerPanel.ScaledPositionYOffset = this._scrollOffset;
 						this.AdjustVerticalScrollBar();
 					}
@@ -327,7 +341,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 					}
 					foreach (ScrollablePanelFixedHeaderWidget scrollablePanelFixedHeaderWidget in this._fixedHeaders)
 					{
-						if (scrollablePanelFixedHeaderWidget != null && scrollablePanelFixedHeaderWidget.FixedHeader != null)
+						if (scrollablePanelFixedHeaderWidget != null && scrollablePanelFixedHeaderWidget.FixedHeader != null && base.MeasuredSize != Vec2.Zero)
 						{
 							scrollablePanelFixedHeaderWidget.FixedHeader.ScaledPositionYOffset = MathF.Clamp(scrollablePanelFixedHeaderWidget.LocalPosition.Y + this._scrollOffset, scrollablePanelFixedHeaderWidget.TopOffset * base._scaleToUse, base.MeasuredSize.Y - scrollablePanelFixedHeaderWidget.BottomOffset * base._scaleToUse);
 						}
@@ -533,7 +547,9 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 
 		protected bool _canScrollVertical;
 
-		public int MouseScrollSpeed;
+		public float ControllerScrollSpeed = 0.2f;
+
+		public float MouseScrollSpeed = 0.2f;
 
 		public AlignmentAxis MouseScrollAxis;
 
@@ -541,13 +557,17 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 
 		private float _horizontalScrollVelocity;
 
-		private float _scrollOffset;
-
 		private ScrollablePanel.ScrollbarInterpolationController _verticalScrollbarInterpolationController;
+
+		private float _scrollOffset;
 
 		private ScrollablePanel.ScrollbarInterpolationController _horizontalScrollbarInterpolationController;
 
 		private List<ScrollablePanelFixedHeaderWidget> _fixedHeaders = new List<ScrollablePanelFixedHeaderWidget>();
+
+		private ScrollbarWidget _horizontalScrollbar;
+
+		private ScrollbarWidget _verticalScrollbar;
 
 		private bool _autoHideScrollBars;
 
@@ -556,10 +576,6 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 		private bool _autoAdjustScrollbarHandleSize = true;
 
 		private bool _onlyAcceptScrollEventIfCanScroll;
-
-		private ScrollbarWidget _horizontalScrollbar;
-
-		private ScrollbarWidget _verticalScrollbar;
 
 		private class ScrollbarInterpolationController
 		{
@@ -603,11 +619,11 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 
 			private ScrollbarWidget _scrollbar;
 
-			private bool _isInterpolating;
-
 			private float _targetValue;
 
 			private float _duration;
+
+			private bool _isInterpolating;
 
 			private float _timer;
 		}

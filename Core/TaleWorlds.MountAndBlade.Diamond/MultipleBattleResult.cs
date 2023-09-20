@@ -7,6 +7,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	[Serializable]
 	public class MultipleBattleResult
 	{
+		public List<BattleResult> BattleResults { get; set; }
+
 		public MultipleBattleResult()
 		{
 			this.BattleResults = new List<BattleResult>();
@@ -20,9 +22,9 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this._currentBattleIndex++;
 			if (this._currentBattleIndex > 0)
 			{
-				foreach (KeyValuePair<PlayerId, BattlePlayerEntry> keyValuePair in this.BattleResults[this._currentBattleIndex - 1].PlayerEntries)
+				foreach (KeyValuePair<string, BattlePlayerEntry> keyValuePair in this.BattleResults[this._currentBattleIndex - 1].PlayerEntries)
 				{
-					battleResult.AddOrUpdatePlayerEntry(keyValuePair.Key, keyValuePair.Value.TeamNo, gameType, Guid.Empty);
+					battleResult.AddOrUpdatePlayerEntry(PlayerId.FromString(keyValuePair.Key), keyValuePair.Value.TeamNo, gameType, Guid.Empty);
 				}
 			}
 		}
@@ -31,8 +33,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 		{
 			return this.BattleResults[this._currentBattleIndex];
 		}
-
-		public List<BattleResult> BattleResults;
 
 		private int _currentBattleIndex;
 	}

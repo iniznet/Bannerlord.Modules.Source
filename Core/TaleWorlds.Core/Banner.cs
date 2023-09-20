@@ -146,6 +146,22 @@ namespace TaleWorlds.Core
 			}
 		}
 
+		public void AddIconData(BannerData iconData, int index)
+		{
+			if (this._bannerDataList.Count < 33 && index > 0 && index <= this._bannerDataList.Count)
+			{
+				this._bannerDataList.Insert(index, iconData);
+			}
+		}
+
+		public void RemoveIconDataAtIndex(int index)
+		{
+			if (index > 0 && index < this._bannerDataList.Count)
+			{
+				this._bannerDataList.RemoveAt(index);
+			}
+		}
+
 		public static Banner CreateRandomClanBanner(int seed = -1)
 		{
 			return Banner.CreateRandomBannerInternal(seed, Banner.BannerIconOrientation.CentralPositionedOneIcon);

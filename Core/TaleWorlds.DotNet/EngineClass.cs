@@ -2,13 +2,11 @@
 
 namespace TaleWorlds.DotNet
 {
-	public class EngineClass : Attribute
+	public class EngineClass : EngineBaseClass
 	{
-		public string EngineType { get; set; }
-
 		public EngineClass(string engineType)
+			: base(engineType)
 		{
-			this.EngineType = engineType;
 		}
 	}
 }

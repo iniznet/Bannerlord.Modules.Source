@@ -293,7 +293,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection
 				this.FocusType = 2;
 				if (focusedAgent.RiderAgent == null)
 				{
-					if ((float)agent.Character.GetSkillValue(DefaultSkills.Riding) < focusedAgent.GetAgentDrivenPropertyValue(DrivenProperty.MountDifficulty))
+					if ((float)MissionGameModels.Current.AgentStatCalculateModel.GetEffectiveSkill(agent, DefaultSkills.Riding) < focusedAgent.GetAgentDrivenPropertyValue(DrivenProperty.MountDifficulty))
 					{
 						this.PrimaryInteractionMessage = GameTexts.FindText("str_ui_riding_skill_not_adequate_to_mount", null).ToString();
 					}

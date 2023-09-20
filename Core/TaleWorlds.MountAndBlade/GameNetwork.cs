@@ -79,6 +79,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public static bool IsMultiplayerOrReplay
+		{
+			get
+			{
+				return GameNetwork.IsMultiplayer || GameNetwork.IsReplay;
+			}
+		}
+
 		public static bool IsSessionActive
 		{
 			get
@@ -95,11 +103,11 @@ namespace TaleWorlds.MountAndBlade
 				{
 					yield return networkCommunicator;
 				}
-				IEnumerator<NetworkCommunicator> enumerator = null;
+				List<NetworkCommunicator>.Enumerator enumerator = default(List<NetworkCommunicator>.Enumerator);
 				int num;
-				for (int i = 0; i < MBNetwork.DisconnectedNetworkPeers.Count; i = num + 1)
+				for (int i = 0; i < GameNetwork.DisconnectedNetworkPeers.Count; i = num + 1)
 				{
-					yield return MBNetwork.DisconnectedNetworkPeers[i] as NetworkCommunicator;
+					yield return GameNetwork.DisconnectedNetworkPeers[i];
 					num = i;
 				}
 				yield break;
@@ -107,19 +115,17 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public static IEnumerable<NetworkCommunicator> NetworkPeers
-		{
-			get
-			{
-				return MBNetwork.NetworkPeers.OfType<NetworkCommunicator>();
-			}
-		}
+		public static VirtualPlayer[] VirtualPlayers { get; private set; }
+
+		public static List<NetworkCommunicator> NetworkPeers { get; private set; }
+
+		public static List<NetworkCommunicator> DisconnectedNetworkPeers { get; private set; }
 
 		public static int NetworkPeerCount
 		{
 			get
 			{
-				return MBNetwork.NetworkPeers.Count;
+				return GameNetwork.NetworkPeers.Count;
 			}
 		}
 
@@ -127,38 +133,38 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				return MBNetwork.NetworkPeers != null;
+				return GameNetwork.NetworkPeers != null;
 			}
 		}
 
 		private static void AddNetworkPeer(NetworkCommunicator networkPeer)
 		{
-			MBNetwork.NetworkPeers.Add(networkPeer);
-			Debug.Print("> AddNetworkPeer: " + networkPeer.UserName, 0, Debug.DebugColor.White, 17179869184UL);
+			GameNetwork.NetworkPeers.Add(networkPeer);
+			Debug.Print("AddNetworkPeer: " + networkPeer.UserName, 0, Debug.DebugColor.White, 17179869184UL);
 		}
 
 		private static void RemoveNetworkPeer(NetworkCommunicator networkPeer)
 		{
-			Debug.Print("> RemoveNetworkPeer: " + networkPeer.UserName, 0, Debug.DebugColor.White, 17179869184UL);
-			MBNetwork.NetworkPeers.Remove(networkPeer);
+			Debug.Print("RemoveNetworkPeer: " + networkPeer.UserName, 0, Debug.DebugColor.White, 17179869184UL);
+			GameNetwork.NetworkPeers.Remove(networkPeer);
 		}
 
 		private static void AddToDisconnectedPeers(NetworkCommunicator networkPeer)
 		{
-			Debug.Print("> AddToDisconnectedPeers: " + networkPeer.UserName, 0, Debug.DebugColor.White, 17179869184UL);
-			MBNetwork.DisconnectedNetworkPeers.Add(networkPeer);
+			Debug.Print("AddToDisconnectedPeers: " + networkPeer.UserName, 0, Debug.DebugColor.White, 17179869184UL);
+			GameNetwork.DisconnectedNetworkPeers.Add(networkPeer);
 		}
 
 		public static void ClearAllPeers()
 		{
-			if (MBNetwork.VirtualPlayers != null)
+			if (GameNetwork.VirtualPlayers != null)
 			{
-				for (int i = 0; i < MBNetwork.VirtualPlayers.Length; i++)
+				for (int i = 0; i < GameNetwork.VirtualPlayers.Length; i++)
 				{
-					MBNetwork.VirtualPlayers[i] = null;
+					GameNetwork.VirtualPlayers[i] = null;
 				}
-				MBNetwork.NetworkPeers.Clear();
-				MBNetwork.DisconnectedNetworkPeers.Clear();
+				GameNetwork.NetworkPeers.Clear();
+				GameNetwork.DisconnectedNetworkPeers.Clear();
 			}
 		}
 
@@ -177,6 +183,9 @@ namespace TaleWorlds.MountAndBlade
 		public static void Initialize(IGameNetworkHandler handler)
 		{
 			GameNetwork._handler = handler;
+			GameNetwork.VirtualPlayers = new VirtualPlayer[1023];
+			GameNetwork.NetworkPeers = new List<NetworkCommunicator>();
+			GameNetwork.DisconnectedNetworkPeers = new List<NetworkCommunicator>();
 			MBNetwork.Initialize(new NetworkCommunication());
 			GameNetwork.NetworkComponents = new List<UdpNetworkComponent>();
 			GameNetwork.NetworkHandlers = new List<IUdpNetworkHandler>();
@@ -283,7 +292,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				GameNetwork.AddToDisconnectedPeers(networkPeer);
 			}
-			MBNetwork.VirtualPlayers[networkPeer.VirtualPlayer.Index] = null;
+			GameNetwork.VirtualPlayers[networkPeer.VirtualPlayer.Index] = null;
 			if (GameNetwork.IsServer)
 			{
 				foreach (NetworkCommunicator networkCommunicator in GameNetwork.NetworkPeers)
@@ -392,7 +401,7 @@ namespace TaleWorlds.MountAndBlade
 							}
 							if (flag3)
 							{
-								Debug.FailedAssert("Unknown network messageId " + gameNetworkMessage, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\GameNetwork.cs", "HandleNetworkPacketAsServer", 714);
+								Debug.FailedAssert("Unknown network messageId " + gameNetworkMessage, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\GameNetwork.cs", "HandleNetworkPacketAsServer", 765);
 								flag = false;
 							}
 							else if (!flag2)
@@ -443,11 +452,16 @@ namespace TaleWorlds.MountAndBlade
 			MBAPI.IMBNetwork.PrepareNewUdpSession(peerIndex, sessionKey);
 		}
 
+		public static string GetActiveUdpSessionsIpAddress()
+		{
+			return MBAPI.IMBNetwork.GetActiveUdpSessionsIpAddress();
+		}
+
 		public static ICommunicator AddNewPlayerOnServer(PlayerConnectionInfo playerConnectionInfo, bool serverPeer, bool isAdmin)
 		{
 			bool flag = playerConnectionInfo == null;
 			int num = (flag ? MBAPI.IMBNetwork.AddNewBotOnServer() : MBAPI.IMBNetwork.AddNewPlayerOnServer(serverPeer));
-			Debug.Print(string.Concat(new object[] { ">>> AddNewPlayerOnServer: ", playerConnectionInfo.Name, " index: ", num }), 0, Debug.DebugColor.White, 17179869184UL);
+			Debug.Print(string.Concat(new object[] { "AddNewPlayerOnServer: ", playerConnectionInfo.Name, " index: ", num }), 0, Debug.DebugColor.White, 17179869184UL);
 			if (num >= 0)
 			{
 				int num2 = 0;
@@ -463,19 +477,19 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else
 				{
-					for (int i = 0; i < MBNetwork.DisconnectedNetworkPeers.Count; i++)
+					for (int i = 0; i < GameNetwork.DisconnectedNetworkPeers.Count; i++)
 					{
 						PlayerData parameter = playerConnectionInfo.GetParameter<PlayerData>("PlayerData");
-						if (parameter != null && MBNetwork.DisconnectedNetworkPeers[i].VirtualPlayer.Id == parameter.PlayerId)
+						if (parameter != null && GameNetwork.DisconnectedNetworkPeers[i].VirtualPlayer.Id == parameter.PlayerId)
 						{
 							num3 = i;
-							communicator = MBNetwork.DisconnectedNetworkPeers[i];
+							communicator = GameNetwork.DisconnectedNetworkPeers[i];
 							NetworkCommunicator networkCommunicator = communicator as NetworkCommunicator;
 							networkCommunicator.UpdateIndexForReconnectingPlayer(num);
 							networkCommunicator.UpdateConnectionInfoForReconnect(playerConnectionInfo, isAdmin);
 							MBAPI.IMBPeer.SetUserData(num, new MBNetworkPeer(networkCommunicator));
-							Debug.Print("> RemoveFromDisconnectedPeers: " + networkCommunicator.UserName, 0, Debug.DebugColor.White, 17179869184UL);
-							MBNetwork.DisconnectedNetworkPeers.RemoveAt(i);
+							Debug.Print("RemoveFromDisconnectedPeers: " + networkCommunicator.UserName, 0, Debug.DebugColor.White, 17179869184UL);
+							GameNetwork.DisconnectedNetworkPeers.RemoveAt(i);
 							break;
 						}
 					}
@@ -484,7 +498,7 @@ namespace TaleWorlds.MountAndBlade
 						communicator = NetworkCommunicator.CreateAsServer(playerConnectionInfo, num, isAdmin);
 					}
 				}
-				MBNetwork.VirtualPlayers[communicator.VirtualPlayer.Index] = communicator.VirtualPlayer;
+				GameNetwork.VirtualPlayers[communicator.VirtualPlayer.Index] = communicator.VirtualPlayer;
 				if (!flag)
 				{
 					NetworkCommunicator networkCommunicator2 = communicator as NetworkCommunicator;
@@ -523,9 +537,9 @@ namespace TaleWorlds.MountAndBlade
 							GameNetwork.EndModuleEventAsServer();
 						}
 					}
-					for (int j = 0; j < MBNetwork.DisconnectedNetworkPeers.Count; j++)
+					for (int j = 0; j < GameNetwork.DisconnectedNetworkPeers.Count; j++)
 					{
-						NetworkCommunicator networkCommunicator4 = MBNetwork.DisconnectedNetworkPeers[j] as NetworkCommunicator;
+						NetworkCommunicator networkCommunicator4 = GameNetwork.DisconnectedNetworkPeers[j];
 						GameNetwork.BeginModuleEventAsServer(networkCommunicator2);
 						GameNetwork.WriteMessage(new CreatePlayer(networkCommunicator4.Index, networkCommunicator4.UserName, j, true, false));
 						GameNetwork.EndModuleEventAsServer();
@@ -646,6 +660,11 @@ namespace TaleWorlds.MountAndBlade
 			MBAPI.IMBNetwork.EndBroadcastModuleEvent((int)broadcastFlags, num, true);
 		}
 
+		public static double ElapsedTimeSinceLastUdpPacketArrived()
+		{
+			return MBAPI.IMBNetwork.ElapsedTimeSinceLastUdpPacketArrived();
+		}
+
 		public static void EndBroadcastModuleEventUnreliable(GameNetwork.EventBroadcastFlags broadcastFlags, NetworkCommunicator targetPlayer = null)
 		{
 			int num = ((targetPlayer != null) ? targetPlayer.Index : (-1));
@@ -695,7 +714,7 @@ namespace TaleWorlds.MountAndBlade
 				flag = gameNetworkMessage.Read();
 				if (flag)
 				{
-					if (!NetworkMain.GameClient.IsInGame && !GameNetwork.IsReplay)
+					if (!NetworkMain.GameClient.IsInGame && !GameNetwork.IsReplay && !NetworkMain.CommunityClient.IsInGame)
 					{
 						Debug.Print("ignoring post mission message: " + gameNetworkMessage.GetType().Name, 0, Debug.DebugColor.White, 17179869184UL);
 					}
@@ -716,7 +735,15 @@ namespace TaleWorlds.MountAndBlade
 						{
 							foreach (GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage> serverMessageHandlerDelegate in list)
 							{
-								serverMessageHandlerDelegate(gameNetworkMessage);
+								try
+								{
+									serverMessageHandlerDelegate(gameNetworkMessage);
+								}
+								catch
+								{
+									Debug.Print("Exception in handler of " + num.ToString(), 0, Debug.DebugColor.White, 17179869184UL);
+									Debug.Print("Exception in handler of " + gameNetworkMessage.GetType().Name, 0, Debug.DebugColor.Red, 17179869184UL);
+								}
 							}
 							flag3 = false;
 							flag2 = list.Count != 0;
@@ -800,10 +827,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				networkCommunicator = MBNetwork.DisconnectedNetworkPeers[message.DisconnectedPeerIndex] as NetworkCommunicator;
+				networkCommunicator = GameNetwork.DisconnectedNetworkPeers[message.DisconnectedPeerIndex];
 				networkCommunicator.UpdateIndexForReconnectingPlayer(message.PlayerIndex);
-				Debug.Print("> RemoveFromDisconnectedPeers: " + networkCommunicator.UserName, 0, Debug.DebugColor.White, 17179869184UL);
-				MBNetwork.DisconnectedNetworkPeers.RemoveAt(message.DisconnectedPeerIndex);
+				Debug.Print("RemoveFromDisconnectedPeers: " + networkCommunicator.UserName, 0, Debug.DebugColor.White, 17179869184UL);
+				GameNetwork.DisconnectedNetworkPeers.RemoveAt(message.DisconnectedPeerIndex);
 			}
 			if (isReceiverPeer)
 			{
@@ -815,7 +842,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				MBNetwork.VirtualPlayers[networkCommunicator.VirtualPlayer.Index] = networkCommunicator.VirtualPlayer;
+				GameNetwork.VirtualPlayers[networkCommunicator.VirtualPlayer.Index] = networkCommunicator.VirtualPlayer;
 				GameNetwork.AddNetworkPeer(networkCommunicator);
 			}
 			GameNetwork._handler.OnPlayerConnectedToServer(networkCommunicator);
@@ -839,6 +866,32 @@ namespace TaleWorlds.MountAndBlade
 		{
 			MBAPI.IMBNetwork.TerminateClientSide();
 			MBCommon.CurrentGameType = MBCommon.GameType.Single;
+		}
+
+		public static Type GetSynchedMissionObjectReadableRecordTypeFromIndex(int typeIndex)
+		{
+			return GameNetwork._synchedMissionObjectClassTypes[typeIndex];
+		}
+
+		public static int GetSynchedMissionObjectReadableRecordIndexFromType(Type type)
+		{
+			for (int i = 0; i < GameNetwork._synchedMissionObjectClassTypes.Count; i++)
+			{
+				Type type2 = GameNetwork._synchedMissionObjectClassTypes[i];
+				DefineSynchedMissionObjectType customAttribute = type2.GetCustomAttribute<DefineSynchedMissionObjectType>();
+				DefineSynchedMissionObjectTypeForMod customAttribute2 = type2.GetCustomAttribute<DefineSynchedMissionObjectTypeForMod>();
+				Type type3 = ((customAttribute != null) ? customAttribute.Type : null) ?? ((customAttribute2 != null) ? customAttribute2.Type : null);
+				Type type4 = type;
+				while (type4 != null)
+				{
+					if (type4 == type3)
+					{
+						return i;
+					}
+					type4 = type4.BaseType;
+				}
+			}
+			return -1;
 		}
 
 		public static void DestroyComponent(UdpNetworkComponent udpNetworkComponent)
@@ -989,6 +1042,21 @@ namespace TaleWorlds.MountAndBlade
 			Debug.Print("Found " + list2.Count + " Server Game Network Messages", 0, Debug.DebugColor.White, 17179869184UL);
 		}
 
+		internal static void FindSynchedMissionObjectTypes()
+		{
+			Debug.Print("Searching Game SynchedMissionObjects", 0, Debug.DebugColor.White, 17179869184UL);
+			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			GameNetwork._synchedMissionObjectClassTypes = new List<Type>();
+			foreach (Assembly assembly in assemblies)
+			{
+				if (GameNetwork.CheckAssemblyForNetworkMessage(assembly))
+				{
+					GameNetwork.CollectSynchedMissionObjectTypesFromAssembly(assembly, GameNetwork._synchedMissionObjectClassTypes);
+				}
+			}
+			GameNetwork._synchedMissionObjectClassTypes.Sort((Type s1, Type s2) => s1.FullName.CompareTo(s2.FullName));
+		}
+
 		private static bool CheckAssemblyForNetworkMessage(Assembly assembly)
 		{
 			Assembly assembly2 = Assembly.GetAssembly(typeof(GameNetworkMessage));
@@ -1007,9 +1075,9 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
-		public static void IncreaseTotalUploadLimit(int value)
+		public static void SetServerBandwidthLimitInMbps(double value)
 		{
-			MBAPI.IMBNetwork.IncreaseTotalUploadLimit(value);
+			MBAPI.IMBNetwork.SetServerBandwidthLimitInMbps(value);
 		}
 
 		public static void ResetDebugVariables()
@@ -1063,8 +1131,8 @@ namespace TaleWorlds.MountAndBlade
 			CompressionBasic.AnimationIndexCompressionInfo = new CompressionInfo.Integer(0, MBAnimation.GetNumAnimations() - 1, true);
 			CompressionBasic.CultureIndexCompressionInfo = new CompressionInfo.Integer(-1, MBObjectManager.Instance.GetObjectTypeList<BasicCultureObject>().Count - 1, true);
 			CompressionBasic.SoundEventsCompressionInfo = new CompressionInfo.Integer(0, SoundEvent.GetTotalEventCount() - 1, true);
-			CompressionMission.ActionSetCompressionInfo = new CompressionInfo.Integer(0, MBActionSet.GetNumberOfActionSets(), true);
-			CompressionMission.MonsterUsageSetCompressionInfo = new CompressionInfo.Integer(0, MBActionSet.GetNumberOfMonsterUsageSets(), true);
+			CompressionMission.ActionSetCompressionInfo = new CompressionInfo.Integer(0, MBActionSet.GetNumberOfActionSets() - 1, true);
+			CompressionMission.MonsterUsageSetCompressionInfo = new CompressionInfo.Integer(0, MBActionSet.GetNumberOfMonsterUsageSets() - 1, true);
 		}
 
 		[MBCallback]
@@ -1081,8 +1149,10 @@ namespace TaleWorlds.MountAndBlade
 		{
 			Type typeFromHandle = typeof(GameNetworkMessage);
 			bool? flag = null;
-			foreach (Type type in assembly.GetTypes())
+			List<Type> typesSafe = assembly.GetTypesSafe(null);
+			for (int i = 0; i < typesSafe.Count; i++)
 			{
+				Type type = typesSafe[i];
 				if (typeFromHandle.IsAssignableFrom(type) && type != typeFromHandle && type.IsSealed && !(type.GetConstructor(Type.EmptyTypes) == null))
 				{
 					DefineGameNetworkMessageType customAttribute = type.GetCustomAttribute<DefineGameNetworkMessageType>();
@@ -1129,6 +1199,33 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		private static void CollectSynchedMissionObjectTypesFromAssembly(Assembly assembly, List<Type> synchedMissionObjectClassTypes)
+		{
+			Type typeFromHandle = typeof(ISynchedMissionObjectReadableRecord);
+			bool? flag = null;
+			List<Type> typesSafe = assembly.GetTypesSafe(null);
+			for (int i = 0; i < typesSafe.Count; i++)
+			{
+				Type type = typesSafe[i];
+				if (typeFromHandle.IsAssignableFrom(type) && type != typeFromHandle)
+				{
+					if (type.GetCustomAttribute<DefineSynchedMissionObjectType>() != null)
+					{
+						if (flag == null || !flag.Value)
+						{
+							flag = new bool?(false);
+							synchedMissionObjectClassTypes.Add(type);
+						}
+					}
+					else if (type.GetCustomAttribute<DefineSynchedMissionObjectTypeForMod>() != null && (flag == null || flag.Value))
+					{
+						flag = new bool?(true);
+						synchedMissionObjectClassTypes.Add(type);
+					}
+				}
+			}
+		}
+
 		public static NetworkCommunicator MyPeer { get; private set; }
 
 		public static bool IsMyPeerReady
@@ -1140,6 +1237,8 @@ namespace TaleWorlds.MountAndBlade
 		}
 
 		public const int MaxAutomatedBattleIndex = 10;
+
+		public const int MaxPlayerCount = 1023;
 
 		private static IGameNetworkHandler _handler;
 
@@ -1164,6 +1263,8 @@ namespace TaleWorlds.MountAndBlade
 		private static Dictionary<int, List<GameNetworkMessage.ClientMessageHandlerDelegate<GameNetworkMessage>>> _fromClientBaseMessageHandlers;
 
 		private static Dictionary<int, List<GameNetworkMessage.ServerMessageHandlerDelegate<GameNetworkMessage>>> _fromServerBaseMessageHandlers;
+
+		private static List<Type> _synchedMissionObjectClassTypes;
 
 		public class NetworkMessageHandlerRegisterer
 		{
@@ -1343,7 +1444,7 @@ namespace TaleWorlds.MountAndBlade
 			DontSendToPeers = 256
 		}
 
-		[EngineStruct("Debug_network_position_compression_statistics_struct")]
+		[EngineStruct("Debug_network_position_compression_statistics_struct", false)]
 		public struct DebugNetworkPositionCompressionStatisticsStruct
 		{
 			public int totalPositionUpload;
@@ -1357,7 +1458,7 @@ namespace TaleWorlds.MountAndBlade
 			public int totalPositionCoarseBitCountZ;
 		}
 
-		[EngineStruct("Debug_network_packet_statistics_struct")]
+		[EngineStruct("Debug_network_packet_statistics_struct", false)]
 		public struct DebugNetworkPacketStatisticsStruct
 		{
 			public int TotalPackets;
@@ -1374,49 +1475,49 @@ namespace TaleWorlds.MountAndBlade
 
 			public int TotalReplicationTableAdderCount;
 
-			public int debug_total_replication_table_adder_bit_count;
+			public int TotalReplicationTableAdderBitCount;
 
-			public int debug_total_replication_table_adder;
+			public int TotalReplicationTableAdder;
 
-			public double debug_total_cell_priority;
+			public double TotalCellPriority;
 
-			public double debug_total_cell_agent_priority;
+			public double TotalCellAgentPriority;
 
-			public double debug_total_cell_cell_priority;
+			public double TotalCellCellPriority;
 
-			public int debug_total_cell_priority_checks;
+			public int TotalCellPriorityChecks;
 
-			public int debug_total_sent_cell_count;
+			public int TotalSentCellCount;
 
-			public int debug_total_not_sent_cell_count;
+			public int TotalNotSentCellCount;
 
-			public int debug_total_replication_write_count;
+			public int TotalReplicationWriteCount;
 
-			public int debug_cur_max_packet_size_in_bytes;
+			public int CurMaxPacketSizeInBytes;
 
-			public double average_ping_time;
+			public double AveragePingTime;
 
-			public double debug_average_dt_to_send_packet;
+			public double AverageDtToSendPacket;
 
-			public double time_out_period;
+			public double TimeOutPeriod;
 
-			public double pacing_rate;
+			public double PacingRate;
 
-			public double delivery_rate;
+			public double DeliveryRate;
 
-			public double round_trip_time;
+			public double RoundTripTime;
 
-			public int inflight_bit_count;
+			public int InflightBitCount;
 
-			public int is_congested;
+			public int IsCongested;
 
-			public int probe_bw_phase_index;
+			public int ProbeBwPhaseIndex;
 
-			public double lost_percent;
+			public double LostPercent;
 
-			public int lost_count;
+			public int LostCount;
 
-			public int total_count_on_lost_check;
+			public int TotalCountOnLostCheck;
 		}
 
 		public struct AddPlayersResult

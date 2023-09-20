@@ -1907,7 +1907,8 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 					new PolishTextProcessor.IrregularWord("Karakergita", "Karakergici", "Karakergity", "Karakergitów", "Karakergicie", "Karakergitom", "Karakergitę", "Karakergitów", "Karakergitą", "Karakergitami", "Karakergicie", "Karakergitach"),
 					new PolishTextProcessor.IrregularWord("Kirasław", "Kirasław", "Kirasława", "Kirasława", "Kirasławowi", "Kirasławowi", "Kirasława", "Kirasława", "Kirasławem", "Kirasławem", "Kirasławie", "Kirasławie"),
 					new PolishTextProcessor.IrregularWord("Komendant", "Komendanci", "Komendanta", "Komendantów", "Komendantowi", "Komendantom", "Komendanta", "Komendantów", "Komendantem", "Komendantami", "Komendancie", "Komendantach"),
-					new PolishTextProcessor.IrregularWord("Koniuszy", "Koniuszowie", "Koniuszego", "Koniuszych", "Koniuszemu", "Koniuszym", "Koniuszego", "Koniuszych", "Koniuszym", "Koniuszymi", "Koniuszym", "Koniuszych")
+					new PolishTextProcessor.IrregularWord("Koniuszy", "Koniuszowie", "Koniuszego", "Koniuszych", "Koniuszemu", "Koniuszym", "Koniuszego", "Koniuszych", "Koniuszym", "Koniuszymi", "Koniuszym", "Koniuszych"),
+					new PolishTextProcessor.IrregularWord("Książę", "Książęta", "Księcia", "Książąt", "Księciu", "Książętom", "Księcia", "Książąt", "Księciem", "Książętami", "Księciu", "Książętach")
 				}
 			},
 			{
@@ -1998,7 +1999,8 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 					new PolishTextProcessor.IrregularWord("Szawił", "Szawił", "Szawiła", "Szawiła", "Szawiłowi", "Szawiłowi", "Szawiła", "Szawiła", "Szawiłem", "Szawiłem", "Szawile", "Szawile"),
 					new PolishTextProcessor.IrregularWord("Szkoleniowiec", "Szkoleniowcy", "Szkoleniowca", "Szkoleniowców", "Szkoleniowcowi", "Szkoleniowcom", "Szkoleniowca", "Szkoleniowców", "Szkoleniowcem", "Szkoleniowcami", "Szkoleniowcu", "Szkoleniowcach"),
 					new PolishTextProcessor.IrregularWord("Szumowina", "Szumowiny", "Szumowiny", "Szumowin", "Szumowinie", "Szumowinom", "Szumowinę", "Szumowiny", "Szumowiną", "Szumowinami", "Szumowinie", "Szumowinach"),
-					new PolishTextProcessor.IrregularWord("Sędzia", "Sędziowie", "Sędzia", "Sędziów", "Sędziemu", "Sędziom", "Sędziego", "Sędziów", "Sędzią", "Sędziami", "Sędzi", "Sędziach")
+					new PolishTextProcessor.IrregularWord("Sędzia", "Sędziowie", "Sędzia", "Sędziów", "Sędziemu", "Sędziom", "Sędziego", "Sędziów", "Sędzią", "Sędziami", "Sędzi", "Sędziach"),
+					new PolishTextProcessor.IrregularWord("Sierżant", "Sierżanci", "Sierżanta", "Sierżantów", "Sierżantowi", "Sierżantom", "Sierżanta", "Sierżantów", "Sierżantem", "Sierżantami", "Sierżancie", "Sierżantach")
 				}
 			},
 			{
@@ -2041,7 +2043,8 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 					new PolishTextProcessor.IrregularWord("Wspierający", "Wspierający", "Wspierającego", "Wspierających", "Wspierającemu", "Wspierającym", "Wspierającego", "Wspierających", "Wspierającym", "Wspierającymi", "Wspierającym", "Wspierających"),
 					new PolishTextProcessor.IrregularWord("Współwinny", "Współwinni", "Współwinnego", "Współwinnych", "Współwinnemu", "Współwinnym", "Współwinnego", "Współwinnych", "Współwinnym", "Współwinnymi", "Współwinnym", "Współwinnych"),
 					new PolishTextProcessor.IrregularWord("Wybraniec", "Wybrańcy", "Wybrańca", "Wybrańców", "Wybrańcowi", "Wybrańcom", "Wybrańca", "Wybrańców", "Wybrańcem", "Wybrańcami", "Wybrańcu", "Wybrańcach"),
-					new PolishTextProcessor.IrregularWord("Wędrowiec", "Wędrowcy", "Wędrowca", "Wędrowców", "Wędrowcowi", "Wędrowcom", "Wędrowca", "Wędrowców", "Wędrowcem", "Wędrowcami", "Wędrowcu", "Wędrowcach")
+					new PolishTextProcessor.IrregularWord("Wędrowiec", "Wędrowcy", "Wędrowca", "Wędrowców", "Wędrowcowi", "Wędrowcom", "Wędrowca", "Wędrowców", "Wędrowcem", "Wędrowcami", "Wędrowcu", "Wędrowcach"),
+					new PolishTextProcessor.IrregularWord("Wojewoda", "Wojewodowie", "Wojewody", "Wojewodów", "Wojewodzie", "Wojewodom", "Wojewodę", "Wojewodów", "Wojewodą", "Wojewodami", "Wojewodzie", "Wojewodach")
 				}
 			},
 			{
@@ -2160,7 +2163,8 @@ namespace TaleWorlds.Localization.TextProcessor.LanguageProcessors
 				'P',
 				new List<PolishTextProcessor.IrregularWord>
 				{
-					new PolishTextProcessor.IrregularWord("Pęd", "Pędy", "Pędu", "Pędów", "Pędowi", "Pędom", "Pęd", "Pędy", "Pędem", "Pędami", "Pędzie", "Pędach")
+					new PolishTextProcessor.IrregularWord("Pęd", "Pędy", "Pędu", "Pędów", "Pędowi", "Pędom", "Pęd", "Pędy", "Pędem", "Pędami", "Pędzie", "Pędach"),
+					new PolishTextProcessor.IrregularWord("Pojedynek", "Pojedynki", "Pojedynku", "Pojedynków", "Pojedynkowi", "Pojedynkom", "Pojedynek", "Pojedynki", "Pojedynkiem", "Pojedynkami", "Pojedynku", "Pojedynkach")
 				}
 			},
 			{

@@ -5,13 +5,13 @@ namespace TaleWorlds.Diamond
 {
 	public class AccessObjectResult
 	{
-		public object AccessObject { get; private set; }
+		public AccessObject AccessObject { get; set; }
 
-		public bool Success { get; private set; }
+		public bool Success { get; set; }
 
-		public TextObject FailReason { get; private set; }
+		public TextObject FailReason { get; set; }
 
-		public static AccessObjectResult CreateSuccess(object accessObject)
+		public static AccessObjectResult CreateSuccess(AccessObject accessObject)
 		{
 			return new AccessObjectResult
 			{

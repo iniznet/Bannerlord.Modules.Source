@@ -265,6 +265,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					hero.SetTraitLevel(DefaultTraits.Politician, num3);
 					hero.HeroDeveloper.DeriveSkillsFromTraits(true, null);
 				}
+				else
+				{
+					hero.HeroDeveloper.SetInitialLevel(hero.Level);
+				}
 				MBList<MBEquipmentRoster> equipmentRostersForHeroComeOfAge = Campaign.Current.Models.EquipmentSelectionModel.GetEquipmentRostersForHeroComeOfAge(hero, false);
 				MBList<MBEquipmentRoster> equipmentRostersForHeroComeOfAge2 = Campaign.Current.Models.EquipmentSelectionModel.GetEquipmentRostersForHeroComeOfAge(hero, true);
 				MBEquipmentRoster randomElement = equipmentRostersForHeroComeOfAge.GetRandomElement<MBEquipmentRoster>();

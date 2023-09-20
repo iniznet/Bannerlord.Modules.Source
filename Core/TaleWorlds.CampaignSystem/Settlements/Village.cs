@@ -223,7 +223,7 @@ namespace TaleWorlds.CampaignSystem.Settlements
 			this.Hearth += this.HearthChange;
 			if (hearthLevel != this.GetHearthLevel())
 			{
-				base.Settlement.Party.Visuals.RefreshLevelMask(base.Settlement.Party);
+				base.Settlement.Party.SetLevelMaskIsDirty();
 			}
 			if (this.Hearth < 10f)
 			{

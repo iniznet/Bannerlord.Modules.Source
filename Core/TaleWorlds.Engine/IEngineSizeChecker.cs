@@ -8,5 +8,8 @@ namespace TaleWorlds.Engine
 	{
 		[EngineMethod("get_engine_struct_size", false)]
 		int GetEngineStructSize(string str);
+
+		[EngineMethod("get_engine_struct_member_offset", false)]
+		IntPtr GetEngineStructMemberOffset(string className, string memberName);
 	}
 }

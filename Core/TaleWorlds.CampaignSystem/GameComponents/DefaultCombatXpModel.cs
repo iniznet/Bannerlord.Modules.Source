@@ -2,7 +2,6 @@
 using Helpers;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
-using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
@@ -29,23 +28,19 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		public override void GetXpFromHit(CharacterObject attackerTroop, CharacterObject captain, CharacterObject attackedTroop, PartyBase party, int damage, bool isFatal, CombatXpModel.MissionTypeEnum missionType, out int xpAmount)
 		{
 			int num = attackedTroop.MaxHitPoints();
-			float num2;
-			float num3;
+			MilitaryPowerModel militaryPowerModel = Campaign.Current.Models.MilitaryPowerModel;
+			float defaultTroopPower = militaryPowerModel.GetDefaultTroopPower(attackedTroop);
+			float defaultTroopPower2 = militaryPowerModel.GetDefaultTroopPower(attackerTroop);
+			float num2 = 0f;
+			float num3 = 0f;
 			if (((party != null) ? party.MapEvent : null) != null)
 			{
-				MilitaryPowerModel militaryPowerModel = Campaign.Current.Models.MilitaryPowerModel;
-				MapEvent mapEvent = party.MapEvent;
-				num2 = militaryPowerModel.GetTroopPowerBasedOnContext(attackedTroop, (mapEvent != null) ? mapEvent.EventType : MapEvent.BattleTypes.None, party.Side, missionType == CombatXpModel.MissionTypeEnum.SimulationBattle);
-				MilitaryPowerModel militaryPowerModel2 = Campaign.Current.Models.MilitaryPowerModel;
-				MapEvent mapEvent2 = party.MapEvent;
-				num3 = militaryPowerModel2.GetTroopPowerBasedOnContext(attackerTroop, (mapEvent2 != null) ? mapEvent2.EventType : MapEvent.BattleTypes.None, party.Side, missionType == CombatXpModel.MissionTypeEnum.SimulationBattle);
+				num3 = militaryPowerModel.GetContextModifier(attackedTroop, party.Side, party.MapEvent.SimulationContext);
+				num2 = party.MapEventSide.LeaderSimulationModifier;
 			}
-			else
-			{
-				num2 = Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(attackedTroop, MapEvent.BattleTypes.None, BattleSideEnum.None, false);
-				num3 = Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(attackerTroop, MapEvent.BattleTypes.None, BattleSideEnum.None, false);
-			}
-			float num4 = 0.4f * (num3 + 0.5f) * (num2 + 0.5f) * (float)(MathF.Min(damage, num) + (isFatal ? num : 0));
+			float troopPower = militaryPowerModel.GetTroopPower(defaultTroopPower, num2, num3);
+			float troopPower2 = militaryPowerModel.GetTroopPower(defaultTroopPower2, num2, num3);
+			float num4 = 0.4f * (troopPower2 + 0.5f) * (troopPower + 0.5f) * (float)(MathF.Min(damage, num) + (isFatal ? num : 0));
 			num4 *= ((missionType == CombatXpModel.MissionTypeEnum.NoXp) ? 0f : ((missionType == CombatXpModel.MissionTypeEnum.PracticeFight) ? 0.0625f : ((missionType == CombatXpModel.MissionTypeEnum.Tournament) ? 0.33f : ((missionType == CombatXpModel.MissionTypeEnum.SimulationBattle) ? 0.9f : ((missionType == CombatXpModel.MissionTypeEnum.Battle) ? 1f : 1f)))));
 			ExplainedNumber explainedNumber = new ExplainedNumber(num4, false, null);
 			if (party != null)
@@ -109,8 +104,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					{
 						xpToGain.AddFactor(DefaultPerks.Crossbow.MountedCrossbowman.SecondaryBonus, DefaultPerks.Crossbow.MountedCrossbowman.Name);
 					}
-					Hero leaderHero = party.MobileParty.LeaderHero;
-					if (leaderHero != null && leaderHero.GetPerkValue(DefaultPerks.Bow.BullsEye))
+					if (party.MobileParty.HasPerk(DefaultPerks.Bow.BullsEye, false))
 					{
 						xpToGain.AddFactor(DefaultPerks.Bow.BullsEye.PrimaryBonus, DefaultPerks.Bow.BullsEye.Name);
 					}

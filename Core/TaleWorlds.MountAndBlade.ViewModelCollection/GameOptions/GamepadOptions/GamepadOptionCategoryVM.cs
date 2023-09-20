@@ -20,7 +20,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GamepadOption
 			this.FaceKeys = new MBBindingList<GamepadOptionKeyItemVM>();
 			this.LeftTriggerAndBumperKeys = new MBBindingList<GamepadOptionKeyItemVM>();
 			this.RightTriggerAndBumperKeys = new MBBindingList<GamepadOptionKeyItemVM>();
-			this.SetCurrentGamepadType(GamepadOptionCategoryVM.GamepadType.Xbox);
+			if (Input.ControllerType == Input.ControllerTypes.PlayStationDualSense)
+			{
+				this.SetCurrentGamepadType(GamepadOptionCategoryVM.GamepadType.Playstation5);
+			}
+			else if (Input.ControllerType == Input.ControllerTypes.PlayStationDualShock)
+			{
+				this.SetCurrentGamepadType(GamepadOptionCategoryVM.GamepadType.Playstation4);
+			}
+			else
+			{
+				this.SetCurrentGamepadType(GamepadOptionCategoryVM.GamepadType.Xbox);
+			}
 			this.Actions = new MBBindingList<SelectorVM<SelectorItemVM>>();
 			this._categories = new SelectorVM<SelectorItemVM>(0, null);
 			this._categories.AddItem(new SelectorItemVM(new TextObject("{=gamepadActionKeybind}Action", null)));

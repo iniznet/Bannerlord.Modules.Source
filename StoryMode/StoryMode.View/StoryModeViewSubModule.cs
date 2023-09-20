@@ -18,7 +18,7 @@ namespace StoryMode.View
 			Module.CurrentModule.AddInitialStateOption(new InitialStateOption("StoryModeNewGame", new TextObject("{=sf_menu_storymode_new_game}New Campaign", null), 2, delegate
 			{
 				MBGameManager.StartNewGame(new StoryModeGameManager());
-			}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason)));
+			}, () => new ValueTuple<bool, TextObject>(Module.CurrentModule.IsOnlyCoreContentEnabled, coreContentDisabledReason), null));
 			Module.CurrentModule.ImguiProfilerTick += this.OnImguiProfilerTick;
 		}
 
@@ -48,15 +48,16 @@ namespace StoryMode.View
 				{
 					num++;
 				}
-				if (((PartyVisual)mobileParty.Party.Visuals).HumanAgentVisuals != null)
+				PartyVisual visualOfParty = PartyVisualManager.Current.GetVisualOfParty(mobileParty.Party);
+				if (visualOfParty.HumanAgentVisuals != null)
 				{
 					num2++;
 				}
-				if (((PartyVisual)mobileParty.Party.Visuals).MountAgentVisuals != null)
+				if (visualOfParty.MountAgentVisuals != null)
 				{
 					num2++;
 				}
-				if (((PartyVisual)mobileParty.Party.Visuals).CaravanMountAgentVisuals != null)
+				if (visualOfParty.CaravanMountAgentVisuals != null)
 				{
 					num2++;
 				}

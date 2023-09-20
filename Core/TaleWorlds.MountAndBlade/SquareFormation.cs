@@ -67,22 +67,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		protected bool DisableRearOfLastRank
-		{
-			get
-			{
-				return this._disableRearOfLastRank;
-			}
-			set
-			{
-				if (this._disableRearOfLastRank != value)
-				{
-					this._disableRearOfLastRank = value;
-					base.OnFormationFrameChanged();
-				}
-			}
-		}
-
 		public SquareFormation(IFormation owner)
 			: base(owner, true, true)
 		{
@@ -96,7 +80,6 @@ namespace TaleWorlds.MountAndBlade
 		public override void DeepCopyFrom(IFormationArrangement arrangement)
 		{
 			base.DeepCopyFrom(arrangement);
-			this.DisableRearOfLastRank = (arrangement as SquareFormation).DisableRearOfLastRank;
 		}
 
 		public void FormFromBorderSideWidth(float borderSideWidth)
@@ -208,7 +191,7 @@ namespace TaleWorlds.MountAndBlade
 				vec += new Vec2(num3, num2);
 				break;
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\SquareFormation.cs", "GetLocalPositionOfUnitAux", 391);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\SquareFormation.cs", "GetLocalPositionOfUnitAux", 369);
 				vec = Vec2.Zero;
 				break;
 			}
@@ -241,9 +224,18 @@ namespace TaleWorlds.MountAndBlade
 			case SquareFormation.Side.Left:
 				return -Vec2.Side;
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\SquareFormation.cs", "GetLocalDirectionOfUnit", 470);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\SquareFormation.cs", "GetLocalDirectionOfUnit", 448);
 				return Vec2.Forward;
 			}
+		}
+
+		public override Vec2? GetLocalDirectionOfUnitOrDefault(IFormationUnit unit)
+		{
+			if (unit.FormationFileIndex < 0 || unit.FormationRankIndex < 0)
+			{
+				return null;
+			}
+			return new Vec2?(this.GetLocalDirectionOfUnit(unit.FormationFileIndex, unit.FormationRankIndex));
 		}
 
 		protected override bool IsUnitPositionRestrained(int fileIndex, int rankIndex)
@@ -257,8 +249,7 @@ namespace TaleWorlds.MountAndBlade
 				return true;
 			}
 			int num = this.ShiftFileIndex(fileIndex);
-			SquareFormation.Side? sideOfUnitPosition = this.GetSideOfUnitPosition(num, rankIndex);
-			return (this.DisableRearOfLastRank && rankIndex == 0 && sideOfUnitPosition != null && num >= (this.UnitCountOfOuterSide - 1) * 2 && num <= (this.UnitCountOfOuterSide - 1) * 3) || sideOfUnitPosition == null;
+			return this.GetSideOfUnitPosition(num, rankIndex) == null;
 		}
 
 		protected override void MakeRestrainedPositionsUnavailable()
@@ -338,7 +329,7 @@ namespace TaleWorlds.MountAndBlade
 				break;
 			}
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\SquareFormation.cs", "TryGetUnitPositionIndexFromLocalPosition", 601);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\SquareFormation.cs", "TryGetUnitPositionIndexFromLocalPosition", 575);
 				num2 = 0f;
 				num3 = 0f;
 				break;
@@ -390,8 +381,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 			return 0f;
 		}
-
-		private bool _disableRearOfLastRank;
 
 		private enum Side
 		{

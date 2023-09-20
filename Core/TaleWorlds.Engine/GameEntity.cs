@@ -328,11 +328,6 @@ namespace TaleWorlds.Engine
 			yield break;
 		}
 
-		public bool HasScriptOfType(Type t)
-		{
-			return this.GetScriptComponents().Any((ScriptComponentBehavior sc) => sc.GetType().IsAssignableFrom(t));
-		}
-
 		public bool HasScriptOfType<T>() where T : ScriptComponentBehavior
 		{
 			int scriptCount = this.ScriptCount;
@@ -344,6 +339,11 @@ namespace TaleWorlds.Engine
 				}
 			}
 			return false;
+		}
+
+		public bool HasScriptOfType(Type t)
+		{
+			return this.GetScriptComponents().Any((ScriptComponentBehavior sc) => sc.GetType().IsAssignableFrom(t));
 		}
 
 		public T GetFirstScriptOfTypeInFamily<T>() where T : ScriptComponentBehavior
@@ -1003,6 +1003,16 @@ namespace TaleWorlds.Engine
 			return EngineApplicationInterface.IGameEntity.GetBoundingBoxMax(base.Pointer);
 		}
 
+		public Vec3 GetPhysicsBoundingBoxMax()
+		{
+			return EngineApplicationInterface.IGameEntity.GetPhysicsBoundingBoxMax(base.Pointer);
+		}
+
+		public Vec3 GetPhysicsBoundingBoxMin()
+		{
+			return EngineApplicationInterface.IGameEntity.GetPhysicsBoundingBoxMin(base.Pointer);
+		}
+
 		public void UpdateGlobalBounds()
 		{
 			EngineApplicationInterface.IGameEntity.UpdateGlobalBounds(base.Pointer);
@@ -1038,6 +1048,22 @@ namespace TaleWorlds.Engine
 			get
 			{
 				return EngineApplicationInterface.IGameEntity.GetGlobalBoxMax(base.Pointer);
+			}
+		}
+
+		public Vec3 PhysicsGlobalBoxMax
+		{
+			get
+			{
+				return EngineApplicationInterface.IGameEntity.GetPhysicsBoundingBoxMax(base.Pointer);
+			}
+		}
+
+		public Vec3 PhysicsGlobalBoxMin
+		{
+			get
+			{
+				return EngineApplicationInterface.IGameEntity.GetPhysicsBoundingBoxMin(base.Pointer);
 			}
 		}
 
@@ -1088,6 +1114,11 @@ namespace TaleWorlds.Engine
 		public void GetMeshBendedFrame(MatrixFrame worldSpacePosition, ref MatrixFrame output)
 		{
 			EngineApplicationInterface.IGameEntity.GetMeshBendedPosition(base.Pointer, ref worldSpacePosition, ref output);
+		}
+
+		public void ComputeTrajectoryVolume(float missileSpeed, float verticalAngleMaxInDegrees, float verticalAngleMinInDegrees, float horizontalAngleRangeInDegrees, float airFrictionConstant)
+		{
+			EngineApplicationInterface.IGameEntity.ComputeTrajectoryVolume(base.Pointer, missileSpeed, verticalAngleMaxInDegrees, verticalAngleMinInDegrees, horizontalAngleRangeInDegrees, airFrictionConstant);
 		}
 
 		public void SetAnimTreeChannelParameterForceUpdate(float phase, int channelNo)
@@ -1200,6 +1231,7 @@ namespace TaleWorlds.Engine
 			EngineApplicationInterface.IGameEntity.SetCullMode(base.Pointer, cullMode);
 		}
 
+		[EngineStruct("rglEntity_component_type", false)]
 		public enum ComponentType : uint
 		{
 			MetaMesh,

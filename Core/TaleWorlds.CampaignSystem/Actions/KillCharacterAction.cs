@@ -57,10 +57,11 @@ namespace TaleWorlds.CampaignSystem.Actions
 				CampaignEventDispatcher.Instance.OnBeforeMainCharacterDied(victim, killer, actionDetail, showNotification);
 				return;
 			}
+			victim.AddDeathMark(killer, actionDetail);
 			victim.EncyclopediaText = KillCharacterAction.CreateObituary(victim, actionDetail);
 			if (victim.Clan != null && (victim.Clan.Leader == victim || victim == Hero.MainHero))
 			{
-				if (victim != Hero.MainHero && victim.Clan.Heroes.Any((Hero x) => !x.IsChild && x != victim && x.IsAlive && x.IsLord))
+				if (!victim.Clan.IsEliminated && victim != Hero.MainHero && victim.Clan.Heroes.Any((Hero x) => !x.IsChild && x != victim && x.IsAlive && x.IsLord))
 				{
 					ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(victim.Clan);
 				}
@@ -74,24 +75,28 @@ namespace TaleWorlds.CampaignSystem.Actions
 							DestroyKingdomAction.ApplyByKingdomLeaderDeath(victim.Clan.Kingdom);
 						}
 					}
-					else if (list.Count > 1)
+					else if (!victim.Clan.Kingdom.IsEliminated)
 					{
-						Clan clanToExclude = ((victim.Clan.Leader == victim || victim.Clan.Leader == null) ? victim.Clan : null);
-						victim.Clan.Kingdom.AddDecision(new KingSelectionKingdomDecision(victim.Clan, clanToExclude), true);
-						if (clanToExclude != null)
+						if (list.Count > 1)
 						{
-							Clan randomElementWithPredicate = victim.Clan.Kingdom.Clans.GetRandomElementWithPredicate((Clan t) => t != clanToExclude && Campaign.Current.Models.DiplomacyModel.IsClanEligibleToBecomeRuler(t));
-							ChangeRulingClanAction.Apply(victim.Clan.Kingdom, randomElementWithPredicate);
+							Clan clanToExclude = ((victim.Clan.Leader == victim || victim.Clan.Leader == null) ? victim.Clan : null);
+							victim.Clan.Kingdom.AddDecision(new KingSelectionKingdomDecision(victim.Clan, clanToExclude), true);
+							if (clanToExclude != null)
+							{
+								Clan randomElementWithPredicate = victim.Clan.Kingdom.Clans.GetRandomElementWithPredicate((Clan t) => t != clanToExclude && Campaign.Current.Models.DiplomacyModel.IsClanEligibleToBecomeRuler(t));
+								ChangeRulingClanAction.Apply(victim.Clan.Kingdom, randomElementWithPredicate);
+							}
 						}
-					}
-					else
-					{
-						ChangeRulingClanAction.Apply(victim.Clan.Kingdom, list[0]);
+						else
+						{
+							ChangeRulingClanAction.Apply(victim.Clan.Kingdom, list[0]);
+						}
 					}
 				}
 			}
 			if (victim.PartyBelongedTo != null && (victim.PartyBelongedTo.LeaderHero == victim || victim == Hero.MainHero))
 			{
+				MobileParty partyBelongedTo3 = victim.PartyBelongedTo;
 				if (victim.PartyBelongedTo.Army != null)
 				{
 					if (victim.PartyBelongedTo.Army.LeaderParty == victim.PartyBelongedTo)
@@ -103,12 +108,12 @@ namespace TaleWorlds.CampaignSystem.Actions
 						victim.PartyBelongedTo.Army = null;
 					}
 				}
-				if (victim.PartyBelongedTo != MobileParty.MainParty)
+				if (partyBelongedTo3 != MobileParty.MainParty)
 				{
-					victim.PartyBelongedTo.Ai.SetMoveModeHold();
+					partyBelongedTo3.Ai.SetMoveModeHold();
 					if (victim.Clan != null && victim.Clan.IsRebelClan)
 					{
-						DestroyPartyAction.Apply(null, victim.PartyBelongedTo);
+						DestroyPartyAction.Apply(null, partyBelongedTo3);
 					}
 				}
 			}
@@ -117,7 +122,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			{
 				ChangeGovernorAction.RemoveGovernorOf(victim);
 			}
-			if (actionDetail == KillCharacterAction.KillCharacterActionDetail.Executed && killer == Hero.MainHero && victim.Clan != null && !victim.Clan.IsNeutralClan)
+			if (actionDetail == KillCharacterAction.KillCharacterActionDetail.Executed && killer == Hero.MainHero && victim.Clan != null)
 			{
 				if (victim.GetTraitLevel(DefaultTraits.Honor) >= 0)
 				{
@@ -125,7 +130,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				}
 				foreach (Clan clan in Clan.All)
 				{
-					if (!clan.IsEliminated && !clan.IsBanditFaction && clan != Clan.PlayerClan && clan != CampaignData.NeutralFaction)
+					if (!clan.IsEliminated && !clan.IsBanditFaction && clan != Clan.PlayerClan)
 					{
 						bool flag;
 						int relationChangeForExecutingHero = Campaign.Current.Models.ExecutionRelationModel.GetRelationChangeForExecutingHero(victim, clan.Leader, out flag);
@@ -136,7 +141,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 					}
 				}
 			}
-			if (victim.Clan != null && !victim.Clan.IsEliminated && !victim.Clan.IsBanditFaction && !victim.Clan.IsNeutralClan && victim.Clan != Clan.PlayerClan)
+			if (victim.Clan != null && !victim.Clan.IsEliminated && !victim.Clan.IsBanditFaction && victim.Clan != Clan.PlayerClan)
 			{
 				if (victim.Clan.Leader == victim)
 				{
@@ -227,7 +232,10 @@ namespace TaleWorlds.CampaignSystem.Actions
 		{
 			victim.ChangeState(Hero.CharacterStates.Dead);
 			victim.DeathDay = CampaignTime.Now;
-			victim.HeroDeveloper.ClearUnspentPoints();
+			if (!victim.IsHumanPlayerCharacter)
+			{
+				victim.OnDeath();
+			}
 			if (victim.PartyBelongedToAsPrisoner != null)
 			{
 				EndCaptivityAction.ApplyByDeath(victim);

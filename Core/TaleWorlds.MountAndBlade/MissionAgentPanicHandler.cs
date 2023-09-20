@@ -45,7 +45,7 @@ namespace TaleWorlds.MountAndBlade
 					CommonAIComponent commonAIComponent = agent.CommonAIComponent;
 					if (commonAIComponent != null)
 					{
-						commonAIComponent.Retreat();
+						commonAIComponent.Retreat(false);
 					}
 					Mission.Current.OnAgentFleeing(agent);
 				}

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using TaleWorlds.Library;
 using TaleWorlds.TwoDimension.BitmapFont;
 
 namespace TaleWorlds.TwoDimension
@@ -95,7 +94,7 @@ namespace TaleWorlds.TwoDimension
 					}
 					catch (RichTextException ex)
 					{
-						Debug.FailedAssert("Could not parse rich text: " + ex.Message, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.TwoDimension\\BitmapFont\\RichText.cs", "Value", 98);
+						string message = ex.Message;
 						this._tokens = TextToken.CreateTokenArrayFromWord(text);
 					}
 					this.SetAllDirty();
@@ -373,7 +372,7 @@ namespace TaleWorlds.TwoDimension
 									TextTokenOutput textTokenOutput = list3[j];
 									if (textTokenOutput.Token.Type != TextToken.TokenType.EmptyCharacter && textTokenOutput.Token.Type != TextToken.TokenType.ZeroWidthSpace)
 									{
-										this.TextOutput.AddToken(textTokenOutput.Token, textTokenOutput.Width, textTokenOutput.Scale, text, num2);
+										this.TextOutput.AddToken(textTokenOutput.Token, textTokenOutput.Width, textTokenOutput.Scale, textTokenOutput.Style, num2);
 									}
 								}
 								this.TextOutput.AddToken(textToken, num4, num, text, num2);
@@ -681,7 +680,6 @@ namespace TaleWorlds.TwoDimension
 						font = this._getUsableFontForCharacter(num4);
 						if (font == null)
 						{
-							Debug.FailedAssert(string.Format("A character is used that is not in any font! : {0} ({1})", (char)num4, num4), "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.TwoDimension\\BitmapFont\\RichText.cs", "FillPartsWithTokens", 828);
 							font = fontData.Font;
 							num4 = 0;
 						}

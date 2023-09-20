@@ -27,7 +27,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 			num = MathF.Max(num, 1 + ((list.Count > 0 && flag) ? 1 : 0));
-			int num2 = MathF.Min(this._teamAISallyOutAttacker.ArcherPositions.Count<GameEntity>(), 7 - num);
+			int num2 = MathF.Min(this._teamAISallyOutAttacker.ArcherPositions.Count, 7 - num);
 			object obj = base.FormationsIncludingEmpty.Count((Formation f) => f.CountOfUnits > 0 && (f.QuerySystem.IsCavalryFormation || f.QuerySystem.IsRangedCavalryFormation)) > 0 && base.Team.QuerySystem.CavalryRatio + base.Team.QuerySystem.RangedCavalryRatio > 0.1f;
 			bool flag2 = true;
 			object obj2 = obj;
@@ -68,11 +68,25 @@ namespace TaleWorlds.MountAndBlade
 			bool flag3 = list.Count == 0 || (list.Count == 1 && flag && this._cavalryFormations.Count + ((this._mainInfantryFormation != null) ? 1 : 0) > 1);
 			for (int i = 0; i < this._cavalryFormations.Count - (flag3 ? 1 : 0); i++)
 			{
-				this._cavalryFormations[i].AI.Side = list[i % list.Count].WeaponSide;
+				if (list.Count > 0)
+				{
+					this._cavalryFormations[i].AI.Side = list[i % list.Count].WeaponSide;
+				}
+				else
+				{
+					this._cavalryFormations[i].AI.Side = FormationAI.BehaviorSide.Middle;
+				}
 			}
 			for (int j = 0; j < this._archerFormations.Count - (flag3 ? 1 : 0); j++)
 			{
-				this._archerFormations[j].AI.Side = list[j % list.Count].WeaponSide;
+				if (list.Count > 0)
+				{
+					this._archerFormations[j].AI.Side = list[j % list.Count].WeaponSide;
+				}
+				else
+				{
+					this._archerFormations[j].AI.Side = FormationAI.BehaviorSide.Middle;
+				}
 			}
 			if (this._cavalryFormations.Count > 0 && flag3)
 			{
@@ -111,28 +125,27 @@ namespace TaleWorlds.MountAndBlade
 				worldPosition.SetVec2(worldPosition.AsVec2 + (3f + this._mainInfantryFormation.Depth) * vec);
 				behaviorDefend.DefensePosition = worldPosition;
 				this._mainInfantryFormation.AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(1f);
-				this._mainInfantryFormation.AI.SetBehaviorWeight<BehaviorCharge>(0.5f);
+				this._mainInfantryFormation.AI.SetBehaviorWeight<BehaviorCharge>(0.1f);
 			}
-			GameEntity[] array = this._teamAISallyOutAttacker.ArcherPositions.ToArray<GameEntity>();
-			int num = array.Length;
-			if (num > 0)
+			if (this._teamAISallyOutAttacker.ArcherPositions.Count > 0)
 			{
-				Formation[] array2 = this._archerFormations.ToArray();
-				for (int i = 0; i < array2.Length; i++)
+				for (int i = 0; i < this._archerFormations.Count; i++)
 				{
-					array2[i].AI.ResetBehaviorWeights();
-					TacticComponent.SetDefaultBehaviorWeights(array2[i]);
-					array2[i].AI.SetBehaviorWeight<BehaviorShootFromCastleWalls>(1f);
-					array2[i].AI.GetBehavior<BehaviorShootFromCastleWalls>().ArcherPosition = array[i % num];
-					array2[i].AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(10f);
+					Formation formation = this._archerFormations[i];
+					formation.AI.ResetBehaviorWeights();
+					TacticComponent.SetDefaultBehaviorWeights(formation);
+					formation.AI.SetBehaviorWeight<BehaviorShootFromCastleWalls>(0.1f);
+					formation.AI.GetBehavior<BehaviorShootFromCastleWalls>().ArcherPosition = this._teamAISallyOutAttacker.ArcherPositions[i % this._teamAISallyOutAttacker.ArcherPositions.Count];
+					formation.AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(1f);
+					formation.AI.SetBehaviorWeight<BehaviorCharge>(0.1f);
 				}
 			}
-			foreach (Formation formation in this._cavalryFormations)
+			foreach (Formation formation2 in this._cavalryFormations)
 			{
-				formation.AI.ResetBehaviorWeights();
-				TacticComponent.SetDefaultBehaviorWeights(formation);
-				formation.AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(1f);
-				formation.AI.SetBehaviorWeight<BehaviorCharge>(0.5f);
+				formation2.AI.ResetBehaviorWeights();
+				TacticComponent.SetDefaultBehaviorWeights(formation2);
+				formation2.AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(1f);
+				formation2.AI.SetBehaviorWeight<BehaviorCharge>(0.1f);
 			}
 		}
 
@@ -148,25 +161,23 @@ namespace TaleWorlds.MountAndBlade
 				worldPosition.SetVec2(worldPosition.AsVec2 + (3f + this._mainInfantryFormation.Depth) * vec);
 				behaviorDefend.DefensePosition = worldPosition;
 			}
-			GameEntity[] array = this._teamAISallyOutAttacker.ArcherPositions.ToArray<GameEntity>();
-			int num = array.Length;
-			if (num > 0)
+			if (this._teamAISallyOutAttacker.ArcherPositions.Count > 0)
 			{
-				Formation[] array2 = this._archerFormations.ToArray();
-				for (int i = 0; i < array2.Length; i++)
+				for (int i = 0; i < this._archerFormations.Count; i++)
 				{
-					array2[i].AI.ResetBehaviorWeights();
-					TacticComponent.SetDefaultBehaviorWeights(array2[i]);
-					array2[i].AI.SetBehaviorWeight<BehaviorShootFromCastleWalls>(1f);
-					array2[i].AI.GetBehavior<BehaviorShootFromCastleWalls>().ArcherPosition = array[i % num];
-					array2[i].AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(10f);
+					Formation formation = this._archerFormations[i];
+					formation.AI.ResetBehaviorWeights();
+					TacticComponent.SetDefaultBehaviorWeights(formation);
+					formation.AI.SetBehaviorWeight<BehaviorShootFromCastleWalls>(1f);
+					formation.AI.GetBehavior<BehaviorShootFromCastleWalls>().ArcherPosition = this._teamAISallyOutAttacker.ArcherPositions[i % this._teamAISallyOutAttacker.ArcherPositions.Count];
 				}
 			}
-			foreach (Formation formation in this._cavalryFormations)
+			foreach (Formation formation2 in this._cavalryFormations)
 			{
-				formation.AI.ResetBehaviorWeights();
-				TacticComponent.SetDefaultBehaviorWeights(formation);
-				formation.AI.SetBehaviorWeight<BehaviorRetreatToCastle>(3f);
+				formation2.AI.ResetBehaviorWeights();
+				TacticComponent.SetDefaultBehaviorWeights(formation2);
+				formation2.AI.SetBehaviorWeight<BehaviorRetreatToCastle>(3f);
+				formation2.AI.SetBehaviorWeight<BehaviorCharge>(0.1f);
 			}
 		}
 
@@ -174,7 +185,15 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (this._mainInfantryFormation != null)
 			{
-				this._mainInfantryFormation.AI.Side = FormationAI.BehaviorSide.Middle;
+				for (int i = 0; i < TeamAISiegeComponent.SiegeLanes.Count; i++)
+				{
+					SiegeLane siegeLane = TeamAISiegeComponent.SiegeLanes[i];
+					if (siegeLane.HasGate)
+					{
+						this._mainInfantryFormation.AI.Side = siegeLane.LaneSide;
+						break;
+					}
+				}
 				this._mainInfantryFormation.AI.ResetBehaviorWeights();
 				TacticComponent.SetDefaultBehaviorWeights(this._mainInfantryFormation);
 				this._mainInfantryFormation.AI.SetBehaviorWeight<BehaviorDefendCastleKeyPosition>(1f);
@@ -189,23 +208,23 @@ namespace TaleWorlds.MountAndBlade
 				TacticComponent.SetDefaultBehaviorWeights(this._mainInfantryFormation);
 				this._mainInfantryFormation.AI.SetBehaviorWeight<BehaviorStop>(1000f);
 			}
-			GameEntity[] array = this._teamAISallyOutAttacker.ArcherPositions.ToArray<GameEntity>();
-			if (array.Length != 0)
+			if (this._teamAISallyOutAttacker.ArcherPositions.Count > 0)
 			{
-				Formation[] array2 = this._archerFormations.ToArray();
-				for (int i = 0; i < array2.Length; i++)
+				for (int i = 0; i < this._archerFormations.Count; i++)
 				{
-					array2[i].AI.ResetBehaviorWeights();
-					TacticComponent.SetDefaultBehaviorWeights(array2[i]);
-					array2[i].AI.SetBehaviorWeight<BehaviorShootFromCastleWalls>(1f);
-					array2[i].AI.GetBehavior<BehaviorShootFromCastleWalls>().ArcherPosition = array[i % array.Length];
+					Formation formation = this._archerFormations[i];
+					formation.AI.ResetBehaviorWeights();
+					TacticComponent.SetDefaultBehaviorWeights(formation);
+					formation.AI.SetBehaviorWeight<BehaviorShootFromCastleWalls>(1f);
+					formation.AI.GetBehavior<BehaviorShootFromCastleWalls>().ArcherPosition = this._teamAISallyOutAttacker.ArcherPositions[i % this._teamAISallyOutAttacker.ArcherPositions.Count];
 				}
 			}
-			foreach (Formation formation in this._cavalryFormations)
+			foreach (Formation formation2 in this._cavalryFormations)
 			{
-				formation.AI.ResetBehaviorWeights();
-				TacticComponent.SetDefaultBehaviorWeights(formation);
-				formation.AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(1f);
+				formation2.AI.ResetBehaviorWeights();
+				TacticComponent.SetDefaultBehaviorWeights(formation2);
+				formation2.AI.SetBehaviorWeight<BehaviorDestroySiegeWeapons>(1f);
+				formation2.AI.SetBehaviorWeight<BehaviorCharge>(0.1f);
 			}
 		}
 
@@ -263,19 +282,47 @@ namespace TaleWorlds.MountAndBlade
 				}
 				break;
 			case TacticSallyOutHitAndRun.TacticState.DestroyingSiegeWeapons:
-				if (this._destructibleEnemySiegeWeapons.All((SiegeWeapon desw) => desw.IsDestroyed) || this._cavalryFormations.All(delegate(Formation cf)
+			{
+				bool flag = true;
+				using (List<SiegeWeapon>.Enumerator enumerator = this._destructibleEnemySiegeWeapons.GetEnumerator())
 				{
-					if (!(cf.AI.ActiveBehavior is BehaviorDestroySiegeWeapons) || cf.GetReadonlyMovementOrderReference() == MovementOrder.MovementOrderRetreat)
+					while (enumerator.MoveNext())
 					{
-						return true;
+						if (!enumerator.Current.IsDestroyed)
+						{
+							flag = false;
+							break;
+						}
 					}
-					if ((cf.AI.ActiveBehavior as BehaviorDestroySiegeWeapons).LastTargetWeapon == null)
+				}
+				bool flag2 = true;
+				if (!flag)
+				{
+					foreach (Formation formation in this._cavalryFormations)
 					{
-						return false;
+						if (formation.AI.ActiveBehavior == null)
+						{
+							flag2 = false;
+							break;
+						}
+						BehaviorDestroySiegeWeapons behaviorDestroySiegeWeapons;
+						if (!(formation.GetReadonlyMovementOrderReference() == MovementOrder.MovementOrderRetreat) && (behaviorDestroySiegeWeapons = formation.AI.ActiveBehavior as BehaviorDestroySiegeWeapons) != null)
+						{
+							if (behaviorDestroySiegeWeapons.LastTargetWeapon == null)
+							{
+								flag2 = false;
+								break;
+							}
+							Vec2 asVec = behaviorDestroySiegeWeapons.LastTargetWeapon.GameEntity.GlobalPosition.AsVec2;
+							if (base.Team.QuerySystem.GetLocalEnemyPower(asVec) <= base.Team.QuerySystem.GetLocalAllyPower(asVec) + formation.QuerySystem.FormationPower)
+							{
+								flag2 = false;
+								break;
+							}
+						}
 					}
-					Vec3 globalPosition = (cf.AI.ActiveBehavior as BehaviorDestroySiegeWeapons).LastTargetWeapon.GameEntity.GlobalPosition;
-					return base.Team.QuerySystem.GetLocalEnemyPower(globalPosition.AsVec2) > base.Team.QuerySystem.GetLocalAllyPower(globalPosition.AsVec2) + cf.QuerySystem.FormationPower;
-				}))
+				}
+				if (flag || flag2)
 				{
 					this._state = TacticSallyOutHitAndRun.TacticState.CavalryRetreating;
 					this.CavalryRetreat();
@@ -285,6 +332,7 @@ namespace TaleWorlds.MountAndBlade
 					return;
 				}
 				break;
+			}
 			case TacticSallyOutHitAndRun.TacticState.CavalryRetreating:
 				if (this._cavalryFormations.IsEmpty<Formation>() || TeamAISiegeComponent.IsFormationGroupInsideCastle(this._cavalryFormations, false, 0.4f))
 				{

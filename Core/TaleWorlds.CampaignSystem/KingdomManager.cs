@@ -6,9 +6,11 @@ using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.LinQuick;
 using TaleWorlds.Localization;
 using TaleWorlds.SaveSystem;
 
@@ -53,6 +55,37 @@ namespace TaleWorlds.CampaignSystem
 			CampaignEvents.HourlyTickClanEvent.AddNonSerializedListener(this, new Action<Clan>(this.HourlyTickClan));
 			this.QuarterHourlyTickEvent = CampaignPeriodicEventManager.CreatePeriodicEvent(CampaignTime.Hours(0.25f), CampaignTime.Zero);
 			this.QuarterHourlyTickEvent.AddHandler(new MBCampaignEvent.CampaignEventDelegate(KingdomManager.QuarterHourlyTick));
+		}
+
+		public void OnLoad()
+		{
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			{
+				for (int i = 0; i < Kingdom.All.Count; i++)
+				{
+					this.OnLoadInternal(Kingdom.All[i]);
+				}
+			}
+		}
+
+		private void OnLoadInternal(Kingdom kingdom)
+		{
+			for (int i = kingdom.Clans.Count - 1; i >= 0; i--)
+			{
+				Clan clan = kingdom.Clans[i];
+				if (clan.GetStanceWith(kingdom).IsAtConstantWar)
+				{
+					for (int j = clan.WarPartyComponents.Count - 1; j >= 0; j--)
+					{
+						WarPartyComponent warPartyComponent = clan.WarPartyComponents[j];
+						if (warPartyComponent.MobileParty.MapEvent != null)
+						{
+							warPartyComponent.MobileParty.MapEvent.FinalizeEvent();
+						}
+					}
+					ChangeKingdomAction.ApplyByLeaveWithRebellionAgainstKingdom(clan, false);
+				}
+			}
 		}
 
 		private void OnWarDeclared(IFaction factionDeclaringWar, IFaction factionDeclaredWarAgainst, DeclareWarAction.DeclareWarDetail detail)
@@ -163,10 +196,13 @@ namespace TaleWorlds.CampaignSystem
 				}
 				else if (kingdom2.IsAtWarWith(rulingClan))
 				{
-					Debug.FailedAssert("Deviation in peace states between ruling clan & kingdom in abdication", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\KingdomManager.cs", "AbdicateTheThrone", 198);
+					Debug.FailedAssert("Deviation in peace states between ruling clan & kingdom in abdication", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\KingdomManager.cs", "AbdicateTheThrone", 232);
 				}
 			}
-			DestroyKingdomAction.Apply(kingdom);
+			if (!kingdom.IsEliminated)
+			{
+				DestroyKingdomAction.Apply(kingdom);
+			}
 		}
 
 		public void RaidCompleted(BattleSideEnum winnerSide, RaidEventComponent raidEvent)
@@ -217,18 +253,23 @@ namespace TaleWorlds.CampaignSystem
 					list.Add(partyBase.MobileParty);
 				}
 				settlement.SiegeEvent.BesiegerCamp.RemoveAllSiegeParties();
-				foreach (MobileParty mobileParty in list)
-				{
-					if (mobileParty != MobileParty.MainParty && (mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty))
-					{
-						mobileParty.Ai.DisableForHours(10);
-						mobileParty.Ai.SetMoveGoToSettlement(settlement);
-						mobileParty.Ai.RecalculateShortTermAi();
-					}
-				}
 				settlement.Party.MemberRoster.Clear();
 				ChangeOwnerOfSettlementAction.ApplyBySiege(hero, capturerParty.Party.Owner, settlement);
-				Debug.Print(string.Concat(new object[] { capturerParty.Name, " has captured ", settlement, " successfully.\n" }), 0, Debug.DebugColor.Green, 64UL);
+				foreach (MobileParty mobileParty in list)
+				{
+					if (mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty)
+					{
+						EnterSettlementAction.ApplyForParty(mobileParty, settlement);
+						if (mobileParty != MobileParty.MainParty)
+						{
+							mobileParty.Ai.DisableForHours(10);
+						}
+					}
+				}
+				if (list.ContainsQ(MobileParty.MainParty))
+				{
+					Debug.Print(string.Concat(new object[] { capturerParty.StringId, ": ", capturerParty.Name, " has captured ", settlement, " successfully.\n" }), 0, Debug.DebugColor.Green, 64UL);
+				}
 			}
 		}
 
@@ -243,9 +284,20 @@ namespace TaleWorlds.CampaignSystem
 			}, 16);
 			foreach (MobileParty mobileParty in MobileParty.AllLordParties)
 			{
-				if ((mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty) && mobileParty.TargetSettlement != null && mobileParty.CurrentSettlement != mobileParty.TargetSettlement)
+				if (mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty)
 				{
-					mobileParty.TargetSettlement.NumberOfLordPartiesTargeting += ((mobileParty.Army == null) ? 1 : (1 + mobileParty.Army.LeaderParty.AttachedParties.Count));
+					if (mobileParty.TargetSettlement != null && mobileParty.CurrentSettlement != mobileParty.TargetSettlement)
+					{
+						mobileParty.TargetSettlement.NumberOfLordPartiesTargeting += ((mobileParty.Army == null) ? 1 : (1 + mobileParty.Army.LeaderParty.AttachedParties.Count));
+					}
+					else
+					{
+						Settlement lastVisitedSettlement = mobileParty.LastVisitedSettlement;
+						if (lastVisitedSettlement != null && lastVisitedSettlement.IsVillage && mobileParty.LastVisitedSettlement.Position2D.DistanceSquared(mobileParty.Position2D) < 2f)
+						{
+							mobileParty.LastVisitedSettlement.NumberOfLordPartiesTargeting += ((mobileParty.Army == null) ? 1 : (1 + mobileParty.Army.LeaderParty.AttachedParties.Count));
+						}
+					}
 				}
 			}
 		}

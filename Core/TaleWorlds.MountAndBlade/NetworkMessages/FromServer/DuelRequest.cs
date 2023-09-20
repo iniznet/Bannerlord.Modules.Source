@@ -8,16 +8,16 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class DuelRequest : GameNetworkMessage
 	{
-		public Agent RequesterAgent { get; private set; }
+		public int RequesterAgentIndex { get; private set; }
 
-		public Agent RequestedAgent { get; private set; }
+		public int RequestedAgentIndex { get; private set; }
 
 		public TroopType SelectedAreaTroopType { get; private set; }
 
-		public DuelRequest(Agent requesterAgent, Agent requestedAgent, TroopType selectedAreaTroopType)
+		public DuelRequest(int requesterAgentIndex, int requestedAgentIndex, TroopType selectedAreaTroopType)
 		{
-			this.RequesterAgent = requesterAgent;
-			this.RequestedAgent = requestedAgent;
+			this.RequesterAgentIndex = requesterAgentIndex;
+			this.RequestedAgentIndex = requestedAgentIndex;
 			this.SelectedAreaTroopType = selectedAreaTroopType;
 		}
 
@@ -28,16 +28,16 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.RequesterAgent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
-			this.RequestedAgent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.RequesterAgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
+			this.RequestedAgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.SelectedAreaTroopType = (TroopType)GameNetworkMessage.ReadIntFromPacket(CompressionBasic.TroopTypeCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.RequesterAgent);
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.RequestedAgent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.RequesterAgentIndex);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.RequestedAgentIndex);
 			GameNetworkMessage.WriteIntToPacket((int)this.SelectedAreaTroopType, CompressionBasic.TroopTypeCompressionInfo);
 		}
 
@@ -48,13 +48,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Request duel from agent with name: ",
-				this.RequestedAgent.Name,
-				" and index: ",
-				this.RequestedAgent.Index
-			});
+			return "Request duel from agent with index: " + this.RequestedAgentIndex;
 		}
 	}
 }

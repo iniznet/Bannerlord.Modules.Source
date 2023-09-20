@@ -22,7 +22,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 		public override void OnDeploymentFinished()
 		{
 			base.OnDeploymentFinished();
-			List<SiegeWeapon> list = new List<SiegeWeapon>();
+			this._siegeEngines = new List<SiegeWeapon>();
 			using (List<MissionObject>.Enumerator enumerator = base.Mission.ActiveMissionObjects.GetEnumerator())
 			{
 				while (enumerator.MoveNext())
@@ -30,11 +30,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 					SiegeWeapon siegeWeapon;
 					if ((siegeWeapon = enumerator.Current as SiegeWeapon) != null && siegeWeapon.DestructionComponent != null && siegeWeapon.Side != -1)
 					{
-						list.Add(siegeWeapon);
+						this._siegeEngines.Add(siegeWeapon);
 					}
 				}
 			}
-			this._dataSource.InitializeWith(list);
 		}
 
 		protected override void OnDestroyView()
@@ -50,6 +49,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.OnMissionScreenTick(dt);
 			if (base.IsViewActive)
 			{
+				if (!this._dataSource.IsInitialized && this._siegeEngines != null)
+				{
+					this._dataSource.InitializeWith(this._siegeEngines);
+				}
 				if (!this._orderHandler.IsBattleDeployment)
 				{
 					this._dataSource.IsEnabled = base.Input.IsGameKeyDown(5);
@@ -76,7 +79,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			}
 		}
 
-		private List<SiegeWeapon> siegeEngines = new List<SiegeWeapon>();
+		private List<SiegeWeapon> _siegeEngines;
 
 		private MissionSiegeEngineMarkerVM _dataSource;
 

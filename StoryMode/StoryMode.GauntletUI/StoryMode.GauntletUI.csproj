@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{8A7E1649-8670-4DC7-88B9-E44E240D775C}</ProjectGuid>
+    <ProjectGuid>{5AA53B8C-9531-4C6B-9B33-21BCBC5E4C8A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>StoryMode.GauntletUI</RootNamespace>
     <AssemblyName>StoryMode.GauntletUI</AssemblyName>
@@ -58,9 +58,11 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Map\GauntletStoryModeMapCheatsView.cs" />
     <Compile Include="Missions\MissionGauntletTrainingFieldObjectiveView.cs" />
     <Compile Include="Permissions\StoryModePermissionsSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SandBox\GauntletUI\Missions\MissionGauntletStoryModeCheatView.cs" />
     <Compile Include="StoryModeGauntletUISubModule.cs" />
     <Compile Include="Tutorial\ArmyCohesionStep1Tutorial.cs" />
     <Compile Include="Tutorial\ArmyCohesionStep2Tutorial.cs" />
@@ -125,15 +127,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoryMode.ViewModelCollection\StoryMode.ViewModelCollection.csproj">
-      <Project>{8a7e1649-8670-4dc7-88b9-e44e240d775e}</Project>
+      <Project>{5aa53b8c-9531-4c6b-9b33-21bcbc5e4c8c}</Project>
       <Name>StoryMode.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\StoryMode.View\StoryMode.View.csproj">
-      <Project>{8a7e1649-8670-4dc7-88b9-e44e240d775d}</Project>
+      <Project>{5aa53b8c-9531-4c6b-9b33-21bcbc5e4c8b}</Project>
       <Name>StoryMode.View</Name>
     </ProjectReference>
     <ProjectReference Include="..\StoryMode\StoryMode.csproj">
-      <Project>{8a7e1649-8670-4dc7-88b9-e44e240d775b}</Project>
+      <Project>{5aa53b8c-9531-4c6b-9b33-21bcbc5e4c89}</Project>
       <Name>StoryMode</Name>
     </ProjectReference>
   </ItemGroup>

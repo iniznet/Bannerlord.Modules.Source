@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using TaleWorlds.GauntletUI.BaseTypes;
+using TaleWorlds.Library;
 
 namespace TaleWorlds.GauntletUI
 {
@@ -71,7 +72,7 @@ namespace TaleWorlds.GauntletUI
 			{
 				if (WidgetInfo.CheckAssemblyReferencesThis(assembly2) || assembly2 == assembly)
 				{
-					foreach (Type type in assembly2.GetTypes())
+					foreach (Type type in assembly2.GetTypesSafe(null))
 					{
 						if (typeof(Widget).IsAssignableFrom(type))
 						{

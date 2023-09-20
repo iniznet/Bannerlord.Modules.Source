@@ -52,6 +52,10 @@ namespace StoryMode.Quests.TutorialPhase
 			this._purchaseItemTutorialQuestTask.InitializeTaskOnLoad(2, DefaultItems.Grain);
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		private void PurchaseItemTaskOnSuccess()
 		{
 			base.CompleteQuestWithSuccess();
@@ -73,7 +77,7 @@ namespace StoryMode.Quests.TutorialPhase
 			return ((PurchaseGrainTutorialQuest)o)._purchaseItemTutorialQuestTask;
 		}
 
-		private const int BuyGrainAmount = 2;
+		public const int BuyGrainAmount = 2;
 
 		[SaveableField(1)]
 		private readonly PurchaseItemTutorialQuestTask _purchaseItemTutorialQuestTask;

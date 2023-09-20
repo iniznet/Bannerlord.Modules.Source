@@ -11,9 +11,9 @@ namespace TaleWorlds.CampaignSystem
 	{
 		public static ICampaignMission Current { get; set; }
 
-		public static IMission OpenBattleMission(string scene)
+		public static IMission OpenBattleMission(string scene, bool usesTownDecalAtlas)
 		{
-			return Campaign.Current.CampaignMissionManager.OpenBattleMission(scene);
+			return Campaign.Current.CampaignMissionManager.OpenBattleMission(scene, usesTownDecalAtlas);
 		}
 
 		public static IMission OpenAlleyFightMission(string scene, int upgradeLevel, Location location, TroopRoster playerSideTroops, TroopRoster rivalSideTroops)
@@ -21,9 +21,9 @@ namespace TaleWorlds.CampaignSystem
 			return Campaign.Current.CampaignMissionManager.OpenAlleyFightMission(scene, upgradeLevel, location, playerSideTroops, rivalSideTroops);
 		}
 
-		public static IMission OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam, int upgradeLevel)
+		public static IMission OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, int upgradeLevel)
 		{
-			return Campaign.Current.CampaignMissionManager.OpenCombatMissionWithDialogue(scene, characterToTalkTo, allyTroopsWithFixedTeam, upgradeLevel);
+			return Campaign.Current.CampaignMissionManager.OpenCombatMissionWithDialogue(scene, characterToTalkTo, upgradeLevel);
 		}
 
 		public static IMission OpenBattleMissionWhileEnteringSettlement(string scene, int upgradeLevel, int numberOfMaxTroopToBeSpawnedForPlayer, int numberOfMaxTroopToBeSpawnedForOpponent)
@@ -101,11 +101,6 @@ namespace TaleWorlds.CampaignSystem
 			return Campaign.Current.CampaignMissionManager.OpenConversationMission(playerCharacterData, conversationPartnerData, specialScene, sceneLevels);
 		}
 
-		public static IMission OpenConversatonTestMission(string scene)
-		{
-			return Campaign.Current.CampaignMissionManager.OpenConversatonTestMission(scene);
-		}
-
 		public static IMission OpenRetirementMission(string scene, Location location, CharacterObject talkToChar = null, string sceneLevels = null)
 		{
 			return Campaign.Current.CampaignMissionManager.OpenRetirementMission(scene, location, talkToChar, sceneLevels);
@@ -123,7 +118,7 @@ namespace TaleWorlds.CampaignSystem
 
 			IMission OpenCaravanBattleMission(MissionInitializerRecord rec, bool isCaravan);
 
-			IMission OpenBattleMission(string scene);
+			IMission OpenBattleMission(string scene, bool usesTownDecalAtlas);
 
 			IMission OpenHideoutBattleMission(string scene, FlattenedTroopRoster playerTroops);
 
@@ -145,13 +140,9 @@ namespace TaleWorlds.CampaignSystem
 
 			IMission OpenMeetingMission(string scene, CharacterObject character);
 
-			IMission OpenEquipmentTestMission(string scene);
-
-			IMission OpenConversatonTestMission(string scene);
-
 			IMission OpenAlleyFightMission(string scene, int upgradeLevel, Location location, TroopRoster playerSideTroops, TroopRoster rivalSideTroops);
 
-			IMission OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, CharacterObject allyTroopsWithFixedTeam, int upgradeLevel);
+			IMission OpenCombatMissionWithDialogue(string scene, CharacterObject characterToTalkTo, int upgradeLevel);
 
 			IMission OpenBattleMissionWhileEnteringSettlement(string scene, int upgradeLevel, int numberOfMaxTroopToBeSpawnedForPlayer, int numberOfMaxTroopToBeSpawnedForOpponent);
 

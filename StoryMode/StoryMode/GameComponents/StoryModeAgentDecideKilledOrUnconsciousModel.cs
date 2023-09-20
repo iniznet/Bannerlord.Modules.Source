@@ -8,7 +8,7 @@ namespace StoryMode.GameComponents
 {
 	public class StoryModeAgentDecideKilledOrUnconsciousModel : SandboxAgentDecideKilledOrUnconsciousModel
 	{
-		public override float GetAgentStateProbability(Agent affectorAgent, Agent effectedAgent, DamageTypes damageType, out float useSurgeryProbability)
+		public override float GetAgentStateProbability(Agent affectorAgent, Agent effectedAgent, DamageTypes damageType, WeaponFlags weaponFlags, out float useSurgeryProbability)
 		{
 			useSurgeryProbability = 1f;
 			if (effectedAgent.Character.IsHero && (effectedAgent.Character == StoryModeHeroes.ElderBrother.CharacterObject || effectedAgent.Character == StoryModeHeroes.Radagos.CharacterObject || effectedAgent.Character == StoryModeHeroes.RadagosHencman.CharacterObject) && !StoryModeManager.Current.MainStoryLine.IsCompleted)
@@ -19,7 +19,7 @@ namespace StoryMode.GameComponents
 			{
 				return 0f;
 			}
-			return base.GetAgentStateProbability(affectorAgent, effectedAgent, damageType, ref useSurgeryProbability);
+			return base.GetAgentStateProbability(affectorAgent, effectedAgent, damageType, weaponFlags, ref useSurgeryProbability);
 		}
 	}
 }

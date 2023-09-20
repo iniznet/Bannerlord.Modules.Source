@@ -103,7 +103,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=YxtiyxSf}Yes... As you no doubt know, this is rough work, and I've lost a lot of good lads recently. I haven't had much luck replacing them. I need men who understand how things work in our business, and that's not always easy to find. I could use bandits and looters. They usually know their stuff. But if I take them in as prisoners, they'll just slip away as soon as I get the chance. I need volunteers...", null);
+					return new TextObject("{=YxtiyxSf}Yes... As you no doubt know, this is rough work, and I've lost a lot of good lads recently. I haven't had much luck replacing them. I need men who understand how things work in our business, and that's not always easy to find. I could use bandits and looters. They usually know their stuff. But if I take them in as prisoners, they'll just slip away as soon as I get the chance. I need volunteers...[ib:hip][if:convo_undecided_closed]", null);
 				}
 			}
 
@@ -119,7 +119,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=Qh26ReAv}Look, I know that warriors like you can sometimes recruit bandits to your party. Some of those men might want to take their chances working for me. More comfortable in living in town, where there's always drink and women on hand, then roaming endlessly about the countryside, eh? For each one that signs up with me I'll give you a bounty, more if they have some experience.", null);
+					return new TextObject("{=Qh26ReAv}Look, I know that warriors like you can sometimes recruit bandits to your party. Some of those men might want to take their chances working for me. More comfortable in living in town, where there's always drink and women on hand, then roaming endlessly about the countryside, eh? For each one that signs up with me I'll give you a bounty, more if they have some experience.[if:convo_innocent_smile][ib:hip]", null);
 				}
 			}
 
@@ -135,7 +135,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=bKfaMFVK}You can also send me a recruiter: a trustworthy companion who is good at leading men, and also enough of a rogue to win the trust of other rogues...", null);
+					return new TextObject("{=bKfaMFVK}You can also send me a recruiter: a trustworthy companion who is good at leading men, and also enough of a rogue to win the trust of other rogues...[if:convo_undecided_open][ib:confident]", null);
 				}
 			}
 
@@ -151,7 +151,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=8sDjwsnW}I'm sure your lieutenant will solve my problem. Thank you for your help.", null);
+					return new TextObject("{=8sDjwsnW}I'm sure your lieutenant will solve my problem. Thank you for your help.[if:convo_nonchalant][ib:demure2]", null);
 				}
 			}
 
@@ -159,7 +159,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=TkvsBd4H}Your companion seems to have a knack with the local never-do-wells. I hear a lot of fine lads have already signed up.", null);
+					return new TextObject("{=TkvsBd4H}Your companion seems to have a knack with the local never-do-wells. I hear a lot of fine lads have already signed up.[if:convo_relaxed_happy][ib:hip2]", null);
 				}
 			}
 
@@ -248,6 +248,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -422,7 +426,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=0QuAZ8YO}I'll be waiting. Good luck.", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=0QuAZ8YO}I'll be waiting. Good luck.[if:convo_relaxed_happy][ib:confident]", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				TextObject npcDiscussLine = new TextObject("{=!}{GANG_LEADER_NEEDS_RECRUITS_QUEST_NOTABLE_DISCUSS}", null);
@@ -443,7 +447,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						}
 						if (!changeDialogAfterTransfer)
 						{
-							npcDiscussLine.SetTextVariable("GANG_LEADER_NEEDS_RECRUITS_QUEST_NOTABLE_DISCUSS", new TextObject("{=1hpeeCJD}Have you found any good men?", null));
+							npcDiscussLine.SetTextVariable("GANG_LEADER_NEEDS_RECRUITS_QUEST_NOTABLE_DISCUSS", new TextObject("{=1hpeeCJD}Have you found any good men?[ib:confident3]", null));
 							changeDialogAfterTransfer = true;
 						}
 						else
@@ -463,7 +467,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						{
 							return false;
 						}
-						npcResponseLine.SetTextVariable("GANG_LEADER_NEEDS_RECRUITS_QUEST_NOTABLE_RESPONSE", new TextObject("{=70LnOZzo}Very good. Keep searching. We still need more men.", null));
+						npcResponseLine.SetTextVariable("GANG_LEADER_NEEDS_RECRUITS_QUEST_NOTABLE_RESPONSE", new TextObject("{=70LnOZzo}Very good. Keep searching. We still need more men.[ib:hip2]", null));
 						return true;
 					})
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.OpenRecruitDeliveryScreen))
@@ -482,7 +486,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					{
 						changeDialogAfterTransfer = false;
 					})
-					.NpcLine(new TextObject("{=L1JyetPq}I am glad to hear that.", null), null, null)
+					.NpcLine(new TextObject("{=L1JyetPq}I am glad to hear that.[ib:closed2]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=OlOhuO7X}No thank you. Good day to you.", null), null)
 					.Condition(() => !this._playerReachedRequestedAmount && !changeDialogAfterTransfer)
@@ -494,7 +498,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OpenRecruitDeliveryScreen()
 			{
-				PartyScreenManager.OpenScreenWithCondition(new IsTroopTransferableDelegate(this.IsTroopTransferable), new PartyPresentationDoneButtonConditionDelegate(this.DoneButtonCondition), new PartyPresentationDoneButtonDelegate(this.DoneClicked), null, PartyScreenLogic.TransferState.Transferable, PartyScreenLogic.TransferState.NotTransferable, base.QuestGiver.Name, this._requestedRecruitCount - this._deliveredRecruitCount, false, false, PartyScreenMode.TroopsManage);
+				PartyScreenManager.OpenScreenWithCondition(new IsTroopTransferableDelegate(this.IsTroopTransferable), new PartyPresentationDoneButtonConditionDelegate(this.DoneButtonCondition), new PartyPresentationDoneButtonDelegate(this.DoneClicked), null, PartyScreenLogic.TransferState.Transferable, PartyScreenLogic.TransferState.NotTransferable, base.QuestGiver.Name, this._requestedRecruitCount - this._deliveredRecruitCount, false, false, PartyScreenMode.TroopsManage, null, null);
 			}
 
 			private Tuple<bool, TextObject> DoneButtonCondition(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, int leftLimitNum, int rightLimitNum)
@@ -588,6 +592,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.SetDialogs();
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			private const int QuestGiverRelationBonusOnSuccess = 5;

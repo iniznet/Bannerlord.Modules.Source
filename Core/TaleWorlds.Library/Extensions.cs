@@ -1,10 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace TaleWorlds.Library
 {
 	public static class Extensions
 	{
+		public static List<Type> GetTypesSafe(this Assembly assembly, Func<Type, bool> func = null)
+		{
+			List<Type> list = new List<Type>();
+			Type[] array;
+			try
+			{
+				array = assembly.GetTypes();
+			}
+			catch (ReflectionTypeLoadException ex)
+			{
+				array = ex.Types;
+				Debug.Print(ex.Message + " " + ex.GetType(), 0, Debug.DebugColor.White, 17592186044416UL);
+				foreach (object obj in ex.Data.Values)
+				{
+					Debug.Print(obj.ToString(), 0, Debug.DebugColor.White, 17592186044416UL);
+				}
+			}
+			catch (Exception ex2)
+			{
+				array = new Type[0];
+				Debug.Print(ex2.Message, 0, Debug.DebugColor.White, 17592186044416UL);
+			}
+			foreach (Type type in array)
+			{
+				if (type != null && (func == null || func(type)))
+				{
+					list.Add(type);
+				}
+			}
+			return list;
+		}
+
 		public static MBList<T> ToMBList<T>(this T[] source)
 		{
 			MBList<T> mblist = new MBList<T>(source.Length);

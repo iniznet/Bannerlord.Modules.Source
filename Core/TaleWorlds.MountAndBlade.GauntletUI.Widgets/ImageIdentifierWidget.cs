@@ -48,7 +48,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 					base.SetTextureProviderProperty("IsReleased", false);
 					this.RefreshVisibility();
 					base.Texture = null;
-					base.ClearTextureOfTextureProvier();
+					TextureProvider textureProvider = base.TextureProvider;
+					if (textureProvider == null)
+					{
+						return;
+					}
+					textureProvider.Clear(true);
 				}
 			}
 		}
@@ -74,7 +79,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 					base.SetTextureProviderProperty("IsReleased", false);
 					this.RefreshVisibility();
 					base.Texture = null;
-					base.ClearTextureOfTextureProvier();
+					TextureProvider textureProvider = base.TextureProvider;
+					if (textureProvider == null)
+					{
+						return;
+					}
+					textureProvider.Clear(true);
 				}
 			}
 		}
@@ -95,7 +105,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 					base.SetTextureProviderProperty("ImageTypeCode", value);
 					this.RefreshVisibility();
 					base.Texture = null;
-					base.ClearTextureOfTextureProvier();
+					TextureProvider textureProvider = base.TextureProvider;
+					if (textureProvider == null)
+					{
+						return;
+					}
+					textureProvider.Clear(true);
 				}
 			}
 		}
@@ -116,7 +131,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 					base.SetTextureProviderProperty("IsBig", value);
 					this.RefreshVisibility();
 					base.Texture = null;
-					base.ClearTextureOfTextureProvier();
+					TextureProvider textureProvider = base.TextureProvider;
+					if (textureProvider == null)
+					{
+						return;
+					}
+					textureProvider.Clear(true);
 				}
 			}
 		}
@@ -136,7 +156,12 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 					base.OnPropertyChanged(value, "HideWhenNull");
 					this.RefreshVisibility();
 					base.Texture = null;
-					base.ClearTextureOfTextureProvier();
+					TextureProvider textureProvider = base.TextureProvider;
+					if (textureProvider == null)
+					{
+						return;
+					}
+					textureProvider.Clear(true);
 				}
 			}
 		}

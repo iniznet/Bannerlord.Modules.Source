@@ -4,7 +4,7 @@ using TaleWorlds.GauntletUI.BaseTypes;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 {
-	public class SettlementStatTextWidget : RichTextWidget
+	public class SettlementStatTextWidget : TextWidget
 	{
 		public SettlementStatTextWidget(UIContext context)
 			: base(context)
@@ -54,7 +54,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 				{
 					this._isWarning = value;
 					base.OnPropertyChanged(value, "IsWarning");
-					this._state = SettlementStatTextWidget.State.Idle;
+					this.SetState(this._isWarning ? "Warning" : "Default");
 				}
 			}
 		}

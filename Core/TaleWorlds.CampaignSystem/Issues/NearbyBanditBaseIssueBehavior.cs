@@ -153,7 +153,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=vw2Q9jJH}There's this old ruin, a place that offers a good view of the roads, and is yet hard to reach. Needless to say, it attracts bandits. A new gang has moved in and they have been giving hell to the caravans and travellers passing by.", null);
+					return new TextObject("{=vw2Q9jJH}Yes... There's this old ruin, a place that offers a good view of the roads, and is yet hard to reach. Needless to say, it attracts bandits. A new gang has moved in and they have been giving hell to the caravans and travellers passing by.[ib:closed][if:convo_undecided_open]", null);
 				}
 			}
 
@@ -169,7 +169,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=zstiYI49}Any bandits there can easily spot and evade a large army moving against them, but if you can enter the hideout with a small group of determined warriors you can catch them unaware.", null);
+					return new TextObject("{=zstiYI49}Any bandits there can easily spot and evade a large army moving against them, but if you can enter the hideout with a small group of determined warriors you can catch them unaware.[ib:closed][if:convo_thinking]", null);
 				}
 			}
 
@@ -209,7 +209,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=DgVU7owN}I pray for your warriors. The people here will be very glad to hear of their success.", null);
+					return new TextObject("{=DgVU7owN}I pray for your warriors. The people here will be very glad to hear of their success.[ib:hip][if:convo_excited]", null);
 				}
 			}
 
@@ -217,7 +217,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=aXOgAKfj}Thank you, {?PLAYER.GENDER}madam{?}sir{\\?}. I hope your people will be successful.", null);
+					TextObject textObject = new TextObject("{=aXOgAKfj}Thank you, {?PLAYER.GENDER}madam{?}sir{\\?}. I hope your people will be successful.[ib:hip][if:convo_excited]", null);
 					StringHelpers.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, textObject, false);
 					return textObject;
 				}
@@ -227,7 +227,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=VNXgZ8mt}Alternatively, if you can assign a companion with {TROOP_COUNT} or so men to this task, they can do the job.", null);
+					TextObject textObject = new TextObject("{=VNXgZ8mt}Alternatively, if you can assign a companion with {TROOP_COUNT} or so men to this task, they can do the job.[ib:closed][if:convo_undecided_open]", null);
 					textObject.SetTextVariable("TROOP_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					return textObject;
 				}
@@ -381,7 +381,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				this.RelationshipChangeWithIssueOwner = 5;
 				base.IssueOwner.AddPower(5f);
-				this._issueSettlement.Village.Bound.Prosperity += 10f;
+				this._issueSettlement.Village.Bound.Town.Prosperity += 10f;
 				TraitLevelingHelper.OnIssueSolvedThroughAlternativeSolution(base.IssueOwner, new Tuple<TraitObject, int>[]
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, 50)
@@ -393,10 +393,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				this.RelationshipChangeWithIssueOwner = -5;
 				base.IssueOwner.AddPower(-5f);
-				this._issueSettlement.Village.Bound.Prosperity += -10f;
+				this._issueSettlement.Village.Bound.Town.Prosperity += -10f;
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -564,18 +568,22 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=spj8bYVo}Good! I'll mark the hideout for you on a map.", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=spj8bYVo}Good! I'll mark the hideout for you on a map.[if:convo_excited]", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.OnQuestAccepted))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine("{=l9wYpIuV}Any news? Have you managed to clear out the hideout yet?", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine("{=l9wYpIuV}Any news? Have you managed to clear out the hideout yet?[if:convo_astonished]", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.BeginPlayerOptions()
 					.PlayerOption("{=wErSpkjy}I'm still working on it.", null)
-					.NpcLine("{=XTt6gZ7h}Do make haste, if you can. As long as those bandits are up there, no traveller is safe!", null, null)
+					.NpcLine("{=XTt6gZ7h}Do make haste, if you can. As long as those bandits are up there, no traveller is safe![if:convo_grave]", null, null)
 					.CloseDialog()
 					.PlayerOption("{=I8raOMRH}Sorry. No progress yet.", null)
-					.NpcLine("{=kWruAXaF}Well... You know as long as those bandits remain there, no traveller is safe.", null, null)
+					.NpcLine("{=kWruAXaF}Well... You know as long as those bandits remain there, no traveller is safe.[if:convo_grave]", null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
@@ -605,7 +613,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				});
 				base.QuestGiver.AddPower(5f);
 				this.RelationshipChangeWithQuestGiver = 5;
-				this._questSettlement.Village.Bound.Prosperity += 10f;
+				this._questSettlement.Village.Bound.Town.Prosperity += 10f;
 				base.CompleteQuestWithSuccess();
 			}
 
@@ -614,7 +622,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.AddLog(this._onQuestFailedLogText, false);
 				this.RelationshipChangeWithQuestGiver = -5;
 				base.QuestGiver.AddPower(-5f);
-				this._questSettlement.Village.Bound.Prosperity += -10f;
+				this._questSettlement.Village.Bound.Town.Prosperity += -10f;
 				this._questSettlement.Village.Bound.Town.Security += -5f;
 				if (!isTimedOut)
 				{

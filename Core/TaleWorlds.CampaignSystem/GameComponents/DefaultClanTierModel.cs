@@ -121,7 +121,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				{
 					explainedNumber.Add((float)num3, this._additionalCurrentPartySizeBonus, null);
 				}
-				int num4 = Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForTier(clan.Tier + 1) - Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForTier(clan.Tier);
+				int num4 = Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForClanTier(clan.Tier + 1) - Campaign.Current.Models.WorkshopModel.GetMaxWorkshopCountForClanTier(clan.Tier);
 				if (num4 > 0)
 				{
 					explainedNumber.Add((float)num4, this._additionalWorkshopCountBonus, null);

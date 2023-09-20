@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class AgentSetFormation : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public int FormationIndex { get; private set; }
 
-		public AgentSetFormation(Agent agent, int formationIndex)
+		public AgentSetFormation(int agentIndex, int formationIndex)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.FormationIndex = formationIndex;
 		}
 
@@ -24,15 +24,15 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
-			this.FormationIndex = GameNetworkMessage.ReadIntFromPacket(CompressionOrder.FormationClassCompressionInfo, ref flag);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
+			this.FormationIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.FormationClassCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
-			GameNetworkMessage.WriteIntToPacket(this.FormationIndex, CompressionOrder.FormationClassCompressionInfo);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
+			GameNetworkMessage.WriteIntToPacket(this.FormationIndex, CompressionMission.FormationClassCompressionInfo);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -42,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Assign agent with name: ",
-				this.Agent.Name,
-				", and index: ",
-				this.Agent.Index,
-				" to formation with index: ",
-				this.FormationIndex
-			});
+			return string.Concat(new object[] { "Assign agent with agent-index: ", this.AgentIndex, " to formation with index: ", this.FormationIndex });
 		}
 	}
 }

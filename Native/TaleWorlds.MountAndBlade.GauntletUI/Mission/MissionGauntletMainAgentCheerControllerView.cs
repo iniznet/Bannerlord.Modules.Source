@@ -54,9 +54,17 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			base.OnMissionScreenInitialize();
 			this._gauntletLayer = new GauntletLayer(2, "GauntletLayer", false);
 			this._missionMainAgentController = base.Mission.GetMissionBehavior<MissionMainAgentController>();
-			this._dataSource = new MissionMainAgentCheerBarkControllerVM(new Action<int>(this.OnCheerSelect), new Action<int>(this.OnBarkSelect), Agent.TauntCheerActions, SkinVoiceManager.VoiceType.MpBarks);
+			this._dataSource = new MissionMainAgentCheerBarkControllerVM(new Action<int>(this.OnCheerSelect), new Action<int>(this.OnBarkSelect));
 			this._gauntletLayer.LoadMovie("MainAgentCheerBarkController", this._dataSource);
-			this._gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("CombatHotKeyCategory"));
+			GameKeyContext category = HotKeyManager.GetCategory("CombatHotKeyCategory");
+			if (this._missionMainAgentController != null)
+			{
+				InputContext inputContext = this._missionMainAgentController.Input as InputContext;
+				if (inputContext != null && !inputContext.IsCategoryRegistered(category))
+				{
+					inputContext.RegisterHotKeyCategory(category);
+				}
+			}
 			base.MissionScreen.AddLayer(this._gauntletLayer);
 			base.Mission.OnMainAgentChanged += this.OnMainAgentChanged;
 		}
@@ -96,9 +104,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 
 		private void HandleNodeSelectionInput(CheerBarkNodeItemVM node, int nodeIndex, int parentNodeIndex = -1)
 		{
+			if (this._missionMainAgentController == null)
+			{
+				return;
+			}
+			IInputContext input = this._missionMainAgentController.Input;
 			if (node.ShortcutKey != null)
 			{
-				if (base.MissionScreen.SceneLayer.Input.IsHotKeyPressed(node.ShortcutKey.HotKey.Id))
+				if (input.IsHotKeyPressed(node.ShortcutKey.HotKey.Id))
 				{
 					if (parentNodeIndex != -1)
 					{
@@ -110,7 +123,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 					this._isSelectingFromInput = node.HasSubNodes;
 					return;
 				}
-				else if (base.MissionScreen.SceneLayer.Input.IsHotKeyReleased(node.ShortcutKey.HotKey.Id))
+				else if (input.IsHotKeyReleased(node.ShortcutKey.HotKey.Id))
 				{
 					if (!this._isSelectingFromInput)
 					{
@@ -137,10 +150,15 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 
 		private void TickControls(float dt)
 		{
+			if (this._missionMainAgentController == null)
+			{
+				return;
+			}
+			IInputContext input = this._missionMainAgentController.Input;
 			if (GameNetwork.IsMultiplayer && this._cooldownTimeRemaining > 0f)
 			{
 				this._cooldownTimeRemaining -= dt;
-				if (base.MissionScreen.SceneLayer.Input.IsGameKeyDown(31))
+				if (input.IsGameKeyDown(31))
 				{
 					if (!this._prevCheerKeyDown && (double)this._cooldownTimeRemaining >= 0.1)
 					{
@@ -175,11 +193,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 								this.HandleNodeSelectionInput(this._dataSource.Nodes[num].SubNodes[j], j, num);
 							}
 						}
-						else if (base.MissionScreen.SceneLayer.Input.IsHotKeyReleased("CheerBarkSelectFirstCategory"))
+						else if (input.IsHotKeyReleased("CheerBarkSelectFirstCategory"))
 						{
 							this._dataSource.SelectItem(0, -1);
 						}
-						else if (base.MissionScreen.SceneLayer.Input.IsHotKeyReleased("CheerBarkSelectSecondCategory"))
+						else if (input.IsHotKeyReleased("CheerBarkSelectSecondCategory"))
 						{
 							this._dataSource.SelectItem(1, -1);
 						}
@@ -192,7 +210,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 						}
 					}
 				}
-				if (base.MissionScreen.SceneLayer.Input.IsGameKeyDown(31) && !this.IsDisplayingADialog && this.IsMainAgentAvailable() && !base.MissionScreen.IsRadialMenuActive)
+				if (input.IsGameKeyDown(31) && !this.IsDisplayingADialog && !base.MissionScreen.IsRadialMenuActive)
 				{
 					if (this._holdTime > 0f && !this.HoldHandled)
 					{
@@ -203,7 +221,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 					this._prevCheerKeyDown = true;
 					return;
 				}
-				if (this._prevCheerKeyDown && !base.MissionScreen.SceneLayer.Input.IsGameKeyDown(31))
+				if (this._prevCheerKeyDown && !input.IsGameKeyDown(31))
 				{
 					if (this._holdTime < 0f)
 					{
@@ -243,20 +261,28 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 
 		private void HandleQuickReleaseCheer()
 		{
-			this.OnCheerSelect(0);
+			this.OnCheerSelect(-1);
 		}
 
-		private void OnCheerSelect(int indexOfCheer)
+		private void OnCheerSelect(int tauntIndex)
 		{
+			if (tauntIndex < 0)
+			{
+				return;
+			}
 			if (GameNetwork.IsClient)
 			{
 				GameNetwork.BeginModuleEventAsClient();
-				GameNetwork.WriteMessage(new CheerSelected(indexOfCheer));
+				GameNetwork.WriteMessage(new TauntSelected(tauntIndex));
 				GameNetwork.EndModuleEventAsClient();
 			}
 			else
 			{
-				Agent.Main.HandleCheer(indexOfCheer);
+				Agent main = Agent.Main;
+				if (main != null)
+				{
+					main.HandleTaunt(tauntIndex, true);
+				}
 			}
 			this._cooldownTimeRemaining = 4f;
 		}
@@ -271,7 +297,11 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 			}
 			else
 			{
-				Agent.Main.HandleBark(indexOfBark);
+				Agent main = Agent.Main;
+				if (main != null)
+				{
+					main.HandleBark(indexOfBark);
+				}
 			}
 			this._cooldownTimeRemaining = 2f;
 		}

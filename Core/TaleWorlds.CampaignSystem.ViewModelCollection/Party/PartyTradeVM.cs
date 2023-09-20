@@ -8,6 +8,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 {
 	public class PartyTradeVM : ViewModel
 	{
+		public static event Action RemoveZeroCounts;
+
 		public PartyTradeVM(PartyScreenLogic partyScreenLogic, TroopRosterElement troopRoster, PartyScreenLogic.PartyRosterSide side, bool isTransfarable, bool isPrisoner, Action<int, bool> onApplyTransaction)
 		{
 			this._partyScreenLogic = partyScreenLogic;
@@ -32,7 +34,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 		{
 			if (side != PartyScreenLogic.PartyRosterSide.Left && side != PartyScreenLogic.PartyRosterSide.Right)
 			{
-				Debug.FailedAssert("Troop has to be either from left or right side", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyTradeVM.cs", "UpdateTroopData", 49);
+				Debug.FailedAssert("Troop has to be either from left or right side", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyTradeVM.cs", "UpdateTroopData", 50);
 				return;
 			}
 			TroopRosterElement? troopRosterElement = null;
@@ -109,6 +111,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 			int num2 = MathF.Abs(num);
 			this._onApplyTransaction(num2, flag);
+		}
+
+		public void ExecuteRemoveZeroCounts()
+		{
+			Action removeZeroCounts = PartyTradeVM.RemoveZeroCounts;
+			if (removeZeroCounts == null)
+			{
+				return;
+			}
+			removeZeroCounts();
 		}
 
 		[DataSourceProperty]

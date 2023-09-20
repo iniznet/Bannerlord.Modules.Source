@@ -8,15 +8,15 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetWeaponReloadPhase : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public EquipmentIndex EquipmentIndex { get; private set; }
 
 		public short ReloadPhase { get; private set; }
 
-		public SetWeaponReloadPhase(Agent agent, EquipmentIndex equipmentIndex, short reloadPhase)
+		public SetWeaponReloadPhase(int agentIndex, EquipmentIndex equipmentIndex, short reloadPhase)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.EquipmentIndex = equipmentIndex;
 			this.ReloadPhase = reloadPhase;
 		}
@@ -28,7 +28,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.EquipmentIndex = (EquipmentIndex)GameNetworkMessage.ReadIntFromPacket(CompressionMission.ItemSlotCompressionInfo, ref flag);
 			this.ReloadPhase = (short)GameNetworkMessage.ReadIntFromPacket(CompressionMission.WeaponReloadPhaseCompressionInfo, ref flag);
 			return flag;
@@ -36,7 +36,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteIntToPacket((int)this.EquipmentIndex, CompressionMission.ItemSlotCompressionInfo);
 			GameNetworkMessage.WriteIntToPacket((int)this.ReloadPhase, CompressionMission.WeaponReloadPhaseCompressionInfo);
 		}
@@ -48,17 +48,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set Reload Phase: ",
-				this.ReloadPhase,
-				" for weapon with EquipmentIndex: ",
-				this.EquipmentIndex,
-				" on Agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index
-			});
+			return string.Concat(new object[] { "Set Reload Phase: ", this.ReloadPhase, " for weapon with EquipmentIndex: ", this.EquipmentIndex, " on Agent with agent-index: ", this.AgentIndex });
 		}
 	}
 }

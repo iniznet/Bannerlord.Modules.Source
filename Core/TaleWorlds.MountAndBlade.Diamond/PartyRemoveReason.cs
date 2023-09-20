@@ -7,6 +7,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 		Kicked,
 		Left,
 		Disband,
-		DeclinedInvitation
+		DeclinedInvitation,
+		JoinRequestDeclined,
+		NoPlatformPermission
 	}
 }

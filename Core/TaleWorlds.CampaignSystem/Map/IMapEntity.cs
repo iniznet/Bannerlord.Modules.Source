@@ -19,13 +19,7 @@ namespace TaleWorlds.CampaignSystem.Map
 
 		bool IsMobileEntity { get; }
 
-		IMapEntity AttachedEntity { get; }
-
-		IPartyVisual PartyVisual { get; }
-
 		bool ShowCircleAroundEntity { get; }
-
-		bool IsMainEntity();
 
 		bool IsEnemyOf(IFaction faction);
 

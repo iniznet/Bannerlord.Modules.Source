@@ -156,7 +156,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 				return;
 			}
 			this.ActionName = ((this._playerKingdom.Clans.Count > 1) ? GameTexts.FindText("str_policy_propose", null).ToString() : GameTexts.FindText("str_policy_enact", null).ToString());
-			this.ActionInfluenceCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace();
+			this.ActionInfluenceCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingPeace(Clan.PlayerClan);
 			PeaceBarterable peaceBarterable = new PeaceBarterable(this._playerKingdom.Leader, this._playerKingdom, item.Faction2, CampaignTime.Years(1f));
 			int num = -peaceBarterable.GetValueForFaction(item.Faction2);
 			if (item.Faction2 is Kingdom)
@@ -204,7 +204,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Diplom
 				return;
 			}
 			this.ActionName = ((this._playerKingdom.Clans.Count > 1) ? GameTexts.FindText("str_policy_propose", null).ToString() : GameTexts.FindText("str_policy_enact", null).ToString());
-			this.ActionInfluenceCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingWar(Clan.PlayerClan.Kingdom);
+			this.ActionInfluenceCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfProposingWar(Clan.PlayerClan);
 			TextObject textObject2;
 			this.IsActionEnabled = this.GetActionStatusForDiplomacyItemWithReason(item, false, out textObject2);
 			this.ActionHint.HintText = textObject2;

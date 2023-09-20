@@ -171,6 +171,38 @@ namespace TaleWorlds.Core
 			}
 		}
 
+		public bool IsTwoHanded
+		{
+			get
+			{
+				return this.WeaponFlags.HasAllFlags(WeaponFlags.MeleeWeapon | WeaponFlags.NotUsableWithOneHand);
+			}
+		}
+
+		public bool IsOneHanded
+		{
+			get
+			{
+				return this.WeaponFlags.HasFlag(WeaponFlags.MeleeWeapon) && !this.IsTwoHanded;
+			}
+		}
+
+		public bool IsBow
+		{
+			get
+			{
+				return this.WeaponFlags.HasAllFlags((WeaponFlags)527360UL);
+			}
+		}
+
+		public bool IsCrossBow
+		{
+			get
+			{
+				return this.WeaponFlags.HasFlag(WeaponFlags.HasString) && !this.IsBow;
+			}
+		}
+
 		public void SetFrame(MatrixFrame frame)
 		{
 			this.Frame = frame;

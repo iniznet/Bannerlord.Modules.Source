@@ -103,10 +103,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			this._itemTableau = new ItemTableau();
 		}
 
-		public override void Clear()
+		public override void Clear(bool clearNextFrame)
 		{
 			this._itemTableau.OnFinalize();
-			base.Clear();
+			base.Clear(clearNextFrame);
 		}
 
 		private void CheckTexture()

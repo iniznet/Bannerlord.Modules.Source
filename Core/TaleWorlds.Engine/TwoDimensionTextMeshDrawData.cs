@@ -4,7 +4,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
 {
-	[EngineStruct("rglTwo_dimension_text_mesh_draw_data")]
+	[EngineStruct("rglTwo_dimension_text_mesh_draw_data", false)]
 	public struct TwoDimensionTextMeshDrawData
 	{
 		public float DrawX;

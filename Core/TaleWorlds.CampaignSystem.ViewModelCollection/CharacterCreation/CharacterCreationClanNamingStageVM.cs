@@ -31,7 +31,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
-			base.Title = new TextObject("{=!}Clan Name", null).ToString();
+			base.Title = new TextObject("{=wNUcqcJP}Clan Name", null).ToString();
 			base.Description = new TextObject("{=JJiKk4ow}Select your family name: ", null).ToString();
 			this.BottomHintText = new TextObject("{=dbBAJ8yi}You can change your banner and clan name later on clan screen", null).ToString();
 		}

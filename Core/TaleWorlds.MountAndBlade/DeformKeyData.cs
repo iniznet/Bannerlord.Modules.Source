@@ -4,16 +4,16 @@ using TaleWorlds.DotNet;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Deform_Key_Data")]
+	[EngineStruct("Deform_Key_Data", false)]
 	public struct DeformKeyData
 	{
 		public int GroupId;
 
 		public int KeyTimePoint;
 
-		public float Min;
+		public float KeyMin;
 
-		public float Max;
+		public float KeyMax;
 
 		public float Value;
 

@@ -6,7 +6,6 @@ using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.BarterSystem.Barterables;
 using TaleWorlds.CampaignSystem.MapNotificationTypes;
 using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
@@ -59,7 +58,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void DailyTickHero(Hero hero)
 		{
-			if (hero.IsPrisoner && hero.Clan != null && hero.PartyBelongedToAsPrisoner != null && !hero.PartyBelongedToAsPrisoner.MapFaction.IsBanditFaction && hero.PartyBelongedToAsPrisoner.MapFaction != null && hero != Hero.MainHero && hero.Clan.Lords.Count > 1)
+			if (hero.IsPrisoner && hero.Clan != null && hero.PartyBelongedToAsPrisoner != null && hero.PartyBelongedToAsPrisoner.MapFaction != null && !hero.PartyBelongedToAsPrisoner.MapFaction.IsBanditFaction && hero != Hero.MainHero && hero.Clan.Lords.Count > 1)
 			{
 				this.ConsiderRansomPrisoner(hero);
 			}
@@ -81,7 +80,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 							if (MBRandom.RandomFloat < num)
 							{
 								float num2 = (float)new SetPrisonerFreeBarterable(hero, captorClanOfPrisoner.Leader, hero.PartyBelongedToAsPrisoner, hero2).GetUnitValueForFaction(hero.Clan) * 1.1f;
-								if (MBRandom.RandomFloat < num && (float)(hero2.Gold + 1000) >= num2)
+								if (num2 > 1E-05f && MBRandom.RandomFloat < num && (float)(hero2.Gold + 1000) >= num2)
 								{
 									this.SetCurrentRansomHero(hero, hero2);
 									StringHelpers.SetCharacterProperties("CAPTIVE_HERO", hero.CharacterObject, RansomOfferCampaignBehavior.RansomOfferDescriptionText, false);
@@ -131,7 +130,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return clan;
 		}
 
-		private void SetCurrentRansomHero(Hero hero, Hero ransomPayer = null)
+		public void SetCurrentRansomHero(Hero hero, Hero ransomPayer = null)
 		{
 			this._currentRansomHero = hero;
 			this._currentRansomPayer = ransomPayer;
@@ -149,6 +148,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			textObject.SetTextVariable("GOLD_AMOUNT", ransomPrice);
 			textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 			StringHelpers.SetCharacterProperties("CAPTIVE_HERO", captiveHero.CharacterObject, textObject, false);
+			Campaign.Current.TimeControlMode = CampaignTimeControlMode.Stop;
 			InformationManager.ShowInquiry(new InquiryData(RansomOfferCampaignBehavior.RansomPanelTitleText.ToString(), textObject.ToString(), true, true, RansomOfferCampaignBehavior.RansomPanelAffirmativeText.ToString(), RansomOfferCampaignBehavior.RansomPanelNegativeText.ToString(), delegate
 			{
 				this.AcceptRansomOffer(ransomPrice);
@@ -240,33 +240,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<CampaignTime>("_currentRansomOfferDate", ref this._currentRansomOfferDate);
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("trigger_ransom_offer", "campaign")]
-		public static string TriggerRansomOffer(List<string> strings)
-		{
-			Hero randomElementInefficiently = Hero.AllAliveHeroes.Where((Hero t) => t.IsLord && !t.IsPrisoner).GetRandomElementInefficiently<Hero>();
-			TakePrisonerAction.Apply(PartyBase.MainParty, randomElementInefficiently);
-			Campaign.Current.CampaignBehaviorManager.GetBehavior<RansomOfferCampaignBehavior>().SetCurrentRansomHero(randomElementInefficiently, randomElementInefficiently.Clan.Leader);
-			CampaignEventDispatcher.Instance.OnRansomOfferedToPlayer(randomElementInefficiently);
-			return "success";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("establish_ransom_offer_conditions", "campaign")]
-		public static string EstablishRansomOfferConditions(List<string> strings)
-		{
-			Hero randomElementInefficiently = Hero.AllAliveHeroes.Where((Hero t) => t.IsLord && !t.IsPrisoner).GetRandomElementInefficiently<Hero>();
-			TakePrisonerAction.Apply(PartyBase.MainParty, randomElementInefficiently);
-			return "success";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("establish_ransom_offer_conditions_for_clan_member", "campaign")]
-		public static string EstablishRansomOfferConditionsForPlayerClanMember(List<string> strings)
-		{
-			Hero randomElementInefficiently = Hero.AllAliveHeroes.Where((Hero t) => t.IsLord && !t.IsPrisoner && t.Clan != Clan.PlayerClan && t.Clan.Leader != t).GetRandomElementInefficiently<Hero>();
-			randomElementInefficiently.Clan = Clan.PlayerClan;
-			TakePrisonerAction.Apply(Clan.All.Where((Clan t) => t != Clan.PlayerClan).GetRandomElementInefficiently<Clan>().WarPartyComponents.GetRandomElement<WarPartyComponent>().Party, randomElementInefficiently);
-			return "success";
-		}
-
 		private const float RansomOfferInitialChance = 0.2f;
 
 		private const float RansomOfferChanceAfterRefusal = 0.12f;
@@ -277,7 +250,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private const int AmountOfGoldLeftAfterRansom = 1000;
 
-		private static TextObject RansomOfferDescriptionText = new TextObject("{=ZqJ92UN4}A courier with a ransom offer for the freedom of {CAPTIVE_HERO.NAME} has arrived", null);
+		private static TextObject RansomOfferDescriptionText = new TextObject("{=ZqJ92UN4}A courier with a ransom offer for the freedom of {CAPTIVE_HERO.NAME} has arrived.", null);
 
 		private static TextObject RansomPanelDescriptionNpcHeldPrisonerText = new TextObject("{=4fXpOe4N}A courier arrives from the {CLAN_NAME}. They hold {CAPTIVE_HERO.NAME} and are demanding {GOLD_AMOUNT}{GOLD_ICON} in ransom.", null);
 

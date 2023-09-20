@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.PlayerServices;
 
@@ -11,6 +12,7 @@ namespace Messages.FromLobbyServer.ToClient
 	public class PlayersAddedToPartyMessage : Message
 	{
 		[TupleElementNames(new string[] { "PlayerId", "PlayerName", "IsPartyLeader" })]
+		[JsonProperty]
 		public List<ValueTuple<PlayerId, string, bool>> Players
 		{
 			[return: TupleElementNames(new string[] { "PlayerId", "PlayerName", "IsPartyLeader" })]
@@ -20,6 +22,7 @@ namespace Messages.FromLobbyServer.ToClient
 		}
 
 		[TupleElementNames(new string[] { "PlayerId", "PlayerName" })]
+		[JsonProperty]
 		public List<ValueTuple<PlayerId, string>> InvitedPlayers
 		{
 			[return: TupleElementNames(new string[] { "PlayerId", "PlayerName" })]

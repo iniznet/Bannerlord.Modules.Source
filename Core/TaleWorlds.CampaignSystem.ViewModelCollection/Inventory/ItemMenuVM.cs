@@ -34,245 +34,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this._tradeRumorsBehavior = Campaign.Current.GetCampaignBehavior<ITradeRumorCampaignBehavior>();
 		}
 
-		[DataSourceProperty]
-		public bool IsComparing
-		{
-			get
-			{
-				return this._isComparing;
-			}
-			set
-			{
-				if (value != this._isComparing)
-				{
-					this._isComparing = value;
-					base.OnPropertyChangedWithValue(value, "IsComparing");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public bool IsPlayerItem
-		{
-			get
-			{
-				return this._isPlayerItem;
-			}
-			set
-			{
-				if (value != this._isPlayerItem)
-				{
-					this._isPlayerItem = value;
-					base.OnPropertyChangedWithValue(value, "IsPlayerItem");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public ImageIdentifierVM ImageIdentifier
-		{
-			get
-			{
-				return this._imageIdentifier;
-			}
-			set
-			{
-				if (value != this._imageIdentifier)
-				{
-					this._imageIdentifier = value;
-					base.OnPropertyChangedWithValue<ImageIdentifierVM>(value, "ImageIdentifier");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public ImageIdentifierVM ComparedImageIdentifier
-		{
-			get
-			{
-				return this._comparedImageIdentifier;
-			}
-			set
-			{
-				if (value != this._comparedImageIdentifier)
-				{
-					this._comparedImageIdentifier = value;
-					base.OnPropertyChangedWithValue<ImageIdentifierVM>(value, "ComparedImageIdentifier");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public int TransactionTotalCost
-		{
-			get
-			{
-				return this._transactionTotalCost;
-			}
-			set
-			{
-				if (value != this._transactionTotalCost)
-				{
-					this._transactionTotalCost = value;
-					base.OnPropertyChangedWithValue(value, "TransactionTotalCost");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public bool IsInitializationOver
-		{
-			get
-			{
-				return this._isInitializationOver;
-			}
-			set
-			{
-				if (value != this._isInitializationOver)
-				{
-					this._isInitializationOver = value;
-					base.OnPropertyChangedWithValue(value, "IsInitializationOver");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public string ItemName
-		{
-			get
-			{
-				return this._itemName;
-			}
-			set
-			{
-				if (value != this._itemName)
-				{
-					this._itemName = value;
-					base.OnPropertyChangedWithValue<string>(value, "ItemName");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public string ComparedItemName
-		{
-			get
-			{
-				return this._comparedItemName;
-			}
-			set
-			{
-				if (value != this._comparedItemName)
-				{
-					this._comparedItemName = value;
-					base.OnPropertyChangedWithValue<string>(value, "ComparedItemName");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public MBBindingList<ItemMenuTooltipPropertyVM> TargetItemProperties
-		{
-			get
-			{
-				return this._targetItemProperties;
-			}
-			set
-			{
-				if (value != this._targetItemProperties)
-				{
-					this._targetItemProperties = value;
-					base.OnPropertyChangedWithValue<MBBindingList<ItemMenuTooltipPropertyVM>>(value, "TargetItemProperties");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public MBBindingList<ItemMenuTooltipPropertyVM> ComparedItemProperties
-		{
-			get
-			{
-				return this._comparedItemProperties;
-			}
-			set
-			{
-				if (value != this._comparedItemProperties)
-				{
-					this._comparedItemProperties = value;
-					base.OnPropertyChangedWithValue<MBBindingList<ItemMenuTooltipPropertyVM>>(value, "ComparedItemProperties");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public MBBindingList<ItemFlagVM> TargetItemFlagList
-		{
-			get
-			{
-				return this._targetItemFlagList;
-			}
-			set
-			{
-				if (value != this._targetItemFlagList)
-				{
-					this._targetItemFlagList = value;
-					base.OnPropertyChangedWithValue<MBBindingList<ItemFlagVM>>(value, "TargetItemFlagList");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public MBBindingList<ItemFlagVM> ComparedItemFlagList
-		{
-			get
-			{
-				return this._comparedItemFlagList;
-			}
-			set
-			{
-				if (value != this._comparedItemFlagList)
-				{
-					this._comparedItemFlagList = value;
-					base.OnPropertyChangedWithValue<MBBindingList<ItemFlagVM>>(value, "ComparedItemFlagList");
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public int AlternativeUsageIndex
-		{
-			get
-			{
-				return this._alternativeUsageIndex;
-			}
-			set
-			{
-				if (value != this._alternativeUsageIndex)
-				{
-					this._alternativeUsageIndex = value;
-					base.OnPropertyChangedWithValue(value, "AlternativeUsageIndex");
-					this.AlternativeUsageIndexUpdated();
-				}
-			}
-		}
-
-		[DataSourceProperty]
-		public MBBindingList<StringItemWithHintVM> AlternativeUsages
-		{
-			get
-			{
-				return this._alternativeUsages;
-			}
-			set
-			{
-				if (value != this._alternativeUsages)
-				{
-					this._alternativeUsages = value;
-					base.OnPropertyChangedWithValue<MBBindingList<StringItemWithHintVM>>(value, "AlternativeUsages");
-				}
-			}
-		}
-
 		public void SetItem(SPItemVM item, ItemVM comparedItem = null, BasicCharacterObject character = null, int alternativeUsageIndex = 0)
 		{
 			this.IsInitializationOver = false;
@@ -529,7 +290,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			bool flag2 = spitemVM != null && spitemVM.ItemType != EquipmentIndex.None && spitemVM.ItemType != EquipmentIndex.HorseHarness && this._targetItem.ItemRosterElement.EquipmentElement.Item.HasArmorComponent;
 			if (flag && flag2)
 			{
-				equipmentWeightMultiplier += DefaultPerks.Athletics.FormFittingArmor.PrimaryBonus / 100f;
+				equipmentWeightMultiplier += DefaultPerks.Athletics.FormFittingArmor.PrimaryBonus;
 			}
 			this.AddFloatProperty(this._weightText, (EquipmentElement x) => x.GetEquipmentElementWeight() * equipmentWeightMultiplier, true);
 			ItemObject item = this._targetItem.ItemRosterElement.EquipmentElement.Item;
@@ -598,7 +359,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		{
 			if (weapon == null)
 			{
-				Debug.FailedAssert("Trying to add flags for a null weapon", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Inventory\\ItemMenuVM.cs", "AddWeaponItemFlags", 640);
+				Debug.FailedAssert("Trying to add flags for a null weapon", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Inventory\\ItemMenuVM.cs", "AddWeaponItemFlags", 412);
 				return;
 			}
 			ItemObject.ItemUsageSetFlags itemUsageSetFlags = this._getItemUsageSetFlags(weapon);
@@ -899,6 +660,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.AddDonationXpTooltip();
 		}
 
+		[DataSourceProperty]
+		public bool IsComparing
+		{
+			get
+			{
+				return this._isComparing;
+			}
+			set
+			{
+				if (value != this._isComparing)
+				{
+					this._isComparing = value;
+					base.OnPropertyChangedWithValue(value, "IsComparing");
+				}
+			}
+		}
+
 		private void AddIntProperty(TextObject description, int targetValue, int? comparedValue)
 		{
 			string text = targetValue.ToString();
@@ -913,6 +691,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
+		[DataSourceProperty]
+		public bool IsPlayerItem
+		{
+			get
+			{
+				return this._isPlayerItem;
+			}
+			set
+			{
+				if (value != this._isPlayerItem)
+				{
+					this._isPlayerItem = value;
+					base.OnPropertyChangedWithValue(value, "IsPlayerItem");
+				}
+			}
+		}
+
 		private void AddFloatProperty(TextObject description, Func<EquipmentElement, float> func, bool reversedCompare = false)
 		{
 			float num = func(this._targetItem.ItemRosterElement.EquipmentElement);
@@ -924,22 +719,56 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.AddFloatProperty(description, num, num2, reversedCompare);
 		}
 
+		[DataSourceProperty]
+		public ImageIdentifierVM ImageIdentifier
+		{
+			get
+			{
+				return this._imageIdentifier;
+			}
+			set
+			{
+				if (value != this._imageIdentifier)
+				{
+					this._imageIdentifier = value;
+					base.OnPropertyChangedWithValue<ImageIdentifierVM>(value, "ImageIdentifier");
+				}
+			}
+		}
+
 		private void AddFloatProperty(TextObject description, float targetValue, float? comparedValue, bool reversedCompare = false)
 		{
-			string text = targetValue.ToString("0.0");
+			string formattedItemPropertyText = CampaignUIHelper.GetFormattedItemPropertyText(targetValue, false);
 			if (this.IsComparing && comparedValue != null)
 			{
-				string text2 = comparedValue.Value.ToString("0.0");
+				string formattedItemPropertyText2 = CampaignUIHelper.GetFormattedItemPropertyText(comparedValue.Value, false);
 				int num = this.CompareValues(targetValue, comparedValue.Value);
 				if (reversedCompare)
 				{
 					num *= -1;
 				}
-				this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(num, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
-				this.CreateColoredProperty(this.ComparedItemProperties, " ", text2, this.GetColorFromComparison(num, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
+				this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), formattedItemPropertyText, this.GetColorFromComparison(num, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
+				this.CreateColoredProperty(this.ComparedItemProperties, " ", formattedItemPropertyText2, this.GetColorFromComparison(num, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 				return;
 			}
-			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
+			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), formattedItemPropertyText, this.GetColorFromComparison(0, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
+		}
+
+		[DataSourceProperty]
+		public ImageIdentifierVM ComparedImageIdentifier
+		{
+			get
+			{
+				return this._comparedImageIdentifier;
+			}
+			set
+			{
+				if (value != this._comparedImageIdentifier)
+				{
+					this._comparedImageIdentifier = value;
+					base.OnPropertyChangedWithValue<ImageIdentifierVM>(value, "ComparedImageIdentifier");
+				}
+			}
 		}
 
 		private void AddComparableStringProperty(TextObject description, Func<EquipmentElement, string> valueAsStringFunc, Func<EquipmentElement, int> valueAsIntFunc)
@@ -955,6 +784,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 				return;
 			}
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, false), 0, null, TooltipProperty.TooltipPropertyFlags.None);
+		}
+
+		[DataSourceProperty]
+		public int TransactionTotalCost
+		{
+			get
+			{
+				return this._transactionTotalCost;
+			}
+			set
+			{
+				if (value != this._transactionTotalCost)
+				{
+					this._transactionTotalCost = value;
+					base.OnPropertyChangedWithValue(value, "TransactionTotalCost");
+				}
+			}
 		}
 
 		private void AddSwingDamageProperty(TextObject description, in EquipmentElement targetWeapon, int targetWeaponUsageIndex, in EquipmentElement comparedWeapon, int comparedWeaponUsageIndex)
@@ -985,6 +831,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
+		[DataSourceProperty]
+		public bool IsInitializationOver
+		{
+			get
+			{
+				return this._isInitializationOver;
+			}
+			set
+			{
+				if (value != this._isInitializationOver)
+				{
+					this._isInitializationOver = value;
+					base.OnPropertyChangedWithValue(value, "IsInitializationOver");
+				}
+			}
+		}
+
 		private void AddMissileDamageProperty(TextObject description, in EquipmentElement targetWeapon, int targetWeaponUsageIndex, in EquipmentElement comparedWeapon, int comparedWeaponUsageIndex)
 		{
 			EquipmentElement equipmentElement = targetWeapon;
@@ -1013,6 +876,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 		}
 
+		[DataSourceProperty]
+		public string ItemName
+		{
+			get
+			{
+				return this._itemName;
+			}
+			set
+			{
+				if (value != this._itemName)
+				{
+					this._itemName = value;
+					base.OnPropertyChangedWithValue<string>(value, "ItemName");
+				}
+			}
+		}
+
 		private void AddThrustDamageProperty(TextObject description, in EquipmentElement targetWeapon, int targetWeaponUsageIndex, in EquipmentElement comparedWeapon, int comparedWeaponUsageIndex)
 		{
 			EquipmentElement equipmentElement = targetWeapon;
@@ -1039,6 +919,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 				}
 			}
 			this.CreateColoredProperty(this.TargetItemProperties, description.ToString(), text, this.GetColorFromComparison(0, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
+		}
+
+		[DataSourceProperty]
+		public string ComparedItemName
+		{
+			get
+			{
+				return this._comparedItemName;
+			}
+			set
+			{
+				if (value != this._comparedItemName)
+				{
+					this._comparedItemName = value;
+					base.OnPropertyChangedWithValue<string>(value, "ComparedItemName");
+				}
+			}
 		}
 
 		private void SetArmorComponentTooltip()
@@ -1107,6 +1004,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			this.AddDonationXpTooltip();
 		}
 
+		[DataSourceProperty]
+		public MBBindingList<ItemMenuTooltipPropertyVM> TargetItemProperties
+		{
+			get
+			{
+				return this._targetItemProperties;
+			}
+			set
+			{
+				if (value != this._targetItemProperties)
+				{
+					this._targetItemProperties = value;
+					base.OnPropertyChangedWithValue<MBBindingList<ItemMenuTooltipPropertyVM>>(value, "TargetItemProperties");
+				}
+			}
+		}
+
 		private void AddDonationXpTooltip()
 		{
 			ItemDiscardModel itemDiscardModel = Campaign.Current.Models.ItemDiscardModel;
@@ -1124,6 +1038,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 					{
 						this.CreateColoredProperty(this.ComparedItemProperties, " ", num.ToString(), this.GetColorFromComparison(num2, true), 0, null, TooltipProperty.TooltipPropertyFlags.None);
 					}
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public MBBindingList<ItemMenuTooltipPropertyVM> ComparedItemProperties
+		{
+			get
+			{
+				return this._comparedItemProperties;
+			}
+			set
+			{
+				if (value != this._comparedItemProperties)
+				{
+					this._comparedItemProperties = value;
+					base.OnPropertyChangedWithValue<MBBindingList<ItemMenuTooltipPropertyVM>>(value, "ComparedItemProperties");
 				}
 			}
 		}
@@ -1152,6 +1083,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			}
 		}
 
+		[DataSourceProperty]
+		public MBBindingList<ItemFlagVM> TargetItemFlagList
+		{
+			get
+			{
+				return this._targetItemFlagList;
+			}
+			set
+			{
+				if (value != this._targetItemFlagList)
+				{
+					this._targetItemFlagList = value;
+					base.OnPropertyChangedWithValue<MBBindingList<ItemFlagVM>>(value, "TargetItemFlagList");
+				}
+			}
+		}
+
 		private int GetHorseCategoryValue(ItemCategory itemCategory)
 		{
 			if (itemCategory.IsAnimal)
@@ -1173,8 +1121,25 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 					return 4;
 				}
 			}
-			Debug.FailedAssert("This horse item category is not defined", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Inventory\\ItemMenuVM.cs", "GetHorseCategoryValue", 1426);
+			Debug.FailedAssert("This horse item category is not defined", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Inventory\\ItemMenuVM.cs", "GetHorseCategoryValue", 1378);
 			return -1;
+		}
+
+		[DataSourceProperty]
+		public MBBindingList<ItemFlagVM> ComparedItemFlagList
+		{
+			get
+			{
+				return this._comparedItemFlagList;
+			}
+			set
+			{
+				if (value != this._comparedItemFlagList)
+				{
+					this._comparedItemFlagList = value;
+					base.OnPropertyChangedWithValue<MBBindingList<ItemFlagVM>>(value, "ComparedItemFlagList");
+				}
+			}
 		}
 
 		private ItemMenuTooltipPropertyVM CreateProperty(MBBindingList<ItemMenuTooltipPropertyVM> targetList, string definition, string value, int textHeight = 0, HintViewModel hint = null)
@@ -1182,6 +1147,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			ItemMenuTooltipPropertyVM itemMenuTooltipPropertyVM = new ItemMenuTooltipPropertyVM(definition, value, textHeight, false, hint);
 			targetList.Add(itemMenuTooltipPropertyVM);
 			return itemMenuTooltipPropertyVM;
+		}
+
+		[DataSourceProperty]
+		public int AlternativeUsageIndex
+		{
+			get
+			{
+				return this._alternativeUsageIndex;
+			}
+			set
+			{
+				if (value != this._alternativeUsageIndex)
+				{
+					this._alternativeUsageIndex = value;
+					base.OnPropertyChangedWithValue(value, "AlternativeUsageIndex");
+					this.AlternativeUsageIndexUpdated();
+				}
+			}
 		}
 
 		private ItemMenuTooltipPropertyVM CreateColoredProperty(MBBindingList<ItemMenuTooltipPropertyVM> targetList, string definition, string value, Color color, int textHeight = 0, HintViewModel hint = null, TooltipProperty.TooltipPropertyFlags propertyFlags = TooltipProperty.TooltipPropertyFlags.None)
@@ -1194,6 +1177,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			ItemMenuTooltipPropertyVM itemMenuTooltipPropertyVM = new ItemMenuTooltipPropertyVM(definition, value, textHeight, color, false, hint, propertyFlags);
 			targetList.Add(itemMenuTooltipPropertyVM);
 			return itemMenuTooltipPropertyVM;
+		}
+
+		[DataSourceProperty]
+		public MBBindingList<StringItemWithHintVM> AlternativeUsages
+		{
+			get
+			{
+				return this._alternativeUsages;
+			}
+			set
+			{
+				if (value != this._alternativeUsages)
+				{
+					this._alternativeUsages = value;
+					base.OnPropertyChangedWithValue<MBBindingList<StringItemWithHintVM>>(value, "AlternativeUsages");
+				}
+			}
 		}
 
 		public void SetTransactionCost(int getItemTotalPrice, int maxIndividualPrice)
@@ -1308,9 +1308,15 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 
 		private readonly Func<EquipmentIndex, SPItemVM> _getEquipmentAtIndex;
 
+		private ItemVM _targetItem;
+
 		private bool _isComparing;
 
+		private ItemVM _comparedItem;
+
 		private bool _isPlayerItem;
+
+		private BasicCharacterObject _character;
 
 		private ImageIdentifierVM _imageIdentifier;
 
@@ -1337,11 +1343,5 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 		private MBBindingList<StringItemWithHintVM> _alternativeUsages;
 
 		private ITradeRumorCampaignBehavior _tradeRumorsBehavior;
-
-		private ItemVM _targetItem;
-
-		private ItemVM _comparedItem;
-
-		private BasicCharacterObject _character;
 	}
 }

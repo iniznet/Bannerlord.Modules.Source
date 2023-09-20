@@ -100,7 +100,7 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 				break;
 			}
 			Clan clan = this.Prisoner.Clan;
-			if (clan != null && !clan.IsMinorFaction && this.Prisoner.MapFaction != CampaignData.NeutralFaction)
+			if (clan != null && !clan.IsMinorFaction)
 			{
 				textObject.SetTextVariable("PRISONER_LORD_FACTION_LINK", this.Prisoner.MapFaction.EncyclopediaLinkWithName);
 				textObject.SetTextVariable("PRISONER_LORD_HAS_FACTION_LINK", 1);

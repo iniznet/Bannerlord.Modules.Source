@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.SaveSystem;
 
@@ -95,13 +97,22 @@ namespace TaleWorlds.CampaignSystem.Settlements
 			{
 				this.State = ((this._owner == Hero.MainHero) ? Alley.AreaState.OccupiedByPlayer : Alley.AreaState.OccupiedByGangLeader);
 				this._owner.OwnedAlleys.Add(this);
-				return;
+				if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && !this._owner.IsAlive)
+				{
+					this.SetOwner(null);
+					this.State = Alley.AreaState.Empty;
+					return;
+				}
 			}
-			this.State = Alley.AreaState.Empty;
+			else
+			{
+				this.State = Alley.AreaState.Empty;
+			}
 		}
 
 		private Settlement _settlement;
 
+		[CachedData]
 		private TextObject _name;
 
 		[SaveableField(10)]

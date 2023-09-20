@@ -9,5 +9,7 @@ namespace TaleWorlds.ModuleManager
 		void Destroy();
 
 		string[] GetModulePaths();
+
+		void SetLauncherMode(bool isLauncherModeActive);
 	}
 }

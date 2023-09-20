@@ -65,9 +65,10 @@ namespace TaleWorlds.ScreenSystem
 					int? num2 = num + ((globalLayers != null) ? new int?(globalLayers.Count) : null);
 					if ((count == num2.GetValueOrDefault()) & (num2 != null))
 					{
-						goto IL_13F;
+						goto IL_145;
 					}
 				}
+				ScreenManager._isMouseInputActiveLastFrame = false;
 				ScreenManager._sortedLayers.Clear();
 				if (ScreenManager.TopScreen != null)
 				{
@@ -86,7 +87,7 @@ namespace TaleWorlds.ScreenSystem
 				}
 				ScreenManager._sortedLayers.Sort();
 				ScreenManager._isSortedActiveLayersDirty = false;
-				IL_13F:
+				IL_145:
 				return ScreenManager._sortedLayers;
 			}
 		}
@@ -306,6 +307,16 @@ namespace TaleWorlds.ScreenSystem
 			}
 		}
 
+		public static void OnPlatformScreenKeyboardRequested(string initialText, string descriptionText, int maxLength, int keyboardTypeEnum)
+		{
+			Action<string, string, int, int> platformTextRequested = ScreenManager.PlatformTextRequested;
+			if (platformTextRequested == null)
+			{
+				return;
+			}
+			platformTextRequested(initialText, descriptionText, maxLength, keyboardTypeEnum);
+		}
+
 		public static void OnOnscreenKeyboardDone(string inputText)
 		{
 			ScreenLayer focusedLayer = ScreenManager.FocusedLayer;
@@ -363,6 +374,8 @@ namespace TaleWorlds.ScreenSystem
 		}
 
 		public static event Action FocusGained;
+
+		public static event Action<string, string, int, int> PlatformTextRequested;
 
 		public static void ReplaceTopScreen(ScreenBase screen)
 		{

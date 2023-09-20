@@ -122,7 +122,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				return MBNetwork.VirtualPlayers[this.Index] == this.VirtualPlayer && MBAPI.IMBPeer.IsActive(this.Index);
+				return GameNetwork.VirtualPlayers[this.Index] == this.VirtualPlayer && MBAPI.IMBPeer.IsActive(this.Index);
 			}
 		}
 
@@ -132,7 +132,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (GameNetwork.IsServer)
 				{
-					return MBNetwork.VirtualPlayers[this.Index] == this.VirtualPlayer && MBAPI.IMBPeer.GetIsSynchronized(this.Index);
+					return GameNetwork.VirtualPlayers[this.Index] == this.VirtualPlayer && MBAPI.IMBPeer.GetIsSynchronized(this.Index);
 				}
 				return this._isSynchronized;
 			}

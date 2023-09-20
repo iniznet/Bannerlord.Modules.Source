@@ -21,7 +21,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 			TextObject textObject2 = design.WeaponName ?? textObject;
 			this.Name = textObject2.ToString();
 			this._generatedVisualItem = new ItemObject();
-			Crafting.GenerateItem(design, textObject2, Hero.MainHero.Culture, design.Template.ItemModifierGroup, ref this._generatedVisualItem, new Crafting.OverrideData(0f, 0, 0, 0, 0));
+			Crafting.GenerateItem(design, textObject2, Hero.MainHero.Culture, design.Template.ItemModifierGroup, ref this._generatedVisualItem);
 			MBObjectManager.Instance.RegisterObject<ItemObject>(this._generatedVisualItem);
 			this.Visual = new ImageIdentifierVM(this._generatedVisualItem, "");
 			this.WeaponTypeCode = design.Template.StringId;

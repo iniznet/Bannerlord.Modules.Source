@@ -90,7 +90,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 			this.NameText = this._hero.Name.ToString();
 			string text = GameTexts.FindText("str_missing_info_indicator", null).ToString();
 			EncyclopediaPage pageOf = Campaign.Current.EncyclopediaManager.GetPageOf(typeof(Hero));
-			this.HasNeutralClan = this._hero.Clan == null || this._hero.Clan == CampaignData.NeutralFaction;
+			this.HasNeutralClan = this._hero.Clan == null;
 			if (!this.IsInformationHidden)
 			{
 				for (int i = 0; i < TaleWorlds.CampaignSystem.Extensions.Skills.All.Count; i++)
@@ -267,7 +267,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.Pages
 		private void UpdateInformationText()
 		{
 			this.InformationText = "";
-			if (this._hero.EncyclopediaText != null)
+			if (!TextObject.IsNullOrEmpty(this._hero.EncyclopediaText))
 			{
 				this.InformationText = this._hero.EncyclopediaText.ToString();
 				return;

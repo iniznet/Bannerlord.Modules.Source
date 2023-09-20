@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D67}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C80}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.Library</RootNamespace>
     <AssemblyName>TaleWorlds.Library</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,12 +30,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\System.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -45,6 +50,7 @@
     <Compile Include="AmbientInformation.cs" />
     <Compile Include="ApplicationPlatform.cs" />
     <Compile Include="ApplicationVersion.cs" />
+    <Compile Include="ApplicationVersionJsonConverter.cs" />
     <Compile Include="ApplicationVersionType.cs" />
     <Compile Include="AreaInformation.cs" />
     <Compile Include="AssemblyLoader.cs" />
@@ -81,6 +87,7 @@
     <Compile Include="DefaultParallelDriver.cs" />
     <Compile Include="EngineMethod.cs" />
     <Compile Include="EngineType.cs" />
+    <Compile Include="EnumHelper.2.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="EventSystem\DictionaryByType.cs" />
     <Compile Include="EventSystem\EventBase.cs" />
@@ -89,6 +96,7 @@
     <Compile Include="FileHelper.cs" />
     <Compile Include="FileHelperExtensions.cs" />
     <Compile Include="FogInformation.cs" />
+    <Compile Include="GCHandleFactory.cs" />
     <Compile Include="GenericComparer.cs" />
     <Compile Include="Graph\GraphLinePointVM.cs" />
     <Compile Include="Graph\GraphLineVM.cs" />
@@ -111,6 +119,7 @@
     <Compile Include="IMBCollection.cs" />
     <Compile Include="InformationManager.cs" />
     <Compile Include="InformationMessage.cs" />
+    <Compile Include="Information\TooltipTriggerVM.cs" />
     <Compile Include="InputType.cs" />
     <Compile Include="InputUsageMask.cs" />
     <Compile Include="InquiryData.cs" />
@@ -194,6 +203,7 @@
     <Compile Include="Runtime.cs" />
     <Compile Include="SaveResult.cs" />
     <Compile Include="SaveResultWithMessage.cs" />
+    <Compile Include="ScopedTimer.cs" />
     <Compile Include="SerialTask.cs" />
     <Compile Include="SingleThreadedSynchronizationContext.cs" />
     <Compile Include="SingleThreadedSynchronizationContextManager.cs" />
@@ -210,7 +220,7 @@
     <Compile Include="TextInquiryData.cs" />
     <Compile Include="TimedDictionaryCache.cs" />
     <Compile Include="TimeInformation.cs" />
-    <Compile Include="TooltipVM.cs" />
+    <Compile Include="TooltipBaseVM.cs" />
     <Compile Include="Transformation.cs" />
     <Compile Include="TWException.cs" />
     <Compile Include="TWParallel.cs" />
@@ -231,12 +241,6 @@
     <Compile Include="VirtualFileAttribute.cs" />
     <Compile Include="VirtualFolders.cs" />
     <Compile Include="WindingOrder.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

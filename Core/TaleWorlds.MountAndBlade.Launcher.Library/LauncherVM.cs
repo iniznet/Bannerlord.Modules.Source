@@ -223,7 +223,7 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			{
 				if (this._isSingleplayer != value)
 				{
-					this.OnBeforeGameTypeChange(this._isMultiplayer, value);
+					this.OnBeforeGameTypeChange(this._isMultiplayer, !value);
 					this._isSingleplayer = value;
 					base.OnPropertyChangedWithValue(value, "IsSingleplayer");
 					if (value)
@@ -245,7 +245,7 @@ namespace TaleWorlds.MountAndBlade.Launcher.Library
 			{
 				if (this._isMultiplayer != value)
 				{
-					this.OnBeforeGameTypeChange(this._isMultiplayer, !value);
+					this.OnBeforeGameTypeChange(this._isMultiplayer, value);
 					this._isMultiplayer = value;
 					base.OnPropertyChangedWithValue(value, "IsMultiplayer");
 					if (value)

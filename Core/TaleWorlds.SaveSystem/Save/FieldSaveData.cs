@@ -25,7 +25,7 @@ namespace TaleWorlds.SaveSystem.Save
 
 		public override void InitializeAsCustomStruct(int structId)
 		{
-			base.InitializeDataAsCustomStruct(this.SaveId, structId);
+			base.InitializeDataAsCustomStruct(this.SaveId, structId, base.TypeDefinition);
 		}
 	}
 }

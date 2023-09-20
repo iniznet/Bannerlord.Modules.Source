@@ -84,7 +84,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				return "";
 			}
-			Debug.Print("[VOICEOVER]Sound path found: " + BasePath.Name + text2, 5, Debug.DebugColor.White, 17592186044416UL);
+			Debug.Print("[VOICEOVER]Sound path found: " + BasePath.Name + text2, 0, Debug.DebugColor.White, 17592186044416UL);
 			text2 = text2.Replace("$PLATFORM", "PC");
 			return text2 + ".ogg";
 		}
@@ -93,9 +93,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		{
 			foreach (string text in possibleMatches)
 			{
+				Regex regex = new Regex(text, RegexOptions.IgnoreCase);
 				foreach (string text2 in voiceObject.VoicePaths)
 				{
-					if (Regex.Match(text2, text, RegexOptions.IgnoreCase).Success && !possibleVoicePaths.Contains(text2))
+					if (regex.Match(text2).Success && !possibleVoicePaths.Contains(text2))
 					{
 						if (doubleCheckForGender && (text2.Contains("_male") || text2.Contains("_female")))
 						{

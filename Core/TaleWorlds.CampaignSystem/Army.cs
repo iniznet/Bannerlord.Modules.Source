@@ -130,14 +130,6 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public Kingdom MapFaction
-		{
-			get
-			{
-				return this.Kingdom;
-			}
-		}
-
 		public IMapPoint AiBehaviorObject
 		{
 			get
@@ -204,7 +196,7 @@ namespace TaleWorlds.CampaignSystem
 		public void UpdateName()
 		{
 			this.Name = new TextObject("{=nbmctMLk}{LEADER_NAME}{.o} Army", null);
-			this.Name.SetTextVariable("LEADER_NAME", (this.ArmyOwner != null) ? this.ArmyOwner.Name : ((this.LeaderParty.PartyComponent.PartyOwner != null) ? this.LeaderParty.PartyComponent.PartyOwner.Name : TextObject.Empty));
+			this.Name.SetTextVariable("LEADER_NAME", (this.ArmyOwner != null) ? this.ArmyOwner.Name : ((this.LeaderParty.Owner != null) ? this.LeaderParty.Owner.Name : TextObject.Empty));
 		}
 
 		private void AddEventHandlers()
@@ -301,7 +293,8 @@ namespace TaleWorlds.CampaignSystem
 
 		private void HourlyTick(MBCampaignEvent campaignEvent, object[] delegateParams)
 		{
-			if (this.LeaderParty.MapEvent != null)
+			bool flag = this.LeaderParty.CurrentSettlement != null && this.LeaderParty.CurrentSettlement.SiegeEvent != null;
+			if (this.LeaderParty.MapEvent != null || flag)
 			{
 				return;
 			}
@@ -390,7 +383,7 @@ namespace TaleWorlds.CampaignSystem
 				if (this.Cohesion <= 0.1f)
 				{
 					DisbandArmyAction.ApplyByCohesionDepleted(this);
-					GameMenu.SwitchToMenu("army_dispersed");
+					GameMenu.ActivateGameMenu("army_dispersed");
 					MBTextManager.SetTextVariable("ARMY_DISPERSE_REASON", new TextObject("{=rJBgDaxe}Your army has disbanded due to lack of cohesion.", null), false);
 					return;
 				}
@@ -461,13 +454,16 @@ namespace TaleWorlds.CampaignSystem
 			for (int i = this.Parties.Count - 1; i >= 0; i--)
 			{
 				MobileParty mobileParty = this.Parties[i];
-				if (mobileParty != this.LeaderParty && mobileParty.MapEvent == null && mobileParty.TargetParty != this.LeaderParty && mobileParty != MobileParty.MainParty)
+				if (mobileParty != this.LeaderParty && !this.DoesLeaderPartyAndAttachedPartiesContain(mobileParty) && mobileParty != MobileParty.MainParty)
 				{
-					mobileParty.Ai.SetMoveEscortParty(this.LeaderParty);
-				}
-				if (mobileParty.Party.IsStarving)
-				{
-					mobileParty.Army = null;
+					if (mobileParty.MapEvent == null && mobileParty.TargetParty != this.LeaderParty && (mobileParty.CurrentSettlement == null || !mobileParty.CurrentSettlement.IsUnderSiege))
+					{
+						mobileParty.Ai.SetMoveEscortParty(this.LeaderParty);
+					}
+					if (mobileParty.Party.IsStarving)
+					{
+						mobileParty.Army = null;
+					}
 				}
 			}
 		}
@@ -772,7 +768,12 @@ namespace TaleWorlds.CampaignSystem
 			{
 				float num2;
 				TextObject textObject3 = ((!Campaign.Current.Models.MapDistanceModel.GetDistance(this.AiBehaviorObject, MobileParty.MainParty, 15f, out num2)) ? GameTexts.FindText("str_army_besieging_travelling", null) : GameTexts.FindText("str_army_besieging", null));
-				textObject3.SetTextVariable("SETTLEMENT_NAME", setWithLink ? ((Settlement)this.AiBehaviorObject).EncyclopediaLinkWithName : this.AiBehaviorObject.Name);
+				Settlement settlement4 = (Settlement)this.AiBehaviorObject;
+				if (settlement4.IsVillage)
+				{
+					textObject3 = GameTexts.FindText("str_army_patrolling_travelling", null);
+				}
+				textObject3.SetTextVariable("SETTLEMENT_NAME", setWithLink ? settlement4.EncyclopediaLinkWithName : this.AiBehaviorObject.Name);
 				return textObject3;
 			}
 			case Army.AIBehaviorFlags.Raiding:
@@ -830,7 +831,7 @@ namespace TaleWorlds.CampaignSystem
 			float num = 0f;
 			if (leaderHero != null && leaderHero.IsActive)
 			{
-				using (List<Settlement>.Enumerator enumerator = this.MapFaction.Settlements.GetEnumerator())
+				using (List<Settlement>.Enumerator enumerator = this.Kingdom.Settlements.GetEnumerator())
 				{
 					while (enumerator.MoveNext())
 					{
@@ -847,16 +848,16 @@ namespace TaleWorlds.CampaignSystem
 								}
 								if (settlement2 != initialHostileTargetSettlement && settlement2.Party.MapEvent == null)
 								{
-									if (settlement2.MapFaction == this.MapFaction)
+									if (settlement2.MapFaction == this.Kingdom)
 									{
 										num2 += 10f;
 									}
-									else if (!FactionManager.IsAtWarAgainstFaction(settlement2.MapFaction, this.MapFaction))
+									else if (!FactionManager.IsAtWarAgainstFaction(settlement2.MapFaction, this.Kingdom))
 									{
 										num2 += 2f;
 									}
 									bool flag = false;
-									foreach (Army army in this.MapFaction.Armies)
+									foreach (Army army in this.Kingdom.Armies)
 									{
 										if (army != this && army.AiBehaviorObject == settlement2)
 										{
@@ -892,7 +893,7 @@ namespace TaleWorlds.CampaignSystem
 			IL_1F5:
 			if (settlement == null)
 			{
-				settlement = this.MapFaction.Settlements.FirstOrDefault<Settlement>() ?? this.LeaderParty.HomeSettlement;
+				settlement = this.Kingdom.Settlements.FirstOrDefault<Settlement>() ?? this.LeaderParty.HomeSettlement;
 			}
 			return settlement;
 		}
@@ -901,11 +902,6 @@ namespace TaleWorlds.CampaignSystem
 		{
 			foreach (MobileParty mobileParty in Campaign.Current.Models.ArmyManagementCalculationModel.GetMobilePartiesToCallToArmy(this.LeaderParty))
 			{
-				if (this.LeaderParty.LeaderHero != null)
-				{
-					int num = Campaign.Current.Models.ArmyManagementCalculationModel.CalculatePartyInfluenceCost(this.LeaderParty, mobileParty);
-					ChangeClanInfluenceAction.Apply(this.LeaderParty.LeaderHero.Clan, (float)(-(float)num));
-				}
 				SetPartyAiAction.GetActionForEscortingParty(mobileParty, this.LeaderParty);
 			}
 		}
@@ -965,16 +961,22 @@ namespace TaleWorlds.CampaignSystem
 		{
 			if (this.LeaderParty.Position2D.DistanceSquared(this.AiBehaviorObject.Position2D) < 100f && this.AIBehavior != Army.AIBehaviorFlags.Besieging)
 			{
-				Debug.Print(string.Concat(new object[]
+				if (this.LeaderParty.Army.Parties.ContainsQ(MobileParty.MainParty))
 				{
-					"[DEBUG] ",
-					this.LeaderParty.LeaderHero.Name,
-					" is besieging ",
-					this.AiBehaviorObject.Name,
-					" of ",
-					this.AiBehaviorObject.MapFaction.Name,
-					"\n"
-				}), 0, Debug.DebugColor.Cyan, 17592186044416UL);
+					Debug.Print(string.Concat(new object[]
+					{
+						this.LeaderParty.LeaderHero.StringId,
+						": ",
+						this.LeaderParty.LeaderHero.Name,
+						" is besieging ",
+						this.AiBehaviorObject.Name,
+						" of ",
+						this.AiBehaviorObject.MapFaction.StringId,
+						": ",
+						this.AiBehaviorObject.MapFaction.Name,
+						"\n"
+					}), 0, Debug.DebugColor.Cyan, 17592186044416UL);
+				}
 				this.AIBehavior = Army.AIBehaviorFlags.Besieging;
 			}
 		}
@@ -1037,8 +1039,7 @@ namespace TaleWorlds.CampaignSystem
 			bool flag = (num4 & 1) != 0;
 			num5 = ((((num5 & 1) != 0) ? (-1 - num5) : num5) >> 1) * (flag ? (-1) : 1);
 			float num6 = 1.25f;
-			float num7 = (float)this.LeaderPartyAndAttachedPartiesCount * 0.1f;
-			Vec2 vec = new Vec2(num7, num7);
+			Vec2 vec = this.LeaderParty.VisualPosition2DWithoutError + -armyFacing * 0.1f * (float)this.LeaderParty.AttachedParties.Count;
 			Vec2 vec2 = vec - (float)MathF.Sign((float)num5 - (((num4 & 1) != 0) ? 0.5f : 0f)) * armyFacing.LeftVec() * num2;
 			PathFaceRecord faceIndex = Campaign.Current.MapSceneWrapper.GetFaceIndex(vec);
 			if (vec != vec2)
@@ -1075,16 +1076,13 @@ namespace TaleWorlds.CampaignSystem
 		{
 			mobileParty.Ai.SetInitiative(1f, 1f, 24f);
 			this._parties.Remove(mobileParty);
-			if (this.Parties.Count > 0)
+			CampaignEventDispatcher.Instance.OnPartyRemovedFromArmy(mobileParty);
+			if (this == MobileParty.MainParty.Army)
 			{
-				CampaignEventDispatcher.Instance.OnPartyRemovedFromArmy(mobileParty);
-				if (this == MobileParty.MainParty.Army)
-				{
-					CampaignEventDispatcher.Instance.OnArmyOverlaySetDirty();
-				}
+				CampaignEventDispatcher.Instance.OnArmyOverlaySetDirty();
 			}
 			mobileParty.AttachedTo = null;
-			if (this.LeaderParty == mobileParty)
+			if (this.LeaderParty == mobileParty && !this._armyIsDispersing)
 			{
 				DisbandArmyAction.ApplyByLeaderPartyRemoved(this);
 			}
@@ -1122,12 +1120,8 @@ namespace TaleWorlds.CampaignSystem
 					DisbandArmyAction.ApplyByNotEnoughParty(this);
 				}
 			}
-			IPartyVisual visuals = mobileParty.Party.Visuals;
-			if (visuals != null)
-			{
-				visuals.SetMapIconAsDirty();
-			}
-			mobileParty.Party.UpdateVisibilityAndInspected(0f, false);
+			mobileParty.Party.SetVisualAsDirty();
+			mobileParty.Party.UpdateVisibilityAndInspected(0f);
 		}
 
 		internal void OnAddPartyInternal(MobileParty mobileParty)
@@ -1141,7 +1135,8 @@ namespace TaleWorlds.CampaignSystem
 			}
 			if (mobileParty != MobileParty.MainParty && this.LeaderParty != MobileParty.MainParty && this.LeaderParty.LeaderHero != null)
 			{
-				ChangeClanInfluenceAction.Apply(this.LeaderParty.LeaderHero.Clan, (float)(-(float)Campaign.Current.Models.ArmyManagementCalculationModel.CalculatePartyInfluenceCost(this.LeaderParty, mobileParty)));
+				int num = -Campaign.Current.Models.ArmyManagementCalculationModel.CalculatePartyInfluenceCost(this.LeaderParty, mobileParty);
+				ChangeClanInfluenceAction.Apply(this.LeaderParty.LeaderHero.Clan, (float)num);
 			}
 		}
 

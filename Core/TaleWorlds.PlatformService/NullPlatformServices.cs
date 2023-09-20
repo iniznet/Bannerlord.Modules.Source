@@ -35,6 +35,14 @@ namespace TaleWorlds.PlatformService
 			}
 		}
 
+		PlayerId IPlatformServices.PlayerId
+		{
+			get
+			{
+				return PlayerId.Empty;
+			}
+		}
+
 		string IPlatformServices.UserDisplayName
 		{
 			get
@@ -109,6 +117,8 @@ namespace TaleWorlds.PlatformService
 
 		public event Action<bool, TextObject> OnSignInStateUpdated;
 
+		public event Action<string> OnTextEnteredFromPlatform;
+
 		private void Dummy()
 		{
 			if (this.OnAvatarUpdated != null)
@@ -126,6 +136,10 @@ namespace TaleWorlds.PlatformService
 			if (this.OnSignInStateUpdated != null)
 			{
 				this.OnSignInStateUpdated(false, null);
+			}
+			if (this.OnTextEnteredFromPlatform != null)
+			{
+				this.OnTextEnteredFromPlatform(null);
 			}
 			if (this.OnBlockedUserListUpdated != null)
 			{
@@ -202,6 +216,10 @@ namespace TaleWorlds.PlatformService
 		bool IPlatformServices.UnregisterPermissionChangeEvent(PlayerId targetPlayerId, Permission permission, PermissionChanged Callback)
 		{
 			return true;
+		}
+
+		void IPlatformServices.ShowGamepadTextInput(string descriptionText, string existingText, uint maxLine, bool isObfuscated)
+		{
 		}
 
 		private TestFriendListService _testFriendListService;

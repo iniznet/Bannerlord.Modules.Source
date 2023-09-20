@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Helpers;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
@@ -36,6 +37,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.AvailableCharactersForSmithing = new MBBindingList<CraftingAvailableHeroItemVM>();
 			this.MainActionHint = new BasicTooltipViewModel();
 			this.TutorialNotification = new ElementNotificationVM();
+			this.CameraControlKeys = new MBBindingList<InputKeyItemVM>();
 			if (Campaign.Current.GameMode == CampaignGameMode.Campaign)
 			{
 				foreach (Hero hero in CraftingHelper.GetAvailableHeroesForCrafting())
@@ -52,6 +54,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.Smelting = new SmeltingVM(new Action(this.OnSmeltItemSelection), new Action(this.UpdateAll));
 			this.Refinement = new RefinementVM(new Action(this.OnRefinementSelectionChange), new Func<CraftingAvailableHeroItemVM>(this.GetCurrentCraftingHero));
 			this.WeaponDesign = new WeaponDesignVM(this._crafting, this._craftingBehavior, new Action(this.OnRequireUpdateFromWeaponDesign), this._onWeaponCrafted, new Func<CraftingAvailableHeroItemVM>(this.GetCurrentCraftingHero), new Action<CraftingOrder>(this.RefreshHeroAvailabilities), this._getItemUsageSetFlags);
+			this.CraftingHeroPopup = new CraftingHeroPopupVM(new Func<MBBindingList<CraftingAvailableHeroItemVM>>(this.GetCraftingHeroes));
+			this.UpdateCraftingPerks();
 			this.ExecuteSwitchToCrafting();
 			this.RefreshValues();
 			Game.Current.EventManager.RegisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
@@ -81,11 +85,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 				x.RefreshValues();
 			});
 			CraftingAvailableHeroItemVM currentCraftingHero = this._currentCraftingHero;
-			if (currentCraftingHero == null)
+			if (currentCraftingHero != null)
 			{
-				return;
+				currentCraftingHero.RefreshValues();
 			}
-			currentCraftingHero.RefreshValues();
+			this.CraftingHeroPopup.RefreshValues();
 		}
 
 		public override void OnFinalize()
@@ -111,6 +115,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			if (nextTabInputKey != null)
 			{
 				nextTabInputKey.OnFinalize();
+			}
+			foreach (InputKeyItemVM inputKeyItemVM in this.CameraControlKeys)
+			{
+				if (inputKeyItemVM != null)
+				{
+					inputKeyItemVM.OnFinalize();
+				}
 			}
 			Game game = Game.Current;
 			if (game == null)
@@ -267,6 +278,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
+		private void UpdateCraftingPerks()
+		{
+			foreach (CraftingAvailableHeroItemVM craftingAvailableHeroItemVM in this.AvailableCharactersForSmithing)
+			{
+				craftingAvailableHeroItemVM.RefreshPerks();
+			}
+		}
+
 		private void RefreshHeroAvailabilities(CraftingOrder order)
 		{
 			foreach (CraftingAvailableHeroItemVM craftingAvailableHeroItemVM in this.AvailableCharactersForSmithing)
@@ -336,11 +355,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 						this.IsMainActionEnabled = false;
 						if (this.MainActionHint != null)
 						{
-							CraftingVM.<>c__DisplayClass20_0 CS$<>8__locals1 = new CraftingVM.<>c__DisplayClass20_0();
-							CraftingVM.<>c__DisplayClass20_0 CS$<>8__locals2 = CS$<>8__locals1;
+							CraftingVM.<>c__DisplayClass21_0 CS$<>8__locals1 = new CraftingVM.<>c__DisplayClass21_0();
+							CraftingVM.<>c__DisplayClass21_0 CS$<>8__locals2 = CS$<>8__locals1;
 							CraftingOrderItemVM activeCraftingOrder = this.WeaponDesign.ActiveCraftingOrder;
 							CS$<>8__locals2.order = ((activeCraftingOrder != null) ? activeCraftingOrder.CraftingOrder : null);
-							CS$<>8__locals1.item = this._crafting.GetCurrentCraftedItemObject(false, null);
+							CS$<>8__locals1.item = this._crafting.GetCurrentCraftedItemObject(false);
 							this.MainActionHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetOrderCannotBeCompletedReasonTooltip(CS$<>8__locals1.order, CS$<>8__locals1.item));
 						}
 					}
@@ -366,6 +385,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 		public void UpdateCraftingHero(CraftingAvailableHeroItemVM newHero)
 		{
 			this.CurrentCraftingHero = newHero;
+			CraftingHeroPopupVM craftingHeroPopup = this.CraftingHeroPopup;
+			if (craftingHeroPopup != null && craftingHeroPopup.IsVisible)
+			{
+				this.CraftingHeroPopup.ExecuteClosePopup();
+			}
 			this.WeaponDesign.OnCraftingHeroChanged(newHero);
 			this.Refinement.OnCraftingHeroChanged(newHero);
 			this.Smelting.OnCraftingHeroChanged(newHero);
@@ -373,57 +397,88 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			this.UpdateCraftingSkills();
 		}
 
-		public void ExecuteConfirm()
+		[return: TupleElementNames(new string[] { "isConfirmSuccessful", "isMainActionExecuted" })]
+		public ValueTuple<bool, bool> ExecuteConfirm()
 		{
-			if (this.WeaponDesign.IsInFinalCraftingStage && this.WeaponDesign.CraftingResultPopup.CanConfirm)
+			CraftingHistoryVM craftingHistory = this.WeaponDesign.CraftingHistory;
+			if (craftingHistory != null && craftingHistory.IsVisible)
 			{
-				this.WeaponDesign.CraftingResultPopup.ExecuteFinalizeCrafting();
-				return;
-			}
-			if (this.WeaponDesign.CraftingHistory.IsVisible)
-			{
-				CraftingHistoryVM craftingHistory = this.WeaponDesign.CraftingHistory;
-				if (((craftingHistory != null) ? craftingHistory.SelectedDesign : null) != null)
+				if (this.WeaponDesign.CraftingHistory.SelectedDesign != null)
 				{
 					this.WeaponDesign.CraftingHistory.ExecuteDone();
-					return;
+					return new ValueTuple<bool, bool>(true, false);
 				}
 			}
-			if (!this.WeaponDesign.CraftingOrderPopup.IsVisible && !this.WeaponDesign.CraftingHistory.IsVisible && !this.WeaponDesign.WeaponClassSelectionPopup.IsVisible && this.IsMainActionEnabled)
+			else
 			{
-				this.ExecuteMainAction();
+				CraftingOrderPopupVM craftingOrderPopup = this.WeaponDesign.CraftingOrderPopup;
+				if (craftingOrderPopup != null && !craftingOrderPopup.IsVisible)
+				{
+					WeaponClassSelectionPopupVM weaponClassSelectionPopup = this.WeaponDesign.WeaponClassSelectionPopup;
+					if (weaponClassSelectionPopup != null && !weaponClassSelectionPopup.IsVisible)
+					{
+						CraftingHeroPopupVM craftingHeroPopup = this.CraftingHeroPopup;
+						if (craftingHeroPopup != null && !craftingHeroPopup.IsVisible)
+						{
+							if (this.WeaponDesign.IsInFinalCraftingStage)
+							{
+								if (this.WeaponDesign.CraftingResultPopup.CanConfirm)
+								{
+									this.WeaponDesign.CraftingResultPopup.ExecuteFinalizeCrafting();
+									return new ValueTuple<bool, bool>(true, false);
+								}
+							}
+							else if (this.IsMainActionEnabled)
+							{
+								this.ExecuteMainAction();
+								return new ValueTuple<bool, bool>(true, true);
+							}
+						}
+					}
+				}
 			}
+			return new ValueTuple<bool, bool>(false, false);
 		}
 
 		public void ExecuteCancel()
 		{
-			if (this.WeaponDesign.IsInFinalCraftingStage)
-			{
-				this.WeaponDesign.CraftingResultPopup.ExecuteFinalizeCrafting();
-				return;
-			}
-			if (this.IsCharacterSelectionActive)
-			{
-				this.IsCharacterSelectionActive = false;
-				return;
-			}
-			if (this.WeaponDesign.CraftingOrderPopup.IsVisible)
-			{
-				this.WeaponDesign.CraftingOrderPopup.ExecuteCloseWithoutSelection();
-				return;
-			}
-			if (this.WeaponDesign.WeaponClassSelectionPopup.IsVisible)
-			{
-				this.WeaponDesign.WeaponClassSelectionPopup.ExecuteClosePopup();
-				return;
-			}
-			if (this.WeaponDesign.CraftingHistory.IsVisible)
+			CraftingHistoryVM craftingHistory = this.WeaponDesign.CraftingHistory;
+			if (craftingHistory != null && craftingHistory.IsVisible)
 			{
 				this.WeaponDesign.CraftingHistory.ExecuteCancel();
 				return;
 			}
-			this.Smelting.SaveItemLockStates();
-			Game.Current.GameStateManager.PopState(0);
+			CraftingHeroPopupVM craftingHeroPopup = this.CraftingHeroPopup;
+			if (craftingHeroPopup != null && craftingHeroPopup.IsVisible)
+			{
+				this.CraftingHeroPopup.ExecuteClosePopup();
+				return;
+			}
+			CraftingOrderPopupVM craftingOrderPopup = this.WeaponDesign.CraftingOrderPopup;
+			if (craftingOrderPopup != null && craftingOrderPopup.IsVisible)
+			{
+				this.WeaponDesign.CraftingOrderPopup.ExecuteCloseWithoutSelection();
+				return;
+			}
+			WeaponClassSelectionPopupVM weaponClassSelectionPopup = this.WeaponDesign.WeaponClassSelectionPopup;
+			if (weaponClassSelectionPopup != null && weaponClassSelectionPopup.IsVisible)
+			{
+				this.WeaponDesign.WeaponClassSelectionPopup.ExecuteClosePopup();
+				return;
+			}
+			if (this.WeaponDesign.IsInFinalCraftingStage)
+			{
+				if (this.WeaponDesign.CraftingResultPopup.CanConfirm)
+				{
+					this.WeaponDesign.CraftingResultPopup.ExecuteFinalizeCrafting();
+					return;
+				}
+			}
+			else
+			{
+				this.Smelting.SaveItemLockStates();
+				Game.Current.GameStateManager.PopState(0);
+			}
 		}
 
 		public void ExecuteMainAction()
@@ -441,7 +496,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 				CraftingState craftingState;
 				if ((craftingState = GameStateManager.Current.ActiveState as CraftingState) != null)
 				{
-					ItemObject currentCraftedItemObject = craftingState.CraftingLogic.GetCurrentCraftedItemObject(true, null);
+					ItemObject currentCraftedItemObject = craftingState.CraftingLogic.GetCurrentCraftedItemObject(true);
 					ItemObject itemObject = MBObjectManager.Instance.GetObject<ItemObject>(currentCraftedItemObject.WeaponDesign.HashedCode) ?? MBObjectManager.Instance.RegisterObject<ItemObject>(currentCraftedItemObject);
 					PartyBase.MainParty.ItemRoster.AddToCounts(itemObject, 1);
 					this.WeaponDesign.IsInFinalCraftingStage = false;
@@ -453,19 +508,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 				{
 					return;
 				}
-				this.WeaponDesign.ModifierTier = Campaign.Current.Models.SmithingModel.GetModifierTierForSmithedWeapon(this._crafting.CurrentWeaponDesign, this.CurrentCraftingHero.Hero);
-				this.WeaponDesign.OverridenData = Campaign.Current.Models.SmithingModel.GetModifierChanges(this.WeaponDesign.ModifierTier, this.CurrentCraftingHero.Hero, this._crafting.GetCurrentCraftedItemObject(false, null).GetWeaponWithUsageIndex(0));
-				this.WeaponDesign.IsInFinalCraftingStage = true;
 				this.WeaponDesign.RegisterTempItemObject();
+				CraftingAvailableHeroItemVM currentCraftingHero = this.GetCurrentCraftingHero();
+				Hero hero = ((currentCraftingHero != null) ? currentCraftingHero.Hero : null);
 				if (this.WeaponDesign.IsInOrderMode)
 				{
 					WeaponDesignVM weaponDesign = this.WeaponDesign;
 					ICraftingCampaignBehavior craftingBehavior = this._craftingBehavior;
-					CraftingAvailableHeroItemVM currentCraftingHero = this.GetCurrentCraftingHero();
-					Hero hero = ((currentCraftingHero != null) ? currentCraftingHero.Hero : null);
+					Hero hero2 = hero;
 					CraftingOrderItemVM activeCraftingOrder = this.WeaponDesign.ActiveCraftingOrder;
-					weaponDesign.CraftedItemObject = craftingBehavior.CreateCraftedWeaponInCraftingOrderMode(hero, (activeCraftingOrder != null) ? activeCraftingOrder.CraftingOrder : null, this._crafting.CurrentWeaponDesign, this.WeaponDesign.ModifierTier, this.WeaponDesign.OverridenData);
+					weaponDesign.CraftedItemObject = craftingBehavior.CreateCraftedWeaponInCraftingOrderMode(hero2, (activeCraftingOrder != null) ? activeCraftingOrder.CraftingOrder : null, this._crafting.CurrentWeaponDesign);
 				}
+				else
+				{
+					this.WeaponDesign.AddCraftingModifier(this._crafting.CurrentWeaponDesign, hero);
+				}
+				this.WeaponDesign.IsInFinalCraftingStage = true;
 				this.WeaponDesign.CreateCraftingResultPopup();
 				Action onWeaponCrafted = this._onWeaponCrafted;
 				if (onWeaponCrafted != null)
@@ -489,6 +547,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			return this.CurrentCraftingHero;
 		}
 
+		private MBBindingList<CraftingAvailableHeroItemVM> GetCraftingHeroes()
+		{
+			return this.AvailableCharactersForSmithing;
+		}
+
 		public void SetConfirmInputKey(HotKey hotKey)
 		{
 			this.ConfirmInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
@@ -507,6 +570,25 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 		public void SetNextTabInputKey(HotKey hotKey)
 		{
 			this.NextTabInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
+		}
+
+		public void AddCameraControlInputKey(HotKey hotKey)
+		{
+			InputKeyItemVM inputKeyItemVM = InputKeyItemVM.CreateFromHotKey(hotKey, true);
+			this.CameraControlKeys.Add(inputKeyItemVM);
+		}
+
+		public void AddCameraControlInputKey(GameKey gameKey)
+		{
+			InputKeyItemVM inputKeyItemVM = InputKeyItemVM.CreateFromGameKey(gameKey, true);
+			this.CameraControlKeys.Add(inputKeyItemVM);
+		}
+
+		public void AddCameraControlInputKey(GameAxisKey gameAxisKey)
+		{
+			TextObject textObject = GameTexts.FindText("str_key_name", "CraftingHotkeyCategory_" + gameAxisKey.Id);
+			InputKeyItemVM inputKeyItemVM = InputKeyItemVM.CreateFromForcedID(gameAxisKey.AxisKey.ToString(), textObject, true);
+			this.CameraControlKeys.Add(inputKeyItemVM);
 		}
 
 		public InputKeyItemVM ConfirmInputKey
@@ -573,6 +655,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
+		[DataSourceProperty]
+		public MBBindingList<InputKeyItemVM> CameraControlKeys
+		{
+			get
+			{
+				return this._cameraControlKeys;
+			}
+			set
+			{
+				if (value != this._cameraControlKeys)
+				{
+					this._cameraControlKeys = value;
+					base.OnPropertyChangedWithValue<MBBindingList<InputKeyItemVM>>(value, "CameraControlKeys");
+				}
+			}
+		}
+
 		public bool CanSwitchTabs
 		{
 			get
@@ -589,18 +688,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			}
 		}
 
-		public bool IsCharacterSelectionActive
+		public bool AreGamepadControlHintsEnabled
 		{
 			get
 			{
-				return this._isCharacterSelectionActive;
+				return this._areGamepadControlHintsEnabled;
 			}
 			set
 			{
-				if (value != this._isCharacterSelectionActive)
+				if (value != this._areGamepadControlHintsEnabled)
 				{
-					this._isCharacterSelectionActive = value;
-					base.OnPropertyChangedWithValue(value, "IsCharacterSelectionActive");
+					this._areGamepadControlHintsEnabled = value;
+					base.OnPropertyChangedWithValue(value, "AreGamepadControlHintsEnabled");
 				}
 			}
 		}
@@ -650,8 +749,33 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			{
 				if (value != this._currentCraftingHero)
 				{
+					if (this._currentCraftingHero != null)
+					{
+						this._currentCraftingHero.IsSelected = false;
+					}
 					this._currentCraftingHero = value;
+					if (this._currentCraftingHero != null)
+					{
+						this._currentCraftingHero.IsSelected = true;
+					}
 					base.OnPropertyChangedWithValue<CraftingAvailableHeroItemVM>(value, "CurrentCraftingHero");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public CraftingHeroPopupVM CraftingHeroPopup
+		{
+			get
+			{
+				return this._craftingHeroPopup;
+			}
+			set
+			{
+				if (value != this._craftingHeroPopup)
+				{
+					this._craftingHeroPopup = value;
+					base.OnPropertyChangedWithValue<CraftingHeroPopupVM>(value, "CraftingHeroPopup");
 				}
 			}
 		}
@@ -968,7 +1092,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 			{
 				this.ExecuteSwitchToCrafting();
 			}
-			this.WeaponDesign.SetDesignManually(craftingTemplate, pieces, false);
+			this.WeaponDesign.SetDesignManually(craftingTemplate, pieces, true);
 		}
 
 		[DataSourceProperty]
@@ -1198,9 +1322,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 
 		private InputKeyItemVM _nextTabInputKey;
 
+		private MBBindingList<InputKeyItemVM> _cameraControlKeys;
+
 		private bool _canSwitchTabs;
 
-		private bool _isCharacterSelectionActive;
+		private bool _areGamepadControlHintsEnabled;
 
 		private string _doneLbl;
 
@@ -1235,6 +1361,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting
 		private CraftingAvailableHeroItemVM _currentCraftingHero;
 
 		private MBBindingList<CraftingResourceItemVM> _playerCurrentMaterials;
+
+		private CraftingHeroPopupVM _craftingHeroPopup;
 
 		private bool _isInSmeltingMode;
 

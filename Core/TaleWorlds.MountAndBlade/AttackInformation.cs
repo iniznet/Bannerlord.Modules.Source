@@ -10,6 +10,8 @@ namespace TaleWorlds.MountAndBlade
 	{
 		public AttackInformation(Agent attackerAgent, Agent victimAgent, GameEntity hitObject, in AttackCollisionData attackCollisionData, in MissionWeapon attackerWeapon)
 		{
+			this.AttackerAgent = attackerAgent;
+			this.VictimAgent = victimAgent;
 			this.IsAttackerAgentNull = attackerAgent == null;
 			this.IsVictimAgentNull = victimAgent == null;
 			this.ArmorAmountFloat = 0f;
@@ -58,7 +60,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				this.VictimAgentMountMovementDirection = victimAgent.MountAgent.GetMovementDirection();
 			}
-			this.IsVictimAgentSameWithAttackerAgent = attackerAgent == victimAgent;
+			this.IsVictimAgentSameWithAttackerAgent = !this.IsAttackerAgentNull && attackerAgent == victimAgent;
 			MissionWeapon missionWeapon = attackerWeapon;
 			int num;
 			if (missionWeapon.IsEmpty || this.IsAttackerAgentNull || !attackerAgent.IsHuman)
@@ -75,23 +77,30 @@ namespace TaleWorlds.MountAndBlade
 			DestructableComponent destructableComponent = ((hitObject != null) ? hitObject.GetFirstScriptOfTypeInFamily<DestructableComponent>() : null);
 			this.HitObjectDestructibleComponent = destructableComponent;
 			bool flag;
-			if (!this.IsVictimAgentSameWithAttackerAgent && (this.IsVictimAgentNull || !victimAgent.IsFriendOf(attackerAgent)))
+			if (!this.IsAttackerAgentNull)
 			{
-				if (destructableComponent != null)
+				if (!this.IsVictimAgentSameWithAttackerAgent && (this.IsVictimAgentNull || !victimAgent.IsFriendOf(attackerAgent)))
 				{
-					BattleSideEnum battleSide = destructableComponent.BattleSide;
-					Team team = attackerAgent.Team;
-					BattleSideEnum? battleSideEnum = ((team != null) ? new BattleSideEnum?(team.Side) : null);
-					flag = (battleSide == battleSideEnum.GetValueOrDefault()) & (battleSideEnum != null);
+					if (destructableComponent != null)
+					{
+						BattleSideEnum battleSide = destructableComponent.BattleSide;
+						Team team = attackerAgent.Team;
+						BattleSideEnum? battleSideEnum = ((team != null) ? new BattleSideEnum?(team.Side) : null);
+						flag = (battleSide == battleSideEnum.GetValueOrDefault()) & (battleSideEnum != null);
+					}
+					else
+					{
+						flag = false;
+					}
 				}
 				else
 				{
-					flag = false;
+					flag = true;
 				}
 			}
 			else
 			{
-				flag = true;
+				flag = false;
 			}
 			this.IsFriendlyFire = flag;
 			this.OffHandItem = default(MissionWeapon);
@@ -142,7 +151,7 @@ namespace TaleWorlds.MountAndBlade
 				this.IsVictimAgentLeftStance = victimAgent.GetIsLeftStance();
 				this.DoesVictimHaveMountAgent = victimAgent.HasMount;
 				this.DoesVictimHaveRiderAgent = victimAgent.RiderAgent != null;
-				this.IsVictimRiderAgentSameAsAttackerAgent = !this.DoesVictimHaveRiderAgent && victimAgent.RiderAgent == attackerAgent;
+				this.IsVictimRiderAgentSameAsAttackerAgent = this.DoesVictimHaveRiderAgent && victimAgent.RiderAgent == attackerAgent;
 				this.IsVictimPlayer = victimAgent.IsPlayerControlled;
 				this.VictimAgentAbsorbedDamageRatio = victimAgent.Monster.AbsorbedDamageRatio;
 				AgentApplyDamageModel agentApplyDamageModel = MissionGameModels.Current.AgentApplyDamageModel;
@@ -276,8 +285,10 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public AttackInformation(float armorAmountFloat, WeaponComponentData shieldOnBack, AgentFlag victimAgentFlag, float victimAgentAbsorbedDamageRatio, float damageMultiplierOfBone, float combatDifficultyMultiplier, MissionWeapon victimMainHandWeapon, MissionWeapon victimShield, bool canGiveDamageToAgentShield, bool isVictimAgentLeftStance, bool isFriendlyFire, bool doesAttackerHaveMountAgent, bool doesVictimHaveMountAgent, Vec2 attackerAgentMovementVelocity, Vec2 attackerAgentMountMovementDirection, float attackerMovementDirectionAsAngle, Vec2 victimAgentMovementVelocity, Vec2 victimAgentMountMovementDirection, float victimMovementDirectionAsAngle, bool isVictimAgentSameWithAttackerAgent, bool isAttackerAgentMine, bool doesAttackerHaveRiderAgent, bool isAttackerAgentRiderAgentMine, bool isAttackerAgentMount, bool isVictimAgentMine, bool doesVictimHaveRiderAgent, bool isVictimAgentRiderAgentMine, bool isVictimAgentMount, bool isAttackerAgentNull, bool isAttackerAIControlled, BasicCharacterObject attackerAgentCharacter, BasicCharacterObject attackerRiderAgentCharacter, IAgentOriginBase attackerAgentOrigin, IAgentOriginBase attackerRiderAgentOrigin, BasicCharacterObject victimAgentCharacter, BasicCharacterObject victimRiderAgentCharacter, IAgentOriginBase victimAgentOrigin, IAgentOriginBase victimRiderAgentOrigin, Vec2 attackerAgentMovementDirection, Vec3 attackerAgentVelocity, float attackerAgentMountChargeDamageProperty, Vec3 attackerAgentCurrentWeaponOffset, bool isAttackerAgentHuman, bool isAttackerAgentActive, bool isAttackerAgentDoingPassiveAttack, bool isVictimAgentNull, float victimAgentScale, float victimAgentHealth, float victimAgentMaxHealth, float victimAgentWeight, float victimAgentTotalEncumbrance, bool isVictimAgentHuman, Vec3 victimAgentVelocity, Vec3 victimAgentPosition, int weaponAttachBoneIndex, MissionWeapon offHandItem, bool isHeadShot, bool isVictimRiderAgentSameAsAttackerAgent, bool isAttackerPlayer, bool isVictimPlayer, DestructableComponent hitObjectDestructibleComponent)
+		public AttackInformation(Agent attackerAgent, Agent victimAgent, float armorAmountFloat, WeaponComponentData shieldOnBack, AgentFlag victimAgentFlag, float victimAgentAbsorbedDamageRatio, float damageMultiplierOfBone, float combatDifficultyMultiplier, MissionWeapon victimMainHandWeapon, MissionWeapon victimShield, bool canGiveDamageToAgentShield, bool isVictimAgentLeftStance, bool isFriendlyFire, bool doesAttackerHaveMountAgent, bool doesVictimHaveMountAgent, Vec2 attackerAgentMovementVelocity, Vec2 attackerAgentMountMovementDirection, float attackerMovementDirectionAsAngle, Vec2 victimAgentMovementVelocity, Vec2 victimAgentMountMovementDirection, float victimMovementDirectionAsAngle, bool isVictimAgentSameWithAttackerAgent, bool isAttackerAgentMine, bool doesAttackerHaveRiderAgent, bool isAttackerAgentRiderAgentMine, bool isAttackerAgentMount, bool isVictimAgentMine, bool doesVictimHaveRiderAgent, bool isVictimAgentRiderAgentMine, bool isVictimAgentMount, bool isAttackerAgentNull, bool isAttackerAIControlled, BasicCharacterObject attackerAgentCharacter, BasicCharacterObject attackerRiderAgentCharacter, IAgentOriginBase attackerAgentOrigin, IAgentOriginBase attackerRiderAgentOrigin, BasicCharacterObject victimAgentCharacter, BasicCharacterObject victimRiderAgentCharacter, IAgentOriginBase victimAgentOrigin, IAgentOriginBase victimRiderAgentOrigin, Vec2 attackerAgentMovementDirection, Vec3 attackerAgentVelocity, float attackerAgentMountChargeDamageProperty, Vec3 attackerAgentCurrentWeaponOffset, bool isAttackerAgentHuman, bool isAttackerAgentActive, bool isAttackerAgentDoingPassiveAttack, bool isVictimAgentNull, float victimAgentScale, float victimAgentHealth, float victimAgentMaxHealth, float victimAgentWeight, float victimAgentTotalEncumbrance, bool isVictimAgentHuman, Vec3 victimAgentVelocity, Vec3 victimAgentPosition, int weaponAttachBoneIndex, MissionWeapon offHandItem, bool isHeadShot, bool isVictimRiderAgentSameAsAttackerAgent, bool isAttackerPlayer, bool isVictimPlayer, DestructableComponent hitObjectDestructibleComponent)
 		{
+			this.AttackerAgent = attackerAgent;
+			this.VictimAgent = victimAgent;
 			this.ArmorAmountFloat = armorAmountFloat;
 			this.ShieldOnBack = shieldOnBack;
 			this.VictimAgentFlag = victimAgentFlag;
@@ -346,6 +357,10 @@ namespace TaleWorlds.MountAndBlade
 			this.IsVictimPlayer = isVictimPlayer;
 			this.HitObjectDestructibleComponent = hitObjectDestructibleComponent;
 		}
+
+		public Agent AttackerAgent;
+
+		public Agent VictimAgent;
 
 		public float ArmorAmountFloat;
 

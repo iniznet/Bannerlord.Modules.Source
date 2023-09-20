@@ -28,7 +28,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (formation.CountOfUnits > 0)
 			{
-				float typeMultiplier = (formation.IsCavalry() ? 2f : (formation.IsRanged() ? 0.3f : 1f));
+				float typeMultiplier = (formation.PhysicalClass.IsMeleeCavalry() ? 2f : (formation.PhysicalClass.IsRanged() ? 0.3f : 1f));
 				float sum = 0f;
 				formation.ApplyActionOnEachUnit(delegate(Agent agent)
 				{
@@ -356,12 +356,6 @@ namespace TaleWorlds.MountAndBlade
 		protected override void StopUsingAllMachines()
 		{
 			base.StopUsingAllMachines();
-			this.StopUsingStrategicAreas();
-		}
-
-		protected override void StopUsingAllRangedSiegeWeapons()
-		{
-			base.StopUsingAllRangedSiegeWeapons();
 			this.StopUsingStrategicAreas();
 		}
 
@@ -1131,16 +1125,20 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return;
 			}
-			foreach (Team team in base.Team.Mission.Teams)
+			if (!this._areSiegeWeaponsAbandoned)
 			{
-				if (team.IsEnemyOf(base.Team))
+				foreach (Team team in base.Team.Mission.Teams)
 				{
-					if (team.QuerySystem.InsideWallsRatio > 0.5f)
+					if (team.IsEnemyOf(base.Team))
 					{
-						this.StopUsingAllRangedSiegeWeapons();
+						if (team.QuerySystem.InsideWallsRatio > 0.5f)
+						{
+							base.StopUsingAllRangedSiegeWeapons();
+							this._areSiegeWeaponsAbandoned = true;
+							break;
+						}
 						break;
 					}
-					break;
 				}
 			}
 			this.CheckAndChangeState();
@@ -1165,8 +1163,6 @@ namespace TaleWorlds.MountAndBlade
 
 		private const float SallyOutDecisionPenalty = 3f;
 
-		private const float InsideEnemyThresholdRatio = 0.5f;
-
 		private readonly TeamAISiegeDefender _teamAISiegeDefender;
 
 		private readonly List<MissionObject> _castleKeyPositions;
@@ -1186,6 +1182,8 @@ namespace TaleWorlds.MountAndBlade
 		private bool _areRangedNeededForLaneDefense;
 
 		private bool _isTacticFailing;
+
+		private bool _areSiegeWeaponsAbandoned;
 
 		private Formation _invadingEnemyFormation;
 

@@ -86,7 +86,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					{
 						goto IL_7F;
 					}
-					IL_256:
+					IL_19C:
 					i++;
 					continue;
 					IL_7F:
@@ -95,7 +95,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 						num = MathF.Max(0, MathF.Min(num, (party.MobileParty.PaymentLimit - party.MobileParty.TotalWage) / (partyWageModel.GetCharacterWage(characterObject) - partyWageModel.GetCharacterWage(character))));
 						if (num == 0)
 						{
-							goto IL_256;
+							goto IL_19C;
 						}
 					}
 					int upgradeGoldCost = character.GetUpgradeGoldCost(party, i);
@@ -104,42 +104,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 						num = party.LeaderHero.Gold / upgradeGoldCost;
 						if (num == 0)
 						{
-							goto IL_256;
-						}
-					}
-					if (party.Owner != null && party.Owner.Clan == Clan.PlayerClan && characterObject.UpgradeRequiresItemFromCategory != null)
-					{
-						bool flag = false;
-						int num2 = 0;
-						foreach (ItemRosterElement itemRosterElement in party.ItemRoster)
-						{
-							if (itemRosterElement.EquipmentElement.Item.ItemCategory == characterObject.UpgradeRequiresItemFromCategory && itemRosterElement.EquipmentElement.ItemModifier == null)
-							{
-								num2 += itemRosterElement.Amount;
-								flag = true;
-								if (num2 >= num)
-								{
-									break;
-								}
-							}
-						}
-						if (!flag)
-						{
-							goto IL_256;
-						}
-						num = MathF.Min(num2, num);
-						if (num == 0)
-						{
-							goto IL_256;
+							goto IL_19C;
 						}
 					}
 					if ((!party.Culture.IsBandit || characterObject.Culture.IsBandit) && (character.Occupation != Occupation.Bandit || partyTroopUpgradeModel.CanPartyUpgradeTroopToTarget(party, character, characterObject)))
 					{
 						float upgradeChanceForTroopUpgrade = Campaign.Current.Models.PartyTroopUpgradeModel.GetUpgradeChanceForTroopUpgrade(party, character, i);
 						list.Add(new PartyUpgraderCampaignBehavior.TroopUpgradeArgs(character, characterObject, num, upgradeGoldCost, upgradeXpCost, upgradeChanceForTroopUpgrade));
-						goto IL_256;
+						goto IL_19C;
 					}
-					goto IL_256;
+					goto IL_19C;
 				}
 			}
 			return list;
@@ -169,23 +143,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			memberRoster.SetElementXp(rosterIndex, memberRoster.GetElementXp(rosterIndex) - num);
 			memberRoster.AddToCounts(upgradeArgs.Target, -possibleUpgradeCount, false, 0, 0, true, -1);
 			memberRoster.AddToCounts(upgradeTarget, possibleUpgradeCount, false, 0, 0, true, -1);
-			if (party.Owner != null && party.Owner.Clan == Clan.PlayerClan && upgradeTarget.UpgradeRequiresItemFromCategory != null)
-			{
-				int num2 = possibleUpgradeCount;
-				foreach (ItemRosterElement itemRosterElement in party.ItemRoster)
-				{
-					if (itemRosterElement.EquipmentElement.Item.ItemCategory == upgradeTarget.UpgradeRequiresItemFromCategory && itemRosterElement.EquipmentElement.ItemModifier == null)
-					{
-						int num3 = MathF.Min(num2, itemRosterElement.Amount);
-						party.ItemRoster.AddToCounts(itemRosterElement.EquipmentElement.Item, -num3);
-						num2 -= num3;
-						if (num2 == 0)
-						{
-							break;
-						}
-					}
-				}
-			}
 			if (possibleUpgradeCount > 0)
 			{
 				this.ApplyEffects(party, upgradeArgs);

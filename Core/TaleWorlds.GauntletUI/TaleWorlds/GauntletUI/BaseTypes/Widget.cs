@@ -1541,8 +1541,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 			measureSpec = this.ProcessSizeWithBoundaries(measureSpec);
 			Vector2 vector = this.MeasureChildren(measureSpec);
-			Vector2 vector2;
-			vector2..ctor(0f, 0f);
+			Vector2 vector2 = new Vector2(0f, 0f);
 			if (this.WidthSizePolicy == SizePolicy.Fixed)
 			{
 				vector2.X = this.ScaledSuggestedWidth;
@@ -1806,9 +1805,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 		public bool IsPointInsideMeasuredArea(Vector2 p)
 		{
 			Vector2 globalPosition = this.GlobalPosition;
-			float num = p.X - globalPosition.X;
-			float num2 = p.Y - globalPosition.Y;
-			return 0f <= num && num <= this.Size.X && 0f <= num2 && num2 <= this.Size.Y;
+			return globalPosition.X <= p.X && globalPosition.Y <= p.Y && globalPosition.X + this.Size.X >= p.X && globalPosition.Y + this.Size.Y >= p.Y;
 		}
 
 		public bool IsPointInsideGamepadCursorArea(Vector2 p)
@@ -1887,8 +1884,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 					{
 						this.CircularClipRadius = this.Size.X / 2f * this._inverseScaleToUse;
 					}
-					Vector2 vector;
-					vector..ctor(cachedGlobalPosition.X + this.Size.X * 0.5f + this.CircularClipXOffset * this._scaleToUse, cachedGlobalPosition.Y + this.Size.Y * 0.5f + this.CircularClipYOffset * this._scaleToUse);
+					Vector2 vector = new Vector2(cachedGlobalPosition.X + this.Size.X * 0.5f + this.CircularClipXOffset * this._scaleToUse, cachedGlobalPosition.Y + this.Size.Y * 0.5f + this.CircularClipYOffset * this._scaleToUse);
 					drawContext.SetCircualMask(vector, this.CircularClipRadius * this._scaleToUse, this.CircularClipSmoothingRadius * this._scaleToUse);
 				}
 				bool flag = false;
@@ -2077,6 +2073,21 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 		public float CursorAreaXOffset { get; set; }
 
 		public float CursorAreaYOffset { get; set; }
+
+		public bool AcceptNavigation
+		{
+			get
+			{
+				return !this.DoNotAcceptNavigation;
+			}
+			set
+			{
+				if (value == this.DoNotAcceptNavigation)
+				{
+					this.DoNotAcceptNavigation = !value;
+				}
+			}
+		}
 
 		public bool DoNotAcceptNavigation
 		{

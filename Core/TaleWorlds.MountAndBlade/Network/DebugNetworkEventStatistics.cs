@@ -386,12 +386,12 @@ namespace TaleWorlds.MountAndBlade.Network
 			}
 			else
 			{
-				outStr.AppendLine<string>("\tAverage Ping: " + debugNetworkPacketStatisticsStruct.average_ping_time);
-				outStr.AppendLine<string>("\tTime out period: " + debugNetworkPacketStatisticsStruct.time_out_period);
-				outStr.AppendLine<string>("\tLost Percent: " + debugNetworkPacketStatisticsStruct.lost_percent);
-				outStr.AppendLine<string>("\tlost_count: " + debugNetworkPacketStatisticsStruct.lost_count);
-				outStr.AppendLine<string>("\ttotal_count_on_lost_check: " + debugNetworkPacketStatisticsStruct.total_count_on_lost_check);
-				outStr.AppendLine<string>("\tround_trip_time: " + debugNetworkPacketStatisticsStruct.round_trip_time);
+				outStr.AppendLine<string>("\tAverage Ping: " + debugNetworkPacketStatisticsStruct.AveragePingTime);
+				outStr.AppendLine<string>("\tTime out period: " + debugNetworkPacketStatisticsStruct.TimeOutPeriod);
+				outStr.AppendLine<string>("\tLost Percent: " + debugNetworkPacketStatisticsStruct.LostPercent);
+				outStr.AppendLine<string>("\tlost_count: " + debugNetworkPacketStatisticsStruct.LostCount);
+				outStr.AppendLine<string>("\ttotal_count_on_lost_check: " + debugNetworkPacketStatisticsStruct.TotalCountOnLostCheck);
+				outStr.AppendLine<string>("\tround_trip_time: " + debugNetworkPacketStatisticsStruct.RoundTripTime);
 				float num2 = (float)debugNetworkPacketStatisticsStruct.TotalUpload;
 				float num3 = 1f / (float)debugNetworkPacketStatisticsStruct.TotalPackets;
 				outStr.AppendLine<string>(string.Concat(new object[]
@@ -435,7 +435,7 @@ namespace TaleWorlds.MountAndBlade.Network
 					";"
 				}));
 				int num4 = debugNetworkPositionCompressionStatisticsStruct.totalPositionCoarseBitCountX + debugNetworkPositionCompressionStatisticsStruct.totalPositionCoarseBitCountY + debugNetworkPositionCompressionStatisticsStruct.totalPositionCoarseBitCountZ;
-				float num5 = 1f / (float)debugNetworkPacketStatisticsStruct.debug_total_cell_priority_checks;
+				float num5 = 1f / (float)debugNetworkPacketStatisticsStruct.TotalCellPriorityChecks;
 				outStr.AppendLine<string>(string.Concat(new object[]
 				{
 					"\n\tTotal PPS: ",

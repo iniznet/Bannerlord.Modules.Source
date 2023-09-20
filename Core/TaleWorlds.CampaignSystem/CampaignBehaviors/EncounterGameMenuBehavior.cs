@@ -39,6 +39,25 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
+			CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
+			CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeEventStarted));
+		}
+
+		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
+		{
+			IFaction mapFaction = siegeEvent.BesiegerCamp.LeaderParty.MapFaction;
+			if (siegeEvent.IsPlayerSiegeEvent && mapFaction != null && mapFaction.NotAttackableByPlayerUntilTime.IsFuture)
+			{
+				mapFaction.NotAttackableByPlayerUntilTime = CampaignTime.Zero;
+			}
+		}
+
+		private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
+		{
+			if (mapEvent.IsPlayerMapEvent && attackerParty.MapFaction != null && attackerParty.MapFaction.NotAttackableByPlayerUntilTime.IsFuture)
+			{
+				attackerParty.MapFaction.NotAttackableByPlayerUntilTime = CampaignTime.Zero;
+			}
 		}
 
 		private void OnSettlementLeft(MobileParty party, Settlement settlement)
@@ -307,6 +326,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_join_encounter_on_init(MenuCallbackArgs args)
 		{
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && PlayerEncounter.Current == null)
+			{
+				GameMenu.ExitToLast();
+				return;
+			}
 			MapEvent encounteredBattle = PlayerEncounter.EncounteredBattle;
 			PartyBase leaderParty = encounteredBattle.GetLeaderParty(BattleSideEnum.Attacker);
 			PartyBase leaderParty2 = encounteredBattle.GetLeaderParty(BattleSideEnum.Defender);
@@ -366,7 +390,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MapEvent encounteredBattle = PlayerEncounter.EncounteredBattle;
 			IFaction mapFaction = encounteredBattle.GetLeaderParty(BattleSideEnum.Defender).MapFaction;
 			this.CheckFactionAttackableHonorably(args, mapFaction);
-			return MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, encounteredBattle, BattleSideEnum.Attacker);
+			return encounteredBattle.CanPartyJoinBattle(PartyBase.MainParty, BattleSideEnum.Attacker);
 		}
 
 		private void game_menu_join_encounter_help_attackers_on_consequence(MenuCallbackArgs args)
@@ -437,7 +461,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			MapEvent encounteredBattle = PlayerEncounter.EncounteredBattle;
 			IFaction mapFaction = encounteredBattle.GetLeaderParty(BattleSideEnum.Attacker).MapFaction;
 			this.CheckFactionAttackableHonorably(args, mapFaction);
-			return MapEventHelper.CanPartyJoinBattle(PartyBase.MainParty, encounteredBattle, BattleSideEnum.Defender);
+			return encounteredBattle.CanPartyJoinBattle(PartyBase.MainParty, BattleSideEnum.Defender);
 		}
 
 		public static bool game_menu_captivity_castle_taken_prisoner_cont_on_condition(MenuCallbackArgs args)
@@ -459,7 +483,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				if (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && !PlayerEncounter.EncounterSettlement.MapFaction.IsAtWarWith(MobileParty.MainParty.MapFaction))
 				{
-					PlayerEncounter.RestartPlayerEncounter(PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.Party, PartyBase.MainParty, false);
+					PlayerEncounter.RestartPlayerEncounter(PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Party, PartyBase.MainParty, false);
 				}
 				GameMenu.ActivateGameMenu("encounter");
 			}
@@ -491,15 +515,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_join_siege_event_on_consequence(MenuCallbackArgs args)
 		{
-			if (!Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.IsMainParty && !Settlement.CurrentSettlement.SiegeEvent.CanPartyJoinSide(MobileParty.MainParty.Party, BattleSideEnum.Attacker))
+			if (!Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.IsMainParty && !Settlement.CurrentSettlement.SiegeEvent.CanPartyJoinSide(MobileParty.MainParty.Party, BattleSideEnum.Attacker))
 			{
-				Debug.FailedAssert("Player should not be able to join this siege.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_join_siege_event_on_consequence", 661);
+				Debug.FailedAssert("Player should not be able to join this siege.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_join_siege_event_on_consequence", 689);
 				return;
 			}
-			MobileParty besiegerParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty;
-			if (!besiegerParty.IsMainParty)
+			MobileParty leaderParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty;
+			if (!leaderParty.IsMainParty)
 			{
-				MobileParty.MainParty.Ai.SetMoveEscortParty(besiegerParty);
+				MobileParty.MainParty.Ai.SetMoveEscortParty(leaderParty);
 			}
 			if (Settlement.CurrentSettlement.Party.MapEvent != null)
 			{
@@ -533,7 +557,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_join_sally_out_on_consequence(MenuCallbackArgs args)
 		{
-			EncounterManager.StartPartyEncounter(MobileParty.MainParty.Party, MobileParty.MainParty.CurrentSettlement.Town.GarrisonParty.MapEvent.DefenderSide.LeaderParty);
+			PartyBase sallyOutDefenderLeader = MapEventHelper.GetSallyOutDefenderLeader();
+			EncounterManager.StartPartyEncounter(MobileParty.MainParty.Party, sallyOutDefenderLeader);
 		}
 
 		private void game_menu_stay_in_settlement_on_consequence(MenuCallbackArgs args)
@@ -559,7 +584,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Army army = mainParty.Army;
 			int num = ((army != null) ? army.TotalRegularCount : mainParty.MemberRoster.TotalRegulars);
 			TextObject textObject;
-			if (DiplomacyHelper.DidMainHeroSwornNotToAttackFaction(siegeEvent.BesiegerCamp.BesiegerParty.MapFaction, out textObject))
+			if (DiplomacyHelper.DidMainHeroSwornNotToAttackFaction(siegeEvent.BesiegerCamp.LeaderParty.MapFaction, out textObject))
 			{
 				args.IsEnabled = false;
 				args.Tooltip = textObject;
@@ -598,7 +623,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private bool game_menu_join_encounter_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
-			MobileParty mobileParty = ((Settlement.CurrentSettlement.SiegeEvent != null) ? Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty : null);
+			MobileParty mobileParty = ((Settlement.CurrentSettlement.SiegeEvent != null) ? Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty : null);
 			return mobileParty == null || !mobileParty.IsMainParty;
 		}
 
@@ -629,11 +654,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_siege_attacker_left_return_to_settlement_on_consequence(MenuCallbackArgs args)
 		{
-			if (PlayerEncounter.Current == null && MobileParty.MainParty.AttachedTo == null)
+			if (PlayerEncounter.Current != null)
+			{
+				PlayerEncounter.Finish(false);
+			}
+			if (MobileParty.MainParty.AttachedTo == null)
 			{
 				EncounterManager.StartSettlementEncounter(MobileParty.MainParty, MobileParty.MainParty.LastVisitedSettlement);
 			}
-			if (PlayerEncounter.LocationEncounter == null)
+			if (PlayerEncounter.Current != null && PlayerEncounter.LocationEncounter == null)
 			{
 				PlayerEncounter.EnterSettlement();
 			}
@@ -674,7 +703,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private void game_menu_encounter_interrupted_siege_preparations_on_init(MenuCallbackArgs args)
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
-			TextObject name = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.Name;
+			TextObject name = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Name;
 			TextObject text = args.MenuContext.GameMenu.GetText();
 			text.SetTextVariable("ATTACKER", name);
 			text.SetTextVariable("DEFENDER", currentSettlement.Name);
@@ -688,7 +717,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
 			args.MenuContext.GameMenu.GetText().SetTextVariable("SETTLEMENT", Settlement.CurrentSettlement.Name);
-			return !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.MainHero.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction);
+			return !FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, Hero.MainHero.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction);
 		}
 
 		private void game_menu_encounter_interrupted_by_raid_on_init(MenuCallbackArgs args)
@@ -714,7 +743,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			Settlement currentSettlement = Settlement.CurrentSettlement;
 			SiegeEvent siegeEvent = currentSettlement.SiegeEvent;
-			if (((siegeEvent != null) ? siegeEvent.BesiegerCamp.BesiegerParty : null) != null)
+			if (((siegeEvent != null) ? siegeEvent.BesiegerCamp.LeaderParty : null) != null)
 			{
 				GameMenu.SwitchToMenu("encounter_interrupted_siege_preparations");
 				return;
@@ -758,12 +787,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				args.Tooltip = new TextObject("{=MTbOGRCF}You don't have enough men!", null);
 				args.IsEnabled = false;
 			}
-			if (Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(siegeEvent, PlayerSiege.PlayerSide) != Hero.MainHero)
+			if (mainParty.Army != null && mainParty.Army.LeaderParty != MobileParty.MainParty)
 			{
-				args.Tooltip = new TextObject("{=OmGHXuZB}You are not in command of the defenders.", null);
-				args.IsEnabled = false;
+				args.IsEnabled = true;
+				TextObject textObject = new TextObject("{=!}If you break out from the siege, you will also leave the army. This is a dishonorable act and you will lose relations with all army member lords.{newline}• Army Leader: {ARMY_LEADER_RELATION_PENALTY}{newline}• Army Members: {ARMY_MEMBER_RELATION_PENALTY}", null);
+				textObject.SetTextVariable("ARMY_LEADER_RELATION_PENALTY", Campaign.Current.Models.TroopSacrificeModel.BreakOutArmyLeaderRelationPenalty);
+				textObject.SetTextVariable("ARMY_MEMBER_RELATION_PENALTY", Campaign.Current.Models.TroopSacrificeModel.BreakOutArmyMemberRelationPenalty);
+				args.Tooltip = textObject;
 			}
-			return FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, siegeEvent.BesiegerCamp.BesiegerParty.MapFaction);
+			return FactionManager.IsAtWarAgainstFaction(Hero.MainHero.MapFaction, siegeEvent.BesiegerCamp.LeaderParty.MapFaction);
 		}
 
 		private bool game_menu_encounter_interrupted_siege_preparations_hide_in_town_on_condition(MenuCallbackArgs args)
@@ -772,7 +804,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			IFaction mapFaction = Hero.MainHero.MapFaction;
 			SiegeEvent siegeEvent = Settlement.CurrentSettlement.SiegeEvent;
 			IFaction mapFaction2 = Settlement.CurrentSettlement.MapFaction;
-			return mapFaction != siegeEvent.BesiegerCamp.BesiegerParty.MapFaction && (FactionManager.IsAtWarAgainstFaction(mapFaction2, mapFaction) || FactionManager.IsNeutralWithFaction(mapFaction2, mapFaction));
+			return mapFaction != siegeEvent.BesiegerCamp.LeaderParty.MapFaction && (FactionManager.IsAtWarAgainstFaction(mapFaction2, mapFaction) || FactionManager.IsNeutralWithFaction(mapFaction2, mapFaction));
 		}
 
 		private void game_menu_encounter_interrupted_break_out_of_town_on_consequence(MenuCallbackArgs args)
@@ -889,6 +921,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_encounter_on_init(MenuCallbackArgs args)
 		{
+			args.MenuContext.SetPanelSound("event:/ui/panels/battle/slide_in");
 			if (PlayerEncounter.Battle == null)
 			{
 				if (MobileParty.MainParty.MapEvent != null)
@@ -1011,11 +1044,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private bool game_menu_sally_out_go_back_to_settlement_on_condition(MenuCallbackArgs args)
 		{
-			if (MobileParty.MainParty.MapEvent != null && MobileParty.MainParty.MapEvent.IsSallyOut && MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.CurrentSettlement != null && (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && (MobileParty.MainParty.SiegeEvent == null || !MobileParty.MainParty.SiegeEvent.BesiegerCamp.IsBesiegerSideParty(MobileParty.MainParty)) && !PlayerEncounter.Current.CheckIfBattleShouldContinueAfterBattleMission())
+			if (MobileParty.MainParty.MapEvent != null && MobileParty.MainParty.MapEvent.IsSallyOut && MobileParty.MainParty.MapEvent.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.CurrentSettlement != null)
 			{
-				args.optionLeaveType = GameMenuOption.LeaveType.Leave;
-				GameTexts.SetVariable("SETTLEMENT", MobileParty.MainParty.LastVisitedSettlement.Name);
-				return true;
+				bool flag = Campaign.Current.Models.EncounterModel.GetLeaderOfMapEvent(MobileParty.MainParty.MapEvent, MobileParty.MainParty.MapEvent.PlayerSide) == Hero.MainHero;
+				if ((MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty || flag) && (MobileParty.MainParty.SiegeEvent == null || !MobileParty.MainParty.SiegeEvent.BesiegerCamp.IsBesiegerSideParty(MobileParty.MainParty)) && !PlayerEncounter.Current.CheckIfBattleShouldContinueAfterBattleMission())
+				{
+					args.optionLeaveType = GameMenuOption.LeaveType.Leave;
+					GameTexts.SetVariable("SETTLEMENT", MobileParty.MainParty.LastVisitedSettlement.Name);
+					return true;
+				}
 			}
 			return false;
 		}
@@ -1027,6 +1064,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (Campaign.Current.Models.EncounterModel.GetLeaderOfMapEvent(playerMapEvent, playerMapEvent.PlayerSide) == Hero.MainHero)
 			{
 				PlayerEncounter.Current.FinalizeBattle();
+				PlayerEncounter.Current.SetupFields(Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Party, PartyBase.MainParty);
 			}
 			else
 			{
@@ -1038,7 +1076,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private bool game_menu_encounter_abandon_army_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
-			return MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && MapEventHelper.CanLeaveBattle(MobileParty.MainParty);
+			return MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && !MobileParty.MainParty.MapEvent.IsSallyOut && MapEventHelper.CanLeaveBattle(MobileParty.MainParty);
 		}
 
 		private void game_menu_army_talk_to_leader_on_consequence(MenuCallbackArgs args)
@@ -1149,20 +1187,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				return;
 			}
-			IFaction faction;
-			if (PlayerEncounter.EncounteredMobileParty != null)
-			{
-				faction = PlayerEncounter.EncounteredMobileParty.MapFaction;
-			}
-			else
-			{
-				if (PlayerEncounter.EncounteredParty == null)
-				{
-					return;
-				}
-				faction = PlayerEncounter.EncounteredParty.MapFaction;
-			}
-			if (faction != null && faction.NotAttackableByPlayerUntilTime.IsFuture)
+			IFaction mapFaction = PlayerEncounter.EncounteredParty.MapFaction;
+			if (mapFaction != null && mapFaction.NotAttackableByPlayerUntilTime.IsFuture)
 			{
 				args.IsEnabled = false;
 				args.Tooltip = EncounterGameMenuBehavior.EnemyNotAttackableTooltip;
@@ -1242,7 +1268,17 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void game_menu_encounter_leave_on_consequence(MenuCallbackArgs args)
 		{
-			MenuHelper.EncounterLeaveConsequence(args);
+			Settlement besiegedSettlement = MobileParty.MainParty.BesiegedSettlement;
+			if (besiegedSettlement != null && besiegedSettlement.CurrentSiegeState == Settlement.SiegeState.InTheLordsHall)
+			{
+				TextObject textObject = new TextObject("{=h3YuHSRb}Are you sure you want to abandon the siege?", null);
+				InformationManager.ShowInquiry(new InquiryData(GameTexts.FindText("str_decision", null).ToString(), textObject.ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), delegate
+				{
+					MenuHelper.EncounterLeaveConsequence();
+				}, null, "", 0f, null, null, null), false, false);
+				return;
+			}
+			MenuHelper.EncounterLeaveConsequence();
 		}
 
 		private void game_menu_encounter_abandon_on_consequence(MenuCallbackArgs args)
@@ -1349,6 +1385,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					if (playerMapEvent.IsInvulnerable)
 					{
 						playerMapEvent.IsInvulnerable = false;
+					}
+					IFaction mapFaction = PlayerEncounter.EncounteredParty.MapFaction;
+					if (mapFaction == null || mapFaction.NotAttackableByPlayerUntilTime.IsPast)
+					{
+						args.Tooltip = TooltipHelper.GetSendTroopsPowerContextTooltipForMapEvent();
 					}
 					return true;
 				}
@@ -1609,10 +1650,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private void game_menu_town_outside_on_init(MenuCallbackArgs args)
 		{
 			Settlement encounterSettlement = PlayerEncounter.EncounterSettlement;
-			SettlementComponent settlementComponent = encounterSettlement.SettlementComponent;
 			args.MenuTitle = encounterSettlement.Name;
-			MBTextManager.SetTextVariable("SETTLEMENT_NAME", encounterSettlement.EncyclopediaLinkWithName, false);
-			MBTextManager.SetTextVariable("FACTION_TERM", encounterSettlement.MapFaction.EncyclopediaLinkWithName, false);
+			TextObject textObject = TextObject.Empty;
 			Campaign.Current.Models.SettlementAccessModel.CanMainHeroEnterSettlement(encounterSettlement, out this._accessDetails);
 			SettlementAccessModel.AccessLevel accessLevel = this._accessDetails.AccessLevel;
 			int num = (int)accessLevel;
@@ -1622,9 +1661,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (this._accessDetails.AccessLimitationReason == SettlementAccessModel.AccessLimitationReason.CrimeRating)
 					{
-						MBTextManager.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name, false);
-						MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_gate_down_criminal_text", null), false);
-						goto IL_1B5;
+						textObject = GameTexts.FindText("str_gate_down_criminal_text", null);
+						textObject.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name);
+						goto IL_146;
 					}
 				}
 			}
@@ -1632,37 +1671,32 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				if (encounterSettlement.InRebelliousState)
 				{
-					TextObject textObject = GameTexts.FindText("str_gate_down_enemy_text_castle_low_loyalty", null);
+					textObject = GameTexts.FindText("str_gate_down_enemy_text_castle_low_loyalty", null);
 					textObject.SetTextVariable("FACTION_INFORMAL_NAME", encounterSettlement.MapFaction.InformalName);
-					MBTextManager.SetTextVariable("TOWN_TEXT", textObject, false);
-					goto IL_1B5;
+					goto IL_146;
 				}
-				MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_gate_down_enemy_text_castle", null), false);
-				goto IL_1B5;
+				textObject = GameTexts.FindText("str_gate_down_enemy_text_castle", null);
+				goto IL_146;
 			}
 			else if (this._accessDetails.AccessLimitationReason == SettlementAccessModel.AccessLimitationReason.CrimeRating)
 			{
-				MBTextManager.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name, false);
-				MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_gate_down_criminal_text", null), false);
-				goto IL_1B5;
+				textObject = GameTexts.FindText("str_gate_down_criminal_text", null);
+				textObject.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name);
+				goto IL_146;
 			}
 			if (encounterSettlement.InRebelliousState)
 			{
-				TextObject textObject2 = GameTexts.FindText("str_settlement_not_allowed_text_low_loyalty", null);
-				textObject2.SetTextVariable("FACTION_INFORMAL_NAME", encounterSettlement.MapFaction.InformalName);
-				MBTextManager.SetTextVariable("TOWN_TEXT", textObject2, false);
+				textObject = GameTexts.FindText("str_settlement_not_allowed_text_low_loyalty", null);
+				textObject.SetTextVariable("FACTION_INFORMAL_NAME", encounterSettlement.MapFaction.InformalName);
 			}
 			else
 			{
-				MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_settlement_not_allowed_text", null), false);
+				textObject = GameTexts.FindText("str_settlement_not_allowed_text", null);
 			}
-			IL_1B5:
-			if (this._accessDetails.PreliminaryActionObligation == SettlementAccessModel.PreliminaryActionObligation.Must && this._accessDetails.PreliminaryActionType == SettlementAccessModel.PreliminaryActionType.SettlementIsTaken)
-			{
-				GameMenu.SwitchToMenu("town");
-				settlementComponent.IsTaken = false;
-				return;
-			}
+			IL_146:
+			textObject.SetTextVariable("SETTLEMENT_NAME", encounterSettlement.EncyclopediaLinkWithName);
+			textObject.SetTextVariable("FACTION_TERM", encounterSettlement.MapFaction.EncyclopediaLinkWithName);
+			MBTextManager.SetTextVariable("TOWN_TEXT", textObject, false);
 			if (this._accessDetails.PreliminaryActionObligation == SettlementAccessModel.PreliminaryActionObligation.Optional && this._accessDetails.PreliminaryActionType == SettlementAccessModel.PreliminaryActionType.FaceCharges)
 			{
 				GameMenu.SwitchToMenu("town_inside_criminal");
@@ -1705,12 +1739,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private void game_menu_castle_outside_on_init(MenuCallbackArgs args)
 		{
 			Settlement encounterSettlement = PlayerEncounter.EncounterSettlement;
-			SettlementComponent settlementComponent = encounterSettlement.SettlementComponent;
 			args.MenuTitle = encounterSettlement.Name;
 			Campaign.Current.Models.SettlementAccessModel.CanMainHeroEnterSettlement(encounterSettlement, out this._accessDetails);
-			MBTextManager.SetTextVariable("SETTLEMENT_NAME", encounterSettlement.EncyclopediaLinkWithName, false);
-			StringHelpers.SetCharacterProperties("LORD", encounterSettlement.OwnerClan.Leader.CharacterObject, null, false);
-			MBTextManager.SetTextVariable("FACTION_TERM", encounterSettlement.MapFaction.EncyclopediaLinkWithName, false);
+			TextObject textObject = TextObject.Empty;
 			SettlementAccessModel.AccessLevel accessLevel = this._accessDetails.AccessLevel;
 			int num = (int)accessLevel;
 			if (num != 0)
@@ -1719,40 +1750,38 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (this._accessDetails.AccessLimitationReason == SettlementAccessModel.AccessLimitationReason.CrimeRating)
 					{
-						MBTextManager.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name, false);
-						MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_gate_down_criminal_text", null), false);
-						goto IL_196;
+						textObject.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name);
+						textObject = GameTexts.FindText("str_gate_down_criminal_text", null);
+						goto IL_114;
 					}
 				}
 				if (encounterSettlement.OwnerClan == Hero.MainHero.Clan)
 				{
-					MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_castle_text_yours", null), false);
+					textObject = GameTexts.FindText("str_castle_text_yours", null);
 				}
 				else
 				{
-					MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_castle_text_1", null), false);
+					textObject = GameTexts.FindText("str_castle_text_1", null);
 				}
 			}
 			else if (this._accessDetails.AccessLimitationReason == SettlementAccessModel.AccessLimitationReason.HostileFaction)
 			{
-				MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_gate_down_enemy_text_castle", null), false);
+				textObject = GameTexts.FindText("str_gate_down_enemy_text_castle", null);
 			}
 			else if (this._accessDetails.AccessLimitationReason == SettlementAccessModel.AccessLimitationReason.CrimeRating)
 			{
-				MBTextManager.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name, false);
-				MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_gate_down_criminal_text", null), false);
+				textObject.SetTextVariable("FACTION", Settlement.CurrentSettlement.MapFaction.Name);
+				textObject = GameTexts.FindText("str_gate_down_criminal_text", null);
 			}
 			else
 			{
-				MBTextManager.SetTextVariable("TOWN_TEXT", GameTexts.FindText("str_settlement_not_allowed_text", null), false);
+				textObject = GameTexts.FindText("str_settlement_not_allowed_text", null);
 			}
-			IL_196:
-			if (this._accessDetails.PreliminaryActionObligation == SettlementAccessModel.PreliminaryActionObligation.Must && this._accessDetails.PreliminaryActionType == SettlementAccessModel.PreliminaryActionType.SettlementIsTaken)
-			{
-				GameMenu.SwitchToMenu("castle");
-				settlementComponent.IsTaken = false;
-				return;
-			}
+			IL_114:
+			encounterSettlement.OwnerClan.Leader.SetPropertiesToTextObject(textObject, "LORD");
+			textObject.SetTextVariable("FACTION_TERM", encounterSettlement.MapFaction.EncyclopediaLinkWithName);
+			textObject.SetTextVariable("SETTLEMENT_NAME", encounterSettlement.EncyclopediaLinkWithName);
+			MBTextManager.SetTextVariable("TOWN_TEXT", textObject, false);
 			if (this._accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.FullAccess && (this._accessDetails.AccessMethod == SettlementAccessModel.AccessMethod.Direct || (this._playerIsAlreadyInCastle && this._accessDetails.AccessMethod == SettlementAccessModel.AccessMethod.ByRequest)))
 			{
 				GameMenu.SwitchToMenu("castle");
@@ -1910,7 +1939,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (Settlement.CurrentSettlement != null)
 			{
 				LeaveSettlementAction.ApplyForParty(MobileParty.MainParty);
-				PartyBase.MainParty.Visuals.SetMapIconAsDirty();
+				PartyBase.MainParty.SetVisualAsDirty();
 			}
 			MobileParty.MainParty.Army = null;
 		}
@@ -1940,7 +1969,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private bool game_menu_town_outside_cheat_enter_on_condition(MenuCallbackArgs args)
 		{
-			return Game.Current.CheatMode;
+			return Game.Current.IsDevelopmentMode;
 		}
 
 		private void game_menu_town_outside_enter_on_consequence(MenuCallbackArgs args)
@@ -2051,16 +2080,16 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					GameMenu.SwitchToMenu("castle");
 					return;
 				}
-				Debug.FailedAssert("non-fortification under siege", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_town_menu_request_meeting_with_besiegers_on_init", 2435);
+				Debug.FailedAssert("non-fortification under siege", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\EncounterGameMenuBehavior.cs", "game_menu_town_menu_request_meeting_with_besiegers_on_init", 2472);
 			}
 			List<MobileParty> list = new List<MobileParty>();
-			if (currentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.Army != null)
+			if (currentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Army != null)
 			{
-				list.Add(currentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.Army.LeaderParty);
+				list.Add(currentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Army.LeaderParty);
 			}
 			else
 			{
-				list.Add(currentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty);
+				list.Add(currentSettlement.SiegeEvent.BesiegerCamp.LeaderParty);
 			}
 			args.MenuContext.SetRepeatObjectList(list.AsReadOnly());
 		}
@@ -2071,7 +2100,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			Settlement currentSettlement = Settlement.CurrentSettlement;
 			if (currentSettlement.SiegeEvent != null)
 			{
-				MobileParty mobileParty = ((currentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.Army != null) ? currentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.Army.LeaderParty : currentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty);
+				MobileParty mobileParty = ((currentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Army != null) ? currentSettlement.SiegeEvent.BesiegerCamp.LeaderParty.Army.LeaderParty : currentSettlement.SiegeEvent.BesiegerCamp.LeaderParty);
 				StringHelpers.SetCharacterProperties("PARTY_LEADER", mobileParty.LeaderHero.CharacterObject, null, false);
 				return true;
 			}
@@ -2296,7 +2325,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			Settlement besiegedSettlement = PlayerSiege.PlayerSiegeEvent.BesiegedSettlement;
 			PlayerEncounter.Finish(true);
-			besiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+			besiegedSettlement.Party.SetVisualAsDirty();
 			if (PlayerSiege.PlayerSiegeEvent != null)
 			{
 				PlayerSiege.ClosePlayerSiege();
@@ -2340,7 +2369,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			if (PlayerEncounter.EncounteredMobileParty != null && PlayerEncounter.EncounteredMobileParty.Army != null)
 			{
-				args.MenuContext.SetBackgroundMeshName(PlayerEncounter.EncounteredMobileParty.Army.MapFaction.Culture.EncounterBackgroundMesh);
+				args.MenuContext.SetBackgroundMeshName(PlayerEncounter.EncounteredMobileParty.Army.Kingdom.Culture.EncounterBackgroundMesh);
 				return;
 			}
 			args.MenuContext.SetBackgroundMeshName("wait_fallback");
@@ -2381,6 +2410,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		[GameMenuInitializationHandler("break_out_menu")]
 		[GameMenuInitializationHandler("break_out_debrief_menu")]
 		[GameMenuInitializationHandler("continue_siege_after_attack")]
+		[GameMenuInitializationHandler("siege_attacker_defeated")]
+		[GameMenuInitializationHandler("siege_attacker_left")]
 		private static void game_menu_siege_background_on_init(MenuCallbackArgs args)
 		{
 			args.MenuContext.SetBackgroundMeshName("wait_besieging");

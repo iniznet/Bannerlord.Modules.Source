@@ -9,12 +9,12 @@ namespace NetworkMessages.FromClient
 	{
 		public OrderType OrderType { get; private set; }
 
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
-		public ApplyOrderWithAgent(OrderType orderType, Agent agent)
+		public ApplyOrderWithAgent(OrderType orderType, int agentIndex)
 		{
 			this.OrderType = orderType;
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 		}
 
 		public ApplyOrderWithAgent()
@@ -24,15 +24,15 @@ namespace NetworkMessages.FromClient
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.OrderType = (OrderType)GameNetworkMessage.ReadIntFromPacket(CompressionOrder.OrderTypeCompressionInfo, ref flag);
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.OrderType = (OrderType)GameNetworkMessage.ReadIntFromPacket(CompressionMission.OrderTypeCompressionInfo, ref flag);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteIntToPacket((int)this.OrderType, CompressionOrder.OrderTypeCompressionInfo);
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteIntToPacket((int)this.OrderType, CompressionMission.OrderTypeCompressionInfo);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 		}
 
 		protected override MultiplayerMessageFilter OnGetLogFilter()
@@ -42,15 +42,7 @@ namespace NetworkMessages.FromClient
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Apply order: ",
-				this.OrderType,
-				", to agent with name: ",
-				this.Agent.Name,
-				" and index: ",
-				this.Agent.Index
-			});
+			return string.Concat(new object[] { "Apply order: ", this.OrderType, ", to agent with index: ", this.AgentIndex });
 		}
 	}
 }

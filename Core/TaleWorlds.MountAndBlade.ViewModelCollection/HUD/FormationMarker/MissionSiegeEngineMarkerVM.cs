@@ -9,6 +9,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 {
 	public class MissionSiegeEngineMarkerVM : ViewModel
 	{
+		public bool IsInitialized { get; private set; }
+
 		public MissionSiegeEngineMarkerVM(Mission mission, Camera missionCamera)
 		{
 			this._mission = mission;
@@ -31,6 +33,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD.FormationMarker
 					missionSiegeEngineMarkerTargetVM.IsEnabled = this.IsEnabled;
 				}
 			}
+			this.IsInitialized = true;
 		}
 
 		public void Tick(float dt)

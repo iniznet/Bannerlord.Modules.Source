@@ -15,6 +15,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 {
 	public class DefaultClanFinanceModel : ClanFinanceModel
 	{
+		public override int PartyGoldLowerThreshold
+		{
+			get
+			{
+				return 5000;
+			}
+		}
+
 		public override ExplainedNumber CalculateClanGoldChange(Clan clan, bool includeDescriptions = false, bool applyWithdrawals = false, bool includeDetails = false)
 		{
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, includeDescriptions, null);
@@ -92,6 +100,23 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				this.AddPaymentForDebts(clan, ref goldChange, applyWithdrawals);
 			}
+			if (Clan.PlayerClan == clan)
+			{
+				this.AddPlayerExpenseForWorkshops(ref goldChange);
+			}
+		}
+
+		private void AddPlayerExpenseForWorkshops(ref ExplainedNumber goldChange)
+		{
+			int num = 0;
+			foreach (Workshop workshop in Hero.MainHero.OwnedWorkshops)
+			{
+				if (workshop.Capital < Campaign.Current.Models.WorkshopModel.CapitalLowLimit)
+				{
+					num -= workshop.Expense;
+				}
+			}
+			goldChange.Add((float)num, DefaultClanFinanceModel._shopExpenseStr, null);
 		}
 
 		public override ExplainedNumber CalculateClanExpenses(Clan clan, bool includeDescriptions = false, bool applyWithdrawals = false, bool includeDetails = false)
@@ -126,21 +151,21 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				num += (int)Campaign.Current.Models.SettlementTaxModel.CalculateTownTax(town, false).ResultNumber;
 				num2++;
-				if (flag)
+			}
+			if (flag)
+			{
+				foreach (Village village in clan.Kingdom.Villages)
 				{
-					foreach (Village village in town.Villages)
+					if (!village.IsOwnerUnassigned && village.Settlement.OwnerClan != clan && village.VillageState != Village.VillageStates.Looted && village.VillageState != Village.VillageStates.BeingRaided)
 					{
-						if (!village.IsOwnerUnassigned && village.Settlement.OwnerClan != clan)
-						{
-							int num4 = ((village.VillageState == Village.VillageStates.Looted || village.VillageState == Village.VillageStates.BeingRaided) ? 0 : ((int)((float)village.TradeTaxAccumulated / this.RevenueSmoothenFraction())));
-							num3 += (float)num4 * 0.05f;
-						}
+						int num4 = (int)((float)village.TradeTaxAccumulated / this.RevenueSmoothenFraction());
+						num3 += (float)num4 * 0.05f;
 					}
 				}
-			}
-			if (flag && !num3.ApproximatelyEqualsTo(0f, 1E-05f))
-			{
-				explainedNumber.Add(num3, DefaultPolicies.LandTax.Name, null);
+				if (num3 > 1E-05f)
+				{
+					explainedNumber.Add(num3, DefaultPolicies.LandTax.Name, null);
+				}
 			}
 			Kingdom kingdom = clan.Kingdom;
 			if (kingdom.RulingClan == clan)
@@ -255,31 +280,16 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			ExplainedNumber explainedNumber = new ExplainedNumber(0f, goldChange.IncludeDescriptions, null);
 			foreach (Town town in clan.Fiefs)
 			{
-				ExplainedNumber explainedNumber2 = new ExplainedNumber((float)((int)((float)town.TradeTaxAccumulated / this.RevenueSmoothenFraction())), false, null);
-				int num = MathF.Round(explainedNumber2.ResultNumber);
-				PerkHelper.AddPerkBonusForTown(DefaultPerks.Trade.ContentTrades, town, ref explainedNumber2);
-				PerkHelper.AddPerkBonusForTown(DefaultPerks.Crossbow.Steady, town, ref explainedNumber2);
-				PerkHelper.AddPerkBonusForTown(DefaultPerks.Roguery.SaltTheEarth, town, ref explainedNumber2);
-				PerkHelper.AddPerkBonusForTown(DefaultPerks.Steward.GivingHands, town, ref explainedNumber2);
-				if (applyWithdrawals)
-				{
-					town.TradeTaxAccumulated -= num;
-					if (clan == Clan.PlayerClan)
-					{
-						CampaignEventDispatcher.Instance.OnPlayerEarnedGoldFromAsset(DefaultClanFinanceModel.AssetIncomeType.Taxes, (int)explainedNumber2.ResultNumber);
-					}
-				}
-				int num2 = (int)Campaign.Current.Models.SettlementTaxModel.CalculateTownTax(town, false).ResultNumber;
-				explainedNumber.Add((float)num2, DefaultClanFinanceModel._townTaxStr, town.Name);
-				explainedNumber.Add(explainedNumber2.ResultNumber, DefaultClanFinanceModel._tariffTaxStr, town.Name);
-				if (town.CurrentDefaultBuilding != null && town.Governor != null && town.Governor.GetPerkValue(DefaultPerks.Engineering.ArchitecturalCommisions))
-				{
-					explainedNumber.Add(DefaultPerks.Engineering.ArchitecturalCommisions.SecondaryBonus, DefaultClanFinanceModel._projectsIncomeStr, null);
-				}
+				ExplainedNumber explainedNumber2 = Campaign.Current.Models.SettlementTaxModel.CalculateTownTax(town, false);
+				ExplainedNumber explainedNumber3 = this.CalculateTownIncomeFromTariffs(clan, town, applyWithdrawals);
+				int num = this.CalculateTownIncomeFromProjects(town);
+				explainedNumber.Add((float)((int)explainedNumber2.ResultNumber), DefaultClanFinanceModel._townTaxStr, town.Name);
+				explainedNumber.Add((float)((int)explainedNumber3.ResultNumber), DefaultClanFinanceModel._tariffTaxStr, town.Name);
+				explainedNumber.Add((float)num, DefaultClanFinanceModel._projectsIncomeStr, null);
 				foreach (Village village in town.Villages)
 				{
-					int num3 = this.CalculateVillageIncome(clan, village, applyWithdrawals);
-					explainedNumber.Add((float)num3, village.Name, null);
+					int num2 = this.CalculateVillageIncome(clan, village, applyWithdrawals);
+					explainedNumber.Add((float)num2, village.Name, null);
 				}
 			}
 			if (!includeDetails)
@@ -290,7 +300,35 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			goldChange.AddFromExplainedNumber(explainedNumber, DefaultClanFinanceModel._settlementIncome);
 		}
 
-		private int CalculateVillageIncome(Clan clan, Village village, bool applyWithdrawals)
+		public override ExplainedNumber CalculateTownIncomeFromTariffs(Clan clan, Town town, bool applyWithdrawals = false)
+		{
+			ExplainedNumber explainedNumber = new ExplainedNumber((float)((int)((float)town.TradeTaxAccumulated / this.RevenueSmoothenFraction())), false, null);
+			int num = MathF.Round(explainedNumber.ResultNumber);
+			PerkHelper.AddPerkBonusForTown(DefaultPerks.Trade.ContentTrades, town, ref explainedNumber);
+			PerkHelper.AddPerkBonusForTown(DefaultPerks.Crossbow.Steady, town, ref explainedNumber);
+			PerkHelper.AddPerkBonusForTown(DefaultPerks.Roguery.SaltTheEarth, town, ref explainedNumber);
+			PerkHelper.AddPerkBonusForTown(DefaultPerks.Steward.GivingHands, town, ref explainedNumber);
+			if (applyWithdrawals)
+			{
+				town.TradeTaxAccumulated -= num;
+				if (clan == Clan.PlayerClan)
+				{
+					CampaignEventDispatcher.Instance.OnPlayerEarnedGoldFromAsset(DefaultClanFinanceModel.AssetIncomeType.Taxes, (int)explainedNumber.ResultNumber);
+				}
+			}
+			return explainedNumber;
+		}
+
+		public override int CalculateTownIncomeFromProjects(Town town)
+		{
+			if (town.CurrentDefaultBuilding != null && town.Governor != null && town.Governor.GetPerkValue(DefaultPerks.Engineering.ArchitecturalCommisions))
+			{
+				return (int)DefaultPerks.Engineering.ArchitecturalCommisions.SecondaryBonus;
+			}
+			return 0;
+		}
+
+		public override int CalculateVillageIncome(Clan clan, Village village, bool applyWithdrawals = false)
 		{
 			int num = ((village.VillageState == Village.VillageStates.Looted || village.VillageState == Village.VillageStates.BeingRaided) ? 0 : ((int)((float)village.TradeTaxAccumulated / this.RevenueSmoothenFraction())));
 			int num2 = num;
@@ -495,7 +533,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 							Clan clan2 = owner.Clan;
 							flag = ((clan2 != null) ? clan2.Leader : null) != null;
 						}
-						if (flag && party.IsCaravan && party.Party.Owner.Clan.Leader.GetPerkValue(DefaultPerks.Trade.GreatInvestor))
+						if (flag && party.IsCaravan && party.Party.Owner.Clan.Leader.GetPerkValue(DefaultPerks.Trade.GreatInvestor) && num > 0)
 						{
 							party.Party.Owner.Clan.AddRenown(DefaultPerks.Trade.GreatInvestor.PrimaryBonus, true);
 						}
@@ -614,9 +652,9 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				}
 			}
 			num4 -= num3;
-			if (num4 < 5000)
+			if (num4 < this.PartyGoldLowerThreshold)
 			{
-				int num5 = 5000 - num4;
+				int num5 = this.PartyGoldLowerThreshold - num4;
 				if (applyWithdrawals)
 				{
 					num5 = MathF.Min(num5, num2);
@@ -652,11 +690,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		public override int CalculateOwnerIncomeFromWorkshop(Workshop workshop)
 		{
 			return (int)((float)MathF.Max(0, workshop.ProfitMade) / this.RevenueSmoothenFraction());
-		}
-
-		public override int CalculateOwnerExpenseFromWorkshop(Workshop workshop)
-		{
-			return (int)((float)MathF.Max(0, workshop.InitialCapital - workshop.Capital) / this.RevenueSmoothenFraction());
 		}
 
 		private void CalculateHeroIncomeFromAssets(Hero hero, ref ExplainedNumber goldChange, bool applyWithdrawals)
@@ -724,7 +757,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				flag = false;
 			}
-			if (flag && applyWithdrawals)
+			if (flag && applyWithdrawals && num2 > 0)
 			{
 				hero.Clan.AddRenown((float)num2 * DefaultPerks.Trade.ArtisanCommunity.PrimaryBonus, true);
 			}
@@ -733,11 +766,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		public override float RevenueSmoothenFraction()
 		{
 			return 5f;
-		}
-
-		public override int PartyGoldLowerTreshold()
-		{
-			return 5000;
 		}
 
 		private int CalculatePartyWage(MobileParty mobileParty, int budget, bool applyWithdrawals)
@@ -798,9 +826,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private static readonly TextObject _projectsIncomeStr = new TextObject("{=uixuohBp}Settlement Projects", null);
 
-		private static readonly TextObject _partyExpensesStr = new TextObject("{=dZDFxUvU}{A0} Party Expense", null);
+		private static readonly TextObject _partyExpensesStr = new TextObject("{=dZDFxUvU}{A0}", null);
 
 		private static readonly TextObject _shopIncomeStr = new TextObject("{=0g7MZCAK}Workshop Income", null);
+
+		private static readonly TextObject _shopExpenseStr = new TextObject("{=cSuNR48H}Workshop Expense", null);
 
 		private static readonly TextObject _mercenaryStr = new TextObject("{=qcaaJLhx}Mercenary Contract", null);
 
@@ -837,8 +867,6 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		private static readonly TextObject _alley = new TextObject("{=UQc6zg1Q}Owned Alleys", null);
 
 		private const int PartyGoldIncomeThreshold = 10000;
-
-		private const int PartyGoldLowerThreshold = 5000;
 
 		private const int payGarrisonWagesTreshold = 8000;
 

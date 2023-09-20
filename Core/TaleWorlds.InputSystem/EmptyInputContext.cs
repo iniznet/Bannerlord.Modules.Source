@@ -161,9 +161,13 @@ namespace TaleWorlds.InputSystem
 			return false;
 		}
 
-		public InputKey GetControllerClickKey()
+		public InputKey[] GetClickKeys()
 		{
-			return InputKey.ControllerRDown;
+			return new InputKey[]
+			{
+				InputKey.LeftMouseButton,
+				InputKey.ControllerRDown
+			};
 		}
 	}
 }

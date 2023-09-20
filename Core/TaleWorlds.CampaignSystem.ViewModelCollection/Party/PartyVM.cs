@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.Conversation;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.GameState;
@@ -42,6 +41,22 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 		}
 
+		public bool CanRightPartyTakeMoreTroops
+		{
+			get
+			{
+				return this.PartyScreenLogic.CurrentData.RightMemberRoster.TotalManCount < this.PartyScreenLogic.RightPartyMembersSizeLimit;
+			}
+		}
+
+		public bool CanRightPartyTakeMorePrisoners
+		{
+			get
+			{
+				return this.PartyScreenLogic.CurrentData.RightPrisonerRoster.TotalManCount < this.PartyScreenLogic.RightPartyPrisonersSizeLimit;
+			}
+		}
+
 		[DataSourceProperty]
 		public PartyCharacterVM CurrentCharacter
 		{
@@ -58,7 +73,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 					base.OnPropertyChangedWithValue<PartyCharacterVM>(value, "CurrentCharacter");
 					this.ExecuteRemoveZeroCounts();
 				}
-				this.ExecuteRemoveZeroCounts();
 			}
 		}
 
@@ -128,16 +142,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 				this.RefreshPartyInformation();
 			}
 			this.UpdateTroopManagerPopUpCounts();
+			PartyTradeVM.RemoveZeroCounts += this.ExecuteRemoveZeroCounts;
 			Game.Current.EventManager.RegisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
-			Campaign campaign = Campaign.Current;
-			if (campaign != null)
-			{
-				PlayerUpdateTracker playerUpdateTracker = campaign.PlayerUpdateTracker;
-				if (playerUpdateTracker != null)
-				{
-					playerUpdateTracker.ClearPartyNotification();
-				}
-			}
+			this._viewDataTracker.ClearPartyNotification();
 			this.OtherPartySortController = new PartySortControllerVM(PartyScreenLogic.PartyRosterSide.Left, new Action<PartyScreenLogic.PartyRosterSide, PartyScreenLogic.TroopSortType, bool>(this.OnSortTroops));
 			this.MainPartySortController = new PartySortControllerVM(PartyScreenLogic.PartyRosterSide.Right, new Action<PartyScreenLogic.PartyRosterSide, PartyScreenLogic.TroopSortType, bool>(this.OnSortTroops));
 			this.MainPartySortController.SortWith((PartyScreenLogic.TroopSortType)this._viewDataTracker.GetPartySortType(), this._viewDataTracker.GetIsPartySortAscending());
@@ -518,6 +525,48 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			return mbbindingList.First((PartyCharacterVM x) => x.Troop.Character == character);
 		}
 
+		private void UpdateAllTradeDatasOfCharacter(CharacterObject character)
+		{
+			MBBindingList<PartyCharacterVM> otherPartyPrisoners = this.OtherPartyPrisoners;
+			if (otherPartyPrisoners != null)
+			{
+				PartyCharacterVM partyCharacterVM = otherPartyPrisoners.FirstOrDefault((PartyCharacterVM x) => x.Character == character);
+				if (partyCharacterVM != null)
+				{
+					partyCharacterVM.UpdateTradeData();
+				}
+			}
+			MBBindingList<PartyCharacterVM> otherPartyTroops = this.OtherPartyTroops;
+			if (otherPartyTroops != null)
+			{
+				PartyCharacterVM partyCharacterVM2 = otherPartyTroops.FirstOrDefault((PartyCharacterVM x) => x.Character == character);
+				if (partyCharacterVM2 != null)
+				{
+					partyCharacterVM2.UpdateTradeData();
+				}
+			}
+			MBBindingList<PartyCharacterVM> mainPartyPrisoners = this.MainPartyPrisoners;
+			if (mainPartyPrisoners != null)
+			{
+				PartyCharacterVM partyCharacterVM3 = mainPartyPrisoners.FirstOrDefault((PartyCharacterVM x) => x.Character == character);
+				if (partyCharacterVM3 != null)
+				{
+					partyCharacterVM3.UpdateTradeData();
+				}
+			}
+			MBBindingList<PartyCharacterVM> mainPartyTroops = this.MainPartyTroops;
+			if (mainPartyTroops == null)
+			{
+				return;
+			}
+			PartyCharacterVM partyCharacterVM4 = mainPartyTroops.FirstOrDefault((PartyCharacterVM x) => x.Character == character);
+			if (partyCharacterVM4 == null)
+			{
+				return;
+			}
+			partyCharacterVM4.UpdateTradeData();
+		}
+
 		private void OnShiftTroop(PartyCharacterVM troop, int newIndex)
 		{
 			if (troop.Side == PartyScreenLogic.PartyRosterSide.None)
@@ -834,6 +883,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 					this._currentCharacter.Troop = this.PartyScreenLogic.PrisonerRosters[(int)this.CurrentCharacter.Side].GetElementCopyAtIndex(num2);
 				}
 			}
+			PartyCharacterVM currentCharacter = this.CurrentCharacter;
 			if (num2 < 0)
 			{
 				this.UpgradePopUp.OnRanOutTroop(this.CurrentCharacter);
@@ -856,11 +906,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			{
 				compositionForList2.OnTroopAdded(newCharacter.Character.DefaultFormationClass, command.TotalNumber);
 			}
-			PartyCharacterVM currentCharacter = this.CurrentCharacter;
-			if (currentCharacter != null)
-			{
-				currentCharacter.UpdateTradeData();
-			}
+			this.UpdateAllTradeDatasOfCharacter((currentCharacter != null) ? currentCharacter.Character : null);
+			PartyCharacterVM newCharacter2 = newCharacter;
+			this.UpdateAllTradeDatasOfCharacter((newCharacter2 != null) ? newCharacter2.Character : null);
 			Game.Current.EventManager.TriggerEvent<PlayerRequestUpgradeTroopEvent>(new PlayerRequestUpgradeTroopEvent(command.Character, command.Character.UpgradeTargets[command.UpgradeTarget], command.TotalNumber));
 			this.RefreshTopInformation();
 		}
@@ -901,7 +949,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 			else
 			{
-				Debug.FailedAssert("Players can only recruit prisoners", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "RecruitTroop", 1010);
+				Debug.FailedAssert("Players can only recruit prisoners", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "RecruitTroop", 1025);
 			}
 			if (num2 < 0)
 			{
@@ -944,7 +992,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 			else
 			{
-				Debug.FailedAssert("Players can only execute prisoners", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "ExecuteTroop", 1050);
+				Debug.FailedAssert("Players can only execute prisoners", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "ExecuteTroop", 1065);
 			}
 			if (num < 0)
 			{
@@ -954,7 +1002,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 			else
 			{
-				Debug.FailedAssert("The prisoner should have been removed from the prisoner roster after execution", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "ExecuteTroop", 1061);
+				Debug.FailedAssert("The prisoner should have been removed from the prisoner roster after execution", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "ExecuteTroop", 1076);
 			}
 			this.RefreshTopInformation();
 			this.RefreshPartyInformation();
@@ -982,15 +1030,19 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			}
 			mbbindingList.Clear();
 			mbbindingList2.Clear();
+			int num = 0;
+			int num2 = 1;
 			for (int i = 0; i < troopRoster.Count; i++)
 			{
 				CharacterObject characterAtIndex = troopRoster.GetCharacterAtIndex(i);
-				mbbindingList.Add(new PartyCharacterVM(this.PartyScreenLogic, this, troopRoster, i, command.Type, PartyScreenLogic.PartyRosterSide.Left, this.PartyScreenLogic.IsTroopTransferable(command.Type, characterAtIndex, i)));
+				bool flag = this.PartyScreenLogic.IsTroopTransferable(command.Type, characterAtIndex, num);
+				mbbindingList.Add(new PartyCharacterVM(this.PartyScreenLogic, this, troopRoster, i, command.Type, PartyScreenLogic.PartyRosterSide.Left, flag));
 			}
 			for (int j = 0; j < troopRoster2.Count; j++)
 			{
 				CharacterObject characterAtIndex2 = troopRoster2.GetCharacterAtIndex(j);
-				mbbindingList2.Add(new PartyCharacterVM(this.PartyScreenLogic, this, troopRoster2, j, command.Type, PartyScreenLogic.PartyRosterSide.Right, this.PartyScreenLogic.IsTroopTransferable(command.Type, characterAtIndex2, j)));
+				bool flag2 = this.PartyScreenLogic.IsTroopTransferable(command.Type, characterAtIndex2, num2);
+				mbbindingList2.Add(new PartyCharacterVM(this.PartyScreenLogic, this, troopRoster2, j, command.Type, PartyScreenLogic.PartyRosterSide.Right, flag2));
 			}
 			this.OtherPartyComposition.RefreshCounts(this.OtherPartyTroops);
 			this.MainPartyComposition.RefreshCounts(this.MainPartyTroops);
@@ -1374,14 +1426,45 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 
 		public void ExecuteTalk()
 		{
+			if (!this.PartyScreenLogic.IsThereAnyChanges())
+			{
+				this.ExecuteOpenConversation();
+				return;
+			}
+			if (this.PartyScreenLogic.IsDoneActive())
+			{
+				this.ExecuteRemoveZeroCounts();
+				InformationManager.ShowInquiry(new InquiryData(new TextObject("{=*}Apply Changes?", null).ToString(), new TextObject("{=*}You need to confirm your changes in order to engage in a conversation.", null).ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), delegate
+				{
+					if (this.PartyScreenLogic.DoneLogic(false))
+					{
+						this.ExecuteOpenConversation();
+						return;
+					}
+					InformationManager.ShowInquiry(new InquiryData(new TextObject("{=*}Failed to Apply Changes", null).ToString(), new TextObject("{=*}Could not apply changes.", null).ToString(), true, false, GameTexts.FindText("str_ok", null).ToString(), string.Empty, null, null, "", 0f, null, null, null), false, false);
+				}, null, "", 0f, null, null, null), false, false);
+				return;
+			}
+			InformationManager.ShowInquiry(new InquiryData(new TextObject("{=*}Reset Changes?", null).ToString(), new TextObject("{=*}Cannot apply changes. You need reset your changes in order to engage in a conversation.", null).ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), delegate
+			{
+				this.ExecuteReset();
+				this.ExecuteOpenConversation();
+			}, null, "", 0f, null, null, null), false, false);
+		}
+
+		private void ExecuteOpenConversation()
+		{
 			if (this.CurrentCharacter.Side == PartyScreenLogic.PartyRosterSide.Right && this.CurrentCharacter.Character != CharacterObject.PlayerCharacter)
 			{
 				if (Settlement.CurrentSettlement == null)
 				{
 					CampaignMission.OpenConversationMission(new ConversationCharacterData(CharacterObject.PlayerCharacter, PartyBase.MainParty, false, false, false, false, false, false), new ConversationCharacterData(this.CurrentCharacter.Character, PartyBase.MainParty, false, false, false, this.CurrentCharacter.IsPrisoner, false, false), "", "");
-					return;
 				}
-				PlayerEncounter.LocationEncounter.CreateAndOpenMissionController(LocationComplex.Current.GetLocationOfCharacter(LocationComplex.Current.GetFirstLocationCharacterOfCharacter(this.CurrentCharacter.Character)), null, this.CurrentCharacter.Character, null);
+				else
+				{
+					PlayerEncounter.LocationEncounter.CreateAndOpenMissionController(LocationComplex.Current.GetLocationOfCharacter(LocationComplex.Current.GetFirstLocationCharacterOfCharacter(this.CurrentCharacter.Character)), null, this.CurrentCharacter.Character, null);
+				}
+				this.IsInConversation = true;
 			}
 		}
 
@@ -1409,6 +1492,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 					InformationManager.ShowInquiry(new InquiryData(new TextObject("{=uJro3Bua}Over Limit", null).ToString(), text, true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.CloseScreenInternal), null, "", 0f, null, null, null), false, false);
 					return;
 				}
+				if (this._currentMode == PartyScreenMode.Loot && ((this.IsOtherPrisonersHaveTransferableTroops && this.CanRightPartyTakeMorePrisoners) || (this.IsOtherTroopsHaveTransferableTroops && this.CanRightPartyTakeMoreTroops)))
+				{
+					InformationManager.ShowInquiry(new InquiryData("", GameTexts.FindText("str_leaving_troops_behind", null).ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.CloseScreenInternal), null, "", 0f, null, null, null), false, false);
+					return;
+				}
 				this.CloseScreenInternal();
 			}
 		}
@@ -1427,12 +1515,35 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			this.CurrentFocusedUpgrade = null;
 		}
 
+		public void ExecuteResetAndCancel()
+		{
+			this.ExecuteReset();
+			PartyScreenManager.CloseScreen(false, true);
+		}
+
 		public void ExecuteCancel()
 		{
 			if (this.PartyScreenLogic.IsCancelActive())
 			{
-				this.PartyScreenLogic.Reset(true);
-				PartyScreenManager.CloseScreen(false, true);
+				if (this._currentMode == PartyScreenMode.Loot)
+				{
+					if (this.PartyScreenLogic.IsThereAnyChanges())
+					{
+						InformationManager.ShowInquiry(new InquiryData("", GameTexts.FindText("str_cancelling_troop_changes", null).ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.ExecuteResetAndCancel), null, "", 0f, null, null, null), false, false);
+						return;
+					}
+					if ((this.IsOtherPrisonersHaveTransferableTroops && this.CanRightPartyTakeMorePrisoners) || (this.IsOtherTroopsHaveTransferableTroops && this.CanRightPartyTakeMoreTroops))
+					{
+						InformationManager.ShowInquiry(new InquiryData("", GameTexts.FindText("str_leaving_troops_behind", null).ToString(), true, true, GameTexts.FindText("str_yes", null).ToString(), GameTexts.FindText("str_no", null).ToString(), new Action(this.ExecuteResetAndCancel), null, "", 0f, null, null, null), false, false);
+						return;
+					}
+					this.ExecuteResetAndCancel();
+					return;
+				}
+				else
+				{
+					this.ExecuteResetAndCancel();
+				}
 			}
 		}
 
@@ -1457,7 +1568,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			{
 				if (list[i].Count != list2[i].Count)
 				{
-					Debug.FailedAssert("Logic and VM list counts do not match", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "EnsureLogicRostersAreInSyncWithVMLists", 1578);
+					Debug.FailedAssert("Logic and VM list counts do not match", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "EnsureLogicRostersAreInSyncWithVMLists", 1721);
 				}
 				else
 				{
@@ -1465,7 +1576,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 					{
 						if (list[i].GetCharacterAtIndex(j).StringId != list2[i][j].Character.StringId)
 						{
-							Debug.FailedAssert("Logic and VM rosters do not match", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "EnsureLogicRostersAreInSyncWithVMLists", 1586);
+							Debug.FailedAssert("Logic and VM rosters do not match", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\Party\\PartyVM.cs", "EnsureLogicRostersAreInSyncWithVMLists", 1729);
 							return;
 						}
 					}
@@ -1526,6 +1637,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 			{
 				openRecruitPanelInputKey.OnFinalize();
 			}
+			PartyTradeVM.RemoveZeroCounts -= this.ExecuteRemoveZeroCounts;
 			PartyCharacterVM.ProcessCharacterLock = null;
 			PartyCharacterVM.SetSelected = null;
 			PartyCharacterVM.OnShift = null;
@@ -2802,13 +2914,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 		{
 			get
 			{
-				return this._anyMembersOnEitherSide;
+				return this._areMembersRelevantOnCurrentMode;
 			}
 			set
 			{
-				if (value != this._anyMembersOnEitherSide)
+				if (value != this._areMembersRelevantOnCurrentMode)
 				{
-					this._anyMembersOnEitherSide = value;
+					this._areMembersRelevantOnCurrentMode = value;
 					base.OnPropertyChangedWithValue(value, "AreMembersRelevantOnCurrentMode");
 				}
 			}
@@ -2819,13 +2931,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 		{
 			get
 			{
-				return this._anyPrisonersOnEitherSide;
+				return this._arePrisonersRelevantOnCurrentMode;
 			}
 			set
 			{
-				if (value != this._anyPrisonersOnEitherSide)
+				if (value != this._arePrisonersRelevantOnCurrentMode)
 				{
-					this._anyPrisonersOnEitherSide = value;
+					this._arePrisonersRelevantOnCurrentMode = value;
 					base.OnPropertyChangedWithValue(value, "ArePrisonersRelevantOnCurrentMode");
 				}
 			}
@@ -3303,6 +3415,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 
 		private Func<string, TextObject> _getKeyTextFromKeyId;
 
+		public bool IsInConversation;
+
 		private List<Tuple<string, TextObject>> _formationNames;
 
 		private PartySortControllerVM _otherPartySortController;
@@ -3407,9 +3521,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Party
 
 		private bool _isCurrentCharacterWageEnabled;
 
-		private bool _anyPrisonersOnEitherSide;
+		private bool _arePrisonersRelevantOnCurrentMode;
 
-		private bool _anyMembersOnEitherSide;
+		private bool _areMembersRelevantOnCurrentMode;
 
 		private bool _canChooseRoles;
 

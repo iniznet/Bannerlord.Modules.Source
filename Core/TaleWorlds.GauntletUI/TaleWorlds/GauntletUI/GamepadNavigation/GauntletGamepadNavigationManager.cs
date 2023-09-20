@@ -158,10 +158,9 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				for (int i = 0; i < gamepadNavigationScopeCollection.VisibleScopes.Count; i++)
 				{
 					GamepadNavigationScope gamepadNavigationScope = gamepadNavigationScopeCollection.VisibleScopes[i];
-					if (gamepadNavigationScope.IsAvailable() && gamepadNavigationScope.ParentWidget.CheckIsMyChildRecursive(widget))
+					if (gamepadNavigationScope.IsAvailable() && (gamepadNavigationScope.ParentWidget == widget || gamepadNavigationScope.ParentWidget.CheckIsMyChildRecursive(widget)))
 					{
-						this.SetCurrentNavigatedWidget(gamepadNavigationScope, widget);
-						return true;
+						return this.SetCurrentNavigatedWidget(gamepadNavigationScope, widget);
 					}
 				}
 			}
@@ -175,8 +174,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				Widget approximatelyClosestWidgetToPosition = scope.GetApproximatelyClosestWidgetToPosition(this.MousePosition, GamepadNavigationTypes.None, false);
 				if (approximatelyClosestWidgetToPosition != null)
 				{
-					this.SetCurrentNavigatedWidget(scope, approximatelyClosestWidgetToPosition);
-					return true;
+					return this.SetCurrentNavigatedWidget(scope, approximatelyClosestWidgetToPosition);
 				}
 			}
 			return false;
@@ -205,13 +203,13 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			if (this.IsControllerActive && Input.MouseMoveX <= 0f && Input.MouseMoveY <= 0f)
 			{
 				GamepadNavigationScope activeNavigationScope = this._activeNavigationScope;
-				if (activeNavigationScope != null && activeNavigationScope.IsAvailable() && this._activeNavigationScope.ParentWidget.EventManager.IsAvailableForNavigation())
+				if (activeNavigationScope != null && activeNavigationScope.IsAvailable() && this._activeNavigationScope.ParentWidget.EventManager.IsAvailableForNavigation() && !Input.IsAnyTouchActive)
 				{
-					goto IL_78;
+					goto IL_7F;
 				}
 			}
 			this.OnDpadNavigationStopped();
-			IL_78:
+			IL_7F:
 			foreach (KeyValuePair<EventManager, GauntletGamepadNavigationManager.EventManagerGamepadNavigationGainHandler> keyValuePair in this._navigationGainControllers)
 			{
 				keyValuePair.Value.Tick(dt);
@@ -474,7 +472,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 			else
 			{
-				Debug.FailedAssert("Trying to add a navigation scope collection more than once", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "AddForcedScopeCollection", 599);
+				Debug.FailedAssert("Trying to add a navigation scope collection more than once", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "AddForcedScopeCollection", 598);
 			}
 			this._isAvailableScopesDirty = true;
 		}
@@ -520,7 +518,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 		{
 			if (scope == null)
 			{
-				Debug.FailedAssert("Trying to remove null navigation data", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "RemoveNavigationScope", 656);
+				Debug.FailedAssert("Trying to remove null navigation data", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "RemoveNavigationScope", 655);
 				return;
 			}
 			GamepadNavigationScopeCollection gamepadNavigationScopeCollection;
@@ -563,7 +561,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 			if (this._navigationScopes.Any((KeyValuePair<EventManager, GamepadNavigationScopeCollection> x) => x.Value.HasScopeInAnyList(scope)))
 			{
-				Debug.FailedAssert("Failed to remove scope completely", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "RemoveNavigationScope", 712);
+				Debug.FailedAssert("Failed to remove scope completely", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "RemoveNavigationScope", 711);
 				foreach (KeyValuePair<EventManager, GamepadNavigationScopeCollection> keyValuePair2 in this._navigationScopes)
 				{
 					keyValuePair2.Value.RemoveScope(scope);
@@ -734,7 +732,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				list.Add(item);
 				return;
 			}
-			Debug.FailedAssert("Trying to add same item to source dictionary twice", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "AddItemToDictionaryList", 901);
+			Debug.FailedAssert("Trying to add same item to source dictionary twice", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "AddItemToDictionaryList", 900);
 		}
 
 		private void RemoveItemFromDictionaryList<TKey, TValue>(Dictionary<TKey, List<TValue>> sourceDict, TKey key, TValue item)
@@ -751,7 +749,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			}
 			else
 			{
-				Debug.FailedAssert("Trying to remove non-existent item from source dictionary", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "RemoveItemFromDictionaryList", 922);
+				Debug.FailedAssert("Trying to remove non-existent item from source dictionary", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "RemoveItemFromDictionaryList", 921);
 			}
 		}
 
@@ -967,7 +965,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			GamepadNavigationScope activeNavigationScope = this._activeNavigationScope;
 			if (((activeNavigationScope != null) ? activeNavigationScope.ParentWidget : null) == null)
 			{
-				Debug.FailedAssert("Active navigation scope or it's parent widget shouldn't be null", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "HandleGamepadNavigation", 1147);
+				Debug.FailedAssert("Active navigation scope or it's parent widget shouldn't be null", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.GauntletUI\\GamepadNavigation\\GauntletGamepadNavigationManager.cs", "HandleGamepadNavigation", 1146);
 				this.MoveCursorToBestAvailableScope(true, GamepadNavigationTypes.None);
 				return false;
 			}
@@ -1172,7 +1170,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 				}
 				if (num2 < 0 || num2 >= navigatableWidgets.Count || num2 == latestNavigationElementIndex)
 				{
-					goto IL_28C;
+					goto IL_28D;
 				}
 			}
 			this.SetCurrentNavigatedWidget(scope, scope.GetLastAvailableWidget());
@@ -1181,7 +1179,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return this.NavigateBetweenScopes(movement, this._activeNavigationScope);
 			Block_39:
 			flag = true;
-			IL_28C:
+			IL_28D:
 			if (num2 >= 0 && flag)
 			{
 				if (scope.ChildScopes.Count > 0)
@@ -1205,9 +1203,9 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 			return false;
 		}
 
-		private void SetCurrentNavigatedWidget(GamepadNavigationScope scope, Widget widget)
+		private bool SetCurrentNavigatedWidget(GamepadNavigationScope scope, Widget widget)
 		{
-			if (scope != null)
+			if (scope != null && Input.MouseMoveX == 0f && Input.MouseMoveY == 0f)
 			{
 				int num = scope.FindIndexOfWidget(widget);
 				if (num != -1)
@@ -1226,8 +1224,10 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 						this.IsCursorMovingForNavigation = true;
 						this._latestGamepadNavigationWidget.OnGamepadNavigationFocusGain();
 					}
+					return true;
 				}
 			}
+			return false;
 		}
 
 		private bool MoveCursorToBestAvailableScope(bool isFromInput, GamepadNavigationTypes preferredMovement = GamepadNavigationTypes.None)
@@ -1589,7 +1589,7 @@ namespace TaleWorlds.GauntletUI.GamepadNavigation
 					}
 					else
 					{
-						bool flag = this._latestGamepadNavigationWidget != null && !this.IsHoldingDpadKeysForNavigation && this.IsControllerActive && Vector2.Distance(this.MousePosition, targetCursorPosition) > 1.44f && Input.MouseMoveX == 0f && Input.MouseMoveY == 0f;
+						bool flag = this._latestGamepadNavigationWidget != null && !this.IsHoldingDpadKeysForNavigation && this.IsControllerActive && !Input.IsAnyTouchActive && Vector2.Distance(this.MousePosition, targetCursorPosition) > 1.44f && Input.MouseMoveX == 0f && Input.MouseMoveY == 0f;
 						this.MousePosition = targetCursorPosition;
 						if (!flag)
 						{

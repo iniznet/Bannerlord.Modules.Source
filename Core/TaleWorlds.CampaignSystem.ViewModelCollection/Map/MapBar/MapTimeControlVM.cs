@@ -24,6 +24,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 
 		public bool IsInCampaignOptions { get; set; }
 
+		public bool IsEscapeMenuOpened { get; set; }
+
+		public bool IsMarriageOfferPopupActive { get; set; }
+
+		public bool IsMapCheatsActive { get; set; }
+
 		public MapTimeControlVM(Func<MapBarShortcuts> getMapBarShortcuts, Action onTimeFlowStateChange, Action onCameraResetted)
 		{
 			this._onTimeFlowStateChange = onTimeFlowStateChange;
@@ -35,6 +41,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 			this.FastForwardHint = new BasicTooltipViewModel();
 			this.PauseHint = new BasicTooltipViewModel();
 			Input.OnGamepadActiveStateChanged = (Action)Delegate.Combine(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
+			CampaignEvents.OnSaveStartedEvent.AddNonSerializedListener(this, new Action(this.OnSaveStarted));
+			CampaignEvents.OnSaveOverEvent.AddNonSerializedListener(this, new Action<bool, string>(this.OnSaveOver));
 			this.RefreshValues();
 		}
 
@@ -81,6 +89,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 			this._onTimeFlowStateChange = null;
 			this._getMapBarShortcuts = null;
 			this._onCameraReset = null;
+			CampaignEvents.OnSaveStartedEvent.ClearListeners(this);
+			CampaignEvents.OnSaveOverEvent.ClearListeners(this);
 		}
 
 		private void OnGamepadActiveStateChanged()
@@ -88,11 +98,21 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 			this.RefreshValues();
 		}
 
+		private void OnSaveStarted()
+		{
+			this._isSaving = true;
+		}
+
+		private void OnSaveOver(bool wasSuccessful, string saveName)
+		{
+			this._isSaving = false;
+		}
+
 		public void Tick()
 		{
 			this.TimeFlowState = (int)Campaign.Current.GetSimplifiedTimeControlMode();
-			this.IsCurrentlyPausedOnMap = (this.TimeFlowState == 0 || this.TimeFlowState == 6) && this.IsCenterPanelEnabled;
-			this.IsCenterPanelEnabled = !this.IsInBattleSimulation && !this.IsInRecruitment && !this.IsEncyclopediaOpen && !this.IsInTownManagement && !this.IsInArmyManagement && this.IsInMap && !this.IsInCampaignOptions && !this.IsInHideoutTroopManage;
+			this.IsCurrentlyPausedOnMap = (this.TimeFlowState == 0 || this.TimeFlowState == 6) && this.IsCenterPanelEnabled && !this.IsEscapeMenuOpened && !this._isSaving;
+			this.IsCenterPanelEnabled = !this.IsInBattleSimulation && !this.IsInRecruitment && !this.IsEncyclopediaOpen && !this.IsInTownManagement && !this.IsInArmyManagement && this.IsInMap && !this.IsInCampaignOptions && !this.IsInHideoutTroopManage && !this.IsMarriageOfferPopupActive && !this.IsMapCheatsActive;
 		}
 
 		public void Refresh()
@@ -321,6 +341,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 		private Action _onCameraReset;
 
 		private CampaignTime _lastSetDate;
+
+		private bool _isSaving;
 
 		private int _timeFlowState = -1;
 

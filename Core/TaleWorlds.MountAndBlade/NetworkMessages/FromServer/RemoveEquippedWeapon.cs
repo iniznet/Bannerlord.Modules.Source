@@ -10,11 +10,11 @@ namespace NetworkMessages.FromServer
 	{
 		public EquipmentIndex SlotIndex { get; private set; }
 
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
-		public RemoveEquippedWeapon(Agent a, EquipmentIndex slot)
+		public RemoveEquippedWeapon(int agentIndex, EquipmentIndex slot)
 		{
-			this.Agent = a;
+			this.AgentIndex = agentIndex;
 			this.SlotIndex = slot;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteIntToPacket((int)this.SlotIndex, CompressionMission.ItemSlotCompressionInfo);
 		}
 
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.SlotIndex = (EquipmentIndex)GameNetworkMessage.ReadIntFromPacket(CompressionMission.ItemSlotCompressionInfo, ref flag);
 			return flag;
 		}
@@ -43,15 +43,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Remove equipped weapon from SlotIndex: ",
-				this.SlotIndex,
-				" on agent: ",
-				this.Agent.Name,
-				" with index: ",
-				this.Agent.Index
-			});
+			return string.Concat(new object[] { "Remove equipped weapon from SlotIndex: ", this.SlotIndex, " on agent with agent-index: ", this.AgentIndex });
 		}
 	}
 }

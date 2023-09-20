@@ -13,6 +13,7 @@ namespace TaleWorlds.Engine.InputSystem
 			this.RegisterDebugHotkey("RightMouseButton", InputKey.RightMouseButton, HotKey.Modifiers.None, HotKey.Modifiers.None);
 			this.RegisterDebugHotkey("Score", InputKey.O, HotKey.Modifiers.Control, HotKey.Modifiers.None);
 			this.RegisterDebugHotkey("Copy", InputKey.C, HotKey.Modifiers.Control, HotKey.Modifiers.None);
+			this.RegisterDebugHotkey("Duplicate", InputKey.D, HotKey.Modifiers.Control, HotKey.Modifiers.None);
 			this.RegisterDebugHotkey("Numpad0", InputKey.Numpad0, HotKey.Modifiers.None, HotKey.Modifiers.None);
 			this.RegisterDebugHotkey("Numpad1", InputKey.Numpad1, HotKey.Modifiers.None, HotKey.Modifiers.None);
 			this.RegisterDebugHotkey("NumpadArrowBackward", InputKey.Numpad2, HotKey.Modifiers.None, HotKey.Modifiers.None);
@@ -217,6 +218,8 @@ namespace TaleWorlds.Engine.InputSystem
 		public const string Undo = "Undo";
 
 		public const string Copy = "Copy";
+
+		public const string Duplicate = "Duplicate";
 
 		public const string Score = "Score";
 

@@ -18,7 +18,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 			this._forceDecision = forceDecision;
 			this._onGrantFief = onGrantFief;
 			this._kingdom = Hero.MainHero.MapFaction as Kingdom;
-			this.AnnexCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(this._kingdom);
+			this.AnnexCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(Clan.PlayerClan);
 			this.AnnexHint = new HintViewModel();
 			base.IsAcceptableItemSelected = false;
 			this.Settlements = new MBBindingList<KingdomSettlementItemVM>();
@@ -95,7 +95,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 					}
 					else if (settlementItem.Owner.Hero == Hero.MainHero)
 					{
-						if (Hero.MainHero.IsFactionLeader)
+						if (Hero.MainHero.IsKingdomLeader)
 						{
 							this.AnnexActionExplanationText = new TextObject("{=G2h0V10w}Gift this settlement to a clan in your kingdom.", null).ToString();
 							this.AnnexText = new TextObject("{=sffGeQ1g}Gift", null).ToString();
@@ -139,7 +139,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Settle
 					else
 					{
 						this.AnnexText = GameTexts.FindText("str_policy_propose", null).ToString();
-						this.AnnexCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(this._kingdom);
+						this.AnnexCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(Clan.PlayerClan);
 						string text = GameTexts.FindText("str_annex_fief_action_explanation", null).ToString();
 						int num = KingdomSettlementVM.CalculateLikelihood(settlementItem.Settlement);
 						text = string.Format("{0} ({1}%)", text, num);

@@ -156,7 +156,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 			{
 				return;
 			}
-			PlayerSiege.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+			PlayerSiege.BesiegedSettlement.Party.SetVisualAsDirty();
 			Campaign.Current.autoEnterTown = null;
 			if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty)
 			{
@@ -175,40 +175,24 @@ namespace TaleWorlds.CampaignSystem.Siege
 			}
 		}
 
-		public static void StartSiegeMission(bool isSallyOut = false, Settlement settlement = null)
+		public static void StartSiegeMission(Settlement settlement = null)
 		{
 			Settlement besiegedSettlement = PlayerSiege.BesiegedSettlement;
 			Settlement.SiegeState currentSiegeState = besiegedSettlement.CurrentSiegeState;
-			if (currentSiegeState != Settlement.SiegeState.OnTheWalls)
-			{
-				if (currentSiegeState != Settlement.SiegeState.Invalid)
-				{
-					return;
-				}
-				Debug.FailedAssert("Siege state is invalid!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Siege\\PlayerSiege.cs", "StartSiegeMission", 202);
-				return;
-			}
-			else
+			if (currentSiegeState == Settlement.SiegeState.OnTheWalls)
 			{
 				List<MissionSiegeWeapon> preparedAndActiveSiegeEngines = PlayerSiege.PlayerSiegeEvent.GetPreparedAndActiveSiegeEngines(PlayerSiege.PlayerSiegeEvent.GetSiegeEventSide(BattleSideEnum.Attacker));
 				List<MissionSiegeWeapon> preparedAndActiveSiegeEngines2 = PlayerSiege.PlayerSiegeEvent.GetPreparedAndActiveSiegeEngines(PlayerSiege.PlayerSiegeEvent.GetSiegeEventSide(BattleSideEnum.Defender));
 				bool flag = preparedAndActiveSiegeEngines.Exists((MissionSiegeWeapon data) => data.Type == DefaultSiegeEngineTypes.SiegeTower);
-				int num = besiegedSettlement.Town.GetWallLevel();
-				string text = besiegedSettlement.LocationComplex.GetLocationWithId("center").GetSceneName(num);
-				if (CampaignSiegeTestStatic.IsSiegeTestBuild)
-				{
-					text = CampaignSiegeTestStatic.SiegeTestSceneName;
-					num = CampaignSiegeTestStatic.SiegeLevel;
-				}
-				float num2 = besiegedSettlement.SettlementTotalWallHitPoints / besiegedSettlement.MaxWallHitPoints;
-				if (isSallyOut)
-				{
-					CampaignMission.OpenSiegeMissionWithDeployment(text, besiegedSettlement.SettlementWallSectionHitPointsRatioList.ToArray(), flag, preparedAndActiveSiegeEngines, preparedAndActiveSiegeEngines2, PlayerEncounter.Current.PlayerSide == BattleSideEnum.Attacker, num, true, false);
-					return;
-				}
-				CampaignMission.OpenSiegeMissionWithDeployment(text, besiegedSettlement.SettlementWallSectionHitPointsRatioList.ToArray(), flag, preparedAndActiveSiegeEngines, preparedAndActiveSiegeEngines2, PlayerEncounter.Current.PlayerSide == BattleSideEnum.Attacker, num, false, false);
+				int wallLevel = besiegedSettlement.Town.GetWallLevel();
+				CampaignMission.OpenSiegeMissionWithDeployment(besiegedSettlement.LocationComplex.GetLocationWithId("center").GetSceneName(wallLevel), besiegedSettlement.SettlementWallSectionHitPointsRatioList.ToArray(), flag, preparedAndActiveSiegeEngines, preparedAndActiveSiegeEngines2, PlayerEncounter.Current.PlayerSide == BattleSideEnum.Attacker, wallLevel, false, false);
 				return;
 			}
+			if (currentSiegeState != Settlement.SiegeState.Invalid)
+			{
+				return;
+			}
+			Debug.FailedAssert("Siege state is invalid!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Siege\\PlayerSiege.cs", "StartSiegeMission", 189);
 		}
 	}
 }

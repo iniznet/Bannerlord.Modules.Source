@@ -161,13 +161,13 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Order
 			if (this.FocusedOrderableObject != null && isOnValidGround)
 			{
 				BattleSideEnum side = Mission.Current.PlayerTeam.Side;
-				if (this.FocusedOrderableObject.GetOrder(side) == 43)
+				if (this.FocusedOrderableObject.GetOrder(side) == 41)
 				{
 					this.Current = this._attack;
 					return;
 				}
 				OrderType order = this.FocusedOrderableObject.GetOrder(side);
-				if (order == 42 || order == 8)
+				if (order == 40 || order == 8)
 				{
 					this.Current = this._gear;
 					return;

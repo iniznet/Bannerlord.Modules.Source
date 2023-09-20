@@ -135,7 +135,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=QtmPWQ5a}Some of my lads have gone missing. I've got a witness who says they'd gotten themselves dead drunk drinking with another band in these parts who turned out to be filthy bounty hunters. Now my boys are all trussed up, and these treacherous animals aim to turn them in for the bounty.", null);
+					return new TextObject("{=QtmPWQ5a}Some of my lads have gone missing. I've got a witness who says they'd gotten themselves dead drunk drinking with another band in these parts who turned out to be filthy bounty hunters. Now my boys are all trussed up, and these treacherous animals aim to turn them in for the bounty.[if:convo_annoyed][ib:closed]", null);
 				}
 			}
 
@@ -151,7 +151,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=MiVYmiBc}Raid the bounty hunters' hideout and rescue my associates from them. I will make it worth your while, say {GOLD_AMOUNT} denars.", null);
+					TextObject textObject = new TextObject("{=MiVYmiBc}Raid the bounty hunters' hideout and rescue my associates from them. I will make it worth your while, say {GOLD_AMOUNT} denars.[if:convo_mocking_revenge][ib:closed2]", null);
 					textObject.SetTextVariable("GOLD_AMOUNT", this.RewardGold);
 					return textObject;
 				}
@@ -161,7 +161,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=GIkvhuCC}Maybe one of your men who knows a thing or two about scouting, with {TROOP_AMOUNT} good men can deal with these scum. So what do you say?", null);
+					TextObject textObject = new TextObject("{=GIkvhuCC}Maybe one of your men who knows a thing or two about scouting, with {TROOP_AMOUNT} good men can deal with these scum. So what do you say?[if:convo_undecided_open]", null);
 					textObject.SetTextVariable("TROOP_AMOUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					return textObject;
 				}
@@ -339,6 +339,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new CapturedByBountyHuntersIssueBehavior.CapturedByBountyHuntersIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(30f), this.RewardGold, this._hideout);
@@ -460,7 +464,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=BUM63VJq}That's the spirit. My men will tell you how to find the hideout. Rescue those poor captives, and a large sack of silver will be on your way!", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=BUM63VJq}That's the spirit. My men will tell you how to find the hideout. Rescue those poor captives, and a large sack of silver will be on your way![if:convo_approving][ib:hip]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=vYCY931w}Any news about my men?", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
@@ -483,6 +487,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void InitializeQuestOnGameLoad()
 			{
 				this.SetDialogs();
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override void RegisterEvents()

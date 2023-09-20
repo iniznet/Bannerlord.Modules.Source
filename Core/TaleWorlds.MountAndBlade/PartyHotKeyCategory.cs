@@ -4,7 +4,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class PartyHotKeyCategory : GameKeyContext
+	public sealed class PartyHotKeyCategory : GameKeyContext
 	{
 		public PartyHotKeyCategory()
 			: base("PartyHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)

@@ -48,11 +48,11 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		public NewBornSceneNotificationItem(Hero maleHero, Hero femaleHero)
+		public NewBornSceneNotificationItem(Hero maleHero, Hero femaleHero, CampaignTime creationTime)
 		{
 			this.MaleHero = maleHero;
 			this.FemaleHero = femaleHero;
-			this._creationCampaignTime = CampaignTime.Now;
+			this._creationCampaignTime = creationTime;
 		}
 
 		private readonly CampaignTime _creationCampaignTime;

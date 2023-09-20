@@ -19,7 +19,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		private void ExecuteSortByName()
 		{
 			int nameState = this.NameState;
-			this.SetAllStates(KingdomArmySortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.NameState = (nameState + 1) % 3;
 			if (this.NameState == 0)
 			{
@@ -33,7 +33,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		private void ExecuteSortByOwner()
 		{
 			int ownerState = this.OwnerState;
-			this.SetAllStates(KingdomArmySortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.OwnerState = (ownerState + 1) % 3;
 			if (this.OwnerState == 0)
 			{
@@ -47,7 +47,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		private void ExecuteSortByStrength()
 		{
 			int strengthState = this.StrengthState;
-			this.SetAllStates(KingdomArmySortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.StrengthState = (strengthState + 1) % 3;
 			if (this.StrengthState == 0)
 			{
@@ -61,7 +61,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		private void ExecuteSortByParties()
 		{
 			int partiesState = this.PartiesState;
-			this.SetAllStates(KingdomArmySortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.PartiesState = (partiesState + 1) % 3;
 			if (this.PartiesState == 0)
 			{
@@ -75,7 +75,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		private void ExecuteSortByDistance()
 		{
 			int distanceState = this.DistanceState;
-			this.SetAllStates(KingdomArmySortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.DistanceState = (distanceState + 1) % 3;
 			if (this.DistanceState == 0)
 			{
@@ -86,7 +86,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			this.IsDistanceSelected = true;
 		}
 
-		private void SetAllStates(KingdomArmySortControllerVM.SortState state)
+		private void SetAllStates(CampaignUIHelper.SortState state)
 		{
 			this.NameState = (int)state;
 			this.OwnerState = (int)state;
@@ -301,13 +301,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		private bool _isPartiesSelected;
 
 		private bool _isDistanceSelected;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 
 		public abstract class ItemComparerBase : IComparer<KingdomArmyItemVM>
 		{

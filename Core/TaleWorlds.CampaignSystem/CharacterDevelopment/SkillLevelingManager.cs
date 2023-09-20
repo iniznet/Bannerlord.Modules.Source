@@ -120,9 +120,9 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 			SkillLevelingManager.Instance.OnForceSupplies(attackerParty, lootedItems, attacked);
 		}
 
-		public static void OnPrisonerSell(MobileParty mobileParty, float count)
+		public static void OnPrisonerSell(MobileParty mobileParty, in TroopRoster prisonerRoster)
 		{
-			SkillLevelingManager.Instance.OnPrisonerSell(mobileParty, count);
+			SkillLevelingManager.Instance.OnPrisonerSell(mobileParty, prisonerRoster);
 		}
 
 		public static void OnSurgeryApplied(MobileParty party, bool surgerySuccess, int troopTier)
@@ -228,6 +228,11 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 		public static void OnBoardGameWonAgainstLord(Hero lord, BoardGameHelper.AIDifficulty difficulty, bool extraXpGain)
 		{
 			SkillLevelingManager.Instance.OnBoardGameWonAgainstLord(lord, difficulty, extraXpGain);
+		}
+
+		public static void OnProductionProducedToWarehouse(EquipmentElement production)
+		{
+			SkillLevelingManager.Instance.OnWarehouseProduction(production);
 		}
 	}
 }

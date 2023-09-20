@@ -5,7 +5,6 @@ using NetworkMessages.FromServer;
 using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
-using TaleWorlds.MountAndBlade.Network.Messages;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -194,7 +193,6 @@ namespace TaleWorlds.MountAndBlade
 				MatrixFrame frame = gameEntity.GetFrame();
 				frame.rotation.RotateAboutSide(angleInRadian);
 				gameEntity.SetFrame(ref frame);
-				this.MainObject.GameEntity.RecomputeBoundingBox();
 			}
 		}
 
@@ -337,7 +335,7 @@ namespace TaleWorlds.MountAndBlade
 					{
 						this._lastSynchronizedDistance = this._pathTracker.TotalDistanceTraveled;
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetSiegeMachineMovementDistance(this.MainObject as UsableMachine, this._lastSynchronizedDistance));
+						GameNetwork.WriteMessage(new SetSiegeMachineMovementDistance(this.MainObject.Id, this._lastSynchronizedDistance));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 					}
 				}
@@ -361,7 +359,6 @@ namespace TaleWorlds.MountAndBlade
 			GameEntity gameEntity = this.MainObject.GameEntity;
 			this.Velocity = gameEntity.GlobalPosition;
 			gameEntity.SetGlobalFrameMT(matrixFrame);
-			gameEntity.RecomputeBoundingBox();
 			this.Velocity = (gameEntity.GlobalPosition - this.Velocity).NormalizedCopy() * this.CurrentSpeed;
 		}
 
@@ -435,28 +432,24 @@ namespace TaleWorlds.MountAndBlade
 			this.SetTargetFrame();
 		}
 
-		protected internal override bool ReadFromNetwork()
+		public float GetTotalDistanceTraveledForPathTracker()
 		{
-			bool flag = true;
-			flag = flag && base.ReadFromNetwork();
-			float num = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.PositionCompressionInfo, ref flag);
-			if (flag)
-			{
-				this._pathTracker.TotalDistanceTraveled = num;
-				this._pathTracker.TotalDistanceTraveled += 0.05f;
-				this.SetTargetFrame();
-			}
-			return flag;
-		}
-
-		protected internal override void WriteToNetwork()
-		{
-			GameNetworkMessage.WriteFloatToPacket(this._pathTracker.TotalDistanceTraveled, CompressionBasic.PositionCompressionInfo);
+			return this._pathTracker.TotalDistanceTraveled;
 		}
 
 		private MatrixFrame FindGroundFrameForWheels(ref MatrixFrame frame)
 		{
 			return SiegeWeaponMovementComponent.FindGroundFrameForWheelsStatic(ref frame, this.AxleLength, this._wheelDiameter, this.MainObject.GameEntity, this._wheels, this.MainObject.Scene);
+		}
+
+		public void SetTotalDistanceTraveledForPathTracker(float distanceTraveled)
+		{
+			this._pathTracker.TotalDistanceTraveled = distanceTraveled;
+		}
+
+		public void SetTargetFrameForPathTracker()
+		{
+			this.SetTargetFrame();
 		}
 
 		public static MatrixFrame FindGroundFrameForWheelsStatic(ref MatrixFrame frame, float axleLength, float wheelDiameter, GameEntity gameEntity, List<GameEntity> wheels, Scene scene)

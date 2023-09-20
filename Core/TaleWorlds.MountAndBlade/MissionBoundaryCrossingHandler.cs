@@ -120,7 +120,7 @@ namespace TaleWorlds.MountAndBlade
 					blow.DamageType = DamageTypes.Blunt;
 					blow.BaseMagnitude = 10000f;
 					blow.WeaponRecord.WeaponClass = WeaponClass.Undefined;
-					blow.Position = agent.Position;
+					blow.GlobalPosition = agent.Position;
 					blow.DamagedPercentage = 1f;
 					agent.Die(blow, Agent.KillInfo.Invalid);
 					return;

@@ -88,11 +88,11 @@ namespace TaleWorlds.SaveSystem
 
 		protected void AddStructDefinitionWithCustomFields(Type type, int saveId, IEnumerable<Tuple<string, short>> fields, IObjectResolver resolver = null)
 		{
-			TypeDefinition typeDefinition = new TypeDefinition(type, this._saveBaseId + saveId, resolver);
-			this._definitionContext.AddStructDefinition(typeDefinition);
+			StructDefinition structDefinition = new StructDefinition(type, this._saveBaseId + saveId, resolver);
+			this._definitionContext.AddStructDefinition(structDefinition);
 			foreach (Tuple<string, short> tuple in fields)
 			{
-				typeDefinition.AddCustomField(tuple.Item1, tuple.Item2);
+				structDefinition.AddCustomField(tuple.Item1, tuple.Item2);
 			}
 		}
 
@@ -104,8 +104,8 @@ namespace TaleWorlds.SaveSystem
 
 		protected void AddStructDefinition(Type type, int saveId, IObjectResolver resolver = null)
 		{
-			TypeDefinition typeDefinition = new TypeDefinition(type, this._saveBaseId + saveId, resolver);
-			this._definitionContext.AddStructDefinition(typeDefinition);
+			StructDefinition structDefinition = new StructDefinition(type, this._saveBaseId + saveId, resolver);
+			this._definitionContext.AddStructDefinition(structDefinition);
 		}
 
 		protected void AddInterfaceDefinition(Type type, int saveId)

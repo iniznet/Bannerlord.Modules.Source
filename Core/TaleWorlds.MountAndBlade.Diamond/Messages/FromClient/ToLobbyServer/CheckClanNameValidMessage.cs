@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromClient.ToLobbyServer
@@ -7,7 +8,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class CheckClanNameValidMessage : Message
 	{
+		[JsonProperty]
 		public string ClanName { get; private set; }
+
+		public CheckClanNameValidMessage()
+		{
+		}
 
 		public CheckClanNameValidMessage(string clanName)
 		{

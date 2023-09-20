@@ -14,7 +14,7 @@ namespace TaleWorlds.MountAndBlade
 			List<ValueTuple<IAgentOriginBase, int>> list = new List<ValueTuple<IAgentOriginBase, int>>();
 			foreach (IAgentOriginBase agentOriginBase in troopOrigins)
 			{
-				ValueTuple<IAgentOriginBase, int> valueTuple = new ValueTuple<IAgentOriginBase, int>(agentOriginBase, (int)agentOriginBase.Troop.GetFormationClass());
+				ValueTuple<IAgentOriginBase, int> valueTuple = new ValueTuple<IAgentOriginBase, int>(agentOriginBase, (int)Mission.Current.GetAgentTroopClass(battleSide, agentOriginBase.Troop));
 				list.Add(valueTuple);
 			}
 			return list;
@@ -26,7 +26,7 @@ namespace TaleWorlds.MountAndBlade
 			List<ValueTuple<IAgentOriginBase, int>> list = new List<ValueTuple<IAgentOriginBase, int>>();
 			foreach (IAgentOriginBase agentOriginBase in troopOrigins)
 			{
-				ValueTuple<IAgentOriginBase, int> valueTuple = new ValueTuple<IAgentOriginBase, int>(agentOriginBase, (int)agentOriginBase.Troop.GetFormationClass());
+				ValueTuple<IAgentOriginBase, int> valueTuple = new ValueTuple<IAgentOriginBase, int>(agentOriginBase, (int)Mission.Current.GetAgentTroopClass(battleSide, agentOriginBase.Troop));
 				list.Add(valueTuple);
 			}
 			return list;

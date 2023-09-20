@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetMissionObjectVisibility : GameNetworkMessage
 	{
-		public MissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
 		public bool Visible { get; private set; }
 
-		public SetMissionObjectVisibility(MissionObject missionObject, bool visible)
+		public SetMissionObjectVisibility(MissionObjectId missionObjectId, bool visible)
 		{
-			this.MissionObject = missionObject;
+			this.MissionObjectId = missionObjectId;
 			this.Visible = visible;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.Visible = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
 			GameNetworkMessage.WriteBoolToPacket(this.Visible);
 		}
 
@@ -45,9 +45,7 @@ namespace NetworkMessages.FromServer
 			return string.Concat(new object[]
 			{
 				"Set Visibility of MissionObject with ID: ",
-				this.MissionObject.Id.Id,
-				" and with name: ",
-				this.MissionObject.GameEntity.Name,
+				this.MissionObjectId,
 				" to: ",
 				this.Visible ? "True" : "False"
 			});

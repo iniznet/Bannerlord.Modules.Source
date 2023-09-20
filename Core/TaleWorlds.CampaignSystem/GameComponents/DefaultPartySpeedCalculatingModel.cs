@@ -60,19 +60,28 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			float num11 = this.CalculateBaseSpeedForParty(num4);
 			ExplainedNumber explainedNumber = new ExplainedNumber(num11, includeDescriptions, null);
-			this.GetCavalryRatioModifier(mobileParty, num4, num7, ref explainedNumber);
+			bool flag = Campaign.Current.Models.MapWeatherModel.GetWeatherEffectOnTerrainForPosition(mobileParty.Position2D) == MapWeatherModel.WeatherEventEffectOnTerrain.Wet;
 			this.GetFootmenPerkBonus(mobileParty, num4, num8, ref explainedNumber);
+			float cavalryRatioModifier = this.GetCavalryRatioModifier(num4, num7);
 			int num12 = MathF.Min(num8, num);
 			float mountedFootmenRatioModifier = this.GetMountedFootmenRatioModifier(num4, num12);
+			explainedNumber.AddFactor(cavalryRatioModifier, DefaultPartySpeedCalculatingModel._textCavalry);
 			explainedNumber.AddFactor(mountedFootmenRatioModifier, DefaultPartySpeedCalculatingModel._textMountedFootmen);
+			if (flag)
+			{
+				float num13 = cavalryRatioModifier * 0.3f;
+				float num14 = mountedFootmenRatioModifier * 0.3f;
+				explainedNumber.AddFactor(-num13, DefaultPartySpeedCalculatingModel._textCavalryWeatherPenalty);
+				explainedNumber.AddFactor(-num14, DefaultPartySpeedCalculatingModel._textMountedFootmenWeatherPenalty);
+			}
 			if (mountedFootmenRatioModifier > 0f && mobileParty.LeaderHero != null && mobileParty.LeaderHero.GetPerkValue(DefaultPerks.Riding.NomadicTraditions))
 			{
 				explainedNumber.AddFactor(mountedFootmenRatioModifier * DefaultPerks.Riding.NomadicTraditions.PrimaryBonus, DefaultPerks.Riding.NomadicTraditions.Name);
 			}
-			float num13 = MathF.Min(num5, (float)num6);
-			if (num13 > 0f)
+			float num15 = MathF.Min(num5, (float)num6);
+			if (num15 > 0f)
 			{
-				float cargoEffect = this.GetCargoEffect(num13, num6);
+				float cargoEffect = this.GetCargoEffect(num15, num6);
 				explainedNumber.AddFactor(cargoEffect, DefaultPartySpeedCalculatingModel._textCargo);
 			}
 			if (num2 > (float)num6)
@@ -183,7 +192,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 						}
 					}
 				}
-				float num2 = ((num / (float)mobileParty.MemberRoster.Count > 0.75f) ? (-0.15f) : (-0.3f));
+				float num2 = ((num / (float)mobileParty.MemberRoster.TotalManCount >= 0.75f) ? (-0.3f * -DefaultPerks.Scouting.ForestKin.PrimaryBonus) : (-0.3f));
 				finalSpeed.AddFactor(num2, DefaultPartySpeedCalculatingModel._movingInForest);
 				if (PartyBaseHelper.HasFeat(mobileParty.Party, DefaultCulturalFeats.BattanianForestSpeedFeat))
 				{
@@ -191,7 +200,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					finalSpeed.AddFactor(num3, DefaultPartySpeedCalculatingModel._culture);
 				}
 			}
-			else if (faceTerrainType == TerrainType.Water || faceTerrainType == TerrainType.River || faceTerrainType == TerrainType.Bridge || faceTerrainType == TerrainType.ShallowRiver)
+			else if (faceTerrainType == TerrainType.Water || faceTerrainType == TerrainType.River || faceTerrainType == TerrainType.Bridge || faceTerrainType == TerrainType.Fording)
 			{
 				finalSpeed.AddFactor(-0.3f, DefaultPartySpeedCalculatingModel._fordEffect);
 			}
@@ -210,7 +219,8 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				finalSpeed.AddFactor(DefaultPerks.Scouting.Pathfinder.PrimaryBonus, DefaultPerks.Scouting.Pathfinder.Name);
 			}
-			if (Campaign.Current.Models.MapWeatherModel.GetIsSnowTerrainInPos(mobileParty.Position2D.ToVec3(0f)))
+			MapWeatherModel.WeatherEvent weatherEventInPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEventInPosition(mobileParty.Position2D);
+			if (weatherEventInPosition == MapWeatherModel.WeatherEvent.Snowy || weatherEventInPosition == MapWeatherModel.WeatherEvent.Blizzard)
 			{
 				finalSpeed.AddFactor(-0.1f, DefaultPartySpeedCalculatingModel._snow);
 			}
@@ -228,7 +238,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			if (effectiveScout != null)
 			{
-				PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Scouting.UncannyInsight, effectiveScout.CharacterObject, DefaultSkills.Scouting, true, ref finalSpeed, 200);
+				PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Scouting.UncannyInsight, effectiveScout.CharacterObject, DefaultSkills.Scouting, true, ref finalSpeed, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
 				if (effectiveScout.GetPerkValue(DefaultPerks.Scouting.ForcedMarch) && mobileParty.Morale > 75f)
 				{
 					finalSpeed.AddFactor(DefaultPerks.Scouting.ForcedMarch.PrimaryBonus, DefaultPerks.Scouting.ForcedMarch.Name);
@@ -305,22 +315,22 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return explainedNumber.ResultNumber;
 		}
 
-		private void GetCavalryRatioModifier(MobileParty party, int totalMenCount, int totalCavalryCount, ref ExplainedNumber result)
+		private float GetCavalryRatioModifier(int totalMenCount, int totalCavalryCount)
 		{
-			if (totalMenCount > 0 && totalCavalryCount > 0)
-			{
-				float num = 0.4f * (float)totalCavalryCount / (float)totalMenCount;
-				result.AddFactor(num, DefaultPartySpeedCalculatingModel._textCavalry);
-			}
-		}
-
-		private float GetMountedFootmenRatioModifier(int totalMenCount, int totalCavalryCount)
-		{
-			if (totalMenCount == 0)
+			if (totalMenCount == 0 || totalCavalryCount == 0)
 			{
 				return 0f;
 			}
-			return 0.2f * (float)totalCavalryCount / (float)totalMenCount;
+			return 0.4f * (float)totalCavalryCount / (float)totalMenCount;
+		}
+
+		private float GetMountedFootmenRatioModifier(int totalMenCount, int totalMountedFootmenCount)
+		{
+			if (totalMenCount == 0 || totalMountedFootmenCount == 0)
+			{
+				return 0f;
+			}
+			return 0.2f * (float)totalMountedFootmenCount / (float)totalMenCount;
 		}
 
 		private void GetFootmenPerkBonus(MobileParty party, int totalMenCount, int totalFootmenCount, ref ExplainedNumber result)
@@ -356,19 +366,23 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private static readonly TextObject _textCavalry = new TextObject("{=YVGtcLHF}Cavalry", null);
 
-		private static readonly TextObject _textKhuzaitCavalryBonus = new TextObject("{=yi07dBks}Khuzait Cavalry Bonus", null);
+		private static readonly TextObject _textCavalryWeatherPenalty = new TextObject("{=Cb0k9KM8}Cavalry weather penalty", null);
+
+		private static readonly TextObject _textKhuzaitCavalryBonus = new TextObject("{=yi07dBks}Khuzait cavalry bonus", null);
 
 		private static readonly TextObject _textMountedFootmen = new TextObject("{=5bSWSaPl}Footmen on horses", null);
 
-		private static readonly TextObject _textWounded = new TextObject("{=aLsVKIRy}Wounded Members", null);
+		private static readonly TextObject _textMountedFootmenWeatherPenalty = new TextObject("{=JAKoFNgt}Footmen on horses weather penalty", null);
+
+		private static readonly TextObject _textWounded = new TextObject("{=aLsVKIRy}Wounded members", null);
 
 		private static readonly TextObject _textPrisoners = new TextObject("{=N6QTvjMf}Prisoners", null);
 
-		private static readonly TextObject _textHerd = new TextObject("{=NhAMSaWU}Herd", null);
+		private static readonly TextObject _textHerd = new TextObject("{=NhAMSaWU}Herding", null);
 
-		private static readonly TextObject _textHighMorale = new TextObject("{=aDQcIGfH}High Morale", null);
+		private static readonly TextObject _textHighMorale = new TextObject("{=aDQcIGfH}High morale", null);
 
-		private static readonly TextObject _textLowMorale = new TextObject("{=ydspCDIy}Low Morale", null);
+		private static readonly TextObject _textLowMorale = new TextObject("{=ydspCDIy}Low morale", null);
 
 		private static readonly TextObject _textCaravan = new TextObject("{=vvabqi2w}Caravan", null);
 
@@ -384,7 +398,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private static readonly TextObject _desert = new TextObject("{=ecUwABe2}Desert", null);
 
-		private static readonly TextObject _sturgiaSnowBonus = new TextObject("{=0VfEGekD}Sturgia Snow Bonus", null);
+		private static readonly TextObject _sturgiaSnowBonus = new TextObject("{=0VfEGekD}Sturgia snow bonus", null);
 
 		private static readonly TextObject _culture = GameTexts.FindText("str_culture", null);
 

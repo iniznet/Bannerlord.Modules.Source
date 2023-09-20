@@ -175,9 +175,9 @@ namespace TaleWorlds.DotNet
 		private static void Initialize()
 		{
 			Common.SetInvariantCulture();
-			Type[] types = AssemblyLoader.LoadFrom(Managed.ManagedCallbacksDll, true).GetTypes();
+			List<Type> typesSafe = AssemblyLoader.LoadFrom(Managed.ManagedCallbacksDll, true).GetTypesSafe(null);
 			Type type = null;
-			foreach (Type type2 in types)
+			foreach (Type type2 in typesSafe)
 			{
 				if (type2.GetInterfaces().Contains(typeof(ICallbackManager)))
 				{
@@ -188,16 +188,16 @@ namespace TaleWorlds.DotNet
 			Managed._callbackManager = type.GetConstructor(new Type[0]).Invoke(new object[0]) as ICallbackManager;
 			Managed._callbackManager.Initialize();
 			Delegate[] delegates = Managed._callbackManager.GetDelegates();
-			for (int j = 0; j < delegates.Length; j++)
+			for (int i = 0; i < delegates.Length; i++)
 			{
 				try
 				{
-					Managed.PassManagedEngineCallbackMethodPointers(delegates[j]);
+					Managed.PassManagedEngineCallbackMethodPointers(delegates[i]);
 				}
 				catch (Exception ex)
 				{
 					Managed.PassManagedEngineCallbackMethodPointers(null);
-					Console.WriteLine(ex + " " + j);
+					Console.WriteLine(ex + " " + i);
 				}
 			}
 			LibraryApplicationInterface.SetObjects(Managed._callbackManager.GetScriptingInterfaceObjects());

@@ -286,7 +286,7 @@ namespace TaleWorlds.MountAndBlade
 				float minimumDistanceBetweenPositions = RangedSiegeWeaponAi.ThreatSeeker.GetMinimumDistanceBetweenPositions(formation.GetMedianAgent(false, false, formation.GetAveragePositionOfUnits(false, false)).Position, referencePositions, out castleKeyPosition);
 				bool flag = castleKeyPosition.AttackerSiegeWeapon != null && castleKeyPosition.AttackerSiegeWeapon.HasCompletedAction();
 				float num;
-				if (formation.IsRanged())
+				if (formation.PhysicalClass.IsRanged())
 				{
 					if (minimumDistanceBetweenPositions < 20f)
 					{

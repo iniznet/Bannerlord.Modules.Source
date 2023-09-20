@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.MountAndBlade.Diamond;
 
@@ -9,7 +10,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class UpdateUsedCosmeticItemsMessage : Message
 	{
-		public List<CosmeticItemInfo> UsedCosmetics { get; }
+		[JsonProperty]
+		public List<CosmeticItemInfo> UsedCosmetics { get; private set; }
+
+		public UpdateUsedCosmeticItemsMessage()
+		{
+		}
 
 		public UpdateUsedCosmeticItemsMessage(List<CosmeticItemInfo> usedCosmetics)
 		{

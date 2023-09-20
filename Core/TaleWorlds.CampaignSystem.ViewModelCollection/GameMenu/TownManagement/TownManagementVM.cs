@@ -104,7 +104,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 			GameTexts.SetVariable("LEFT", GameTexts.FindText("str_town_management_population_tax", null));
 			this.MiddleFirstTextList.Add(new TownManagementDescriptionItemVM(GameTexts.FindText("str_LEFT_colon", null), taxValue, 0, TownManagementDescriptionItemVM.DescriptionType.Gold, basicTooltipViewModel));
 			BasicTooltipViewModel basicTooltipViewModel2 = new BasicTooltipViewModel(() => CampaignUIHelper.GetTownProsperityTooltip(Settlement.CurrentSettlement.Town));
-			this.MiddleFirstTextList.Add(new TownManagementDescriptionItemVM(GameTexts.FindText("str_town_management_prosperity", null), (int)Settlement.CurrentSettlement.Prosperity, (int)Campaign.Current.Models.SettlementProsperityModel.CalculateProsperityChange(Settlement.CurrentSettlement.Town, false).ResultNumber, TownManagementDescriptionItemVM.DescriptionType.Prosperity, basicTooltipViewModel2));
+			this.MiddleFirstTextList.Add(new TownManagementDescriptionItemVM(GameTexts.FindText("str_town_management_prosperity", null), (int)Settlement.CurrentSettlement.Town.Prosperity, (int)Campaign.Current.Models.SettlementProsperityModel.CalculateProsperityChange(Settlement.CurrentSettlement.Town, false).ResultNumber, TownManagementDescriptionItemVM.DescriptionType.Prosperity, basicTooltipViewModel2));
 			BasicTooltipViewModel basicTooltipViewModel3 = new BasicTooltipViewModel(() => CampaignUIHelper.GetTownDailyProductionTooltip(Settlement.CurrentSettlement.Town));
 			this.MiddleFirstTextList.Add(new TownManagementDescriptionItemVM(GameTexts.FindText("str_town_management_daily_production", null), (int)Campaign.Current.Models.BuildingConstructionModel.CalculateDailyConstructionPower(Settlement.CurrentSettlement.Town, false).ResultNumber, 0, TownManagementDescriptionItemVM.DescriptionType.Production, basicTooltipViewModel3));
 			BasicTooltipViewModel basicTooltipViewModel4 = new BasicTooltipViewModel(() => CampaignUIHelper.GetTownSecurityTooltip(Settlement.CurrentSettlement.Town));
@@ -164,14 +164,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.TownManagement
 				if (((currentSettlement != null) ? currentSettlement.Town : null) != null)
 				{
 					this.CurrentGovernor = new HeroVM(selectedGovernor, true);
-					ChangeGovernorAction.Apply(Settlement.CurrentSettlement.Town, this.CurrentGovernor.Hero);
-					if (selectedGovernor != null)
+					if (this.CurrentGovernor.Hero != null)
 					{
-						MobileParty partyBelongedTo = selectedGovernor.PartyBelongedTo;
-						if (partyBelongedTo != null)
-						{
-							partyBelongedTo.RemoveHeroPerkRole(selectedGovernor);
-						}
+						ChangeGovernorAction.Apply(Settlement.CurrentSettlement.Town, this.CurrentGovernor.Hero);
+					}
+					else
+					{
+						ChangeGovernorAction.RemoveGovernorOfIfExists(Settlement.CurrentSettlement.Town);
 					}
 				}
 			}

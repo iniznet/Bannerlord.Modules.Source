@@ -533,7 +533,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			bestTargetPoint = this._mobileParty.TargetPosition;
 			Vec2 vec = new Vec2(0f, 0f);
 			MobileParty mobileParty2 = null;
-			if (Campaign.Current.GameStarted && this._mobileParty != MobileParty.MainParty && this._mobileParty.BesiegedSettlement == null && (this._mobileParty.DefaultBehavior != AiBehavior.GoToSettlement || this._mobileParty.TargetSettlement.Town == null || this._mobileParty.CurrentSettlement == this._mobileParty.TargetSettlement || !this._mobileParty.TargetSettlement.Town.IsTaken) && (this._mobileParty.Army == null || !this._mobileParty.Army.LeaderParty.AttachedParties.Contains(this._mobileParty)))
+			if (Campaign.Current.GameStarted && this._mobileParty != MobileParty.MainParty && this._mobileParty.BesiegedSettlement == null && (this._mobileParty.Army == null || !this._mobileParty.Army.LeaderParty.AttachedParties.Contains(this._mobileParty)))
 			{
 				AiBehavior aiBehavior;
 				MobileParty mobileParty3;
@@ -611,7 +611,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.GetPatrolBehavior(out aiBehavior2, out vec2, out mobileParty4, this._mobileParty.TargetPosition);
 				break;
 			case AiBehavior.EscortParty:
-				this.GetFollowBehavior(ref aiBehavior2, ref targetSettlement, ref mobileParty4, mobileParty);
+				this.GetFollowBehavior(ref aiBehavior2, ref targetSettlement, mobileParty);
 				break;
 			case AiBehavior.DefendSettlement:
 			{
@@ -654,10 +654,10 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		private void GetFollowBehavior(ref AiBehavior shortTermBehavior, ref Settlement shortTermTargetSettlement, ref MobileParty shortTermTargetParty, MobileParty followedParty)
+		private void GetFollowBehavior(ref AiBehavior shortTermBehavior, ref Settlement shortTermTargetSettlement, MobileParty followedParty)
 		{
 			shortTermBehavior = AiBehavior.EscortParty;
-			if (!followedParty.IsActive)
+			if (followedParty == null || !followedParty.IsActive)
 			{
 				shortTermBehavior = AiBehavior.Hold;
 				return;
@@ -673,7 +673,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			if (this._mobileParty.TargetSettlement != null)
 			{
-				if (this._mobileParty.TargetSettlement.SiegeEvent != null && this._mobileParty.TargetSettlement.SiegeEvent.BesiegerCamp.BesiegerParty == this._mobileParty && this._mobileParty.TargetSettlement.SiegeEvent.BesiegerCamp.IsReadyToBesiege)
+				if (this._mobileParty.TargetSettlement.SiegeEvent != null && this._mobileParty.TargetSettlement.SiegeEvent.BesiegerCamp.LeaderParty == this._mobileParty && this._mobileParty.TargetSettlement.SiegeEvent.BesiegerCamp.IsReadyToBesiege)
 				{
 					shortTermTargetSettlement = this._mobileParty.TargetSettlement;
 					shortTermBehavior = AiBehavior.AssaultSettlement;
@@ -817,7 +817,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				goAroundPartyBehavior = AiBehavior.EngageParty;
 				goAroundPartyTargetParty = targetParty;
 			}
-			if (bestInitiativeAllyPartyToEscort != null && targetParty.SiegeEvent != null && targetParty.BesiegerCamp.BesiegerParty == targetParty)
+			if (bestInitiativeAllyPartyToEscort != null && targetParty.SiegeEvent != null && targetParty.BesiegerCamp.LeaderParty == targetParty)
 			{
 				goAroundPartyBehavior = AiBehavior.EscortParty;
 				goAroundPartyTargetParty = bestInitiativeAllyPartyToEscort;
@@ -889,7 +889,7 @@ namespace TaleWorlds.CampaignSystem.Party
 					if (mobileParty != this._mobileParty && mobileParty.IsActive && this.IsEnemy(mobileParty.Party) && !mobileParty.ShouldBeIgnored && (mobileParty.CurrentSettlement == null || mobileParty.IsGarrison || mobileParty.IsLordParty))
 					{
 						Settlement currentSettlement = this._mobileParty.CurrentSettlement;
-						if (((currentSettlement != null) ? currentSettlement.SiegeEvent : null) == null && (!mobileParty.IsGarrison || this._mobileParty.IsBandit) && (mobileParty.BesiegerCamp == null || mobileParty.BesiegerCamp.BesiegerParty == mobileParty) && (mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty || mobileParty.AttachedTo == null) && (mobileParty.MapEvent == null || mobileParty == MobileParty.MainParty || mobileParty.Party.MapEvent.MapEventSettlement != null || mobileParty.Party == mobileParty.Party.MapEvent.GetLeaderParty(BattleSideEnum.Attacker) || mobileParty.Party == mobileParty.Party.MapEvent.GetLeaderParty(BattleSideEnum.Defender)) && (mobileParty.MapEvent == null || this.IsEnemy(mobileParty.MapEvent.AttackerSide.LeaderParty) != this.IsEnemy(mobileParty.MapEvent.DefenderSide.LeaderParty)))
+						if (((currentSettlement != null) ? currentSettlement.SiegeEvent : null) == null && (!mobileParty.IsGarrison || this._mobileParty.IsBandit) && (mobileParty.BesiegerCamp == null || mobileParty.BesiegerCamp.LeaderParty == mobileParty) && (mobileParty.Army == null || mobileParty.Army.LeaderParty == mobileParty || mobileParty.AttachedTo == null) && (mobileParty.MapEvent == null || mobileParty == MobileParty.MainParty || mobileParty.Party.MapEvent.MapEventSettlement != null || mobileParty.Party == mobileParty.Party.MapEvent.GetLeaderParty(BattleSideEnum.Attacker) || mobileParty.Party == mobileParty.Party.MapEvent.GetLeaderParty(BattleSideEnum.Defender)) && (mobileParty.MapEvent == null || this.IsEnemy(mobileParty.MapEvent.AttackerSide.LeaderParty) != this.IsEnemy(mobileParty.MapEvent.DefenderSide.LeaderParty)) && (mobileParty.CurrentSettlement == null || !mobileParty.CurrentSettlement.IsHideout || !this._mobileParty.IsBandit))
 						{
 							Vec2 vec = ((mobileParty.BesiegedSettlement != null) ? mobileParty.VisualPosition2DWithoutError : mobileParty.Position2D);
 							float num = this._mobileParty.Position2D.Distance(vec);
@@ -913,12 +913,12 @@ namespace TaleWorlds.CampaignSystem.Party
 										PartyBase partyBase = enumerator.Current;
 										num6 += partyBase.TotalStrength;
 									}
-									goto IL_36D;
+									goto IL_3A4;
 								}
-								goto IL_34C;
+								goto IL_36E;
 							}
-							goto IL_34C;
-							IL_36D:
+							goto IL_36E;
+							IL_3A4:
 							MobileParty mobileParty2 = null;
 							LocatableSearchData<MobileParty> locatableSearchData2 = MobileParty.StartFindingLocatablesAroundPosition(this._mobileParty.Position2D, 9f);
 							MobileParty mobileParty3 = MobileParty.FindNextLocatable(ref locatableSearchData2);
@@ -943,7 +943,7 @@ namespace TaleWorlds.CampaignSystem.Party
 											mobileParty3 = MobileParty.FindNextLocatable(ref locatableSearchData2);
 											continue;
 										}
-										if (mobileParty3.BesiegerCamp != null && mobileParty3.BesiegerCamp.BesiegerParty != mobileParty3)
+										if (mobileParty3.BesiegerCamp != null && mobileParty3.BesiegerCamp.LeaderParty != mobileParty3)
 										{
 											mobileParty3 = MobileParty.FindNextLocatable(ref locatableSearchData2);
 											continue;
@@ -955,7 +955,7 @@ namespace TaleWorlds.CampaignSystem.Party
 										}
 										bool flag = partyBase2 != null && (partyBase2 == mobileParty.Party || (partyBase2.MapEvent != null && partyBase2.MapEvent == mobileParty.Party.MapEvent));
 										bool flag2 = (this._mobileParty.Army != null && this._mobileParty.Army == mobileParty3.Army && this._mobileParty.Army.DoesLeaderPartyAndAttachedPartiesContain(this._mobileParty)) || (mobileParty.Army != null && mobileParty.Army == mobileParty3.Army) || (mobileParty.BesiegedSettlement != null && mobileParty.BesiegedSettlement == mobileParty3.BesiegedSettlement) || (num > 3f && flag) || (num7 > 3f && flag && mobileParty != MobileParty.MainParty && (MobileParty.MainParty.Army == null || mobileParty != MobileParty.MainParty.Army.LeaderParty));
-										if (this._mobileParty.MapFaction == mobileParty3.MapFaction && mobileParty.BesiegedSettlement != null && mobileParty3.DefaultBehavior == AiBehavior.DefendSettlement && mobileParty.BesiegedSettlement == mobileParty3.TargetSettlement && mobileParty3.Party.TotalStrength > this._mobileParty.Party.TotalStrength * 1.25f)
+										if (this._mobileParty.MapFaction == mobileParty3.MapFaction && mobileParty.BesiegedSettlement != null && mobileParty3.CurrentSettlement == null && mobileParty3.DefaultBehavior == AiBehavior.DefendSettlement && mobileParty.BesiegedSettlement == mobileParty3.TargetSettlement && mobileParty3.Party.TotalStrength > this._mobileParty.Party.TotalStrength * 1.25f)
 										{
 											mobileParty2 = ((mobileParty3.Army != null) ? mobileParty3.Army.LeaderParty : mobileParty3);
 										}
@@ -981,12 +981,12 @@ namespace TaleWorlds.CampaignSystem.Party
 																num6 = num10 + ((army != null) ? army.TotalStrength : partyBase3.TotalStrength);
 															}
 														}
-														goto IL_76E;
+														goto IL_7AE;
 													}
 												}
 												num6 += num9 * num8;
 											}
-											IL_76E:
+											IL_7AE:
 											if (this._mobileParty.MapFaction == mobileParty3.MapFaction)
 											{
 												bool flag4 = mobileParty3.Aggressiveness > 0.01f || (mobileParty3.CurrentSettlement != null && mobileParty3.CurrentSettlement == mobileParty.CurrentSettlement);
@@ -995,7 +995,7 @@ namespace TaleWorlds.CampaignSystem.Party
 												if (flag3 || (flag4 && flag5 && flag6))
 												{
 													Settlement currentSettlement2 = mobileParty3.CurrentSettlement;
-													if (((currentSettlement2 != null) ? currentSettlement2.SiegeEvent : null) == null || mobileParty != mobileParty3.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty)
+													if (((currentSettlement2 != null) ? currentSettlement2.SiegeEvent : null) == null || mobileParty != mobileParty3.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty)
 													{
 														if (mobileParty3.BesiegerCamp != null)
 														{
@@ -1015,7 +1015,7 @@ namespace TaleWorlds.CampaignSystem.Party
 																		}
 																	}
 																}
-																goto IL_8F7;
+																goto IL_937;
 															}
 														}
 														num3 += num9 * num8;
@@ -1032,7 +1032,7 @@ namespace TaleWorlds.CampaignSystem.Party
 											}
 										}
 									}
-									IL_8F7:
+									IL_937:
 									mobileParty3 = MobileParty.FindNextLocatable(ref locatableSearchData2);
 								}
 							}
@@ -1101,11 +1101,15 @@ namespace TaleWorlds.CampaignSystem.Party
 							}
 							mobileParty = MobileParty.FindNextLocatable(ref locatableSearchData);
 							continue;
-							IL_34C:
-							float num15 = num6;
-							Army army3 = mobileParty.Army;
-							num6 = num15 + ((army3 != null) ? army3.TotalStrength : mobileParty.Party.TotalStrength);
-							goto IL_36D;
+							IL_36E:
+							if (mobileParty.CurrentSettlement == null || !mobileParty.CurrentSettlement.IsUnderSiege)
+							{
+								float num15 = num6;
+								Army army3 = mobileParty.Army;
+								num6 = num15 + ((army3 != null) ? army3.TotalStrength : mobileParty.Party.TotalStrength);
+								goto IL_3A4;
+							}
+							goto IL_3A4;
 						}
 					}
 					mobileParty = MobileParty.FindNextLocatable(ref locatableSearchData);
@@ -1203,7 +1207,7 @@ namespace TaleWorlds.CampaignSystem.Party
 					this.SetNavigationModeEscort(this.AiBehaviorPartyBase.MobileParty);
 					return;
 				}
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobilePartyAi.cs", "UpdateBehavior", 1383);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobilePartyAi.cs", "UpdateBehavior", 1387);
 				return;
 			}
 			this.SetNavigationModeHold();
@@ -1407,7 +1411,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			num7 = MBMath.ClampFloat((!flag) ? (num7 * num7 * num7) : 1f, 0.05f, 1f);
 			num8 = MBMath.ClampFloat(num8 * num8 * num8, 0.05f, 1f);
 			float num9 = 1f;
-			if (enemyParty.IsMoving && (this._mobileParty.DefaultBehavior != AiBehavior.GoAroundParty || this._mobileParty.TargetParty != enemyParty))
+			if (enemyParty.IsMoving && enemyParty.SiegeEvent == null && enemyParty.MapEvent == null && (this._mobileParty.DefaultBehavior != AiBehavior.GoAroundParty || this._mobileParty.TargetParty != enemyParty))
 			{
 				num9 = this.CalculateInitiativeSpeedScore(enemyParty, vec);
 			}
@@ -1516,7 +1520,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			float num8 = 60000f;
 			float num9 = 10000f;
 			float num10 = (float)((enemyParty.LeaderHero != null) ? (enemyParty.PartyTradeGold + enemyParty.LeaderHero.Gold) : enemyParty.PartyTradeGold) / (enemyParty.IsCaravan ? num9 : num8);
-			float num11 = ((enemyParty.LeaderHero != null) ? (enemyParty.LeaderHero.IsFactionLeader ? 1.5f : 1f) : 0.75f);
+			float num11 = ((enemyParty.LeaderHero != null) ? ((enemyParty.LeaderHero.IsKingdomLeader || enemyParty.LeaderHero.IsClanLeader) ? 1.5f : 1f) : 0.75f);
 			float num12 = num2 * num6 * num7 * num3 * num4;
 			return MBMath.ClampFloat(num10 * num11 / (num12 + 0.001f), 0.005f, 3f);
 		}
@@ -1596,11 +1600,11 @@ namespace TaleWorlds.CampaignSystem.Party
 				if (this._targetAiFaceIndex.IsValid())
 				{
 					Vec2 position2D = this._mobileParty.Position2D;
-					flag = Campaign.Current.MapSceneWrapper.GetPathBetweenAIFaces(this._mobileParty.CurrentNavigationFace, this._targetAiFaceIndex, position2D, newTargetPosition, 0.1f, this.Path);
+					flag = Campaign.Current.MapSceneWrapper.GetPathBetweenAIFaces(this._mobileParty.CurrentNavigationFace, this._targetAiFaceIndex, position2D, newTargetPosition, 0.1f, this.Path, null);
 				}
 				else
 				{
-					Debug.FailedAssert("Path finding target is not valid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobilePartyAi.cs", "ComputePath", 2009);
+					Debug.FailedAssert("Path finding target is not valid", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobilePartyAi.cs", "ComputePath", 2016);
 				}
 			}
 			this.PathBegin = 0;

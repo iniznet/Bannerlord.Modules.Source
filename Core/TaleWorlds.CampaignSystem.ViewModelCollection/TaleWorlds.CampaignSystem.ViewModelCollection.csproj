@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D53}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.CampaignSystem.ViewModelCollection</RootNamespace>
     <AssemblyName>TaleWorlds.CampaignSystem.ViewModelCollection</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,9 +30,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
@@ -85,9 +85,13 @@
     <Compile Include="CharacterDeveloper\PerkVM.cs" />
     <Compile Include="CharacterDeveloper\SkillVM.cs" />
     <Compile Include="ClanManagement\CardSelectionItemSpriteType.cs" />
+    <Compile Include="ClanManagement\Categories\ClanFiefsSortControllerVM.cs" />
     <Compile Include="ClanManagement\Categories\ClanFiefsVM.cs" />
+    <Compile Include="ClanManagement\Categories\ClanIncomeSortControllerVM.cs" />
     <Compile Include="ClanManagement\Categories\ClanIncomeVM.cs" />
+    <Compile Include="ClanManagement\Categories\ClanMembersSortControllerVM.cs" />
     <Compile Include="ClanManagement\Categories\ClanMembersVM.cs" />
+    <Compile Include="ClanManagement\Categories\ClanPartiesSortControllerVM.cs" />
     <Compile Include="ClanManagement\Categories\ClanPartiesVM.cs" />
     <Compile Include="ClanManagement\ClanCardSelectionInfo.cs" />
     <Compile Include="ClanManagement\ClanCardSelectionItemInfo.cs" />
@@ -102,6 +106,7 @@
     <Compile Include="ClanManagement\ClanFinance\ClanFinanceMercenaryItemVM.cs" />
     <Compile Include="ClanManagement\ClanFinance\ClanFinanceTownItemVM.cs" />
     <Compile Include="ClanManagement\ClanFinance\ClanFinanceWorkshopItemVM.cs" />
+    <Compile Include="ClanManagement\ClanFinance\WorkshopPercentageSelectorItemVM.cs" />
     <Compile Include="ClanManagement\ClanLordItemVM.cs" />
     <Compile Include="ClanManagement\ClanLordStatusItemVM.cs" />
     <Compile Include="ClanManagement\ClanManagementVM.cs" />
@@ -252,6 +257,7 @@
     <Compile Include="KingdomManagement\KingdomGiftFiefPopupVM.cs" />
     <Compile Include="KingdomManagement\KingdomItemVM.cs" />
     <Compile Include="KingdomManagement\KingdomManagementVM.cs" />
+    <Compile Include="KingdomManagement\LeaveKingdomPermissionEvent.cs" />
     <Compile Include="KingdomManagement\Policies\KingdomPoliciesVM.cs" />
     <Compile Include="KingdomManagement\Policies\KingdomPolicyItemVM.cs" />
     <Compile Include="KingdomManagement\Settlements\KingdomSettlementItemVM.cs" />
@@ -289,6 +295,9 @@
     <Compile Include="Map\MapNotificationTypes\VassalOfferMapNotificationItemVM.cs" />
     <Compile Include="Map\MapNotificationTypes\WarNotificationItemVM.cs" />
     <Compile Include="Map\MapNotificationVM.cs" />
+    <Compile Include="Map\MarriageOfferPopup\MarriageOfferPopupHeroAttributeVM.cs" />
+    <Compile Include="Map\MarriageOfferPopup\MarriageOfferPopupHeroVM.cs" />
+    <Compile Include="Map\MarriageOfferPopup\MarriageOfferPopupVM.cs" />
     <Compile Include="Microsoft\CodeAnalysis\EmbeddedAttribute.cs" />
     <Compile Include="NumericCampaignOptionData.cs" />
     <Compile Include="Party\PartyCharacterVM.cs" />
@@ -307,8 +316,8 @@
     <Compile Include="Party\UpgradeRequirementsVM.cs" />
     <Compile Include="Party\UpgradeTargetVM.cs" />
     <Compile Include="PlayerInspectedPartySpeedEvent.cs" />
+    <Compile Include="ProfitItemPropertyVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyBasedTooltipVMExtensions.cs" />
     <Compile Include="Quests\QuestItemSortControllerVM.cs" />
     <Compile Include="Quests\QuestItemVM.cs" />
     <Compile Include="Quests\QuestMarkerVM.cs" />
@@ -319,9 +328,12 @@
     <Compile Include="SelectableItemPropertyVM.cs" />
     <Compile Include="SelectionCampaignOptionData.cs" />
     <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
+    <Compile Include="TooltipRefresherCollection.cs" />
     <Compile Include="UIColors.cs" />
     <Compile Include="WeaponCrafting\CraftingAvailableHeroItemVM.cs" />
+    <Compile Include="WeaponCrafting\CraftingHeroPopupVM.cs" />
     <Compile Include="WeaponCrafting\CraftingListPropertyItem.cs" />
+    <Compile Include="WeaponCrafting\CraftingPerkVM.cs" />
     <Compile Include="WeaponCrafting\CraftingResourceItemVM.cs" />
     <Compile Include="WeaponCrafting\CraftingSecondaryUsageItemVM.cs" />
     <Compile Include="WeaponCrafting\CraftingVM.cs" />
@@ -339,7 +351,6 @@
     <Compile Include="WeaponCrafting\WeaponDesign\CraftingWeaponResultPopupToggledEvent.cs" />
     <Compile Include="WeaponCrafting\WeaponDesign\Order\CraftingOrderItemVM.cs" />
     <Compile Include="WeaponCrafting\WeaponDesign\Order\CraftingOrderPopupVM.cs" />
-    <Compile Include="WeaponCrafting\WeaponDesign\Order\OrderDifficultyComparer.cs" />
     <Compile Include="WeaponCrafting\WeaponDesign\TierFilterTypeVM.cs" />
     <Compile Include="WeaponCrafting\WeaponDesign\WeaponAttributeVM.cs" />
     <Compile Include="WeaponCrafting\WeaponDesign\WeaponClassSelectionPopupVM.cs" />
@@ -350,36 +361,32 @@
     <Compile Include="WeaponCrafting\WeaponDesign\WeaponDesignVM.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.CampaignSystem\TaleWorlds.CampaignSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d52}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6b}</Project>
       <Name>TaleWorlds.CampaignSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Core.ViewModelCollection\TaleWorlds.Core.ViewModelCollection.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d55}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6e}</Project>
       <Name>TaleWorlds.Core.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d54}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6d}</Project>
       <Name>TaleWorlds.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d66}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7f}</Project>
       <Name>TaleWorlds.InputSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d69}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d74}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8e}</Project>
       <Name>TaleWorlds.ObjectSystem</Name>
     </ProjectReference>
   </ItemGroup>

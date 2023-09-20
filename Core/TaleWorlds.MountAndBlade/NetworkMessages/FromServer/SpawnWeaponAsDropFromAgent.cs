@@ -9,7 +9,7 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SpawnWeaponAsDropFromAgent : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public EquipmentIndex EquipmentIndex { get; private set; }
 
@@ -21,9 +21,9 @@ namespace NetworkMessages.FromServer
 
 		public int ForcedIndex { get; private set; }
 
-		public SpawnWeaponAsDropFromAgent(Agent agent, EquipmentIndex equipmentIndex, Vec3 velocity, Vec3 angularVelocity, Mission.WeaponSpawnFlags weaponSpawnFlags, int forcedIndex)
+		public SpawnWeaponAsDropFromAgent(int agentIndex, EquipmentIndex equipmentIndex, Vec3 velocity, Vec3 angularVelocity, Mission.WeaponSpawnFlags weaponSpawnFlags, int forcedIndex)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.EquipmentIndex = equipmentIndex;
 			this.Velocity = velocity;
 			this.AngularVelocity = angularVelocity;
@@ -38,9 +38,9 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.EquipmentIndex = (EquipmentIndex)GameNetworkMessage.ReadIntFromPacket(CompressionMission.ItemSlotCompressionInfo, ref flag);
-			this.WeaponSpawnFlags = (Mission.WeaponSpawnFlags)GameNetworkMessage.ReadIntFromPacket(CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo, ref flag);
+			this.WeaponSpawnFlags = (Mission.WeaponSpawnFlags)GameNetworkMessage.ReadUintFromPacket(CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo, ref flag);
 			if (this.WeaponSpawnFlags.HasAnyFlag(Mission.WeaponSpawnFlags.WithPhysics))
 			{
 				this.Velocity = GameNetworkMessage.ReadVec3FromPacket(CompressionMission.SpawnedItemVelocityCompressionInfo, ref flag);
@@ -57,9 +57,9 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteIntToPacket((int)this.EquipmentIndex, CompressionMission.ItemSlotCompressionInfo);
-			GameNetworkMessage.WriteIntToPacket((int)this.WeaponSpawnFlags, CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo);
+			GameNetworkMessage.WriteUintToPacket((uint)this.WeaponSpawnFlags, CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo);
 			if (this.WeaponSpawnFlags.HasAnyFlag(Mission.WeaponSpawnFlags.WithPhysics))
 			{
 				GameNetworkMessage.WriteVec3ToPacket(this.Velocity, CompressionMission.SpawnedItemVelocityCompressionInfo);
@@ -75,16 +75,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			object[] array = new object[6];
-			array[0] = "Spawn Weapon from agent with index: ";
-			int num = 1;
-			Agent agent = this.Agent;
-			array[num] = ((agent != null) ? agent.Index : (-1));
-			array[2] = " from equipment index: ";
-			array[3] = this.EquipmentIndex;
-			array[4] = ", and with ID: ";
-			array[5] = this.ForcedIndex;
-			return string.Concat(array);
+			return string.Concat(new object[] { "Spawn Weapon from agent with agent-index: ", this.AgentIndex, " from equipment index: ", this.EquipmentIndex, ", and with ID: ", this.ForcedIndex });
 		}
 	}
 }

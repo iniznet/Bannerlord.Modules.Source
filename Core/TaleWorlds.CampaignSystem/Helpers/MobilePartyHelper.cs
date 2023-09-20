@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
-using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Party.PartyComponents;
 using TaleWorlds.CampaignSystem.Roster;
@@ -127,24 +126,14 @@ namespace Helpers
 		public static int GetMaximumXpAmountPartyCanGet(MobileParty party)
 		{
 			TroopRoster memberRoster = party.MemberRoster;
-			PartyTroopUpgradeModel partyTroopUpgradeModel = Campaign.Current.Models.PartyTroopUpgradeModel;
 			int num = 0;
 			for (int i = 0; i < memberRoster.Count; i++)
 			{
 				TroopRosterElement elementCopyAtIndex = memberRoster.GetElementCopyAtIndex(i);
-				if (partyTroopUpgradeModel.CanTroopGainXp(party.Party, elementCopyAtIndex.Character))
+				int num2;
+				if (MobilePartyHelper.CanTroopGainXp(party.Party, elementCopyAtIndex.Character, out num2))
 				{
-					int number = elementCopyAtIndex.Number;
-					int num2 = 0;
-					for (int j = 0; j < elementCopyAtIndex.Character.UpgradeTargets.Length; j++)
-					{
-						int upgradeXpCost = elementCopyAtIndex.Character.GetUpgradeXpCost(party.Party, j);
-						if (num2 < upgradeXpCost)
-						{
-							num2 = upgradeXpCost;
-						}
-					}
-					num += MathF.Max(number * num2 - memberRoster.GetElementXp(i), 0);
+					num += num2;
 				}
 			}
 			return num;
@@ -152,36 +141,57 @@ namespace Helpers
 
 		public static void PartyAddSharedXp(MobileParty party, float xpToDistribute)
 		{
-			TroopRoster memberRoster = party.MemberRoster;
-			PartyTroopUpgradeModel partyTroopUpgradeModel = Campaign.Current.Models.PartyTroopUpgradeModel;
-			int num = 0;
-			for (int i = 0; i < memberRoster.Count; i++)
+			if (xpToDistribute > 0f)
 			{
-				TroopRosterElement elementCopyAtIndex = memberRoster.GetElementCopyAtIndex(i);
-				if (partyTroopUpgradeModel.CanTroopGainXp(party.Party, elementCopyAtIndex.Character))
+				TroopRoster memberRoster = party.MemberRoster;
+				int num = 0;
+				for (int i = 0; i < memberRoster.Count; i++)
 				{
-					num += MobilePartyHelper.GetShareWeight(ref elementCopyAtIndex);
+					TroopRosterElement elementCopyAtIndex = memberRoster.GetElementCopyAtIndex(i);
+					int num2;
+					if (MobilePartyHelper.CanTroopGainXp(party.Party, elementCopyAtIndex.Character, out num2))
+					{
+						num += num2;
+					}
 				}
-			}
-			int num2 = 0;
-			while (num2 < memberRoster.Count && xpToDistribute >= 1f && num > 0)
-			{
-				TroopRosterElement elementCopyAtIndex2 = memberRoster.GetElementCopyAtIndex(num2);
-				if (partyTroopUpgradeModel.CanTroopGainXp(party.Party, elementCopyAtIndex2.Character))
+				int num3 = 0;
+				while (num3 < memberRoster.Count && xpToDistribute >= 1f && num > 0)
 				{
-					int shareWeight = MobilePartyHelper.GetShareWeight(ref elementCopyAtIndex2);
-					int num3 = MathF.Floor(xpToDistribute * (float)shareWeight / (float)num);
-					memberRoster.AddXpToTroopAtIndex(num3, num2);
-					xpToDistribute -= (float)num3;
-					num -= shareWeight;
+					TroopRosterElement elementCopyAtIndex2 = memberRoster.GetElementCopyAtIndex(num3);
+					int num4;
+					if (MobilePartyHelper.CanTroopGainXp(party.Party, elementCopyAtIndex2.Character, out num4))
+					{
+						int num5 = MathF.Floor(MathF.Max(1f, xpToDistribute * (float)num4 / (float)num));
+						memberRoster.AddXpToTroopAtIndex(num5, num3);
+						xpToDistribute -= (float)num5;
+						num -= num4;
+					}
+					num3++;
 				}
-				num2++;
 			}
 		}
 
-		private static int GetShareWeight(ref TroopRosterElement e)
+		public static bool CanTroopGainXp(PartyBase owner, CharacterObject character, out int gainableMaxXp)
 		{
-			return MathF.Max(1, e.Character.Tier) * e.Number;
+			bool flag = false;
+			gainableMaxXp = 0;
+			int num = owner.MemberRoster.FindIndexOfTroop(character);
+			int elementNumber = owner.MemberRoster.GetElementNumber(num);
+			int elementXp = owner.MemberRoster.GetElementXp(num);
+			for (int i = 0; i < character.UpgradeTargets.Length; i++)
+			{
+				int upgradeXpCost = character.GetUpgradeXpCost(owner, i);
+				if (elementXp < upgradeXpCost * elementNumber)
+				{
+					flag = true;
+					int num2 = upgradeXpCost * elementNumber - elementXp;
+					if (num2 > gainableMaxXp)
+					{
+						gainableMaxXp = num2;
+					}
+				}
+			}
+			return flag;
 		}
 
 		public static Vec2 FindReachablePointAroundPosition(Vec2 centerPosition, float maxDistance, float minDistance = 0f)

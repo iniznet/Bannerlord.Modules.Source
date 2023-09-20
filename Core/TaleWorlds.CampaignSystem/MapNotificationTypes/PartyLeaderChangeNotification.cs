@@ -49,5 +49,11 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 		{
 			this.Party = party;
 		}
+
+		public override bool IsValid()
+		{
+			MobileParty party = this.Party;
+			return party != null && party.IsActive;
+		}
 	}
 }

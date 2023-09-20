@@ -56,7 +56,7 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 		public GatherArmyLogEntry(Army army, Settlement gatheringSettlement)
 		{
 			this.ArmyLeader = army.LeaderParty.LeaderHero;
-			this.ArmyMapFaction = army.MapFaction;
+			this.ArmyMapFaction = army.Kingdom;
 			this.GatheringSettlement = gatheringSettlement;
 		}
 

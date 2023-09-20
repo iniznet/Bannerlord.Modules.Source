@@ -43,9 +43,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			base.AddLayer(this._layer);
 		}
 
-		protected override void OnFrameTick(float dt)
+		protected override void OnVideoPlaybackTick(float dt)
 		{
-			base.OnFrameTick(dt);
+			base.OnVideoPlaybackTick(dt);
 			this._dataSource.Tick(this._totalElapsedTimeSinceVideoStart);
 		}
 

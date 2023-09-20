@@ -7,19 +7,19 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	{
 		public SupportedFeatures()
 		{
-			this._supportedFeatures = -1;
+			this.Features = -1;
 		}
 
 		public SupportedFeatures(int features)
 		{
-			this._supportedFeatures = features;
+			this.Features = features;
 		}
 
 		public bool SupportsFeatures(Features feature)
 		{
-			return (this._supportedFeatures & (int)feature) == (int)feature;
+			return (this.Features & (int)feature) == (int)feature;
 		}
 
-		private int _supportedFeatures;
+		public int Features;
 	}
 }

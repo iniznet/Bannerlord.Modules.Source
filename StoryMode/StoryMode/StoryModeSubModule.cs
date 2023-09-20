@@ -115,13 +115,5 @@ namespace StoryMode
 				StoryModeManager.Current.TickRealTime(dt);
 			}
 		}
-
-		public override void OnConfigChanged()
-		{
-			if (StoryModeManager.Current != null)
-			{
-				StoryModeManager.Current.StoryModeEvents.OnConfigChanged();
-			}
-		}
 	}
 }

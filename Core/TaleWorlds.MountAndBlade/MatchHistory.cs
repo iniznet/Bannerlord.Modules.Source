@@ -84,14 +84,17 @@ namespace TaleWorlds.MountAndBlade
 						MatchHistory._matches[i] = match;
 					}
 				}
-				return;
 			}
-			int matchTypeCount = MatchHistory.GetMatchTypeCount(match.MatchType);
-			if (matchTypeCount >= 10)
+			else
 			{
-				MatchHistory.RemoveMatches(match.MatchType, matchTypeCount - 10 + 1);
+				int matchTypeCount = MatchHistory.GetMatchTypeCount(match.MatchType);
+				if (matchTypeCount >= 10)
+				{
+					MatchHistory.RemoveMatches(match.MatchType, matchTypeCount - 10 + 1);
+				}
+				MatchHistory._matches.Add(match);
 			}
-			MatchHistory._matches.Add(match);
+			MatchHistory.IsHistoryCacheDirty = true;
 		}
 
 		public static bool TryGetMatchInfo(string matchId, out MatchInfo matchInfo)
@@ -115,6 +118,7 @@ namespace TaleWorlds.MountAndBlade
 				MatchInfo oldestMatch = MatchHistory.GetOldestMatch(matchType);
 				MatchHistory._matches.Remove(oldestMatch);
 			}
+			MatchHistory.IsHistoryCacheDirty = true;
 		}
 
 		private static MatchInfo GetOldestMatch(string matchType)
@@ -143,6 +147,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				Console.WriteLine(ex);
 			}
+			MatchHistory.IsHistoryCacheDirty = true;
 		}
 
 		private static int GetMatchTypeCount(string category)

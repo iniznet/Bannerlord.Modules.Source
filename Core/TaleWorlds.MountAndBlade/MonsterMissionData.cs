@@ -12,12 +12,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				return new CapsuleData
-				{
-					Radius = this.Monster.BodyCapsuleRadius,
-					P1 = this.Monster.BodyCapsulePoint1,
-					P2 = this.Monster.BodyCapsulePoint2
-				};
+				return new CapsuleData(this.Monster.BodyCapsuleRadius, this.Monster.BodyCapsulePoint1, this.Monster.BodyCapsulePoint2);
 			}
 		}
 
@@ -25,12 +20,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				return new CapsuleData
-				{
-					Radius = this.Monster.CrouchedBodyCapsuleRadius,
-					P1 = this.Monster.CrouchedBodyCapsulePoint1,
-					P2 = this.Monster.CrouchedBodyCapsulePoint2
-				};
+				return new CapsuleData(this.Monster.CrouchedBodyCapsuleRadius, this.Monster.CrouchedBodyCapsulePoint1, this.Monster.CrouchedBodyCapsulePoint2);
 			}
 		}
 

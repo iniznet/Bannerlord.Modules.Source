@@ -101,11 +101,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=NhDEwaab}Well, if you know how to fight... Yes, we could use help. A group of deserters is camped out near here. They come every few weeks, demanding food and money. They've killed two villagers who resisted them. We asked our {?LORD.GENDER}mistress{?}lord{\\?}, {LORD.NAME}, for help but {?LORD.GENDER}her{?}his{\\?} men never get here in time.", null);
+					TextObject textObject = new TextObject("{=NhDEwaab}Well, if you know how to fight... Yes, we could use help. A group of deserters is camped out near here. They come every few weeks, demanding food and money. They've killed two villagers who resisted them. We asked our {?LORD.GENDER}mistress{?}lord{\\?}, {LORD.NAME}, for help but {?LORD.GENDER}her{?}his{\\?} men never get here in time.[if:convo_stern][ib:closed]", null);
 					StringHelpers.SetCharacterProperties("LORD", base.IssueSettlement.OwnerClan.Leader.CharacterObject, textObject, false);
 					if (base.IssueSettlement.OwnerClan.Leader == Hero.MainHero)
 					{
-						textObject = new TextObject("{=dYO8piOM}Yes, my {?PLAYER.GENDER}lady{?}lord{\\?}. It is good of you to ask. A group of deserters is camped out near here. They come every few weeks, demanding food and money. They've killed two villagers who resisted them.", null);
+						textObject = new TextObject("{=dYO8piOM}Yes, my {?PLAYER.GENDER}lady{?}lord{\\?}. It is good of you to ask. A group of deserters is camped out near here. They come every few weeks, demanding food and money. They've killed two villagers who resisted them.[if:convo_stern][ib:closed]", null);
 					}
 					return textObject;
 				}
@@ -123,7 +123,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=tb0gqxDZ}Here's the plan. We lay an ambush in the village. When they show up, we spring. If you join us, I think we've got a good chance of ridding ourselves of this scourge before they murder us one by one.", null);
+					return new TextObject("{=tb0gqxDZ}Here's the plan. We lay an ambush in the village. When they show up, we spring. If you join us, I think we've got a good chance of ridding ourselves of this scourge before they murder us one by one.[if:convo_stern][ib:normal]", null);
 				}
 			}
 
@@ -182,7 +182,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=J0Clb1RD}If you don't have the time, at least send one of your best companions with {TROOP_COUNT} experienced men for {RETURN_DAYS} days.", null);
+					TextObject textObject = new TextObject("{=J0Clb1RD}If you don't have the time, at least send one of your best companions with {TROOP_COUNT} experienced men for {RETURN_DAYS} days.[if:convo_stern][ib:closed]", null);
 					textObject.SetTextVariable("TROOP_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("RETURN_DAYS", base.GetTotalAlternativeSolutionDurationInDays());
 					return textObject;
@@ -256,7 +256,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.RelationshipChangeWithIssueOwner = 8;
 				base.IssueOwner.AddPower(15f);
 				base.IssueSettlement.Village.Bound.Town.Security += 10f;
-				base.IssueSettlement.Village.Bound.Prosperity += 100f;
+				base.IssueSettlement.Village.Bound.Town.Prosperity += 100f;
 				TraitLevelingHelper.OnIssueSolvedThroughQuest(base.IssueOwner, new Tuple<TraitObject, int>[]
 				{
 					new Tuple<TraitObject, int>(DefaultTraits.Honor, 60)
@@ -266,7 +266,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void AlternativeSolutionEndWithFailureConsequence()
 			{
 				base.IssueSettlement.Village.Bound.Town.Security += -10f;
-				base.IssueSettlement.Village.Bound.Prosperity += -50f;
+				base.IssueSettlement.Village.Bound.Town.Prosperity += -50f;
 				this.RelationshipChangeWithIssueOwner = -10;
 				base.IssueOwner.AddPower(-10f);
 				TraitLevelingHelper.OnIssueFailed(base.IssueOwner, new Tuple<TraitObject, int>[]
@@ -276,6 +276,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -687,7 +691,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=SCaWkKF1}Here is what we've promised, {GOLD_REWARD}{GOLD_ICON} denars. I hope this makes it worth the blood spilled.", null, null).Condition(delegate
+					return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=SCaWkKF1}Here is what we've promised, {GOLD_REWARD}{GOLD_ICON} denars. I hope this makes it worth the blood spilled.[if:convo_normal][ib:hip]", null, null).Condition(delegate
 					{
 						MBTextManager.SetTextVariable("GOLD_REWARD", this.RewardGold);
 						return Hero.OneToOneConversationHero == base.QuestGiver && this._currentState == ExtortionByDesertersIssueBehavior.ExtortionByDesertersIssueQuest.ExtortionByDesertersQuestState.DesertersAreDefeated;
@@ -704,7 +708,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						})
 						.CloseDialog()
 						.PlayerOption("{=xcyr5Oq2}Half of the coin is enough for our needs.", null)
-						.NpcLine("{=SVrCpvpZ}Thank you {PLAYER.NAME}. Our people are grateful to you for what you have done today. Farewell.", null, null)
+						.NpcLine("{=SVrCpvpZ}Thank you {PLAYER.NAME}. Our people are grateful to you for what you have done today. Farewell.[if:convo_relaxed_happy]", null, null)
 						.Condition(() => true)
 						.Consequence(delegate
 						{
@@ -715,7 +719,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						})
 						.CloseDialog()
 						.PlayerOption("{=52GFRUTE}Keep your coin, headman. Your people's blessings are enough.", null)
-						.NpcLine("{=1l5dKk1c}Oh, thank you {PLAYER.NAME}. You will always be remembered by our people. Farewell.", null, null)
+						.NpcLine("{=1l5dKk1c}Oh, thank you {PLAYER.NAME}. You will always be remembered by our people. Farewell.[if:convo_merry]", null, null)
 						.Condition(() => true)
 						.Consequence(delegate
 						{
@@ -734,7 +738,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=s2btPjJf}Who the hell are you? If you live in this village, you'd better rustle up some silver and wine. Look lively, eh?", null, null).Condition(() => this._deserterMobileParty != null && this._deserterMobileParty.IsActive && CharacterObject.OneToOneConversationCharacter == ConversationHelper.GetConversationCharacterPartyLeader(this._deserterMobileParty.Party) && this._deserterMobileParty.Position2D.Distance(this.QuestSettlement.Position2D) <= 5f)
+					return DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=s2btPjJf}Who the hell are you? If you live in this village, you'd better rustle up some silver and wine. Look lively, eh?[if:convo_confused_annoyed][ib:warrior]", null, null).Condition(() => this._deserterMobileParty != null && this._deserterMobileParty.IsActive && CharacterObject.OneToOneConversationCharacter == ConversationHelper.GetConversationCharacterPartyLeader(this._deserterMobileParty.Party) && this._deserterMobileParty.Position2D.Distance(this.QuestSettlement.Position2D) <= 5f)
 						.PlayerLine("{=Pp3koSqA}This time you'll have to fight for it!", null)
 						.CloseDialog();
 				}
@@ -814,11 +818,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.NpcLine("{=U0UoayfA}Good, good. Thank you again.", null, null)
 					.CloseDialog()
 					.PlayerOption("{=bcGzpFSg}Are you sure about what your hunters saw? My men are starting to run out of patience.", null)
-					.NpcLine("{=YsASaPKq}I'm sure they'll be here soon. Please don't leave the village, or we'll stand no chance...", null, null)
+					.NpcLine("{=YsASaPKq}I'm sure they'll be here soon. Please don't leave the village, or we'll stand no chance...[if:convo_nervous][ib:nervous]", null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.CloseDialog();
-				this.QuestCharacterDialogFlow = DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=rAqyKcKZ}Who the hell are you? What do you want from us?", null, null).Condition(() => this._deserterMobileParty != null && this._deserterMobileParty.IsActive && CharacterObject.OneToOneConversationCharacter == ConversationHelper.GetConversationCharacterPartyLeader(this._deserterMobileParty.Party) && this._deserterMobileParty.Position2D.Distance(this.QuestSettlement.Position2D) >= 5f)
+				this.QuestCharacterDialogFlow = DialogFlow.CreateDialogFlow("start", 125).NpcLine("{=rAqyKcKZ}Who the hell are you? What do you want from us?[if:convo_confused_annoyed][ib:aggressive]", null, null).Condition(() => this._deserterMobileParty != null && this._deserterMobileParty.IsActive && CharacterObject.OneToOneConversationCharacter == ConversationHelper.GetConversationCharacterPartyLeader(this._deserterMobileParty.Party) && this._deserterMobileParty.Position2D.Distance(this.QuestSettlement.Position2D) >= 5f)
 					.BeginPlayerOptions()
 					.PlayerOption("{=Ljs9ahMk}I know your intentions. I will not let you steal from those poor villagers!", null)
 					.CloseDialog()
@@ -851,7 +855,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 				if (result.TownProsperityChange != 0)
 				{
-					this.QuestSettlement.Village.Bound.Town.Settlement.Prosperity += (float)result.TownProsperityChange;
+					this.QuestSettlement.Village.Bound.Town.Prosperity += (float)result.TownProsperityChange;
 				}
 				if (result.HonorChange != 0)
 				{
@@ -882,7 +886,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void RegisterEvents()
 			{
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTickEvent));
 				CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.MapEventEnded));
 				CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.GameMenuOpened));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
@@ -973,7 +976,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnHourlyTickEvent()
+			protected override void HourlyTick()
 			{
 				this.TickDesertersPartyLogic();
 			}
@@ -1031,7 +1034,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancel1LogText);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancel1LogText, false);
 			}
 
 			private void OnVillageBeingRaided(Village village)
@@ -1129,7 +1132,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._deserterMobileParty.IgnoreByOtherPartiesTill(CampaignTime.Never);
 				this._deserterMobileParty.Aggressiveness = 0f;
 				this._deserterMobileParty.Ai.SetDoNotMakeNewDecisions(true);
-				this._deserterMobileParty.Party.Visuals.SetMapIconAsDirty();
+				this._deserterMobileParty.Party.SetVisualAsDirty();
 				SetPartyAiAction.GetActionForVisitingSettlement(this._deserterMobileParty, this.QuestSettlement);
 			}
 
@@ -1189,7 +1192,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					}
 					this._deserterMobileParty.Ai.SetDoNotMakeNewDecisions(false);
 					this._deserterMobileParty.SetCustomName(null);
-					this._deserterMobileParty.Party.Visuals.SetMapIconAsDirty();
+					this._deserterMobileParty.Party.SetVisualAsDirty();
 				}
 			}
 
@@ -1205,6 +1208,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._defenderMobileParty.Party.SetCustomOwner(base.QuestGiver);
 				this._defenderMobileParty.Aggressiveness = 1f;
 				this._defenderMobileParty.ShouldJoinPlayerBattles = true;
+				this._defenderMobileParty.ActualClan = base.QuestGiver.CurrentSettlement.OwnerClan;
 			}
 
 			private void DestroyDefenderParty()
@@ -1263,7 +1267,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				distance = 0f;
 				if (!PartyBase.IsPositionOkForTraveling(position2D))
 				{
-					Debug.FailedAssert("Origin point not valid!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Issues\\ExtortionByDesertersIssueBehavior.cs", "FindFreePositionBetweenPointAndParty", 1364);
+					Debug.FailedAssert("Origin point not valid!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Issues\\ExtortionByDesertersIssueBehavior.cs", "FindFreePositionBetweenPointAndParty", 1368);
 				}
 				else
 				{

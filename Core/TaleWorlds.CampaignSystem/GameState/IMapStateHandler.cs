@@ -46,6 +46,8 @@ namespace TaleWorlds.CampaignSystem.GameState
 
 		void OnBattleSimulationEnded();
 
+		void OnGameplayCheatsEnabled();
+
 		void OnMapConversationStarts(ConversationCharacterData playerCharacterData, ConversationCharacterData conversationPartnerData);
 
 		void OnMapConversationOver();

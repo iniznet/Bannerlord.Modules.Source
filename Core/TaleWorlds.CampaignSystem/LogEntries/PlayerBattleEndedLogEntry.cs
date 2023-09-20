@@ -191,7 +191,7 @@ namespace TaleWorlds.CampaignSystem.LogEntries
 				{
 					return party.LeaderHero.Clan;
 				}
-				return CampaignData.NeutralFaction;
+				return null;
 			}
 		}
 

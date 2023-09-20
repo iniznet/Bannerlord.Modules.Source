@@ -23,8 +23,8 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (typeof(MissionMultiplayerFlagDomination).IsAssignableFrom(typeof(T)))
 			{
-				string text = MissionLobbyComponent.MultiplayerGameType.Skirmish.ToString();
-				string text2 = MissionLobbyComponent.MultiplayerGameType.Captain.ToString();
+				string text = MultiplayerGameType.Skirmish.ToString();
+				string text2 = MultiplayerGameType.Captain.ToString();
 				foreach (string text3 in gameModes)
 				{
 					if (!text3.Equals(text, StringComparison.InvariantCultureIgnoreCase) && !text3.Equals(text2, StringComparison.InvariantCultureIgnoreCase))
@@ -36,7 +36,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (typeof(MissionMultiplayerTeamDeathmatch).IsAssignableFrom(typeof(T)))
 			{
-				string text4 = MissionLobbyComponent.MultiplayerGameType.TeamDeathmatch.ToString();
+				string text4 = MultiplayerGameType.TeamDeathmatch.ToString();
 				using (List<string>.Enumerator enumerator = gameModes.GetEnumerator())
 				{
 					while (enumerator.MoveNext())
@@ -51,7 +51,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (typeof(MissionMultiplayerSiege).IsAssignableFrom(typeof(T)))
 			{
-				string text5 = MissionLobbyComponent.MultiplayerGameType.Siege.ToString();
+				string text5 = MultiplayerGameType.Siege.ToString();
 				using (List<string>.Enumerator enumerator = gameModes.GetEnumerator())
 				{
 					while (enumerator.MoveNext())
@@ -64,7 +64,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				return true;
 			}
-			Debug.FailedAssert("Not implemented game mode check", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Perks\\MPPerkCondition.cs", "IsGameModesValid", 133);
+			Debug.FailedAssert("Not implemented game mode check", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Perks\\MPPerkCondition.cs", "IsGameModesValid", 134);
 			return false;
 		}
 	}

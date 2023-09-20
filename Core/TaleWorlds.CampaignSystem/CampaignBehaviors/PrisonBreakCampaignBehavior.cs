@@ -22,6 +22,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
+			CampaignEvents.CanHeroDieEvent.AddNonSerializedListener(this, new ReferenceAction<Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.CanHeroDie));
 		}
 
 		public override void SyncData(IDataStore dataStore)
@@ -29,6 +30,29 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<Hero>("_prisonerHero", ref this._prisonerHero);
 			dataStore.SyncData<Dictionary<Settlement, CampaignTime>>("_coolDownData", ref this._coolDownData);
 			dataStore.SyncData<string>("_previousMenuId", ref this._previousMenuId);
+		}
+
+		private void CanHeroDie(Hero hero, KillCharacterAction.KillCharacterActionDetail detail, ref bool result)
+		{
+			if (detail == KillCharacterAction.KillCharacterActionDetail.DiedInBattle && hero == Hero.MainHero && this._prisonerHero != null && CampaignMission.Current != null)
+			{
+				Location location = CampaignMission.Current.Location;
+				Settlement currentSettlement = Settlement.CurrentSettlement;
+				object obj;
+				if (currentSettlement == null)
+				{
+					obj = null;
+				}
+				else
+				{
+					LocationComplex locationComplex = currentSettlement.LocationComplex;
+					obj = ((locationComplex != null) ? locationComplex.GetLocationWithId("prison") : null);
+				}
+				if (location == obj)
+				{
+					result = false;
+				}
+			}
 		}
 
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
@@ -236,7 +260,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 					list.Add(new InquiryElement(flattenedTroopRosterElement.Troop, textObject.ToString(), new ImageIdentifier(CharacterCode.CreateFrom(flattenedTroopRosterElement.Troop)), !flag, textObject2.ToString()));
 				}
-				MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=oQjsShmH}PRISONERS", null).ToString(), new TextObject("{=abpzOR0D}Choose a prisoner to break out", null).ToString(), list, true, 1, GameTexts.FindText("str_done", null).ToString(), string.Empty, new Action<List<InquiryElement>>(this.StartPrisonBreak), null, ""), false, false);
+				MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=oQjsShmH}PRISONERS", null).ToString(), new TextObject("{=abpzOR0D}Choose a prisoner to break out", null).ToString(), list, true, 1, 1, GameTexts.FindText("str_done", null).ToString(), string.Empty, new Action<List<InquiryElement>>(this.StartPrisonBreak), null, ""), false, false);
 				return;
 			}
 			GameMenu.SwitchToMenu("prison_break_cool_down");

@@ -74,8 +74,6 @@ namespace TaleWorlds.CampaignSystem
 
 		public CharacterObject CaravanGuard { get; private set; }
 
-		public CharacterObject DuelPreset { get; private set; }
-
 		public CharacterObject PrisonGuard { get; private set; }
 
 		public CharacterObject Guard { get; private set; }
@@ -169,6 +167,8 @@ namespace TaleWorlds.CampaignSystem
 		public MBEquipmentRoster DefaultBattleEquipmentRoster { get; private set; }
 
 		public MBEquipmentRoster DefaultCivilianEquipmentRoster { get; private set; }
+
+		public MBEquipmentRoster DuelPresetEquipmentRoster { get; private set; }
 
 		public CharacterObject BanditChief { get; private set; }
 
@@ -291,12 +291,12 @@ namespace TaleWorlds.CampaignSystem
 			this.BasicTroop = objectManager.ReadObjectReferenceFromXml<CharacterObject>("basic_troop", node);
 			this.DefaultBattleEquipmentRoster = objectManager.ReadObjectReferenceFromXml<MBEquipmentRoster>("default_battle_equipment_roster", node);
 			this.DefaultCivilianEquipmentRoster = objectManager.ReadObjectReferenceFromXml<MBEquipmentRoster>("default_civilian_equipment_roster", node);
+			this.DuelPresetEquipmentRoster = objectManager.ReadObjectReferenceFromXml<MBEquipmentRoster>("duel_preset_equipment_roster", node);
 			this.TournamentMaster = objectManager.ReadObjectReferenceFromXml<CharacterObject>("tournament_master", node);
 			this.Villager = objectManager.ReadObjectReferenceFromXml<CharacterObject>("villager", node);
 			this.CaravanMaster = objectManager.ReadObjectReferenceFromXml<CharacterObject>("caravan_master", node);
 			this.ArmedTrader = objectManager.ReadObjectReferenceFromXml<CharacterObject>("armed_trader", node);
 			this.CaravanGuard = objectManager.ReadObjectReferenceFromXml<CharacterObject>("caravan_guard", node);
-			this.DuelPreset = objectManager.ReadObjectReferenceFromXml<CharacterObject>("duel_preset", node);
 			this.PrisonGuard = objectManager.ReadObjectReferenceFromXml<CharacterObject>("prison_guard", node);
 			this.Guard = objectManager.ReadObjectReferenceFromXml<CharacterObject>("guard", node);
 			this.Blacksmith = objectManager.ReadObjectReferenceFromXml<CharacterObject>("blacksmith", node);

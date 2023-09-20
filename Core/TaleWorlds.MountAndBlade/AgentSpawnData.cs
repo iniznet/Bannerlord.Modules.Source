@@ -4,7 +4,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Agent_spawn_data")]
+	[EngineStruct("Agent_spawn_data", false)]
 	public struct AgentSpawnData
 	{
 		public int HitPoints;
@@ -12,6 +12,10 @@ namespace TaleWorlds.MountAndBlade
 		public int MonsterUsageIndex;
 
 		public int Weight;
+
+		public float StandingChestHeight;
+
+		public float StandingPelvisHeight;
 
 		public float StandingEyeHeight;
 

@@ -12,6 +12,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		{
 			CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, new Action(this.WeeklyTick));
+			CampaignEvents.CanKingdomBeDiscontinuedEvent.AddNonSerializedListener(this, new ReferenceAction<Kingdom, bool>(this.CanKingdomBeDiscontinued));
 		}
 
 		private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
@@ -34,6 +35,14 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			foreach (Tuple<Kingdom, Kingdom> tuple in new List<Tuple<Kingdom, Kingdom>>(this._warsToEnforcePeaceNextWeek))
 			{
 				MakePeaceAction.Apply(tuple.Item1, tuple.Item2, 0);
+			}
+		}
+
+		private void CanKingdomBeDiscontinued(Kingdom kingdom, ref bool result)
+		{
+			if (StoryModeManager.Current.MainStoryLine.ThirdPhase != null && StoryModeManager.Current.MainStoryLine.ThirdPhase.OppositionKingdoms.Contains(kingdom))
+			{
+				result = false;
 			}
 		}
 

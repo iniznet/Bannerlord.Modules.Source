@@ -210,7 +210,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (mobileParty.LeaderHero.GetPerkValue(DefaultPerks.Medicine.BestMedicine))
 					{
-						Hero randomElementWithPredicate = mobileParty.CurrentSettlement.Notables.GetRandomElementWithPredicate((Hero x) => x.Age >= 50f && x.IsAlive);
+						Hero randomElementWithPredicate = mobileParty.CurrentSettlement.Notables.GetRandomElementWithPredicate((Hero x) => x.Age >= 40f && x.IsAlive);
 						if (randomElementWithPredicate != null)
 						{
 							ChangeRelationAction.ApplyRelationChangeBetweenHeroes(mobileParty.LeaderHero, randomElementWithPredicate, (int)DefaultPerks.Medicine.BestMedicine.SecondaryBonus, true);
@@ -218,7 +218,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 					if (mobileParty.LeaderHero.GetPerkValue(DefaultPerks.Medicine.GoodLogdings))
 					{
-						Hero randomElement = TownHelpers.GetHeroesInSettlement(mobileParty.CurrentSettlement, (Hero x) => x.Age >= 50f && x != mobileParty.LeaderHero && x.IsLord).GetRandomElement<Hero>();
+						Hero randomElement = TownHelpers.GetHeroesInSettlement(mobileParty.CurrentSettlement, (Hero x) => x.Age >= 40f && x != mobileParty.LeaderHero && x.IsLord).GetRandomElement<Hero>();
 						if (randomElement != null)
 						{
 							ChangeRelationAction.ApplyRelationChangeBetweenHeroes(mobileParty.LeaderHero, randomElement, (int)DefaultPerks.Medicine.GoodLogdings.SecondaryBonus, true);
@@ -265,7 +265,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 				if (mblist.Count > 0)
 				{
-					ChangeRelationAction.ApplyPlayerRelation(mblist.GetRandomElement<Hero>(), (int)DefaultPerks.Charm.ForgivableGrievances.SecondaryBonus, true, true);
+					ChangeRelationAction.ApplyPlayerRelation(mblist.GetRandomElement<Hero>(), 1, true, true);
 				}
 			}
 			SettlementLoyaltyModel settlementLoyaltyModel = Campaign.Current.Models.SettlementLoyaltyModel;

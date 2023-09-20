@@ -119,10 +119,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=AKdDSZoM}Yes. It's a good problem to have, though. As you know, I deal in {.%}{SELECTED_ITEM}{.%}. Production this year has been very good, and we can no longer make a profit on the local market. I cannot however, put together a caravan to sell it elsewhere. So, I propose a very simple deal.", null);
+					TextObject textObject = new TextObject("{=AKdDSZoM}Yes. It's a good problem to have, though. As you know, I deal in {.%}{SELECTED_ITEM}{.%}. Production this year has been very good, and we can no longer make a profit on the local market. I cannot however, put together a caravan to sell it elsewhere. So, I propose a very simple deal.[if:convo_innocent_smile][ib:confident]", null);
 					if (this._selectedItemObject.HasHorseComponent || this._selectedItemObject.IsAnimal)
 					{
-						textObject = new TextObject("{=llVFTH6n}Yes. It's a good problem to have, though. As you may know, I deal in {PLURAL(SELECTED_ITEM)}. Our herds have increased this year, and we can no longer make a profit on the local market. I cannot however organize a drive to a new market. So, I propose a very simple deal.", null);
+						textObject = new TextObject("{=llVFTH6n}Yes. It's a good problem to have, though. As you may know, I deal in {PLURAL(SELECTED_ITEM)}. Our herds have increased this year, and we can no longer make a profit on the local market. I cannot however organize a drive to a new market. So, I propose a very simple deal.[if:convo_innocent_smile][ib:confident]", null);
 					}
 					textObject.SetTextVariable("SELECTED_ITEM", this._selectedItemObject.Name);
 					return textObject;
@@ -141,10 +141,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=rWnvnufw}That could work, if you have the money. But if you don't, I'm willing to take a chance on you. I reckon for {SELECTED_ITEM_COUNT} {.%}{?SELECTED_ITEM_COUNT > 1}{PLURAL(SELECTED_ITEM)}{?}{SELECTED_ITEM}{\\?}{.%} you can probably find a market nearby where buyers will pay you a total of {TOTAL_GOLD}{GOLD_ICON}. Here's my offer. I loan you the product. You sell it at whatever price you like, and bring me back {TOTAL_GOLD}{GOLD_ICON} denars. I have little doubt you could find a market where you could get a better price than this, and make a profit.", null);
+					TextObject textObject = new TextObject("{=rWnvnufw}That could work, if you have the money. But if you don't, I'm willing to take a chance on you. I reckon for {SELECTED_ITEM_COUNT} {.%}{?SELECTED_ITEM_COUNT > 1}{PLURAL(SELECTED_ITEM)}{?}{SELECTED_ITEM}{\\?}{.%} you can probably find a market nearby where buyers will pay you a total of {TOTAL_GOLD}{GOLD_ICON}. Here's my offer. I loan you the product. You sell it at whatever price you like, and bring me back {TOTAL_GOLD}{GOLD_ICON} denars. I have little doubt you could find a market where you could get a better price than this, and make a profit.[if:convo_innocent_smile][ib:confident]", null);
 					if (this._selectedItemObject.HasHorseComponent || this._selectedItemObject.IsAnimal)
 					{
-						textObject = new TextObject("{=b19Hlp7h}That could work, if you have the money. But if you don't, I'm willing to take a chance on you. I reckon for {SELECTED_ITEM_COUNT} {?SELECTED_ITEM_COUNT > 1}{PLURAL(SELECTED_ITEM)}{?}{SELECTED_ITEM}{\\?} you can probably find a market nearby where buyers will pay you a total of {TOTAL_GOLD}{GOLD_ICON}. Here's my offer. I loan you the livestock. You sell at whatever price you like, and bring me back {TOTAL_GOLD}{GOLD_ICON} denars. I have little doubt you could find a market where you could get a better price than this, and make a profit.", null);
+						textObject = new TextObject("{=b19Hlp7h}That could work, if you have the money. But if you don't, I'm willing to take a chance on you. I reckon for {SELECTED_ITEM_COUNT} {?SELECTED_ITEM_COUNT > 1}{PLURAL(SELECTED_ITEM)}{?}{SELECTED_ITEM}{\\?} you can probably find a market nearby where buyers will pay you a total of {TOTAL_GOLD}{GOLD_ICON}. Here's my offer. I loan you the livestock. You sell at whatever price you like, and bring me back {TOTAL_GOLD}{GOLD_ICON} denars. I have little doubt you could find a market where you could get a better price than this, and make a profit.[if:convo_innocent_smile][ib:confident]", null);
 					}
 					textObject.SetTextVariable("TOTAL_GOLD", (int)((float)(this._selectedItemObject.Value * this.SelectedItemObjectCount) * 0.55f));
 					textObject.SetTextVariable("SELECTED_ITEM_COUNT", this.SelectedItemObjectCount);
@@ -166,7 +166,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=PE97ZWvX}Not just anybody. If you have a companion that has your complete trust, then I'll agree... Just make sure he is well guarded. Goods attract bandits, as I'm sure you know. I suppose {ALTERNATIVE_TROOP_AMOUNT} well-armed men would be enough.", null);
+					TextObject textObject = new TextObject("{=PE97ZWvX}Not just anybody. If you have a companion that has your complete trust, then I'll agree... Just make sure he is well guarded. Goods attract bandits, as I'm sure you know. I suppose {ALTERNATIVE_TROOP_AMOUNT} well-armed men would be enough.[if:convo_innocent_smile][ib:confident]", null);
 					textObject.SetTextVariable("ALTERNATIVE_TROOP_AMOUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					return textObject;
 				}
@@ -201,7 +201,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=dLywF1Uz}I have heard your companion has started to sell the goods. This was a good deal, {?PLAYER.GENDER}ma'am{?}sir{\\?}.", null);
+					return new TextObject("{=dLywF1Uz}I have heard your companion has started to sell the goods. This was a good deal, {?PLAYER.GENDER}ma'am{?}sir{\\?}.[if:convo_relaxed_happy][ib:confident]", null);
 				}
 			}
 
@@ -209,7 +209,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=aUXAh8cE}Very well, {PLAYER.NAME}. If you're willing to vouch for your companion, I'm sure this will work.", null);
+					return new TextObject("{=aUXAh8cE}Very well, {PLAYER.NAME}. If you're willing to vouch for your companion, I'm sure this will work.[if:convo_innocent_smile][ib:confident]", null);
 				}
 			}
 
@@ -357,6 +357,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void OnGameLoad()
 			{
 				this._selectedItemObject = base.IssueOwner.CurrentSettlement.Village.VillageType.PrimaryProduction;
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override QuestBase GenerateIssueQuest(string questId)
@@ -659,12 +663,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 				textObject3.SetTextVariable("TOTAL_DENARS", this._targetDenarsToAchieve);
 				textObject3.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 				textObject3.SetTextVariable("SELECTED_COUNT", this._selectedItemObjectCount);
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=NaoYCmC6}Good. Needless to say, by not taking any money up front, I am trusting in your honesty in your ability to protect those goods. But I am sure that trust will not be misplaced.", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=NaoYCmC6}Good. Needless to say, by not taking any money up front, I am trusting in your honesty in your ability to protect those goods. But I am sure that trust will not be misplaced.[if:convo_innocent_smile][ib:closed]", null), null, null).Condition(() => Hero.OneToOneConversationHero == this.QuestGiver)
 					.NpcLine(textObject3, null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(textObject, null)
 					.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.PlayerBuyClickableOptionCondition))
-					.NpcLine(new TextObject("{=LmTii9E2}It was a pleasure doing business with you. If only everyone was as honest as you.", null), null, null)
+					.NpcLine(new TextObject("{=LmTii9E2}It was a pleasure doing business with you. If only everyone was as honest as you.[if:convo_happy][ib:confident3]", null), null, null)
 					.Consequence(delegate
 					{
 						this.StartQuest();
@@ -682,15 +686,15 @@ namespace TaleWorlds.CampaignSystem.Issues
 				playerMainOptionOneWithGold.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 				TextObject playerMainOptionOneNoGold = new TextObject("{=52lNazA1}I'm afraid that things came up. I was not able to make the sale.", null);
 				TextObject textObject4 = new TextObject("{=!}{PLAYER_OPTION}", null);
-				TextObject textObject5 = new TextObject("{=THD3C7xc}I have. Here is the {TOTAL_DENARS}{GOLD_ICON} denars just as we agreed.", null);
+				TextObject textObject5 = new TextObject("{=THD3C7xc}I have. Here is the {TOTAL_DENARS}{GOLD_ICON} denars just as we agreed.[ib:hip2]", null);
 				textObject5.SetTextVariable("TOTAL_DENARS", this._targetDenarsToAchieve);
 				textObject5.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
-				TextObject textObject6 = new TextObject("{=z47GjqTZ}Yes, of course. This is the {TOTAL_DENARS}{GOLD_ICON} denars that I owe you.", null);
+				TextObject textObject6 = new TextObject("{=z47GjqTZ}Yes, of course. This is the {TOTAL_DENARS}{GOLD_ICON} denars that I owe you.[ib:hip2]", null);
 				textObject6.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
 				textObject6.SetTextVariable("TOTAL_DENARS", this._targetDenarsToAchieve);
 				TextObject playerFailOptionWithGold = new TextObject("{=dtzKfkrh}We never agreed on this. I am not paying you any more than {GATHERED_DENARS}{GOLD_ICON}, and you cannot force me.", null);
 				playerFailOptionWithGold.SetTextVariable("GATHERED_DENARS", this._gatheredDenars);
-				TextObject playerFailOptionNoGold = new TextObject("{=aFDiKxhr}Our deal involved you getting your cut from the sales I made. No sale means no cut. I'm sure you understand.", null);
+				TextObject playerFailOptionNoGold = new TextObject("{=aFDiKxhr}Our deal involved you getting your cut from the sales I made. No sale means no cut. I'm sure you understand.[ib:warrior2]", null);
 				TextObject textObject7 = new TextObject("{=!}{PLAYER_FAIL_OPTION}", null);
 				TextObject textObject8 = new TextObject("{=41wb8QaV}I know I can not force you to pay you what you owe me. But I think you will find that a good name is worth more than a few loads of {SELECTED_ITEM}...", null);
 				textObject8.SetTextVariable("SELECTED_ITEM", this._selectedItemObject.Name);
@@ -703,7 +707,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject9, false);
 				TextObject textObject10 = new TextObject("{=bPPXiybO}I just happened to be around. Have no fear {QUEST_GIVER.NAME}, your goods are fine.", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject10, false);
-				TextObject textObject11 = new TextObject("{=ekSg8okD}I will be better once you return with the denars you owe me {PLAYER.NAME}.", null);
+				TextObject textObject11 = new TextObject("{=ekSg8okD}I will be better once you return with the denars you owe me {PLAYER.NAME}.[ib:aggressive2]", null);
 				StringHelpers.SetCharacterProperties("PLAYER", CharacterObject.PlayerCharacter, textObject10, false);
 				TextObject textObject12 = new TextObject("{=bbsN6hOo}Have you already sold that {SELECTED_ITEM}? If so, that seems awfully quick.", null);
 				textObject12.SetTextVariable("SELECTED_ITEM", this._selectedItemObject.Name);
@@ -766,12 +770,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.CloseDialog()
 					.PlayerOption(textObject9, null)
-					.NpcLine(new TextObject("{=RxjuaDum}I am glad of that. Don't make me wait too long. Some men say they will pay a debt, and you never see them again.", null), null, null)
+					.NpcLine(new TextObject("{=RxjuaDum}I am glad of that. Don't make me wait too long. Some men say they will pay a debt, and you never see them again.[if:convo_mocking_teasing][ib:confident2]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions()
 					.PlayerOption(textObject5, null)
 					.Condition(() => this.QuestCanBeFinalized && !this._productsUndersold)
-					.NpcLine(new TextObject("{=9jFqXvHy}Excellent! I knew you were an honest soul. Trust is a fine thing, isn't it? Perhaps we can do more business in the future.", null), null, null)
+					.NpcLine(new TextObject("{=9jFqXvHy}Excellent! I knew you were an honest soul. Trust is a fine thing, isn't it? Perhaps we can do more business in the future.[if:convo_innocent_smile][ib:confident]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestSuccessPlayerSoldTheProducts))
 					.CloseDialog()
 					.EndPlayerOptions()
@@ -884,7 +888,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 				CampaignEvents.VillageBeingRaided.AddNonSerializedListener(this, new Action<Village>(this.OnVillageRaided));
 				CampaignEvents.PlayerInventoryExchangeEvent.AddNonSerializedListener(this, new Action<List<ValueTuple<ItemRosterElement, int>>, List<ValueTuple<ItemRosterElement, int>>, bool>(this.OnPlayerInventoryExchange));
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
 			}
 
@@ -896,7 +899,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnHourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing && !this._underSoldLogAdded && this.CheckIfPlayerLostItem())
 				{
@@ -955,7 +958,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclaredLog, false);
 			}
 
 			protected override void OnFinalize()

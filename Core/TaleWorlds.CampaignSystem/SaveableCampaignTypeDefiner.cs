@@ -101,7 +101,6 @@ namespace TaleWorlds.CampaignSystem
 			base.AddClassDefinition(typeof(QuestTaskBase), 89, null);
 			base.AddClassDefinition(typeof(Romance), 90, null);
 			base.AddClassDefinition(typeof(ItemRoster), 91, null);
-			base.AddClassDefinition(typeof(RosterCollector), 92, null);
 			base.AddClassDefinition(typeof(TroopRoster), 93, null);
 			base.AddClassDefinition(typeof(FlattenedTroopRoster), 94, null);
 			base.AddClassDefinition(typeof(Settlement), 95, null);
@@ -262,6 +261,9 @@ namespace TaleWorlds.CampaignSystem
 			base.AddClassDefinition(typeof(ForceSuppliesEventComponent), 310, null);
 			base.AddClassDefinition(typeof(ForceVolunteersEventComponent), 311, null);
 			base.AddClassDefinition(typeof(RaidEventComponent), 312, null);
+			base.AddClassDefinition(typeof(FieldBattleEventComponent), 313, null);
+			base.AddClassDefinition(typeof(HideoutEventComponent), 314, null);
+			base.AddClassDefinition(typeof(SiegeAmbushEventComponent), 315, null);
 		}
 
 		protected override void DefineStructTypes()
@@ -361,6 +363,7 @@ namespace TaleWorlds.CampaignSystem
 			base.ConstructGenericStructDefinition(typeof(KeyValuePair<int, KeyValuePair<UniqueTroopDescriptor, MapEventParty>>));
 			base.ConstructGenericStructDefinition(typeof(KeyValuePair<Hero, short>));
 			base.ConstructGenericStructDefinition(typeof(KeyValuePair<Hero, CraftingOrder>));
+			base.ConstructGenericStructDefinition(typeof(KeyValuePair<Settlement, ItemRoster>));
 		}
 
 		protected override void DefineContainerDefinitions()
@@ -538,6 +541,7 @@ namespace TaleWorlds.CampaignSystem
 			base.ConstructContainerDefinition(typeof(Dictionary<PartyBase, float>));
 			base.ConstructContainerDefinition(typeof(Dictionary<string, List<IssueCoolDownData>>));
 			base.ConstructContainerDefinition(typeof(Dictionary<Clan, int>));
+			base.ConstructContainerDefinition(typeof(Dictionary<Clan, CampaignTime>));
 			base.ConstructContainerDefinition(typeof(Dictionary<CultureObject, Dictionary<int, int>>));
 			base.ConstructContainerDefinition(typeof(Dictionary<MobileParty, List<Settlement>>));
 			base.ConstructContainerDefinition(typeof(Dictionary<Building, int>));
@@ -550,6 +554,7 @@ namespace TaleWorlds.CampaignSystem
 			base.ConstructContainerDefinition(typeof(Dictionary<FormationFilterType, bool>));
 			base.ConstructContainerDefinition(typeof(Dictionary<MobileParty, Vec2>));
 			base.ConstructContainerDefinition(typeof(Dictionary<Hero, ValueTuple<int, int>>));
+			base.ConstructContainerDefinition(typeof(KeyValuePair<Settlement, ItemRoster>[]));
 		}
 	}
 }

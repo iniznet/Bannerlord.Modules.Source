@@ -22,13 +22,32 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		public override void RegisterEvents()
 		{
+			CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, new Action(this.OnGameLoadFinished));
 			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnNewGameCreated));
-			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnGameLoaded));
 			CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 			CampaignEvents.HeroOccupationChangedEvent.AddNonSerializedListener(this, new Action<Hero, Occupation>(this.OnHeroOccupationChanged));
 			CampaignEvents.HeroCreated.AddNonSerializedListener(this, new Action<Hero, bool>(this.OnHeroCreated));
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
 			CampaignEvents.WeeklyTickEvent.AddNonSerializedListener(this, new Action(this.WeeklyTick));
+		}
+
+		private void OnGameLoadFinished()
+		{
+			this.InitializeCompanionTemplateList();
+			foreach (Hero hero in Hero.AllAliveHeroes)
+			{
+				if (hero.IsWanderer)
+				{
+					this.AddToAliveCompanions(hero, false);
+				}
+			}
+			foreach (Hero hero2 in Hero.DeadOrDisabledHeroes)
+			{
+				if (hero2.IsAlive && hero2.IsWanderer)
+				{
+					this.AddToAliveCompanions(hero2, false);
+				}
+			}
 		}
 
 		private void DailyTick()
@@ -42,7 +61,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			foreach (Hero hero in Hero.DeadOrDisabledHeroes.ToList<Hero>())
 			{
-				if (hero.IsDead && hero.IsWanderer && hero.DeathDay.ElapsedDaysUntilNow >= 40f)
+				if (hero.IsWanderer && hero.DeathDay.ElapsedDaysUntilNow >= 40f)
 				{
 					Campaign.Current.CampaignObjectManager.UnregisterDeadHero(hero);
 				}
@@ -58,10 +77,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		private void AddToAliveCompanions(Hero companion)
+		private void AddToAliveCompanions(Hero companion, bool isTemplateControlled = false)
 		{
 			CharacterObject template = companion.Template;
-			if (this.IsTemplateKnown(template) && !this._aliveCompanionTemplates.Contains(template))
+			bool flag = true;
+			if (!isTemplateControlled)
+			{
+				flag = this.IsTemplateKnown(template);
+			}
+			if (flag && !this._aliveCompanionTemplates.Contains(template))
 			{
 				this._aliveCompanionTemplates.Add(template);
 			}
@@ -70,7 +94,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
 			this.RemoveFromAliveCompanions(victim);
-			if (victim.IsWanderer && !victim.HasMet && victim.IsDead)
+			if (victim.IsWanderer && !victim.HasMet)
 			{
 				Campaign.Current.CampaignObjectManager.UnregisterDeadHero(victim);
 			}
@@ -85,7 +109,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 			if (hero.Occupation == Occupation.Wanderer)
 			{
-				this.AddToAliveCompanions(hero);
+				this.AddToAliveCompanions(hero, false);
 			}
 		}
 
@@ -93,13 +117,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			if (hero.IsAlive && hero.IsWanderer)
 			{
-				this.AddToAliveCompanions(hero);
+				this.AddToAliveCompanions(hero, true);
 			}
 		}
 
 		private void TryKillCompanion()
 		{
-			if (MBRandom.RandomFloat <= 0.1f)
+			if (MBRandom.RandomFloat <= 0.1f && this._aliveCompanionTemplates.Count > 0)
 			{
 				CharacterObject randomElementInefficiently = this._aliveCompanionTemplates.GetRandomElementInefficiently<CharacterObject>();
 				Hero hero = null;
@@ -190,14 +214,14 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				if (hero.IsWanderer)
 				{
-					this.AddToAliveCompanions(hero);
+					this.AddToAliveCompanions(hero, false);
 				}
 			}
 			foreach (Hero hero2 in Hero.DeadOrDisabledHeroes)
 			{
 				if (hero2.IsAlive && hero2.IsWanderer)
 				{
-					this.AddToAliveCompanions(hero2);
+					this.AddToAliveCompanions(hero2, false);
 				}
 			}
 		}
@@ -328,6 +352,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return companionTemplateType;
 		}
 
+		private bool IsTemplateKnown(CharacterObject companionTemplate)
+		{
+			foreach (KeyValuePair<CompanionsCampaignBehavior.CompanionTemplateType, List<CharacterObject>> keyValuePair in this._companionsOfTemplates)
+			{
+				for (int i = 0; i < keyValuePair.Value.Count; i++)
+				{
+					if (companionTemplate == keyValuePair.Value[i])
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
 		private CharacterObject GetCompanionTemplateToSpawn()
 		{
 			List<CharacterObject> list = this._companionsOfTemplates[this.GetCompanionTemplateTypeToSpawn()];
@@ -371,21 +410,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			default:
 				return 0f;
 			}
-		}
-
-		private bool IsTemplateKnown(CharacterObject companionTemplate)
-		{
-			foreach (KeyValuePair<CompanionsCampaignBehavior.CompanionTemplateType, List<CharacterObject>> keyValuePair in this._companionsOfTemplates)
-			{
-				for (int i = 0; i < keyValuePair.Value.Count; i++)
-				{
-					if (companionTemplate == keyValuePair.Value[i])
-					{
-						return true;
-					}
-				}
-			}
-			return false;
 		}
 
 		private CompanionsCampaignBehavior.CompanionTemplateType GetTemplateTypeForSkill(SkillObject skill)

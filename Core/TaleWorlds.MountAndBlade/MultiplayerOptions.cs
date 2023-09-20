@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
-using TaleWorlds.ModuleManager;
 using TaleWorlds.MountAndBlade.Diamond;
 using TaleWorlds.ObjectSystem;
 
@@ -61,7 +59,7 @@ namespace TaleWorlds.MountAndBlade
 			this._current.CopyAllValuesTo(this._ui);
 		}
 
-		internal static void Release()
+		public static void Release()
 		{
 			MultiplayerOptions._instance = null;
 		}
@@ -82,6 +80,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				text = MultiplayerOptions.OptionType.PremadeMatchGameMode.GetStrValue(mode);
 			}
+			MultiplayerOptions.OptionType.DisableInactivityKick.SetValue(false, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 			uint num = <PrivateImplementationDetails>.ComputeStringHash(text);
 			if (num <= 2173941516U)
 			{
@@ -180,7 +179,7 @@ namespace TaleWorlds.MountAndBlade
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam1.SetValue(0, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam2.SetValue(0, mode);
 			MultiplayerOptions.OptionType.MinScoreToWinMatch.SetValue(120000, mode);
-			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(1, mode);
+			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(2, mode);
 		}
 
 		private void InitializeForDuel(MultiplayerOptions.MultiplayerOptionsAccessMode mode)
@@ -218,7 +217,7 @@ namespace TaleWorlds.MountAndBlade
 			MultiplayerOptions.OptionType.RespawnPeriodTeam2.SetValue(12, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam1.SetValue(30, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam2.SetValue(0, mode);
-			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(1, mode);
+			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(2, mode);
 		}
 
 		private void InitializeForCaptain(MultiplayerOptions.MultiplayerOptionsAccessMode mode)
@@ -240,7 +239,7 @@ namespace TaleWorlds.MountAndBlade
 			MultiplayerOptions.OptionType.RespawnPeriodTeam2.SetValue(3, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam1.SetValue(0, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam2.SetValue(0, mode);
-			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(1, mode);
+			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(2, mode);
 			MultiplayerOptions.OptionType.AllowPollsToKickPlayers.SetValue(true, mode);
 			MultiplayerOptions.OptionType.SingleSpawn.SetValue(true, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 		}
@@ -264,7 +263,7 @@ namespace TaleWorlds.MountAndBlade
 			MultiplayerOptions.OptionType.RespawnPeriodTeam2.SetValue(3, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam1.SetValue(0, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam2.SetValue(0, mode);
-			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(1, mode);
+			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(2, mode);
 			MultiplayerOptions.OptionType.AllowPollsToKickPlayers.SetValue(true, mode);
 		}
 
@@ -287,7 +286,7 @@ namespace TaleWorlds.MountAndBlade
 			MultiplayerOptions.OptionType.RespawnPeriodTeam2.SetValue(3, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam1.SetValue(0, mode);
 			MultiplayerOptions.OptionType.GoldGainChangePercentageTeam2.SetValue(0, mode);
-			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(1, mode);
+			MultiplayerOptions.OptionType.AutoTeamBalanceThreshold.SetValue(2, mode);
 			MultiplayerOptions.OptionType.SingleSpawn.SetValue(true, MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions);
 		}
 
@@ -513,15 +512,11 @@ namespace TaleWorlds.MountAndBlade
 			return 30;
 		}
 
-		public static void InitializeFromConfigFile(string fileName)
+		public static void InitializeFromCommandList(List<string> arguments)
 		{
-			if (!string.IsNullOrEmpty(fileName))
+			foreach (string text in arguments)
 			{
-				string[] array = File.ReadAllLines(ModuleHelper.GetModuleFullPath("Native") + fileName);
-				for (int i = 0; i < array.Length; i++)
-				{
-					GameNetwork.HandleConsoleCommand(array[i]);
-				}
+				GameNetwork.HandleConsoleCommand(text);
 			}
 		}
 
@@ -577,38 +572,17 @@ namespace TaleWorlds.MountAndBlade
 				}
 				return list;
 			default:
-			{
-				if (optionType == MultiplayerOptions.OptionType.SpectatorCamera)
-				{
-					return new List<string>
-					{
-						GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToAnyAgent.ToString()).ToString(),
-						GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToAnyPlayer.ToString()).ToString(),
-						GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToTeamMembers.ToString()).ToString(),
-						GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToTeamMembersView.ToString()).ToString()
-					};
-				}
-				if (optionType != MultiplayerOptions.OptionType.AutoTeamBalanceThreshold)
+				if (optionType != MultiplayerOptions.OptionType.SpectatorCamera)
 				{
 					return this.GetMultiplayerOptionsList(optionType);
 				}
-				for (int i = 0; i < 6; i++)
+				return new List<string>
 				{
-					AutoTeamBalanceLimits autoTeamBalanceLimits = (AutoTeamBalanceLimits)i;
-					string text4 = autoTeamBalanceLimits.ToString();
-					if (text4.ToLower().Contains("limitto"))
-					{
-						int num = -1;
-						int.TryParse(text4.Substring(7), out num);
-						list.Add(GameTexts.FindText("str_multiplayer_auto_team_balance_limit", "Value").SetTextVariable("LIMIT_VALUE", num).ToString());
-					}
-					else
-					{
-						list.Add(GameTexts.FindText("str_multiplayer_auto_team_balance_limit", text4).ToString());
-					}
-				}
-				return list;
-			}
+					GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToAnyAgent.ToString()).ToString(),
+					GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToAnyPlayer.ToString()).ToString(),
+					GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToTeamMembers.ToString()).ToString(),
+					GameTexts.FindText("str_multiplayer_spectator_camera_type", SpectatorCameraTypes.LockToTeamMembersView.ToString()).ToString()
+				};
 			}
 			list = new List<string>
 			{
@@ -666,21 +640,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				break;
 			default:
-				if (optionType != MultiplayerOptions.OptionType.SpectatorCamera)
-				{
-					if (optionType == MultiplayerOptions.OptionType.AutoTeamBalanceThreshold)
-					{
-						List<string> list2 = new List<string>();
-						for (int i = 0; i < 6; i++)
-						{
-							List<string> list3 = list2;
-							AutoTeamBalanceLimits autoTeamBalanceLimits = (AutoTeamBalanceLimits)i;
-							list3.Add(autoTeamBalanceLimits.ToString());
-						}
-						list = list2;
-					}
-				}
-				else
+				if (optionType == MultiplayerOptions.OptionType.SpectatorCamera)
 				{
 					list = new List<string>
 					{
@@ -844,10 +804,25 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (!(cultureID == "aserai"))
 			{
-				Debug.FailedAssert("Unidentified culture id: " + cultureID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\MultiplayerOptions.cs", "GetLocalizedCultureNameFromStringID", 1039);
+				Debug.FailedAssert("Unidentified culture id: " + cultureID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\MultiplayerOptions.cs", "GetLocalizedCultureNameFromStringID", 1037);
 				return "";
 			}
 			return new TextObject("{=aseraifaction}Aserai", null).ToString();
+		}
+
+		public static bool TryGetOptionTypeFromString(string optionTypeString, out MultiplayerOptions.OptionType optionType, out MultiplayerOptionsProperty optionAttribute)
+		{
+			optionAttribute = null;
+			for (optionType = MultiplayerOptions.OptionType.ServerName; optionType < MultiplayerOptions.OptionType.NumOfSlots; optionType++)
+			{
+				MultiplayerOptionsProperty optionProperty = optionType.GetOptionProperty();
+				if (optionProperty != null && optionType.ToString().Equals(optionTypeString))
+				{
+					optionAttribute = optionProperty;
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private const int PlayerCountLimitMin = 1;
@@ -864,7 +839,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private const int RoundLimitMin = 1;
 
-		private const int RoundLimitMax = 20;
+		private const int RoundLimitMax = 99;
 
 		private const int RoundTimeLimitMin = 60;
 
@@ -991,7 +966,7 @@ namespace TaleWorlds.MountAndBlade
 			RoundTimeLimit,
 			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Integer, MultiplayerOptionsProperty.ReplicationOccurrence.Immediately, "Time available to select class/equipment. In seconds.", 2, 60, new string[] { "Battle", "NewBattle", "ClassicBattle", "Captain", "Skirmish", "Siege" }, false, null)]
 			RoundPreparationTimeLimit,
-			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Integer, MultiplayerOptionsProperty.ReplicationOccurrence.Immediately, "Maximum amount of rounds before the game ends.", 1, 20, new string[] { "Battle", "NewBattle", "ClassicBattle", "Captain", "Skirmish", "Siege" }, false, null)]
+			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Integer, MultiplayerOptionsProperty.ReplicationOccurrence.Immediately, "Maximum amount of rounds before the game ends.", 1, 99, new string[] { "Battle", "NewBattle", "ClassicBattle", "Captain", "Skirmish", "Siege" }, false, null)]
 			RoundTotal,
 			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Integer, MultiplayerOptionsProperty.ReplicationOccurrence.Immediately, "Wait time after death, before respawning again. In seconds.", 1, 60, new string[] { "Siege" }, false, null)]
 			RespawnPeriodTeam1,
@@ -1009,12 +984,14 @@ namespace TaleWorlds.MountAndBlade
 			MinScoreToWinDuel,
 			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Integer, MultiplayerOptionsProperty.ReplicationOccurrence.Immediately, "Minimum needed difference in poll results before it is accepted.", 0, 10, null, false, null)]
 			PollAcceptThreshold,
-			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Enum, MultiplayerOptionsProperty.ReplicationOccurrence.Immediately, "Maximum player imbalance between team 1 and team 2.", 0, 5, null, true, typeof(AutoTeamBalanceLimits))]
+			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Integer, MultiplayerOptionsProperty.ReplicationOccurrence.Immediately, "Maximum player imbalance between team 1 and team 2. Selecting 0 will disable auto team balancing.", 0, 30, null, false, null)]
 			AutoTeamBalanceThreshold,
 			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Bool, MultiplayerOptionsProperty.ReplicationOccurrence.AtMapLoad, "Enables mission recording.", 0, 0, null, false, null)]
 			EnableMissionRecording,
 			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Bool, MultiplayerOptionsProperty.ReplicationOccurrence.AtMapLoad, "Sets if the game mode uses single spawning.", 0, 0, null, false, null)]
 			SingleSpawn,
+			[MultiplayerOptionsProperty(MultiplayerOptions.OptionValueType.Bool, MultiplayerOptionsProperty.ReplicationOccurrence.AtMapLoad, "Disables the inactivity kick timer.", 0, 0, null, false, null)]
+			DisableInactivityKick,
 			NumOfSlots
 		}
 
@@ -1144,7 +1121,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			public MultiplayerOptionsContainer()
 			{
-				this._multiplayerOptions = new MultiplayerOptions.MultiplayerOption[42];
+				this._multiplayerOptions = new MultiplayerOptions.MultiplayerOption[43];
 			}
 
 			public MultiplayerOptions.MultiplayerOption GetOptionFromOptionType(MultiplayerOptions.OptionType optionType)

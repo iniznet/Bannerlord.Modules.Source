@@ -24,6 +24,10 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 
 		public abstract int MaxFocusPerSkill { get; }
 
+		public abstract int MaxSkillRequiredForEpicPerkBonus { get; }
+
+		public abstract int MinSkillRequiredForEpicPerkBonus { get; }
+
 		public abstract void GetTraitLevelForTraitXp(Hero hero, TraitObject trait, int newValue, out int traitLevel, out int traitXp);
 
 		public abstract int GetTraitXpRequiredForTraitLevel(TraitObject trait, int traitLevel);

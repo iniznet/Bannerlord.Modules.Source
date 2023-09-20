@@ -11,7 +11,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return this._customFlankWidth;
 			}
-			private set
+			set
 			{
 				this._customFlankWidth = value;
 			}
@@ -74,7 +74,7 @@ namespace TaleWorlds.MountAndBlade
 					ColumnFormation columnFormation = arrangement as ColumnFormation;
 					if (FormOrder.GetUnitCountOf(formation) > 0)
 					{
-						columnFormation.FormFromWidth((float)this.GetRankVerticalFormFileCount());
+						columnFormation.FormFromWidth((float)this.GetRankVerticalFormFileCount(formation));
 						return;
 					}
 				}
@@ -151,20 +151,27 @@ namespace TaleWorlds.MountAndBlade
 					else if (arrangement is TransposedLineFormation)
 					{
 						TransposedLineFormation transposedLineFormation = arrangement as TransposedLineFormation;
-						if (FormOrder.GetUnitCountOf(formation) > 0)
+						int unitCountOf5 = FormOrder.GetUnitCountOf(formation);
+						if (unitCountOf5 > 0)
 						{
-							transposedLineFormation.FormFromFlankWidth(this.GetRankVerticalFormFileCount(), false);
+							int? fileCount5 = this.GetFileCount(unitCountOf5);
+							if (fileCount5 == null)
+							{
+								fileCount5 = new int?(transposedLineFormation.GetFileCountFromWidth(this.CustomFlankWidth));
+							}
+							MathF.Ceiling((float)unitCountOf5 * 1f / (float)fileCount5.Value);
+							transposedLineFormation.FormFromFlankWidth(this.GetRankVerticalFormFileCount(formation), false);
 							return;
 						}
 					}
 					else if (arrangement is LineFormation)
 					{
 						LineFormation lineFormation = arrangement as LineFormation;
-						int unitCountOf5 = FormOrder.GetUnitCountOf(formation);
-						int? fileCount5 = this.GetFileCount(unitCountOf5);
-						if (fileCount5 != null)
+						int unitCountOf6 = FormOrder.GetUnitCountOf(formation);
+						int? fileCount6 = this.GetFileCount(unitCountOf6);
+						if (fileCount6 != null)
 						{
-							lineFormation.FormFromFlankWidth(fileCount5.Value, unitCountOf5 > 40);
+							lineFormation.FormFromFlankWidth(fileCount6.Value, unitCountOf6 > 40);
 							return;
 						}
 						lineFormation.FlankWidth = this.CustomFlankWidth;
@@ -188,7 +195,7 @@ namespace TaleWorlds.MountAndBlade
 			return FormOrder.GetFileCountAux(order, unitCount);
 		}
 
-		private int GetRankVerticalFormFileCount()
+		private int GetRankVerticalFormFileCount(IFormation formation)
 		{
 			switch (this.OrderEnum)
 			{
@@ -199,7 +206,7 @@ namespace TaleWorlds.MountAndBlade
 			case FormOrder.FormOrderEnum.Wider:
 				return 5;
 			case FormOrder.FormOrderEnum.Custom:
-				return MathF.Ceiling(this._customFlankWidth);
+				return MathF.Floor((this._customFlankWidth + formation.Interval) / (formation.UnitDiameter + formation.Interval));
 			default:
 				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\FormOrder.cs", "GetRankVerticalFormFileCount", 265);
 				return 1;

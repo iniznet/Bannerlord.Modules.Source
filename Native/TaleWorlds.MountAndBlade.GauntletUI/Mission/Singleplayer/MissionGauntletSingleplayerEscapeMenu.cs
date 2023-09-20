@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.Source.Missions;
 using TaleWorlds.MountAndBlade.View;
+using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer;
 using TaleWorlds.MountAndBlade.ViewModelCollection.EscapeMenu;
 
@@ -36,7 +38,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
-			if (changedManagedOptionsType == 41)
+			if (changedManagedOptionsType == 43)
 			{
 				EscapeMenuVM dataSource = this.DataSource;
 				if (dataSource == null)
@@ -61,12 +63,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			base.OnSceneRenderingStarted();
 			if (base.MissionScreen.IsFocusLost)
 			{
-				EscapeMenuVM dataSource = this.DataSource;
-				if (dataSource != null)
-				{
-					dataSource.RefreshItems(this.GetEscapeMenuItems());
-				}
-				base.OnEscapeMenuToggled(true);
+				this.OnFocusChangeOnGameWindow(false);
 			}
 		}
 
@@ -92,10 +89,21 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			{
 				list.Add(new EscapeMenuItemVM(new TextObject("{=asCeKZXx}Re-enable Battle UI", null), delegate(object o)
 				{
-					ManagedOptions.SetConfig(41, 0f);
+					ManagedOptions.SetConfig(43, 0f);
 					ManagedOptions.SaveConfig();
 					this.DataSource.RefreshItems(this.GetEscapeMenuItems());
 				}, null, () => new Tuple<bool, TextObject>(false, TextObject.Empty), false));
+			}
+			if (TaleWorlds.InputSystem.Input.IsGamepadActive)
+			{
+				MissionCheatView missionBehavior = base.Mission.GetMissionBehavior<MissionCheatView>();
+				if (missionBehavior != null && missionBehavior.GetIsCheatsAvailable())
+				{
+					list.Add(new EscapeMenuItemVM(new TextObject("{=WA6Sk6cH}Cheat Menu", null), delegate(object o)
+					{
+						this.MissionScreen.Mission.GetMissionBehavior<MissionCheatView>().InitializeScreen();
+					}, null, () => new Tuple<bool, TextObject>(false, TextObject.Empty), false));
+				}
 			}
 			list.Add(new EscapeMenuItemVM(new TextObject("{=VklN5Wm6}Photo Mode", null), delegate(object o)
 			{
@@ -104,7 +112,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 				this.Mission.IsInPhotoMode = true;
 				InformationManager.ClearAllMessages();
 			}, null, () => this.GetIsPhotoModeDisabled(), false));
-			Action <>9__10;
+			Action <>9__12;
 			list.Add(new EscapeMenuItemVM(new TextObject("{=RamV6yLM}Exit to Main Menu", null), delegate(object o)
 			{
 				Game game = Game.Current;
@@ -113,27 +121,23 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 					Game game2 = Game.Current;
 					if (!(((game2 != null) ? game2.GameType.GetType().Name : null) == "CustomGame"))
 					{
-						Game game3 = Game.Current;
-						if (!(((game3 != null) ? game3.GameType : null) is MultiplayerGame))
+						string text = GameTexts.FindText("str_exit", null).ToString();
+						string text2 = GameTexts.FindText("str_mission_exit_query", null).ToString();
+						bool flag = true;
+						bool flag2 = true;
+						string text3 = GameTexts.FindText("str_yes", null).ToString();
+						string text4 = GameTexts.FindText("str_no", null).ToString();
+						Action action = new Action(this.OnExitToMainMenu);
+						Action action2;
+						if ((action2 = <>9__12) == null)
 						{
-							string text = GameTexts.FindText("str_exit", null).ToString();
-							string text2 = GameTexts.FindText("str_mission_exit_query", null).ToString();
-							bool flag = true;
-							bool flag2 = true;
-							string text3 = GameTexts.FindText("str_yes", null).ToString();
-							string text4 = GameTexts.FindText("str_no", null).ToString();
-							Action action = new Action(this.OnExitToMainMenu);
-							Action action2;
-							if ((action2 = <>9__10) == null)
+							action2 = (<>9__12 = delegate
 							{
-								action2 = (<>9__10 = delegate
-								{
-									this.OnEscapeMenuToggled(false);
-								});
-							}
-							InformationManager.ShowInquiry(new InquiryData(text, text2, flag, flag2, text3, text4, action, action2, "", 0f, null, null, null), false, false);
-							return;
+								this.OnEscapeMenuToggled(false);
+							});
 						}
+						InformationManager.ShowInquiry(new InquiryData(text, text2, flag, flag2, text3, text4, action, action2, "", 0f, null, null, null), false, false);
+						return;
 					}
 				}
 				this.OnExitToMainMenu();

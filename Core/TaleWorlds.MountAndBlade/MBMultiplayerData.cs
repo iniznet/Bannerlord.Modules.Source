@@ -56,7 +56,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (MBMultiplayerData.GameServerInfoReceived != null)
 			{
-				MBMultiplayerData.GameServerInfoReceived(new CustomBattleId(id), gameServer, gameModule, gameType, map, currentPlayerCount, maxPlayerCount, address, port);
+				MBMultiplayerData.GameServerInfoReceived(new CustomBattleId(Guid.Parse(id)), gameServer, gameModule, gameType, map, currentPlayerCount, maxPlayerCount, address, port);
 			}
 		}
 

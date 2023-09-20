@@ -50,5 +50,13 @@ namespace TaleWorlds.CampaignSystem.Actions
 		{
 			ChangeGovernorAction.ApplyGiveUpInternal(governor);
 		}
+
+		public static void RemoveGovernorOfIfExists(Town town)
+		{
+			if (town.Governor != null)
+			{
+				ChangeGovernorAction.ApplyGiveUpInternal(town.Governor);
+			}
+		}
 	}
 }

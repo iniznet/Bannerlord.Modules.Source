@@ -9,7 +9,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 	{
 		public override SceneNotificationData GetKingdomDestroyedSceneNotification(Kingdom kingdom)
 		{
-			return new KingdomDestroyedSceneNotificationItem(kingdom);
+			return new KingdomDestroyedSceneNotificationItem(kingdom, CampaignTime.Now);
 		}
 	}
 }

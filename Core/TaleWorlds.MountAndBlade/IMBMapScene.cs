@@ -18,9 +18,6 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("get_face_index_for_multiple_positions", false)]
 		void GetFaceIndexForMultiplePositions(UIntPtr scenePointer, int movedPartyCount, float[] positionArray, PathFaceRecord[] resultArray, bool check_if_disabled, bool check_height);
 
-		[EngineMethod("set_sound_parameters", false)]
-		void SetSoundParameters(UIntPtr scenePointer, float tod, int season, float cameraHeight);
-
 		[EngineMethod("tick_step_sound", false)]
 		void TickStepSound(UIntPtr scenePointer, UIntPtr visualsPointer, int faceIndexterrainType, int soundType);
 

@@ -58,6 +58,8 @@ namespace TaleWorlds.MountAndBlade
 
 		void RemoveAgent(Agent detachedAgent);
 
+		int GetNumberOfUsableSlots();
+
 		void FormationStartUsing(Formation formation);
 
 		void FormationStopUsing(Formation formation);

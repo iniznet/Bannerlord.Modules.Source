@@ -66,7 +66,7 @@ namespace TaleWorlds.Library
 			{
 				if (this.CheckAssemblyReferencesThis(assembly) || assembly == this._currentAssembly)
 				{
-					foreach (Type type in assembly.GetTypes())
+					foreach (Type type in assembly.GetTypesSafe(null))
 					{
 						if (this.BaseType.IsAssignableFrom(type))
 						{

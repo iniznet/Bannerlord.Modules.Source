@@ -26,19 +26,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
 			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
-			CampaignEvents.OnNewGameCreatedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterNewGameCreated));
-			CampaignEvents.OnGameLoadedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnAfterNewGameCreated));
+			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.AddGameMenus));
 		}
 
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<CampaignTime>("_lastTimeRelationGivenPathfinder", ref this._lastTimeRelationGivenPathfinder);
 			dataStore.SyncData<CampaignTime>("_lastTimeRelationGivenWaterDiviner", ref this._lastTimeRelationGivenWaterDiviner);
-		}
-
-		public void OnAfterNewGameCreated(CampaignGameStarter campaignGameStarter)
-		{
-			this.AddGameMenus(campaignGameStarter);
 		}
 
 		protected void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
@@ -69,7 +63,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameSystemStarter.AddGameMenuOption("town", "town_return_to_army", "{=SK43eB6y}Return to Army", new GameMenuOption.OnConditionDelegate(this.game_menu_return_to_army_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_return_to_army_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("town", "town_leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_town_town_leave_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_settlement_leave_on_consequence), true, -1, false, null);
 			campaignGameSystemStarter.AddGameMenu("town_keep", "{=!}{SETTLEMENT_INFO}", new OnInitDelegate(PlayerTownVisitCampaignBehavior.town_keep_on_init), GameOverlays.MenuOverlayType.SettlementWithCharacters, GameMenu.MenuFlags.None, null);
-			campaignGameSystemStarter.AddGameMenuOption("town_keep", "town_lords_hall", "{=dv2ZNazN}Go to the lord's hall", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_castle_go_to_lords_hall_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_town_lordshall_on_consequence), false, -1, false, null);
+			campaignGameSystemStarter.AddGameMenuOption("town_keep", "town_lords_hall", "{=dv2ZNazN}Go to the lord's hall", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_town_keep_go_to_lords_hall_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_town_lordshall_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("town_keep", "town_lords_hall_cheat", "{=!}Go to the lord's hall (Cheat)", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_castle_go_to_lords_hall_cheat_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_lordshall_cheat_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("town_keep", "town_lords_hall_go_to_dungeon", "{=etjMHPjQ}Go to dungeon", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_go_dungeon_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_go_dungeon_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("town_keep", "leave_troops_to_garrison", "{=7J9KNFTz}Donate troops to garrison", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_leave_troops_garrison_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_leave_troops_garrison_on_consequece), false, -1, false, null);
@@ -147,6 +141,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}, false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("castle", "castle_return_to_army", "{=SK43eB6y}Return to Army", new GameMenuOption.OnConditionDelegate(this.game_menu_return_to_army_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_return_to_army_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("castle", "leave", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_town_town_leave_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_settlement_leave_on_consequence), true, -1, false, null);
+			campaignGameSystemStarter.AddGameMenu("castle_lords_hall_bribe", "{=yyz111nn}The guards say that they can't just let anyone in.", null, GameOverlays.MenuOverlayType.SettlementWithCharacters, GameMenu.MenuFlags.None, null);
+			campaignGameSystemStarter.AddGameMenuOption("castle_lords_hall_bribe", "castle_bribe_pay", "{=3lxq5fvI}Pay a {AMOUNT}{GOLD_ICON} bribe to go to the lord's hall.", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_castle_lordshall_bribe_pay_bribe_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_castle_lordshall_bribe_on_consequence), false, -1, false, null);
+			campaignGameSystemStarter.AddGameMenuOption("castle_lords_hall_bribe", "castle_bribe_back", "{=3sRdGQou}Leave", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.back_on_condition), delegate(MenuCallbackArgs x)
+			{
+				GameMenu.SwitchToMenu("castle");
+			}, true, -1, false, null);
 			campaignGameSystemStarter.AddGameMenu("castle_dungeon", "{=!}{PRISONER_INTRODUCTION}", new OnInitDelegate(PlayerTownVisitCampaignBehavior.town_keep_dungeon_on_init), GameOverlays.MenuOverlayType.SettlementWithCharacters, GameMenu.MenuFlags.None, null);
 			campaignGameSystemStarter.AddGameMenuOption("castle_dungeon", "town_prison", "{=UnQFawna}Enter the dungeon", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_castle_enter_the_dungeon_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_castle_dungeon_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("castle_dungeon", "town_prison_cheat", "{=KBxajw4c}Enter the dungeon (Cheat)", new GameMenuOption.OnConditionDelegate(PlayerTownVisitCampaignBehavior.game_menu_castle_go_to_dungeon_cheat_on_condition), new GameMenuOption.OnConsequenceDelegate(PlayerTownVisitCampaignBehavior.game_menu_dungeon_cheat_on_consequence), false, -1, false, null);
@@ -280,29 +280,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.NoAccess)
 			{
 				args.IsEnabled = false;
-				SettlementAccessModel.AccessLimitationReason accessLimitationReason = accessDetails.AccessLimitationReason;
-				if (accessLimitationReason != SettlementAccessModel.AccessLimitationReason.HostileFaction)
-				{
-					if (accessLimitationReason != SettlementAccessModel.AccessLimitationReason.Disguised)
-					{
-						if (accessLimitationReason != SettlementAccessModel.AccessLimitationReason.LocationEmpty)
-						{
-							Debug.FailedAssert(string.Format("{0} is not a valid no access reason for town keep", accessDetails.AccessLimitationReason), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "game_menu_town_go_to_keep_on_condition", 383);
-						}
-						else
-						{
-							args.Tooltip = new TextObject("{=cojKmfSk}There is no one inside.", null);
-						}
-					}
-					else
-					{
-						args.Tooltip = new TextObject("{=f91LSbdx}You cannot enter the keep while in disguise.", null);
-					}
-				}
-				else
-				{
-					args.Tooltip = new TextObject("{=b3shPt8Q}You cannot enter an enemy keep.", null);
-				}
+				PlayerTownVisitCampaignBehavior.SetLordsHallAccessLimitationReasonText(args, accessDetails);
 			}
 			else if (accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.LimitedAccess && accessDetails.LimitedAccessSolution == SettlementAccessModel.LimitedAccessSolution.Disguise)
 			{
@@ -411,7 +389,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					return;
 				}
 			}
-			Debug.FailedAssert("invalid LimitedAccessSolution or AccessLevel for town keep", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "game_menu_town_go_to_keep_on_consequence", 489);
+			Debug.FailedAssert("invalid LimitedAccessSolution or AccessLevel for town keep", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "game_menu_town_go_to_keep_on_consequence", 477);
 		}
 
 		private static bool game_menu_go_dungeon_on_condition(MenuCallbackArgs args)
@@ -443,6 +421,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private static bool visit_the_tavern_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Mission;
+			List<Location> list = Settlement.CurrentSettlement.LocationComplex.FindAll((string x) => x == "tavern").ToList<Location>();
+			MenuHelper.SetIssueAndQuestDataForLocations(args, list);
 			return true;
 		}
 
@@ -474,6 +454,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			TextObject textObject;
 			bool flag = Campaign.Current.Models.SettlementAccessModel.CanMainHeroDoSettlementAction(Settlement.CurrentSettlement, SettlementAccessModel.SettlementAction.Craft, out flag2, out textObject);
 			args.optionLeaveType = GameMenuOption.LeaveType.Craft;
+			ICraftingCampaignBehavior campaignBehavior = Campaign.Current.GetCampaignBehavior<ICraftingCampaignBehavior>();
+			CraftingCampaignBehavior.CraftingOrderSlots craftingOrderSlots;
+			if (Settlement.CurrentSettlement.IsTown && campaignBehavior != null && campaignBehavior.CraftingOrders != null && campaignBehavior.CraftingOrders.TryGetValue(Settlement.CurrentSettlement.Town, out craftingOrderSlots) && craftingOrderSlots.CustomOrders.Count > 0)
+			{
+				args.OptionQuestData |= GameMenuOption.IssueQuestFlags.ActiveIssue;
+			}
 			return MenuHelper.SetOptionProperties(args, flag, flag2, textObject);
 		}
 
@@ -596,6 +582,42 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private static bool game_menu_castle_go_to_lords_hall_on_condition(MenuCallbackArgs args)
 		{
+			SettlementAccessModel.AccessDetails accessDetails;
+			Campaign.Current.Models.SettlementAccessModel.CanMainHeroEnterLordsHall(Settlement.CurrentSettlement, out accessDetails);
+			if (accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.NoAccess)
+			{
+				args.IsEnabled = false;
+				PlayerTownVisitCampaignBehavior.SetLordsHallAccessLimitationReasonText(args, accessDetails);
+			}
+			else if (accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.LimitedAccess && accessDetails.LimitedAccessSolution == SettlementAccessModel.LimitedAccessSolution.Bribe && Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement) > Hero.MainHero.Gold)
+			{
+				args.IsEnabled = false;
+				args.Tooltip = new TextObject("{=d0kbtGYn}You don't have enough gold.", null);
+			}
+			List<Location> list = Settlement.CurrentSettlement.LocationComplex.FindAll((string x) => x == "lordshall").ToList<Location>();
+			MenuHelper.SetIssueAndQuestDataForLocations(args, list);
+			args.optionLeaveType = GameMenuOption.LeaveType.Mission;
+			return true;
+		}
+
+		private static void SetLordsHallAccessLimitationReasonText(MenuCallbackArgs args, SettlementAccessModel.AccessDetails accessDetails)
+		{
+			SettlementAccessModel.AccessLimitationReason accessLimitationReason = accessDetails.AccessLimitationReason;
+			if (accessLimitationReason == SettlementAccessModel.AccessLimitationReason.HostileFaction)
+			{
+				args.Tooltip = new TextObject("{=h9i9VXLd}You cannot enter an enemy lord's hall.", null);
+				return;
+			}
+			if (accessLimitationReason != SettlementAccessModel.AccessLimitationReason.LocationEmpty)
+			{
+				Debug.FailedAssert(string.Format("{0} is not a valid no access reason for lord's hall", accessDetails.AccessLimitationReason), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "SetLordsHallAccessLimitationReasonText", 726);
+				return;
+			}
+			args.Tooltip = new TextObject("{=cojKmfSk}There is no one inside.", null);
+		}
+
+		private static bool game_menu_town_keep_go_to_lords_hall_on_condition(MenuCallbackArgs args)
+		{
 			if (FactionManager.IsAtWarAgainstFaction(Settlement.CurrentSettlement.MapFaction, Hero.MainHero.MapFaction))
 			{
 				args.Tooltip = new TextObject("{=h9i9VXLd}You cannot enter an enemy lord's hall.", null);
@@ -674,7 +696,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 				else
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "CheckAndOpenNextLocation", 768);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "CheckAndOpenNextLocation", 809);
 				}
 				Campaign.Current.GameMenuManager.NextLocation = null;
 				Campaign.Current.GameMenuManager.PreviousLocation = null;
@@ -712,26 +734,37 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			uint num = <PrivateImplementationDetails>.ComputeStringHash(menuID);
 			if (num <= 1579208614U)
 			{
-				if (num <= 1192893027U)
+				if (num <= 1329296901U)
 				{
 					if (num != 864577349U)
 					{
 						if (num != 1192893027U)
 						{
-							goto IL_3B2;
+							if (num != 1329296901U)
+							{
+								goto IL_3D2;
+							}
+							if (!(menuID == "castle_lords_hall_bribe"))
+							{
+								goto IL_3D2;
+							}
+							return;
 						}
-						if (!(menuID == "village"))
+						else
 						{
-							goto IL_3B2;
+							if (!(menuID == "village"))
+							{
+								goto IL_3D2;
+							}
+							Campaign.Current.GameMenuManager.MenuLocations.AddRange(settlement.LocationComplex.GetListOfLocations());
+							return;
 						}
-						Campaign.Current.GameMenuManager.MenuLocations.AddRange(settlement.LocationComplex.GetListOfLocations());
-						return;
 					}
 					else
 					{
 						if (!(menuID == "town"))
 						{
-							goto IL_3B2;
+							goto IL_3D2;
 						}
 						Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("center"));
 						Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("arena"));
@@ -747,25 +780,25 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					{
 						if (num != 1579208614U)
 						{
-							goto IL_3B2;
+							goto IL_3D2;
 						}
 						if (!(menuID == "town_backstreet"))
 						{
-							goto IL_3B2;
+							goto IL_3D2;
 						}
 						Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("tavern"));
 						return;
 					}
 					else if (!(menuID == "castle_dungeon"))
 					{
-						goto IL_3B2;
+						goto IL_3D2;
 					}
 				}
 				else
 				{
 					if (!(menuID == "town_keep"))
 					{
-						goto IL_3B2;
+						goto IL_3D2;
 					}
 					Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("lordshall"));
 					return;
@@ -779,18 +812,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					{
 						if (num != 2781132822U)
 						{
-							goto IL_3B2;
+							goto IL_3D2;
 						}
 						if (!(menuID == "town_keep_dungeon"))
 						{
-							goto IL_3B2;
+							goto IL_3D2;
 						}
 					}
 					else
 					{
 						if (!(menuID == "castle"))
 						{
-							goto IL_3B2;
+							goto IL_3D2;
 						}
 						Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("center"));
 						Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("lordshall"));
@@ -799,7 +832,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				}
 				else if (!(menuID == "town_enemy_town_keep"))
 				{
-					goto IL_3B2;
+					goto IL_3D2;
 				}
 			}
 			else if (num != 4029725827U)
@@ -808,11 +841,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (num != 4246693001U)
 					{
-						goto IL_3B2;
+						goto IL_3D2;
 					}
 					if (!(menuID == "town_arena"))
 					{
-						goto IL_3B2;
+						goto IL_3D2;
 					}
 					Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("arena"));
 					return;
@@ -821,7 +854,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				{
 					if (!(menuID == "town_keep_bribe"))
 					{
-						goto IL_3B2;
+						goto IL_3D2;
 					}
 					return;
 				}
@@ -830,7 +863,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				if (!(menuID == "town_center"))
 				{
-					goto IL_3B2;
+					goto IL_3D2;
 				}
 				Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("center"));
 				Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("arena"));
@@ -838,8 +871,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 			Campaign.Current.GameMenuManager.MenuLocations.Add(settlement.LocationComplex.GetLocationWithId("prison"));
 			return;
-			IL_3B2:
-			Debug.FailedAssert("Could not get the associated locations for Game Menu: " + menuID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "UpdateMenuLocations", 874);
+			IL_3D2:
+			Debug.FailedAssert("Could not get the associated locations for Game Menu: " + menuID, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "UpdateMenuLocations", 916);
 			Campaign.Current.GameMenuManager.MenuLocations.AddRange(settlement.LocationComplex.GetListOfLocations());
 		}
 
@@ -1019,6 +1052,23 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private static void game_menu_castle_lordshall_on_consequence(MenuCallbackArgs args)
 		{
+			SettlementAccessModel.AccessDetails accessDetails;
+			Campaign.Current.Models.SettlementAccessModel.CanMainHeroEnterLordsHall(Settlement.CurrentSettlement, out accessDetails);
+			if (accessDetails.AccessLevel == SettlementAccessModel.AccessLevel.FullAccess)
+			{
+				PlayerTownVisitCampaignBehavior.OpenMissionWithSettingPreviousLocation("center", "lordshall");
+				return;
+			}
+			if (accessDetails.AccessLevel != SettlementAccessModel.AccessLevel.LimitedAccess || accessDetails.LimitedAccessSolution != SettlementAccessModel.LimitedAccessSolution.Bribe)
+			{
+				Debug.FailedAssert("invalid LimitedAccessSolution or AccessLevel for castle lord's hall", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\CampaignBehaviors\\PlayerTownVisitCampaignBehavior.cs", "game_menu_castle_lordshall_on_consequence", 1182);
+				return;
+			}
+			if (Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement) > 0)
+			{
+				GameMenu.SwitchToMenu("castle_lords_hall_bribe");
+				return;
+			}
 			PlayerTownVisitCampaignBehavior.OpenMissionWithSettingPreviousLocation("center", "lordshall");
 		}
 
@@ -1028,6 +1078,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			BribeGuardsAction.Apply(Settlement.CurrentSettlement, bribeToEnterLordsHall);
 			LocationEncounter locationEncounter = PlayerEncounter.LocationEncounter;
 			GameMenu.ActivateGameMenu("town_keep");
+		}
+
+		private static void game_menu_castle_lordshall_bribe_on_consequence(MenuCallbackArgs args)
+		{
+			int bribeToEnterLordsHall = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement);
+			BribeGuardsAction.Apply(Settlement.CurrentSettlement, bribeToEnterLordsHall);
+			PlayerTownVisitCampaignBehavior.OpenMissionWithSettingPreviousLocation("center", "lordshall");
 		}
 
 		private static void game_menu_lordshall_cheat_on_consequence(MenuCallbackArgs args)
@@ -1142,6 +1199,21 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				Campaign.Current.GameMenuManager.PreviousLocation = null;
 			}
 			args.MenuTitle = new TextObject("{=sVXa3zFx}Castle", null);
+		}
+
+		private static bool game_menu_castle_lordshall_bribe_pay_bribe_on_condition(MenuCallbackArgs args)
+		{
+			int bribeToEnterLordsHall = Campaign.Current.Models.BribeCalculationModel.GetBribeToEnterLordsHall(Settlement.CurrentSettlement);
+			MBTextManager.SetTextVariable("AMOUNT", bribeToEnterLordsHall);
+			List<Location> list = Settlement.CurrentSettlement.LocationComplex.FindAll((string x) => x == "lordshall").ToList<Location>();
+			MenuHelper.SetIssueAndQuestDataForLocations(args, list);
+			args.optionLeaveType = GameMenuOption.LeaveType.Mission;
+			if (Hero.MainHero.Gold < bribeToEnterLordsHall)
+			{
+				args.Tooltip = new TextObject("{=d0kbtGYn}You don't have enough gold.", null);
+				args.IsEnabled = false;
+			}
+			return bribeToEnterLordsHall > 0;
 		}
 
 		private static bool game_menu_village_village_center_on_condition(MenuCallbackArgs args)
@@ -1520,7 +1592,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				Hero randomElement = settlement.Notables.GetRandomElement<Hero>();
 				if (randomElement != null)
 				{
-					ChangeRelationAction.ApplyRelationChangeBetweenHeroes(party.ActualClan.Leader, randomElement, MathF.Round(isVillage ? DefaultPerks.Scouting.WaterDiviner.SecondaryBonus : DefaultPerks.Scouting.Pathfinder.SecondaryBonus), true);
+					ChangeRelationAction.ApplyRelationChangeBetweenHeroes(party.ActualClan.Leader, randomElement, 1, true);
 				}
 				if (isVillage)
 				{

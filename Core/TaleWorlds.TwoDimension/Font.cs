@@ -52,10 +52,9 @@ namespace TaleWorlds.TwoDimension
 						this.Characters.Add(bitmapFontCharacter.ID, bitmapFontCharacter);
 						gchandle.Free();
 					}
-					goto IL_3F3;
+					goto IL_3DD;
 				}
 			}
-			Debug.FailedAssert("Binary character data should exist for all official fonts! This is only to support modded fonts!", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.TwoDimension\\BitmapFont\\Font.cs", ".ctor", 84);
 			for (int j = 0; j < this.CharacterCount; j++)
 			{
 				XmlNode xmlNode = xmlElement4.ChildNodes[j];
@@ -70,7 +69,7 @@ namespace TaleWorlds.TwoDimension
 				bitmapFontCharacter2.XAdvance = Convert.ToInt32(xmlNode.Attributes["xadvance"].Value);
 				this.Characters.Add(bitmapFontCharacter2.ID, bitmapFontCharacter2);
 			}
-			IL_3F3:
+			IL_3DD:
 			SpriteGeneric spriteGeneric = spriteData.GetSprite(fileNameWithoutExtension) as SpriteGeneric;
 			SpritePart spritePart = ((spriteGeneric != null) ? spriteGeneric.SpritePart : null);
 			this.FontSprite = spritePart;

@@ -39,7 +39,7 @@ namespace TaleWorlds.MountAndBlade
 				return MissionWeapon.Invalid;
 			}
 			MBObjectBase mbobjectBase = GameNetworkMessage.ReadObjectReferenceFromPacket(objectManager, CompressionBasic.GUIDCompressionInfo, ref bufferReadValid);
-			int num = GameNetworkMessage.ReadIntFromPacket(CompressionGeneric.ItemDataValueCompressionInfo, ref bufferReadValid);
+			int num = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.ItemDataValueCompressionInfo, ref bufferReadValid);
 			int num2 = GameNetworkMessage.ReadIntFromPacket(CompressionMission.WeaponReloadPhaseCompressionInfo, ref bufferReadValid);
 			short num3 = (short)GameNetworkMessage.ReadIntFromPacket(CompressionMission.WeaponUsageIndexCompressionInfo, ref bufferReadValid);
 			bool flag = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
@@ -58,7 +58,7 @@ namespace TaleWorlds.MountAndBlade
 			if (bufferReadValid && flag2)
 			{
 				MBObjectBase mbobjectBase2 = GameNetworkMessage.ReadObjectReferenceFromPacket(objectManager, CompressionBasic.GUIDCompressionInfo, ref bufferReadValid);
-				int num4 = GameNetworkMessage.ReadIntFromPacket(CompressionGeneric.ItemDataValueCompressionInfo, ref bufferReadValid);
+				int num4 = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.ItemDataValueCompressionInfo, ref bufferReadValid);
 				ItemObject itemObject2 = mbobjectBase2 as ItemObject;
 				missionWeapon = new MissionWeapon?(new MissionWeapon(itemObject2, null, banner, (short)num4));
 			}
@@ -74,7 +74,7 @@ namespace TaleWorlds.MountAndBlade
 			if (!weapon.IsEmpty)
 			{
 				GameNetworkMessage.WriteObjectReferenceToPacket(weapon.Item, CompressionBasic.GUIDCompressionInfo);
-				GameNetworkMessage.WriteIntToPacket((int)weapon.RawDataForNetwork, CompressionGeneric.ItemDataValueCompressionInfo);
+				GameNetworkMessage.WriteIntToPacket((int)weapon.RawDataForNetwork, CompressionBasic.ItemDataValueCompressionInfo);
 				GameNetworkMessage.WriteIntToPacket((int)weapon.ReloadPhase, CompressionMission.WeaponReloadPhaseCompressionInfo);
 				GameNetworkMessage.WriteIntToPacket(weapon.CurrentUsageIndex, CompressionMission.WeaponUsageIndexCompressionInfo);
 				bool flag = weapon.Banner != null;
@@ -89,7 +89,7 @@ namespace TaleWorlds.MountAndBlade
 				if (flag2)
 				{
 					GameNetworkMessage.WriteObjectReferenceToPacket(ammoWeapon.Item, CompressionBasic.GUIDCompressionInfo);
-					GameNetworkMessage.WriteIntToPacket((int)ammoWeapon.RawDataForNetwork, CompressionGeneric.ItemDataValueCompressionInfo);
+					GameNetworkMessage.WriteIntToPacket((int)ammoWeapon.RawDataForNetwork, CompressionBasic.ItemDataValueCompressionInfo);
 				}
 			}
 		}

@@ -116,6 +116,10 @@ namespace StoryMode.Quests.FirstPhase
 			this.SetDialogs();
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		protected override void RegisterEvents()
 		{
 			StoryModeEvents.OnBannerPieceCollectedEvent.AddNonSerializedListener(this, new Action(this.OnBannerPieceCollected));
@@ -246,12 +250,12 @@ namespace StoryMode.Quests.FirstPhase
 			string text;
 			return DialogFlow.CreateDialogFlow("hero_main_options", 150).BeginPlayerOptions().PlayerSpecialOption(new TextObject("{=r8ZLabb0}I have gathered all pieces of the Dragon Banner. What now?", null), null)
 				.Condition(() => Hero.OneToOneConversationHero == StoryModeHeroes.AntiImperialMentor && FirstPhase.Instance.AllPiecesCollected && !this._talkedWithAntiImperialMentor)
-				.NpcLine(new TextObject("{=5j6qvGAF}Excellent work! When you unfurl this banner, and men see what they thought was lost, it will make a powerful impression.", null), null, null)
+				.NpcLine(new TextObject("{=5j6qvGAF}Excellent work! When you unfurl this banner, and men see what they thought was lost, it will make a powerful impression.[ib:normal2][if:convo_astonished]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.GetAntiImperialQuests))
-				.NpcLine(new TextObject("{=MOVWOyeh}Clearly you have been chosen by Heaven for a great purpose. I see the makings of a new legend here... Allow me to call you 'Bannerlord.'", null), null, null)
-				.NpcLine(new TextObject("{=o791xRtb}Right then, to the business of bringing down this cursed Empire. As I see it, you have two options...", null), null, null)
+				.NpcLine(new TextObject("{=MOVWOyeh}Clearly you have been chosen by Heaven for a great purpose. I see the makings of a new legend here... Allow me to call you 'Bannerlord.'[ib:normal][if:convo_relaxed_happy]", null), null, null)
+				.NpcLine(new TextObject("{=o791xRtb}Right then, to the business of bringing down this cursed Empire. As I see it, you have two options...[ib:confident2][if:convo_pondering]", null), null, null)
 				.GetOutputToken(ref text)
-				.NpcLine(new TextObject("{=c6pDNXbb}You can create your own kingdom or support an existing one...", null), null, null)
+				.NpcLine(new TextObject("{=c6pDNXbb}You can create your own kingdom or support an existing one...[if:convo_normal]", null), null, null)
 				.BeginPlayerOptions()
 				.PlayerOption(new TextObject("{=0pilmavQ}How can I create my own kingdom?", null), null)
 				.NpcLine(new TextObject("{=frk7T3ue}It will not be easy, but I can explain in detail...", null), null, null)
@@ -264,7 +268,7 @@ namespace StoryMode.Quests.FirstPhase
 				.GotoDialogState(text)
 				.PlayerOption(new TextObject("{=mtiaY2Pa}How can I support an existing kingdom?", null), null)
 				.NpcLine(new TextObject("{=oKknZdXn}You should join the kingdom that you wish to support by talking to the leader. None will bring back the Palaic people, but the final victory of any one of those would be suitable vengeance.", null), null, null)
-				.NpcLine(new TextObject("{=dPb2Vph3}My informants will tell me once you pledged your support...", null), null, null)
+				.NpcLine(new TextObject("{=dPb2Vph3}My informants will tell me once you pledged your support...[ib:normal2][if:convo_nonchalant]", null), null, null)
 				.GotoDialogState(text)
 				.PlayerOption(new TextObject("{=6LQUuQhV}Thank you for your precious help.", null), null)
 				.CloseDialog()
@@ -296,25 +300,25 @@ namespace StoryMode.Quests.FirstPhase
 			string text;
 			return DialogFlow.CreateDialogFlow("hero_main_options", 150).BeginPlayerOptions().PlayerSpecialOption(new TextObject("{=r8ZLabb0}I have gathered all pieces of the Dragon Banner. What now?", null), null)
 				.Condition(() => Hero.OneToOneConversationHero == StoryModeHeroes.ImperialMentor && FirstPhase.Instance.AllPiecesCollected && !this._talkedWithImperialMentor)
-				.NpcLine(new TextObject("{=UjyZ7GFk}Impressive, most impressive. Well, things will get interesting now.", null), null, null)
+				.NpcLine(new TextObject("{=UjyZ7GFk}Impressive, most impressive. Well, things will get interesting now.[ib:normal2][if:convo_astonished]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.GetImperialQuests))
-				.NpcLine(new TextObject("{=9E6faNBg}I will need to embroider a proper legend about you. Divine omens at your birth, that kind of thing. For now, we can call you 'Bannerlord,' who brings down the wrath of Heaven on the impudent barbarians.", null), null, null)
+				.NpcLine(new TextObject("{=9E6faNBg}I will need to embroider a proper legend about you. Divine omens at your birth, that kind of thing. For now, we can call you 'Bannerlord,' who brings down the wrath of Heaven on the impudent barbarians.[ib:confident2][if:convo_relaxed_happy]", null), null, null)
 				.NpcLine(new TextObject("{=CnXA7oyE}Now, there are two paths that lie ahead of you, my child!", null), null, null)
 				.GetOutputToken(ref text)
-				.NpcLine(new TextObject("{=1GgTNRNl}You can make your own claim to the rulership of the Empire and try to win the civil war, or support an existing claimant...", null), null, null)
+				.NpcLine(new TextObject("{=1GgTNRNl}You can make your own claim to the rulership of the Empire and try to win the civil war, or support an existing claimant...[if:convo_normal]", null), null, null)
 				.BeginPlayerOptions()
 				.PlayerOption(new TextObject("{=Dgdopl1b}How can I create my own imperial kingdom?", null), null)
-				.NpcLine(new TextObject("{=NdkqUnXb}To have a chance as an imperial contender, you must fullfil some conditions.", null), null, null)
+				.NpcLine(new TextObject("{=NdkqUnXb}To have a chance as an imperial contender, you must fullfil some conditions.[if:convo_empathic_voice]", null), null, null)
 				.NpcLine(new TextObject("{=yCzcfKNM}Firstly, your clan must be independent. You cannot be pledged to an existing realm.", null), null, null)
 				.NpcLine(new TextObject("{=LLJ0oB8i}Next, your clan's renown must have spread far and wide, or no one will take you seriously.", null), null, null)
 				.NpcLine(new TextObject("{=3XbTo6O7}Also, of course, I recommend that you have as large an army as you can gather.", null), null, null)
-				.NpcLine(new TextObject("{=Cl4xi6Be}Finally, you need a capital. Any settlement will do, so long as the inhabitants speak the imperial language.", null), null, null)
+				.NpcLine(new TextObject("{=Cl4xi6Be}Finally, you need a capital. Any settlement will do, so long as the inhabitants speak the imperial language.[if:convo_focused_voice]", null), null, null)
 				.NpcLine(new TextObject("{=fprOWs1E}Now, when you are ready to declare your new kingdom, instruct the governor of your capital to have a proclamation read out throughout your lands.", null), null, null)
 				.NpcLine(new TextObject("{=tkJD40hE}Well, that should keep you busy for a while. Come back when you are ready.", null), null, null)
 				.GotoDialogState(text)
 				.PlayerOption(new TextObject("{=tRzjuX0E}How can I support an existing imperial claimant?", null), null)
 				.NpcLine(new TextObject("{=oL9BdThD}Choose one and pledge allegiance. When this civil war began, I was a bit torn... Rhagaea was the cleverest ruler, Garios probably the best fighter, and Lucon seemed to have the best grasp of our laws and traditions. But you can make up your own mind.", null), null, null)
-				.NpcLine(new TextObject("{=eaxOH9mb}My little birds will tell me once you pledge your support...", null), null, null)
+				.NpcLine(new TextObject("{=eaxOH9mb}My little birds will tell me once you pledge your support...[if:convo_nonchalant]", null), null, null)
 				.GotoDialogState(text)
 				.PlayerOption(new TextObject("{=6LQUuQhV}Thank you for your precious help.", null), null)
 				.CloseDialog()

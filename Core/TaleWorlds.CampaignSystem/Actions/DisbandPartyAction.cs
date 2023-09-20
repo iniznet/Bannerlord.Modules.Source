@@ -35,7 +35,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				}
 			}
 			TextObject textObject = new TextObject("{=ithcVNfA}{CLAN_NAME}{.o} Party", null);
-			textObject.SetTextVariable("CLAN_NAME", (disbandParty.ActualClan != null) ? disbandParty.ActualClan.Name : CampaignData.NeutralFaction.Name);
+			textObject.SetTextVariable("CLAN_NAME", (disbandParty.ActualClan != null) ? disbandParty.ActualClan.Name : CampaignData.NeutralFactionName);
 			disbandParty.SetCustomName(textObject);
 			CampaignEventDispatcher.Instance.OnPartyDisbandStarted(disbandParty);
 		}

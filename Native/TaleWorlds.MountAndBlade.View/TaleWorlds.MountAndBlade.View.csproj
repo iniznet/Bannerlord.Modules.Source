@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{433AFC94-04BD-40EA-B2CA-C8D6E593F02F}</ProjectGuid>
+    <ProjectGuid>{488A9139-DC99-4C56-B6C1-B095A8B5EE72}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.View</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.View</AssemblyName>
@@ -35,7 +35,6 @@
     <Reference Include="netstandard" />
     <Reference Include="TaleWorlds.Core" />
     <Reference Include="TaleWorlds.Core.ViewModelCollection" />
-    <Reference Include="TaleWorlds.Diamond" />
     <Reference Include="TaleWorlds.DotNet" />
     <Reference Include="TaleWorlds.Engine" />
     <Reference Include="TaleWorlds.InputSystem" />
@@ -44,10 +43,8 @@
     <Reference Include="TaleWorlds.Localization" />
     <Reference Include="TaleWorlds.ModuleManager" />
     <Reference Include="TaleWorlds.MountAndBlade" />
-    <Reference Include="TaleWorlds.MountAndBlade.Diamond" />
     <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
     <Reference Include="TaleWorlds.ObjectSystem" />
-    <Reference Include="TaleWorlds.PlatformService" />
     <Reference Include="TaleWorlds.PlayerServices" />
     <Reference Include="TaleWorlds.PSAI" />
     <Reference Include="TaleWorlds.ScreenSystem" />
@@ -80,8 +77,11 @@
     <Compile Include="MissionViews\MissionBoundaryCrossingView.cs" />
     <Compile Include="MissionViews\MissionBoundaryWallView.cs" />
     <Compile Include="MissionViews\MissionCameraFadeView.cs" />
+    <Compile Include="MissionViews\MissionCheatView.cs" />
     <Compile Include="MissionViews\MissionCrosshair.cs" />
     <Compile Include="MissionViews\MissionEscapeMenuView.cs" />
+    <Compile Include="MissionViews\MissionFormationTargetSelectionHandler.cs" />
+    <Compile Include="MissionViews\MissionGamepadEffectsView.cs" />
     <Compile Include="MissionViews\MissionItemContourControllerView.cs" />
     <Compile Include="MissionViews\MissionMainAgentCheerBarkControllerView.cs" />
     <Compile Include="MissionViews\MissionMainAgentController.cs" />
@@ -91,28 +91,6 @@
     <Compile Include="MissionViews\MissionOptionsUIHandler.cs" />
     <Compile Include="MissionViews\MissionPlayerMovementFlagsChangeEvent.cs" />
     <Compile Include="MissionViews\MissionView.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionGameNotificationUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionLobbyEquipmentUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerDeathCardUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerDuelUI.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerEscapeMenu.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerFreeForAllUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerHUDExtensionUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerKillNotificationUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerMarkerUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerPreloadView.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerServerStatusUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionMultiplayerVoiceChatUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MissionScoreboardUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerAdminPanelUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerCultureSelectUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerEndOfBattleUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerEndOfRoundUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerFactionBanVoteUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerMissionOrderUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerMissionViews.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerPollProgressUIHandler.cs" />
-    <Compile Include="MissionViews\Multiplayer\MultiplayerTeamSelectUIHandler.cs" />
     <Compile Include="MissionViews\Order\OrderFlag.cs" />
     <Compile Include="MissionViews\Order\OrderTroopPlacer.cs" />
     <Compile Include="MissionViews\ReplayCaptureLogic.cs" />
@@ -150,14 +128,7 @@
     <Compile Include="MissionViews\Singleplayer\SiegeDeploymentVisualizationMissionView.cs" />
     <Compile Include="MissionViews\Singleplayer\StealthMissionUIHandler.cs" />
     <Compile Include="MissionViews\Singleplayer\TutorialMissionViews.cs" />
-    <Compile Include="MissionViews\Sound\Components\MusicBaseComponent.cs" />
-    <Compile Include="MissionViews\Sound\Components\MusicMissionActionComponent.cs" />
-    <Compile Include="MissionViews\Sound\Components\MusicMissionBattleComponent.cs" />
-    <Compile Include="MissionViews\Sound\Components\MusicMissionPeacefulComponent.cs" />
-    <Compile Include="MissionViews\Sound\Components\MusicPriority.cs" />
     <Compile Include="MissionViews\Sound\MusicBattleMissionView.cs" />
-    <Compile Include="MissionViews\Sound\MusicComponentHolder.cs" />
-    <Compile Include="MissionViews\Sound\MusicMissionView.cs" />
     <Compile Include="MissionViews\Sound\MusicSilencedMissionView.cs" />
     <Compile Include="MissionViews\SpectatorCameraView.cs" />
     <Compile Include="MountVisualCreator.cs" />
@@ -168,6 +139,7 @@
     <Compile Include="PreloadHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneNotification\PopupSceneBanner.cs" />
+    <Compile Include="Screens\BannerBuilderScreen.cs" />
     <Compile Include="Screens\BenchmarkScreen.cs" />
     <Compile Include="Screens\CreditsScreen.cs" />
     <Compile Include="Screens\FaceGeneratorScreen.cs" />
@@ -175,7 +147,6 @@
     <Compile Include="Screens\GameStateScreen.cs" />
     <Compile Include="Screens\GameStateScreenManager.cs" />
     <Compile Include="Screens\IFaceGeneratorScreen.cs" />
-    <Compile Include="Screens\LobbyGameStateScreen.cs" />
     <Compile Include="Screens\MissionScreen.cs" />
     <Compile Include="Screens\OptionsScreen.cs" />
     <Compile Include="Screens\SceneEditorLayer.cs" />
@@ -194,6 +165,7 @@
     <Compile Include="Scripts\PopupSceneSwitchItemSequence.cs" />
     <Compile Include="SimpleSceneTestWithMission.cs" />
     <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
+    <Compile Include="Tableaus\BannerTableau.cs" />
     <Compile Include="Tableaus\BasicCharacterTableau.cs" />
     <Compile Include="Tableaus\BrightnessDemoTableau.cs" />
     <Compile Include="Tableaus\CharacterTableau.cs" />
@@ -203,6 +175,7 @@
     <Compile Include="Tableaus\TableauCacheManager.cs" />
     <Compile Include="Tableaus\ThumbnailCache.cs" />
     <Compile Include="Tableaus\ThumbnailCacheNode.cs" />
+    <Compile Include="UISoundsHelper.cs" />
     <Compile Include="ViewCreator.cs" />
     <Compile Include="ViewCreatorManager.cs" />
     <Compile Include="ViewSubModule.cs" />

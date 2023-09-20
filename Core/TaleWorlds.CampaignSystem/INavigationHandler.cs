@@ -1,4 +1,5 @@
 ﻿using System;
+using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.Issues;
 using TaleWorlds.CampaignSystem.LogEntries;
 using TaleWorlds.CampaignSystem.Party;
@@ -64,6 +65,8 @@ namespace TaleWorlds.CampaignSystem
 		void OpenKingdom(PolicyObject policy);
 
 		void OpenKingdom(IFaction faction);
+
+		void OpenKingdom(KingdomDecision decision);
 
 		void OpenClan();
 

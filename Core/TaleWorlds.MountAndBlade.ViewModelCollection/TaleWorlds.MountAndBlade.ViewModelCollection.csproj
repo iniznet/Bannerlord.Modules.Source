@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D71}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C8B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.ViewModelCollection</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.ViewModelCollection</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,14 +30,21 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AgentInteractionInterfaceVM.cs" />
+    <Compile Include="BannerBuilder\BannerBuilderCategoryVM.cs" />
+    <Compile Include="BannerBuilder\BannerBuilderColorItemVM.cs" />
+    <Compile Include="BannerBuilder\BannerBuilderColorSelectionVM.cs" />
+    <Compile Include="BannerBuilder\BannerBuilderItemVM.cs" />
+    <Compile Include="BannerBuilder\BannerBuilderLayerVM.cs" />
+    <Compile Include="BannerBuilder\BannerBuilderVM.cs" />
     <Compile Include="BoundaryCrossingVM.cs" />
     <Compile Include="Credits\CreditsItemVM.cs" />
     <Compile Include="Credits\CreditsVM.cs" />
@@ -104,162 +110,8 @@
     <Compile Include="Microsoft\CodeAnalysis\EmbeddedAttribute.cs" />
     <Compile Include="MissionAgentStatusVM.cs" />
     <Compile Include="MissionLeaveVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\AlternativeUsageItemOptionVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\HeroClassGroupVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\HeroClassVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\HeroInformationVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\HeroPerkVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\MPPerkVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\MPTeammateCompassTargetVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\MultiplayerClassLoadoutVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\ShallowItemPropertyVM.cs" />
-    <Compile Include="Multiplayer\ClassLoadout\ShallowItemVM.cs" />
-    <Compile Include="Multiplayer\EndOfRound\MultiplayerEndOfRoundSideVM.cs" />
-    <Compile Include="Multiplayer\EndOfRound\MultiplayerEndOfRoundVM.cs" />
-    <Compile Include="Multiplayer\FactionBanVote\MultiplayerFactionBanVM.cs" />
-    <Compile Include="Multiplayer\FactionBanVote\MultiplayerFactionBanVoteVM.cs" />
-    <Compile Include="Multiplayer\FlagMarker\MultiplayerMissionMarkerVM.cs" />
-    <Compile Include="Multiplayer\FlagMarker\Targets\MissionAlwaysVisibleMarkerTargetVM.cs" />
-    <Compile Include="Multiplayer\FlagMarker\Targets\MissionFlagMarkerTargetVM.cs" />
-    <Compile Include="Multiplayer\FlagMarker\Targets\MissionMarkerTargetVM.cs" />
-    <Compile Include="Multiplayer\FlagMarker\Targets\MissionMarkerType.cs" />
-    <Compile Include="Multiplayer\FlagMarker\Targets\MissionPeerMarkerTargetVM.cs" />
-    <Compile Include="Multiplayer\FlagMarker\Targets\MissionSiegeEngineMarkerTargetVM.cs" />
-    <Compile Include="Multiplayer\HUDExtensions\CapturePointVM.cs" />
-    <Compile Include="Multiplayer\HUDExtensions\CommanderInfoVM.cs" />
-    <Compile Include="Multiplayer\HUDExtensions\DuelMatchVM.cs" />
-    <Compile Include="Multiplayer\HUDExtensions\MissionMultiplayerHUDExtensionVM.cs" />
-    <Compile Include="Multiplayer\HUDExtensions\MissionMultiplayerSpectatorHUDVM.cs" />
-    <Compile Include="Multiplayer\Intermission\MPIntermissionCultureItemVM.cs" />
-    <Compile Include="Multiplayer\Intermission\MPIntermissionMapItemVM.cs" />
-    <Compile Include="Multiplayer\Intermission\MPIntermissionVM.cs" />
-    <Compile Include="Multiplayer\KillFeed\General\MPGeneralKillNotificationItemVM.cs" />
-    <Compile Include="Multiplayer\KillFeed\General\MPGeneralKillNotificationVM.cs" />
-    <Compile Include="Multiplayer\KillFeed\MPDuelKillNotificationItemVM.cs" />
-    <Compile Include="Multiplayer\KillFeed\MPKillFeedVM.cs" />
-    <Compile Include="Multiplayer\KillFeed\Personal\MPPersonalKillNotificationItemVM.cs" />
-    <Compile Include="Multiplayer\KillFeed\Personal\MPPersonalKillNotificationVM.cs" />
-    <Compile Include="Multiplayer\Lobby\AfterBattle\MPAfterBattleBadgeRewardItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\AfterBattle\MPAfterBattleLootRewardItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\AfterBattle\MPAfterBattlePopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\AfterBattle\MPAfterBattleRewardItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Armory\MPArmoryClassStatsVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Armory\MPArmoryCosmeticItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Armory\MPArmoryCosmeticsVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Armory\MPArmoryHeroPerkSelectionVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Armory\MPArmoryHeroPreviewVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Armory\MPArmoryVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Authentication\MPAuthenticationDebugVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Authentication\MPAuthenticationVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanAnnouncementVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanChangeFactionPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanChangeSigilPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanCreationInformationVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanCreationPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanInvitationPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanInviteFriendsPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanLeaderboardSortControllerVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanLeaderboardVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanMatchmakingRequestPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanMemberItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanOverviewVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanRosterVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanSendPostPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Clan\MPLobbyClanVM.cs" />
-    <Compile Include="Multiplayer\Lobby\ClassFilter\MPLobbyClassFilterClassGroupItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\ClassFilter\MPLobbyClassFilterClassItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\ClassFilter\MPLobbyClassFilterFactionItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\CustomGame\MPCustomGameFilterItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\CustomGame\MPCustomGameFiltersVM.cs" />
-    <Compile Include="Multiplayer\Lobby\CustomGame\MPCustomGameItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\CustomGame\MPCustomGameSortControllerVM.cs" />
-    <Compile Include="Multiplayer\Lobby\CustomGame\MPCustomGameVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyFriendGroupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyFriendItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyFriendServiceVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyFriendsVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyPartyPlayerSuggestionPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyPartyPlayerVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyPlayerBaseVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyPlayerRecentGameDataVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyPlayerStatItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Friends\MPLobbyPlayerTroopClassVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Home\MPLobbyHomeChangeSigilPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Home\MPLobbyHomeVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Home\MPNewsItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Home\MPNewsVM.cs" />
-    <Compile Include="Multiplayer\Lobby\HostGame\HostGameOptions\BooleanHostGameOptionDataVM.cs" />
-    <Compile Include="Multiplayer\Lobby\HostGame\HostGameOptions\GenericHostGameOptionDataVM.cs" />
-    <Compile Include="Multiplayer\Lobby\HostGame\HostGameOptions\InputHostGameOptionDataVM.cs" />
-    <Compile Include="Multiplayer\Lobby\HostGame\HostGameOptions\MultipleSelectionHostGameOptionDataVM.cs" />
-    <Compile Include="Multiplayer\Lobby\HostGame\HostGameOptions\NumericHostGameOptionDataVM.cs" />
-    <Compile Include="Multiplayer\Lobby\HostGame\MPHostGameOptionsVM.cs" />
-    <Compile Include="Multiplayer\Lobby\HostGame\MPHostGameVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPCosmeticObtainPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyBadgeItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyBlockerStateVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyClassFilterVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyCosmeticSigilItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyGameSearchVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyGameTypeVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyMenuVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyPartyInvitationPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyPlayerProfileVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyRejoinVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbySigilItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPLobbyVM.cs" />
-    <Compile Include="Multiplayer\Lobby\MPMatchmakingVM.cs" />
-    <Compile Include="Multiplayer\Lobby\OfficialGame\MPMatchmakingItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\OfficialGame\MPMatchmakingRegionSelectorItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\OfficialGame\MPMatchmakingSelectionInfoVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyAchievementBadgeGroupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyBadgeProgressInformationVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyBadgeSelectionPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyBannerlordIDAddFriendPopupVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyBannerlordIDChangePopup.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyLeaderboardPlayerItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyProfileGameModeSelectorItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyProfileVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyRankLeaderboardVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyRankProgressInformationVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyRecentGameItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyRecentGamePlayerItemVM.cs" />
-    <Compile Include="Multiplayer\Lobby\Profile\MPLobbyRecentGamesVM.cs" />
-    <Compile Include="Multiplayer\MissionDuelLandmarkMarkerVM.cs" />
-    <Compile Include="Multiplayer\MissionDuelMarkersVM.cs" />
-    <Compile Include="Multiplayer\MissionDuelPeerMarkerVM.cs" />
     <Compile Include="Multiplayer\MPChatLineVM.cs" />
     <Compile Include="Multiplayer\MPChatVM.cs" />
-    <Compile Include="Multiplayer\MPCultureItemVM.cs" />
-    <Compile Include="Multiplayer\MPDeathCardVM.cs" />
-    <Compile Include="Multiplayer\MPEndOfBattlePlayerVM.cs" />
-    <Compile Include="Multiplayer\MPEscapeMenuVM.cs" />
-    <Compile Include="Multiplayer\MPPlayerVM.cs" />
-    <Compile Include="Multiplayer\MPVoicePlayerVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerAdminInformationVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerAdminPanelVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerDuelVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerEndOfBattleVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerMissionServerStatusVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerPlayerContextMenuHelper.cs" />
-    <Compile Include="Multiplayer\MultiplayerPlayerHelper.cs" />
-    <Compile Include="Multiplayer\MultiplayerPollProgressVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerReportPlayerVM.cs" />
-    <Compile Include="Multiplayer\MultiplayerVoiceChatVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MissionScoreboardHeaderItemVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MissionScoreboardMVPItemVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MissionScoreboardPlayerSortControllerVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MissionScoreboardPlayerVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MissionScoreboardSideVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MissionScoreboardStatItemVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MissionScoreboardVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MPEndOfBattleSideVM.cs" />
-    <Compile Include="Multiplayer\Scoreboard\MPEndOfBattleVM.cs" />
-    <Compile Include="Multiplayer\TeamSelection\MultiplayerCultureSelectVM.cs" />
-    <Compile Include="Multiplayer\TeamSelection\MultiplayerTeamSelectVM.cs" />
-    <Compile Include="Multiplayer\TeamSelection\TeamSelectTeamInstanceVM.cs" />
     <Compile Include="OrderOfBattle\OrderOfBattleFormationClassChangedEvent.cs" />
     <Compile Include="OrderOfBattle\OrderOfBattleFormationClassSelectorItemVM.cs" />
     <Compile Include="OrderOfBattle\OrderOfBattleFormationClassVM.cs" />
@@ -290,6 +142,7 @@
     <Compile Include="Order\OrderTroopItemFilterVM.cs" />
     <Compile Include="Order\OrderTroopItemFormationClassVM.cs" />
     <Compile Include="Order\OrderTroopItemVM.cs" />
+    <Compile Include="Order\OrderUIHelper.cs" />
     <Compile Include="Order\ToggleOrderPositionVisibilityDelegate.cs" />
     <Compile Include="PhotoModeValueOptionVM.cs" />
     <Compile Include="PhotoModeVM.cs" />
@@ -308,68 +161,60 @@
     <Compile Include="VideoPlayback\VideoPlaybackVM.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Core.ViewModelCollection\TaleWorlds.Core.ViewModelCollection.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d55}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6e}</Project>
       <Name>TaleWorlds.Core.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d54}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c6d}</Project>
       <Name>TaleWorlds.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.DotNet\TaleWorlds.DotNet.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d5d}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c76}</Project>
       <Name>TaleWorlds.DotNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Engine\TaleWorlds.Engine.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d5e}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c77}</Project>
       <Name>TaleWorlds.Engine</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d66}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7f}</Project>
       <Name>TaleWorlds.InputSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.LinQuick\TaleWorlds.LinQuick.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d68}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c81}</Project>
       <Name>TaleWorlds.LinQuick</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d69}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c82}</Project>
       <Name>TaleWorlds.Localization</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d6a}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c83}</Project>
       <Name>TaleWorlds.ModuleManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.MountAndBlade.Diamond\TaleWorlds.MountAndBlade.Diamond.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d6b}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c84}</Project>
       <Name>TaleWorlds.MountAndBlade.Diamond</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.MountAndBlade\TaleWorlds.MountAndBlade.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d6c}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c85}</Project>
       <Name>TaleWorlds.MountAndBlade</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d74}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8e}</Project>
       <Name>TaleWorlds.ObjectSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.PlatformService\TaleWorlds.PlatformService.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d75}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c8f}</Project>
       <Name>TaleWorlds.PlatformService</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d79}</Project>
-      <Name>TaleWorlds.PlayerServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.ScreenSystem\TaleWorlds.ScreenSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d7c}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c96}</Project>
       <Name>TaleWorlds.ScreenSystem</Name>
     </ProjectReference>
   </ItemGroup>

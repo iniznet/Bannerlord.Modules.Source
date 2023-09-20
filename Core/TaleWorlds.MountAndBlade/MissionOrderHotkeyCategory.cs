@@ -3,7 +3,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class MissionOrderHotkeyCategory : GameKeyContext
+	public sealed class MissionOrderHotkeyCategory : GameKeyContext
 	{
 		public MissionOrderHotkeyCategory()
 			: base("MissionOrderHotkeyCategory", 108, GameKeyContext.GameKeyContextType.Default)
@@ -23,7 +23,7 @@ namespace TaleWorlds.MountAndBlade
 			base.RegisterGameKey(new GameKey(68, "SelectOrder1", "MissionOrderHotkeyCategory", InputKey.F1, InputKey.ControllerRLeft, GameKeyMainCategories.OrderMenuCategory), true);
 			base.RegisterGameKey(new GameKey(69, "SelectOrder2", "MissionOrderHotkeyCategory", InputKey.F2, InputKey.ControllerRDown, GameKeyMainCategories.OrderMenuCategory), true);
 			base.RegisterGameKey(new GameKey(70, "SelectOrder3", "MissionOrderHotkeyCategory", InputKey.F3, InputKey.ControllerRRight, GameKeyMainCategories.OrderMenuCategory), true);
-			base.RegisterGameKey(new GameKey(71, "SelectOrder4", "MissionOrderHotkeyCategory", InputKey.F4, GameKeyMainCategories.OrderMenuCategory), true);
+			base.RegisterGameKey(new GameKey(71, "SelectOrder4", "MissionOrderHotkeyCategory", InputKey.F4, InputKey.ControllerRUp, GameKeyMainCategories.OrderMenuCategory), true);
 			base.RegisterGameKey(new GameKey(72, "SelectOrder5", "MissionOrderHotkeyCategory", InputKey.F5, GameKeyMainCategories.OrderMenuCategory), true);
 			base.RegisterGameKey(new GameKey(73, "SelectOrder6", "MissionOrderHotkeyCategory", InputKey.F6, GameKeyMainCategories.OrderMenuCategory), true);
 			base.RegisterGameKey(new GameKey(74, "SelectOrder7", "MissionOrderHotkeyCategory", InputKey.F7, GameKeyMainCategories.OrderMenuCategory), true);

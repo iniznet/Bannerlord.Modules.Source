@@ -74,7 +74,7 @@ namespace TaleWorlds.CampaignSystem.Map
 					}
 					locatable2 = locatable2.NextLocatable;
 				}
-				Debug.FailedAssert("cannot remove party from MapLocator: " + locatable.ToString(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Map\\LocatorGrid.cs", "RemoveFromList", 130);
+				Debug.FailedAssert("cannot remove party from MapLocator: " + locatable.ToString(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Map\\LocatorGrid.cs", "RemoveFromList", 134);
 			}
 		}
 
@@ -170,6 +170,12 @@ namespace TaleWorlds.CampaignSystem.Map
 			this.GetGridIndices(position, out num, out num2);
 			return this.MapCoordinates(num, num2);
 		}
+
+		private const float DefaultGridNodeSize = 5f;
+
+		private const int DefaultGridWidth = 32;
+
+		private const int DefaultGridHeight = 32;
 
 		private readonly T[] _nodes;
 

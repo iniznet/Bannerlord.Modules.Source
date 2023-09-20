@@ -13,7 +13,13 @@ namespace TaleWorlds.Library
 
 		public T[,] Array2D { get; private set; }
 
-		public GCHandle Handle { get; private set; }
+		public GCHandle Handle
+		{
+			get
+			{
+				return this._handle;
+			}
+		}
 
 		public PinnedArrayData(T[] array, bool manualPinning = false)
 		{
@@ -27,7 +33,8 @@ namespace TaleWorlds.Library
 				{
 					try
 					{
-						this.Handle = GCHandle.Alloc(array, GCHandleType.Pinned);
+						this._handle = GCHandleFactory.GetHandle();
+						this._handle.Target = array;
 						this.Pointer = this.Handle.AddrOfPinnedObject();
 						this.Pinned = true;
 					}
@@ -61,7 +68,8 @@ namespace TaleWorlds.Library
 				{
 					try
 					{
-						this.Handle = GCHandle.Alloc(array, GCHandleType.Pinned);
+						this._handle = GCHandleFactory.GetHandle();
+						this._handle.Target = array;
 						this.Pointer = this.Handle.AddrOfPinnedObject();
 						this.Pinned = true;
 					}
@@ -113,14 +121,16 @@ namespace TaleWorlds.Library
 			{
 				if (this.Array != null)
 				{
-					this.Handle.Free();
+					this._handle.Target = null;
+					GCHandleFactory.ReturnHandle(this._handle);
 					this.Array = null;
 					this.Pointer = IntPtr.Zero;
 					return;
 				}
 				if (this.Array2D != null)
 				{
-					this.Handle.Free();
+					this._handle.Target = null;
+					GCHandleFactory.ReturnHandle(this._handle);
 					this.Array2D = null;
 					this.Pointer = IntPtr.Zero;
 				}
@@ -128,5 +138,7 @@ namespace TaleWorlds.Library
 		}
 
 		private static IntPtr _unmanagedCache = Marshal.AllocHGlobal(16384);
+
+		private GCHandle _handle;
 	}
 }

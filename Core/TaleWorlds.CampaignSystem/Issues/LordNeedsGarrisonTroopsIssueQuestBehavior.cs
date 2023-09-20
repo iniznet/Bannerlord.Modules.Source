@@ -218,7 +218,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=ZuTvTGsh}These wars have taken a toll on my men. The bravest often fall first, they say, and fewer and fewer families are willing to let their sons join my banner. But the wars don't stop because I have problems.", null);
+					return new TextObject("{=ZuTvTGsh}These wars have taken a toll on my men. The bravest often fall first, they say, and fewer and fewer families are willing to let their sons join my banner. But the wars don't stop because I have problems.[if:convo_undecided_closed][ib:closed]", null);
 				}
 			}
 
@@ -236,7 +236,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=driH06vI}I need more recruits in {SETTLEMENT}'s garrison. Since I'll be elsewhere... maybe you can recruit {NUMBER_OF_TROOP_TO_BE_RECRUITED} {TROOP_TYPE} and bring them to the garrison for me?", null);
+					TextObject textObject = new TextObject("{=driH06vI}I need more recruits in {SETTLEMENT}'s garrison. Since I'll be elsewhere... maybe you can recruit {NUMBER_OF_TROOP_TO_BE_RECRUITED} {TROOP_TYPE} and bring them to the garrison for me?[if:convo_undecided_open][ib:normal]", null);
 					textObject.SetTextVariable("SETTLEMENT", this._settlement.Name);
 					textObject.SetTextVariable("TROOP_TYPE", this._neededTroopType.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("NUMBER_OF_TROOP_TO_BE_RECRUITED", this.NumberOfTroopToBeRecruited);
@@ -248,7 +248,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=igXcCqdo}One of your trusted companions who knows how to lead men can go around with {ALTERNATIVE_SOLUTION_MAN_COUNT} horsemen and pick some up. One way or the other I will pay {REWARD_GOLD}{GOLD_ICON} denars in return for your services. What do you say?", null);
+					TextObject textObject = new TextObject("{=igXcCqdo}One of your trusted companions who knows how to lead men can go around with {ALTERNATIVE_SOLUTION_MAN_COUNT} horsemen and pick some up. One way or the other I will pay {REWARD_GOLD}{GOLD_ICON} denars in return for your services. What do you say?[if:convo_thinking]", null);
 					textObject.SetTextVariable("ALTERNATIVE_SOLUTION_MAN_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("REWARD_GOLD", this.RewardGold);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -444,7 +444,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					flags |= IssueBase.PreconditionFlags.Relation;
 					relationHero = issueGiver;
 				}
-				if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader)
+				if (Hero.MainHero.IsKingdomLeader)
 				{
 					flags |= IssueBase.PreconditionFlags.MainHeroIsKingdomLeader;
 				}
@@ -456,6 +456,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -630,20 +634,20 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void SetDialogs()
 			{
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetGarrisonCommanderDialogFlow(), this);
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=9iZg4vpz}Thank you. You will be rewarded when you are done.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=9iZg4vpz}Thank you. You will be rewarded when you are done.[if:convo_mocking_aristocratic]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=o6BunhbE}Have you brought my troops?", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
+				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=o6BunhbE}Have you brought my troops?[if:convo_undecided_open]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += MapEventHelper.OnConversationEnd;
 					})
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=eC4laxrj}I'm still out recruiting.", null), null)
-					.NpcLine(new TextObject("{=TxxbCbUc}Good. I have faith in you...", null), null, null)
+					.NpcLine(new TextObject("{=TxxbCbUc}Good. I have faith in you...[if:convo_mocking_aristocratic]", null), null, null)
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=DbraLcwM}I need more time to find proper men.", null), null)
-					.NpcLine(new TextObject("{=Mw5bJ5Fb}Every day without a proper garrison is a day that we're vulnerable. Do hurry, if you can.", null), null, null)
+					.NpcLine(new TextObject("{=Mw5bJ5Fb}Every day without a proper garrison is a day that we're vulnerable. Do hurry, if you can.[if:convo_normal]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 			}
@@ -662,14 +666,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=ooHbl6JU}Here are your men.", null), null)
 					.ClickableCondition(new ConversationSentence.OnClickableConditionDelegate(this.PlayerGiveTroopsToGarrisonCommanderCondition))
-					.NpcLine(new TextObject("{=g8qb3Ame}Thank you.", null), null, null)
+					.NpcLine(new TextObject("{=Ouy4sN5b}Thank you.[if:convo_mocking_aristocratic]", null), null, null)
 					.Consequence(delegate
 					{
 						Campaign.Current.ConversationManager.ConversationEndOneShot += this.PlayerTransferredTroopsToGarrisonCommander;
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=G5tyQj6N}Not yet.", null), null)
-					.NpcLine(new TextObject("{=sjTpEzju}Very well. We'll keep waiting.", null), null, null)
+					.NpcLine(new TextObject("{=yPOZd1wb}Very well. We'll keep waiting.[if:convo_normal]", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 			}
@@ -722,7 +726,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void RegisterEvents()
 			{
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTick));
 				CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
@@ -737,7 +740,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			public void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
+			private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
 			{
 				if (settlement == this._settlement && this._settlement.OwnerClan != base.QuestGiver.Clan)
 				{
@@ -746,7 +749,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			public void OnHourlyTick()
+			protected override void HourlyTick()
 			{
 				if (base.IsOngoing)
 				{
@@ -778,7 +781,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questFailedWarDeclaredLogText);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questFailedWarDeclaredLogText, false);
 			}
 
 			protected override void OnTimedOut()

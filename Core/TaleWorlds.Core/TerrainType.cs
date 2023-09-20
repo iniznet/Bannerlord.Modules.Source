@@ -4,6 +4,7 @@ namespace TaleWorlds.Core
 {
 	public enum TerrainType
 	{
+		None = -1,
 		Water,
 		Mountain,
 		Snow,
@@ -15,7 +16,7 @@ namespace TaleWorlds.Core
 		Bridge,
 		River,
 		Forest,
-		ShallowRiver,
+		Fording,
 		Lake,
 		Canyon,
 		RuralArea

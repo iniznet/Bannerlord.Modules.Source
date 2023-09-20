@@ -258,6 +258,11 @@ namespace TaleWorlds.CampaignSystem
 			this.AddDialogs();
 		}
 
+		internal void HourlyTickWithQuestManager()
+		{
+			this.HourlyTick();
+		}
+
 		protected void AddTask(QuestTaskBase task)
 		{
 			this._taskList.Add(task);
@@ -311,7 +316,7 @@ namespace TaleWorlds.CampaignSystem
 				this._journalEntries.Remove(logToRemove);
 				return;
 			}
-			Debug.FailedAssert("Quest log requested to be removed cant be found.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestBase.cs", "RemoveLog", 274);
+			Debug.FailedAssert("Quest log requested to be removed cant be found.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\QuestBase.cs", "RemoveLog", 276);
 		}
 
 		protected void UpdateQuestTaskStage(JournalLog questLog, int currentProgress)
@@ -427,18 +432,18 @@ namespace TaleWorlds.CampaignSystem
 		public void AddGameMenu(string menuId, TextObject menuText, OnInitDelegate initDelegate, GameOverlays.MenuOverlayType overlay = GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags menuFlags = GameMenu.MenuFlags.None)
 		{
 			GameMenu gameMenu = new GameMenu(menuId);
-			gameMenu.Initialize(menuText, initDelegate, overlay, menuFlags, null);
+			gameMenu.Initialize(menuText, initDelegate, overlay, menuFlags, this);
 			Campaign.Current.GameMenuManager.AddGameMenu(gameMenu);
 		}
 
-		public void AddGameMenuOption(string menuId, string optionId, TextObject optionText, GameMenuOption.OnConditionDelegate condition, GameMenuOption.OnConsequenceDelegate consequence, bool Isleave = false, int index = -1, object relatedObject = null)
+		public void AddGameMenuOption(string menuId, string optionId, TextObject optionText, GameMenuOption.OnConditionDelegate condition, GameMenuOption.OnConsequenceDelegate consequence, bool Isleave = false, int index = -1)
 		{
 			GameMenu gameMenu = Campaign.Current.GameMenuManager.GetGameMenu(menuId);
 			if (gameMenu == null)
 			{
 				throw new KeyNotFoundException();
 			}
-			gameMenu.AddOption(optionId, optionText, condition, consequence, index, Isleave, false, relatedObject);
+			gameMenu.AddOption(optionId, optionText, condition, consequence, index, Isleave, false, this);
 		}
 
 		public void ChangeQuestDueTime(CampaignTime questDueTime)
@@ -447,6 +452,8 @@ namespace TaleWorlds.CampaignSystem
 		}
 
 		protected abstract void InitializeQuestOnGameLoad();
+
+		protected abstract void HourlyTick();
 
 		protected virtual void RegisterEvents()
 		{
@@ -507,7 +514,7 @@ namespace TaleWorlds.CampaignSystem
 
 		public virtual void OnHeroCanDieInfoIsRequested(Hero hero, KillCharacterAction.KillCharacterActionDetail causeOfDeath, ref bool result)
 		{
-			result = hero != this.QuestGiver;
+			result = !hero.IsNotable || hero != this.QuestGiver;
 		}
 
 		public virtual void OnHeroCanBecomePrisonerInfoIsRequested(Hero hero, ref bool result)

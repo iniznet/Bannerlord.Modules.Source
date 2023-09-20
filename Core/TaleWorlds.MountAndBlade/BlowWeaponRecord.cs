@@ -6,7 +6,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Blow_weapon_record")]
+	[EngineStruct("Blow_weapon_record", false)]
 	public struct BlowWeaponRecord
 	{
 		public void FillAsMeleeBlow(ItemObject item, WeaponComponentData weaponComponentData, int affectorWeaponSlot, sbyte weaponAttachBoneIndex)
@@ -241,7 +241,7 @@ namespace TaleWorlds.MountAndBlade
 						break;
 					default:
 						num = CombatSoundContainer.SoundCodeMissionCombatBluntMed;
-						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\BlowWeaponRecord.cs", "GetHitSound", 246);
+						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\BlowWeaponRecord.cs", "GetHitSound", 247);
 						break;
 					}
 				}
@@ -287,10 +287,11 @@ namespace TaleWorlds.MountAndBlade
 
 		public float Weight;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[CustomEngineStructMemberData(true)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _isMissile;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _isMaterialMetal;
 	}
 }

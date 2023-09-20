@@ -66,17 +66,17 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 
 		public abstract int GetInfluenceCostOfSupportingClan();
 
-		public abstract int GetInfluenceCostOfExpellingClan();
+		public abstract int GetInfluenceCostOfExpellingClan(Clan proposingClan);
 
-		public abstract int GetInfluenceCostOfProposingPeace();
+		public abstract int GetInfluenceCostOfProposingPeace(Clan proposingClan);
 
-		public abstract int GetInfluenceCostOfProposingWar(Kingdom proposingKingdom);
+		public abstract int GetInfluenceCostOfProposingWar(Clan proposingClan);
 
 		public abstract int GetInfluenceValueOfSupportingClan();
 
 		public abstract int GetRelationValueOfSupportingClan();
 
-		public abstract int GetInfluenceCostOfAnnexation(Kingdom proposingKingdom);
+		public abstract int GetInfluenceCostOfAnnexation(Clan proposingClan);
 
 		public abstract int GetInfluenceCostOfChangingLeaderOfArmy();
 
@@ -84,7 +84,7 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 
 		public abstract int GetRelationCostOfDisbandingArmy(bool isLeaderParty);
 
-		public abstract int GetInfluenceCostOfPolicyProposalAndDisavowal();
+		public abstract int GetInfluenceCostOfPolicyProposalAndDisavowal(Clan proposingClan);
 
 		public abstract int GetInfluenceCostOfAbandoningArmy();
 

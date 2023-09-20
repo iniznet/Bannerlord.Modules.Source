@@ -50,7 +50,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 			}
 			for (int i = Hero.MainHero.OwnedWorkshops.Count - 1; i >= 0; i--)
 			{
-				ChangeOwnerOfWorkshopAction.ApplyByDeath(Hero.MainHero.OwnedWorkshops[i], heir, null);
+				ChangeOwnerOfWorkshopAction.ApplyByDeath(Hero.MainHero.OwnedWorkshops[i], heir);
 			}
 			if (heir.PartyBelongedTo != MobileParty.MainParty)
 			{

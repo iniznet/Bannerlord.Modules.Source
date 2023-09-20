@@ -6,6 +6,8 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 {
 	public class GridWidget : Container
 	{
+		public GridLayout GridLayout { get; private set; }
+
 		[Editor(false)]
 		public float DefaultCellWidth
 		{
@@ -90,6 +92,40 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			}
 		}
 
+		[Editor(false)]
+		public bool UseDynamicCellWidth
+		{
+			get
+			{
+				return this._useDynamicCellWidth;
+			}
+			set
+			{
+				if (this._useDynamicCellWidth != value)
+				{
+					this._useDynamicCellWidth = value;
+					base.OnPropertyChanged(value, "UseDynamicCellWidth");
+				}
+			}
+		}
+
+		[Editor(false)]
+		public bool UseDynamicCellHeight
+		{
+			get
+			{
+				return this._useDynamicCellHeight;
+			}
+			set
+			{
+				if (this._useDynamicCellHeight != value)
+				{
+					this._useDynamicCellHeight = value;
+					base.OnPropertyChanged(value, "UseDynamicCellHeight");
+				}
+			}
+		}
+
 		public override Predicate<Widget> AcceptDropPredicate { get; set; }
 
 		public override bool IsDragHovering
@@ -103,9 +139,10 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 		public GridWidget(UIContext context)
 			: base(context)
 		{
-			base.LayoutImp = new GridLayout();
-			this.RowCount = 3;
-			this.ColumnCount = 3;
+			this.GridLayout = new GridLayout();
+			base.LayoutImp = this.GridLayout;
+			this.RowCount = -1;
+			this.ColumnCount = -1;
 		}
 
 		public override Vector2 GetDropGizmoPosition(Vector2 draggedWidgetPosition)
@@ -138,5 +175,13 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 		private int _rowCount;
 
 		private int _columnCount;
+
+		private bool _useDynamicCellWidth;
+
+		private bool _useDynamicCellHeight;
+
+		public const int DefaultRowCount = 3;
+
+		public const int DefaultColumnCount = 3;
 	}
 }

@@ -219,7 +219,7 @@ namespace TaleWorlds.MountAndBlade
 					}
 					else
 					{
-						Debug.FailedAssert("Language cannot be set!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\BannerlordConfig.cs", "Language", 351);
+						Debug.FailedAssert("Language cannot be set!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\BannerlordConfig.cs", "Language", 353);
 					}
 					MBTextManager.LocalizationDebugMode = NativeConfig.LocalizationDebugMode;
 				}
@@ -247,10 +247,13 @@ namespace TaleWorlds.MountAndBlade
 						BannerlordConfig._voiceLanguage = "English";
 						return;
 					}
-					Debug.FailedAssert("Voice Language cannot be set!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\BannerlordConfig.cs", "VoiceLanguage", 378);
+					Debug.FailedAssert("Voice Language cannot be set!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\BannerlordConfig.cs", "VoiceLanguage", 380);
 				}
 			}
 		}
+
+		[BannerlordConfig.ConfigPropertyUnbounded]
+		public static bool GyroOverrideForAttackDefend { get; set; } = false;
 
 		[BannerlordConfig.ConfigPropertyInt(new int[] { 0, 1, 2 }, false)]
 		public static int AttackDirectionControl { get; set; } = 1;
@@ -386,6 +389,9 @@ namespace TaleWorlds.MountAndBlade
 		[BannerlordConfig.ConfigPropertyUnbounded]
 		public static bool EnableVerticalAimCorrection { get; set; } = true;
 
+		[BannerlordConfig.ConfigPropertyUnbounded]
+		public static float ZoomSensitivityModifier { get; set; } = 0.66666f;
+
 		[BannerlordConfig.ConfigPropertyInt(new int[] { 0, 1 }, false)]
 		public static int CrosshairType { get; set; } = 0;
 
@@ -476,6 +482,8 @@ namespace TaleWorlds.MountAndBlade
 
 		public static double SiegeBattleSizeMultiplier = 0.8;
 
+		public const bool DefaultGyroOverrideForAttackDefend = false;
+
 		public const int DefaultAttackDirectionControl = 1;
 
 		public const int DefaultDefendDirectionControl = 0;
@@ -537,6 +545,8 @@ namespace TaleWorlds.MountAndBlade
 		public const bool DefaultEnableNetworkAlertIcons = true;
 
 		public const bool DefaultEnableVerticalAimCorrection = true;
+
+		public const float DefaultZoomSensitivityModifier = 0.66666f;
 
 		public const bool DefaultSingleplayerEnableChatBox = true;
 

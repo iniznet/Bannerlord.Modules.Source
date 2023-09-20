@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetRangedSiegeWeaponAmmo : GameNetworkMessage
 	{
-		public RangedSiegeWeapon RangedSiegeWeapon { get; private set; }
+		public MissionObjectId RangedSiegeWeaponId { get; private set; }
 
 		public int AmmoCount { get; private set; }
 
-		public SetRangedSiegeWeaponAmmo(RangedSiegeWeapon rangedSiegeWeapon, int ammoCount)
+		public SetRangedSiegeWeaponAmmo(MissionObjectId rangedSiegeWeaponId, int ammoCount)
 		{
-			this.RangedSiegeWeapon = rangedSiegeWeapon;
+			this.RangedSiegeWeaponId = rangedSiegeWeaponId;
 			this.AmmoCount = ammoCount;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.RangedSiegeWeapon = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as RangedSiegeWeapon;
+			this.RangedSiegeWeaponId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.AmmoCount = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.RangedSiegeWeapon);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.RangedSiegeWeaponId);
 			GameNetworkMessage.WriteIntToPacket(this.AmmoCount, CompressionMission.RangedSiegeWeaponAmmoCompressionInfo);
 		}
 
@@ -42,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set ammo left to: ",
-				this.AmmoCount,
-				" on RangedSiegeWeapon with ID: ",
-				this.RangedSiegeWeapon.Id,
-				" and name: ",
-				this.RangedSiegeWeapon.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Set ammo left to: ", this.AmmoCount, " on RangedSiegeWeapon with ID: ", this.RangedSiegeWeaponId });
 		}
 	}
 }

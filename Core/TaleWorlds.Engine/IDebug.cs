@@ -98,5 +98,8 @@ namespace TaleWorlds.Engine
 
 		[EngineMethod("is_test_mode", false)]
 		bool IsTestMode();
+
+		[EngineMethod("echo_command_window", false)]
+		void EchoCommandWindow(string content);
 	}
 }

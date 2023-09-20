@@ -20,7 +20,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 			this.DescriptionText = GameTexts.FindText("str_culture_description", this.Culture.StringId).ToString();
 			this.ShortenedNameText = GameTexts.FindText("str_culture_rich_name", this.Culture.StringId).ToString();
 			this.NameText = GameTexts.FindText("str_culture_rich_name", this.Culture.StringId).ToString();
-			this.CultureID = ((culture == null) ? "" : culture.StringId);
+			this.CultureID = ((culture != null) ? culture.StringId : null) ?? "";
+			this.CultureColor1 = Color.FromUint((culture != null) ? culture.Color : Color.White.ToUnsignedInteger());
 			this.Feats = new MBBindingList<CharacterCreationCultureFeatVM>();
 			foreach (FeatObject featObject in this.Culture.GetCulturalFeats((FeatObject x) => x.IsPositive))
 			{
@@ -50,6 +51,23 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 				{
 					this._cultureID = value;
 					base.OnPropertyChangedWithValue<string>(value, "CultureID");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public Color CultureColor1
+		{
+			get
+			{
+				return this._cultureColor1;
+			}
+			set
+			{
+				if (value != this._cultureColor1)
+				{
+					this._cultureColor1 = value;
+					base.OnPropertyChangedWithValue(value, "CultureColor1");
 				}
 			}
 		}
@@ -150,6 +168,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.CharacterCreation
 		private bool _isSelected;
 
 		private string _cultureID;
+
+		private Color _cultureColor1;
 
 		private MBBindingList<CharacterCreationCultureFeatVM> _feats;
 	}

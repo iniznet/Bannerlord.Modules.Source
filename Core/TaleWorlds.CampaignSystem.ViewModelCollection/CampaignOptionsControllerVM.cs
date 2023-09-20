@@ -27,6 +27,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				x.SetOnValueChangedCallback(new Action<CampaignOptionItemVM>(this.OnOptionChanged));
 			});
 			this._difficultyPresetRelatedOptions = this.Options.Where((CampaignOptionItemVM x) => x.OptionData.IsRelatedToDifficultyPreset()).ToList<CampaignOptionItemVM>();
+			this.UpdatePresetData(this._difficultyPresetRelatedOptions.FirstOrDefault<CampaignOptionItemVM>());
 		}
 
 		public override void OnFinalize()
@@ -46,7 +47,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 
 		private void UpdatePresetData(CampaignOptionItemVM changedOption)
 		{
-			if (this._isUpdatingPresetData)
+			if (this._isUpdatingPresetData || changedOption == null)
+			{
+				return;
+			}
+			CampaignOptionItemVM campaignOptionItemVM;
+			if (!this._optionItems.TryGetValue(this._difficultyPreset.GetIdentifier(), out campaignOptionItemVM))
 			{
 				return;
 			}
@@ -57,46 +63,35 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				{
 					while (enumerator.MoveNext())
 					{
-						CampaignOptionItemVM campaignOptionItemVM = enumerator.Current;
-						string identifier = campaignOptionItemVM.OptionData.GetIdentifier();
+						CampaignOptionItemVM campaignOptionItemVM2 = enumerator.Current;
+						string identifier = campaignOptionItemVM2.OptionData.GetIdentifier();
 						CampaignOptionsDifficultyPresets campaignOptionsDifficultyPresets = (CampaignOptionsDifficultyPresets)this._difficultyPreset.GetValue();
-						float valueFromDifficultyPreset = campaignOptionItemVM.OptionData.GetValueFromDifficultyPreset(campaignOptionsDifficultyPresets);
-						CampaignOptionItemVM campaignOptionItemVM2;
-						if (this._optionItems.TryGetValue(identifier, out campaignOptionItemVM2) && !campaignOptionItemVM2.IsDisabled)
+						float valueFromDifficultyPreset = campaignOptionItemVM2.OptionData.GetValueFromDifficultyPreset(campaignOptionsDifficultyPresets);
+						CampaignOptionItemVM campaignOptionItemVM3;
+						if (this._optionItems.TryGetValue(identifier, out campaignOptionItemVM3) && !campaignOptionItemVM3.IsDisabled)
 						{
-							campaignOptionItemVM2.SetValue(valueFromDifficultyPreset);
+							campaignOptionItemVM3.SetValue(valueFromDifficultyPreset);
 						}
 					}
-					goto IL_173;
+					goto IL_156;
 				}
 			}
-			CampaignOptionItemVM campaignOptionItemVM3;
-			if (this._difficultyPresetRelatedOptions.Any((CampaignOptionItemVM x) => x.OptionData.GetIdentifier() == changedOption.OptionData.GetIdentifier()) && this._optionItems.TryGetValue(this._difficultyPreset.GetIdentifier(), out campaignOptionItemVM3))
+			if (this._difficultyPresetRelatedOptions.Any((CampaignOptionItemVM x) => x.OptionData.GetIdentifier() == changedOption.OptionData.GetIdentifier()))
 			{
-				CampaignOptionsDifficultyPresets campaignOptionsDifficultyPresets2 = this.FindOptionPresetForValue(changedOption.OptionData);
+				CampaignOptionItemVM campaignOptionItemVM4 = this._difficultyPresetRelatedOptions[0];
+				CampaignOptionsDifficultyPresets campaignOptionsDifficultyPresets2 = this.FindOptionPresetForValue(campaignOptionItemVM4.OptionData);
 				bool flag = true;
-				if (campaignOptionsDifficultyPresets2 != CampaignOptionsDifficultyPresets.Custom)
+				for (int i = 0; i < this._difficultyPresetRelatedOptions.Count; i++)
 				{
-					for (int i = 0; i < this._difficultyPresetRelatedOptions.Count; i++)
+					if (this.FindOptionPresetForValue(this._difficultyPresetRelatedOptions[i].OptionData) != campaignOptionsDifficultyPresets2)
 					{
-						if (!this._difficultyPresetRelatedOptions[i].IsDisabled)
-						{
-							CampaignOptionsDifficultyPresets campaignOptionsDifficultyPresets3 = this.FindOptionPresetForValue(this._difficultyPresetRelatedOptions[i].OptionData);
-							if (campaignOptionsDifficultyPresets2 != campaignOptionsDifficultyPresets3)
-							{
-								campaignOptionItemVM3.SetValue(3f);
-								flag = false;
-								break;
-							}
-						}
+						flag = false;
+						break;
 					}
 				}
-				if (campaignOptionsDifficultyPresets2 != CampaignOptionsDifficultyPresets.Custom && flag)
-				{
-					campaignOptionItemVM3.SetValue((float)campaignOptionsDifficultyPresets2);
-				}
+				campaignOptionItemVM.SetValue(flag ? ((float)campaignOptionsDifficultyPresets2) : 3f);
 			}
-			IL_173:
+			IL_156:
 			this._isUpdatingPresetData = false;
 		}
 

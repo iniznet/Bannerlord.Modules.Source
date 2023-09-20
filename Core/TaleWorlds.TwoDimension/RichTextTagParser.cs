@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaleWorlds.Library;
 
 namespace TaleWorlds.TwoDimension
 {
@@ -134,7 +133,6 @@ namespace TaleWorlds.TwoDimension
 			}
 			if (num3 != 4)
 			{
-				Debug.FailedAssert("Couldn't parse the text. Just giving it back.", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.TwoDimension\\BitmapFont\\RichTextTagParser.cs", "Parse", 158);
 				richTextTag = new RichTextTag(text2);
 				richTextTagType = RichTextTagType.TextAfterError;
 			}

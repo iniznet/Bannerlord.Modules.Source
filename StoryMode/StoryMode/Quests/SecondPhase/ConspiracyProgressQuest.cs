@@ -5,6 +5,7 @@ using Helpers;
 using StoryMode.StoryModeObjects;
 using StoryMode.StoryModePhases;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.Localization;
 using TaleWorlds.SaveSystem;
 
@@ -28,6 +29,14 @@ namespace StoryMode.Quests.SecondPhase
 				StringHelpers.SetCharacterProperties("MENTOR", this._isImperialSide ? StoryModeHeroes.AntiImperialMentor.CharacterObject : StoryModeHeroes.ImperialMentor.CharacterObject, textObject, false);
 				textObject.SetTextVariable("KINGDOM_NAME", (Clan.PlayerClan.Kingdom != null) ? Clan.PlayerClan.Kingdom.Name : Clan.PlayerClan.Name);
 				return textObject;
+			}
+		}
+
+		private TextObject _questCanceledLogText
+		{
+			get
+			{
+				return new TextObject("{=tVlZTOst}You have chosen a different path.", null);
 			}
 		}
 
@@ -61,11 +70,25 @@ namespace StoryMode.Quests.SecondPhase
 			this.SetDialogs();
 		}
 
+		protected override void HourlyTick()
+		{
+		}
+
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.DailyTickEvent.AddNonSerializedListener(this, new Action(this.DailyTick));
 			CampaignEvents.OnQuestCompletedEvent.AddNonSerializedListener(this, new Action<QuestBase, QuestBase.QuestCompleteDetails>(this.OnQuestCompleted));
 			StoryModeEvents.OnConspiracyActivatedEvent.AddNonSerializedListener(this, new Action(this.OnConspiracyActivated));
+			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
+		}
+
+		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
+		{
+			if (clan == Clan.PlayerClan && oldKingdom == StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom)
+			{
+				base.CompleteQuestWithCancel(this._questCanceledLogText);
+				StoryModeManager.Current.MainStoryLine.CancelSecondAndThirdPhase();
+			}
 		}
 
 		protected override void OnStartQuest()

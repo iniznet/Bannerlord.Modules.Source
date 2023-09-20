@@ -49,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 		{
 			get
 			{
-				return "";
+				return "event:/ui/notification/settlement_owner_change";
 			}
 		}
 

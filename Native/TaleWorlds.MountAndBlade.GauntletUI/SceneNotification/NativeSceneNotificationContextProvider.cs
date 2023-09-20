@@ -7,11 +7,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 	{
 		public bool IsContextAllowed(SceneNotificationData.RelevantContextType relevantType)
 		{
-			if (relevantType != 1)
-			{
-				return relevantType != 3 || GameStateManager.Current.ActiveState is MissionState;
-			}
-			return GameStateManager.Current.ActiveState is LobbyState;
+			return relevantType != 3 || GameStateManager.Current.ActiveState is MissionState;
 		}
 	}
 }

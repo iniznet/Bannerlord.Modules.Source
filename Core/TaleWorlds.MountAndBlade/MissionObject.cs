@@ -131,6 +131,10 @@ namespace TaleWorlds.MountAndBlade
 		{
 		}
 
+		public virtual void OnMissionEnded()
+		{
+		}
+
 		protected internal virtual bool OnHit(Agent attackerAgent, int damage, Vec3 impactPosition, Vec3 impactDirection, in MissionWeapon weapon, ScriptComponentBehavior attackerScriptComponentBehavior, out bool reportDamage)
 		{
 			reportDamage = false;
@@ -215,23 +219,25 @@ namespace TaleWorlds.MountAndBlade
 			base.GameEntity.AddChild(missileEntity, false);
 		}
 
-		protected const int InsideNavMeshIdLocal = 1;
-
-		protected const int EnterNavMeshIdLocal = 2;
-
-		protected const int ExitNavMeshIdLocal = 3;
-
-		protected const int BlockerNavMeshIdLocal = 4;
-
-		protected const int ExtraNavMesh1IdLocal = 5;
-
-		protected const int ExtraNavMesh2IdLocal = 6;
-
-		protected const int ExtraNavMesh3IdLocal = 7;
+		public const int MaxNavMeshPerDynamicObject = 10;
 
 		[EditableScriptComponentVariable(true)]
 		protected string NavMeshPrefabName = "";
 
 		protected int DynamicNavmeshIdStart;
+
+		protected enum DynamicNavmeshLocalIds
+		{
+			Inside = 1,
+			Enter,
+			Exit,
+			Blocker,
+			Extra1,
+			Extra2,
+			Extra3,
+			Reserved1,
+			Reserved2,
+			Count
+		}
 	}
 }

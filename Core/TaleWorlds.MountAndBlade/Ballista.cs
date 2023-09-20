@@ -82,7 +82,7 @@ namespace TaleWorlds.MountAndBlade
 			this._missileInitialLocalFrame = base.Projectile.GameEntity.GetFrame();
 			base.PilotStandingPoint.AddComponent(new ClearHandInverseKinematicsOnStopUsageComponent());
 			this.MissileStartingPositionEntityForSimulation = base.Projectile.GameEntity.Parent.GetChildren().FirstOrDefault((GameEntity x) => x.Name == "projectile_leaving_position");
-			this.EnemyRangeToStopUsing = 5f;
+			this.EnemyRangeToStopUsing = 7f;
 			this.AttackClickWillReload = true;
 			this.WeaponNeedsClickToReload = true;
 			base.SetScriptComponentToTick(this.GetTickRequirement());
@@ -154,16 +154,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		protected override Vec3 VisualizationShootingDirection
-		{
-			get
-			{
-				Mat3 rotation = base.GameEntity.GetGlobalFrame().rotation;
-				rotation.RotateAboutSide(-this.VisualizeReleaseTrajectoryAngle);
-				return rotation.TransformToParent(new Vec3(0f, -1f, 0f, -1f));
-			}
-		}
-
 		protected override void HandleUserAiming(float dt)
 		{
 			if (base.PilotAgent == null)
@@ -178,15 +168,12 @@ namespace TaleWorlds.MountAndBlade
 			MatrixFrame ballistaNavelInitialFrame = this._ballistaNavelInitialFrame;
 			ballistaNavelInitialFrame.rotation.RotateAboutUp(this.currentDirection);
 			this.ballistaNavel.GameEntity.SetFrame(ref ballistaNavelInitialFrame);
-			this.ballistaNavel.GameEntity.RecomputeBoundingBox();
 			MatrixFrame matrixFrame = this._ballistaNavelInitialFrame.TransformToLocal(this._pilotInitialLocalFrame);
 			MatrixFrame matrixFrame2 = ballistaNavelInitialFrame.TransformToParent(matrixFrame);
 			base.PilotStandingPoint.GameEntity.SetFrame(ref matrixFrame2);
-			base.PilotStandingPoint.GameEntity.RecomputeBoundingBox();
 			MatrixFrame ballistaBodyInitialLocalFrame = this._ballistaBodyInitialLocalFrame;
 			ballistaBodyInitialLocalFrame.rotation.RotateAboutSide(-this.currentReleaseAngle + this._verticalOffsetAngle);
 			this.ballistaBody.GameEntity.SetFrame(ref ballistaBodyInitialLocalFrame);
-			this.ballistaBody.GameEntity.RecomputeBoundingBox();
 		}
 
 		protected override void ApplyCurrentDirectionToEntity()

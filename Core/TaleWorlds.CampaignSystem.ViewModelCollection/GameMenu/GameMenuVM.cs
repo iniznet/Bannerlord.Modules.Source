@@ -37,6 +37,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu
 			this.ItemList = new MBBindingList<GameMenuItemVM>();
 			this.ProgressItemList = new MBBindingList<GameMenuItemProgressVM>();
 			this._shortcutKeys = new Dictionary<GameMenuOption.LeaveType, GameKey>();
+			this._menuTextAttributeStrings = new Dictionary<string, string>();
+			this._menuTextAttributes = new Dictionary<string, object>();
 			this.Background = menuContext.CurrentBackgroundMeshName;
 			this.IsInSiegeMode = PlayerSiege.PlayerSiegeEvent != null;
 			Game.Current.EventManager.RegisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
@@ -144,8 +146,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu
 			if (this._requireContextTextUpdate)
 			{
 				this._menuText = this._gameMenuManager.GetMenuText(this.MenuContext);
-				this._menuTextAttributes = ((this._menuText.Attributes == null) ? null : new Dictionary<string, object>(this._menuText.Attributes));
 				this.ContextText = this._menuText.ToString();
+				this._menuTextAttributes.Clear();
+				this._menuTextAttributeStrings.Clear();
+				TextObject menuText = this._menuText;
+				if (((menuText != null) ? menuText.Attributes : null) != null)
+				{
+					foreach (KeyValuePair<string, object> keyValuePair in this._menuText.Attributes)
+					{
+						this._menuTextAttributes[keyValuePair.Key] = keyValuePair.Value;
+						this._menuTextAttributeStrings[keyValuePair.Key] = keyValuePair.Value.ToString();
+					}
+				}
 				this._requireContextTextUpdate = false;
 			}
 			foreach (GameMenuItemVM gameMenuItemVM in this.ItemList)
@@ -160,50 +172,53 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu
 			{
 				this.IsNight = Campaign.Current.IsNight;
 			}
-			this.CheckMenuTextChanged();
+			this._requireContextTextUpdate = this.IsMenuTextChanged();
 		}
 
-		private void CheckMenuTextChanged()
+		private bool IsMenuTextChanged()
 		{
-			if (this._menuTextAttributes != null && this._menuText.Attributes != null)
+			GameMenuManager gameMenuManager = this._gameMenuManager;
+			TextObject textObject = ((gameMenuManager != null) ? gameMenuManager.GetMenuText(this.MenuContext) : null);
+			if (this._menuText != textObject)
 			{
-				if (this._menuTextAttributes.Count != this._menuText.Attributes.Count)
+				return true;
+			}
+			int count = this._menuTextAttributes.Count;
+			TextObject menuText = this._menuText;
+			int? num;
+			if (menuText == null)
+			{
+				num = null;
+			}
+			else
+			{
+				Dictionary<string, object> attributes = menuText.Attributes;
+				num = ((attributes != null) ? new int?(attributes.Count) : null);
+			}
+			int? num2 = num;
+			if (!((count == num2.GetValueOrDefault()) & (num2 != null)))
+			{
+				return true;
+			}
+			foreach (string text in this._menuTextAttributes.Keys)
+			{
+				object obj = null;
+				object obj2 = this._menuTextAttributes[text];
+				TextObject menuText2 = this._menuText;
+				if (menuText2 == null || !menuText2.Attributes.TryGetValue(text, out obj))
 				{
-					this._requireContextTextUpdate = true;
-					return;
+					return true;
 				}
-				using (Dictionary<string, object>.KeyCollection.Enumerator enumerator = this._menuTextAttributes.Keys.GetEnumerator())
+				if (obj2 != obj)
 				{
-					while (enumerator.MoveNext())
-					{
-						string text = enumerator.Current;
-						if (!this._menuText.Attributes.ContainsKey(text))
-						{
-							this._requireContextTextUpdate = true;
-							break;
-						}
-						object obj = this._menuText.Attributes[text];
-						object obj2 = this._menuTextAttributes[text];
-						TextObject textObject;
-						TextObject textObject2;
-						if ((textObject = obj as TextObject) != null && (textObject2 = obj2 as TextObject) != null)
-						{
-							if (!textObject.Equals(textObject2))
-							{
-								this._requireContextTextUpdate = true;
-								break;
-							}
-						}
-						else if (!obj.Equals(obj2))
-						{
-							this._requireContextTextUpdate = true;
-							break;
-						}
-					}
-					return;
+					return true;
+				}
+				if (this._menuTextAttributeStrings[text] != obj.ToString())
+				{
+					return true;
 				}
 			}
-			this._requireContextTextUpdate = this._menuTextAttributes != this._menuText.Attributes;
+			return false;
 		}
 
 		public void UpdateMenuContext(MenuContext newMenuContext)
@@ -570,6 +585,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu
 		private GameMenuManager _gameMenuManager;
 
 		private Dictionary<GameMenuOption.LeaveType, GameKey> _shortcutKeys;
+
+		private Dictionary<string, string> _menuTextAttributeStrings;
 
 		private Dictionary<string, object> _menuTextAttributes;
 

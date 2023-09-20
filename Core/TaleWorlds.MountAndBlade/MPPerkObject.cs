@@ -123,7 +123,7 @@ namespace TaleWorlds.MountAndBlade
 					}
 					else
 					{
-						Debug.FailedAssert("Unknown child element", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Perks\\MPPerkObject.cs", ".ctor", 761);
+						Debug.FailedAssert("Unknown child element", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Network\\Gameplay\\Perks\\MPPerkObject.cs", ".ctor", 750);
 					}
 				}
 			}
@@ -633,23 +633,9 @@ namespace TaleWorlds.MountAndBlade
 			return num;
 		}
 
-		public float GetTroopCountMultiplier(bool isWarmup)
+		public int GetExtraTroopCount(bool isWarmup)
 		{
-			float num = 0f;
-			foreach (MPPerkEffectBase mpperkEffectBase in this._effects)
-			{
-				IOnSpawnPerkEffect onSpawnPerkEffect = mpperkEffectBase as IOnSpawnPerkEffect;
-				if (onSpawnPerkEffect != null && (!isWarmup || !mpperkEffectBase.IsDisabledInWarmup))
-				{
-					num += onSpawnPerkEffect.GetTroopCountMultiplier();
-				}
-			}
-			return num;
-		}
-
-		public float GetExtraTroopCount(bool isWarmup)
-		{
-			float num = 0f;
+			int num = 0;
 			foreach (MPPerkEffectBase mpperkEffectBase in this._effects)
 			{
 				IOnSpawnPerkEffect onSpawnPerkEffect = mpperkEffectBase as IOnSpawnPerkEffect;
@@ -933,15 +919,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public static int GetTroopCount(MultiplayerClassDivisions.MPHeroClass heroClass, MPPerkObject.MPOnSpawnPerkHandler onSpawnPerkHandler)
+		public static int GetTroopCount(MultiplayerClassDivisions.MPHeroClass heroClass, int botsPerFormation, MPPerkObject.MPOnSpawnPerkHandler onSpawnPerkHandler)
 		{
-			float num = (float)MathF.Ceiling((float)MultiplayerOptions.OptionType.NumberOfBotsPerFormation.GetIntValue(MultiplayerOptions.MultiplayerOptionsAccessMode.CurrentMapOptions) * heroClass.TroopMultiplier);
+			int num = MathF.Ceiling((float)botsPerFormation * heroClass.TroopMultiplier - 1E-05f);
 			if (onSpawnPerkHandler != null)
 			{
-				num *= 1f + onSpawnPerkHandler.GetTroopCountMultiplier();
-				num += onSpawnPerkHandler.GetExtraTroopCount();
+				num += (int)onSpawnPerkHandler.GetExtraTroopCount();
 			}
-			return MathF.Max(MathF.Ceiling(num), 1);
+			return MathF.Max(num, 1);
 		}
 
 		public static IReadOnlyPerkObject Deserialize(XmlNode node)
@@ -1246,24 +1231,16 @@ namespace TaleWorlds.MountAndBlade
 				this._perks = peer.SelectedPerks;
 			}
 
-			public float GetTroopCountMultiplier()
-			{
-				float num = 0f;
-				bool isWarmup = this.IsWarmup;
-				foreach (IReadOnlyPerkObject readOnlyPerkObject in this._perks)
-				{
-					num += readOnlyPerkObject.GetTroopCountMultiplier(isWarmup);
-				}
-				return num;
-			}
-
 			public float GetExtraTroopCount()
 			{
 				float num = 0f;
 				bool isWarmup = this.IsWarmup;
 				foreach (IReadOnlyPerkObject readOnlyPerkObject in this._perks)
 				{
-					num += readOnlyPerkObject.GetExtraTroopCount(isWarmup);
+					if (readOnlyPerkObject != null)
+					{
+						num += (float)readOnlyPerkObject.GetExtraTroopCount(isWarmup);
+					}
 				}
 				return num;
 			}
@@ -1274,7 +1251,10 @@ namespace TaleWorlds.MountAndBlade
 				bool isWarmup = this.IsWarmup;
 				foreach (IReadOnlyPerkObject readOnlyPerkObject in this._perks)
 				{
-					list = readOnlyPerkObject.GetAlternativeEquipments(isWarmup, isPlayer, list, false);
+					if (readOnlyPerkObject != null)
+					{
+						list = readOnlyPerkObject.GetAlternativeEquipments(isWarmup, isPlayer, list, false);
+					}
 				}
 				return list;
 			}
@@ -1285,7 +1265,10 @@ namespace TaleWorlds.MountAndBlade
 				bool isWarmup = this.IsWarmup;
 				foreach (IReadOnlyPerkObject readOnlyPerkObject in this._perks)
 				{
-					num += readOnlyPerkObject.GetDrivenPropertyBonusOnSpawn(isWarmup, isPlayer, drivenProperty, baseValue);
+					if (readOnlyPerkObject != null)
+					{
+						num += readOnlyPerkObject.GetDrivenPropertyBonusOnSpawn(isWarmup, isPlayer, drivenProperty, baseValue);
+					}
 				}
 				return num;
 			}

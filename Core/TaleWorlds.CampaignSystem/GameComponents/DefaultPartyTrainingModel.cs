@@ -116,7 +116,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		public override int GenerateSharedXp(CharacterObject troop, int xp, MobileParty mobileParty)
 		{
-			float num = (float)xp * 0.05f;
+			float num = (float)xp * DefaultPerks.Leadership.LeaderOfMasses.SecondaryBonus;
 			if (troop.IsHero && !mobileParty.HasPerk(DefaultPerks.Leadership.LeaderOfMasses, true))
 			{
 				return 0;

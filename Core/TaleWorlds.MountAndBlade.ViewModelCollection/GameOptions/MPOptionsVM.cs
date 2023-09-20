@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
@@ -35,10 +34,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 		{
 			bool flag = base.IsOptionsChanged();
 			base.OnDone();
-			foreach (GenericOptionDataVM genericOptionDataVM in this._groupedCategories.SelectMany((GroupedOptionCategoryVM c) => c.AllOptions).Concat(this._performanceOptionCategory.AllOptions))
-			{
-				genericOptionDataVM.ApplyValue();
-			}
 			InformationManager.DisplayMessage(new InformationMessage(flag ? this._changesAppliedTextObject.ToString() : this._noChangesMadeTextObject.ToString()));
 		}
 

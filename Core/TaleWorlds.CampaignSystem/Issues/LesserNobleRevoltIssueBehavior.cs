@@ -35,7 +35,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		private bool ConditionsHold(Hero issueGiver)
 		{
-			return issueGiver.IsLord && !issueGiver.IsFactionLeader && issueGiver.Clan != null && issueGiver.Clan.Fiefs.Count >= 3;
+			return issueGiver.IsLord && !issueGiver.IsFactionLeader && issueGiver.MapFaction.IsKingdomFaction && issueGiver.Clan != null && issueGiver.Clan.Fiefs.Count >= 3;
 		}
 
 		public void OnCheckForIssue(Hero hero)
@@ -147,7 +147,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=BbqzSmHG}Yes... As you know, the wars this realm has fought have been very costly. The great lords in particular are hard-put to raise the armies that are key to this land's defense. Some of us have proposed increasing the hearth taxes paid by the peasantry, which is a key source of revenue. I don't know if this law will be approved, but rumors of it have gotten out in my district, and a lot of the farmers are restless. Now, most of us are doing their part to keep a lid on things. But there's one, {MALE_LESSER_NOBLE_NAME}, who I am ashamed to say was once a {TOP_TIER_CAV_TITLE} under my banner, who's been going around the countryside, stirring up trouble. He's gathered a following and they have a whole list of demands, including a ban on new taxes, that would frankly cripple our realm's ability to raise the money needed to defend itself. I'd take care of him myself, but that wouldn't look good. Maybe you can help?", null);
+					TextObject textObject = new TextObject("{=BbqzSmHG}Yes... As you know, the wars this realm has fought have been very costly. The great lords in particular are hard-put to raise the armies that are key to this land's defense. Some of us have proposed increasing the hearth taxes paid by the peasantry, which is a key source of revenue. I don't know if this law will be approved, but rumors of it have gotten out in my district, and a lot of the farmers are restless. Now, most of us are doing their part to keep a lid on things. But there's one, {MALE_LESSER_NOBLE_NAME}, who I am ashamed to say was once a {TOP_TIER_CAV_TITLE} under my banner, who's been going around the countryside, stirring up trouble. He's gathered a following and they have a whole list of demands, including a ban on new taxes, that would frankly cripple our realm's ability to raise the money needed to defend itself. I'd take care of him myself, but that wouldn't look good. Maybe you can help?[if:convo_thinking][ib:closed2]", null);
 					textObject.SetTextVariable("MALE_LESSER_NOBLE_NAME", this._lesserNobleName);
 					textObject.SetTextVariable("TOP_TIER_CAV_TITLE", this.LesserNobleTitle);
 					return textObject;
@@ -166,7 +166,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=muFvSMrb}His band has been going about from village to village. Find him and stop him. You can tell him he's guilty of sedition, and if he doesn't disperse, then you can use force.", null);
+					return new TextObject("{=muFvSMrb}His band has been going about from village to village. Find him and stop him. You can tell him he's guilty of sedition, and if he doesn't disperse, then you can use force.[if:convo_thinking][ib:hip2]", null);
 				}
 			}
 
@@ -182,7 +182,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=bbXFwya1}Not that I can think of. But if you don't want to do it, you can nominate someone from your party. It's not going to be easy, though. Whoever you name should be a good leader and have a good knowledge of tactics, and should take along at least {ALTERNATIVE_SOLUTION_NEEDED_MAN_COUNT} men. I'm ready to pay {REWARD}{GOLD_ICON} for your service. And if it comes to a fight, you can take whatever loot you want as spoils of war.", null);
+					TextObject textObject = new TextObject("{=bbXFwya1}Not that I can think of. But if you don't want to do it, you can nominate someone from your party. It's not going to be easy, though. Whoever you name should be a good leader and have a good knowledge of tactics, and should take along at least {ALTERNATIVE_SOLUTION_NEEDED_MAN_COUNT} men. I'm ready to pay {REWARD}{GOLD_ICON} for your service. And if it comes to a fight, you can take whatever loot you want as spoils of war.[if:convo_thinking]", null);
 					textObject.SetTextVariable("ALTERNATIVE_SOLUTION_NEEDED_MAN_COUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("REWARD", this.RewardGold);
 					return textObject;
@@ -209,7 +209,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=yLqDHZv9}Thank you. I hope your men deal with them as soon as possible.", null);
+					return new TextObject("{=yLqDHZv9}Thank you.[if:convo_relaxed_happy] I hope your men deal with them as soon as possible.", null);
 				}
 			}
 
@@ -246,7 +246,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=xxZeGhqf}{MALE_LESSER_NOBLE_NAME}'s Revolt", null);
+					TextObject textObject = new TextObject("{=xxZeGhqf}{MALE_LESSER_NOBLE_NAME}{.o} Revolt", null);
 					textObject.SetTextVariable("MALE_LESSER_NOBLE_NAME", this._lesserNobleName);
 					return textObject;
 				}
@@ -308,7 +308,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			public override bool IssueStayAliveConditions()
 			{
-				return base.IssueOwner.Clan.Fiefs.Count >= 2;
+				return base.IssueOwner.Clan.Fiefs.Count >= 2 && base.IssueOwner.MapFaction.IsKingdomFaction;
 			}
 
 			protected override bool CanPlayerTakeQuestConditions(Hero issueGiver, out IssueBase.PreconditionFlags flag, out Hero relationHero, out SkillObject skill)
@@ -333,7 +333,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					flag |= IssueBase.PreconditionFlags.NotInSameFaction;
 				}
-				if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader)
+				if (Hero.MainHero.IsKingdomLeader)
 				{
 					flag |= IssueBase.PreconditionFlags.MainHeroIsKingdomLeader;
 				}
@@ -341,6 +341,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -591,6 +595,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
+			private TextObject GetQuestCanceledOnClanChangedKingdomLogText(Kingdom oldKingdom)
+			{
+				TextObject textObject = new TextObject("{=lHNgL7Xn}{QUEST_GIVER.LINK} has left {KINGDOM}. Your agreement with {?QUEST_GIVER.GENDER}her{?}him{\\?} has been canceled.", null);
+				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
+				textObject.SetTextVariable("KINGDOM", oldKingdom.Name);
+				return textObject;
+			}
+
 			public LesserNobleRevoltIssueQuest(string questId, Hero giverHero, CampaignTime duration, int rewardGold, TextObject lesserNobleName)
 				: base(questId, giverHero, duration, rewardGold)
 			{
@@ -656,10 +668,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private DialogFlow GetLesserNoblePartyDialogFlow()
 			{
-				TextObject textObject = new TextObject("{=0L79bLR5}Sedition? You have been misinformed. My men and I are loyal servants of {RULER_NAME_AND_TITLE}. We are simply going about informing the people that our {RULER_TITLE} is surrounded by bad advisers who wish to raise their taxes. We petition {RULER.NAME} to listen to {?RULER.GENDER}her{?}his{\\?} people and their needs.[ib:closed]", null);
+				TextObject textObject = new TextObject("{=0L79bLR5}Sedition? You have been misinformed. My men and I are loyal servants of {RULER_NAME_AND_TITLE}. We are simply going about informing the people that our {RULER_TITLE} is surrounded by bad advisers who wish to raise their taxes. We petition {RULER.NAME} to listen to {?RULER.GENDER}her{?}his{\\?} people and their needs.[if:convo_normal][ib:hip]", null);
 				textObject.SetTextVariable("RULER_NAME_AND_TITLE", GameTexts.FindText("str_faction_ruler_name_with_title", base.QuestGiver.Culture.StringId));
 				textObject.SetTextVariable("RULER_TITLE", GameTexts.FindText("str_faction_ruler", base.QuestGiver.Culture.StringId));
-				TextObject textObject2 = new TextObject("{=p14S00jq}Consequences? You would shed the blood of {RULER.NAME}'s loyal servants just for raising their voices against oppression?", null);
+				TextObject textObject2 = new TextObject("{=p14S00jq}Consequences? You would shed the blood of {RULER.NAME}'s loyal servants just for raising their voices against oppression?[if:convo_confused_normal][ib:closed]", null);
 				StringHelpers.SetCharacterProperties("RULER", base.QuestGiver.MapFaction.Leader.CharacterObject, null, false);
 				DialogFlow dialogFlow = DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=!}{MALE_LESSER_NOBLE_PARTY_START_LINE}", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.SetStartDialogOnCondition))
 					.PlayerLine(new TextObject("{=XkjRNMam}You have no right to go around, under arms, spreading sedition. Disperse!", null), null)
@@ -673,7 +685,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.NpcLine(textObject2, null, null)
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=GdC4yKiO}I will talk no more. Get ready to fight.", null), null)
-					.NpcLine(new TextObject("{=7VLmHrgC}The Heavens will grant victory to the just![ib:aggressive][if:convo_aggressive]", null), null, null)
+					.NpcLine(new TextObject("{=7VLmHrgC}The Heavens will grant victory to the just![ib:warrior][if:convo_contemptuous]", null), null, null)
 					.Consequence(delegate
 					{
 						EncounterManager.StartPartyEncounter(PartyBase.MainParty, this._lesserNobleParty.Party);
@@ -681,7 +693,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					})
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=RTNK5FSs}No, I don't want to shed your blood.", null), null)
-					.NpcLine(new TextObject("{=izzbaMUf}Wise decision.", null), null, null)
+					.NpcLine(new TextObject("{=izzbaMUf}Wise decision.[if:convo_undecided_closed][ib:normal]", null), null, null)
 					.GotoDialogState("start")
 					.EndPlayerOptions()
 					.PlayerOption("{=UTaXn4pb}Well, I have indeed been misinformed. You may go on your way...", null)
@@ -769,7 +781,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				PersuasionTask persuasionTask = new PersuasionTask(0)
 				{
-					FinalFailLine = new TextObject("{=W7c3BfIX}Thus always spoke the tyrant to the oppressed! We can only pray that the Heavens help the just. Now stay out of my way.", null),
+					FinalFailLine = new TextObject("{=W7c3BfIX}Thus always spoke the tyrant to the oppressed! We can only pray that the Heavens help the just. Now stay out of my way.[if:convo_undecided_closed][ib:closed]", null),
 					TryLaterLine = TextObject.Empty,
 					SpokenLine = new TextObject("{=wM77S68a}What's there to discuss?", null)
 				};
@@ -987,21 +999,21 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=YMGQYhvg}Thank you. {MALE_LESSER_NOBLE_NAME} is always on the move, so finding him might be tricky. But don't worry, I get regular reports from the landowners around here and I'll keep you updated on his movements...", null);
+				TextObject textObject = new TextObject("{=YMGQYhvg}Thank you. {MALE_LESSER_NOBLE_NAME} is always on the move, so finding him might be tricky. But don't worry, I get regular reports from the landowners around here and I'll keep you updated on his movements...[if:convo_undecided_closed]", null);
 				textObject.SetTextVariable("MALE_LESSER_NOBLE_NAME", this._lesserNobleName);
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(textObject, null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
-				TextObject textObject2 = new TextObject("{=ZpabPAtS}Have you put a stop to {MALE_LESSER_NOBLE_TITLE}{.s}?", null);
+				TextObject textObject2 = new TextObject("{=ZpabPAtS}Have you put a stop to {MALE_LESSER_NOBLE_TITLE}{.s}?[if:convo_undecided_open]", null);
 				textObject2.SetTextVariable("MALE_LESSER_NOBLE_TITLE", this.LesserNobleTitle);
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(textObject2, null, null).Condition(new ConversationSentence.OnConditionDelegate(this.DialogCondition))
 					.BeginPlayerOptions()
 					.PlayerOption(new TextObject("{=p8ye30mG}Yes, we know where he is. It's just a matter of time to catch them.", null), null)
-					.NpcLine(new TextObject("{=2L1bZdwh}Good. I count on you.", null), null, null)
+					.NpcLine(new TextObject("{=2L1bZdwh}Good. I count on you.[if:convo_relaxed_happy]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(MapEventHelper.OnConversationEnd))
 					.CloseDialog()
 					.PlayerOption(new TextObject("{=zjMqgbXz}We are working on it.", null), null)
-					.NpcLine(new TextObject("{=HRwb3qJZ}Very well. But every day he's out there spreading sedition make things more dangerous for all of us.", null), null, null)
+					.NpcLine(new TextObject("{=HRwb3qJZ}Very well. But every day he's out there spreading sedition make things more dangerous for all of us.[if:convo_undecided_closed]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(MapEventHelper.OnConversationEnd))
 					.CloseDialog()
 					.EndPlayerOptions();
@@ -1087,6 +1099,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			public override void OnFailed()
 			{
 				this.RelationshipChangeWithQuestGiver = -5;
+			}
+
+			protected override void HourlyTick()
+			{
 			}
 
 			protected override void RegisterEvents()
@@ -1236,12 +1252,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 				if (base.QuestGiver.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
 				{
 					base.CompleteQuestWithCancel(this.QuestCanceledWarDeclared);
+					return;
+				}
+				if (clan == base.QuestGiver.Clan)
+				{
+					base.CompleteQuestWithCancel(this.GetQuestCanceledOnClanChangedKingdomLogText(oldKingdom));
 				}
 			}
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclared);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.QuestCanceledWarDeclared, false);
 			}
 
 			protected override void OnFinalize()

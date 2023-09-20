@@ -5,23 +5,27 @@ namespace TaleWorlds.MountAndBlade.Diamond.Ranked
 	[Serializable]
 	public class RankBarInfo
 	{
-		public string RankId { get; private set; }
+		public string RankId { get; set; }
 
-		public string PreviousRankId { get; private set; }
+		public string PreviousRankId { get; set; }
 
-		public string NextRankId { get; private set; }
+		public string NextRankId { get; set; }
 
-		public float ProgressPercentage { get; private set; }
+		public float ProgressPercentage { get; set; }
 
-		public int Rating { get; private set; }
+		public int Rating { get; set; }
 
-		public int RatingToNextRank { get; private set; }
+		public int RatingToNextRank { get; set; }
 
-		public bool IsEvaluating { get; private set; }
+		public bool IsEvaluating { get; set; }
 
-		public int EvaluationMatchesPlayed { get; private set; }
+		public int EvaluationMatchesPlayed { get; set; }
 
-		public int TotalEvaluationMatchesRequired { get; private set; }
+		public int TotalEvaluationMatchesRequired { get; set; }
+
+		public RankBarInfo()
+		{
+		}
 
 		public RankBarInfo(string rankId, string previousRankId, string nextRankId, float progressPercentage, int rating, int ratingToNextRank, bool isEvaluating, int evaluationMatchesPlayed, int totalEvaluationMatchesRequired)
 		{

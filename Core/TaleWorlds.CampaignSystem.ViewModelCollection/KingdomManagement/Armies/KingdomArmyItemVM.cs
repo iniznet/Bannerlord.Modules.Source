@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -15,6 +14,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		{
 			this.Army = army;
 			this._onSelect = onSelect;
+			this._viewDataTracker = Campaign.Current.GetCampaignBehavior<IViewDataTracker>();
 			CampaignUIHelper.GetCharacterCode(army.ArmyOwner.CharacterObject, false);
 			this.Leader = new HeroVM(this.Army.LeaderParty.LeaderHero, false);
 			this.LordCount = army.Parties.Count;
@@ -59,14 +59,14 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		{
 			if (base.IsNew)
 			{
-				PlayerUpdateTracker.Current.OnArmyExamined(this.Army);
+				this._viewDataTracker.OnArmyExamined(this.Army);
 				this.UpdateIsNew();
 			}
 		}
 
 		private void UpdateIsNew()
 		{
-			base.IsNew = PlayerUpdateTracker.Current.UnExaminedArmies.Any((Army a) => a == this.Army);
+			base.IsNew = this._viewDataTracker.UnExaminedArmies.Any((Army a) => a == this.Army);
 		}
 
 		protected void ExecuteLink(string link)
@@ -244,9 +244,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			}
 		}
 
+		public readonly Army Army;
+
 		private readonly Action<KingdomArmyItemVM> _onSelect;
 
-		public readonly Army Army;
+		private readonly IViewDataTracker _viewDataTracker;
 
 		private HeroVM _leader;
 

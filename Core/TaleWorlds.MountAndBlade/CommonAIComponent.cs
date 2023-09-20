@@ -116,12 +116,26 @@ namespace TaleWorlds.MountAndBlade
 			this.Agent.Mission.OnAgentPanicked(this.Agent);
 		}
 
-		public void Retreat()
+		public void Retreat(bool useCachingSystem = false)
 		{
 			if (!this.IsRetreating)
 			{
 				this.IsRetreating = true;
-				this.Agent.Retreat(this.Agent.Mission.GetClosestFleePositionForAgent(this.Agent));
+				this.Agent.EnforceShieldUsage(Agent.UsageDirection.None);
+				WorldPosition worldPosition = WorldPosition.Invalid;
+				if (useCachingSystem)
+				{
+					worldPosition = this.Agent.Formation.RetreatPositionCache.GetRetreatPositionFromCache(this.Agent.Position.AsVec2);
+				}
+				if (!worldPosition.IsValid)
+				{
+					worldPosition = this.Agent.Mission.GetClosestFleePositionForAgent(this.Agent);
+					if (useCachingSystem)
+					{
+						this.Agent.Formation.RetreatPositionCache.AddNewPositionToCache(this.Agent.Position.AsVec2, worldPosition);
+					}
+				}
+				this.Agent.Retreat(worldPosition);
 			}
 		}
 
@@ -172,25 +186,54 @@ namespace TaleWorlds.MountAndBlade
 		public override void OnAgentRemoved()
 		{
 			base.OnAgentRemoved();
-			if (this.Agent.IsMount && this.Agent.RiderAgent == null && this.ReservedRiderAgentIndex >= 0)
+			if (this.Agent.IsMount && this.Agent.RiderAgent == null)
 			{
-				foreach (Agent agent in Mission.Current.Agents)
+				Agent agent = this.FindReservingAgent();
+				if (agent != null)
 				{
-					if (agent.Index == this.ReservedRiderAgentIndex)
-					{
-						agent.SetSelectedMountIndex(-1);
-						break;
-					}
+					agent.HumanAIComponent.UnreserveMount(this.Agent);
 				}
-				this.ReservedRiderAgentIndex = -1;
 			}
 		}
 
-		internal int OnMountSelectionForRiderUpdate(int index)
+		public override void OnComponentRemoved()
 		{
-			int reservedRiderAgentIndex = this.ReservedRiderAgentIndex;
-			this.ReservedRiderAgentIndex = index;
-			return reservedRiderAgentIndex;
+			base.OnComponentRemoved();
+			if (this.Agent.IsMount && this.Agent.RiderAgent == null)
+			{
+				Agent agent = this.FindReservingAgent();
+				if (agent != null)
+				{
+					agent.HumanAIComponent.UnreserveMount(this.Agent);
+				}
+			}
+		}
+
+		internal void OnMountReserved(int riderAgentIndex)
+		{
+			this.ReservedRiderAgentIndex = riderAgentIndex;
+		}
+
+		internal void OnMountUnreserved()
+		{
+			this.ReservedRiderAgentIndex = -1;
+		}
+
+		private Agent FindReservingAgent()
+		{
+			Agent agent = null;
+			if (this.ReservedRiderAgentIndex >= 0)
+			{
+				foreach (Agent agent2 in Mission.Current.Agents)
+				{
+					if (agent2.Index == this.ReservedRiderAgentIndex)
+					{
+						agent = agent2;
+						break;
+					}
+				}
+			}
+			return agent;
 		}
 
 		private const float MoraleThresholdForPanicking = 0.01f;

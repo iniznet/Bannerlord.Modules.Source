@@ -103,6 +103,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
+		public bool ContainsOrders { get; private set; }
+
 		internal OrderSetVM(OrderSetType orderSetType, Action<OrderItemVM, OrderSetType, bool> onExecution, bool isMultiplayer)
 		{
 			this.ContainsOrders = true;
@@ -131,15 +133,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		public override void RefreshValues()
 		{
 			base.RefreshValues();
-			if (this.TitleOrder != null)
+			OrderItemVM titleOrder = this.TitleOrder;
+			if (titleOrder != null)
 			{
-				this.TitleOrder.OnFinalize();
+				titleOrder.OnFinalize();
 			}
 			if (this.ContainsOrders)
 			{
-				this.TitleOrder = new OrderItemVM(this.OrderSetType, GameTexts.FindText("str_order_set_name", this.OrderSetType.ToString()), new Action<OrderItemVM, bool>(this.OnExecuteOrderSet));
-				this.TitleOrder.ShortcutKey = InputKeyItemVM.CreateFromGameKey(OrderSetVM.GetOrderGameKey(this.GetOrderIndexFromOrderSetType(this.OrderSetType)), false);
-				this.TitleOrder.IsTitle = true;
+				this.TitleOrder = new OrderItemVM(this.OrderSetType, GameTexts.FindText("str_order_set_name", this.OrderSetType.ToString()), new Action<OrderItemVM, bool>(this.OnExecuteOrderSet))
+				{
+					ShortcutKey = InputKeyItemVM.CreateFromGameKey(OrderSetVM.GetOrderGameKey(this.GetOrderIndexFromOrderSetType(this.OrderSetType)), false),
+					IsTitle = true
+				};
 				this.TitleText = GameTexts.FindText("str_order_set_name", this.OrderSetType.ToString()).ToString().Trim(new char[] { ' ' });
 			}
 			else
@@ -155,9 +160,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					textObject = GameTexts.FindText("str_order_name", this.OrderSubType.ToString());
 				}
 				this.TitleText = textObject.ToString();
-				this.TitleOrder = new OrderItemVM(this.OrderSubType, OrderSetType.None, textObject, new Action<OrderItemVM, bool>(this.OnExecuteOrderSet));
-				this.TitleOrder.IsTitle = true;
-				this.TitleOrder.ShortcutKey = InputKeyItemVM.CreateFromGameKey(OrderSetVM.GetOrderGameKey(this._index), false);
+				this.TitleOrder = new OrderItemVM(this.OrderSubType, OrderSetType.None, textObject, new Action<OrderItemVM, bool>(this.OnExecuteOrderSet))
+				{
+					IsTitle = true,
+					ShortcutKey = InputKeyItemVM.CreateFromGameKey(OrderSetVM.GetOrderGameKey(this._index), false)
+				};
 			}
 			MBTextManager.SetTextVariable("SHORTCUT", "", false);
 			if (this.ContainsOrders)
@@ -168,9 +175,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					orderItemVM.ShortcutKey.OnFinalize();
 				}
 				this.Orders.Clear();
-				int num = 0;
-				foreach (OrderSubType orderSubType in array)
+				for (int i = 0; i < array.Length; i++)
 				{
+					OrderSubType orderSubType = array[i];
 					TextObject textObject2;
 					if (this.OrderSetType == OrderSetType.Toggle)
 					{
@@ -188,9 +195,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					}
 					else
 					{
-						orderItemVM2.ShortcutKey = InputKeyItemVM.CreateFromGameKey(OrderSetVM.GetOrderGameKey(num), false);
+						orderItemVM2.ShortcutKey = InputKeyItemVM.CreateFromGameKey(OrderSetVM.GetOrderGameKey(i), false);
 					}
-					num++;
 				}
 			}
 		}
@@ -241,7 +247,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			case 8:
 				return HotKeyManager.GetCategory("MissionOrderHotkeyCategory").GetGameKey(76);
 			default:
-				Debug.FailedAssert("Invalid order game key index", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\OrderSetVM.cs", "GetOrderGameKey", 345);
+				Debug.FailedAssert("Invalid order game key index", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\OrderSetVM.cs", "GetOrderGameKey", 346);
 				return null;
 			}
 		}
@@ -251,7 +257,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.OnSetExecution(orderItem, this.OrderSetType, fromSelection);
 			if (fromSelection)
 			{
-				this.SelectedOrderText = orderItem.TooltipText;
+				this.SelectedOrderText = orderItem.MainTitle;
 			}
 		}
 
@@ -260,7 +266,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.OnSetExecution(orderItem, this.OrderSetType, fromSelection);
 			if (fromSelection)
 			{
-				this.SelectedOrderText = orderItem.TooltipText;
+				this.SelectedOrderText = orderItem.MainTitle;
 			}
 		}
 
@@ -311,7 +317,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			{
 				return this.TitleOrder;
 			}
-			Debug.FailedAssert("Couldn't find order item " + type.ToString(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\OrderSetVM.cs", "GetOrder", 441);
+			Debug.FailedAssert("Couldn't find order item " + type.ToString(), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\OrderSetVM.cs", "GetOrder", 442);
 			return null;
 		}
 
@@ -319,10 +325,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		{
 			if (this.OrderSetType != OrderSetType.Toggle)
 			{
-				this._selectedOrder = order.OrderSubType;
 				this.TitleOrder.OrderIconID = ((order.OrderSubType == OrderSubType.None) ? "MultipleSelection" : order.OrderIconID);
-				this.TitleOrder.TooltipText = ((order.OrderSubType == OrderSubType.None) ? GameTexts.FindText("str_order_set_name", this.OrderSetType.ToString()).ToString() : order.TooltipText);
-				this.SelectedOrderText = order.TooltipText;
+				this.TitleOrder.MainTitle = order.MainTitle;
+				this.SelectedOrderText = order.MainTitle;
 				return;
 			}
 			order.SetActiveState(true);
@@ -341,8 +346,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.TitleOrder.ShortcutKey.OnFinalize();
 			this.TitleOrderKey.OnFinalize();
 		}
-
-		public bool ContainsOrders { get; private set; }
 
 		[DataSourceProperty]
 		public bool CanUseShortcuts
@@ -468,17 +471,15 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
-		private Action<OrderItemVM, OrderSetType, bool> OnSetExecution;
-
-		internal OrderSetType OrderSetType = OrderSetType.None;
+		public OrderSetType OrderSetType = OrderSetType.None;
 
 		internal OrderSubType OrderSubType = OrderSubType.None;
 
-		private OrderSubType _selectedOrder = OrderSubType.None;
+		private readonly bool _isMultiplayer;
 
-		private bool _isMultiplayer;
+		private readonly int _index = -1;
 
-		private int _index = -1;
+		private readonly Action<OrderItemVM, OrderSetType, bool> OnSetExecution;
 
 		private bool _isToggleActivationOrder;
 

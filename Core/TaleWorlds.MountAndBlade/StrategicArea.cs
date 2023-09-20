@@ -157,6 +157,7 @@ namespace TaleWorlds.MountAndBlade
 				identity.OrthonormalizeAccordingToForwardAndKeepUpAsZAxis();
 				this._cachedWorldFrame = new WorldFrame(identity, this._centerPosition.Value);
 			}
+			agent.SetPreciseRangedAimingEnabled(true);
 		}
 
 		public void AddAgentAtSlotIndex(Agent agent, int slotIndex)
@@ -250,7 +251,7 @@ namespace TaleWorlds.MountAndBlade
 
 		void IDetachment.MarkSlotAtIndex(int slotIndex)
 		{
-			Debug.FailedAssert("This should never have been called because this detachment does not seek to replace moving agents.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\StrategicArea.cs", "MarkSlotAtIndex", 322);
+			Debug.FailedAssert("This should never have been called because this detachment does not seek to replace moving agents.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\StrategicArea.cs", "MarkSlotAtIndex", 323);
 		}
 
 		bool IDetachment.IsAgentUsingOrInterested(Agent agent)
@@ -292,7 +293,7 @@ namespace TaleWorlds.MountAndBlade
 
 		float IDetachment.GetExactCostOfAgentAtSlot(Agent candidate, int slotIndex)
 		{
-			Debug.FailedAssert("This should never have been called because this detachment does not seek to replace moving agents.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\StrategicArea.cs", "GetExactCostOfAgentAtSlot", 372);
+			Debug.FailedAssert("This should never have been called because this detachment does not seek to replace moving agents.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\StrategicArea.cs", "GetExactCostOfAgentAtSlot", 373);
 			return 0f;
 		}
 
@@ -357,6 +358,12 @@ namespace TaleWorlds.MountAndBlade
 		public void RemoveAgent(Agent agent)
 		{
 			this._agents.Remove(agent);
+			agent.SetPreciseRangedAimingEnabled(false);
+		}
+
+		public int GetNumberOfUsableSlots()
+		{
+			return this._capacity;
 		}
 
 		private Formation GetSimulationFormation(Formation formation)

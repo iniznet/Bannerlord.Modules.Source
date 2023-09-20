@@ -769,6 +769,16 @@ namespace TaleWorlds.Engine
 			return EngineApplicationInterface.IUtil.GetDetailedXBOXMemoryInfo();
 		}
 
+		public static void SetFrameLimiterWithSleep(bool value)
+		{
+			EngineApplicationInterface.IUtil.SetFrameLimiterWithSleep(value);
+		}
+
+		public static bool GetFrameLimiterWithSleep()
+		{
+			return EngineApplicationInterface.IUtil.GetFrameLimiterWithSleep();
+		}
+
 		public static int GetVertexBufferChunkSystemMemoryUsage()
 		{
 			return EngineApplicationInterface.IUtil.GetVertexBufferChunkSystemMemoryUsage();
@@ -812,6 +822,16 @@ namespace TaleWorlds.Engine
 		public static ulong GetCurrentThreadId()
 		{
 			return EngineApplicationInterface.IUtil.GetCurrentThreadId();
+		}
+
+		public static void SetWatchdogValue(string fileName, string groupName, string key, string value)
+		{
+			EngineApplicationInterface.IUtil.SetWatchdogValue(fileName, groupName, key, value);
+		}
+
+		public static void DetachWatchdog()
+		{
+			EngineApplicationInterface.IUtil.DetachWatchdog();
 		}
 
 		private static ConcurrentQueue<Utilities.MainThreadJob> jobs = new ConcurrentQueue<Utilities.MainThreadJob>();

@@ -13,7 +13,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			: base(closeQuery)
 		{
 			this.InquiryElements = new MBBindingList<InquiryElementVM>();
-			this.MaxSelectableOptionCount = -1;
+			this.MaxSelectableOptionCount = 0;
+			this.MinSelectableOptionCount = 0;
+			this._selectedOptionCount = 0;
 		}
 
 		public void SetData(MultiSelectionInquiryData data)
@@ -23,15 +25,44 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			foreach (InquiryElement inquiryElement in this._data.InquiryElements)
 			{
 				TextObject textObject = (string.IsNullOrEmpty(inquiryElement.Hint) ? TextObject.Empty : new TextObject("{=!}" + inquiryElement.Hint, null));
-				this.InquiryElements.Add(new InquiryElementVM(inquiryElement, textObject));
+				this.InquiryElements.Add(new InquiryElementVM(inquiryElement, textObject, new Action<InquiryElementVM, bool>(this.OnInquiryElementSelected)));
 			}
 			base.TitleText = this._data.TitleText;
 			base.PopUpLabel = this._data.DescriptionText;
 			this.MaxSelectableOptionCount = this._data.MaxSelectableOptionCount;
+			this.MinSelectableOptionCount = this._data.MinSelectableOptionCount;
 			base.ButtonOkLabel = this._data.AffirmativeText;
 			base.ButtonCancelLabel = this._data.NegativeText;
 			base.IsButtonOkShown = true;
 			base.IsButtonCancelShown = this._data.IsExitShown;
+			this.RefreshIsButtonOkEnabled();
+		}
+
+		private void OnInquiryElementSelected(InquiryElementVM elementVM, bool isSelected)
+		{
+			if (isSelected)
+			{
+				this._selectedOptionCount++;
+				if (this.MaxSelectableOptionCount != 1)
+				{
+					goto IL_5C;
+				}
+				using (IEnumerator<InquiryElementVM> enumerator = this.InquiryElements.GetEnumerator())
+				{
+					while (enumerator.MoveNext())
+					{
+						InquiryElementVM inquiryElementVM = enumerator.Current;
+						if (inquiryElementVM != elementVM)
+						{
+							inquiryElementVM.IsSelected = false;
+						}
+					}
+					goto IL_5C;
+				}
+			}
+			this._selectedOptionCount--;
+			IL_5C:
+			this.RefreshIsButtonOkEnabled();
 		}
 
 		public override void ExecuteAffirmativeAction()
@@ -65,7 +96,14 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 		{
 			base.OnClearData();
 			this._data = null;
-			this.MaxSelectableOptionCount = -1;
+			this.MaxSelectableOptionCount = 0;
+			this.MinSelectableOptionCount = 0;
+			this._selectedOptionCount = 0;
+		}
+
+		private void RefreshIsButtonOkEnabled()
+		{
+			base.IsButtonOkEnabled = (this.MaxSelectableOptionCount <= 0 || this._selectedOptionCount <= this.MaxSelectableOptionCount) && this._selectedOptionCount >= this.MinSelectableOptionCount;
 		}
 
 		[DataSourceProperty]
@@ -102,10 +140,31 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Inquiries
 			}
 		}
 
+		[DataSourceProperty]
+		public int MinSelectableOptionCount
+		{
+			get
+			{
+				return this._minSelectableOptionCount;
+			}
+			set
+			{
+				if (value != this._minSelectableOptionCount)
+				{
+					this._minSelectableOptionCount = value;
+					base.OnPropertyChangedWithValue(value, "MinSelectableOptionCount");
+				}
+			}
+		}
+
 		private MultiSelectionInquiryData _data;
+
+		private int _selectedOptionCount;
 
 		private MBBindingList<InquiryElementVM> _inquiryElements;
 
 		private int _maxSelectableOptionCount;
+
+		private int _minSelectableOptionCount;
 	}
 }

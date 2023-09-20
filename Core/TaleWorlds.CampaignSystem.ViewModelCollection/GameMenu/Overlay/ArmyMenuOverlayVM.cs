@@ -172,12 +172,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 		private void UpdateProperties()
 		{
 			MBTextManager.SetTextVariable("newline", "\n", false);
-			int num = this._army.LeaderParty.ItemRoster.TotalFood;
+			float num = this._army.LeaderParty.Food;
 			foreach (MobileParty mobileParty in this._army.LeaderParty.AttachedParties)
 			{
-				num += mobileParty.ItemRoster.TotalFood;
+				num += mobileParty.Food;
 			}
-			this.Food = num;
+			this.Food = (int)num;
 			this.Cohesion = (int)MobileParty.MainParty.Army.Cohesion;
 			this.ManCountText = CampaignUIHelper.GetPartyNameplateText(this._army.LeaderParty);
 			this.FoodHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetArmyFoodTooltip(this._army));

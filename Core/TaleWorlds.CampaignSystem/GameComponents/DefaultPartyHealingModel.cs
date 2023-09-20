@@ -38,9 +38,9 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		public override float GetSurvivalChance(PartyBase party, CharacterObject character, DamageTypes damageType, PartyBase enemyParty = null)
+		public override float GetSurvivalChance(PartyBase party, CharacterObject character, DamageTypes damageType, bool canDamageKillEvenIfBlunt, PartyBase enemyParty = null)
 		{
-			if (damageType == DamageTypes.Blunt || (character.IsHero && CampaignOptions.BattleDeath == CampaignOptions.Difficulty.VeryEasy) || (character.IsPlayerCharacter && CampaignOptions.BattleDeath == CampaignOptions.Difficulty.Easy))
+			if ((damageType == DamageTypes.Blunt && !canDamageKillEvenIfBlunt) || (character.IsHero && CampaignOptions.BattleDeath == CampaignOptions.Difficulty.VeryEasy) || (character.IsPlayerCharacter && CampaignOptions.BattleDeath == CampaignOptions.Difficulty.Easy))
 			{
 				return 1f;
 			}
@@ -165,7 +165,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 						PerkHelper.AddPerkBonusForParty(DefaultPerks.Medicine.GoodLogdings, party, true, ref explainedNumber);
 					}
 				}
-				else if (!party.IsMoving && party.LastVisitedSettlement != null && party.LastVisitedSettlement.IsVillage && party.LastVisitedSettlement.Position2D.DistanceSquared(party.Position2D) < 1f && !party.LastVisitedSettlement.IsUnderRaid && !party.LastVisitedSettlement.IsRaided)
+				else if (!party.IsMoving && party.LastVisitedSettlement != null && party.LastVisitedSettlement.IsVillage && party.LastVisitedSettlement.Position2D.DistanceSquared(party.Position2D) < 2f && !party.LastVisitedSettlement.IsUnderRaid && !party.LastVisitedSettlement.IsRaided)
 				{
 					PerkHelper.AddPerkBonusForParty(DefaultPerks.Medicine.BushDoctor, party, false, ref explainedNumber);
 				}
@@ -175,7 +175,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				}
 				if (party.ItemRoster.FoodVariety > 0 && party.HasPerk(DefaultPerks.Medicine.PerfectHealth, false))
 				{
-					explainedNumber.AddFactor((float)party.ItemRoster.FoodVariety * DefaultPerks.Medicine.PerfectHealth.PrimaryBonus / 100f, DefaultPerks.Medicine.PerfectHealth.Name);
+					explainedNumber.AddFactor((float)party.ItemRoster.FoodVariety * DefaultPerks.Medicine.PerfectHealth.PrimaryBonus, DefaultPerks.Medicine.PerfectHealth.Name);
 				}
 				if (party.HasPerk(DefaultPerks.Medicine.HelpingHands, false))
 				{
@@ -222,7 +222,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				}
 				PerkHelper.AddPerkBonusForParty(DefaultPerks.Medicine.GoodLogdings, party, true, ref explainedNumber);
 			}
-			else if (!party.IsMoving && party.LastVisitedSettlement != null && party.LastVisitedSettlement.IsVillage && party.LastVisitedSettlement.Position2D.DistanceSquared(party.Position2D) < 1f && !party.LastVisitedSettlement.IsUnderRaid && !party.LastVisitedSettlement.IsRaided)
+			else if (!party.IsMoving && party.LastVisitedSettlement != null && party.LastVisitedSettlement.IsVillage && party.LastVisitedSettlement.Position2D.DistanceSquared(party.Position2D) < 2f && !party.LastVisitedSettlement.IsUnderRaid && !party.LastVisitedSettlement.IsRaided)
 			{
 				PerkHelper.AddPerkBonusForParty(DefaultPerks.Medicine.BushDoctor, party, false, ref explainedNumber);
 			}

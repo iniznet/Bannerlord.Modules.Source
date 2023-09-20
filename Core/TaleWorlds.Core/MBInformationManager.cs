@@ -20,12 +20,12 @@ namespace TaleWorlds.Core
 
 		public static event Func<bool> IsAnySceneNotificationActive;
 
-		public static void AddQuickInformation(TextObject message, int priority = 0, BasicCharacterObject announcerCharacter = null, string soundEventPath = "")
+		public static void AddQuickInformation(TextObject message, int extraTimeInMs = 0, BasicCharacterObject announcerCharacter = null, string soundEventPath = "")
 		{
 			Action<string, int, BasicCharacterObject, string> firingQuickInformation = MBInformationManager.FiringQuickInformation;
 			if (firingQuickInformation != null)
 			{
-				firingQuickInformation(message.ToString(), priority, announcerCharacter, soundEventPath);
+				firingQuickInformation(message.ToString(), extraTimeInMs, announcerCharacter, soundEventPath);
 			}
 			Debug.Print(message.ToString(), 0, Debug.DebugColor.White, 1125899906842624UL);
 		}

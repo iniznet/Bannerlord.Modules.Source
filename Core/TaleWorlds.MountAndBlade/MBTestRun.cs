@@ -29,6 +29,16 @@ namespace TaleWorlds.MountAndBlade
 			return MBAPI.IMBTestRun.CloseScene();
 		}
 
+		public static bool SaveScene()
+		{
+			return false;
+		}
+
+		public static bool OpenDefaultScene()
+		{
+			return false;
+		}
+
 		public static int GetFPS()
 		{
 			return MBAPI.IMBTestRun.GetFPS();

@@ -1,21 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade.Diamond;
+using TaleWorlds.MountAndBlade.Diamond.Cosmetics;
+using TaleWorlds.MountAndBlade.Diamond.Cosmetics.CosmeticTypes;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 {
 	public class MissionMainAgentCheerBarkControllerVM : ViewModel
 	{
-		public MissionMainAgentCheerBarkControllerVM(Action<int> onSelectCheer, Action<int> onSelectBark, ActionIndexCache[] cheerActionArr, SkinVoiceManager.SkinVoiceType[] barkActionArr)
+		public MissionMainAgentCheerBarkControllerVM(Action<int> onSelectCheer, Action<int> onSelectBark)
 		{
 			this._onSelectCheer = onSelectCheer;
 			this._onSelectBark = onSelectBark;
-			this._cheerActionArr = cheerActionArr;
-			this._barkActionArr = barkActionArr;
 			this.Nodes = new MBBindingList<CheerBarkNodeItemVM>();
-			this.PopulateList();
+			if (GameNetwork.IsMultiplayer)
+			{
+				this._ownedTauntCosmetics = NetworkMain.GameClient.OwnedCosmetics.ToList<string>();
+				this.UpdatePlayerTauntIndices();
+			}
+			CheerBarkNodeItemVM.OnSelection += this.OnNodeFocused;
+			CheerBarkNodeItemVM.OnNodeFocused += this.OnNodeTooltipToggled;
+		}
+
+		public override void OnFinalize()
+		{
+			base.OnFinalize();
+			this.Nodes.ApplyActionOnAllItems(delegate(CheerBarkNodeItemVM n)
+			{
+				n.OnFinalize();
+			});
+			CheerBarkNodeItemVM.OnSelection -= this.OnNodeFocused;
+			CheerBarkNodeItemVM.OnNodeFocused -= this.OnNodeTooltipToggled;
 		}
 
 		private void PopulateList()
@@ -25,30 +44,69 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 			this.Nodes.Clear();
 			GameKeyContext category = HotKeyManager.GetCategory("CombatHotKeyCategory");
 			HotKey hotKey = category.GetHotKey("CheerBarkCloseMenu");
+			SkinVoiceManager.SkinVoiceType[] mpBarks = SkinVoiceManager.VoiceType.MpBarks;
 			if (isClient)
 			{
 				HotKey hotKey2 = category.GetHotKey("CheerBarkSelectFirstCategory");
-				CheerBarkNodeItemVM cheerBarkNodeItemVM = new CheerBarkNodeItemVM(new TextObject("{=PmbKYDON}Cheer", null), "cheer", hotKey2, null, false);
+				CheerBarkNodeItemVM cheerBarkNodeItemVM = new CheerBarkNodeItemVM(new TextObject("{=*}Taunt", null), "cheer", hotKey2, false, TauntUsageManager.TauntUsage.TauntUsageFlag.None);
 				this.Nodes.Add(cheerBarkNodeItemVM);
-				cheerBarkNodeItemVM.AddSubNode(new CheerBarkNodeItemVM(new TextObject("{=koX9okuG}None", null), "none", hotKey, new Action<CheerBarkNodeItemVM>(this.OnNodeFocused), true));
-				for (int i = 0; i < this._cheerActionArr.Length; i++)
+				TauntCosmeticElement[] array = new TauntCosmeticElement[TauntCosmeticElement.MaxNumberOfTaunts];
+				foreach (ValueTuple<string, int> valueTuple in this._playerTauntsWithIndices)
 				{
-					cheerBarkNodeItemVM.AddSubNode(new CheerBarkNodeItemVM(new TextObject("{=!}" + (i + 1).ToString(), null), "cheer" + i, this.GetCheerShortcut(i), new Action<CheerBarkNodeItemVM>(this.OnNodeFocused), true));
+					string item = valueTuple.Item1;
+					int item2 = valueTuple.Item2;
+					TauntCosmeticElement tauntCosmeticElement = CosmeticsManager.GetCosmeticElement(item) as TauntCosmeticElement;
+					if ((tauntCosmeticElement.IsFree || this._ownedTauntCosmetics.Contains(item)) && item2 >= 0 && item2 < TauntCosmeticElement.MaxNumberOfTaunts)
+					{
+						array[item2] = tauntCosmeticElement;
+					}
+				}
+				for (int i = 0; i < array.Length; i++)
+				{
+					TauntCosmeticElement tauntCosmeticElement2 = array[i];
+					if (tauntCosmeticElement2 != null)
+					{
+						int indexOfAction = TauntUsageManager.GetIndexOfAction(tauntCosmeticElement2.Id);
+						TauntUsageManager.TauntUsage.TauntUsageFlag actionNotUsableReason = CosmeticsManagerHelper.GetActionNotUsableReason(Agent.Main, indexOfAction);
+						cheerBarkNodeItemVM.AddSubNode(new CheerBarkNodeItemVM(tauntCosmeticElement2.Id, new TextObject("{=!}" + tauntCosmeticElement2.Name, null), tauntCosmeticElement2.Id, this.GetCheerShortcut(i), true, actionNotUsableReason));
+					}
+					else
+					{
+						cheerBarkNodeItemVM.AddSubNode(new CheerBarkNodeItemVM(string.Empty, TextObject.Empty, string.Empty, null, true, TauntUsageManager.TauntUsage.TauntUsageFlag.None));
+					}
 				}
 				HotKey hotKey3 = category.GetHotKey("CheerBarkSelectSecondCategory");
-				CheerBarkNodeItemVM cheerBarkNodeItemVM2 = new CheerBarkNodeItemVM(new TextObject("{=5Xoilj6r}Shout", null), "bark", hotKey3, null, false);
+				CheerBarkNodeItemVM cheerBarkNodeItemVM2 = new CheerBarkNodeItemVM(new TextObject("{=5Xoilj6r}Shout", null), "bark", hotKey3, false, TauntUsageManager.TauntUsage.TauntUsageFlag.None);
 				this.Nodes.Add(cheerBarkNodeItemVM2);
-				cheerBarkNodeItemVM2.AddSubNode(new CheerBarkNodeItemVM(new TextObject("{=koX9okuG}None", null), "none", hotKey, new Action<CheerBarkNodeItemVM>(this.OnNodeFocused), true));
-				for (int j = 0; j < this._barkActionArr.Length; j++)
+				cheerBarkNodeItemVM2.AddSubNode(new CheerBarkNodeItemVM(new TextObject("{=koX9okuG}None", null), "none", hotKey, true, TauntUsageManager.TauntUsage.TauntUsageFlag.None));
+				for (int j = 0; j < mpBarks.Length; j++)
 				{
-					cheerBarkNodeItemVM2.AddSubNode(new CheerBarkNodeItemVM(this._barkActionArr[j].GetName(), "bark" + j, this.GetCheerShortcut(j), new Action<CheerBarkNodeItemVM>(this.OnNodeFocused), true));
+					cheerBarkNodeItemVM2.AddSubNode(new CheerBarkNodeItemVM(mpBarks[j].GetName(), "bark" + j, this.GetCheerShortcut(j), true, TauntUsageManager.TauntUsage.TauntUsageFlag.None));
 				}
-				return;
 			}
-			this.Nodes.Add(new CheerBarkNodeItemVM(new TextObject("{=koX9okuG}None", null), "none", hotKey, new Action<CheerBarkNodeItemVM>(this.OnNodeFocused), true));
-			for (int k = 0; k < this._cheerActionArr.Length; k++)
+			else
 			{
-				this.Nodes.Add(new CheerBarkNodeItemVM(new TextObject("{=!}" + (k + 1).ToString(), null), "cheer" + k, this.GetCheerShortcut(k), new Action<CheerBarkNodeItemVM>(this.OnNodeFocused), true));
+				ActionIndexCache[] array2 = Agent.DefaultTauntActions.ToArray<ActionIndexCache>();
+				this.Nodes.Add(new CheerBarkNodeItemVM(new TextObject("{=koX9okuG}None", null), "none", hotKey, true, TauntUsageManager.TauntUsage.TauntUsageFlag.None));
+				for (int k = 0; k < array2.Length; k++)
+				{
+					this.Nodes.Add(new CheerBarkNodeItemVM(new TextObject("{=!}" + (k + 1).ToString(), null), array2[k].Name, this.GetCheerShortcut(k), true, TauntUsageManager.TauntUsage.TauntUsageFlag.None));
+				}
+			}
+			this.DisabledReasonText = string.Empty;
+		}
+
+		private async void UpdatePlayerTauntIndices()
+		{
+			LobbyClient gameClient = NetworkMain.GameClient;
+			if (((gameClient != null) ? gameClient.PlayerData : null) != null)
+			{
+				List<ValueTuple<string, int>> list = await TauntCosmeticElement.GetTauntIndicesForPlayerAsync(NetworkMain.GameClient.PlayerData.UserId.ToString());
+				this._playerTauntsWithIndices = list;
+			}
+			if (this._playerTauntsWithIndices == null)
+			{
+				this._playerTauntsWithIndices = new List<ValueTuple<string, int>>();
 			}
 		}
 
@@ -122,19 +180,45 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 						CheerBarkNodeItemVM cheerBarkNodeItemVM3 = cheerBarkNodeItemVM2;
 						if (cheerBarkNodeItemVM3 != null && cheerBarkNodeItemVM3.TypeAsString != "none")
 						{
-							Action<int> action = (flag ? this._onSelectBark : this._onSelectCheer);
-							if (action != null)
+							if (flag)
 							{
-								action(cheerBarkNodeItemVM.SubNodes.IndexOf(cheerBarkNodeItemVM3) - 1);
+								Action<int> onSelectBark = this._onSelectBark;
+								if (onSelectBark != null)
+								{
+									onSelectBark(cheerBarkNodeItemVM.SubNodes.IndexOf(cheerBarkNodeItemVM3) - 1);
+								}
+							}
+							else
+							{
+								int indexOfAction = TauntUsageManager.GetIndexOfAction(cheerBarkNodeItemVM3.TypeAsString);
+								Action<int> onSelectCheer = this._onSelectCheer;
+								if (onSelectCheer != null)
+								{
+									onSelectCheer(indexOfAction);
+								}
 							}
 						}
 					}
 					else if (cheerBarkNodeItemVM.TypeAsString != "none")
 					{
-						Action<int> onSelectCheer = this._onSelectCheer;
-						if (onSelectCheer != null)
+						int num = TauntUsageManager.GetIndexOfAction(cheerBarkNodeItemVM.TypeAsString);
+						if (num == -1)
 						{
-							onSelectCheer(this.Nodes.IndexOf(cheerBarkNodeItemVM) - 1);
+							ActionIndexCache[] defaultTauntActions = Agent.DefaultTauntActions;
+							for (int i = 0; i < defaultTauntActions.Length; i++)
+							{
+								string name = defaultTauntActions[i].Name;
+								if (cheerBarkNodeItemVM.TypeAsString == name)
+								{
+									num = i;
+									break;
+								}
+							}
+						}
+						Action<int> onSelectCheer2 = this._onSelectCheer;
+						if (onSelectCheer2 != null)
+						{
+							onSelectCheer2(num);
 						}
 					}
 				}
@@ -159,13 +243,14 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 			this.SelectedNodeText = text;
 		}
 
-		public override void OnFinalize()
+		public void OnNodeTooltipToggled(CheerBarkNodeItemVM node)
 		{
-			base.OnFinalize();
-			this.Nodes.ApplyActionOnAllItems(delegate(CheerBarkNodeItemVM n)
+			if (node != null && node.TauntUsageDisabledReason != TauntUsageManager.TauntUsage.TauntUsageFlag.None)
 			{
-				n.OnFinalize();
-			});
+				this.DisabledReasonText = TauntUsageManager.GetActionDisabledReasonText(node.TauntUsageDisabledReason);
+				return;
+			}
+			this.DisabledReasonText = string.Empty;
 		}
 
 		[DataSourceProperty]
@@ -181,6 +266,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 				{
 					this._isActive = value;
 					base.OnPropertyChangedWithValue(value, "IsActive");
+					if (this._isActive)
+					{
+						this.PopulateList();
+					}
 				}
 			}
 		}
@@ -215,6 +304,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 				{
 					this._focusedCheerText = value;
 					base.OnPropertyChangedWithValue<string>(value, "FocusedCheerText");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public string DisabledReasonText
+		{
+			get
+			{
+				return this._disabledReasonText;
+			}
+			set
+			{
+				if (value != this._disabledReasonText)
+				{
+					this._disabledReasonText = value;
+					base.OnPropertyChangedWithValue<string>(value, "DisabledReasonText");
 				}
 			}
 		}
@@ -280,13 +386,15 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.HUD
 
 		private readonly Action<int> _onSelectBark;
 
-		private readonly ActionIndexCache[] _cheerActionArr;
+		private List<string> _ownedTauntCosmetics;
 
-		private readonly SkinVoiceManager.SkinVoiceType[] _barkActionArr;
+		private List<ValueTuple<string, int>> _playerTauntsWithIndices;
 
 		private bool _isActive;
 
 		private bool _isNodesCategories;
+
+		private string _disabledReasonText;
 
 		private string _selectedNodeText;
 

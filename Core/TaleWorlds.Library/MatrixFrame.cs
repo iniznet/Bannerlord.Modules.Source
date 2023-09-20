@@ -37,6 +37,12 @@ namespace TaleWorlds.Library
 			return new Vec3(this.rotation.s.x * vec.x + this.rotation.s.y * vec.y + this.rotation.s.z * vec.z, this.rotation.f.x * vec.x + this.rotation.f.y * vec.y + this.rotation.f.z * vec.z, this.rotation.u.x * vec.x + this.rotation.u.y * vec.y + this.rotation.u.z * vec.z, -1f);
 		}
 
+		public Vec3 TransformToLocalNonUnit(Vec3 v)
+		{
+			Vec3 vec = v - this.origin;
+			return new Vec3(this.rotation.s.x * vec.x + this.rotation.s.y * vec.y + this.rotation.s.z * vec.z, this.rotation.f.x * vec.x + this.rotation.f.y * vec.y + this.rotation.f.z * vec.z, this.rotation.u.x * vec.x + this.rotation.u.y * vec.y + this.rotation.u.z * vec.z, -1f);
+		}
+
 		public bool NearlyEquals(MatrixFrame rhs, float epsilon = 1E-05f)
 		{
 			return this.rotation.NearlyEquals(rhs.rotation, epsilon) && this.origin.NearlyEquals(rhs.origin, epsilon);

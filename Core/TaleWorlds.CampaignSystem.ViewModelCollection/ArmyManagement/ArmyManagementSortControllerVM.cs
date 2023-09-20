@@ -6,7 +6,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 {
 	public class ArmyManagementSortControllerVM : ViewModel
 	{
-		public ArmyManagementSortControllerVM(ref MBBindingList<ArmyManagementItemVM> listToControl)
+		public ArmyManagementSortControllerVM(MBBindingList<ArmyManagementItemVM> listToControl)
 		{
 			this._listToControl = listToControl;
 			this._distanceComparer = new ArmyManagementSortControllerVM.ItemDistanceComparer();
@@ -19,7 +19,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 		public void ExecuteSortByDistance()
 		{
 			int distanceState = this.DistanceState;
-			this.SetAllStates(ArmyManagementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.DistanceState = (distanceState + 1) % 3;
 			if (this.DistanceState == 0)
 			{
@@ -34,7 +34,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 		public void ExecuteSortByCost()
 		{
 			int costState = this.CostState;
-			this.SetAllStates(ArmyManagementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.CostState = (costState + 1) % 3;
 			if (this.CostState == 0)
 			{
@@ -49,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 		public void ExecuteSortByStrength()
 		{
 			int strengthState = this.StrengthState;
-			this.SetAllStates(ArmyManagementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.StrengthState = (strengthState + 1) % 3;
 			if (this.StrengthState == 0)
 			{
@@ -64,7 +64,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 		public void ExecuteSortByName()
 		{
 			int nameState = this.NameState;
-			this.SetAllStates(ArmyManagementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.NameState = (nameState + 1) % 3;
 			if (this.NameState == 0)
 			{
@@ -79,7 +79,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 		public void ExecuteSortByClan()
 		{
 			int clanState = this.ClanState;
-			this.SetAllStates(ArmyManagementSortControllerVM.SortState.Default);
+			this.SetAllStates(CampaignUIHelper.SortState.Default);
 			this.ClanState = (clanState + 1) % 3;
 			if (this.ClanState == 0)
 			{
@@ -91,7 +91,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 			this.IsClanSelected = true;
 		}
 
-		private void SetAllStates(ArmyManagementSortControllerVM.SortState state)
+		private void SetAllStates(CampaignUIHelper.SortState state)
 		{
 			this.DistanceState = (int)state;
 			this.CostState = (int)state;
@@ -306,13 +306,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 		private bool _isDistanceSelected;
 
 		private bool _isClanSelected;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 
 		public abstract class ItemComparerBase : IComparer<ArmyManagementItemVM>
 		{

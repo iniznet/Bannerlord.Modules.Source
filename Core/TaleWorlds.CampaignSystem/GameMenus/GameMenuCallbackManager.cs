@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.GameMenus
@@ -61,10 +62,9 @@ namespace TaleWorlds.CampaignSystem.GameMenus
 
 		private void FillInitializationHandlerWith(Assembly assembly)
 		{
-			Type[] types = assembly.GetTypes();
-			for (int i = 0; i < types.Length; i++)
+			foreach (Type type in assembly.GetTypesSafe(null))
 			{
-				foreach (MethodInfo methodInfo in types[i].GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+				foreach (MethodInfo methodInfo in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 				{
 					object[] customAttributes = methodInfo.GetCustomAttributes(typeof(GameMenuInitializationHandler), false);
 					if (customAttributes != null && customAttributes.Length != 0)
@@ -99,10 +99,9 @@ namespace TaleWorlds.CampaignSystem.GameMenus
 
 		private void FillEventHandlersWith(Assembly assembly)
 		{
-			Type[] types = assembly.GetTypes();
-			for (int i = 0; i < types.Length; i++)
+			foreach (Type type in assembly.GetTypesSafe(null))
 			{
-				foreach (MethodInfo methodInfo in types[i].GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+				foreach (MethodInfo methodInfo in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
 				{
 					object[] customAttributes = methodInfo.GetCustomAttributes(typeof(GameMenuEventHandler), false);
 					if (customAttributes != null && customAttributes.Length != 0)

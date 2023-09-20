@@ -344,18 +344,36 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 
 		private void RefreshResultBar()
 		{
-			int num = 0;
-			int num2 = 0;
+			long num = 0L;
+			long num2 = 0L;
 			IFaction otherFaction = this.OtherFaction;
 			foreach (BarterItemVM barterItemVM in this.LeftOfferList)
 			{
-				num2 += barterItemVM.Barterable.GetValueForFaction(otherFaction);
+				int valueForFaction = barterItemVM.Barterable.GetValueForFaction(otherFaction);
+				if (valueForFaction < 0)
+				{
+					num2 += (long)valueForFaction;
+				}
+				else
+				{
+					num += (long)valueForFaction;
+				}
 			}
 			foreach (BarterItemVM barterItemVM2 in this.RightOfferList)
 			{
-				num += barterItemVM2.Barterable.GetValueForFaction(otherFaction);
+				int valueForFaction2 = barterItemVM2.Barterable.GetValueForFaction(otherFaction);
+				if (valueForFaction2 < 0)
+				{
+					num2 += (long)valueForFaction2;
+				}
+				else
+				{
+					num += (long)valueForFaction2;
+				}
 			}
-			this.ResultBarOtherPercentage = MathF.Round((float)MathF.Max(0, num) / (float)MathF.Max(1, -num2) * 100f);
+			double num3 = (double)MathF.Max(0f, (float)num);
+			double num4 = (double)MathF.Max(1f, (float)(-(float)num2));
+			this.ResultBarOtherPercentage = MathF.Round(num3 / num4 * 100.0);
 		}
 
 		private void ExecuteTransferAllGoldLeft()
@@ -490,7 +508,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Barter
 
 		private void RefreshOfferLabel()
 		{
-			this.OfferLbl = ((this.LeftOfferList.Count > 0) ? GameTexts.FindText("str_offer", null).ToString() : GameTexts.FindText("str_gift", null).ToString());
+			if (this.LeftOfferList.Any((BarterItemVM x) => x.Barterable.GetValueForFaction(this.OtherFaction) < 0) || this.RightOfferList.Any((BarterItemVM x) => x.Barterable.GetValueForFaction(this.OtherFaction) < 0))
+			{
+				this.OfferLbl = GameTexts.FindText("str_offer", null).ToString();
+				return;
+			}
+			this.OfferLbl = GameTexts.FindText("str_gift", null).ToString();
 		}
 
 		private void RefreshCompatibility(BarterItemVM lastTransferredItem, bool gotOffered)

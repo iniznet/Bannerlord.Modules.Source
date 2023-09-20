@@ -8,12 +8,48 @@ namespace TaleWorlds.MountAndBlade
 {
 	public class LadderQueueManager : MissionObject
 	{
-		public bool IsDeactivated { get; set; }
+		public bool IsDeactivated { get; private set; }
 
 		protected internal override void OnInit()
 		{
 			base.OnInit();
 			base.SetScriptComponentToTick(this.GetTickRequirement());
+		}
+
+		public void DeactivateImmediate()
+		{
+			this.IsDeactivated = true;
+			this._deactivationDelayTimerElapsed = true;
+		}
+
+		public void Deactivate()
+		{
+			this.IsDeactivated = true;
+			this._deactivateTimer.Reset(Mission.Current.CurrentTime, 10f);
+			int num = Math.Min(2, this._queuedAgentCount);
+			int num2 = 0;
+			int num3 = 0;
+			while (num3 < this._queuedAgents.Count && num > 0)
+			{
+				if (this._queuedAgents[num3] != null)
+				{
+					num2++;
+					if (num2 == num)
+					{
+						this.RemoveAgentFromQueueAtIndex(num3);
+						num--;
+						num3 = -1;
+						num2 = 0;
+					}
+				}
+				num3++;
+			}
+		}
+
+		public void Activate()
+		{
+			this.IsDeactivated = false;
+			this._deactivationDelayTimerElapsed = false;
 		}
 
 		public void Initialize(int managedNavigationFaceId, MatrixFrame managedFrame, Vec3 managedDirection, BattleSideEnum managedSide, int maxUserCount, float arcAngle, float queueBeginDistance, float queueRowSize, float costPerRow, float baseCost, bool blockUsage, float agentSpacing, float zDifferenceToStopUsing, float distanceToStopUsing2d, bool doesManageMultipleIDs, int managedNavigationFaceAlternateID1, int managedNavigationFaceAlternateID2, int maxClimberCount, int maxRunnerCount)
@@ -45,6 +81,7 @@ namespace TaleWorlds.MountAndBlade
 			this._maxClimberCount = maxClimberCount;
 			this._maxRunnerCount = maxRunnerCount;
 			this._lastUserCountPerLadder = new ValueTuple<int, bool>[3];
+			this._deactivateTimer = new Timer(0f, 0f, true);
 		}
 
 		public override ScriptComponentBehavior.TickRequirement GetTickRequirement()
@@ -71,7 +108,11 @@ namespace TaleWorlds.MountAndBlade
 
 		private void OnTickParallelAux(float dt)
 		{
-			if (this.IsDeactivated)
+			if (this.IsDeactivated && !this._deactivationDelayTimerElapsed && this._deactivateTimer.Check(Mission.Current.CurrentTime))
+			{
+				this._deactivationDelayTimerElapsed = true;
+			}
+			if (this._deactivationDelayTimerElapsed)
 			{
 				this._userAgents.Clear();
 				for (int i = 0; i < this._queuedAgents.Count; i++)
@@ -332,6 +373,7 @@ namespace TaleWorlds.MountAndBlade
 			base.OnMissionReset();
 			this._userAgents.Clear();
 			this.IsDeactivated = true;
+			this._deactivationDelayTimerElapsed = true;
 			this._queuedAgents.Clear();
 			this._queuedAgentCount = 0;
 		}
@@ -545,6 +587,12 @@ namespace TaleWorlds.MountAndBlade
 
 		public int ManagedNavigationFaceAlternateID2;
 
+		public float CostAddition;
+
+		private readonly List<Agent> _userAgents = new List<Agent>();
+
+		private readonly List<Agent> _queuedAgents = new List<Agent>();
+
 		private MatrixFrame _managedEntitialFrame;
 
 		private Vec2 _managedEntitialDirection;
@@ -561,13 +609,9 @@ namespace TaleWorlds.MountAndBlade
 
 		private bool _blockUsage;
 
-		private readonly List<Agent> _userAgents = new List<Agent>();
-
 		private int _maxUserCount;
 
 		private int _queuedAgentCount;
-
-		private readonly List<Agent> _queuedAgents = new List<Agent>();
 
 		private float _arcAngle = 2.3561945f;
 
@@ -597,7 +641,9 @@ namespace TaleWorlds.MountAndBlade
 
 		private int _maxRunnerCount = 6;
 
-		public float CostAddition;
+		private Timer _deactivateTimer;
+
+		private bool _deactivationDelayTimerElapsed = true;
 
 		private LadderQueueManager _neighborLadderQueueManager;
 

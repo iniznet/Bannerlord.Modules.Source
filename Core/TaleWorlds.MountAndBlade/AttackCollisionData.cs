@@ -5,7 +5,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Attack_collision_data")]
+	[EngineStruct("Attack_collision_data", false)]
 	public struct AttackCollisionData
 	{
 		public bool AttackBlockedWithShield
@@ -246,57 +246,63 @@ namespace TaleWorlds.MountAndBlade
 			return new AttackCollisionData(_attackBlockedWithShield, _correctSideShieldBlock, _isAlternativeAttack, _isColliderAgent, _collidedWithShieldOnBack, _isMissile, _isMissileBlockedWithWeapon, _missileHasPhysics, _entityExists, _thrustTipHit, _missileGoneUnderWater, _missileGoneOutOfBorder, collisionResult, affectorWeaponSlotOrMissileIndex, StrikeType, DamageType, CollisionBoneIndex, VictimHitBodyPart, AttackBoneIndex, AttackDirection, PhysicsMaterialIndex, CollisionHitResultFlags, AttackProgress, CollisionDistanceOnWeapon, AttackerStunPeriod, DefenderStunPeriod, MissileTotalDamage, MissileInitialSpeed, ChargeVelocity, FallSpeed, WeaponRotUp, _weaponBlowDir, CollisionGlobalPosition, MissileVelocity, MissileStartingPosition, VictimAgentCurVelocity, GroundNormal);
 		}
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _attackBlockedWithShield;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _correctSideShieldBlock;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _isAlternativeAttack;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _isColliderAgent;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _collidedWithShieldOnBack;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _isMissile;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _missileBlockedWithWeapon;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _missileHasPhysics;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _entityExists;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _thrustTipHit;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _missileGoneUnderWater;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[MarshalAs(UnmanagedType.U1)]
 		private bool _missileGoneOutOfBorder;
 
 		private int _collisionResult;
 
 		private Vec3 _weaponBlowDir;
 
+		[CustomEngineStructMemberData(true)]
 		public float BaseMagnitude;
 
+		[CustomEngineStructMemberData(true)]
 		public float MovementSpeedDamageModifier;
 
+		[CustomEngineStructMemberData(true)]
 		public int AbsorbedByArmor;
 
+		[CustomEngineStructMemberData(true)]
 		public int InflictedDamage;
 
+		[CustomEngineStructMemberData(true)]
 		public int SelfInflictedDamage;
 
-		[MarshalAs(UnmanagedType.I1)]
+		[CustomEngineStructMemberData(true)]
+		[MarshalAs(UnmanagedType.U1)]
 		public bool IsShieldBroken;
 	}
 }

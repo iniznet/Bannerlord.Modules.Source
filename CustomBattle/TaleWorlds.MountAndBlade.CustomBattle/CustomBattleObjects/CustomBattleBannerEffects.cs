@@ -21,11 +21,11 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattleObjects
 			}
 		}
 
-		public static BannerEffect IncreasedDamageAgainstMountedTroops
+		public static BannerEffect IncreasedMeleeDamageAgainstMountedTroops
 		{
 			get
 			{
-				return CustomBattleBannerEffects.Instance._increasedDamageAgainstMountedTroops;
+				return CustomBattleBannerEffects.Instance._increasedMeleeDamageAgainstMountedTroops;
 			}
 		}
 
@@ -109,7 +109,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattleObjects
 		private void RegisterAll()
 		{
 			this._increasedMeleeDamage = this.Create("IncreasedMeleeDamage");
-			this._increasedDamageAgainstMountedTroops = this.Create("IncreasedDamageAgainstMountedTroops");
+			this._increasedMeleeDamageAgainstMountedTroops = this.Create("IncreasedMeleeDamageAgainstMountedTroops");
 			this._increasedRangedDamage = this.Create("IncreasedRangedDamage");
 			this._increasedChargeDamage = this.Create("IncreasedChargeDamage");
 			this._decreasedRangedAccuracyPenalty = this.Create("DecreasedRangedAccuracyPenalty");
@@ -130,13 +130,13 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattleObjects
 		private void InitializeAll()
 		{
 			this._increasedMeleeDamage.Initialize("{=unaWKloT}Increased Melee Damage", "{=8ZNOgT8Z}{BONUS_AMOUNT}% melee damage to troops in your formation.", 0.05f, 0.1f, 0.15f, 1);
-			this._increasedDamageAgainstMountedTroops.Initialize("{=2bHoiaoe}Increased Damage Against Mounted Troops", "{=9RZLSV3E}{BONUS_AMOUNT}% damage by melee troops in your formation against cavalry.", 0.1f, 0.2f, 0.3f, 1);
+			this._increasedMeleeDamageAgainstMountedTroops.Initialize("{=2bHoiaoe}Increased Damage Against Mounted Troops", "{=9RZLSV3E}{BONUS_AMOUNT}% damage by melee troops in your formation against cavalry.", 0.1f, 0.2f, 0.3f, 1);
 			this._increasedRangedDamage.Initialize("{=Ch5NpCd0}Increased Ranged Damage", "{=labbKop6}{BONUS_AMOUNT}% ranged damage to troops in your formation.", 0.04f, 0.06f, 0.08f, 1);
 			this._decreasedRangedAccuracyPenalty.Initialize("{=MkBPRCuF}Decreased Ranged Accuracy Penalty", "{=m86oViPX}{BONUS_AMOUNT}% accuracy penalty for ranged troops in your formation.", -0.04f, -0.06f, -0.08f, 1);
 			this._increasedChargeDamage.Initialize("{=O2oBC9sH}Increased Charge Damage", "{=Z2xgnrDa}{BONUS_AMOUNT}% charge damage to mounted troops in your formation.", 0.1f, 0.2f, 0.3f, 1);
-			this._decreasedMoraleShock.Initialize("{=nOMT0Cw6}Decreased Morale Shock", "{=Lso8j7Iv}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.1f, -0.2f, -0.3f, 1);
+			this._decreasedMoraleShock.Initialize("{=nOMT0Cw6}Decreased Morale Shock", "{=W0agPHes}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.1f, -0.2f, -0.3f, 1);
 			this._decreasedMeleeAttackDamage.Initialize("{=a3Vc59WV}Decreased Taken Melee Attack Damage", "{=ORFrCYSn}{BONUS_AMOUNT}% damage by melee attacks to troops in your formation.", -0.05f, -0.1f, -0.15f, 1);
-			this._decreasedRangedAttackDamage.Initialize("{=p0JFbL7G}Decreased Taken Ranged Attack Damage", "{=q7NmR3AP}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.05f, -0.1f, -0.15f, 1);
+			this._decreasedRangedAttackDamage.Initialize("{=p0JFbL7G}Decreased Taken Ranged Attack Damage", "{=W0agPHes}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.05f, -0.1f, -0.15f, 1);
 			this._decreasedShieldDamage.Initialize("{=T79exjaP}Decreased Taken Shield Damage", "{=klGEDUmw}{BONUS_AMOUNT}% damage to shields of troops in your formation.", -0.15f, -0.25f, -0.3f, 1);
 			this._increasedTroopMovementSpeed.Initialize("{=PbJAOKKZ}Increased Troop Movement Speed", "{=nqWulUTP}{BONUS_AMOUNT}% movement speed to infantry in your formation.", 0.15f, 0.25f, 0.3f, 1);
 			this._increasedMountMovementSpeed.Initialize("{=nMfxbc0Y}Increased Mount Movement Speed", "{=g0l7W5xQ}{BONUS_AMOUNT}% movement speed to mounts in your formation.", 0.05f, 0.08f, 0.1f, 1);
@@ -144,7 +144,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle.CustomBattleObjects
 
 		private BannerEffect _increasedMeleeDamage;
 
-		private BannerEffect _increasedDamageAgainstMountedTroops;
+		private BannerEffect _increasedMeleeDamageAgainstMountedTroops;
 
 		private BannerEffect _increasedRangedDamage;
 

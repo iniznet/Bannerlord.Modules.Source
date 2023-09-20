@@ -49,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.Election
 
 		public override int GetProposalInfluenceCost()
 		{
-			return Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(base.Kingdom);
+			return Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfAnnexation(base.ProposerClan);
 		}
 
 		public override TextObject GetGeneralTitle()
@@ -287,6 +287,15 @@ namespace TaleWorlds.CampaignSystem.Election
 		public override DecisionOutcome GetQueriedDecisionOutcome(MBReadOnlyList<DecisionOutcome> possibleOutcomes)
 		{
 			return possibleOutcomes.FirstOrDefault((DecisionOutcome t) => ((SettlementClaimantPreliminaryDecision.SettlementClaimantPreliminaryOutcome)t).ShouldSettlementOwnerChange);
+		}
+
+		public override KingdomDecision GetFollowUpDecision()
+		{
+			return base.Kingdom.UnresolvedDecisions.FirstOrDefault(delegate(KingdomDecision x)
+			{
+				SettlementClaimantDecision settlementClaimantDecision;
+				return (settlementClaimantDecision = x as SettlementClaimantDecision) != null && settlementClaimantDecision.Settlement == this.Settlement;
+			});
 		}
 
 		[SaveableField(400)]

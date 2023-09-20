@@ -134,7 +134,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			baseDamage *= 1.25f;
 			MissionMultiplayerFlagDomination missionBehavior = Mission.Current.GetMissionBehavior<MissionMultiplayerFlagDomination>();
-			if (missionBehavior != null && missionBehavior.GetMissionType() == MissionLobbyComponent.MultiplayerGameType.Captain)
+			if (missionBehavior != null && missionBehavior.GetMissionType() == MultiplayerGameType.Captain)
 			{
 				return baseDamage * 0.5f;
 			}

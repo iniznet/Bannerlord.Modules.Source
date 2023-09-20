@@ -16,7 +16,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			if (hero != null)
 			{
-				if (perk == DefaultPerks.OneHanded.Trainer || perk == DefaultPerks.OneHanded.UnwaveringDefense || perk == DefaultPerks.TwoHanded.ThickHides || perk == DefaultPerks.Athletics.WellBuilt)
+				if (perk == DefaultPerks.OneHanded.Trainer || perk == DefaultPerks.OneHanded.UnwaveringDefense || perk == DefaultPerks.TwoHanded.ThickHides || perk == DefaultPerks.Athletics.WellBuilt || perk == DefaultPerks.Medicine.PreventiveMedicine)
 				{
 					hero.HitPoints += (int)perk.PrimaryBonus;
 				}

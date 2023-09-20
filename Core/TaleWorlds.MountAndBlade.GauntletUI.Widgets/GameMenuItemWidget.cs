@@ -180,11 +180,93 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			case 39:
 				text = "SiegeAmbush";
 				break;
+			case 40:
+				text = "Warehouse";
+				break;
 			}
 			if (!string.IsNullOrEmpty(text) && type != 0)
 			{
 				this.LeaveTypeIcon.SetState(text);
 				this.LeaveTypeIcon.IsVisible = true;
+			}
+		}
+
+		private void SetLeaveTypeSound()
+		{
+			ButtonWidget parentButton = this.ParentButton;
+			AudioProperty audioProperty = ((parentButton != null) ? parentButton.Brush.SoundProperties.GetEventAudioProperty("Click") : null);
+			if (audioProperty != null)
+			{
+				audioProperty.AudioName = "default";
+				int leaveType = this.LeaveType;
+				if (leaveType <= 12)
+				{
+					if (leaveType != 1)
+					{
+						if (leaveType != 9)
+						{
+							if (leaveType != 12)
+							{
+								return;
+							}
+							if (this.GameMenuStringId == "encounter")
+							{
+								if (this.BattleSize < 50)
+								{
+									audioProperty.AudioName = "panels/battle/attack_small";
+									return;
+								}
+								if (this.BattleSize < 100)
+								{
+									audioProperty.AudioName = "panels/battle/attack_medium";
+									return;
+								}
+								audioProperty.AudioName = "panels/battle/attack_large";
+								return;
+							}
+						}
+						else if (this.GameMenuStringId == "encounter" || this.GameMenuStringId == "encounter_interrupted_siege_preparations" || this.GameMenuStringId == "menu_siege_strategies")
+						{
+							audioProperty.AudioName = "panels/battle/retreat";
+							return;
+						}
+					}
+					else if (this.GameMenuStringId == "menu_siege_strategies")
+					{
+						audioProperty.AudioName = "panels/siege/sally_out";
+						return;
+					}
+				}
+				else if (leaveType <= 25)
+				{
+					if (leaveType != 21)
+					{
+						if (leaveType - 24 > 1)
+						{
+							return;
+						}
+						audioProperty.AudioName = "panels/siege/raid";
+						return;
+					}
+					else if (this.GameMenuStringId == "encounter")
+					{
+						audioProperty.AudioName = "panels/battle/retreat";
+						return;
+					}
+				}
+				else
+				{
+					if (leaveType == 34)
+					{
+						audioProperty.AudioName = "panels/siege/besiege";
+						return;
+					}
+					if (leaveType != 36)
+					{
+						return;
+					}
+					audioProperty.AudioName = "panels/siege/lead_assault";
+				}
 			}
 		}
 
@@ -281,6 +363,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 					this._leaveType = value;
 					base.OnPropertyChanged(value, "LeaveType");
 					this.SetLeaveTypeIcon(value);
+					this.SetLeaveTypeSound();
 				}
 			}
 		}
@@ -418,6 +501,40 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 			}
 		}
 
+		public string GameMenuStringId
+		{
+			get
+			{
+				return this._gameMenuStringId;
+			}
+			set
+			{
+				if (value != this._gameMenuStringId)
+				{
+					this._gameMenuStringId = value;
+					base.OnPropertyChanged<string>(value, "GameMenuStringId");
+					this.SetLeaveTypeSound();
+				}
+			}
+		}
+
+		public int BattleSize
+		{
+			get
+			{
+				return this._battleSize;
+			}
+			set
+			{
+				if (value != this._battleSize)
+				{
+					this._battleSize = value;
+					base.OnPropertyChanged(value, "BattleSize");
+					this.SetLeaveTypeSound();
+				}
+			}
+		}
+
 		public Action OnOptionStateChanged;
 
 		private string _latestTextWidgetState = "";
@@ -445,5 +562,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets
 		private BrushWidget _issueIconWidget;
 
 		private ButtonWidget _parentButton;
+
+		private string _gameMenuStringId;
+
+		private int _battleSize;
 	}
 }

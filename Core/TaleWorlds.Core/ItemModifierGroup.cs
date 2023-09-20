@@ -46,6 +46,7 @@ namespace TaleWorlds.Core
 			base.Deserialize(objectManager, node);
 			this.NoModifierLootScore = XmlHelper.ReadInt(node, "no_modifier_loot_score");
 			this.NoModifierProductionScore = XmlHelper.ReadInt(node, "no_modifier_production_score");
+			this.InitializeDropScoreLists();
 		}
 
 		public void AddItemModifier(ItemModifier itemModifier)
@@ -65,14 +66,29 @@ namespace TaleWorlds.Core
 
 		private ItemModifier GetRandomItemModifier(bool useLootScores)
 		{
-			List<ValueTuple<ItemModifier, float>> list = (from modifier in this.ItemModifiers
-				let score = useLootScores ? modifier.LootDropScore : modifier.ProductionDropScore
-				select new ValueTuple<ItemModifier, float>(modifier, score)).ToList<ValueTuple<ItemModifier, float>>();
-			ValueTuple<ItemModifier, float> valueTuple = new ValueTuple<ItemModifier, float>(null, (float)(useLootScores ? this.NoModifierLootScore : this.NoModifierProductionScore));
-			list.Add(valueTuple);
-			return MBRandom.ChooseWeighted<ItemModifier>(list);
+			return MBRandom.ChooseWeighted<ItemModifier>(useLootScores ? this._lootDropItemModifierScores : this._productionDropItemModifierScores);
+		}
+
+		public List<ItemModifier> GetModifiersBasedOnQuality(ItemQuality quality)
+		{
+			return this.ItemModifiers.Where((ItemModifier modifier) => modifier.ItemQuality == quality).ToList<ItemModifier>();
+		}
+
+		private void InitializeDropScoreLists()
+		{
+			foreach (ItemModifier itemModifier in this._itemModifiers)
+			{
+				this._lootDropItemModifierScores.Add(new ValueTuple<ItemModifier, float>(itemModifier, itemModifier.LootDropScore));
+				this._productionDropItemModifierScores.Add(new ValueTuple<ItemModifier, float>(itemModifier, itemModifier.ProductionDropScore));
+			}
+			this._lootDropItemModifierScores.Add(new ValueTuple<ItemModifier, float>(null, (float)this.NoModifierLootScore));
+			this._productionDropItemModifierScores.Add(new ValueTuple<ItemModifier, float>(null, (float)this.NoModifierProductionScore));
 		}
 
 		private readonly MBList<ItemModifier> _itemModifiers = new MBList<ItemModifier>();
+
+		private readonly MBList<ValueTuple<ItemModifier, float>> _lootDropItemModifierScores = new MBList<ValueTuple<ItemModifier, float>>();
+
+		private readonly MBList<ValueTuple<ItemModifier, float>> _productionDropItemModifierScores = new MBList<ValueTuple<ItemModifier, float>>();
 	}
 }

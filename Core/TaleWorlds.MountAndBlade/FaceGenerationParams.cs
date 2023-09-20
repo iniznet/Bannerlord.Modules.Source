@@ -6,49 +6,49 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Face_generation_params")]
+	[EngineStruct("Face_generation_params", false)]
 	public struct FaceGenerationParams
 	{
 		public static FaceGenerationParams Create()
 		{
 			FaceGenerationParams faceGenerationParams;
-			faceGenerationParams.seed_ = 0;
-			faceGenerationParams._curBeard = 0;
-			faceGenerationParams._currentHair = 0;
-			faceGenerationParams._curEyebrow = 0;
-			faceGenerationParams._isHairFlipped = false;
-			faceGenerationParams._currentRace = 0;
-			faceGenerationParams._currentGender = 0;
-			faceGenerationParams._curFaceTexture = 0;
-			faceGenerationParams._curMouthTexture = 0;
-			faceGenerationParams._curFaceTattoo = 0;
-			faceGenerationParams._currentVoice = 0;
-			faceGenerationParams.hair_filter_ = 0;
-			faceGenerationParams.beard_filter_ = 0;
-			faceGenerationParams.tattoo_filter_ = 0;
-			faceGenerationParams.face_texture_filter_ = 0;
-			faceGenerationParams._tattooZeroProbability = 0f;
+			faceGenerationParams.Seed = 0;
+			faceGenerationParams.CurrentBeard = 0;
+			faceGenerationParams.CurrentHair = 0;
+			faceGenerationParams.CurrentEyebrow = 0;
+			faceGenerationParams.IsHairFlipped = false;
+			faceGenerationParams.CurrentRace = 0;
+			faceGenerationParams.CurrentGender = 0;
+			faceGenerationParams.CurrentFaceTexture = 0;
+			faceGenerationParams.CurrentMouthTexture = 0;
+			faceGenerationParams.CurrentFaceTattoo = 0;
+			faceGenerationParams.CurrentVoice = 0;
+			faceGenerationParams.HairFilter = 0;
+			faceGenerationParams.BeardFilter = 0;
+			faceGenerationParams.TattooFilter = 0;
+			faceGenerationParams.FaceTextureFilter = 0;
+			faceGenerationParams.TattooZeroProbability = 0f;
 			faceGenerationParams.KeyWeights = new float[320];
-			faceGenerationParams._curAge = 0f;
-			faceGenerationParams._curWeight = 0f;
-			faceGenerationParams._curBuild = 0f;
-			faceGenerationParams._curSkinColorOffset = 0f;
-			faceGenerationParams._curHairColorOffset = 0f;
-			faceGenerationParams._curEyeColorOffset = 0f;
-			faceGenerationParams.face_dirt_amount_ = 0f;
-			faceGenerationParams._curFaceTattooColorOffset1 = 0f;
-			faceGenerationParams._heightMultiplier = 0f;
-			faceGenerationParams._voicePitch = 0f;
-			faceGenerationParams._useCache = false;
-			faceGenerationParams._useGpuMorph = false;
-			faceGenerationParams._padding2 = false;
+			faceGenerationParams.CurrentAge = 0f;
+			faceGenerationParams.CurrentWeight = 0f;
+			faceGenerationParams.CurrentBuild = 0f;
+			faceGenerationParams.CurrentSkinColorOffset = 0f;
+			faceGenerationParams.CurrentHairColorOffset = 0f;
+			faceGenerationParams.CurrentEyeColorOffset = 0f;
+			faceGenerationParams.FaceDirtAmount = 0f;
+			faceGenerationParams.CurrentFaceTattooColorOffset1 = 0f;
+			faceGenerationParams.HeightMultiplier = 0f;
+			faceGenerationParams.VoicePitch = 0f;
+			faceGenerationParams.UseCache = false;
+			faceGenerationParams.UseGpuMorph = false;
+			faceGenerationParams.Padding2 = false;
 			return faceGenerationParams;
 		}
 
 		public void SetRaceGenderAndAdjustParams(int race, int gender, int curAge)
 		{
-			this._currentGender = gender;
-			this._currentRace = race;
+			this.CurrentGender = gender;
+			this.CurrentRace = race;
 			int num = 0;
 			int num2 = 0;
 			int num3 = 0;
@@ -58,14 +58,14 @@ namespace TaleWorlds.MountAndBlade
 			int num7 = 0;
 			float num8 = 0f;
 			MBBodyProperties.GetParamsMax(race, gender, curAge, ref num, ref num2, ref num3, ref num4, ref num7, ref num6, ref num5, ref num8);
-			this._currentHair = MBMath.ClampInt(this._currentHair, 0, num - 1);
-			this._curBeard = MBMath.ClampInt(this._curBeard, 0, num2 - 1);
-			this._curFaceTexture = MBMath.ClampInt(this._curFaceTexture, 0, num3 - 1);
-			this._curMouthTexture = MBMath.ClampInt(this._curMouthTexture, 0, num4 - 1);
-			this._curFaceTattoo = MBMath.ClampInt(this._curFaceTattoo, 0, num7 - 1);
-			this._currentVoice = MBMath.ClampInt(this._currentVoice, 0, num6 - 1);
-			this._voicePitch = MBMath.ClampFloat(this._voicePitch, 0f, 1f);
-			this._curEyebrow = MBMath.ClampInt(this._curEyebrow, 0, num5 - 1);
+			this.CurrentHair = MBMath.ClampInt(this.CurrentHair, 0, num - 1);
+			this.CurrentBeard = MBMath.ClampInt(this.CurrentBeard, 0, num2 - 1);
+			this.CurrentFaceTexture = MBMath.ClampInt(this.CurrentFaceTexture, 0, num3 - 1);
+			this.CurrentMouthTexture = MBMath.ClampInt(this.CurrentMouthTexture, 0, num4 - 1);
+			this.CurrentFaceTattoo = MBMath.ClampInt(this.CurrentFaceTattoo, 0, num7 - 1);
+			this.CurrentVoice = MBMath.ClampInt(this.CurrentVoice, 0, num6 - 1);
+			this.VoicePitch = MBMath.ClampFloat(this.VoicePitch, 0f, 1f);
+			this.CurrentEyebrow = MBMath.ClampInt(this.CurrentEyebrow, 0, num5 - 1);
 		}
 
 		public void SetRandomParamsExceptKeys(int race, int gender, int minAge, out float scale)
@@ -79,84 +79,85 @@ namespace TaleWorlds.MountAndBlade
 			int num7 = 0;
 			scale = 0f;
 			MBBodyProperties.GetParamsMax(race, gender, minAge, ref num, ref num2, ref num3, ref num4, ref num7, ref num6, ref num5, ref scale);
-			this._currentHair = MBRandom.RandomInt(num);
-			this._curBeard = MBRandom.RandomInt(num2);
-			this._curFaceTexture = MBRandom.RandomInt(num3);
-			this._curMouthTexture = MBRandom.RandomInt(num4);
-			this._curFaceTattoo = MBRandom.RandomInt(num7);
-			this._currentVoice = MBRandom.RandomInt(num6);
-			this._voicePitch = MBRandom.RandomFloat;
-			this._curEyebrow = MBRandom.RandomInt(num5);
-			this._curSkinColorOffset = MBRandom.RandomFloat;
-			this._curHairColorOffset = MBRandom.RandomFloat;
-			this._curEyeColorOffset = MBRandom.RandomFloat;
-			this._curFaceTattooColorOffset1 = MBRandom.RandomFloat;
-			this._heightMultiplier = MBRandom.RandomFloat;
+			this.CurrentHair = MBRandom.RandomInt(num);
+			this.CurrentBeard = MBRandom.RandomInt(num2);
+			this.CurrentFaceTexture = MBRandom.RandomInt(num3);
+			this.CurrentMouthTexture = MBRandom.RandomInt(num4);
+			this.CurrentFaceTattoo = MBRandom.RandomInt(num7);
+			this.CurrentVoice = MBRandom.RandomInt(num6);
+			this.VoicePitch = MBRandom.RandomFloat;
+			this.CurrentEyebrow = MBRandom.RandomInt(num5);
+			this.CurrentSkinColorOffset = MBRandom.RandomFloat;
+			this.CurrentHairColorOffset = MBRandom.RandomFloat;
+			this.CurrentEyeColorOffset = MBRandom.RandomFloat;
+			this.CurrentFaceTattooColorOffset1 = MBRandom.RandomFloat;
+			this.HeightMultiplier = MBRandom.RandomFloat;
 		}
 
-		public int seed_;
+		public int Seed;
 
-		public int _curBeard;
+		public int CurrentBeard;
 
-		public int _currentHair;
+		public int CurrentHair;
 
-		public int _curEyebrow;
+		public int CurrentEyebrow;
 
-		public int _currentRace;
+		public int CurrentRace;
 
-		public int _currentGender;
+		public int CurrentGender;
 
-		public int _curFaceTexture;
+		public int CurrentFaceTexture;
 
-		public int _curMouthTexture;
+		public int CurrentMouthTexture;
 
-		public int _curFaceTattoo;
+		public int CurrentFaceTattoo;
 
-		public int _currentVoice;
+		public int CurrentVoice;
 
-		public int hair_filter_;
+		public int HairFilter;
 
-		public int beard_filter_;
+		public int BeardFilter;
 
-		public int tattoo_filter_;
+		public int TattooFilter;
 
-		public int face_texture_filter_;
+		public int FaceTextureFilter;
 
-		public float _tattooZeroProbability;
+		public float TattooZeroProbability;
 
 		[MarshalAs(UnmanagedType.ByValArray, SizeConst = 320)]
 		public float[] KeyWeights;
 
-		public float _curAge;
+		public float CurrentAge;
 
-		public float _curWeight;
+		public float CurrentWeight;
 
-		public float _curBuild;
+		public float CurrentBuild;
 
-		public float _curSkinColorOffset;
+		public float CurrentSkinColorOffset;
 
-		public float _curHairColorOffset;
+		public float CurrentHairColorOffset;
 
-		public float _curEyeColorOffset;
+		public float CurrentEyeColorOffset;
 
-		public float face_dirt_amount_;
+		public float FaceDirtAmount;
 
-		public float _curFaceTattooColorOffset1;
+		[CustomEngineStructMemberData("current_face_tattoo_color_offset_1")]
+		public float CurrentFaceTattooColorOffset1;
 
-		public float _heightMultiplier;
+		public float HeightMultiplier;
 
-		public float _voicePitch;
+		public float VoicePitch;
 
-		[MarshalAs(UnmanagedType.I1)]
-		public bool _isHairFlipped;
+		[MarshalAs(UnmanagedType.U1)]
+		public bool IsHairFlipped;
 
-		[MarshalAs(UnmanagedType.I1)]
-		public bool _useCache;
+		[MarshalAs(UnmanagedType.U1)]
+		public bool UseCache;
 
-		[MarshalAs(UnmanagedType.I1)]
-		public bool _useGpuMorph;
+		[MarshalAs(UnmanagedType.U1)]
+		public bool UseGpuMorph;
 
-		[MarshalAs(UnmanagedType.I1)]
-		public bool _padding2;
+		[MarshalAs(UnmanagedType.U1)]
+		public bool Padding2;
 	}
 }

@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using StoryMode.Quests.SecondPhase;
 using StoryMode.Quests.SecondPhase.ConspiracyQuests;
-using StoryMode.StoryModeObjects;
 using StoryMode.StoryModePhases;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
-using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
@@ -118,44 +115,6 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 				}
 			}
 			return false;
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("start_conspiracy_quest_destroy_raiders", "storymode")]
-		public static string StartDestroyRaidersConspiracyQuest(List<string> strings)
-		{
-			string text;
-			if (StoryModeCheats.CheckGameMode(out text))
-			{
-				return text;
-			}
-			string text2 = "";
-			if (!CampaignCheats.CheckCheatUsage(ref text2))
-			{
-				return text2;
-			}
-			new DestroyRaidersConspiracyQuest("cheat_quest", StoryModeHeroes.ImperialMentor).StartQuest();
-			return "success";
-		}
-
-		[CommandLineFunctionality.CommandLineArgumentFunction("start_next_second_phase_quest", "storymode")]
-		public static string SecondPhaseStartNextQuest(List<string> strings)
-		{
-			string text;
-			if (StoryModeCheats.CheckGameMode(out text))
-			{
-				return text;
-			}
-			string text2 = "";
-			if (!CampaignCheats.CheckCheatUsage(ref text2))
-			{
-				return text2;
-			}
-			if (SecondPhase.Instance != null)
-			{
-				SecondPhase.Instance.CreateNextConspiracyQuest();
-				return "success";
-			}
-			return "Second phase not found";
 		}
 
 		private int _conspiracyQuestTriggerDayCounter;

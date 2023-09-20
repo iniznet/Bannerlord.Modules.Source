@@ -261,7 +261,7 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 
 		public void FocusStateCheckTick()
 		{
-			if (this.CurrentMissionScreen.SceneLayer.Input.IsGameKeyPressed(13) && this.CurrentMission.IsMainAgentObjectInteractionEnabled && !this.CurrentMission.IsOrderMenuOpen)
+			if (this.CurrentMissionScreen.SceneLayer.Input.IsGameKeyPressed(13) && (this.CurrentMission.IsMainAgentObjectInteractionEnabled || this.IsFocusMountable()) && !this.CurrentMission.IsOrderMenuOpen)
 			{
 				Agent main = Agent.Main;
 				UsableMissionObject usableMissionObject;
@@ -289,6 +289,12 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 					}
 				}
 			}
+		}
+
+		private bool IsFocusMountable()
+		{
+			Agent agent = this._currentInteractableObject as Agent;
+			return agent != null && agent.IsMount;
 		}
 
 		public void FocusedItemHealthTick()

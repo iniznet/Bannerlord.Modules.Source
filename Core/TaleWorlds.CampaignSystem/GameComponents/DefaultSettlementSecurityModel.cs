@@ -5,6 +5,7 @@ using Helpers;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Issues;
+using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -163,7 +164,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 
 		private void CalculateProsperityEffectOnSecurity(Town town, ref ExplainedNumber explainedNumber)
 		{
-			explainedNumber.Add(MathF.Max(-5f, -0.0005f * town.Settlement.Prosperity), DefaultSettlementSecurityModel.ProsperityText, null);
+			explainedNumber.Add(MathF.Max(-5f, -0.0005f * town.Prosperity), DefaultSettlementSecurityModel.ProsperityText, null);
 		}
 
 		private void CalculateUnderSiegeEffectsOnSecurity(Town town, ref ExplainedNumber explainedNumber)
@@ -252,7 +253,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				float num;
 				float num2;
 				float num3;
-				this.CalculateStrength(town.GarrisonParty.Party, out num, out num2, out num3);
+				this.CalculateStrengthOfGarrisonParty(town.GarrisonParty.Party, out num, out num2, out num3);
 				float num4 = num * explainedNumber.ResultNumber;
 				result.Add(num4, DefaultSettlementSecurityModel.GarrisonText, null);
 				if (PerkHelper.GetPerkValueForTown(DefaultPerks.Leadership.Authority, town))
@@ -269,9 +270,9 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				{
 					result.Add(num4 * num6 * DefaultPerks.Bow.MountedArchery.SecondaryBonus, DefaultPerks.Bow.MountedArchery.Name, null);
 				}
-				if (PerkHelper.GetPerkValueForTown(DefaultPerks.Bow.NockingPoint, town))
+				if (PerkHelper.GetPerkValueForTown(DefaultPerks.Bow.RangersSwiftness, town))
 				{
-					result.Add(num4 * num6 * DefaultPerks.Bow.NockingPoint.SecondaryBonus, DefaultPerks.Bow.NockingPoint.Name, null);
+					result.Add(num4 * num6 * DefaultPerks.Bow.RangersSwiftness.SecondaryBonus, DefaultPerks.Bow.RangersSwiftness.Name, null);
 				}
 				if (PerkHelper.GetPerkValueForTown(DefaultPerks.Crossbow.RenownMarksmen, town))
 				{
@@ -280,26 +281,36 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 		}
 
-		public void CalculateStrength(PartyBase party, out float totalStrength, out float archerStrength, out float cavalryStrength)
+		private void CalculateStrengthOfGarrisonParty(PartyBase party, out float totalStrength, out float archerStrength, out float cavalryStrength)
 		{
 			totalStrength = 0f;
 			archerStrength = 0f;
 			cavalryStrength = 0f;
+			float num = 0f;
+			MapEvent.PowerCalculationContext powerCalculationContext = MapEvent.PowerCalculationContext.Default;
+			BattleSideEnum battleSideEnum = BattleSideEnum.Defender;
+			if (party.MapEvent != null)
+			{
+				battleSideEnum = party.Side;
+				num = Campaign.Current.Models.MilitaryPowerModel.GetLeaderModifierInMapEvent(party.MapEvent, battleSideEnum);
+				powerCalculationContext = party.MapEvent.SimulationContext;
+			}
 			for (int i = 0; i < party.MemberRoster.Count; i++)
 			{
 				TroopRosterElement elementCopyAtIndex = party.MemberRoster.GetElementCopyAtIndex(i);
 				if (elementCopyAtIndex.Character != null)
 				{
-					float num = (float)(elementCopyAtIndex.Number - elementCopyAtIndex.WoundedNumber) * Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerToCalculateSecurity(elementCopyAtIndex.Character);
+					float troopPower = Campaign.Current.Models.MilitaryPowerModel.GetTroopPower(elementCopyAtIndex.Character, battleSideEnum, powerCalculationContext, num);
+					float num2 = (float)(elementCopyAtIndex.Number - elementCopyAtIndex.WoundedNumber) * troopPower;
 					if (elementCopyAtIndex.Character.IsMounted)
 					{
-						cavalryStrength += num;
+						cavalryStrength += num2;
 					}
 					if (elementCopyAtIndex.Character.IsRanged)
 					{
-						archerStrength += num;
+						archerStrength += num2;
 					}
-					totalStrength += num;
+					totalStrength += num2;
 				}
 			}
 		}

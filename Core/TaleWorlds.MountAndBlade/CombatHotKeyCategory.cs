@@ -4,7 +4,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class CombatHotKeyCategory : GameKeyContext
+	public sealed class CombatHotKeyCategory : GameKeyContext
 	{
 		public CombatHotKeyCategory()
 			: base("CombatHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)

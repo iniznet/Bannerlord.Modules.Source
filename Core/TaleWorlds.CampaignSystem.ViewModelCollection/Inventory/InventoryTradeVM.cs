@@ -8,6 +8,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 {
 	public class InventoryTradeVM : ViewModel
 	{
+		public static event Action RemoveZeroCounts;
+
 		public InventoryTradeVM(InventoryLogic inventoryLogic, ItemRosterElement itemRoster, InventoryLogic.InventorySide side, Action<int, bool> onApplyTransaction)
 		{
 			this._inventoryLogic = inventoryLogic;
@@ -144,6 +146,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Inventory
 			int num2 = (flag ? num : (-num));
 			bool flag2 = (this._isPlayerItem ? flag : (!flag));
 			this._onApplyTransaction(num2, flag2);
+		}
+
+		public void ExecuteRemoveZeroCounts()
+		{
+			Action removeZeroCounts = InventoryTradeVM.RemoveZeroCounts;
+			if (removeZeroCounts == null)
+			{
+				return;
+			}
+			removeZeroCounts();
 		}
 
 		[DataSourceProperty]

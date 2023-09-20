@@ -131,31 +131,31 @@ namespace TaleWorlds.Engine.Options
 							NativeOptions._graphicsOptions.Add(new NativeBooleanOptionData(nativeOptionsType));
 							break;
 						case NativeOptions.NativeOptionsType.PostFXLensFlare:
-							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(58))
+							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(62))
 							{
 								NativeOptions._graphicsOptions.Add(new NativeBooleanOptionData(nativeOptionsType));
 							}
 							break;
 						case NativeOptions.NativeOptionsType.PostFXStreaks:
-							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(59))
+							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(63))
 							{
 								NativeOptions._graphicsOptions.Add(new NativeBooleanOptionData(nativeOptionsType));
 							}
 							break;
 						case NativeOptions.NativeOptionsType.PostFXChromaticAberration:
-							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(60))
+							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(64))
 							{
 								NativeOptions._graphicsOptions.Add(new NativeBooleanOptionData(nativeOptionsType));
 							}
 							break;
 						case NativeOptions.NativeOptionsType.PostFXVignette:
-							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(61))
+							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(65))
 							{
 								NativeOptions._graphicsOptions.Add(new NativeBooleanOptionData(nativeOptionsType));
 							}
 							break;
 						case NativeOptions.NativeOptionsType.PostFXHexagonVignette:
-							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(62))
+							if (EngineApplicationInterface.IConfig.CheckGFXSupportStatus(66))
 							{
 								NativeOptions._graphicsOptions.Add(new NativeBooleanOptionData(nativeOptionsType));
 							}
@@ -192,7 +192,7 @@ namespace TaleWorlds.Engine.Options
 
 		public static int GetGameKeys(int keyType, int i)
 		{
-			Debug.FailedAssert("This is not implemented. Changed from Exception to not cause crash.", "C:\\Develop\\MB3\\Source\\Engine\\TaleWorlds.Engine\\Options\\NativeOptions\\NativeOptions.cs", "GetGameKeys", 322);
+			Debug.FailedAssert("This is not implemented. Changed from Exception to not cause crash.", "C:\\Develop\\MB3\\Source\\Engine\\TaleWorlds.Engine\\Options\\NativeOptions\\NativeOptions.cs", "GetGameKeys", 326);
 			return 0;
 		}
 
@@ -294,10 +294,12 @@ namespace TaleWorlds.Engine.Options
 		public static void SetConfig(NativeOptions.NativeOptionsType type, float value)
 		{
 			EngineApplicationInterface.IConfig.SetRGLConfig((int)type, value);
-			if (NativeOptions.OnNativeOptionChanged != null)
+			NativeOptions.OnNativeOptionChangedDelegate onNativeOptionChanged = NativeOptions.OnNativeOptionChanged;
+			if (onNativeOptionChanged == null)
 			{
-				NativeOptions.OnNativeOptionChanged(type);
+				return;
 			}
+			onNativeOptionChanged(type);
 		}
 
 		public static void ApplyConfigChanges(bool resizeWindow)
@@ -307,7 +309,7 @@ namespace TaleWorlds.Engine.Options
 
 		public static void SetGameKeys(int keyType, int index, int key)
 		{
-			Debug.FailedAssert("This is not implemented. Changed from Exception to not cause crash.", "C:\\Develop\\MB3\\Source\\Engine\\TaleWorlds.Engine\\Options\\NativeOptions\\NativeOptions.cs", "SetGameKeys", 438);
+			Debug.FailedAssert("This is not implemented. Changed from Exception to not cause crash.", "C:\\Develop\\MB3\\Source\\Engine\\TaleWorlds.Engine\\Options\\NativeOptions\\NativeOptions.cs", "SetGameKeys", 439);
 		}
 
 		public static void Apply(int texture_budget, int sharpen_amount, int hdr, int dof_mode, int motion_blur, int ssr, int size, int texture_filtering, int trail_amount, int dynamic_resolution_target)
@@ -333,7 +335,7 @@ namespace TaleWorlds.Engine.Options
 
 		public static void SetDefaultGameKeys()
 		{
-			Debug.FailedAssert("This is not implemented. Changed from Exception to not cause crash.", "C:\\Develop\\MB3\\Source\\Engine\\TaleWorlds.Engine\\Options\\NativeOptions\\NativeOptions.cs", "SetDefaultGameKeys", 463);
+			Debug.FailedAssert("This is not implemented. Changed from Exception to not cause crash.", "C:\\Develop\\MB3\\Source\\Engine\\TaleWorlds.Engine\\Options\\NativeOptions\\NativeOptions.cs", "SetDefaultGameKeys", 464);
 		}
 
 		public static void SetDefaultGameConfig()
@@ -376,6 +378,10 @@ namespace TaleWorlds.Engine.Options
 			MouseYMovementScale,
 			TrailAmount,
 			EnableVibration,
+			EnableGyroAssistedAim,
+			GyroAimSensitivity,
+			EnableTouchpadMouse,
+			EnableAlternateAiming,
 			DisplayMode,
 			SelectedMonitor,
 			SelectedAdapter,

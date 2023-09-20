@@ -88,7 +88,7 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 		{
 			PartyTemplateObject militiaPartyTemplate = settlement.Culture.MilitiaPartyTemplate;
 			mobileParty.InitializeMobilePartyAtPosition(militiaPartyTemplate, settlement.GatePosition, -1);
-			mobileParty.Party.Visuals.SetMapIconAsDirty();
+			mobileParty.Party.SetVisualAsDirty();
 			mobileParty.Ai.DisableAi();
 			mobileParty.Aggressiveness = 0f;
 		}

@@ -14,6 +14,8 @@ namespace TaleWorlds.SaveSystem.Save
 
 		public MemberTypeId MemberSaveId { get; private set; }
 
+		public TypeDefinitionBase TypeDefinition { get; private set; }
+
 		protected VariableSaveData(ISaveContext context)
 		{
 			this.Context = context;
@@ -26,19 +28,20 @@ namespace TaleWorlds.SaveSystem.Save
 			this.Value = -1;
 		}
 
-		protected void InitializeDataAsCustomStruct(MemberTypeId memberSaveId, int structId)
+		protected void InitializeDataAsCustomStruct(MemberTypeId memberSaveId, int structId, TypeDefinitionBase typeDefinition)
 		{
 			this.MemberSaveId = memberSaveId;
 			this.MemberType = SavedMemberType.CustomStruct;
 			this.Value = structId;
+			this.TypeDefinition = typeDefinition;
 		}
 
 		protected void InitializeData(MemberTypeId memberSaveId, Type memberType, TypeDefinitionBase definition, object data)
 		{
 			this.MemberSaveId = memberSaveId;
-			this._typeDefinition = definition;
-			TypeDefinition typeDefinition = this._typeDefinition as TypeDefinition;
-			if (this._typeDefinition is ContainerDefinition)
+			this.TypeDefinition = definition;
+			TypeDefinition typeDefinition = this.TypeDefinition as TypeDefinition;
+			if (this.TypeDefinition is ContainerDefinition)
 			{
 				int num = -1;
 				if (data != null)
@@ -53,7 +56,7 @@ namespace TaleWorlds.SaveSystem.Save
 				this.MemberType = SavedMemberType.String;
 				this.Value = data;
 			}
-			else if ((typeDefinition != null && typeDefinition.IsClassDefinition) || this._typeDefinition is InterfaceDefinition || (this._typeDefinition == null && memberType.IsInterface))
+			else if ((typeDefinition != null && typeDefinition.IsClassDefinition) || this.TypeDefinition is InterfaceDefinition || (this.TypeDefinition == null && memberType.IsInterface))
 			{
 				int num2 = -1;
 				if (data != null)
@@ -63,12 +66,12 @@ namespace TaleWorlds.SaveSystem.Save
 				this.MemberType = SavedMemberType.Object;
 				this.Value = num2;
 			}
-			else if (this._typeDefinition is EnumDefinition)
+			else if (this.TypeDefinition is EnumDefinition)
 			{
 				this.MemberType = SavedMemberType.Enum;
 				this.Value = data;
 			}
-			else if (this._typeDefinition is BasicTypeDefinition)
+			else if (this.TypeDefinition is BasicTypeDefinition)
 			{
 				this.MemberType = SavedMemberType.BasicType;
 				this.Value = data;
@@ -78,11 +81,11 @@ namespace TaleWorlds.SaveSystem.Save
 				this.MemberType = SavedMemberType.CustomStruct;
 				this.Value = data;
 			}
-			if (this._typeDefinition == null && !memberType.IsInterface)
+			if (this.TypeDefinition == null && !memberType.IsInterface)
 			{
 				string text = string.Format("Cant find definition for: {0}. Save id: {1}", memberType.Name, this.MemberSaveId);
 				Debug.Print(text, 0, Debug.DebugColor.Red, 17592186044416UL);
-				Debug.FailedAssert(text, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\Save\\VariableSaveData.cs", "InitializeData", 96);
+				Debug.FailedAssert(text, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\Base\\TaleWorlds.SaveSystem\\Save\\VariableSaveData.cs", "InitializeData", 97);
 			}
 		}
 
@@ -109,14 +112,14 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 			if (this.MemberType == SavedMemberType.Enum)
 			{
-				this._typeDefinition.SaveId.WriteTo(writer);
+				this.TypeDefinition.SaveId.WriteTo(writer);
 				writer.WriteString(this.Value.ToString());
 				return;
 			}
 			if (this.MemberType == SavedMemberType.BasicType)
 			{
-				this._typeDefinition.SaveId.WriteTo(writer);
-				((BasicTypeDefinition)this._typeDefinition).Serializer.Serialize(writer, this.Value);
+				this.TypeDefinition.SaveId.WriteTo(writer);
+				((BasicTypeDefinition)this.TypeDefinition).Serializer.Serialize(writer, this.Value);
 				return;
 			}
 			if (this.MemberType == SavedMemberType.CustomStruct)
@@ -124,7 +127,5 @@ namespace TaleWorlds.SaveSystem.Save
 				writer.WriteInt((int)this.Value);
 			}
 		}
-
-		private TypeDefinitionBase _typeDefinition;
 	}
 }

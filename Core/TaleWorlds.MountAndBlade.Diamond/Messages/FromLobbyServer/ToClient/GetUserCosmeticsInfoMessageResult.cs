@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromLobbyServer.ToClient
@@ -7,11 +8,18 @@ namespace Messages.FromLobbyServer.ToClient
 	[Serializable]
 	public class GetUserCosmeticsInfoMessageResult : FunctionResult
 	{
-		public bool Successful { get; }
+		[JsonProperty]
+		public bool Successful { get; private set; }
 
-		public List<string> OwnedCosmetics { get; }
+		[JsonProperty]
+		public List<string> OwnedCosmetics { get; private set; }
 
-		public Dictionary<string, List<string>> UsedCosmetics { get; }
+		[JsonProperty]
+		public Dictionary<string, List<string>> UsedCosmetics { get; private set; }
+
+		public GetUserCosmeticsInfoMessageResult()
+		{
+		}
 
 		public GetUserCosmeticsInfoMessageResult(bool successful, List<string> ownedCosmetics, Dictionary<string, List<string>> usedCosmetics)
 		{

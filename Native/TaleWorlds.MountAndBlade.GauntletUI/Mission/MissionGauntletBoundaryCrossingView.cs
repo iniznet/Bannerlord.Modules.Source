@@ -10,11 +10,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 	[OverrideView(typeof(MissionBoundaryCrossingView))]
 	public class MissionGauntletBoundaryCrossingView : MissionGauntletBattleUIBase
 	{
-		public override void OnMissionScreenInitialize()
-		{
-			base.OnMissionScreenInitialize();
-		}
-
 		protected override void OnCreateView()
 		{
 			this._dataSource = new BoundaryCrossingVM(base.Mission, new Action<bool>(this.OnEscapeMenuToggled));

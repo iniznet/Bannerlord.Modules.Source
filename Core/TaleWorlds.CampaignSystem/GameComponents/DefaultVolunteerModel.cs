@@ -76,7 +76,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			int num2 = 0;
 			foreach (Town town in hero.CurrentSettlement.MapFaction.Fiefs)
 			{
-				num2 += (town.IsTown ? (((town.Settlement.Prosperity < 3000f) ? 1 : ((town.Settlement.Prosperity < 6000f) ? 2 : 3)) + town.Villages.Count) : town.Villages.Count);
+				num2 += (town.IsTown ? (((town.Prosperity < 3000f) ? 1 : ((town.Prosperity < 6000f) ? 2 : 3)) + town.Villages.Count) : town.Villages.Count);
 			}
 			float num3 = ((num2 < 46) ? ((float)num2 / 46f * ((float)num2 / 46f)) : 1f);
 			num += ((hero.CurrentSettlement != null && num3 < 1f) ? ((1f - num3) * 0.2f) : 0f);
@@ -98,7 +98,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				town2 = settlement.Town;
 			}
 			Town town3 = town2;
-			if (town3 != null && hero.VolunteerTypes[index] != null && hero.VolunteerTypes[index].IsMounted && PerkHelper.GetPerkValueForTown(DefaultPerks.Riding.CavalryTactics, town3))
+			if (town3 != null && hero.IsAlive && hero.VolunteerTypes[index] != null && hero.VolunteerTypes[index].IsMounted && PerkHelper.GetPerkValueForTown(DefaultPerks.Riding.CavalryTactics, town3))
 			{
 				explainedNumber.AddFactor(DefaultPerks.Riding.CavalryTactics.PrimaryBonus, null);
 			}

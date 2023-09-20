@@ -8,13 +8,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetAgentTargetPosition : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public Vec2 Position { get; private set; }
 
-		public SetAgentTargetPosition(Agent agent, ref Vec2 position)
+		public SetAgentTargetPosition(int agentIndex, ref Vec2 position)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.Position = position;
 		}
 
@@ -25,14 +25,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.Position = GameNetworkMessage.ReadVec2FromPacket(CompressionBasic.PositionCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteVec2ToPacket(this.Position, CompressionBasic.PositionCompressionInfo);
 		}
 
@@ -43,15 +43,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set Target Position: ",
-				this.Position,
-				" on Agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index
-			});
+			return string.Concat(new object[] { "Set Target Position: ", this.Position, " on Agent with agent-index: ", this.AgentIndex });
 		}
 	}
 }

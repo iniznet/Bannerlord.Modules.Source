@@ -85,7 +85,6 @@ namespace StoryMode.Quests.PlayerClanQuests
 		protected override void RegisterEvents()
 		{
 			CampaignEvents.HeroOrPartyTradedGold.AddNonSerializedListener(this, new Action<ValueTuple<Hero, PartyBase>, ValueTuple<Hero, PartyBase>, ValueTuple<int, string>, bool>(this.HeroOrPartyTradedGold));
-			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 			CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
 			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
@@ -118,7 +117,7 @@ namespace StoryMode.Quests.PlayerClanQuests
 			this.UpdateProgresses();
 		}
 
-		private void HourlyTick()
+		protected override void HourlyTick()
 		{
 			this.UpdateProgresses();
 		}

@@ -399,11 +399,11 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		public int GetSeasonOfYear
+		public CampaignTime.Seasons GetSeasonOfYear
 		{
 			get
 			{
-				return (int)(this._numTicks / 18144000000L % 4L);
+				return (CampaignTime.Seasons)(this._numTicks / 18144000000L % 4L);
 			}
 		}
 
@@ -475,11 +475,6 @@ namespace TaleWorlds.CampaignSystem
 			return new CampaignTime(CampaignTime.CurrentTicks + (long)(valueInWeeks * 6.048E+09f));
 		}
 
-		public static CampaignTime Seasons(float valueInSeasons)
-		{
-			return new CampaignTime((long)(valueInSeasons * 1.8144E+10f));
-		}
-
 		public static CampaignTime Years(float valueInYears)
 		{
 			return new CampaignTime((long)(valueInYears * 7.2576E+10f));
@@ -516,7 +511,7 @@ namespace TaleWorlds.CampaignSystem
 		public override string ToString()
 		{
 			int getYear = this.GetYear;
-			int getSeasonOfYear = this.GetSeasonOfYear;
+			CampaignTime.Seasons getSeasonOfYear = this.GetSeasonOfYear;
 			int num = this.GetDayOfSeason + 1;
 			TextObject textObject = GameTexts.FindText("str_date_format", null);
 			textObject.SetTextVariable("SEASON", GameTexts.FindText("str_season_" + getSeasonOfYear, null));
@@ -561,5 +556,13 @@ namespace TaleWorlds.CampaignSystem
 
 		[SaveableField(2)]
 		private readonly long _numTicks;
+
+		public enum Seasons
+		{
+			Spring,
+			Summer,
+			Autumn,
+			Winter
+		}
 	}
 }

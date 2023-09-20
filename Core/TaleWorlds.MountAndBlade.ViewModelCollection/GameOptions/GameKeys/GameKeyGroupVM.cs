@@ -71,6 +71,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions.GameKeys
 
 		public void OnGamepadActiveStateChanged()
 		{
+			this.PopulateGameKeys();
 			this.Update();
 			this.OnDone();
 		}

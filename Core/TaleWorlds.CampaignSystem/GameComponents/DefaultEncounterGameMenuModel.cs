@@ -83,13 +83,13 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					}
 					if (settlement.Party.SiegeEvent != null && ((settlement.Party.MapEvent == null && (settlement.Town.GarrisonParty == null || settlement.Town.GarrisonParty.MapEvent == null || settlement.Town.GarrisonParty.MapEvent.IsSallyOut)) || MobileParty.MainParty.MapFaction == settlement.MapFaction))
 					{
-						if (settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
+						if (settlement.Party.SiegeEvent.BesiegerCamp.LeaderParty == MobileParty.MainParty)
 						{
 							return "continue_siege_after_attack";
 						}
 						if (MobileParty.MainParty.BesiegedSettlement == null && MobileParty.MainParty.CurrentSettlement == null)
 						{
-							if (settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent != null && settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent.IsSiegeOutside)
+							if (settlement.Party.SiegeEvent.BesiegerCamp.LeaderParty.MapEvent != null && settlement.Party.SiegeEvent.BesiegerCamp.LeaderParty.MapEvent.IsSiegeOutside)
 							{
 								return "join_encounter";
 							}
@@ -98,21 +98,17 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					}
 					if (settlement.Party.MapEvent != null)
 					{
-						if ((MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && attackerParty == MobileParty.MainParty.Army.LeaderParty.Party) || (MobileParty.MainParty.CurrentSettlement == settlement && MobileParty.MainParty.MapFaction == settlement.MapFaction))
+						if ((MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && attackerParty == MobileParty.MainParty.Army.LeaderParty.Party) || (MobileParty.MainParty.CurrentSettlement == settlement && settlement.Party.MapEvent.CanPartyJoinBattle(PartyBase.MainParty, settlement.BattleSide)))
 						{
 							return "encounter";
 						}
-						return "join_encounter";
+						return "join_siege_event";
 					}
 					else
 					{
-						if (settlement.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && !settlement.SettlementComponent.IsTaken)
+						if (settlement.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty)
 						{
 							return "army_wait_at_settlement";
-						}
-						if (settlement.SettlementComponent.IsTaken)
-						{
-							return "menu_settlement_taken";
 						}
 						if (settlement.IsCastle)
 						{
@@ -205,7 +201,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 					{
 						if (currentSettlement.Party.SiegeEvent != null && ((currentSettlement.Party.MapEvent == null && (currentSettlement.Town.GarrisonParty == null || currentSettlement.Town.GarrisonParty.MapEvent == null)) || MobileParty.MainParty.MapFaction == currentSettlement.MapFaction))
 						{
-							if (currentSettlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
+							if (currentSettlement.Party.SiegeEvent.BesiegerCamp.LeaderParty == MobileParty.MainParty)
 							{
 								return "continue_siege_after_attack";
 							}
@@ -233,13 +229,9 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 						}
 						else
 						{
-							if (currentSettlement.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && !currentSettlement.SettlementComponent.IsTaken)
+							if (currentSettlement.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty)
 							{
 								return "army_wait_at_settlement";
-							}
-							if (currentSettlement.SettlementComponent.IsTaken)
-							{
-								return "menu_settlement_taken";
 							}
 							if (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting && currentSettlement.IsFortification)
 							{

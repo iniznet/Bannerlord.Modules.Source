@@ -67,7 +67,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 			this._initialInfluence = Hero.MainHero.Clan.Influence;
 			this.OnRefresh();
 			Game.Current.EventManager.TriggerEvent<TutorialContextChangedEvent>(new TutorialContextChangedEvent(TutorialContexts.ArmyManagement));
-			this.SortControllerVM = new ArmyManagementSortControllerVM(ref this._partyList);
+			this.SortControllerVM = new ArmyManagementSortControllerVM(this._partyList);
 			Game.Current.EventManager.RegisterEvent<TutorialNotificationElementChangeEvent>(new Action<TutorialNotificationElementChangeEvent>(this.OnTutorialNotificationElementIDChange));
 			this.RefreshValues();
 		}
@@ -173,19 +173,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 			if (MobileParty.MainParty.Army != null)
 			{
 				int num = this.NewCohesion - this.Cohesion;
-				bool flag;
-				if (this._influenceSpentForCohesionBoosting <= 0)
-				{
-					flag = MobileParty.MainParty.Army.Parties.All((MobileParty p) => p.ActualClan == MobileParty.MainParty.ActualClan);
-				}
-				else
-				{
-					flag = true;
-				}
-				if (flag)
-				{
-					MobileParty.MainParty.Army.BoostCohesionWithInfluence((float)num, this._influenceSpentForCohesionBoosting);
-				}
+				MobileParty.MainParty.Army.BoostCohesionWithInfluence((float)num, this._influenceSpentForCohesionBoosting);
 			}
 		}
 
@@ -216,14 +204,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ArmyManagement
 			foreach (ArmyManagementItemVM armyManagementItemVM in this.PartiesInCart)
 			{
 				num2++;
-				num += armyManagementItemVM.Party.MemberRoster.TotalManCount;
+				num += Campaign.Current.Models.ArmyManagementCalculationModel.GetPartyStrength(armyManagementItemVM.Party.Party);
 				if (armyManagementItemVM.IsAlreadyWithPlayer)
 				{
 					num4 += armyManagementItemVM.Party.Food;
 					num3 += (int)armyManagementItemVM.Party.Morale;
 				}
 			}
-			num += Campaign.Current.Models.ArmyManagementCalculationModel.GetPartyStrength(PartyBase.MainParty);
 			this.TotalStrength = num;
 			GameTexts.SetVariable("LEFT", GameTexts.FindText("str_total_cost", null).ToString());
 			this.TotalCostText = GameTexts.FindText("str_LEFT_colon", null).ToString();

@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 
 namespace Messages.FromLobbyServer.ToClient
@@ -7,7 +8,12 @@ namespace Messages.FromLobbyServer.ToClient
 	[Serializable]
 	public class MatchmakerDisabledMessage : Message
 	{
-		public int RemainingTime { get; }
+		[JsonProperty]
+		public int RemainingTime { get; private set; }
+
+		public MatchmakerDisabledMessage()
+		{
+		}
 
 		public MatchmakerDisabledMessage(int remainingTime)
 		{

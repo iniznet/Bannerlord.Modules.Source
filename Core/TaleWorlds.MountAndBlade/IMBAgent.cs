@@ -47,6 +47,12 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("get_target_agent", false)]
 		Agent GetTargetAgent(UIntPtr agentPointer);
 
+		[EngineMethod("set_target_agent", false)]
+		void SetTargetAgent(UIntPtr agentPointer, int targetAgentIndex);
+
+		[EngineMethod("set_automatic_target_agent_selection", false)]
+		void SetAutomaticTargetSelection(UIntPtr agentPointer, bool enable);
+
 		[EngineMethod("set_interaction_agent", false)]
 		void SetInteractionAgent(UIntPtr agentPointer, UIntPtr interactionAgentPointer);
 
@@ -74,6 +80,9 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("get_selected_mount_index", false)]
 		int GetSelectedMountIndex(UIntPtr agentPointer);
 
+		[EngineMethod("get_firing_order", false)]
+		int GetFiringOrder(UIntPtr agentPointer);
+
 		[EngineMethod("get_riding_order", false)]
 		int GetRidingOrder(UIntPtr agentPointer);
 
@@ -93,7 +102,7 @@ namespace TaleWorlds.MountAndBlade
 		void SetFormationFrameDisabled(UIntPtr agentPointer);
 
 		[EngineMethod("set_formation_frame_enabled", false)]
-		bool SetFormationFrameEnabled(UIntPtr agentPointer, WorldPosition position, Vec2 direction, float formationDirectionEnforcingFactor);
+		bool SetFormationFrameEnabled(UIntPtr agentPointer, WorldPosition position, Vec2 direction, Vec2 positionVelocity, float formationDirectionEnforcingFactor);
 
 		[EngineMethod("set_should_catch_up_with_formation", false)]
 		void SetShouldCatchUpWithFormation(UIntPtr agentPointer, bool value);
@@ -193,9 +202,6 @@ namespace TaleWorlds.MountAndBlade
 
 		[EngineMethod("set_mount_agent", false)]
 		void SetMountAgent(UIntPtr agentPointer, int mountAgentIndex);
-
-		[EngineMethod("set_always_attack_in_melee", false)]
-		void SetAlwaysAttackInMelee(UIntPtr agentPointer, bool attack);
 
 		[EngineMethod("get_rider_agent", false)]
 		Agent GetRiderAgent(UIntPtr agentPointer);
@@ -302,9 +308,6 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("get_current_speed_limit", false)]
 		float GetCurrentSpeedLimit(UIntPtr agentPointer);
 
-		[EngineMethod("set_minimum_speed", false)]
-		void SetMinimumSpeed(UIntPtr agentPointer, float speed);
-
 		[EngineMethod("set_maximum_speed_limit", false)]
 		void SetMaximumSpeedLimit(UIntPtr agentPointer, float maximumSpeedLimit, bool isMultiplier);
 
@@ -325,9 +328,6 @@ namespace TaleWorlds.MountAndBlade
 
 		[EngineMethod("set_scripted_flags", false)]
 		void SetScriptedFlags(UIntPtr agentPointer, int flags);
-
-		[EngineMethod("get_debug_values", false)]
-		void GetDebugValues(UIntPtr agentPointer, float[] values, ref int valueCount);
 
 		[EngineMethod("get_scripted_combat_flags", false)]
 		int GetScriptedCombatFlags(UIntPtr agentPointer);
@@ -360,7 +360,7 @@ namespace TaleWorlds.MountAndBlade
 		bool HasPathThroughNavigationFacesIDFromDirection(UIntPtr agentPointer, int navigationFaceID_1, int navigationFaceID_2, int navigationFaceID_3, ref Vec2 direction);
 
 		[EngineMethod("can_move_directly_to_position", false)]
-		bool CanMoveDirectlyToPosition(UIntPtr agentPointer, in WorldPosition position);
+		bool CanMoveDirectlyToPosition(UIntPtr agentPointer, in Vec2 position);
 
 		[EngineMethod("check_path_to_ai_target_agent_passes_through_navigation_face_id_from_direction", false)]
 		bool CheckPathToAITargetAgentPassesThroughNavigationFaceIdFromDirection(UIntPtr agentPointer, int navigationFaceId, ref Vec3 direction, float overridenCostForFaceId);
@@ -528,7 +528,7 @@ namespace TaleWorlds.MountAndBlade
 		Agent.MovementControlFlag GetDefendMovementFlag(UIntPtr agentPointer);
 
 		[EngineMethod("get_attack_direction", false)]
-		Agent.UsageDirection GetAttackDirection(UIntPtr agentPointer, bool doAiCheck);
+		Agent.UsageDirection GetAttackDirection(UIntPtr agentPointer);
 
 		[EngineMethod("player_attack_direction", false)]
 		Agent.UsageDirection PlayerAttackDirection(UIntPtr agentPointer);
@@ -626,6 +626,12 @@ namespace TaleWorlds.MountAndBlade
 		[EngineMethod("set_riding_order", false)]
 		void SetRidingOrder(UIntPtr agentPointer, int order);
 
+		[EngineMethod("get_target_formation_index", false)]
+		int GetTargetFormationIndex(UIntPtr agentPointer);
+
+		[EngineMethod("set_target_formation_index", false)]
+		void SetTargetFormationIndex(UIntPtr agentPointer, int targetFormationIndex);
+
 		[EngineMethod("set_direction_change_tendency", false)]
 		void SetDirectionChangeTendency(UIntPtr agentPointer, float tendency);
 
@@ -649,8 +655,5 @@ namespace TaleWorlds.MountAndBlade
 
 		[EngineMethod("get_missile_range", false)]
 		float GetMissileRange(UIntPtr agentPointer);
-
-		[EngineMethod("set_sound_occlusion", false)]
-		void SetSoundOcclusion(UIntPtr agentPointer, float value);
 	}
 }

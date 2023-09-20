@@ -10,11 +10,11 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class CombatLogNetworkMessage : GameNetworkMessage
 	{
-		private Agent AttackerAgent { get; set; }
+		public int AttackerAgentIndex { get; private set; }
 
-		private Agent VictimAgent { get; set; }
+		public int VictimAgentIndex { get; private set; }
 
-		private bool IsVictimEntity { get; set; }
+		public bool IsVictimEntity { get; private set; }
 
 		public DamageTypes DamageType { get; private set; }
 
@@ -44,10 +44,10 @@ namespace NetworkMessages.FromServer
 		{
 		}
 
-		public CombatLogNetworkMessage(Agent attackerAgent, Agent victimAgent, GameEntity hitEntity, CombatLogData combatLogData)
+		public CombatLogNetworkMessage(int attackerAgentIndex, int victimAgentIndex, GameEntity hitEntity, CombatLogData combatLogData)
 		{
-			this.AttackerAgent = attackerAgent;
-			this.VictimAgent = victimAgent;
+			this.AttackerAgentIndex = attackerAgentIndex;
+			this.VictimAgentIndex = victimAgentIndex;
 			this.IsVictimEntity = hitEntity != null;
 			this.DamageType = combatLogData.DamageType;
 			this.CrushedThrough = combatLogData.CrushedThrough;
@@ -63,88 +63,10 @@ namespace NetworkMessages.FromServer
 			this.ModifiedDamage = combatLogData.ModifiedDamage;
 		}
 
-		public CombatLogData GetData()
-		{
-			bool flag = this.AttackerAgent != null;
-			bool flag2 = flag && this.AttackerAgent.IsHuman;
-			bool flag3 = flag && this.AttackerAgent.IsMine;
-			bool flag4 = flag && this.AttackerAgent.RiderAgent != null;
-			bool flag5 = flag4 && this.AttackerAgent.RiderAgent.IsMine;
-			bool flag6 = flag && this.AttackerAgent.IsMount;
-			Agent victimAgent = this.VictimAgent;
-			bool flag7 = victimAgent != null && victimAgent.Health <= 0f;
-			bool flag8;
-			if (this.AttackerAgent != null)
-			{
-				Agent victimAgent2 = this.VictimAgent;
-				flag8 = ((victimAgent2 != null) ? victimAgent2.RiderAgent : null) == this.AttackerAgent;
-			}
-			else
-			{
-				flag8 = false;
-			}
-			bool flag9 = flag8;
-			bool flag10 = this.AttackerAgent == this.VictimAgent;
-			bool flag11 = flag2;
-			bool flag12 = flag3;
-			bool flag13 = flag4;
-			bool flag14 = flag5;
-			bool flag15 = flag6;
-			Agent victimAgent3 = this.VictimAgent;
-			bool flag16 = victimAgent3 != null && victimAgent3.IsHuman;
-			Agent victimAgent4 = this.VictimAgent;
-			bool flag17 = victimAgent4 != null && victimAgent4.IsMine;
-			bool flag18 = flag7;
-			Agent victimAgent5 = this.VictimAgent;
-			bool flag19 = ((victimAgent5 != null) ? victimAgent5.RiderAgent : null) != null;
-			Agent victimAgent6 = this.VictimAgent;
-			bool? flag20;
-			if (victimAgent6 == null)
-			{
-				flag20 = null;
-			}
-			else
-			{
-				Agent riderAgent = victimAgent6.RiderAgent;
-				flag20 = ((riderAgent != null) ? new bool?(riderAgent.IsMine) : null);
-			}
-			bool flag21 = flag20 ?? false;
-			Agent victimAgent7 = this.VictimAgent;
-			CombatLogData combatLogData = new CombatLogData(flag10, flag11, flag12, flag13, flag14, flag15, flag16, flag17, flag18, flag19, flag21, victimAgent7 != null && victimAgent7.IsMount, this.IsVictimEntity, flag9, this.CrushedThrough, this.Chamber, this.Distance);
-			combatLogData.DamageType = this.DamageType;
-			combatLogData.IsRangedAttack = this.IsRangedAttack;
-			combatLogData.IsFriendlyFire = this.IsFriendlyFire;
-			combatLogData.IsFatalDamage = this.IsFatalDamage;
-			combatLogData.BodyPartHit = this.BodyPartHit;
-			combatLogData.HitSpeed = this.HitSpeed;
-			combatLogData.InflictedDamage = this.InflictedDamage;
-			combatLogData.AbsorbedDamage = this.AbsorbedDamage;
-			combatLogData.ModifiedDamage = this.ModifiedDamage;
-			Agent victimAgent8 = this.VictimAgent;
-			string text;
-			if (victimAgent8 == null)
-			{
-				text = null;
-			}
-			else
-			{
-				MissionPeer missionPeer = victimAgent8.MissionPeer;
-				text = ((missionPeer != null) ? missionPeer.DisplayedName : null);
-			}
-			string text2;
-			if ((text2 = text) == null)
-			{
-				Agent victimAgent9 = this.VictimAgent;
-				text2 = ((victimAgent9 != null) ? victimAgent9.Name : null) ?? "";
-			}
-			combatLogData.VictimAgentName = text2;
-			return combatLogData;
-		}
-
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.AttackerAgent);
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.VictimAgent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AttackerAgentIndex);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.VictimAgentIndex);
 			GameNetworkMessage.WriteBoolToPacket(this.IsVictimEntity);
 			GameNetworkMessage.WriteIntToPacket((int)this.DamageType, CompressionBasic.AgentHitDamageTypeCompressionInfo);
 			GameNetworkMessage.WriteBoolToPacket(this.CrushedThrough);
@@ -166,8 +88,8 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.AttackerAgent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
-			this.VictimAgent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, true);
+			this.AttackerAgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
+			this.VictimAgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.IsVictimEntity = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			this.DamageType = (DamageTypes)GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AgentHitDamageTypeCompressionInfo, ref flag);
 			this.CrushedThrough = GameNetworkMessage.ReadBoolFromPacket(ref flag);

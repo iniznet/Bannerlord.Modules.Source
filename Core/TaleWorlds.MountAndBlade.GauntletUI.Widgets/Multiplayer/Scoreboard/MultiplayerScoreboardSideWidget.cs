@@ -30,8 +30,24 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Scoreboard
 			{
 				return;
 			}
-			string factionColorCode = WidgetsMultiplayerHelper.GetFactionColorCode(this.CultureId.ToLower(), this.UseSecondary);
-			base.Color = Color.ConvertStringToColor(factionColorCode);
+			base.Color = this.CultureColor;
+		}
+
+		public Color CultureColor
+		{
+			get
+			{
+				return this._cultureColor;
+			}
+			set
+			{
+				if (value != this._cultureColor)
+				{
+					this._cultureColor = value;
+					base.OnPropertyChanged(value, "CultureColor");
+					this.UpdateBackgroundColors();
+				}
+			}
 		}
 
 		public string CultureId
@@ -109,6 +125,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer.Scoreboard
 		private ListPanel _titlesListPanel;
 
 		private string _cultureId;
+
+		private Color _cultureColor;
 
 		private bool _useSecondary;
 	}

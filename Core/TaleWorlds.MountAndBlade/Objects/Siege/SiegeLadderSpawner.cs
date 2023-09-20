@@ -134,22 +134,22 @@ namespace TaleWorlds.MountAndBlade.Objects.Siege
 			list.Find((GameEntity x) => x.Name == "initial_wait_pos").GetFirstScriptOfType<TacticalPosition>().SetWidth(this.TacticalPositionWidth);
 		}
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame fork_holder = MatrixFrame.Zero;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame initial_wait_pos = MatrixFrame.Zero;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame use_push = MatrixFrame.Zero;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame stand_position_wall_push = MatrixFrame.Zero;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame distance_holder = MatrixFrame.Zero;
 
-		[EditorVisibleScriptComponentVariable(false)]
+		[SpawnerBase.SpawnerPermissionField]
 		public MatrixFrame stand_position_ground_wait = MatrixFrame.Zero;
 
 		[EditorVisibleScriptComponentVariable(true)]

@@ -53,14 +53,14 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			if (party.LeaderHero != null && party.LeaderHero.GetPerkValue(DefaultPerks.Roguery.Promises) && num > 0)
 			{
-				float num2 = (float)num / (float)this.NumberOfMenOnMapToEatOneFood * DefaultPerks.Roguery.Promises.PrimaryBonus;
-				result.Add(num2, DefaultPerks.Roguery.Promises.Name, null);
+				float num2 = (float)num / (float)party.MemberRoster.TotalManCount * DefaultPerks.Roguery.Promises.PrimaryBonus;
+				result.AddFactor(num2, DefaultPerks.Roguery.Promises.Name);
 			}
 			PerkHelper.AddPerkBonusForParty(DefaultPerks.Athletics.Spartan, party, false, ref result);
 			PerkHelper.AddPerkBonusForParty(DefaultPerks.Steward.WarriorsDiet, party, true, ref result);
 			if (party.EffectiveQuartermaster != null)
 			{
-				PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Steward.PriceOfLoyalty, party.EffectiveQuartermaster.CharacterObject, DefaultSkills.Steward, true, ref result, 250);
+				PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Steward.PriceOfLoyalty, party.EffectiveQuartermaster.CharacterObject, DefaultSkills.Steward, true, ref result, Campaign.Current.Models.CharacterDevelopmentModel.MaxSkillRequiredForEpicPerkBonus);
 			}
 			TerrainType faceTerrainType = Campaign.Current.MapSceneWrapper.GetFaceTerrainType(party.CurrentNavigationFace);
 			if (faceTerrainType == TerrainType.Forest || faceTerrainType == TerrainType.Steppe)
@@ -78,11 +78,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			SiegeEvent siegeEvent = party.SiegeEvent;
 			if (((siegeEvent != null) ? siegeEvent.BesiegerCamp : null) != null)
 			{
-				if (party.SiegeEvent.BesiegerCamp.HasInvolvedPartyForEventType(party.Party, MapEvent.BattleTypes.Siege) && party.HasPerk(DefaultPerks.Steward.SoundReserves, true))
+				if (party.HasPerk(DefaultPerks.Steward.SoundReserves, true))
 				{
 					PerkHelper.AddPerkBonusForParty(DefaultPerks.Steward.SoundReserves, party, false, ref result);
 				}
-				if (party.HasPerk(DefaultPerks.Steward.MasterOfPlanning, false))
+				if (party.SiegeEvent.BesiegerCamp.HasInvolvedPartyForEventType(party.Party, MapEvent.BattleTypes.Siege) && party.HasPerk(DefaultPerks.Steward.MasterOfPlanning, false))
 				{
 					result.AddFactor(DefaultPerks.Steward.MasterOfPlanning.PrimaryBonus, DefaultPerks.Steward.MasterOfPlanning.Name);
 				}

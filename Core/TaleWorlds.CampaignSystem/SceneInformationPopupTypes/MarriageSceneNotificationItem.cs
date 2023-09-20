@@ -81,12 +81,12 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		public MarriageSceneNotificationItem(Hero groomHero, Hero brideHero, SceneNotificationData.RelevantContextType relevantContextType = SceneNotificationData.RelevantContextType.Any)
+		public MarriageSceneNotificationItem(Hero groomHero, Hero brideHero, CampaignTime creationTime, SceneNotificationData.RelevantContextType relevantContextType = SceneNotificationData.RelevantContextType.Any)
 		{
 			this.GroomHero = groomHero;
 			this.BrideHero = brideHero;
 			this.RelevantContext = relevantContextType;
-			this._creationCampaignTime = CampaignTime.Now;
+			this._creationCampaignTime = creationTime;
 		}
 
 		private List<Hero> GetAudienceMembers(Hero brideHero, Hero groomHero)

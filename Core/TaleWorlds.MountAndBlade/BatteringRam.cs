@@ -118,7 +118,7 @@ namespace TaleWorlds.MountAndBlade
 					if (GameNetwork.IsServerOrRecorder)
 					{
 						GameNetwork.BeginBroadcastModuleEvent();
-						GameNetwork.WriteMessage(new SetBatteringRamHasArrivedAtTarget(this));
+						GameNetwork.WriteMessage(new SetBatteringRamHasArrivedAtTarget(base.Id));
 						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 						return;
 					}
@@ -466,7 +466,7 @@ namespace TaleWorlds.MountAndBlade
 				actionIndexCache = (flag ? BatteringRam.act_usage_batteringram_left : BatteringRam.act_usage_batteringram_right);
 				break;
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\BatteringRam.cs", "GetActionCodeForStandingPoint", 572);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\BatteringRam.cs", "GetActionCodeForStandingPoint", 590);
 				break;
 			}
 			return actionIndexCache;
@@ -489,28 +489,12 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override bool ReadFromNetwork()
-		{
-			bool flag = true;
-			flag = flag && base.ReadFromNetwork();
-			if (flag)
-			{
-				bool flag2 = GameNetworkMessage.ReadBoolFromPacket(ref flag);
-				int num = GameNetworkMessage.ReadIntFromPacket(CompressionMission.BatteringRamStateCompressionInfo, ref flag);
-				if (flag)
-				{
-					this.HasArrivedAtTarget = flag2;
-					this._state = (BatteringRam.RamState)num;
-				}
-			}
-			return flag;
-		}
-
 		public override void WriteToNetwork()
 		{
 			base.WriteToNetwork();
 			GameNetworkMessage.WriteBoolToPacket(this.HasArrivedAtTarget);
 			GameNetworkMessage.WriteIntToPacket((int)this.State, CompressionMission.BatteringRamStateCompressionInfo);
+			GameNetworkMessage.WriteFloatToPacket(this.MovementComponent.GetTotalDistanceTraveledForPathTracker(), CompressionBasic.PositionCompressionInfo);
 		}
 
 		public override bool IsDeactivated
@@ -662,6 +646,18 @@ namespace TaleWorlds.MountAndBlade
 			return false;
 		}
 
+		public override void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+		{
+			base.OnAfterReadFromNetwork(synchedMissionObjectReadableRecord);
+			BatteringRam.BatteringRamRecord batteringRamRecord = (BatteringRam.BatteringRamRecord)synchedMissionObjectReadableRecord.Item2;
+			this.HasArrivedAtTarget = batteringRamRecord.HasArrivedAtTarget;
+			this._state = (BatteringRam.RamState)batteringRamRecord.State;
+			float num = batteringRamRecord.TotalDistanceTraveled;
+			num += 0.05f;
+			this.MovementComponent.SetTotalDistanceTraveledForPathTracker(num);
+			this.MovementComponent.SetTargetFrameForPathTracker();
+		}
+
 		private static readonly ActionIndexCache act_usage_batteringram_left = ActionIndexCache.Create("act_usage_batteringram_left");
 
 		private static readonly ActionIndexCache act_usage_batteringram_left_slower = ActionIndexCache.Create("act_usage_batteringram_left_slower");
@@ -757,6 +753,24 @@ namespace TaleWorlds.MountAndBlade
 		private CastleGate _gate;
 
 		private bool _hasArrivedAtTarget;
+
+		[DefineSynchedMissionObjectType(typeof(BatteringRam))]
+		public struct BatteringRamRecord : ISynchedMissionObjectReadableRecord
+		{
+			public bool HasArrivedAtTarget { get; private set; }
+
+			public int State { get; private set; }
+
+			public float TotalDistanceTraveled { get; private set; }
+
+			public bool ReadFromNetwork(ref bool bufferReadValid)
+			{
+				this.HasArrivedAtTarget = GameNetworkMessage.ReadBoolFromPacket(ref bufferReadValid);
+				this.State = GameNetworkMessage.ReadIntFromPacket(CompressionMission.BatteringRamStateCompressionInfo, ref bufferReadValid);
+				this.TotalDistanceTraveled = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.PositionCompressionInfo, ref bufferReadValid);
+				return bufferReadValid;
+			}
+		}
 
 		public enum RamState
 		{

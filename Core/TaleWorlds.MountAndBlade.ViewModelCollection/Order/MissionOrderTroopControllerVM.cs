@@ -5,6 +5,7 @@ using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.MountAndBlade.ViewModelCollection.Input;
 
 namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 {
@@ -124,12 +125,17 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			onTransferFinised.DynamicInvokeWithLog(Array.Empty<object>());
 		}
 
+		public void ExecuteReset()
+		{
+			this.RefreshValues();
+		}
+
 		internal void SetTroopActiveOrders(OrderTroopItemVM item)
 		{
 			bool flag = BannerlordConfig.OrderLayoutType == 1;
 			item.ActiveOrders.Clear();
 			List<OrderSubType> list = new List<OrderSubType>();
-			OrderType orderType = MissionOrderVM.GetOrderOverrideForUI(item.Formation, OrderSetType.Movement);
+			OrderType orderType = OrderUIHelper.GetOrderOverrideForUI(item.Formation, OrderSetType.Movement);
 			if (orderType == OrderType.None)
 			{
 				orderType = OrderController.GetActiveMovementOrderOf(item.Formation);
@@ -138,38 +144,32 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			{
 			case OrderType.Move:
 				list.Add(OrderSubType.MoveToPosition);
-				goto IL_D1;
-			case OrderType.MoveToLineSegment:
-			case OrderType.MoveToLineSegmentWithHorizontalLayout:
-			case OrderType.ChargeWithTarget:
-				break;
+				goto IL_D9;
 			case OrderType.Charge:
 				list.Add(OrderSubType.Charge);
-				goto IL_D1;
+				goto IL_D9;
+			case OrderType.ChargeWithTarget:
+				list.Add(OrderSubType.Charge);
+				goto IL_D9;
 			case OrderType.StandYourGround:
 				list.Add(OrderSubType.Stop);
-				goto IL_D1;
+				goto IL_D9;
 			case OrderType.FollowMe:
 				list.Add(OrderSubType.FollowMe);
-				goto IL_D1;
-			default:
-				switch (orderType)
-				{
-				case OrderType.Retreat:
-					list.Add(OrderSubType.Retreat);
-					goto IL_D1;
-				case OrderType.Advance:
-					list.Add(OrderSubType.Advance);
-					goto IL_D1;
-				case OrderType.FallBack:
-					list.Add(OrderSubType.Fallback);
-					goto IL_D1;
-				}
-				break;
+				goto IL_D9;
+			case OrderType.Retreat:
+				list.Add(OrderSubType.Retreat);
+				goto IL_D9;
+			case OrderType.Advance:
+				list.Add(OrderSubType.Advance);
+				goto IL_D9;
+			case OrderType.FallBack:
+				list.Add(OrderSubType.Fallback);
+				goto IL_D9;
 			}
-			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 164);
-			IL_D1:
-			OrderType orderType2 = MissionOrderVM.GetOrderOverrideForUI(item.Formation, OrderSetType.Form);
+			Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 175);
+			IL_D9:
+			OrderType orderType2 = OrderUIHelper.GetOrderOverrideForUI(item.Formation, OrderSetType.Form);
 			if (orderType2 == OrderType.None)
 			{
 				orderType2 = OrderController.GetActiveArrangementOrderOf(item.Formation);
@@ -201,7 +201,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				list.Add(OrderSubType.FormScatter);
 				break;
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 209);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 220);
 				break;
 			}
 			OrderType orderType3 = OrderController.GetActiveRidingOrderOf(item.Formation);
@@ -213,7 +213,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				}
 				else
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 223);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 234);
 				}
 			}
 			orderType3 = OrderController.GetActiveFiringOrderOf(item.Formation);
@@ -221,7 +221,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			{
 				if (orderType3 != OrderType.FireAtWill)
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 237);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 248);
 				}
 			}
 			else
@@ -235,7 +235,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				{
 					if (orderType3 != OrderType.AIControlOff)
 					{
-						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 253);
+						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 264);
 					}
 				}
 				else
@@ -252,7 +252,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				}
 				else
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 269);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "SetTroopActiveOrders", 280);
 				}
 			}
 			else
@@ -635,6 +635,14 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
+		internal void RefreshTroopFormationTargetVisuals()
+		{
+			for (int i = 0; i < this.TroopList.Count; i++)
+			{
+				this.TroopList[i].RefreshTargetedOrderVisual();
+			}
+		}
+
 		internal void OnSelectFormationWithIndex(int formationTroopIndex)
 		{
 			this.UpdateTroops();
@@ -679,8 +687,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			{
 				if (!agent.Equipment[equipmentIndex].IsEmpty && agent.Equipment[equipmentIndex].CurrentUsageItem.IsRangedWeapon)
 				{
-					currentAmmo = agent.Equipment.GetAmmoAmount(agent.Equipment[equipmentIndex].CurrentUsageItem.AmmoClass);
-					maxAmmo = agent.Equipment.GetMaxAmmo(agent.Equipment[equipmentIndex].CurrentUsageItem.AmmoClass);
+					currentAmmo = agent.Equipment.GetAmmoAmount(equipmentIndex);
+					maxAmmo = agent.Equipment.GetMaxAmmo(equipmentIndex);
 					return;
 				}
 			}
@@ -768,7 +776,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 			else
 			{
-				Debug.FailedAssert("Added troop item is null!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "AddTroopItemIfNotExist", 861);
+				Debug.FailedAssert("Added troop item is null!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\Order\\MissionOrderTroopControllerVM.cs", "AddTroopItemIfNotExist", 882);
 			}
 			return orderTroopItemVM;
 		}
@@ -949,6 +957,72 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
+		[DataSourceProperty]
+		public InputKeyItemVM DoneInputKey
+		{
+			get
+			{
+				return this._doneInputKey;
+			}
+			set
+			{
+				if (value != this._doneInputKey)
+				{
+					this._doneInputKey = value;
+					base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "DoneInputKey");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public InputKeyItemVM CancelInputKey
+		{
+			get
+			{
+				return this._cancelInputKey;
+			}
+			set
+			{
+				if (value != this._cancelInputKey)
+				{
+					this._cancelInputKey = value;
+					base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "CancelInputKey");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public InputKeyItemVM ResetInputKey
+		{
+			get
+			{
+				return this._resetInputKey;
+			}
+			set
+			{
+				if (value != this._resetInputKey)
+				{
+					this._resetInputKey = value;
+					base.OnPropertyChangedWithValue<InputKeyItemVM>(value, "ResetInputKey");
+				}
+			}
+		}
+
+		public void SetDoneInputKey(HotKey hotKey)
+		{
+			this.DoneInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
+		}
+
+		public void SetCancelInputKey(HotKey hotKey)
+		{
+			this.CancelInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
+		}
+
+		public void SetResetInputKey(HotKey hotKey)
+		{
+			this.ResetInputKey = InputKeyItemVM.CreateFromHotKey(hotKey, true);
+		}
+
 		private readonly MissionOrderVM _missionOrder;
 
 		private readonly Action _onTransferFinised;
@@ -978,6 +1052,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		private string _cancelText;
 
 		private bool _isTransferValid;
+
+		private InputKeyItemVM _doneInputKey;
+
+		private InputKeyItemVM _cancelInputKey;
+
+		private InputKeyItemVM _resetInputKey;
 
 		private class TroopItemFormationIndexComparer : IComparer<OrderTroopItemVM>
 		{

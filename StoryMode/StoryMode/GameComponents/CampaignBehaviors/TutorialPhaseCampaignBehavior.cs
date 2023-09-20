@@ -173,7 +173,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			VolunteerModel volunteerModel = Campaign.Current.Models.VolunteerModel;
 			foreach (Hero hero3 in settlement.Notables)
 			{
-				if (volunteerModel.CanHaveRecruits(hero3))
+				if (hero3.IsAlive && volunteerModel.CanHaveRecruits(hero3))
 				{
 					CharacterObject basicVolunteer = volunteerModel.GetBasicVolunteer(hero3);
 					for (int i = 0; i < hero3.VolunteerTypes.Length; i++)
@@ -186,7 +186,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 				}
 			}
 			DisableHeroAction.Apply(StoryModeHeroes.ElderBrother);
-			StoryModeHeroes.ElderBrother.Clan = CampaignData.NeutralFaction;
+			StoryModeHeroes.ElderBrother.Clan = null;
 			foreach (TroopRosterElement troopRosterElement in PartyBase.MainParty.MemberRoster.GetTroopRoster())
 			{
 				if (!troopRosterElement.Character.IsPlayerCharacter)
@@ -357,16 +357,9 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		private bool storymode_tutorial_village_enter_on_condition(MenuCallbackArgs args)
 		{
 			List<Location> list = Settlement.CurrentSettlement.LocationComplex.GetListOfLocations().ToList<Location>();
-			if (TutorialPhase.Instance.TutorialQuestPhase == TutorialQuestPhase.TalkToTheHeadmanStarted)
-			{
-				GameMenuOption.IssueQuestFlags issueQuestFlags = Campaign.Current.IssueManager.CheckIssueForMenuLocations(list, true);
-				args.OptionQuestData |= issueQuestFlags;
-				args.OptionQuestData |= Campaign.Current.QuestManager.CheckQuestForMenuLocations(list);
-			}
-			else
-			{
-				args.OptionQuestData = 0;
-			}
+			GameMenuOption.IssueQuestFlags issueQuestFlags = Campaign.Current.IssueManager.CheckIssueForMenuLocations(list, true);
+			args.OptionQuestData |= issueQuestFlags;
+			args.OptionQuestData |= Campaign.Current.QuestManager.CheckQuestForMenuLocations(list);
 			args.optionLeaveType = 1;
 			args.IsEnabled = !TutorialPhase.Instance.LockTutorialVillageEnter;
 			if (!args.IsEnabled)

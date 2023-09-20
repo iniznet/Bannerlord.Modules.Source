@@ -7,6 +7,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Localization;
+using TaleWorlds.SaveSystem;
 
 namespace StoryMode.Quests.SecondPhase
 {
@@ -29,7 +30,7 @@ namespace StoryMode.Quests.SecondPhase
 			}
 		}
 
-		public class WeakenEmpireQuestBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class WeakenEmpireQuestBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public WeakenEmpireQuestBehaviorTypeDefiner()
 				: base(1005000)
@@ -62,6 +63,14 @@ namespace StoryMode.Quests.SecondPhase
 				}
 			}
 
+			private TextObject _questCanceledLogText
+			{
+				get
+				{
+					return new TextObject("{=tVlZTOst}You have chosen a different path.", null);
+				}
+			}
+
 			public WeakenEmpireQuest(Hero questGiver)
 				: base("weaken_empire_quest", questGiver, CampaignTime.Never)
 			{
@@ -84,7 +93,6 @@ namespace StoryMode.Quests.SecondPhase
 
 			protected override void RegisterEvents()
 			{
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 				StoryModeEvents.OnConspiracyActivatedEvent.AddNonSerializedListener(this, new Action(this.OnConspiracyActivated));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 			}
@@ -93,11 +101,12 @@ namespace StoryMode.Quests.SecondPhase
 			{
 				if (clan == Clan.PlayerClan && oldKingdom == StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom)
 				{
-					base.CompleteQuestWithCancel(null);
+					base.CompleteQuestWithCancel(this._questCanceledLogText);
+					StoryModeManager.Current.MainStoryLine.CancelSecondAndThirdPhase();
 				}
 			}
 
-			protected void HourlyTick()
+			protected override void HourlyTick()
 			{
 				if (this.QuestConditionsHold())
 				{

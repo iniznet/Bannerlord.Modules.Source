@@ -1,6 +1,5 @@
 ﻿using System;
 using TaleWorlds.Core;
-using TaleWorlds.Engine;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -21,10 +20,6 @@ namespace TaleWorlds.MountAndBlade
 		protected override void OnActivate()
 		{
 			base.OnActivate();
-			if (Utilities.CommandLineArgumentExists("+connect_lobby"))
-			{
-				MBGameManager.StartNewGame(new MultiplayerGameManager());
-			}
 			MBMusicManager mbmusicManager = MBMusicManager.Current;
 			if (mbmusicManager == null)
 			{

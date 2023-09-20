@@ -1,5 +1,4 @@
 ﻿using System;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.InputSystem;
@@ -14,6 +13,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 		{
 			this._navigationHandler = navigationHandler;
 			this._getMapBarShortcuts = getMapBarShortcuts;
+			this._viewDataTracker = Campaign.Current.GetCampaignBehavior<IViewDataTracker>();
 			IFaction mapFaction = Hero.MainHero.MapFaction;
 			this.IsKingdomEnabled = mapFaction != null && mapFaction.IsKingdomFaction;
 			this.IsPartyEnabled = true;
@@ -107,9 +107,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 				this.KingdomHint.SetHintCallback(() => GameTexts.FindText("str_need_to_be_a_part_of_kingdom", null).ToString());
 			}
 			this.AlertText = GameTexts.FindText("str_map_bar_alert", null).ToString();
-			this.CharacterAlertHint.SetHintCallback(() => PlayerUpdateTracker.Current.GetCharacterNotificationText());
-			this.QuestAlertHint.SetHintCallback(() => PlayerUpdateTracker.Current.GetQuestNotificationText());
-			this.PartyAlertHint.SetHintCallback(() => PlayerUpdateTracker.Current.GetPartyNotificationText());
+			this.CharacterAlertHint.SetHintCallback(() => this._viewDataTracker.GetCharacterNotificationText());
+			this.QuestAlertHint.SetHintCallback(() => this._viewDataTracker.GetQuestNotificationText());
+			this.PartyAlertHint.SetHintCallback(() => this._viewDataTracker.GetPartyNotificationText());
 			this.Refresh();
 		}
 
@@ -124,7 +124,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 		public void Refresh()
 		{
 			this.RefreshAlertValues();
-			PlayerUpdateTracker.Current.UpdatePartyNotification();
+			this._viewDataTracker.UpdatePartyNotification();
 		}
 
 		public void Tick()
@@ -225,11 +225,9 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 
 		private void RefreshAlertValues()
 		{
-			this.QuestsAlert = PlayerUpdateTracker.Current.IsQuestNotificationActive;
-			this.SkillAlert = PlayerUpdateTracker.Current.IsCharacterNotificationActive;
-			this.PartyAlert = PlayerUpdateTracker.Current.IsPartyNotificationActive;
-			this.KingdomAlert = PlayerUpdateTracker.Current.IsKingdomNotificationActive;
-			this.ClanAlert = PlayerUpdateTracker.Current.IsClanNotificationActive;
+			this.QuestsAlert = this._viewDataTracker.IsQuestNotificationActive;
+			this.SkillAlert = this._viewDataTracker.IsCharacterNotificationActive;
+			this.PartyAlert = this._viewDataTracker.IsPartyNotificationActive;
 		}
 
 		private void RefreshStates()
@@ -907,6 +905,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapBar
 		private bool _latestIsKingdomEnabled;
 
 		private bool _latestIsClanEnabled;
+
+		private readonly IViewDataTracker _viewDataTracker;
 
 		private string _alertText;
 

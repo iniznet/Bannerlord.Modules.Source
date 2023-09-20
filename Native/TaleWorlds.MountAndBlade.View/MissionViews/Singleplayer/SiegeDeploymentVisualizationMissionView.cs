@@ -8,14 +8,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 {
 	public class SiegeDeploymentVisualizationMissionView : MissionView
 	{
-		public override void OnMissionScreenInitialize()
-		{
-			base.OnMissionScreenInitialize();
-			this._deploymentMissionView = base.Mission.GetMissionBehavior<DeploymentMissionView>();
-			DeploymentMissionView deploymentMissionView = this._deploymentMissionView;
-			deploymentMissionView.OnDeploymentFinish = (OnPlayerDeploymentFinishDelegate)Delegate.Combine(deploymentMissionView.OnDeploymentFinish, new OnPlayerDeploymentFinishDelegate(this.OnDeploymentFinish));
-		}
-
 		public override void AfterStart()
 		{
 			base.AfterStart();
@@ -29,6 +21,14 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			}
 			this._deploymentPointsVisible = true;
 			Mission.Current.GetMissionBehavior<SiegeDeploymentMissionController>();
+		}
+
+		public override void OnMissionScreenInitialize()
+		{
+			base.OnMissionScreenInitialize();
+			this._deploymentMissionView = base.Mission.GetMissionBehavior<DeploymentMissionView>();
+			DeploymentMissionView deploymentMissionView = this._deploymentMissionView;
+			deploymentMissionView.OnDeploymentFinish = (OnPlayerDeploymentFinishDelegate)Delegate.Combine(deploymentMissionView.OnDeploymentFinish, new OnPlayerDeploymentFinishDelegate(this.OnDeploymentFinish));
 		}
 
 		public void OnDeploymentFinish()
@@ -83,9 +83,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 				this.HideDeploymentBanners(deploymentPoint, true);
 				this.SetDeploymentTargetContourState(deploymentPoint, false);
 				this.SetLightState(deploymentPoint, false);
-				return;
-			case 3:
-				this.HideTrajectories(deploymentPoint);
 				return;
 			default:
 				return;
@@ -155,17 +152,9 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 						}
 					}
 				}
-				else
+				else if (deploymentPoint.GetDeploymentPointType() == null)
 				{
-					if (deploymentPoint.GetDeploymentPointType() == null)
-					{
-						this.HideDeploymentBanners(deploymentPoint, false);
-						return;
-					}
-					if (deploymentPoint.GetDeploymentPointType() == 3)
-					{
-						this.HideTrajectories(deploymentPoint);
-					}
+					this.HideDeploymentBanners(deploymentPoint, false);
 				}
 				break;
 			case 1:
@@ -240,13 +229,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 				if ((SiegeDeploymentVisualizationMissionView.deploymentVisualizerSelector & 256) > 0)
 				{
 					this.SetLightState(deploymentPoint, true);
-					return;
-				}
-				break;
-			case 5:
-				if ((SiegeDeploymentVisualizationMissionView.deploymentVisualizerSelector & 512) > 0)
-				{
-					this.ShowTrajectory(deploymentPoint);
 					return;
 				}
 				break;
@@ -527,19 +509,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			this._deploymentLights.Add(deploymentPoint, gameEntity);
 		}
 
-		private void ShowTrajectory(DeploymentPoint deploymentPoint)
-		{
-			(deploymentPoint.DeployedWeapon as RangedSiegeWeapon).ToggleTrajectoryVisibility(true);
-		}
-
-		private void HideTrajectories(DeploymentPoint deploymentPoint)
-		{
-			foreach (SynchedMissionObject synchedMissionObject in deploymentPoint.GetWeaponsUnder())
-			{
-				(synchedMissionObject as RangedSiegeWeapon).ToggleTrajectoryVisibility(false);
-			}
-		}
-
 		private static int deploymentVisualizerSelector;
 
 		private List<DeploymentPoint> _deploymentPoints;
@@ -567,7 +536,6 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews.Singleplayer
 			Contour = 64,
 			LiftLadders = 128,
 			Light = 256,
-			Trajectory = 512,
 			AllEnabled = 1023
 		}
 	}

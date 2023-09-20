@@ -49,7 +49,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.List
 
 		private void UpdateAlternativeSortState(EncyclopediaListItemComparerBase comparer)
 		{
-			EncyclopediaListSortControllerVM.SortState sortState = (comparer.IsAscending ? EncyclopediaListSortControllerVM.SortState.Ascending : EncyclopediaListSortControllerVM.SortState.Descending);
+			CampaignUIHelper.SortState sortState = (comparer.IsAscending ? CampaignUIHelper.SortState.Ascending : CampaignUIHelper.SortState.Descending);
 			this.AlternativeSortState = (int)sortState;
 		}
 
@@ -235,12 +235,5 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Encyclopedia.List
 		private bool _isAlternativeSortVisible;
 
 		private bool _isHighlightEnabled;
-
-		private enum SortState
-		{
-			Default,
-			Ascending,
-			Descending
-		}
 	}
 }

@@ -11,7 +11,7 @@ namespace NetworkMessages.FromServer
 	{
 		public int MissileIndex { get; private set; }
 
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public EquipmentIndex WeaponIndex { get; private set; }
 
@@ -27,14 +27,14 @@ namespace NetworkMessages.FromServer
 
 		public bool HasRigidBody { get; private set; }
 
-		public MissionObject MissionObjectToIgnore { get; private set; }
+		public MissionObjectId MissionObjectToIgnoreId { get; private set; }
 
 		public bool IsPrimaryWeaponShot { get; private set; }
 
-		public CreateMissile(int missileIndex, Agent agent, EquipmentIndex weaponIndex, MissionWeapon weapon, Vec3 position, Vec3 direction, float speed, Mat3 orientation, bool hasRigidBody, MissionObject missionObjectToIgnore, bool isPrimaryWeaponShot)
+		public CreateMissile(int missileIndex, int agentIndex, EquipmentIndex weaponIndex, MissionWeapon weapon, Vec3 position, Vec3 direction, float speed, Mat3 orientation, bool hasRigidBody, MissionObjectId missionObjectToIgnoreId, bool isPrimaryWeaponShot)
 		{
 			this.MissileIndex = missileIndex;
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.WeaponIndex = weaponIndex;
 			this.Weapon = weapon;
 			this.Position = position;
@@ -42,7 +42,7 @@ namespace NetworkMessages.FromServer
 			this.Speed = speed;
 			this.Orientation = orientation;
 			this.HasRigidBody = hasRigidBody;
-			this.MissionObjectToIgnore = missionObjectToIgnore;
+			this.MissionObjectToIgnoreId = missionObjectToIgnoreId;
 			this.IsPrimaryWeaponShot = isPrimaryWeaponShot;
 		}
 
@@ -54,7 +54,7 @@ namespace NetworkMessages.FromServer
 		{
 			bool flag = true;
 			this.MissileIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.MissileCompressionInfo, ref flag);
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.WeaponIndex = (EquipmentIndex)GameNetworkMessage.ReadIntFromPacket(CompressionMission.WieldSlotCompressionInfo, ref flag);
 			if (this.WeaponIndex == EquipmentIndex.None)
 			{
@@ -67,7 +67,7 @@ namespace NetworkMessages.FromServer
 			if (this.HasRigidBody)
 			{
 				this.Orientation = GameNetworkMessage.ReadRotationMatrixFromPacket(ref flag);
-				this.MissionObjectToIgnore = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+				this.MissionObjectToIgnoreId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			}
 			else
 			{
@@ -82,7 +82,7 @@ namespace NetworkMessages.FromServer
 		protected override void OnWrite()
 		{
 			GameNetworkMessage.WriteIntToPacket(this.MissileIndex, CompressionMission.MissileCompressionInfo);
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteIntToPacket((int)this.WeaponIndex, CompressionMission.WieldSlotCompressionInfo);
 			if (this.WeaponIndex == EquipmentIndex.None)
 			{
@@ -95,7 +95,7 @@ namespace NetworkMessages.FromServer
 			if (this.HasRigidBody)
 			{
 				GameNetworkMessage.WriteRotationMatrixToPacket(this.Orientation);
-				GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.MissionObjectToIgnore);
+				GameNetworkMessage.WriteMissionObjectIdToPacket((this.MissionObjectToIgnoreId.Id >= 0) ? this.MissionObjectToIgnoreId : MissionObjectId.Invalid);
 			}
 			else
 			{
@@ -111,15 +111,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Create a missile with index: ",
-				this.MissileIndex,
-				" on agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index
-			});
+			return string.Concat(new object[] { "Create a missile with index: ", this.MissileIndex, " on agent with agent-index: ", this.AgentIndex });
 		}
 	}
 }

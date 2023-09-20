@@ -14,7 +14,7 @@ namespace TaleWorlds.CampaignSystem.Conversation.Tags
 
 		public override bool IsApplicableTo(CharacterObject character)
 		{
-			return character.IsHero && character.HeroObject.IsFactionLeader;
+			return character.IsHero && character.HeroObject.IsKingdomLeader;
 		}
 
 		public const string Id = "NpcIsLiegeTag";

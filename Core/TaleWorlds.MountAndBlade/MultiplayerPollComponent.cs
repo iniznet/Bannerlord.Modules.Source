@@ -208,7 +208,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			MissionPeer component = pollCreatorPeer.GetComponent<MissionPeer>();
 			MissionPeer component2 = targetPeer.GetComponent<MissionPeer>();
-			this._ongoingPoll = new MultiplayerPollComponent.KickPlayerPoll(this._missionLobbyComponent, participantsToVote, targetPeer, component.Team);
+			this._ongoingPoll = new MultiplayerPollComponent.KickPlayerPoll(this._missionLobbyComponent.MissionType, participantsToVote, targetPeer, component.Team);
 			if (GameNetwork.IsServer)
 			{
 				MultiplayerPollComponent.MultiplayerPoll ongoingPoll = this._ongoingPoll;
@@ -293,7 +293,7 @@ namespace TaleWorlds.MountAndBlade
 			if (this._ongoingPoll == null)
 			{
 				List<NetworkCommunicator> list = GameNetwork.NetworkPeers.ToList<NetworkCommunicator>();
-				this._ongoingPoll = new MultiplayerPollComponent.ChangeGamePoll(this._missionLobbyComponent, list, gameType, scene);
+				this._ongoingPoll = new MultiplayerPollComponent.ChangeGamePoll(this._missionLobbyComponent.MissionType, list, gameType, scene);
 				if (GameNetwork.IsServer)
 				{
 					MultiplayerPollComponent.MultiplayerPoll ongoingPoll = this._ongoingPoll;
@@ -455,9 +455,9 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 
-			protected MultiplayerPoll(MissionLobbyComponent missionLobbyComponent, MultiplayerPollComponent.MultiplayerPoll.Type pollType, List<NetworkCommunicator> participantsToVote)
+			protected MultiplayerPoll(MultiplayerGameType gameType, MultiplayerPollComponent.MultiplayerPoll.Type pollType, List<NetworkCommunicator> participantsToVote)
 			{
-				this._missionLobbyComponent = missionLobbyComponent;
+				this._gameType = gameType;
 				this.PollType = pollType;
 				if (participantsToVote != null)
 				{
@@ -545,9 +545,8 @@ namespace TaleWorlds.MountAndBlade
 
 			public bool GotEnoughAcceptVotesToEnd()
 			{
-				MissionLobbyComponent.MultiplayerGameType missionType = this._missionLobbyComponent.MissionType;
 				bool flag;
-				if (missionType == MissionLobbyComponent.MultiplayerGameType.Skirmish || missionType == MissionLobbyComponent.MultiplayerGameType.Captain)
+				if (this._gameType == MultiplayerGameType.Skirmish || this._gameType == MultiplayerGameType.Captain)
 				{
 					flag = this.AcceptedByAllParticipants();
 				}
@@ -560,9 +559,8 @@ namespace TaleWorlds.MountAndBlade
 
 			private bool GotEnoughRejectVotesToEnd()
 			{
-				MissionLobbyComponent.MultiplayerGameType missionType = this._missionLobbyComponent.MissionType;
 				bool flag;
-				if (missionType == MissionLobbyComponent.MultiplayerGameType.Skirmish || missionType == MissionLobbyComponent.MultiplayerGameType.Captain)
+				if (this._gameType == MultiplayerGameType.Skirmish || this._gameType == MultiplayerGameType.Captain)
 				{
 					flag = this.RejectedByAtLeastOneParticipant();
 				}
@@ -615,7 +613,7 @@ namespace TaleWorlds.MountAndBlade
 
 			private readonly List<NetworkCommunicator> _participantsToVote;
 
-			private readonly MissionLobbyComponent _missionLobbyComponent;
+			private readonly MultiplayerGameType _gameType;
 
 			public enum Type
 			{
@@ -629,8 +627,8 @@ namespace TaleWorlds.MountAndBlade
 		{
 			public NetworkCommunicator TargetPeer { get; }
 
-			public KickPlayerPoll(MissionLobbyComponent missionLobbyComponent, List<NetworkCommunicator> participantsToVote, NetworkCommunicator targetPeer, Team team)
-				: base(missionLobbyComponent, MultiplayerPollComponent.MultiplayerPoll.Type.KickPlayer, participantsToVote)
+			public KickPlayerPoll(MultiplayerGameType gameType, List<NetworkCommunicator> participantsToVote, NetworkCommunicator targetPeer, Team team)
+				: base(gameType, MultiplayerPollComponent.MultiplayerPoll.Type.KickPlayer, participantsToVote)
 			{
 				this.TargetPeer = targetPeer;
 				this._team = team;
@@ -664,8 +662,8 @@ namespace TaleWorlds.MountAndBlade
 		{
 			public NetworkCommunicator TargetPeer { get; }
 
-			public BanPlayerPoll(MissionLobbyComponent missionLobbyComponent, List<NetworkCommunicator> participantsToVote, NetworkCommunicator targetPeer)
-				: base(missionLobbyComponent, MultiplayerPollComponent.MultiplayerPoll.Type.BanPlayer, participantsToVote)
+			public BanPlayerPoll(MultiplayerGameType gameType, List<NetworkCommunicator> participantsToVote, NetworkCommunicator targetPeer)
+				: base(gameType, MultiplayerPollComponent.MultiplayerPoll.Type.BanPlayer, participantsToVote)
 			{
 				this.TargetPeer = targetPeer;
 			}
@@ -677,8 +675,8 @@ namespace TaleWorlds.MountAndBlade
 
 			public string MapName { get; }
 
-			public ChangeGamePoll(MissionLobbyComponent missionLobbyComponent, List<NetworkCommunicator> participantsToVote, string gameType, string scene)
-				: base(missionLobbyComponent, MultiplayerPollComponent.MultiplayerPoll.Type.ChangeGame, participantsToVote)
+			public ChangeGamePoll(MultiplayerGameType currentGameType, List<NetworkCommunicator> participantsToVote, string gameType, string scene)
+				: base(currentGameType, MultiplayerPollComponent.MultiplayerPoll.Type.ChangeGame, participantsToVote)
 			{
 				this.GameType = gameType;
 				this.MapName = scene;

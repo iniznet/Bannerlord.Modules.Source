@@ -116,6 +116,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			this.genderBasedSelectedValues[1].Reset();
 			this._undoCommands = new List<FaceGenVM.UndoRedoKey>(100);
 			this._redoCommands = new List<FaceGenVM.UndoRedoKey>(100);
+			this.IsUndoEnabled = this._undoCommands.Count > 0;
+			this.IsRedoEnabled = this._redoCommands.Count > 0;
 			this.CanChangeRace = this._isRaceAvailable;
 			this.RefreshValues();
 		}
@@ -264,37 +266,37 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			{
 				t %= 4278190080U;
 				return "#" + Convert.ToString((long)((ulong)t), 16).PadLeft(6, '0').ToUpper() + "FF";
-			}).ToList<string>(), MathF.Round(this._faceGenerationParams._curSkinColorOffset * (float)(this._skinColors.Count - 1)), new Action<SelectorVM<SelectorItemVM>>(this.OnSelectSkinColor));
+			}).ToList<string>(), MathF.Round(this._faceGenerationParams.CurrentSkinColorOffset * (float)(this._skinColors.Count - 1)), new Action<SelectorVM<SelectorItemVM>>(this.OnSelectSkinColor));
 			this.HairColorSelector = new SelectorVM<SelectorItemVM>(this._hairColors.Select(delegate(uint t)
 			{
 				t %= 4278190080U;
 				return "#" + Convert.ToString((long)((ulong)t), 16).PadLeft(6, '0').ToUpper() + "FF";
-			}).ToList<string>(), MathF.Round(this._faceGenerationParams._curHairColorOffset * (float)(this._hairColors.Count - 1)), new Action<SelectorVM<SelectorItemVM>>(this.OnSelectHairColor));
+			}).ToList<string>(), MathF.Round(this._faceGenerationParams.CurrentHairColorOffset * (float)(this._hairColors.Count - 1)), new Action<SelectorVM<SelectorItemVM>>(this.OnSelectHairColor));
 			this.TattooColorSelector = new SelectorVM<SelectorItemVM>(this._tattooColors.Select(delegate(uint t)
 			{
 				t %= 4278190080U;
 				return "#" + Convert.ToString((long)((ulong)t), 16).PadLeft(6, '0').ToUpper() + "FF";
-			}).ToList<string>(), MathF.Round(this._faceGenerationParams._curFaceTattooColorOffset1 * (float)(this._tattooColors.Count - 1)), new Action<SelectorVM<SelectorItemVM>>(this.OnSelectTattooColor));
+			}).ToList<string>(), MathF.Round(this._faceGenerationParams.CurrentFaceTattooColorOffset1 * (float)(this._tattooColors.Count - 1)), new Action<SelectorVM<SelectorItemVM>>(this.OnSelectTattooColor));
 		}
 
 		private void OnSelectSkinColor(SelectorVM<SelectorItemVM> s)
 		{
 			this.AddCommand();
-			this._faceGenerationParams._curSkinColorOffset = (float)s.SelectedIndex / (float)(this._skinColors.Count - 1);
+			this._faceGenerationParams.CurrentSkinColorOffset = (float)s.SelectedIndex / (float)(this._skinColors.Count - 1);
 			this.UpdateFace();
 		}
 
 		private void OnSelectTattooColor(SelectorVM<SelectorItemVM> s)
 		{
 			this.AddCommand();
-			this._faceGenerationParams._curFaceTattooColorOffset1 = (float)s.SelectedIndex / (float)(this._tattooColors.Count - 1);
+			this._faceGenerationParams.CurrentFaceTattooColorOffset1 = (float)s.SelectedIndex / (float)(this._tattooColors.Count - 1);
 			this.UpdateFace();
 		}
 
 		private void OnSelectHairColor(SelectorVM<SelectorItemVM> s)
 		{
 			this.AddCommand();
-			this._faceGenerationParams._curHairColorOffset = (float)s.SelectedIndex / (float)(this._hairColors.Count - 1);
+			this._faceGenerationParams.CurrentHairColorOffset = (float)s.SelectedIndex / (float)(this._hairColors.Count - 1);
 			this.UpdateFace();
 		}
 
@@ -369,13 +371,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			}
 			this._characterRefreshEnabled = false;
 			base.OnPropertyChanged("FlipHairCb");
-			this._selectedRace = this._faceGenerationParams._currentRace;
-			this._selectedGender = this._faceGenerationParams._currentGender;
+			this._selectedRace = this._faceGenerationParams.CurrentRace;
+			this._selectedGender = this._faceGenerationParams.CurrentGender;
 			this.SetColorCodes();
 			int num = 0;
-			MBBodyProperties.GetParamsMax(this._selectedRace, this.SelectedGender, (int)this._faceGenerationParams._curAge, ref num, ref this.beardNum, ref this.faceTextureNum, ref this.mouthTextureNum, ref this.faceTattooNum, ref this._newSoundPresetSize, ref this.eyebrowTextureNum, ref this._scale);
+			MBBodyProperties.GetParamsMax(this._selectedRace, this.SelectedGender, (int)this._faceGenerationParams.CurrentAge, ref num, ref this.beardNum, ref this.faceTextureNum, ref this.mouthTextureNum, ref this.faceTattooNum, ref this._newSoundPresetSize, ref this.eyebrowTextureNum, ref this._scale);
 			this.HairNum = num;
-			MBBodyProperties.GetZeroProbabilities(this._selectedRace, this.SelectedGender, this._faceGenerationParams._curAge, ref this._faceGenerationParams._tattooZeroProbability);
+			MBBodyProperties.GetZeroProbabilities(this._selectedRace, this.SelectedGender, this._faceGenerationParams.CurrentAge, ref this._faceGenerationParams.TattooZeroProbability);
 			if (clearProperties)
 			{
 				foreach (KeyValuePair<FaceGenVM.FaceGenTabs, MBBindingList<FaceGenPropertyVM>> keyValuePair in this._tabProperties)
@@ -389,15 +391,15 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			int num5 = 0;
 			if (clearProperties)
 			{
-				int faceGenInstancesLength = MBBodyProperties.GetFaceGenInstancesLength(this._faceGenerationParams._currentRace, this._faceGenerationParams._currentGender, (int)this._faceGenerationParams._curAge);
+				int faceGenInstancesLength = MBBodyProperties.GetFaceGenInstancesLength(this._faceGenerationParams.CurrentRace, this._faceGenerationParams.CurrentGender, (int)this._faceGenerationParams.CurrentAge);
 				for (int i = 0; i < faceGenInstancesLength; i++)
 				{
-					DeformKeyData deformKeyData = MBBodyProperties.GetDeformKeyData(i, this._faceGenerationParams._currentRace, this._faceGenerationParams._currentGender, (int)this._faceGenerationParams._curAge);
+					DeformKeyData deformKeyData = MBBodyProperties.GetDeformKeyData(i, this._faceGenerationParams.CurrentRace, this._faceGenerationParams.CurrentGender, (int)this._faceGenerationParams.CurrentAge);
 					TextObject textObject = new TextObject("{=bsiRNJtk}{NAME}:", null);
 					textObject.SetTextVariable("NAME", GameTexts.FindText("str_facegen_skin", deformKeyData.Id));
 					if (GameTexts.FindText("str_facegen_skin", deformKeyData.Id).ToString().Contains("exist"))
 					{
-						Debug.FailedAssert(deformKeyData.Id + " id name doesn't exist", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\FaceGenerator\\FaceGenVM.cs", "Refresh", 439);
+						Debug.FailedAssert(deformKeyData.Id + " id name doesn't exist", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\FaceGenerator\\FaceGenVM.cs", "Refresh", 441);
 					}
 					if (deformKeyData.Id == "weight")
 					{
@@ -443,40 +445,40 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			this.SetTabAvailabilities();
 			if (clearProperties)
 			{
-				FaceGenPropertyVM faceGenPropertyVM = new FaceGenPropertyVM(-19, 0.0, 1.0, new TextObject("{=G6hYIR5k}Voice Pitch:", null), -19, 0, (double)this._faceGenerationParams._voicePitch, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+				FaceGenPropertyVM faceGenPropertyVM = new FaceGenPropertyVM(-19, 0.0, 1.0, new TextObject("{=G6hYIR5k}Voice Pitch:", null), -19, 0, (double)this._faceGenerationParams.VoicePitch, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
 				this._tabProperties[FaceGenVM.FaceGenTabs.Body].Add(faceGenPropertyVM);
-				this._heightSlider = new FaceGenPropertyVM(-16, (double)(this._openedFromMultiplayer ? 0.25f : 0f), (double)(this._openedFromMultiplayer ? 0.75f : 1f), new TextObject("{=cLJdeUWz}Height:", null), num2, 0, (double)((this._heightSlider == null) ? this._faceGenerationParams._heightMultiplier : this._heightSlider.Value), new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+				this._heightSlider = new FaceGenPropertyVM(-16, (double)(this._openedFromMultiplayer ? 0.25f : 0f), (double)(this._openedFromMultiplayer ? 0.75f : 1f), new TextObject("{=cLJdeUWz}Height:", null), num2, 0, (double)((this._heightSlider == null) ? this._faceGenerationParams.HeightMultiplier : this._heightSlider.Value), new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
 				this._tabProperties[FaceGenVM.FaceGenTabs.Body].Add(this._heightSlider);
 				this.UpdateVoiceIndiciesFromCurrentParameters();
 				if (this._isAgeAvailable)
 				{
 					double num6 = (double)(this._openedFromMultiplayer ? 25 : 3);
-					faceGenPropertyVM = new FaceGenPropertyVM(-11, num6, 128.0, new TextObject("{=H1emUb6k}Age:", null), num4, 0, (double)this._faceGenerationParams._curAge, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+					faceGenPropertyVM = new FaceGenPropertyVM(-11, num6, 128.0, new TextObject("{=H1emUb6k}Age:", null), num4, 0, (double)this._faceGenerationParams.CurrentAge, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
 					this._tabProperties[FaceGenVM.FaceGenTabs.Body].Add(faceGenPropertyVM);
 				}
 				if (this._isWeightAvailable)
 				{
-					faceGenPropertyVM = new FaceGenPropertyVM(-17, 0.0, 1.0, new TextObject("{=zBld61ck}Weight:", null), num3, 0, (double)this._faceGenerationParams._curWeight, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+					faceGenPropertyVM = new FaceGenPropertyVM(-17, 0.0, 1.0, new TextObject("{=zBld61ck}Weight:", null), num3, 0, (double)this._faceGenerationParams.CurrentWeight, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
 					this._tabProperties[FaceGenVM.FaceGenTabs.Body].Add(faceGenPropertyVM);
 				}
 				if (this._isBuildAvailable)
 				{
-					faceGenPropertyVM = new FaceGenPropertyVM(-18, 0.0, 1.0, new TextObject("{=EUAKPHek}Build:", null), num5, 0, (double)this._faceGenerationParams._curBuild, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+					faceGenPropertyVM = new FaceGenPropertyVM(-18, 0.0, 1.0, new TextObject("{=EUAKPHek}Build:", null), num5, 0, (double)this._faceGenerationParams.CurrentBuild, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
 					this._tabProperties[FaceGenVM.FaceGenTabs.Body].Add(faceGenPropertyVM);
 				}
-				faceGenPropertyVM = new FaceGenPropertyVM(-12, 0.0, 1.0, new TextObject("{=qXxpITdc}Eye Color:", null), -12, 2, (double)this._faceGenerationParams._curEyeColorOffset, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+				faceGenPropertyVM = new FaceGenPropertyVM(-12, 0.0, 1.0, new TextObject("{=qXxpITdc}Eye Color:", null), -12, 2, (double)this._faceGenerationParams.CurrentEyeColorOffset, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
 				this._tabProperties[FaceGenVM.FaceGenTabs.Eyes].Add(faceGenPropertyVM);
 				this.RaceSelector = new SelectorVM<SelectorItemVM>(FaceGen.GetRaceNames(), this._selectedRace, new Action<SelectorVM<SelectorItemVM>>(this.OnSelectRace));
 			}
 			this.UpdateRaceAndGenderBasedResources();
 			if (!this._initialValuesSet)
 			{
-				this._initialSelectedTaintType = this._faceGenerationParams._curFaceTattoo;
-				this._initialSelectedBeardType = this._faceGenerationParams._curBeard;
-				this._initialSelectedHairType = this._faceGenerationParams._currentHair;
-				this._initialSelectedHairColor = this._faceGenerationParams._curHairColorOffset;
-				this._initialSelectedSkinColor = this._faceGenerationParams._curSkinColorOffset;
-				this._initialSelectedTaintColor = this._faceGenerationParams._curFaceTattooColorOffset1;
+				this._initialSelectedTaintType = this._faceGenerationParams.CurrentFaceTattoo;
+				this._initialSelectedBeardType = this._faceGenerationParams.CurrentBeard;
+				this._initialSelectedHairType = this._faceGenerationParams.CurrentHair;
+				this._initialSelectedHairColor = this._faceGenerationParams.CurrentHairColorOffset;
+				this._initialSelectedSkinColor = this._faceGenerationParams.CurrentSkinColorOffset;
+				this._initialSelectedTaintColor = this._faceGenerationParams.CurrentFaceTattooColorOffset1;
 				this._initialRace = this._selectedRace;
 				this._initialGender = this.SelectedGender;
 				this._initialValuesSet = true;
@@ -488,7 +490,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 		private void UpdateRaceAndGenderBasedResources()
 		{
 			int num = 0;
-			MBBodyProperties.GetParamsMax(this._selectedRace, this.SelectedGender, (int)this._faceGenerationParams._curAge, ref num, ref this.beardNum, ref this.faceTextureNum, ref this.mouthTextureNum, ref this.faceTattooNum, ref this._newSoundPresetSize, ref this.eyebrowTextureNum, ref this._scale);
+			MBBodyProperties.GetParamsMax(this._selectedRace, this.SelectedGender, (int)this._faceGenerationParams.CurrentAge, ref num, ref this.beardNum, ref this.faceTextureNum, ref this.mouthTextureNum, ref this.faceTattooNum, ref this._newSoundPresetSize, ref this.eyebrowTextureNum, ref this._scale);
 			this.HairNum = num;
 			int[] array = Enumerable.Range(0, num).ToArray<int>();
 			int[] array2 = Enumerable.Range(0, this.beardNum).ToArray<int>();
@@ -500,7 +502,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			this.BeardTypes.Clear();
 			for (int i = 0; i < this.beardNum; i++)
 			{
-				if (array2.Contains(i) || i == this._faceGenerationParams._curBeard)
+				if (array2.Contains(i) || i == this._faceGenerationParams.CurrentBeard)
 				{
 					FacegenListItemVM facegenListItemVM = new FacegenListItemVM("FaceGen\\Beard\\img" + i, i, new Action<FacegenListItemVM, bool>(this.SetSelectedBeardType));
 					this.BeardTypes.Add(facegenListItemVM);
@@ -510,7 +512,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			this.HairTypes.Clear();
 			for (int j = 0; j < num; j++)
 			{
-				if (array.Contains(j) || j == this._faceGenerationParams._currentHair)
+				if (array.Contains(j) || j == this._faceGenerationParams.CurrentHair)
 				{
 					FacegenListItemVM facegenListItemVM2 = new FacegenListItemVM(string.Concat(new object[] { "FaceGen\\Hair\\", text, "\\img", j }), j, new Action<FacegenListItemVM, bool>(this.SetSelectedHairType));
 					this.HairTypes.Add(facegenListItemVM2);
@@ -526,29 +528,29 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			this.UpdateFace(-1, (float)this._selectedGender, true, true);
 			if (this.BeardTypes.Count > 0)
 			{
-				this.SetSelectedBeardType(this._faceGenerationParams._curBeard, false);
+				this.SetSelectedBeardType(this._faceGenerationParams.CurrentBeard, false);
 			}
-			this.SetSelectedHairType(this._faceGenerationParams._currentHair, false);
+			this.SetSelectedHairType(this._faceGenerationParams.CurrentHair, false);
 			if (this.TaintTypes.Count > 0)
 			{
-				this.SetSelectedTattooType(this.TaintTypes[this._faceGenerationParams._curFaceTattoo], false);
+				this.SetSelectedTattooType(this.TaintTypes[this._faceGenerationParams.CurrentFaceTattoo], false);
 			}
 			this.UpdateVoiceIndiciesFromCurrentParameters();
 			if (!this._openedFromMultiplayer)
 			{
-				this._faceGenerationParams._currentVoice = this.GetVoiceRealIndex(0);
+				this._faceGenerationParams.CurrentVoice = this.GetVoiceRealIndex(0);
 			}
-			this._faceGenerationParams._curFaceTexture = MBMath.ClampInt(this._faceGenerationParams._curFaceTexture, 0, this.faceTextureNum - 1);
-			this.FaceTypes = new FaceGenPropertyVM(-3, 0.0, (double)(this.faceTextureNum - 1), new TextObject("{=DmaP2qaR}Skin Type", null), -3, 1, (double)this._faceGenerationParams._curFaceTexture, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
-			this._faceGenerationParams._curMouthTexture = MBMath.ClampInt(this._faceGenerationParams._curMouthTexture, 0, this.mouthTextureNum - 1);
-			this.TeethTypes = new FaceGenPropertyVM(-14, 0.0, (double)(this.mouthTextureNum - 1), new TextObject("{=l2CNxPXG}Teeth Type", null), -14, 4, (double)this._faceGenerationParams._curMouthTexture, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
-			this._faceGenerationParams._curEyebrow = MBMath.ClampInt(this._faceGenerationParams._curEyebrow, 0, this.eyebrowTextureNum - 1);
-			this.EyebrowTypes = new FaceGenPropertyVM(-15, 0.0, (double)(this.eyebrowTextureNum - 1), new TextObject("{=bIcFZT6L}Eyebrow Type", null), -15, 4, (double)this._faceGenerationParams._curEyebrow, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+			this._faceGenerationParams.CurrentFaceTexture = MBMath.ClampInt(this._faceGenerationParams.CurrentFaceTexture, 0, this.faceTextureNum - 1);
+			this.FaceTypes = new FaceGenPropertyVM(-3, 0.0, (double)(this.faceTextureNum - 1), new TextObject("{=DmaP2qaR}Skin Type", null), -3, 1, (double)this._faceGenerationParams.CurrentFaceTexture, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+			this._faceGenerationParams.CurrentMouthTexture = MBMath.ClampInt(this._faceGenerationParams.CurrentMouthTexture, 0, this.mouthTextureNum - 1);
+			this.TeethTypes = new FaceGenPropertyVM(-14, 0.0, (double)(this.mouthTextureNum - 1), new TextObject("{=l2CNxPXG}Teeth Type", null), -14, 4, (double)this._faceGenerationParams.CurrentMouthTexture, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
+			this._faceGenerationParams.CurrentEyebrow = MBMath.ClampInt(this._faceGenerationParams.CurrentEyebrow, 0, this.eyebrowTextureNum - 1);
+			this.EyebrowTypes = new FaceGenPropertyVM(-15, 0.0, (double)(this.eyebrowTextureNum - 1), new TextObject("{=bIcFZT6L}Eyebrow Type", null), -15, 4, (double)this._faceGenerationParams.CurrentEyebrow, new Action<int, float, bool, bool>(this.UpdateFace), new Action(this.AddCommand), new Action(this.ResetSliderPrevValues), true, false);
 		}
 
 		private void UpdateVoiceIndiciesFromCurrentParameters()
 		{
-			this._isVoiceTypeUsableForOnlyNpc = MBBodyProperties.GetVoiceTypeUsableForPlayerData(this._faceGenerationParams._currentRace, this.SelectedGender, (float)((int)this._faceGenerationParams._curAge), this._newSoundPresetSize);
+			this._isVoiceTypeUsableForOnlyNpc = MBBodyProperties.GetVoiceTypeUsableForPlayerData(this._faceGenerationParams.CurrentRace, this.SelectedGender, (float)((int)this._faceGenerationParams.CurrentAge), this._newSoundPresetSize);
 			int num = 0;
 			for (int i = 0; i < this._isVoiceTypeUsableForOnlyNpc.Count; i++)
 			{
@@ -592,44 +594,44 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 				{
 				case -20:
 					this.RestoreRaceGenderBasedSelectedValues();
-					this._faceGenerationParams.SetRaceGenderAndAdjustParams((int)value, this.SelectedGender, (int)this._faceGenerationParams._curAge);
+					this._faceGenerationParams.SetRaceGenderAndAdjustParams((int)value, this.SelectedGender, (int)this._faceGenerationParams.CurrentAge);
 					goto IL_2CB;
 				case -19:
-					this._faceGenerationParams._voicePitch = value;
+					this._faceGenerationParams.VoicePitch = value;
 					goto IL_2CB;
 				case -18:
-					this._faceGenerationParams._curBuild = value;
+					this._faceGenerationParams.CurrentBuild = value;
 					this._enforceConstraints = MBBodyProperties.EnforceConstraints(ref this._faceGenerationParams);
 					flag3 = this._enforceConstraints && !calledFromInit;
 					goto IL_2CB;
 				case -17:
-					this._faceGenerationParams._curWeight = value;
+					this._faceGenerationParams.CurrentWeight = value;
 					this._enforceConstraints = MBBodyProperties.EnforceConstraints(ref this._faceGenerationParams);
 					flag3 = this._enforceConstraints && !calledFromInit;
 					goto IL_2CB;
 				case -16:
-					this._faceGenerationParams._heightMultiplier = (this._openedFromMultiplayer ? MathF.Clamp(value, 0.25f, 0.75f) : MathF.Clamp(value, 0f, 1f));
+					this._faceGenerationParams.HeightMultiplier = (this._openedFromMultiplayer ? MathF.Clamp(value, 0.25f, 0.75f) : MathF.Clamp(value, 0f, 1f));
 					this._enforceConstraints = MBBodyProperties.EnforceConstraints(ref this._faceGenerationParams);
 					flag3 = this._enforceConstraints && !calledFromInit;
 					flag2 = true;
 					goto IL_2CB;
 				case -15:
-					this._faceGenerationParams._curEyebrow = (int)value;
+					this._faceGenerationParams.CurrentEyebrow = (int)value;
 					goto IL_2CB;
 				case -14:
-					this._faceGenerationParams._curMouthTexture = (int)value;
+					this._faceGenerationParams.CurrentMouthTexture = (int)value;
 					goto IL_2CB;
 				case -12:
-					this._faceGenerationParams._curEyeColorOffset = value;
+					this._faceGenerationParams.CurrentEyeColorOffset = value;
 					goto IL_2CB;
 				case -11:
 				{
-					this._faceGenerationParams._curAge = value;
+					this._faceGenerationParams.CurrentAge = value;
 					this._enforceConstraints = MBBodyProperties.EnforceConstraints(ref this._faceGenerationParams);
 					flag3 = this._enforceConstraints && !calledFromInit;
 					flag = true;
 					flag2 = true;
-					BodyMeshMaturityType maturityTypeWithAge = FaceGen.GetMaturityTypeWithAge(this._faceGenerationParams._curAge);
+					BodyMeshMaturityType maturityTypeWithAge = FaceGen.GetMaturityTypeWithAge(this._faceGenerationParams.CurrentAge);
 					if (this._latestMaturityType != maturityTypeWithAge)
 					{
 						this.UpdateVoiceIndiciesFromCurrentParameters();
@@ -639,23 +641,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 					goto IL_2CB;
 				}
 				case -10:
-					this._faceGenerationParams._curFaceTattoo = (int)value;
+					this._faceGenerationParams.CurrentFaceTattoo = (int)value;
 					goto IL_2CB;
 				case -9:
-					this._faceGenerationParams._currentVoice = this.GetVoiceRealIndex((int)value);
+					this._faceGenerationParams.CurrentVoice = this.GetVoiceRealIndex((int)value);
 					goto IL_2CB;
 				case -7:
-					this._faceGenerationParams._curBeard = (int)value;
+					this._faceGenerationParams.CurrentBeard = (int)value;
 					goto IL_2CB;
 				case -6:
-					this._faceGenerationParams._currentHair = (int)value;
+					this._faceGenerationParams.CurrentHair = (int)value;
 					goto IL_2CB;
 				case -3:
-					this._faceGenerationParams._curFaceTexture = (int)value;
+					this._faceGenerationParams.CurrentFaceTexture = (int)value;
 					goto IL_2CB;
 				case -1:
 					this.RestoreRaceGenderBasedSelectedValues();
-					this._faceGenerationParams.SetRaceGenderAndAdjustParams(this._faceGenerationParams._currentRace, (int)value, (int)this._faceGenerationParams._curAge);
+					this._faceGenerationParams.SetRaceGenderAndAdjustParams(this._faceGenerationParams.CurrentRace, (int)value, (int)this._faceGenerationParams.CurrentAge);
 					goto IL_2CB;
 				}
 				MBDebug.ShowWarning("Unknown preset!");
@@ -679,7 +681,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 				{
 					if (keyNo == -9)
 					{
-						this._faceGeneratorScreen.MakeVoice(this._faceGenerationParams._currentVoice, this._faceGenerationParams._voicePitch);
+						this._faceGeneratorScreen.MakeVoice(this._faceGenerationParams.CurrentVoice, this._faceGenerationParams.VoicePitch);
 					}
 				}
 				else
@@ -702,49 +704,49 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 		{
 			if (this.genderBasedSelectedValues[this.SelectedGender].FaceTexture > -1)
 			{
-				this._faceGenerationParams._curFaceTexture = this.genderBasedSelectedValues[this.SelectedGender].FaceTexture;
+				this._faceGenerationParams.CurrentFaceTexture = this.genderBasedSelectedValues[this.SelectedGender].FaceTexture;
 			}
 			if (this.genderBasedSelectedValues[this.SelectedGender].Hair > -1)
 			{
-				this._faceGenerationParams._currentHair = this.genderBasedSelectedValues[this.SelectedGender].Hair;
+				this._faceGenerationParams.CurrentHair = this.genderBasedSelectedValues[this.SelectedGender].Hair;
 			}
 			if (this.genderBasedSelectedValues[this.SelectedGender].Beard > -1)
 			{
-				this._faceGenerationParams._curBeard = this.genderBasedSelectedValues[this.SelectedGender].Beard;
+				this._faceGenerationParams.CurrentBeard = this.genderBasedSelectedValues[this.SelectedGender].Beard;
 			}
 			if (this.genderBasedSelectedValues[this.SelectedGender].Tattoo > -1)
 			{
-				this._faceGenerationParams._curFaceTattoo = this.genderBasedSelectedValues[this.SelectedGender].Tattoo;
+				this._faceGenerationParams.CurrentFaceTattoo = this.genderBasedSelectedValues[this.SelectedGender].Tattoo;
 			}
 			if (this.genderBasedSelectedValues[this.SelectedGender].SoundPreset > -1)
 			{
-				this._faceGenerationParams._currentVoice = this.genderBasedSelectedValues[this.SelectedGender].SoundPreset;
+				this._faceGenerationParams.CurrentVoice = this.genderBasedSelectedValues[this.SelectedGender].SoundPreset;
 			}
 			if (this.genderBasedSelectedValues[this.SelectedGender].MouthTexture > -1)
 			{
-				this._faceGenerationParams._curMouthTexture = this.genderBasedSelectedValues[this.SelectedGender].MouthTexture;
+				this._faceGenerationParams.CurrentMouthTexture = this.genderBasedSelectedValues[this.SelectedGender].MouthTexture;
 			}
 			if (this.genderBasedSelectedValues[this.SelectedGender].EyebrowTexture > -1)
 			{
-				this._faceGenerationParams._curEyebrow = this.genderBasedSelectedValues[this.SelectedGender].EyebrowTexture;
+				this._faceGenerationParams.CurrentEyebrow = this.genderBasedSelectedValues[this.SelectedGender].EyebrowTexture;
 			}
 		}
 
 		private void SaveGenderBasedSelectedValues()
 		{
-			this.genderBasedSelectedValues[this.SelectedGender].FaceTexture = this._faceGenerationParams._curFaceTexture;
-			this.genderBasedSelectedValues[this.SelectedGender].Hair = this._faceGenerationParams._currentHair;
-			this.genderBasedSelectedValues[this.SelectedGender].Beard = this._faceGenerationParams._curBeard;
-			this.genderBasedSelectedValues[this.SelectedGender].Tattoo = this._faceGenerationParams._curFaceTattoo;
-			this.genderBasedSelectedValues[this.SelectedGender].SoundPreset = this._faceGenerationParams._currentVoice;
-			this.genderBasedSelectedValues[this.SelectedGender].MouthTexture = this._faceGenerationParams._curMouthTexture;
-			this.genderBasedSelectedValues[this.SelectedGender].EyebrowTexture = this._faceGenerationParams._curEyebrow;
+			this.genderBasedSelectedValues[this.SelectedGender].FaceTexture = this._faceGenerationParams.CurrentFaceTexture;
+			this.genderBasedSelectedValues[this.SelectedGender].Hair = this._faceGenerationParams.CurrentHair;
+			this.genderBasedSelectedValues[this.SelectedGender].Beard = this._faceGenerationParams.CurrentBeard;
+			this.genderBasedSelectedValues[this.SelectedGender].Tattoo = this._faceGenerationParams.CurrentFaceTattoo;
+			this.genderBasedSelectedValues[this.SelectedGender].SoundPreset = this._faceGenerationParams.CurrentVoice;
+			this.genderBasedSelectedValues[this.SelectedGender].MouthTexture = this._faceGenerationParams.CurrentMouthTexture;
+			this.genderBasedSelectedValues[this.SelectedGender].EyebrowTexture = this._faceGenerationParams.CurrentEyebrow;
 		}
 
 		private int GetVoiceUIIndex()
 		{
 			int num = 0;
-			for (int i = 0; i < this._faceGenerationParams._currentVoice; i++)
+			for (int i = 0; i < this._faceGenerationParams.CurrentVoice; i++)
 			{
 				if (!this._isVoiceTypeUsableForOnlyNpc[i])
 				{
@@ -768,13 +770,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 					num++;
 				}
 			}
-			Debug.FailedAssert("Cannot calculate voice index", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\FaceGenerator\\FaceGenVM.cs", "GetVoiceRealIndex", 925);
+			Debug.FailedAssert("Cannot calculate voice index", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.ViewModelCollection\\FaceGenerator\\FaceGenVM.cs", "GetVoiceRealIndex", 927);
 			return -1;
 		}
 
 		public void ExecuteHearCurrentVoiceSample()
 		{
-			this._faceGeneratorScreen.MakeVoice(this._faceGenerationParams._currentVoice, this._faceGenerationParams._voicePitch);
+			this._faceGeneratorScreen.MakeVoice(this._faceGenerationParams.CurrentVoice, this._faceGenerationParams.VoicePitch);
 		}
 
 		public void ExecuteReset()
@@ -866,6 +868,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			this._faceGenerationParams = this._bodyGenerator.InitBodyGenerator(this.IsDressed);
 			this._undoCommands.Clear();
 			this._redoCommands.Clear();
+			this.IsUndoEnabled = false;
+			this.IsRedoEnabled = false;
 			this._characterRefreshEnabled = true;
 			this.Refresh(FaceGen.UpdateDeformKeys);
 		}
@@ -940,7 +944,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			this.TeethTypes.Value = (float)MBRandom.RandomInt((int)this.TeethTypes.Max + 1);
 			if (this.TaintTypes.Count > 0)
 			{
-				if (MBRandom.RandomFloat < this._faceGenerationParams._tattooZeroProbability)
+				if (MBRandom.RandomFloat < this._faceGenerationParams.TattooZeroProbability)
 				{
 					this.SetSelectedTattooType(this.TaintTypes[0], false);
 				}
@@ -976,7 +980,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 				int gender = this._redoCommands[num].Gender;
 				int race = this._redoCommands[num].Race;
 				this._redoCommands.RemoveAt(num);
-				this._undoCommands.Add(new FaceGenVM.UndoRedoKey(this._faceGenerationParams._currentGender, this._faceGenerationParams._currentRace, this._bodyGenerator.CurrentBodyProperties));
+				this._undoCommands.Add(new FaceGenVM.UndoRedoKey(this._faceGenerationParams.CurrentGender, this._faceGenerationParams.CurrentRace, this._bodyGenerator.CurrentBodyProperties));
+				this.IsRedoEnabled = this._redoCommands.Count > 0;
+				this.IsUndoEnabled = this._undoCommands.Count > 0;
 				this._characterRefreshEnabled = false;
 				this.SetBodyProperties(bodyProperties, false, race, gender, false);
 				this._characterRefreshEnabled = true;
@@ -992,7 +998,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 				int gender = this._undoCommands[num].Gender;
 				int race = this._undoCommands[num].Race;
 				this._undoCommands.RemoveAt(num);
-				this._redoCommands.Add(new FaceGenVM.UndoRedoKey(this._faceGenerationParams._currentGender, this._faceGenerationParams._currentRace, this._bodyGenerator.CurrentBodyProperties));
+				this._redoCommands.Add(new FaceGenVM.UndoRedoKey(this._faceGenerationParams.CurrentGender, this._faceGenerationParams.CurrentRace, this._bodyGenerator.CurrentBodyProperties));
+				this.IsRedoEnabled = this._redoCommands.Count > 0;
+				this.IsUndoEnabled = this._undoCommands.Count > 0;
 				this._characterRefreshEnabled = false;
 				this.SetBodyProperties(bodyProperties, false, race, gender, false);
 				this._characterRefreshEnabled = true;
@@ -1019,8 +1027,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 				{
 					this._undoCommands.RemoveAt(0);
 				}
-				this._undoCommands.Add(new FaceGenVM.UndoRedoKey(this._faceGenerationParams._currentGender, this._faceGenerationParams._currentRace, this._bodyGenerator.CurrentBodyProperties));
+				this._undoCommands.Add(new FaceGenVM.UndoRedoKey(this._faceGenerationParams.CurrentGender, this._faceGenerationParams.CurrentRace, this._bodyGenerator.CurrentBodyProperties));
 				this._redoCommands.Clear();
+				this.IsRedoEnabled = this._redoCommands.Count > 0;
+				this.IsUndoEnabled = this._undoCommands.Count > 0;
 			}
 		}
 
@@ -1039,16 +1049,16 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			bool flag = false;
 			if (gender == -1)
 			{
-				this._faceGenerationParams._currentGender = this._selectedGender;
+				this._faceGenerationParams.CurrentGender = this._selectedGender;
 			}
 			else
 			{
-				this._faceGenerationParams._currentGender = gender;
+				this._faceGenerationParams.CurrentGender = gender;
 			}
 			if (this._isRaceAvailable)
 			{
-				flag = this._faceGenerationParams._currentRace != race;
-				this._faceGenerationParams._currentRace = race;
+				flag = this._faceGenerationParams.CurrentRace != race;
+				this._faceGenerationParams.CurrentRace = race;
 			}
 			if (this._openedFromMultiplayer)
 			{
@@ -1099,20 +1109,23 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 					{
 						switch (faceGenPropertyVM.KeyNo)
 						{
+						case -19:
+							faceGenPropertyVM.Value = this._faceGenerationParams.VoicePitch;
+							break;
 						case -18:
-							faceGenPropertyVM.Value = this._faceGenerationParams._curBuild;
+							faceGenPropertyVM.Value = this._faceGenerationParams.CurrentBuild;
 							break;
 						case -17:
-							faceGenPropertyVM.Value = this._faceGenerationParams._curWeight;
+							faceGenPropertyVM.Value = this._faceGenerationParams.CurrentWeight;
 							break;
 						case -16:
-							faceGenPropertyVM.Value = (this._openedFromMultiplayer ? MathF.Clamp(this._faceGenerationParams._heightMultiplier, 0.25f, 0.75f) : MathF.Clamp(this._faceGenerationParams._heightMultiplier, 0f, 1f));
+							faceGenPropertyVM.Value = (this._openedFromMultiplayer ? MathF.Clamp(this._faceGenerationParams.HeightMultiplier, 0.25f, 0.75f) : MathF.Clamp(this._faceGenerationParams.HeightMultiplier, 0f, 1f));
 							break;
 						case -12:
-							faceGenPropertyVM.Value = this._faceGenerationParams._curEyeColorOffset;
+							faceGenPropertyVM.Value = this._faceGenerationParams.CurrentEyeColorOffset;
 							break;
 						case -11:
-							faceGenPropertyVM.Value = this._faceGenerationParams._curAge;
+							faceGenPropertyVM.Value = this._faceGenerationParams.CurrentAge;
 							break;
 						}
 					}
@@ -1123,26 +1136,26 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 					faceGenPropertyVM.PrevValue = -1.0;
 				}
 			}
-			this.SelectedGender = this._faceGenerationParams._currentGender;
+			this.SelectedGender = this._faceGenerationParams.CurrentGender;
 			this.SoundPreset.Value = (float)this.GetVoiceUIIndex();
-			this.FaceTypes.Value = (float)this._faceGenerationParams._curFaceTexture;
-			this.EyebrowTypes.Value = (float)this._faceGenerationParams._curEyebrow;
-			this.TeethTypes.Value = (float)this._faceGenerationParams._curMouthTexture;
-			if (this.TaintTypes.Count > this._faceGenerationParams._curFaceTattoo)
+			this.FaceTypes.Value = (float)this._faceGenerationParams.CurrentFaceTexture;
+			this.EyebrowTypes.Value = (float)this._faceGenerationParams.CurrentEyebrow;
+			this.TeethTypes.Value = (float)this._faceGenerationParams.CurrentMouthTexture;
+			if (this.TaintTypes.Count > this._faceGenerationParams.CurrentFaceTattoo)
 			{
-				this.SetSelectedTattooType(this.TaintTypes[this._faceGenerationParams._curFaceTattoo], false);
+				this.SetSelectedTattooType(this.TaintTypes[this._faceGenerationParams.CurrentFaceTattoo], false);
 			}
-			if (this.BeardTypes.Count > this._faceGenerationParams._curBeard)
+			if (this.BeardTypes.Count > this._faceGenerationParams.CurrentBeard)
 			{
-				this.SetSelectedBeardType(this.BeardTypes[this._faceGenerationParams._curBeard], false);
+				this.SetSelectedBeardType(this.BeardTypes[this._faceGenerationParams.CurrentBeard], false);
 			}
-			if (this.HairTypes.Count > this._faceGenerationParams._currentHair)
+			if (this.HairTypes.Count > this._faceGenerationParams.CurrentHair)
 			{
-				this.SetSelectedHairType(this.HairTypes[this._faceGenerationParams._currentHair], false);
+				this.SetSelectedHairType(this.HairTypes[this._faceGenerationParams.CurrentHair], false);
 			}
-			this.SkinColorSelector.SelectedIndex = MathF.Round(this._faceGenerationParams._curSkinColorOffset * (float)(this._skinColors.Count - 1));
-			this.HairColorSelector.SelectedIndex = MathF.Round(this._faceGenerationParams._curHairColorOffset * (float)(this._hairColors.Count - 1));
-			this.TattooColorSelector.SelectedIndex = MathF.Round(this._faceGenerationParams._curFaceTattooColorOffset1 * (float)(this._tattooColors.Count - 1));
+			this.SkinColorSelector.SelectedIndex = MathF.Round(this._faceGenerationParams.CurrentSkinColorOffset * (float)(this._skinColors.Count - 1));
+			this.HairColorSelector.SelectedIndex = MathF.Round(this._faceGenerationParams.CurrentHairColorOffset * (float)(this._hairColors.Count - 1));
+			this.TattooColorSelector.SelectedIndex = MathF.Round(this._faceGenerationParams.CurrentFaceTattooColorOffset1 * (float)(this._tattooColors.Count - 1));
 		}
 
 		private void SetSelectedHairType(FacegenListItemVM item, bool addCommand)
@@ -1153,7 +1166,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			}
 			this._selectedHairType = item;
 			this._selectedHairType.IsSelected = true;
-			this._faceGenerationParams._currentHair = item.Index;
+			this._faceGenerationParams.CurrentHair = item.Index;
 			if (!addCommand)
 			{
 				return;
@@ -1182,7 +1195,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			}
 			this._selectedTaintType = item;
 			this._selectedTaintType.IsSelected = true;
-			this._faceGenerationParams._curFaceTattoo = item.Index;
+			this._faceGenerationParams.CurrentFaceTattoo = item.Index;
 			if (!addCommand)
 			{
 				return;
@@ -1199,7 +1212,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 			}
 			this._selectedBeardType = item;
 			this._selectedBeardType.IsSelected = true;
-			this._faceGenerationParams._curBeard = item.Index;
+			this._faceGenerationParams.CurrentBeard = item.Index;
 			if (!addCommand)
 			{
 				return;
@@ -2054,6 +2067,40 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 		}
 
 		[DataSourceProperty]
+		public bool IsUndoEnabled
+		{
+			get
+			{
+				return this._isUndoEnabled;
+			}
+			set
+			{
+				if (value != this._isUndoEnabled)
+				{
+					this._isUndoEnabled = value;
+					base.OnPropertyChangedWithValue(value, "IsUndoEnabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public bool IsRedoEnabled
+		{
+			get
+			{
+				return this._isRedoEnabled;
+			}
+			set
+			{
+				if (value != this._isRedoEnabled)
+				{
+					this._isRedoEnabled = value;
+					base.OnPropertyChangedWithValue(value, "IsRedoEnabled");
+				}
+			}
+		}
+
+		[DataSourceProperty]
 		public MBBindingList<FaceGenPropertyVM> FaceProperties
 		{
 			get
@@ -2262,13 +2309,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 		{
 			get
 			{
-				return this._faceGenerationParams._isHairFlipped;
+				return this._faceGenerationParams.IsHairFlipped;
 			}
 			set
 			{
-				if (value != this._faceGenerationParams._isHairFlipped)
+				if (value != this._faceGenerationParams.IsHairFlipped)
 				{
-					this._faceGenerationParams._isHairFlipped = value;
+					this._faceGenerationParams.IsHairFlipped = value;
 					base.OnPropertyChangedWithValue(value, "FlipHairCb");
 					this.UpdateFace();
 				}
@@ -2559,6 +2606,10 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.FaceGenerator
 		private bool _isDressed;
 
 		private bool _characterGamepadControlsEnabled;
+
+		private bool _isUndoEnabled;
+
+		private bool _isRedoEnabled;
 
 		private MBBindingList<FaceGenPropertyVM> _bodyProperties;
 

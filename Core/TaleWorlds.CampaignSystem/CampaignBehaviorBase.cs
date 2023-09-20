@@ -1,5 +1,4 @@
 ﻿using System;
-using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem
 {
@@ -25,13 +24,5 @@ namespace TaleWorlds.CampaignSystem
 		public abstract void SyncData(IDataStore dataStore);
 
 		public readonly string StringId;
-
-		public abstract class SaveableCampaignBehaviorTypeDefiner : SaveableTypeDefiner
-		{
-			public SaveableCampaignBehaviorTypeDefiner(int saveBaseId)
-				: base(saveBaseId)
-			{
-			}
-		}
 	}
 }

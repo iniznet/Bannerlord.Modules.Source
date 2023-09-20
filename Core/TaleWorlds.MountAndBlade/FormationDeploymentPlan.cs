@@ -94,7 +94,7 @@ namespace TaleWorlds.MountAndBlade
 		public FormationDeploymentFlank GetDefaultFlank(bool spawnWithHorses, int formationTroopCount, int infantryCount)
 		{
 			FormationDeploymentFlank formationDeploymentFlank;
-			if (this._class.IsInfantry() && formationTroopCount == 0)
+			if (!this._class.IsMounted() && formationTroopCount == 0)
 			{
 				formationDeploymentFlank = FormationDeploymentFlank.Rear;
 			}

@@ -7,13 +7,13 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SetStonePileAmmo : GameNetworkMessage
 	{
-		public StonePile StonePile { get; private set; }
+		public MissionObjectId StonePileId { get; private set; }
 
 		public int AmmoCount { get; private set; }
 
-		public SetStonePileAmmo(StonePile stonePile, int ammoCount)
+		public SetStonePileAmmo(MissionObjectId stonePileId, int ammoCount)
 		{
-			this.StonePile = stonePile;
+			this.StonePileId = stonePileId;
 			this.AmmoCount = ammoCount;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.StonePile = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as StonePile;
+			this.StonePileId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.AmmoCount = GameNetworkMessage.ReadIntFromPacket(CompressionMission.RangedSiegeWeaponAmmoCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.StonePile);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.StonePileId);
 			GameNetworkMessage.WriteIntToPacket(this.AmmoCount, CompressionMission.RangedSiegeWeaponAmmoCompressionInfo);
 		}
 
@@ -42,15 +42,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Set ammo left to: ",
-				this.AmmoCount,
-				" on StonePile with ID: ",
-				this.StonePile.Id,
-				" and name: ",
-				this.StonePile.GameEntity.Name
-			});
+			return string.Concat(new object[] { "Set ammo left to: ", this.AmmoCount, " on StonePile with ID: ", this.StonePileId });
 		}
 	}
 }

@@ -359,6 +359,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.SceneNotification
 			}
 			MBAgentRendererSceneController.DestructAgentRendererSceneController(this._scene, this._agentRendererSceneController, false);
 			this._activeData = null;
+			this._scene.ClearAll();
 			this._scene = null;
 		}
 

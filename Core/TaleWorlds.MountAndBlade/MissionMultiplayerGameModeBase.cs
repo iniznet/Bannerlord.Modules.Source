@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using NetworkMessages.FromServer;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.Diamond.Cosmetics;
+using TaleWorlds.MountAndBlade.Diamond.Cosmetics.CosmeticTypes;
+using TaleWorlds.ObjectSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
@@ -14,11 +17,9 @@ namespace TaleWorlds.MountAndBlade
 
 		public SpawnComponent SpawnComponent { get; private set; }
 
-		public MultiplayerMissionAgentVisualSpawnComponent AgentVisualSpawnComponent { get; private set; }
-
 		private protected bool CanGameModeSystemsTickThisFrame { protected get; private set; }
 
-		public abstract MissionLobbyComponent.MultiplayerGameType GetMissionType();
+		public abstract MultiplayerGameType GetMissionType();
 
 		public virtual bool CheckIfOvertime()
 		{
@@ -36,7 +37,7 @@ namespace TaleWorlds.MountAndBlade
 			this.WarmupComponent = base.Mission.GetMissionBehavior<MultiplayerWarmupComponent>();
 			this.TimerComponent = base.Mission.GetMissionBehavior<MultiplayerTimerComponent>();
 			this.SpawnComponent = Mission.Current.GetMissionBehavior<SpawnComponent>();
-			this.AgentVisualSpawnComponent = base.Mission.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>();
+			this._agentVisualSpawnComponent = base.Mission.GetMissionBehavior<MultiplayerMissionAgentVisualSpawnComponent>();
 			this._lastPerkTickTime = Mission.Current.CurrentTime;
 		}
 
@@ -84,10 +85,13 @@ namespace TaleWorlds.MountAndBlade
 		{
 		}
 
-		public override void OnMissionRestart()
+		public override void OnClearScene()
 		{
-			base.OnMissionRestart();
-			this.ClearPeerCounts();
+			base.OnClearScene();
+			if (this.RoundController == null)
+			{
+				this.ClearPeerCounts();
+			}
 			this._lastPerkTickTime = Mission.Current.CurrentTime;
 		}
 
@@ -134,7 +138,7 @@ namespace TaleWorlds.MountAndBlade
 			component.EquipmentUpdatingExpired = false;
 			if (useCosmetics)
 			{
-				this.AgentVisualSpawnComponent.AddCosmeticItemsToEquipment(spawningAgentBuildData.AgentOverridenSpawnEquipment, this.AgentVisualSpawnComponent.GetUsedCosmeticsFromPeer(component, spawningAgentBuildData.AgentCharacter));
+				this.AddCosmeticItemsToEquipment(spawningAgentBuildData.AgentOverridenSpawnEquipment, this.GetUsedCosmeticsFromPeer(component, spawningAgentBuildData.AgentCharacter));
 			}
 			if (!this.IsGameModeHidingAllAgentVisuals)
 			{
@@ -225,6 +229,107 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
+		public Dictionary<string, string> GetUsedCosmeticsFromPeer(MissionPeer missionPeer, BasicCharacterObject selectedTroopCharacter)
+		{
+			if (missionPeer.Peer.UsedCosmetics != null)
+			{
+				Dictionary<string, string> dictionary = new Dictionary<string, string>();
+				MBReadOnlyList<MultiplayerClassDivisions.MPHeroClass> objectTypeList = MBObjectManager.Instance.GetObjectTypeList<MultiplayerClassDivisions.MPHeroClass>();
+				int num = -1;
+				for (int i = 0; i < objectTypeList.Count; i++)
+				{
+					if (objectTypeList[i].HeroCharacter == selectedTroopCharacter || objectTypeList[i].TroopCharacter == selectedTroopCharacter)
+					{
+						num = i;
+						break;
+					}
+				}
+				List<int> list;
+				missionPeer.Peer.UsedCosmetics.TryGetValue(num, out list);
+				if (list != null)
+				{
+					foreach (int num2 in list)
+					{
+						ClothingCosmeticElement clothingCosmeticElement;
+						if ((clothingCosmeticElement = CosmeticsManager.CosmeticElementsList[num2] as ClothingCosmeticElement) != null)
+						{
+							foreach (string text in clothingCosmeticElement.ReplaceItemsId)
+							{
+								dictionary.Add(text, CosmeticsManager.CosmeticElementsList[num2].Id);
+							}
+							foreach (Tuple<string, string> tuple in clothingCosmeticElement.ReplaceItemless)
+							{
+								if (tuple.Item1 == objectTypeList[num].StringId)
+								{
+									dictionary.Add(tuple.Item2, CosmeticsManager.CosmeticElementsList[num2].Id);
+									break;
+								}
+							}
+						}
+					}
+				}
+				return dictionary;
+			}
+			return null;
+		}
+
+		public void AddCosmeticItemsToEquipment(Equipment equipment, Dictionary<string, string> choosenCosmetics)
+		{
+			for (EquipmentIndex equipmentIndex = EquipmentIndex.WeaponItemBeginSlot; equipmentIndex < EquipmentIndex.ArmorItemEndSlot; equipmentIndex++)
+			{
+				if (equipment[equipmentIndex].Item == null)
+				{
+					string text = equipmentIndex.ToString();
+					switch (equipmentIndex)
+					{
+					case EquipmentIndex.NumAllWeaponSlots:
+						text = "Head";
+						break;
+					case EquipmentIndex.Body:
+						text = "Body";
+						break;
+					case EquipmentIndex.Leg:
+						text = "Leg";
+						break;
+					case EquipmentIndex.Gloves:
+						text = "Gloves";
+						break;
+					case EquipmentIndex.Cape:
+						text = "Cape";
+						break;
+					}
+					string text2 = null;
+					if (choosenCosmetics != null)
+					{
+						choosenCosmetics.TryGetValue(text, out text2);
+					}
+					if (text2 != null)
+					{
+						ItemObject @object = MBObjectManager.Instance.GetObject<ItemObject>(text2);
+						EquipmentElement equipmentElement = equipment[equipmentIndex];
+						equipmentElement.CosmeticItem = @object;
+						equipment[equipmentIndex] = equipmentElement;
+					}
+				}
+				else
+				{
+					string stringId = equipment[equipmentIndex].Item.StringId;
+					string text3 = null;
+					if (choosenCosmetics != null)
+					{
+						choosenCosmetics.TryGetValue(stringId, out text3);
+					}
+					if (text3 != null)
+					{
+						ItemObject object2 = MBObjectManager.Instance.GetObject<ItemObject>(text3);
+						EquipmentElement equipmentElement2 = equipment[equipmentIndex];
+						equipmentElement2.CosmeticItem = object2;
+						equipment[equipmentIndex] = equipmentElement2;
+					}
+				}
+			}
+		}
+
 		public const int GoldCap = 2000;
 
 		public const float PerkTickPeriod = 1f;
@@ -232,6 +337,8 @@ namespace TaleWorlds.MountAndBlade
 		public const float GameModeSystemTickPeriod = 0.25f;
 
 		private float _lastPerkTickTime;
+
+		private MultiplayerMissionAgentVisualSpawnComponent _agentVisualSpawnComponent;
 
 		public MultiplayerTeamSelectComponent MultiplayerTeamSelectComponent;
 

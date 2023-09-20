@@ -1,5 +1,6 @@
 ﻿using System;
 using TaleWorlds.Core;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection
@@ -23,12 +24,27 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 
 		public static TextObject GetNameOfOption(string optionIdentifier)
 		{
+			TextObject textObject;
+			if (Input.IsGamepadActive && CampaignOptionData.CheckIsPlayStation() && GameTexts.TryGetText("str_campaign_options_type", out textObject, optionIdentifier + "_ps"))
+			{
+				return textObject;
+			}
 			return GameTexts.FindText("str_campaign_options_type", optionIdentifier);
 		}
 
 		public static TextObject GetDescriptionOfOption(string optionIdentifier)
 		{
+			TextObject textObject;
+			if (Input.IsGamepadActive && CampaignOptionData.CheckIsPlayStation() && GameTexts.TryGetText("str_campaign_options_description", out textObject, optionIdentifier + "_ps"))
+			{
+				return textObject;
+			}
 			return GameTexts.FindText("str_campaign_options_description", optionIdentifier);
+		}
+
+		private static bool CheckIsPlayStation()
+		{
+			return Input.ControllerType == Input.ControllerTypes.PlayStationDualSense || Input.ControllerType == Input.ControllerTypes.PlayStationDualShock;
 		}
 
 		public int GetPriorityIndex()

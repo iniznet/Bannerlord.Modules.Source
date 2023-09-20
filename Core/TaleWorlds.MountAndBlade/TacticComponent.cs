@@ -542,7 +542,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		protected virtual void StopUsingAllRangedSiegeWeapons()
+		protected void StopUsingAllRangedSiegeWeapons()
 		{
 			foreach (Formation formation in this.FormationsIncludingSpecialAndEmpty)
 			{

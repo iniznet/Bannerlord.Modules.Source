@@ -34,8 +34,8 @@ namespace TaleWorlds.Core
 			{
 				if (VirtualPlayer.CheckAssemblyForPeerComponent(assembly))
 				{
-					Type[] types = assembly.GetTypes();
-					list.AddRange(types.Where((Type q) => typeof(PeerComponent).IsAssignableFrom(q) && typeof(PeerComponent) != q));
+					List<Type> typesSafe = assembly.GetTypesSafe(null);
+					list.AddRange(typesSafe.Where((Type q) => typeof(PeerComponent).IsAssignableFrom(q) && typeof(PeerComponent) != q));
 				}
 			}
 			foreach (Type type in list)

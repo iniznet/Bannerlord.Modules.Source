@@ -7,13 +7,13 @@ namespace NetworkMessages.FromClient
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromClient)]
 	public sealed class RequestUseObject : GameNetworkMessage
 	{
-		public UsableMissionObject UsableGameObject { get; private set; }
+		public MissionObjectId UsableMissionObjectId { get; private set; }
 
 		public int UsedObjectPreferenceIndex { get; private set; }
 
-		public RequestUseObject(UsableMissionObject usableGameObject, int usedObjectPreferenceIndex)
+		public RequestUseObject(MissionObjectId usableMissionObjectId, int usedObjectPreferenceIndex)
 		{
-			this.UsableGameObject = usableGameObject;
+			this.UsableMissionObjectId = usableMissionObjectId;
 			this.UsedObjectPreferenceIndex = usedObjectPreferenceIndex;
 		}
 
@@ -24,14 +24,14 @@ namespace NetworkMessages.FromClient
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.UsableGameObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag) as UsableMissionObject;
+			this.UsableMissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.UsedObjectPreferenceIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.WieldSlotCompressionInfo, ref flag);
 			return flag;
 		}
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.UsableGameObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.UsableMissionObjectId);
 			GameNetworkMessage.WriteIntToPacket(this.UsedObjectPreferenceIndex, CompressionMission.WieldSlotCompressionInfo);
 		}
 
@@ -42,13 +42,7 @@ namespace NetworkMessages.FromClient
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Request to use UsableMissionObject with ID: ",
-				this.UsableGameObject.Id,
-				" and with name: ",
-				this.UsableGameObject.GameEntity.Name
-			});
+			return "Request to use UsableMissionObject with ID: " + this.UsableMissionObjectId;
 		}
 	}
 }

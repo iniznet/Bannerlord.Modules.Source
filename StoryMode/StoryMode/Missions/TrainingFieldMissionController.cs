@@ -530,7 +530,7 @@ namespace StoryMode.Missions
 				agent.SetMortalityState(2);
 				if (!agent.IsMount)
 				{
-					agent.WieldInitialWeapons(2);
+					agent.WieldInitialWeapons(2, 0);
 				}
 				this._agents.Add(agent);
 			}
@@ -1205,7 +1205,8 @@ namespace StoryMode.Missions
 
 		private void MeleeTrainingUpdate()
 		{
-			if ((this._meleeTrainer.Position - this._meleeTrainerDefaultPosition.GetGroundVec3()).LengthSquared > 1f)
+			float lengthSquared = (this._meleeTrainer.Position - this._meleeTrainerDefaultPosition.GetGroundVec3()).LengthSquared;
+			if (lengthSquared > 1f)
 			{
 				if (this._meleeTrainer.MovementFlags == 8192)
 				{
@@ -1223,7 +1224,10 @@ namespace StoryMode.Missions
 				this.TickMouseObjective(TrainingFieldMissionController.MouseObjectives.None);
 				return;
 			}
-			this.SwordTraining();
+			if (lengthSquared < 0.1f)
+			{
+				this.SwordTraining();
+			}
 		}
 
 		private void SwordTraining()
@@ -1489,7 +1493,7 @@ namespace StoryMode.Missions
 						}
 					}
 				}
-				else if (affectedAgent == this._meleeTrainer && affectorAgent.Controller == 2 && (this._trainingProgress >= 7 && this._trainingProgress <= 10 && isBlocked))
+				else if (affectedAgent == this._meleeTrainer && affectorAgent != null && affectorAgent.Controller == 2 && (this._trainingProgress >= 7 && this._trainingProgress <= 10 && isBlocked))
 				{
 					this._meleeTrainer.MovementFlags = 0;
 					this._timer = base.Mission.CurrentTime;
@@ -1620,7 +1624,7 @@ namespace StoryMode.Missions
 			case TrainingFieldMissionController.MouseObjectives.DefendDown:
 				return TrainingFieldMissionController.MouseObjectives.DefendUp;
 			default:
-				Debug.FailedAssert(string.Format("Inverse direction is not defined for: {0}", objective), "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Missions\\TrainingFieldMissionController.cs", "GetInverseDirection", 2266);
+				Debug.FailedAssert(string.Format("Inverse direction is not defined for: {0}", objective), "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Missions\\TrainingFieldMissionController.cs", "GetInverseDirection", 2267);
 				return TrainingFieldMissionController.MouseObjectives.None;
 			}
 		}
@@ -1656,7 +1660,7 @@ namespace StoryMode.Missions
 			}
 			else
 			{
-				Debug.FailedAssert("There are no spawn points for mounted ai.", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Missions\\TrainingFieldMissionController.cs", "SpawnMountedAI", 2310);
+				Debug.FailedAssert("There are no spawn points for mounted ai.", "C:\\Develop\\MB3\\Source\\Bannerlord\\StoryMode\\Missions\\TrainingFieldMissionController.cs", "SpawnMountedAI", 2311);
 			}
 			CharacterObject @object = Game.Current.ObjectManager.GetObject<CharacterObject>("tutorial_npc_mounted_ai");
 			AgentBuildData agentBuildData = new AgentBuildData(@object).Team(base.Mission.PlayerTeam).InitialPosition(ref this._mountedAISpawnPosition.origin);

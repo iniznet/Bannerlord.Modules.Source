@@ -103,10 +103,10 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 		{
 			PartyTemplateObject defaultPartyTemplate = this.Settlement.Culture.DefaultPartyTemplate;
 			mobileParty.CurrentSettlement = this.Settlement;
-			int num = (isInitialGarrison ? ((int)(this.Settlement.Prosperity * 0.04f + (float)(this.Settlement.IsTown ? 40 : 0) + 80f)) : 0);
+			int num = (isInitialGarrison ? ((int)(this.Settlement.Town.Prosperity * 0.04f + (float)(this.Settlement.IsTown ? 40 : 0) + 80f)) : 0);
 			mobileParty.InitializeMobilePartyAtPosition(defaultPartyTemplate, this.Settlement.GatePosition, num);
-			mobileParty.Party.Visuals.SetMapIconAsDirty();
-			mobileParty.InitializePartyTrade(Campaign.Current.Models.ClanFinanceModel.PartyGoldLowerTreshold());
+			mobileParty.Party.SetVisualAsDirty();
+			mobileParty.InitializePartyTrade(Campaign.Current.Models.ClanFinanceModel.PartyGoldLowerThreshold);
 			mobileParty.Ai.DisableAi();
 			mobileParty.Aggressiveness = 0f;
 		}

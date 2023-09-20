@@ -10,7 +10,7 @@ namespace TaleWorlds.GauntletUI
 {
 	public class UIContext
 	{
-		public UIContext.MouseCursors ActiveCursorOfContext { get; internal set; }
+		public UIContext.MouseCursors ActiveCursorOfContext { get; set; }
 
 		public bool IsDynamicScaleEnabled { get; set; } = true;
 
@@ -175,8 +175,7 @@ namespace TaleWorlds.GauntletUI
 
 		public void LateUpdate(float dt)
 		{
-			Vector2 vector;
-			vector..ctor(this.TwoDimensionContext.Width, this.TwoDimensionContext.Height);
+			Vector2 vector = new Vector2(this.TwoDimensionContext.Width, this.TwoDimensionContext.Height);
 			this.EventManager.CalculateCanvas(vector, dt);
 			this.EventManager.LateUpdate(dt);
 			this.EventManager.RecalculateCanvas();
@@ -222,14 +221,22 @@ namespace TaleWorlds.GauntletUI
 				if (handleInputs.HasAnyFlag(InputType.MouseButton))
 				{
 					this.EventManager.MouseMove();
-					InputKey controllerClickKey = this._inputContext.GetControllerClickKey();
-					if (this._inputContext.IsKeyPressed(InputKey.LeftMouseButton) || this._inputContext.IsKeyPressed(controllerClickKey))
+					foreach (InputKey inputKey in this._inputContext.GetClickKeys())
 					{
-						this.EventManager.MouseDown();
+						if (this._inputContext.IsKeyPressed(inputKey))
+						{
+							this.EventManager.MouseDown();
+							break;
+						}
 					}
-					if (this._inputContext.IsKeyReleased(InputKey.LeftMouseButton) || this._inputContext.IsKeyReleased(controllerClickKey))
+					InputKey[] clickKeys;
+					foreach (InputKey inputKey2 in clickKeys)
 					{
-						this.EventManager.MouseUp();
+						if (this._inputContext.IsKeyReleased(inputKey2))
+						{
+							this.EventManager.MouseUp();
+							break;
+						}
 					}
 					if (this._inputContext.IsKeyPressed(InputKey.RightMouseButton))
 					{

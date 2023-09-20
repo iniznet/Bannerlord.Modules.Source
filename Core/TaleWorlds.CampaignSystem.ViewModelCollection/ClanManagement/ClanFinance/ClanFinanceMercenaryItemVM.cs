@@ -23,7 +23,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement.ClanFinan
 
 		protected override void PopulateStatsList()
 		{
-			base.ItemProperties.Add(new SelectableItemPropertyVM("TEST", "TEST", null));
+			base.ItemProperties.Add(new SelectableItemPropertyVM("TEST", "TEST", false, null));
 		}
 
 		protected override void PopulateActionList()

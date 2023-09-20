@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D7B}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C95}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.SaveSystem</RootNamespace>
     <AssemblyName>TaleWorlds.SaveSystem</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,10 +30,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json" />
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\Newtonsoft.Json.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -82,6 +83,7 @@
     <Compile Include="Definition\SbyteBasicTypeSerializer.cs" />
     <Compile Include="Definition\ShortBasicTypeSerializer.cs" />
     <Compile Include="Definition\StringSerializer.cs" />
+    <Compile Include="Definition\StructDefinition.cs" />
     <Compile Include="Definition\TypeDefinition.cs" />
     <Compile Include="Definition\TypeDefinitionBase.cs" />
     <Compile Include="Definition\TypeSaveId.cs" />
@@ -99,6 +101,7 @@
     <Compile Include="IArchiveContext.cs" />
     <Compile Include="InMemDriver.cs" />
     <Compile Include="ISaveDriver.cs" />
+    <Compile Include="ISavedStruct.cs" />
     <Compile Include="LateLoadInitializationCallback.cs" />
     <Compile Include="LoadData.cs" />
     <Compile Include="LoadInitializationCallback.cs" />
@@ -149,12 +152,8 @@
     <Compile Include="ZipExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
   </ItemGroup>

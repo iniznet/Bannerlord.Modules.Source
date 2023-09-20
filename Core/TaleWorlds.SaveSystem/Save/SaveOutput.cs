@@ -74,7 +74,7 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 			if (this.Result == SaveResult.Success)
 			{
-				Debug.Print("Successfully saved", 0, Debug.DebugColor.White, 17592186044416UL);
+				Debug.Print("------Successfully saved------", 0, Debug.DebugColor.White, 17592186044416UL);
 				return;
 			}
 			Debug.Print("Couldn't save because of errors listed below.", 0, Debug.DebugColor.White, 17592186044416UL);

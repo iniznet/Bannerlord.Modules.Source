@@ -362,7 +362,7 @@ namespace TaleWorlds.MountAndBlade
 
 		private void CheckPlayerForVoiceChatOnTeamChange(NetworkCommunicator peer, Team previousTeam, Team newTeam)
 		{
-			if (MBNetwork.VirtualPlayers[peer.Index] == peer.VirtualPlayer)
+			if (GameNetwork.VirtualPlayers[peer.Index] == peer.VirtualPlayer)
 			{
 				NetworkCommunicator myPeer = GameNetwork.MyPeer;
 				MissionPeer missionPeer = ((myPeer != null) ? myPeer.GetComponent<MissionPeer>() : null);
@@ -380,7 +380,7 @@ namespace TaleWorlds.MountAndBlade
 						{
 							return;
 						}
-						using (IEnumerator<NetworkCommunicator> enumerator = GameNetwork.NetworkPeers.GetEnumerator())
+						using (List<NetworkCommunicator>.Enumerator enumerator = GameNetwork.NetworkPeers.GetEnumerator())
 						{
 							while (enumerator.MoveNext())
 							{

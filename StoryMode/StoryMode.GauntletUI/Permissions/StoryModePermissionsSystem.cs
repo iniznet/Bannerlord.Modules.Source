@@ -1,7 +1,9 @@
 ﻿using System;
 using SandBox.View.Map;
 using StoryMode.StoryModePhases;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay;
+using TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
@@ -115,12 +117,27 @@ namespace StoryMode.GauntletUI.Permissions
 			}
 		}
 
+		private void OnLeaveKingdomPermissionEvent(LeaveKingdomPermissionEvent obj)
+		{
+			StoryModeManager storyModeManager = StoryModeManager.Current;
+			if (((storyModeManager != null) ? storyModeManager.MainStoryLine.PlayerSupportedKingdom : null) != null && Clan.PlayerClan.Kingdom == StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom)
+			{
+				Action<bool, TextObject> isLeaveKingdomPossbile = obj.IsLeaveKingdomPossbile;
+				if (isLeaveKingdomPossbile == null)
+				{
+					return;
+				}
+				isLeaveKingdomPossbile(true, new TextObject("{=WFNLizqL}You've supported a kingdom through main story line. Leaving this kingdom will fail your quest.{newline}{newline}Are you sure?", null));
+			}
+		}
+
 		private void RegisterEvents()
 		{
 			Game.Current.EventManager.RegisterEvent<MapNavigationHandler.ClanScreenPermissionEvent>(new Action<MapNavigationHandler.ClanScreenPermissionEvent>(this.OnClanScreenPermission));
 			Game.Current.EventManager.RegisterEvent<SettlementMenuOverlayVM.SettlementOverlayTalkPermissionEvent>(new Action<SettlementMenuOverlayVM.SettlementOverlayTalkPermissionEvent>(this.OnSettlementOverlayTalkPermission));
 			Game.Current.EventManager.RegisterEvent<SettlementMenuOverlayVM.SettlementOverylayQuickTalkPermissionEvent>(new Action<SettlementMenuOverlayVM.SettlementOverylayQuickTalkPermissionEvent>(this.OnSettlementOverlayQuickTalkPermission));
 			Game.Current.EventManager.RegisterEvent<SettlementMenuOverlayVM.SettlementOverlayLeaveCharacterPermissionEvent>(new Action<SettlementMenuOverlayVM.SettlementOverlayLeaveCharacterPermissionEvent>(this.OnSettlementOverlayLeaveMemberPermission));
+			Game.Current.EventManager.RegisterEvent<LeaveKingdomPermissionEvent>(new Action<LeaveKingdomPermissionEvent>(this.OnLeaveKingdomPermissionEvent));
 		}
 
 		internal void UnregisterEvents()
@@ -129,6 +146,7 @@ namespace StoryMode.GauntletUI.Permissions
 			Game.Current.EventManager.UnregisterEvent<SettlementMenuOverlayVM.SettlementOverlayTalkPermissionEvent>(new Action<SettlementMenuOverlayVM.SettlementOverlayTalkPermissionEvent>(this.OnSettlementOverlayTalkPermission));
 			Game.Current.EventManager.UnregisterEvent<SettlementMenuOverlayVM.SettlementOverylayQuickTalkPermissionEvent>(new Action<SettlementMenuOverlayVM.SettlementOverylayQuickTalkPermissionEvent>(this.OnSettlementOverlayQuickTalkPermission));
 			Game.Current.EventManager.UnregisterEvent<SettlementMenuOverlayVM.SettlementOverlayLeaveCharacterPermissionEvent>(new Action<SettlementMenuOverlayVM.SettlementOverlayLeaveCharacterPermissionEvent>(this.OnSettlementOverlayLeaveMemberPermission));
+			Game.Current.EventManager.UnregisterEvent<LeaveKingdomPermissionEvent>(new Action<LeaveKingdomPermissionEvent>(this.OnLeaveKingdomPermissionEvent));
 		}
 
 		private static StoryModePermissionsSystem Current;

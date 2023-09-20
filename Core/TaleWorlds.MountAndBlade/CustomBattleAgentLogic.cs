@@ -13,23 +13,16 @@ namespace TaleWorlds.MountAndBlade
 				bool flag2 = affectedAgent.Team.Side == affectorAgent.Team.Side;
 				IAgentOriginBase origin = affectorAgent.Origin;
 				BasicCharacterObject character = affectedAgent.Character;
+				Formation formation = affectorAgent.Formation;
 				BasicCharacterObject basicCharacterObject;
-				if (affectorAgent == null)
+				if (formation == null)
 				{
 					basicCharacterObject = null;
 				}
 				else
 				{
-					Formation formation = affectorAgent.Formation;
-					if (formation == null)
-					{
-						basicCharacterObject = null;
-					}
-					else
-					{
-						Agent captain = formation.Captain;
-						basicCharacterObject = ((captain != null) ? captain.Character : null);
-					}
+					Agent captain = formation.Captain;
+					basicCharacterObject = ((captain != null) ? captain.Character : null);
 				}
 				int inflictedDamage = blow.InflictedDamage;
 				bool flag3 = flag;
@@ -41,32 +34,29 @@ namespace TaleWorlds.MountAndBlade
 
 		public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow killingBlow)
 		{
-			if (base.Mission.Mode != MissionMode.Deployment)
+			if (affectorAgent == null && affectedAgent.IsMount && agentState == AgentState.Routed)
 			{
-				if (affectorAgent == null && affectedAgent.IsMount && agentState == AgentState.Routed)
+				return;
+			}
+			if (affectedAgent.Origin != null)
+			{
+				if (agentState == AgentState.Unconscious)
 				{
-					return;
+					affectedAgent.Origin.SetWounded();
+					if (affectedAgent == base.Mission.MainAgent)
+					{
+						this.BecomeGhost();
+						return;
+					}
 				}
-				if (affectedAgent.Origin != null)
+				else
 				{
-					if (agentState == AgentState.Unconscious)
+					if (agentState == AgentState.Killed)
 					{
-						affectedAgent.Origin.SetWounded();
-						if (affectedAgent == base.Mission.MainAgent)
-						{
-							this.BecomeGhost();
-							return;
-						}
+						affectedAgent.Origin.SetKilled();
+						return;
 					}
-					else
-					{
-						if (agentState == AgentState.Killed)
-						{
-							affectedAgent.Origin.SetKilled();
-							return;
-						}
-						affectedAgent.Origin.SetRouted();
-					}
+					affectedAgent.Origin.SetRouted();
 				}
 			}
 		}

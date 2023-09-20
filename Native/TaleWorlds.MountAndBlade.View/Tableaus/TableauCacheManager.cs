@@ -16,17 +16,6 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 
 		public MatrixFrame InventorySceneCameraFrame { get; private set; }
 
-		private Camera CreateBannerCamera(float left, float right, float bottom, float top, float near, float far)
-		{
-			Camera camera = Camera.CreateCamera();
-			MatrixFrame identity = MatrixFrame.Identity;
-			identity.origin.z = 400f;
-			camera.Frame = identity;
-			camera.LookAt(new Vec3(0f, 0f, 400f, -1f), new Vec3(0f, 0f, 0f, -1f), new Vec3(0f, 1f, 0f, -1f));
-			camera.SetViewVolume(false, left, right, bottom, top, near, far);
-			return camera;
-		}
-
 		private void InitializeThumbnailCreator()
 		{
 			this._thumbnailCreatorView = ThumbnailCreatorView.CreateThumbnailCreatorView();
@@ -111,8 +100,8 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 			TableauCacheManager.Current._craftingPieceVisuals = new ThumbnailCache(100, TableauCacheManager.Current._thumbnailCreatorView);
 			TableauCacheManager.Current._characterVisuals = new ThumbnailCache(100, TableauCacheManager.Current._thumbnailCreatorView);
 			TableauCacheManager.Current._bannerVisuals = new ThumbnailCache(100, TableauCacheManager.Current._thumbnailCreatorView);
-			TableauCacheManager.Current._bannerCamera = TableauCacheManager.Current.CreateBannerCamera(0.33333334f, 0.6666667f, -0.6666667f, -0.33333334f, 0.001f, 510f);
-			TableauCacheManager.Current._nineGridBannerCamera = TableauCacheManager.Current.CreateBannerCamera(0f, 1f, -1f, 0f, 0.001f, 510f);
+			TableauCacheManager.Current._bannerCamera = TableauCacheManager.CreateDefaultBannerCamera();
+			TableauCacheManager.Current._nineGridBannerCamera = TableauCacheManager.CreateNineGridBannerCamera();
 			TableauCacheManager.Current._heroSilhouetteTexture = Texture.GetFromResource("hero_silhouette");
 		}
 
@@ -1276,6 +1265,27 @@ namespace TaleWorlds.MountAndBlade.View.Tableaus
 				characterSpawner.InitWithCharacter(characterCode, false);
 			}
 			return poseEntity;
+		}
+
+		public static Camera CreateDefaultBannerCamera()
+		{
+			return TableauCacheManager.CreateCamera(0.33333334f, 0.6666667f, -0.6666667f, -0.33333334f, 0.001f, 510f);
+		}
+
+		public static Camera CreateNineGridBannerCamera()
+		{
+			return TableauCacheManager.CreateCamera(0f, 1f, -1f, 0f, 0.001f, 510f);
+		}
+
+		private static Camera CreateCamera(float left, float right, float bottom, float top, float near, float far)
+		{
+			Camera camera = Camera.CreateCamera();
+			MatrixFrame identity = MatrixFrame.Identity;
+			identity.origin.z = 400f;
+			camera.Frame = identity;
+			camera.LookAt(new Vec3(0f, 0f, 400f, -1f), new Vec3(0f, 0f, 0f, -1f), new Vec3(0f, 1f, 0f, -1f));
+			camera.SetViewVolume(false, left, right, bottom, top, near, far);
+			return camera;
 		}
 
 		private ThumbnailCreatorView _thumbnailCreatorView;

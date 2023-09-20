@@ -59,7 +59,7 @@ namespace Helpers
 						}
 						else
 						{
-							Debug.FailedAssert("Mobileparty is nowhere to be found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetClosestSettlement", 1817);
+							Debug.FailedAssert("Mobileparty is nowhere to be found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Helpers.cs", "GetClosestSettlement", 1801);
 						}
 					}
 				}
@@ -427,9 +427,12 @@ namespace Helpers
 		public static List<CharacterObject> GetVolunteerTroopsOfHeroForRecruitment(Hero hero)
 		{
 			List<CharacterObject> list = new List<CharacterObject>();
-			for (int i = 0; i < 6; i++)
+			if (hero.IsAlive)
 			{
-				list.Add(hero.VolunteerTypes[i]);
+				for (int i = 0; i < 6; i++)
+				{
+					list.Add(hero.VolunteerTypes[i]);
+				}
 			}
 			return list;
 		}

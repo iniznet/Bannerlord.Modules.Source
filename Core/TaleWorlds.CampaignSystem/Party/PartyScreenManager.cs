@@ -264,7 +264,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
 			PartyScreenManager.Instance._currentMode = PartyScreenMode.TroopsManage;
-			PartyScreenLogicInitializationData partyScreenLogicInitializationData = PartyScreenLogicInitializationData.CreateBasicInitDataWithMainPartyAndOther(leftParty, PartyScreenLogic.TransferState.Transferable, PartyScreenLogic.TransferState.NotTransferable, PartyScreenLogic.TransferState.Transferable, new IsTroopTransferableDelegate(PartyScreenManager.ClanManageTroopTransferableDelegate), new TextObject("{=uQgNPJnc}Manage Troops", null), null, null, null, null, null, false, false, true, false);
+			PartyScreenLogicInitializationData partyScreenLogicInitializationData = PartyScreenLogicInitializationData.CreateBasicInitDataWithMainPartyAndOther(leftParty, PartyScreenLogic.TransferState.Transferable, PartyScreenLogic.TransferState.NotTransferable, PartyScreenLogic.TransferState.Transferable, new IsTroopTransferableDelegate(PartyScreenManager.ClanManageTroopTransferableDelegate), new TextObject("{=uQgNPJnc}Manage Troops", null), new PartyPresentationDoneButtonDelegate(PartyScreenManager.DefaultDoneHandler), null, null, null, null, false, false, true, false);
 			PartyScreenManager.Instance._partyScreenLogic.Initialize(partyScreenLogicInitializationData);
 			PartyScreenManager.Instance.IsDonating = false;
 			PartyState partyState = Game.Current.GameStateManager.CreateState<PartyState>();
@@ -278,7 +278,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			PartyScreenManager.Instance._currentMode = PartyScreenMode.TroopsManage;
 			PartyScreenManager.Instance.IsDonating = leftParty.Owner.Clan != Clan.PlayerClan;
 			PartyScreenLogic.TransferState transferState = PartyScreenLogic.TransferState.Transferable;
-			PartyScreenLogic.TransferState transferState2 = PartyScreenLogic.TransferState.Transferable;
+			PartyScreenLogic.TransferState transferState2 = PartyScreenLogic.TransferState.NotTransferable;
 			PartyScreenLogic.TransferState transferState3 = PartyScreenLogic.TransferState.Transferable;
 			IsTroopTransferableDelegate isTroopTransferableDelegate = new IsTroopTransferableDelegate(PartyScreenManager.DonateModeTroopTransferableDelegate);
 			PartyPresentationDoneButtonConditionDelegate partyPresentationDoneButtonConditionDelegate = new PartyPresentationDoneButtonConditionDelegate(PartyScreenManager.DonateDonePossibleDelegate);
@@ -299,7 +299,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				Hero.MainHero.CurrentSettlement.AddGarrisonParty(false);
 			}
 			MobileParty garrisonParty = Hero.MainHero.CurrentSettlement.Town.GarrisonParty;
-			int num = garrisonParty.Party.PartySizeLimit - garrisonParty.Party.NumberOfAllMembers;
+			int num = Math.Max(garrisonParty.Party.PartySizeLimit - garrisonParty.Party.NumberOfAllMembers, 0);
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
 			TroopRoster troopRoster2 = TroopRoster.CreateDummyTroopRoster();
 			PartyScreenLogic.TransferState transferState = PartyScreenLogic.TransferState.Transferable;
@@ -327,7 +327,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				Hero.MainHero.CurrentSettlement.AddGarrisonParty(false);
 			}
 			TroopRoster prisonRoster = Hero.MainHero.CurrentSettlement.Party.PrisonRoster;
-			int num = Hero.MainHero.CurrentSettlement.Party.PrisonerSizeLimit - prisonRoster.Count;
+			int num = Math.Max(Hero.MainHero.CurrentSettlement.Party.PrisonerSizeLimit - prisonRoster.Count, 0);
 			TextObject textObject = new TextObject("{=SDzIAtiA}Prisoners of {SETTLEMENT_NAME}", null);
 			textObject.SetTextVariable("SETTLEMENT_NAME", Hero.MainHero.CurrentSettlement.Name);
 			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
@@ -358,11 +358,11 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				return new Tuple<bool, TextObject>(false, new TextObject("{=pvkl6pZh}You cannot take troops.", null));
 			}
-			if (PartyScreenManager.PartyScreenLogic.LeftPartyMembersSizeLimit < PartyScreenManager.PartyScreenLogic.MemberRosters[0].TotalManCount)
+			if ((PartyScreenManager.PartyScreenLogic.MemberTransferState != PartyScreenLogic.TransferState.NotTransferable || PartyScreenManager.PartyScreenLogic.AccompanyingTransferState != PartyScreenLogic.TransferState.NotTransferable) && PartyScreenManager.PartyScreenLogic.LeftPartyMembersSizeLimit < PartyScreenManager.PartyScreenLogic.MemberRosters[0].TotalManCount)
 			{
 				return new Tuple<bool, TextObject>(false, new TextObject("{=R7wiHjcL}Donated troops exceed party capacity.", null));
 			}
-			if (PartyScreenManager.PartyScreenLogic.LeftPartyPrisonersSizeLimit < PartyScreenManager.PartyScreenLogic.PrisonerRosters[0].TotalManCount)
+			if (PartyScreenManager.PartyScreenLogic.PrisonerTransferState != PartyScreenLogic.TransferState.NotTransferable && PartyScreenManager.PartyScreenLogic.LeftPartyPrisonersSizeLimit < PartyScreenManager.PartyScreenLogic.PrisonerRosters[0].TotalManCount)
 			{
 				return new Tuple<bool, TextObject>(false, new TextObject("{=3nfPGbN0}Donated prisoners exceed party capacity.", null));
 			}
@@ -438,13 +438,20 @@ namespace TaleWorlds.CampaignSystem.Party
 			return !character.IsHero && side == PartyScreenLogic.PartyRosterSide.Right;
 		}
 
-		public static void OpenScreenWithCondition(IsTroopTransferableDelegate isTroopTransferable, PartyPresentationDoneButtonConditionDelegate doneButtonCondition, PartyPresentationDoneButtonDelegate onDoneClicked, PartyPresentationCancelButtonDelegate onCancelClicked, PartyScreenLogic.TransferState memberTransferState, PartyScreenLogic.TransferState prisonerTransferState, TextObject leftPartyName, int limit, bool showProgressBar, bool isDonating, PartyScreenMode screenMode = PartyScreenMode.Normal)
+		public static void OpenScreenWithCondition(IsTroopTransferableDelegate isTroopTransferable, PartyPresentationDoneButtonConditionDelegate doneButtonCondition, PartyPresentationDoneButtonDelegate onDoneClicked, PartyPresentationCancelButtonDelegate onCancelClicked, PartyScreenLogic.TransferState memberTransferState, PartyScreenLogic.TransferState prisonerTransferState, TextObject leftPartyName, int limit, bool showProgressBar, bool isDonating, PartyScreenMode screenMode = PartyScreenMode.Normal, TroopRoster memberRosterLeft = null, TroopRoster prisonerRosterLeft = null)
 		{
-			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
+			if (memberRosterLeft == null)
+			{
+				memberRosterLeft = TroopRoster.CreateDummyTroopRoster();
+			}
+			if (prisonerRosterLeft == null)
+			{
+				prisonerRosterLeft = TroopRoster.CreateDummyTroopRoster();
+			}
 			PartyScreenManager.Instance._currentMode = screenMode;
 			PartyScreenManager.Instance.IsDonating = isDonating;
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
-			PartyScreenLogicInitializationData partyScreenLogicInitializationData = PartyScreenLogicInitializationData.CreateBasicInitDataWithMainParty(troopRoster, TroopRoster.CreateDummyTroopRoster(), memberTransferState, prisonerTransferState, PartyScreenLogic.TransferState.NotTransferable, isTroopTransferable, null, leftPartyName, new TextObject("{=nZaeTlj8}Exchange Troops", null), null, limit, 0, onDoneClicked, doneButtonCondition, onCancelClicked, null, null, false, false, false, showProgressBar, 0);
+			PartyScreenLogicInitializationData partyScreenLogicInitializationData = PartyScreenLogicInitializationData.CreateBasicInitDataWithMainParty(memberRosterLeft, prisonerRosterLeft, memberTransferState, prisonerTransferState, PartyScreenLogic.TransferState.NotTransferable, isTroopTransferable, null, leftPartyName, new TextObject("{=nZaeTlj8}Exchange Troops", null), null, limit, 0, onDoneClicked, doneButtonCondition, onCancelClicked, null, null, false, false, false, showProgressBar, 0);
 			PartyScreenManager.Instance._partyScreenLogic.Initialize(partyScreenLogicInitializationData);
 			PartyState partyState = Game.Current.GameStateManager.CreateState<PartyState>();
 			partyState.InitializeLogic(PartyScreenManager.Instance._partyScreenLogic);
@@ -455,6 +462,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			PartyScreenManager.Instance._partyScreenLogic = new PartyScreenLogic();
 			PartyScreenLogicInitializationData partyScreenLogicInitializationData = PartyScreenLogicInitializationData.CreateBasicInitDataWithMainParty(memberRosterLeft, TroopRoster.CreateDummyTroopRoster(), PartyScreenLogic.TransferState.Transferable, PartyScreenLogic.TransferState.NotTransferable, PartyScreenLogic.TransferState.NotTransferable, isTroopTransferable, null, leftPartyName, null, null, Campaign.Current.Models.AlleyModel.MaximumTroopCountInPlayerOwnedAlley + 1, 0, onDoneClicked, doneButtonCondition, onCancelButtonClicked, null, null, false, false, false, true, 0);
+			PartyScreenManager.Instance._currentMode = PartyScreenMode.TroopsManage;
 			PartyScreenManager.Instance._partyScreenLogic.Initialize(partyScreenLogicInitializationData);
 			PartyState partyState = Game.Current.GameStateManager.CreateState<PartyState>();
 			partyState.InitializeLogic(PartyScreenManager.Instance._partyScreenLogic);

@@ -7,17 +7,14 @@ namespace TaleWorlds.GauntletUI
 {
 	public class CircleActionSelectorWidget : Widget
 	{
-		public float DistanceFromCenterModifier { get; set; } = 300f;
-
-		public Widget DirectionWidget { get; set; }
-
-		public float DirectionWidgetDistanceMultiplier { get; set; } = 0.5f;
-
-		public bool ActivateOnlyWithController { get; set; }
-
 		public CircleActionSelectorWidget(UIContext context)
 			: base(context)
 		{
+			this._activateOnlyWithController = false;
+			this._distanceFromCenterModifier = 300f;
+			this._directionWidgetDistanceMultiplier = 0.5f;
+			this._centerDistanceAnimationTimer = -1f;
+			this._centerDistanceAnimationDuration = -1f;
 		}
 
 		protected override void OnChildAdded(Widget child)
@@ -38,10 +35,20 @@ namespace TaleWorlds.GauntletUI
 		protected override void OnLateUpdate(float dt)
 		{
 			base.OnLateUpdate(dt);
+			if (!this.AllowInvalidSelection)
+			{
+				this._currentSelectedIndex = -1;
+			}
 			if (base.IsRecursivelyVisible())
 			{
 				this.UpdateItemPlacement();
-				if (!this.ActivateOnlyWithController || base.EventManager.IsControllerActive)
+				this.AnimateDistanceFromCenter(dt);
+				bool flag = this.IsCircularInputEnabled && (!this.ActivateOnlyWithController || base.EventManager.IsControllerActive);
+				if (this.DirectionWidget != null)
+				{
+					this.DirectionWidget.IsVisible = flag;
+				}
+				if (flag)
 				{
 					this.UpdateAverageMouseDirection();
 					this.UpdateCircularInput();
@@ -62,6 +69,32 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
+		private void AnimateDistanceFromCenter(float dt)
+		{
+			if (this._centerDistanceAnimationTimer == -1f || this._centerDistanceAnimationDuration == -1f || this._centerDistanceAnimationTarget == -1f)
+			{
+				return;
+			}
+			if (this._centerDistanceAnimationTimer < this._centerDistanceAnimationDuration)
+			{
+				this.DistanceFromCenterModifier = MathF.Lerp(this._centerDistanceAnimationInitialValue, this._centerDistanceAnimationTarget, this._centerDistanceAnimationTimer / this._centerDistanceAnimationDuration, 1E-05f);
+				this._centerDistanceAnimationTimer += dt;
+				return;
+			}
+			this.DistanceFromCenterModifier = this._centerDistanceAnimationTarget;
+			this._centerDistanceAnimationTimer = -1f;
+			this._centerDistanceAnimationDuration = -1f;
+			this._centerDistanceAnimationTarget = -1f;
+		}
+
+		public void AnimateDistanceFromCenterTo(float distanceFromCenter, float animationDuration)
+		{
+			this._centerDistanceAnimationTimer = 0f;
+			this._centerDistanceAnimationInitialValue = this.DistanceFromCenterModifier;
+			this._centerDistanceAnimationDuration = animationDuration;
+			this._centerDistanceAnimationTarget = distanceFromCenter;
+		}
+
 		private void UpdateAverageMouseDirection()
 		{
 			IInputContext inputContext = base.EventManager.InputContext;
@@ -78,10 +111,7 @@ namespace TaleWorlds.GauntletUI
 				this._mouseDirection = new Vec2(this._mouseMoveAccumulated.X, -this._mouseMoveAccumulated.Y);
 				return;
 			}
-			if (vec.Length > 0.391f)
-			{
-				this._mouseDirection = new Vec2(vec.X, vec.Y);
-			}
+			this._mouseDirection = new Vec2(vec.X, vec.Y);
 		}
 
 		private void UpdateItemPlacement()
@@ -108,28 +138,61 @@ namespace TaleWorlds.GauntletUI
 			}
 		}
 
+		public bool TrySetSelectedIndex(int index)
+		{
+			if (index >= 0 && index < base.ChildCount)
+			{
+				this.OnSelectedIndexChanged(index);
+				return true;
+			}
+			return false;
+		}
+
+		protected virtual void OnSelectedIndexChanged(int selectedIndex)
+		{
+			for (int i = 0; i < base.ChildCount; i++)
+			{
+				Widget child = base.GetChild(i);
+				ButtonWidget buttonWidget;
+				if ((buttonWidget = child as ButtonWidget) != null)
+				{
+					buttonWidget.IsSelected = !child.IsDisabled && i == selectedIndex;
+				}
+			}
+		}
+
 		private void UpdateCircularInput()
 		{
-			float num = this.AngleFromDir(this._mouseDirection);
-			if (this._mouseDirection.Length > 0.391f && base.ChildCount > 0)
+			int currentSelectedIndex = this._currentSelectedIndex;
+			if (this._mouseDirection.Length > 0.391f)
 			{
-				int indexOfSelectedItemByAngle = this.GetIndexOfSelectedItemByAngle(num);
-				if (indexOfSelectedItemByAngle != -1)
+				if (base.ChildCount > 0)
 				{
-					this._isRefreshingSelection = true;
-					for (int i = 0; i < base.ChildCount; i++)
-					{
-						(base.GetChild(i) as ButtonWidget).IsSelected = i == indexOfSelectedItemByAngle;
-					}
-					this._isRefreshingSelection = false;
+					float num = this.AngleFromDir(this._mouseDirection);
+					this._currentSelectedIndex = this.GetIndexOfSelectedItemByAngle(num);
 				}
+			}
+			else if (this.AllowInvalidSelection)
+			{
+				this._currentSelectedIndex = -1;
+			}
+			if (currentSelectedIndex != this._currentSelectedIndex)
+			{
+				this._isRefreshingSelection = true;
+				this.OnSelectedIndexChanged(this._currentSelectedIndex);
+				this._isRefreshingSelection = false;
 			}
 			if (this.DirectionWidget != null)
 			{
-				this.DirectionWidget.IsVisible = true;
-				Vec2 vec = this._mouseDirection.Normalized();
-				this.DirectionWidget.PositionXOffset = vec.X * (this.DistanceFromCenterModifier * this.DirectionWidgetDistanceMultiplier);
-				this.DirectionWidget.PositionYOffset = -vec.Y * (this.DistanceFromCenterModifier * this.DirectionWidgetDistanceMultiplier);
+				if (this._mouseDirection.LengthSquared > 0f)
+				{
+					Vec2 vec = this._mouseDirection.Normalized();
+					this.DirectionWidget.PositionXOffset = vec.X * (this.DistanceFromCenterModifier * this.DirectionWidgetDistanceMultiplier);
+					this.DirectionWidget.PositionYOffset = -vec.Y * (this.DistanceFromCenterModifier * this.DirectionWidgetDistanceMultiplier);
+					return;
+				}
+				this.DirectionWidget.PositionXOffset = 0f;
+				this.DirectionWidget.PositionYOffset = 0f;
 			}
 		}
 
@@ -199,16 +262,154 @@ namespace TaleWorlds.GauntletUI
 			return new Vec2(MathF.Sin(angle), MathF.Cos(angle));
 		}
 
+		public bool AllowInvalidSelection
+		{
+			get
+			{
+				return this._allowInvalidSelection;
+			}
+			set
+			{
+				if (value != this._allowInvalidSelection)
+				{
+					this._allowInvalidSelection = value;
+					base.OnPropertyChanged(value, "AllowInvalidSelection");
+				}
+			}
+		}
+
+		public bool ActivateOnlyWithController
+		{
+			get
+			{
+				return this._activateOnlyWithController;
+			}
+			set
+			{
+				if (value != this._activateOnlyWithController)
+				{
+					this._activateOnlyWithController = value;
+					base.OnPropertyChanged(value, "ActivateOnlyWithController");
+				}
+			}
+		}
+
+		public bool IsCircularInputEnabled
+		{
+			get
+			{
+				return !this.IsCircularInputDisabled;
+			}
+			set
+			{
+				if (value == this.IsCircularInputDisabled)
+				{
+					this.IsCircularInputDisabled = !value;
+					base.OnPropertyChanged(!value, "IsCircularInputEnabled");
+				}
+			}
+		}
+
+		public bool IsCircularInputDisabled
+		{
+			get
+			{
+				return this._isCircularInputDisabled;
+			}
+			set
+			{
+				if (value != this._isCircularInputDisabled)
+				{
+					this._isCircularInputDisabled = value;
+					base.OnPropertyChanged(value, "IsCircularInputDisabled");
+					if (value)
+					{
+						this.OnSelectedIndexChanged(-1);
+					}
+				}
+			}
+		}
+
+		public float DistanceFromCenterModifier
+		{
+			get
+			{
+				return this._distanceFromCenterModifier;
+			}
+			set
+			{
+				if (value != this._distanceFromCenterModifier)
+				{
+					this._distanceFromCenterModifier = value;
+					base.OnPropertyChanged(value, "DistanceFromCenterModifier");
+				}
+			}
+		}
+
+		public float DirectionWidgetDistanceMultiplier
+		{
+			get
+			{
+				return this._directionWidgetDistanceMultiplier;
+			}
+			set
+			{
+				if (value != this._directionWidgetDistanceMultiplier)
+				{
+					this._directionWidgetDistanceMultiplier = value;
+					base.OnPropertyChanged(value, "DirectionWidgetDistanceMultiplier");
+				}
+			}
+		}
+
+		public Widget DirectionWidget
+		{
+			get
+			{
+				return this._directionWidget;
+			}
+			set
+			{
+				if (value != this._directionWidget)
+				{
+					this._directionWidget = value;
+					base.OnPropertyChanged<Widget>(value, "DirectionWidget");
+				}
+			}
+		}
+
+		private int _currentSelectedIndex;
+
 		private const float _mouseMoveMaxDistance = 125f;
 
 		private const float _gamepadDeadzoneLength = 0.391f;
 
 		private const float _mouseMoveMaxDistanceSquared = 15625f;
 
+		private float _centerDistanceAnimationTimer;
+
+		private float _centerDistanceAnimationDuration;
+
+		private float _centerDistanceAnimationInitialValue;
+
+		private float _centerDistanceAnimationTarget;
+
 		private Vec2 _mouseDirection;
 
 		private Vec2 _mouseMoveAccumulated;
 
 		private bool _isRefreshingSelection;
+
+		private bool _allowInvalidSelection;
+
+		private bool _activateOnlyWithController;
+
+		private bool _isCircularInputDisabled;
+
+		private float _distanceFromCenterModifier;
+
+		private float _directionWidgetDistanceMultiplier;
+
+		private Widget _directionWidget;
 	}
 }

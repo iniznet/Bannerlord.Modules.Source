@@ -92,7 +92,7 @@ namespace TaleWorlds.MountAndBlade
 			agentDrivenProperties.MountDifficulty = (float)equipmentElement2.Item.Difficulty;
 		}
 
-		public override float GetWeaponDamageMultiplier(BasicCharacterObject agentCharacter, IAgentOriginBase agentOrigin, Formation agentFormation, WeaponComponentData weapon)
+		public override float GetWeaponDamageMultiplier(Agent agent, WeaponComponentData weapon)
 		{
 			return 1f;
 		}

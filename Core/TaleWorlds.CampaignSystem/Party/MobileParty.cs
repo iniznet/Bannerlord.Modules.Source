@@ -5,6 +5,7 @@ using System.Threading;
 using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.GameState;
@@ -594,24 +595,15 @@ namespace TaleWorlds.CampaignSystem.Party
 					if (this._currentSettlement != null && this._currentSettlement.IsFortification)
 					{
 						this.ArmyPositionAdder = Vec2.Zero;
-						this._errorPosition = Vec2.Zero;
+						this.ErrorPosition = Vec2.Zero;
 						this.Bearing = Vec2.Zero;
 						this.Party.AverageBearingRotation = 0f;
 						foreach (MobileParty mobileParty2 in this._currentSettlement.Parties)
 						{
-							IPartyVisual visuals = mobileParty2.Party.Visuals;
-							if (visuals != null)
-							{
-								visuals.SetMapIconAsDirty();
-							}
+							mobileParty2.Party.SetVisualAsDirty();
 						}
 					}
-					IPartyVisual visuals2 = this.Party.Visuals;
-					if (visuals2 == null)
-					{
-						return;
-					}
-					visuals2.SetMapIconAsDirty();
+					this.Party.SetVisualAsDirty();
 				}
 			}
 		}
@@ -678,12 +670,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				this.BesiegerCamp = this._attachedTo.BesiegerCamp;
 				this.CurrentSettlement = this._attachedTo.CurrentSettlement;
 			}
-			IPartyVisual visuals = this.Party.Visuals;
-			if (visuals == null)
-			{
-				return;
-			}
-			visuals.SetMapIconAsDirty();
+			this.Party.SetVisualAsDirty();
 		}
 
 		private void AddAttachedPartyInternal(MobileParty mobileParty)
@@ -706,11 +693,11 @@ namespace TaleWorlds.CampaignSystem.Party
 
 		private void OnAttachedToRemoved()
 		{
-			this._errorPosition += this.ArmyPositionAdder;
+			this.ErrorPosition += this.ArmyPositionAdder;
 			this.ArmyPositionAdder = Vec2.Zero;
 			if (!this.IsVisible)
 			{
-				this._errorPosition = Vec2.Zero;
+				this.ErrorPosition = Vec2.Zero;
 			}
 			if (this.CurrentSettlement != null)
 			{
@@ -776,12 +763,7 @@ namespace TaleWorlds.CampaignSystem.Party
 					{
 						mobileParty.BesiegerCamp = value;
 					}
-					IPartyVisual visuals = this.Party.Visuals;
-					if (visuals == null)
-					{
-						return;
-					}
-					visuals.SetMapIconAsDirty();
+					this.Party.SetVisualAsDirty();
 				}
 			}
 		}
@@ -800,21 +782,14 @@ namespace TaleWorlds.CampaignSystem.Party
 					return;
 				}
 			}
-			if (this.Party.MapEventSide != null)
+			if (this.Party.MapEventSide != null && !this.Party.MapEvent.IsFinalized)
 			{
-				IFaction mapFaction2 = this.Party.MapEventSide.OtherSide.MapFaction;
-				IFaction mapFaction3 = this.Party.MapEventSide.MapFaction;
-				if (mapFaction2 == null || (!mapFaction2.IsAtWarWith(this.MapFaction) && mapFaction2 == factionToConsiderAgainst))
+				if (!this.MapEvent.CanPartyJoinBattle(this.Party, this.Party.MapEventSide.MissionSide))
 				{
 					if (this.Party == PartyBase.MainParty && PlayerEncounter.Current != null)
 					{
 						PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
 					}
-					this.Party.MapEventSide = null;
-					this.Ai.SetMoveModeHold();
-				}
-				else if (mapFaction3 == null || (mapFaction3.IsAtWarWith(this.MapFaction) && mapFaction2 == factionToConsiderAgainst))
-				{
 					this.Party.MapEventSide = null;
 					this.Ai.SetMoveModeHold();
 				}
@@ -830,45 +805,53 @@ namespace TaleWorlds.CampaignSystem.Party
 				BesiegerCamp besiegerCamp = this.BesiegerCamp;
 				Settlement settlement = ((besiegerCamp != null) ? besiegerCamp.SiegeEvent.BesiegedSettlement : null) ?? PlayerEncounter.EncounterSettlement;
 				BesiegerCamp besiegerCamp2 = this.BesiegerCamp;
-				MobileParty mobileParty = ((besiegerCamp2 != null) ? besiegerCamp2.BesiegerParty : null) ?? PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.BesiegerParty;
-				IFaction mapFaction4 = settlement.MapFaction;
-				IFaction faction = ((mobileParty != null) ? mobileParty.MapFaction : null);
-				if (mapFaction4 == null || (!mapFaction4.IsAtWarWith(this.MapFaction) && mapFaction4 == factionToConsiderAgainst))
+				MobileParty mobileParty;
+				if ((mobileParty = ((besiegerCamp2 != null) ? besiegerCamp2.LeaderParty : null)) == null)
+				{
+					Settlement encounterSettlement = PlayerEncounter.EncounterSettlement;
+					mobileParty = ((encounterSettlement != null) ? encounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty : null);
+				}
+				MobileParty mobileParty2 = mobileParty;
+				IFaction mapFaction2 = settlement.MapFaction;
+				IFaction faction = ((mobileParty2 != null) ? mobileParty2.MapFaction : null);
+				if (mapFaction2 == null || (!mapFaction2.IsAtWarWith(this.MapFaction) && mapFaction2 == factionToConsiderAgainst))
 				{
 					if (this.Party == PartyBase.MainParty && battleSideEnum == BattleSideEnum.None)
 					{
 						GameMenu.ActivateGameMenu("hostile_action_end_by_peace");
 					}
-					else if (PlayerEncounter.Current != null && (PlayerEncounter.EncounteredParty == this.Party || (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && PlayerEncounter.EncounterSettlement.SiegeEvent == this.SiegeEvent)) && mobileParty != null && mobileParty == this)
+					else if (PlayerEncounter.Current != null && (PlayerEncounter.EncounteredParty == this.Party || (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && PlayerEncounter.EncounterSettlement.SiegeEvent == this.SiegeEvent)) && mobileParty2 != null && mobileParty2 == this)
 					{
 						PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
 					}
 					if (this.Army == null || this.Army.LeaderParty == this)
 					{
 						this.BesiegerCamp = null;
-						if (this.Party.MapEventSide != null && !this.Party.MapEvent.IsFieldBattle)
+						this.Ai.SetMoveModeHold();
+						if (this.Party.MapEventSide != null && !this.Party.MapEvent.IsFieldBattle && !this.Party.MapEvent.IsSiegeAssault)
 						{
 							this.Party.MapEvent.FinishSiegeEventKeepBattle();
 						}
 					}
 				}
-				else if (faction == null || (faction.IsAtWarWith(this.MapFaction) && mapFaction4 == factionToConsiderAgainst))
+				else if (faction == null || (faction.IsAtWarWith(this.MapFaction) && mapFaction2 == factionToConsiderAgainst))
 				{
 					this.BesiegerCamp = null;
+					this.Ai.SetMoveModeHold();
 					if (this.Party.MapEventSide != null)
 					{
 						this.Party.MapEvent.FinishSiegeEventKeepBattle();
 					}
 				}
-				else if (mapFaction4 != null && faction != null && this.MapFaction != mapFaction4 && this.MapFaction != faction && PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && !PartyBase.MainParty.MapFaction.IsAtWarWith(PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction))
+				else if (mapFaction2 != null && faction != null && this.MapFaction != mapFaction2 && this.MapFaction != faction && PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.SiegeEvent != null && !PartyBase.MainParty.MapFaction.IsAtWarWith(PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction))
 				{
 					PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
 				}
 			}
 			if (this.CurrentSettlement != null)
 			{
-				IFaction mapFaction5 = this.CurrentSettlement.MapFaction;
-				if (mapFaction5 != null && mapFaction5 == factionToConsiderAgainst && mapFaction5.IsAtWarWith(this.MapFaction))
+				IFaction mapFaction3 = this.CurrentSettlement.MapFaction;
+				if (mapFaction3 != null && mapFaction3 == factionToConsiderAgainst && mapFaction3.IsAtWarWith(this.MapFaction))
 				{
 					if (this.IsMainParty)
 					{
@@ -900,7 +883,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 			if (this.Party == PartyBase.MainParty && PlayerEncounter.Current != null)
 			{
-				if (PlayerEncounter.EncounteredBattle != null)
+				if (PlayerEncounter.EncounteredBattle != null && !PlayerEncounter.EncounteredBattle.IsFinalized)
 				{
 					MapEvent encounteredBattle = PlayerEncounter.EncounteredBattle;
 					if (encounteredBattle.PlayerSide != BattleSideEnum.None)
@@ -915,7 +898,7 @@ namespace TaleWorlds.CampaignSystem.Party
 						PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
 					}
 				}
-				else if (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.IsUnderSiege && !PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.BesiegerParty.MapFaction.IsAtWarWith(MobileParty.MainParty.MapFaction) && (PlayerEncounter.PlayerIsDefender || (PlayerEncounter.PlayerIsAttacker && MobileParty.MainParty.SiegeEvent != null && !PlayerEncounter.Current.IsJoinedBattle)))
+				else if (PlayerEncounter.EncounterSettlement != null && PlayerEncounter.EncounterSettlement.IsUnderSiege && !PlayerEncounter.EncounterSettlement.SiegeEvent.BesiegerCamp.LeaderParty.MapFaction.IsAtWarWith(MobileParty.MainParty.MapFaction) && (PlayerEncounter.PlayerIsDefender || (PlayerEncounter.PlayerIsAttacker && MobileParty.MainParty.SiegeEvent != null && !PlayerEncounter.Current.IsJoinedBattle)))
 				{
 					PlayerEncounter.Current.SetPlayerEncounterInterruptedByPeace();
 				}
@@ -1056,14 +1039,40 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
-		private void InitializeMobilePartyWithPartyTemplate(PartyTemplateObject pt, Vec2 position, int troopNumberLimit)
+		public Hero EffectiveQuartermaster
 		{
-			if (troopNumberLimit != 0)
+			get
 			{
-				this.FillPartyStacks(pt, troopNumberLimit);
+				if (this.Quartermaster == null || this.Quartermaster.PartyBelongedTo != this)
+				{
+					return this.LeaderHero;
+				}
+				return this.Quartermaster;
 			}
-			this.CreateFigure(position, 0f);
-			this.Ai.SetMoveModeHold();
+		}
+
+		public Hero EffectiveEngineer
+		{
+			get
+			{
+				if (this.Engineer == null || this.Engineer.PartyBelongedTo != this)
+				{
+					return this.LeaderHero;
+				}
+				return this.Engineer;
+			}
+		}
+
+		public Hero EffectiveSurgeon
+		{
+			get
+			{
+				if (this.Surgeon == null || this.Surgeon.PartyBelongedTo != this)
+				{
+					return this.LeaderHero;
+				}
+				return this.Surgeon;
+			}
 		}
 
 		public void SetPartyScout(Hero hero)
@@ -1078,22 +1087,26 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.Quartermaster = hero;
 		}
 
-		public Hero EffectiveQuartermaster
-		{
-			get
-			{
-				if (this.Quartermaster == null || this.Quartermaster.PartyBelongedTo != this)
-				{
-					return this.LeaderHero;
-				}
-				return this.Quartermaster;
-			}
-		}
-
 		public void SetPartyEngineer(Hero hero)
 		{
 			this.RemoveHeroPerkRole(hero);
 			this.Engineer = hero;
+		}
+
+		public void SetPartySurgeon(Hero hero)
+		{
+			this.RemoveHeroPerkRole(hero);
+			this.Surgeon = hero;
+		}
+
+		private void InitializeMobilePartyWithPartyTemplate(PartyTemplateObject pt, Vec2 position, int troopNumberLimit)
+		{
+			if (troopNumberLimit != 0)
+			{
+				this.FillPartyStacks(pt, troopNumberLimit);
+			}
+			this.CreateFigure(position, 0f);
+			this.Ai.SetMoveModeHold();
 		}
 
 		public void InitializeMobilePartyAroundPosition(TroopRoster memberRoster, TroopRoster prisonerRoster, Vec2 position, float spawnRadius, float minSpawnRadius = 0f)
@@ -1110,39 +1123,9 @@ namespace TaleWorlds.CampaignSystem.Party
 			CampaignEventDispatcher.Instance.OnPartyVisibilityChanged(this.Party);
 		}
 
-		public Hero EffectiveEngineer
-		{
-			get
-			{
-				if (this.Engineer == null || this.Engineer.PartyBelongedTo != this)
-				{
-					return this.LeaderHero;
-				}
-				return this.Engineer;
-			}
-		}
-
 		public void InitializeMobilePartyAtPosition(TroopRoster memberRoster, TroopRoster prisonerRoster, Vec2 position)
 		{
 			this.InitializeMobilePartyWithRosterInternal(memberRoster, prisonerRoster, position);
-		}
-
-		public void SetPartySurgeon(Hero hero)
-		{
-			this.RemoveHeroPerkRole(hero);
-			this.Surgeon = hero;
-		}
-
-		public Hero EffectiveSurgeon
-		{
-			get
-			{
-				if (this.Surgeon == null || this.Surgeon.PartyBelongedTo != this)
-				{
-					return this.LeaderHero;
-				}
-				return this.Surgeon;
-			}
 		}
 
 		public void InitializeMobilePartyAtPosition(PartyTemplateObject pt, Vec2 position, int troopNumberLimit = -1)
@@ -1192,7 +1175,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		[LateLoadInitializationCallback]
 		private void OnLateLoad(MetaData metaData, ObjectLoadData objectLoadData)
 		{
-			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 26219))
+			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202))
 			{
 				PartyBase partyBase = (PartyBase)objectLoadData.GetMemberValueBySaveId(1052);
 				IMapEntity mapEntity = null;
@@ -1302,7 +1285,7 @@ namespace TaleWorlds.CampaignSystem.Party
 					" is not a member of ",
 					this.Name,
 					"!\nParty leader did not change."
-				}), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "ChangePartyLeader", 1035);
+				}), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "ChangePartyLeader", 1030);
 				return;
 			}
 			if (this.IsLordParty)
@@ -1321,6 +1304,10 @@ namespace TaleWorlds.CampaignSystem.Party
 			if (this.LeaderHero == null)
 			{
 				return;
+			}
+			if (this.MapEvent == null)
+			{
+				this.Ai.SetMoveModeHold();
 			}
 			this.PartyComponent.ChangePartyLeader(null);
 		}
@@ -1402,13 +1389,16 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				this._isDisorganized = true;
 			}
-			if (this.LeaderHero != null && this != MobileParty.MainParty && this.LeaderHero.PartyBelongedTo != this)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.2", 24202))
 			{
-				DestroyPartyAction.Apply(null, this);
-			}
-			if (this.MapEvent == null && base.StringId.Contains("troops_of_CharacterObject"))
-			{
-				DestroyPartyAction.Apply(null, this);
+				if (this.LeaderHero != null && this != MobileParty.MainParty && this.LeaderHero.PartyBelongedTo != this)
+				{
+					DestroyPartyAction.Apply(null, this);
+				}
+				if (this.MapEvent == null && (base.StringId.Contains("troops_of_CharacterObject") || base.StringId.Contains("troops_of_TaleWorlds.CampaignSystem.CharacterObject")))
+				{
+					DestroyPartyAction.Apply(null, this);
+				}
 			}
 		}
 
@@ -1433,13 +1423,19 @@ namespace TaleWorlds.CampaignSystem.Party
 				ai.InitCached();
 			}
 			((ILocatable<MobileParty>)this).LocatorNodeIndex = -1;
+			this.ThinkParamsCache = new PartyThinkParams(this);
+			this.ResetCached();
+		}
+
+		private void ResetCached()
+		{
 			this._partySizeRatioLastCheckVersion = -1;
 			this._latestUsedPaymentRatio = -1;
 			this._cachedPartySizeRatio = 1f;
 			this.VersionNo = 0;
 			this._partyPureSpeedLastCheckVersion = -1;
 			this._itemRosterVersionNo = -1;
-			this.ThinkParamsCache = new PartyThinkParams(this);
+			this.Party.InitCache();
 		}
 
 		protected override void AfterLoad()
@@ -1468,12 +1464,54 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				this.Army = null;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 26219) && (this.PaymentLimit == 2000 || (this == MobileParty.MainParty && this.PaymentLimit == 0)))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 24202) && (this.PaymentLimit == 2000 || (this == MobileParty.MainParty && this.PaymentLimit == 0)))
 			{
 				this.SetWagePaymentLimit(Campaign.Current.Models.PartyWageModel.MaxWage);
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.4", 26219) && ((this.TargetParty != null && !this.TargetParty.MapFaction.IsAtWarWith(this.MapFaction)) || (this.TargetSettlement != null && !this.TargetSettlement.MapFaction.IsAtWarWith(this.MapFaction)) || (this.ShortTermTargetParty != null && !this.ShortTermTargetParty.MapFaction.IsAtWarWith(this.MapFaction))))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202) && this.IsCaravan && this.Owner == Hero.MainHero && this.ActualClan == null)
 			{
+				this.ActualClan = this.Owner.Clan;
+			}
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.4", 24202))
+			{
+				if (this.TargetParty != null)
+				{
+					IFaction mapFaction = this.TargetParty.MapFaction;
+					if (mapFaction == null || !mapFaction.IsAtWarWith(this.MapFaction))
+					{
+						goto IL_25E;
+					}
+				}
+				if (this.TargetSettlement != null)
+				{
+					IFaction mapFaction2 = this.TargetSettlement.MapFaction;
+					if (mapFaction2 == null || !mapFaction2.IsAtWarWith(this.MapFaction))
+					{
+						goto IL_25E;
+					}
+				}
+				if (this.ShortTermTargetParty == null)
+				{
+					return;
+				}
+				MobileParty shortTermTargetParty = this.ShortTermTargetParty;
+				bool flag;
+				if (shortTermTargetParty == null)
+				{
+					flag = true;
+				}
+				else
+				{
+					IFaction mapFaction3 = shortTermTargetParty.MapFaction;
+					bool? flag2 = ((mapFaction3 != null) ? new bool?(mapFaction3.IsAtWarWith(this.MapFaction)) : null);
+					bool flag3 = true;
+					flag = !((flag2.GetValueOrDefault() == flag3) & (flag2 != null));
+				}
+				if (!flag)
+				{
+					return;
+				}
+				IL_25E:
 				this.Ai.SetMoveModeHold();
 			}
 		}
@@ -1532,6 +1570,9 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
+		[CachedData]
+		public Vec2 ErrorPosition { get; private set; }
+
 		internal void TickForStationaryMobileParty(ref MobileParty.CachedPartyVariables variables, float dt, float realDt)
 		{
 			if (this.StationaryStartTime == CampaignTime.Never)
@@ -1583,6 +1624,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				if (this.Army.LeaderParty.AttachedParties.Contains(this))
 				{
 					variables.IsAttachedArmyMember = true;
+					variables.IsMoving = this.IsMoving || this.Army.LeaderParty.IsMoving;
 				}
 			}
 		}
@@ -1664,7 +1706,7 @@ namespace TaleWorlds.CampaignSystem.Party
 					Vec2 vec5 = (((vec3 - this.Army.LeaderParty.Position2D).LengthSquared < 0.0025000002f) ? Vec2.FromRotation(this.Army.LeaderParty.Party.AverageBearingRotation) : (vec3 - this.Army.LeaderParty.Position2D).Normalized());
 					Vec2 vec6 = vec5.TransformToParentUnitF(this.Army.GetRelativePositionForParty(this, vec5));
 					vec2 = vec3 + vec6 - vec;
-					if ((vec4 + vec6 - vec).LengthSquared < 0.010000001f || vec2.LengthSquared < (this.Party.Visuals.EntityMoving ? 0.0001f : 0.010000001f))
+					if ((vec4 + vec6 - vec).LengthSquared < 0.010000001f || vec2.LengthSquared < 0.010000001f)
 					{
 						vec2 = Vec2.Zero;
 					}
@@ -1677,66 +1719,55 @@ namespace TaleWorlds.CampaignSystem.Party
 				vec2 = (variables.HasMapEvent ? this.Party.MapEvent.Position : this.Ai.NextTargetPosition) - vec;
 			}
 			float num2 = vec2.Normalize();
-			this.Party.Visuals.EntityMoving = false;
 			if (num2 < variables.NextMoveDistance)
 			{
 				variables.NextMoveDistance = num2;
 			}
-			if (this.BesiegedSettlement == null && this.CurrentSettlement == null)
+			if (this.BesiegedSettlement == null && this.CurrentSettlement == null && (variables.NextMoveDistance > 0f || variables.HasMapEvent))
 			{
-				if (variables.NextMoveDistance > 0f || variables.HasMapEvent)
+				bool flag2 = false;
+				Vec2 vec7 = this.Bearing;
+				if (num2 > 0f)
 				{
-					bool flag2 = false;
-					Vec2 vec7 = this.Bearing;
-					if (num2 > 0f)
+					flag2 = true;
+					vec7 = vec2;
+					if (!variables.IsAttachedArmyMember || !variables.HasMapEvent)
 					{
-						flag2 = true;
-						vec7 = vec2;
-						if (!variables.IsAttachedArmyMember || !variables.HasMapEvent)
-						{
-							this.Bearing = vec7;
-						}
-						this.Party.Visuals.EntityMoving = !variables.HasMapEvent;
-					}
-					else if (variables.IsAttachedArmyMember && variables.HasMapEvent)
-					{
-						vec7 = this.Army.LeaderParty.Bearing;
 						this.Bearing = vec7;
-						flag2 = true;
 					}
-					if (flag2)
-					{
-						float num3 = MBMath.WrapAngle(this.Bearing.RotationInRadians - this.Party.AverageBearingRotation);
-						float num4 = (variables.HasMapEvent ? realDt : dt);
-						this.Party.AverageBearingRotation += num3 * MathF.Min(num4 * 30f, 1f);
-						this.Party.AverageBearingRotation = MBMath.WrapAngle(this.Party.AverageBearingRotation);
-					}
-					variables.NextPosition = variables.CurrentPosition + vec7 * variables.NextMoveDistance;
-					return;
 				}
-				if (num2 > 0.1f)
+				else if (variables.IsAttachedArmyMember && variables.HasMapEvent)
 				{
-					this.Party.Visuals.EntityMoving = true;
+					vec7 = this.Army.LeaderParty.Bearing;
+					this.Bearing = vec7;
+					flag2 = true;
 				}
+				if (flag2)
+				{
+					float num3 = MBMath.WrapAngle(this.Bearing.RotationInRadians - this.Party.AverageBearingRotation);
+					float num4 = (variables.HasMapEvent ? realDt : dt);
+					this.Party.AverageBearingRotation += num3 * MathF.Min(num4 * 30f, 1f);
+					this.Party.AverageBearingRotation = MBMath.WrapAngle(this.Party.AverageBearingRotation);
+				}
+				variables.NextPosition = variables.CurrentPosition + vec7 * variables.NextMoveDistance;
 			}
 		}
 
 		internal void DoErrorCorrections(ref MobileParty.CachedPartyVariables variables, float realDt)
 		{
-			float lengthSquared = this._errorPosition.LengthSquared;
+			float lengthSquared = this.ErrorPosition.LengthSquared;
 			if (lengthSquared > 0f)
 			{
 				if (this.CurrentSettlement != null || !this.IsVisible)
 				{
-					this._errorPosition = Vec2.Zero;
+					this.ErrorPosition = Vec2.Zero;
 				}
 				if ((double)lengthSquared <= 49.0 * (double)realDt * (double)realDt)
 				{
-					this._errorPosition = Vec2.Zero;
+					this.ErrorPosition = Vec2.Zero;
 					return;
 				}
-				this.Party.Visuals.EntityMoving = true;
-				this._errorPosition -= this._errorPosition.Normalized() * (7f * realDt);
+				this.ErrorPosition -= this.ErrorPosition.Normalized() * (7f * realDt);
 			}
 		}
 
@@ -1749,44 +1780,13 @@ namespace TaleWorlds.CampaignSystem.Party
 				{
 					this._position2D = this.Army.LeaderParty.Position2D;
 					this.ArmyPositionAdder += variables.NextPosition - this.Position2D;
+					return;
 				}
-				else
+				PathFaceRecord nextPathFaceRecord = variables.NextPathFaceRecord;
+				if (this.CurrentNavigationFace.IsValid() && this.CurrentNavigationFace.FaceIslandIndex == nextPathFaceRecord.FaceIslandIndex)
 				{
-					PathFaceRecord nextPathFaceRecord = variables.NextPathFaceRecord;
-					if (this.CurrentNavigationFace.IsValid() && this.CurrentNavigationFace.FaceIslandIndex == nextPathFaceRecord.FaceIslandIndex)
-					{
-						this.SetPositionParallel(variables, variables.NextPosition, ref gridChangeCount, ref gridChangeMobilePartyList);
-					}
+					this.SetPositionParallel(variables, variables.NextPosition, ref gridChangeCount, ref gridChangeMobilePartyList);
 				}
-			}
-			if (this.Party.Visuals.IsVisibleOrFadingOut())
-			{
-				MatrixFrame identity = MatrixFrame.Identity;
-				identity.origin = this.GetVisualPosition();
-				if (variables.IsAttachedArmyMember)
-				{
-					MatrixFrame frame = this.Party.Visuals.GetFrame();
-					Vec2 vec = identity.origin.AsVec2 - frame.origin.AsVec2;
-					if (vec.Length / realDt > 20f)
-					{
-						identity.rotation.RotateAboutUp(this.Party.AverageBearingRotation);
-					}
-					else if (this.CurrentSettlement == null)
-					{
-						float num = MBMath.LerpRadians(frame.rotation.f.AsVec2.RotationInRadians, (vec + Vec2.FromRotation(this.Party.AverageBearingRotation) * 0.01f).RotationInRadians, 6f * realDt, 0.03f * realDt, 10f * realDt);
-						identity.rotation.RotateAboutUp(num);
-					}
-					else
-					{
-						float rotationInRadians = frame.rotation.f.AsVec2.RotationInRadians;
-						identity.rotation.RotateAboutUp(rotationInRadians);
-					}
-				}
-				else if (this.CurrentSettlement == null)
-				{
-					identity.rotation.RotateAboutUp(this.Party.AverageBearingRotation);
-				}
-				this.Party.Visuals.SetFrame(ref identity);
 			}
 		}
 
@@ -1798,9 +1798,9 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 			set
 			{
-				this._errorPosition += this._eventPositionAdder;
+				this.ErrorPosition += this._eventPositionAdder;
 				this._eventPositionAdder = value;
-				this._errorPosition -= this._eventPositionAdder;
+				this.ErrorPosition -= this._eventPositionAdder;
 			}
 		}
 
@@ -1862,7 +1862,11 @@ namespace TaleWorlds.CampaignSystem.Party
 
 		public void SetPartyUsedByQuest(bool isActivelyUsed)
 		{
-			this._isCurrentlyUsedByAQuest = isActivelyUsed;
+			if (this._isCurrentlyUsedByAQuest != isActivelyUsed)
+			{
+				this._isCurrentlyUsedByAQuest = isActivelyUsed;
+				CampaignEventDispatcher.Instance.OnMobilePartyQuestStatusChanged(this, isActivelyUsed);
+			}
 		}
 
 		public void ResetTargetParty()
@@ -1965,12 +1969,10 @@ namespace TaleWorlds.CampaignSystem.Party
 						this.Ai.SetMoveModeHold();
 						return;
 					}
-					if ((this.CurrentSettlement != null && this.CurrentSettlement == this.BesiegedSettlement) || this.MapEvent != null)
+					if (this.Party.MapEvent == null)
 					{
-						LeaveSettlementAction.ApplyForParty(this);
-						return;
+						this.Ai.SetMoveGoToSettlement(this.CurrentSettlement);
 					}
-					this.Ai.SetMoveGoToSettlement(this.CurrentSettlement);
 				}
 			}
 		}
@@ -2040,7 +2042,8 @@ namespace TaleWorlds.CampaignSystem.Party
 
 		private bool IsBaseSpeedCacheInvalid()
 		{
-			return this._partyPureSpeedLastCheckVersion != this.VersionNo || this._itemRosterVersionNo != this.Party.ItemRoster.VersionNo;
+			MapWeatherModel.WeatherEventEffectOnTerrain weatherEffectOnTerrainForPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEffectOnTerrainForPosition(this.Position2D);
+			return this._partyPureSpeedLastCheckVersion != this.VersionNo || this._itemRosterVersionNo != this.Party.ItemRoster.VersionNo || this._lastWeatherTerrainEffect != weatherEffectOnTerrainForPosition;
 		}
 
 		private float CalculateSpeedForPartyUnified()
@@ -2056,8 +2059,10 @@ namespace TaleWorlds.CampaignSystem.Party
 				{
 					this._lastCalculatedBaseSpeedExplained = Campaign.Current.Models.PartySpeedCalculatingModel.CalculateBaseSpeed(this, false, 0, 0);
 				}
+				MapWeatherModel.WeatherEventEffectOnTerrain weatherEffectOnTerrainForPosition = Campaign.Current.Models.MapWeatherModel.GetWeatherEffectOnTerrainForPosition(this.Position2D);
 				this._partyPureSpeedLastCheckVersion = this.VersionNo;
 				this._itemRosterVersionNo = this.Party.ItemRoster.VersionNo;
+				this._lastWeatherTerrainEffect = weatherEffectOnTerrainForPosition;
 				flag = true;
 			}
 			if (flag)
@@ -2166,17 +2171,7 @@ namespace TaleWorlds.CampaignSystem.Party
 						}
 						else
 						{
-							IFaction faction3;
-							if (this.LeaderHero == null)
-							{
-								IFaction faction2 = CampaignData.NeutralFaction;
-								faction3 = faction2;
-							}
-							else
-							{
-								faction3 = this.LeaderHero.MapFaction;
-							}
-							faction = faction3;
+							faction = ((this.LeaderHero != null) ? this.LeaderHero.MapFaction : null);
 						}
 					}
 				}
@@ -2186,17 +2181,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				}
 				else
 				{
-					IFaction faction4;
-					if (this.LeaderHero == null)
-					{
-						IFaction faction2 = CampaignData.NeutralFaction;
-						faction4 = faction2;
-					}
-					else
-					{
-						faction4 = this.LeaderHero.MapFaction;
-					}
-					faction = faction4;
+					faction = ((this.LeaderHero != null) ? this.LeaderHero.MapFaction : null);
 				}
 				return faction;
 			}
@@ -2248,13 +2233,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				return this.ItemRoster.TotalFood;
 			}
-		}
-
-		public Vec3 GetVisualPosition()
-		{
-			float num = 0f;
-			Campaign.Current.MapSceneWrapper.GetHeightAtPoint(this.VisualPosition2DWithoutError + this._errorPosition, ref num);
-			return new Vec3(this.Position2D.x + this.EventPositionAdder.x + this.ArmyPositionAdder.x + this._errorPosition.x, this.Position2D.y + this.EventPositionAdder.y + this.ArmyPositionAdder.y + this._errorPosition.y, num, -1f);
 		}
 
 		public float TotalWeightCarried
@@ -2381,7 +2359,7 @@ namespace TaleWorlds.CampaignSystem.Party
 		{
 			this._besiegerCamp.RemoveSiegePartyInternal(this);
 			this.EventPositionAdder = Vec2.Zero;
-			this._errorPosition = Vec2.Zero;
+			this.ErrorPosition = Vec2.Zero;
 		}
 
 		public bool HasPerk(PerkObject perk, bool checkSecondaryRole = false)
@@ -2464,7 +2442,7 @@ namespace TaleWorlds.CampaignSystem.Party
 				return false;
 			case SkillEffect.PerkRole.Personal:
 			{
-				Debug.FailedAssert("personal perk is called in party", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "HasPerk", 2217);
+				Debug.FailedAssert("personal perk is called in party", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\MobileParty.cs", "HasPerk", 2182);
 				Hero leaderHero3 = this.LeaderHero;
 				return leaderHero3 != null && leaderHero3.GetPerkValue(perk);
 			}
@@ -2501,6 +2479,39 @@ namespace TaleWorlds.CampaignSystem.Party
 			return SkillEffect.PerkRole.None;
 		}
 
+		public void SetHeroPerkRole(Hero hero, SkillEffect.PerkRole perkRole)
+		{
+			switch (perkRole)
+			{
+			case SkillEffect.PerkRole.None:
+			case SkillEffect.PerkRole.Ruler:
+			case SkillEffect.PerkRole.ClanLeader:
+			case SkillEffect.PerkRole.Governor:
+			case SkillEffect.PerkRole.ArmyCommander:
+			case SkillEffect.PerkRole.PartyLeader:
+			case SkillEffect.PerkRole.PartyOwner:
+			case SkillEffect.PerkRole.PartyMember:
+			case SkillEffect.PerkRole.Personal:
+			case SkillEffect.PerkRole.Captain:
+			case SkillEffect.PerkRole.NumberOfPerkRoles:
+				break;
+			case SkillEffect.PerkRole.Surgeon:
+				this.SetPartySurgeon(hero);
+				return;
+			case SkillEffect.PerkRole.Engineer:
+				this.SetPartyEngineer(hero);
+				return;
+			case SkillEffect.PerkRole.Scout:
+				this.SetPartyScout(hero);
+				return;
+			case SkillEffect.PerkRole.Quartermaster:
+				this.SetPartyQuartermaster(hero);
+				break;
+			default:
+				return;
+			}
+		}
+
 		public void RemoveHeroPerkRole(Hero hero)
 		{
 			if (this.Engineer == hero)
@@ -2519,6 +2530,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				this.Scout = null;
 			}
+			this.ResetCached();
 		}
 
 		public Hero GetRoleHolder(SkillEffect.PerkRole perkRole)
@@ -2678,11 +2690,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			this.IsVisible = false;
 			Settlement settlement = this.DetermineRelatedBesiegedSettlementWhileDestroyingParty();
 			Campaign campaign = Campaign.Current;
-			IPartyVisual visuals = this.Party.Visuals;
-			if (visuals != null)
-			{
-				visuals.OnPartyRemoved();
-			}
 			this.AttachedTo = null;
 			this.BesiegerCamp = null;
 			this.ReleaseHeroPrisoners();
@@ -2695,7 +2702,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			GC.SuppressFinalize(this.Party);
 			foreach (MobileParty mobileParty in campaign.MobileParties)
 			{
-				bool flag = mobileParty.Ai.AiBehaviorPartyBase == this.Party || (mobileParty.TargetSettlement != null && mobileParty.TargetSettlement == settlement) || (mobileParty.ShortTermTargetSettlement != null && mobileParty.ShortTermTargetSettlement == settlement);
+				bool flag = mobileParty.Ai.AiBehaviorPartyBase == this.Party || (mobileParty.TargetSettlement != null && mobileParty.TargetSettlement == settlement && mobileParty.CurrentSettlement != settlement) || (mobileParty.ShortTermTargetSettlement != null && mobileParty.ShortTermTargetSettlement == settlement && mobileParty.CurrentSettlement != settlement);
 				if (mobileParty.TargetParty != null && mobileParty.TargetParty == this)
 				{
 					mobileParty.ResetTargetParty();
@@ -2762,8 +2769,7 @@ namespace TaleWorlds.CampaignSystem.Party
 			float num = MBRandom.RandomFloat * 2f * 3.1415927f;
 			vec.RotateCCW(num);
 			this.Bearing = vec;
-			this.Party.UpdateVisibilityAndInspected(0f, false);
-			this.Party.Visuals.OnStartup(this.Party);
+			this.Party.UpdateVisibilityAndInspected(0f);
 			this.StartUp();
 		}
 
@@ -2911,7 +2917,7 @@ namespace TaleWorlds.CampaignSystem.Party
 
 		internal void CheckExitingSettlementParallel(ref int exitingPartyCount, ref MobileParty[] exitingPartyList)
 		{
-			if (!this.Ai.IsDisabled && this.CurrentSettlement != null && (!this.IsCurrentlyGoingToSettlement || this.ShortTermTargetSettlement != this.CurrentSettlement) && !this.IsMainParty && (this.Army == null || this.AttachedTo == null || this.Army.LeaderParty == this))
+			if (!this.Ai.IsDisabled && this.ShortTermBehavior != AiBehavior.Hold && this.CurrentSettlement != null && (!this.IsCurrentlyGoingToSettlement || this.ShortTermTargetSettlement != this.CurrentSettlement) && !this.IsMainParty && (this.Army == null || this.AttachedTo == null || this.Army.LeaderParty == this))
 			{
 				int num = Interlocked.Increment(ref exitingPartyCount);
 				exitingPartyList[num] = this;
@@ -3003,27 +3009,6 @@ namespace TaleWorlds.CampaignSystem.Party
 			{
 				return true;
 			}
-		}
-
-		IMapEntity IMapEntity.AttachedEntity
-		{
-			get
-			{
-				return this.AttachedTo;
-			}
-		}
-
-		IPartyVisual IMapEntity.PartyVisual
-		{
-			get
-			{
-				return this.Party.Visuals;
-			}
-		}
-
-		bool IMapEntity.IsMainEntity()
-		{
-			return this.IsMainParty;
 		}
 
 		void IMapEntity.OnPartyInteraction(MobileParty engagingParty)
@@ -3193,6 +3178,14 @@ namespace TaleWorlds.CampaignSystem.Party
 			}
 		}
 
+		public bool AvoidHostileActions
+		{
+			get
+			{
+				return this._partyComponent != null && this._partyComponent.AvoidHostileActions;
+			}
+		}
+
 		public const int DefaultPartyTradeInitialGold = 5000;
 
 		public const int ClanRoleAssignmentMinimumSkillValue = 0;
@@ -3304,10 +3297,10 @@ namespace TaleWorlds.CampaignSystem.Party
 		private PathFaceRecord _lastNavigationFace;
 
 		[CachedData]
-		private PathFaceRecord _currentNavigationFace;
+		private MapWeatherModel.WeatherEventEffectOnTerrain _lastWeatherTerrainEffect;
 
 		[CachedData]
-		private Vec2 _errorPosition;
+		private PathFaceRecord _currentNavigationFace;
 
 		[SaveableField(210)]
 		private PartyComponent _partyComponent;

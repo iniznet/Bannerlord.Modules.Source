@@ -62,7 +62,7 @@ namespace TaleWorlds.MountAndBlade
 			}
 			else
 			{
-				this._followOrder = MovementOrder.MovermentOrderNull;
+				this._followOrder = MovementOrder.MovementOrderNull;
 			}
 			if (this._followedEntity != null)
 			{
@@ -145,7 +145,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.FacingOrder = FacingOrder.FacingOrderLookAtEnemy;
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderWide;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		public override float NavmeshlessTargetPositionPenalty

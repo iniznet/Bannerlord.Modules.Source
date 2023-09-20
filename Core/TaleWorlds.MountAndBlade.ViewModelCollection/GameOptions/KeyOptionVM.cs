@@ -25,8 +25,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 
 		internal abstract bool IsChanged();
 
-		internal abstract void OnGamepadActiveStateChanged(GamepadActiveStateChangedEvent obj);
-
 		[DataSourceProperty]
 		public string OptionValueText
 		{

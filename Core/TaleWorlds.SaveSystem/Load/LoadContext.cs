@@ -9,6 +9,14 @@ namespace TaleWorlds.SaveSystem.Load
 {
 	public class LoadContext
 	{
+		public static bool EnableLoadStatistics
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public object RootObject { get; private set; }
 
 		public DefinitionContext DefinitionContext { get; private set; }
@@ -57,42 +65,62 @@ namespace TaleWorlds.SaveSystem.Load
 						this._objectHeaderLoadDatas = new ObjectHeaderLoadData[this._objectCount];
 						this._containerHeaderLoadDatas = new ContainerHeaderLoadData[this._containerCount];
 						this._strings = new string[this._stringCount];
-						TWParallel.For(0, this._objectCount, delegate(int startInclusive, int endExclusive)
+						if (LoadContext.EnableLoadStatistics)
 						{
-							for (int l = startInclusive; l < endExclusive; l++)
+							for (int i = 0; i < this._objectCount; i++)
 							{
-								ObjectHeaderLoadData objectHeaderLoadData3 = new ObjectHeaderLoadData(this, l);
-								SaveEntryFolder childFolder = headerRootFolder.GetChildFolder(new FolderId(l, SaveFolderExtension.Object));
-								objectHeaderLoadData3.InitialieReaders(childFolder);
-								this._objectHeaderLoadDatas[l] = objectHeaderLoadData3;
+								ObjectHeaderLoadData objectHeaderLoadData = new ObjectHeaderLoadData(this, i);
+								SaveEntryFolder childFolder = headerRootFolder.GetChildFolder(new FolderId(i, SaveFolderExtension.Object));
+								objectHeaderLoadData.InitialieReaders(childFolder);
+								this._objectHeaderLoadDatas[i] = objectHeaderLoadData;
 							}
-						}, 16);
-						TWParallel.For(0, this._containerCount, delegate(int startInclusive, int endExclusive)
+							for (int j = 0; j < this._containerCount; j++)
+							{
+								ContainerHeaderLoadData containerHeaderLoadData = new ContainerHeaderLoadData(this, j);
+								SaveEntryFolder childFolder2 = headerRootFolder.GetChildFolder(new FolderId(j, SaveFolderExtension.Container));
+								containerHeaderLoadData.InitialieReaders(childFolder2);
+								this._containerHeaderLoadDatas[j] = containerHeaderLoadData;
+							}
+						}
+						else
 						{
-							for (int m = startInclusive; m < endExclusive; m++)
+							TWParallel.For(0, this._objectCount, delegate(int startInclusive, int endExclusive)
 							{
-								ContainerHeaderLoadData containerHeaderLoadData2 = new ContainerHeaderLoadData(this, m);
-								SaveEntryFolder childFolder2 = headerRootFolder.GetChildFolder(new FolderId(m, SaveFolderExtension.Container));
-								containerHeaderLoadData2.InitialieReaders(childFolder2);
-								this._containerHeaderLoadDatas[m] = containerHeaderLoadData2;
-							}
-						}, 16);
+								for (int num2 = startInclusive; num2 < endExclusive; num2++)
+								{
+									ObjectHeaderLoadData objectHeaderLoadData5 = new ObjectHeaderLoadData(this, num2);
+									SaveEntryFolder childFolder4 = headerRootFolder.GetChildFolder(new FolderId(num2, SaveFolderExtension.Object));
+									objectHeaderLoadData5.InitialieReaders(childFolder4);
+									this._objectHeaderLoadDatas[num2] = objectHeaderLoadData5;
+								}
+							}, 16);
+							TWParallel.For(0, this._containerCount, delegate(int startInclusive, int endExclusive)
+							{
+								for (int num3 = startInclusive; num3 < endExclusive; num3++)
+								{
+									ContainerHeaderLoadData containerHeaderLoadData3 = new ContainerHeaderLoadData(this, num3);
+									SaveEntryFolder childFolder5 = headerRootFolder.GetChildFolder(new FolderId(num3, SaveFolderExtension.Container));
+									containerHeaderLoadData3.InitialieReaders(childFolder5);
+									this._containerHeaderLoadDatas[num3] = containerHeaderLoadData3;
+								}
+							}, 16);
+						}
 					}
 					using (new PerformanceTestBlock("LoadContext::Create Objects"))
 					{
-						foreach (ObjectHeaderLoadData objectHeaderLoadData in this._objectHeaderLoadDatas)
+						foreach (ObjectHeaderLoadData objectHeaderLoadData2 in this._objectHeaderLoadDatas)
 						{
-							objectHeaderLoadData.CreateObject();
-							if (objectHeaderLoadData.Id == 0)
+							objectHeaderLoadData2.CreateObject();
+							if (objectHeaderLoadData2.Id == 0)
 							{
-								this.RootObject = objectHeaderLoadData.Target;
+								this.RootObject = objectHeaderLoadData2.Target;
 							}
 						}
-						foreach (ContainerHeaderLoadData containerHeaderLoadData in this._containerHeaderLoadDatas)
+						foreach (ContainerHeaderLoadData containerHeaderLoadData2 in this._containerHeaderLoadDatas)
 						{
-							if (containerHeaderLoadData.GetObjectTypeDefinition())
+							if (containerHeaderLoadData2.GetObjectTypeDefinition())
 							{
-								containerHeaderLoadData.CreateObject();
+								containerHeaderLoadData2.CreateObject();
 							}
 						}
 					}
@@ -102,30 +130,30 @@ namespace TaleWorlds.SaveSystem.Load
 				{
 					ArchiveDeserializer archiveDeserializer2 = new ArchiveDeserializer();
 					archiveDeserializer2.LoadFrom(loadData.GameData.Strings);
-					for (int j = 0; j < this._stringCount; j++)
+					for (int l = 0; l < this._stringCount; l++)
 					{
-						string text = LoadContext.LoadString(archiveDeserializer2, j);
-						this._strings[j] = text;
+						string text = LoadContext.LoadString(archiveDeserializer2, l);
+						this._strings[l] = text;
 					}
 				}
 				GC.Collect();
 				using (new PerformanceTestBlock("LoadContext::Resolve Objects"))
 				{
-					for (int k = 0; k < this._objectHeaderLoadDatas.Length; k++)
+					for (int m = 0; m < this._objectHeaderLoadDatas.Length; m++)
 					{
-						ObjectHeaderLoadData objectHeaderLoadData2 = this._objectHeaderLoadDatas[k];
-						TypeDefinition typeDefinition = objectHeaderLoadData2.TypeDefinition;
+						ObjectHeaderLoadData objectHeaderLoadData3 = this._objectHeaderLoadDatas[m];
+						TypeDefinition typeDefinition = objectHeaderLoadData3.TypeDefinition;
 						if (typeDefinition != null)
 						{
-							object loadedObject = objectHeaderLoadData2.LoadedObject;
+							object loadedObject = objectHeaderLoadData3.LoadedObject;
 							if (typeDefinition.CheckIfRequiresAdvancedResolving(loadedObject))
 							{
-								ObjectLoadData objectLoadData = LoadContext.CreateLoadData(loadData, k, objectHeaderLoadData2);
-								objectHeaderLoadData2.AdvancedResolveObject(loadData.MetaData, objectLoadData);
+								ObjectLoadData objectLoadData = LoadContext.CreateLoadData(loadData, m, objectHeaderLoadData3);
+								objectHeaderLoadData3.AdvancedResolveObject(loadData.MetaData, objectLoadData);
 							}
 							else
 							{
-								objectHeaderLoadData2.ResolveObject();
+								objectHeaderLoadData3.ResolveObject();
 							}
 						}
 					}
@@ -133,9 +161,9 @@ namespace TaleWorlds.SaveSystem.Load
 				GC.Collect();
 				using (new PerformanceTestBlock("LoadContext::Load Object Datas"))
 				{
-					TWParallel.For(0, this._objectCount, delegate(int startInclusive, int endExclusive)
+					if (LoadContext.EnableLoadStatistics)
 					{
-						for (int n = startInclusive; n < endExclusive; n++)
+						for (int n = 0; n < this._objectCount; n++)
 						{
 							ObjectHeaderLoadData objectHeaderLoadData4 = this._objectHeaderLoadDatas[n];
 							if (objectHeaderLoadData4.Target == objectHeaderLoadData4.LoadedObject)
@@ -143,13 +171,27 @@ namespace TaleWorlds.SaveSystem.Load
 								LoadContext.CreateLoadData(loadData, n, objectHeaderLoadData4);
 							}
 						}
-					}, 16);
+					}
+					else
+					{
+						TWParallel.For(0, this._objectCount, delegate(int startInclusive, int endExclusive)
+						{
+							for (int num4 = startInclusive; num4 < endExclusive; num4++)
+							{
+								ObjectHeaderLoadData objectHeaderLoadData6 = this._objectHeaderLoadDatas[num4];
+								if (objectHeaderLoadData6.Target == objectHeaderLoadData6.LoadedObject)
+								{
+									LoadContext.CreateLoadData(loadData, num4, objectHeaderLoadData6);
+								}
+							}
+						}, 16);
+					}
 				}
 				using (new PerformanceTestBlock("LoadContext::Load Container Datas"))
 				{
-					TWParallel.For(0, this._containerCount, delegate(int startInclusive, int endExclusive)
+					if (LoadContext.EnableLoadStatistics)
 					{
-						for (int num = startInclusive; num < endExclusive; num++)
+						for (int num = 0; num < this._containerCount; num++)
 						{
 							byte[] array = loadData.GameData.ContainerData[num];
 							ArchiveDeserializer archiveDeserializer3 = new ArchiveDeserializer();
@@ -162,7 +204,26 @@ namespace TaleWorlds.SaveSystem.Load
 							containerLoadData.Read();
 							containerLoadData.FillObject();
 						}
-					}, 16);
+					}
+					else
+					{
+						TWParallel.For(0, this._containerCount, delegate(int startInclusive, int endExclusive)
+						{
+							for (int num5 = startInclusive; num5 < endExclusive; num5++)
+							{
+								byte[] array2 = loadData.GameData.ContainerData[num5];
+								ArchiveDeserializer archiveDeserializer4 = new ArchiveDeserializer();
+								archiveDeserializer4.LoadFrom(array2);
+								SaveEntryFolder rootFolder2 = archiveDeserializer4.RootFolder;
+								ContainerLoadData containerLoadData2 = new ContainerLoadData(this._containerHeaderLoadDatas[num5]);
+								SaveEntryFolder childFolder6 = rootFolder2.GetChildFolder(new FolderId(num5, SaveFolderExtension.Container));
+								containerLoadData2.InitializeReaders(childFolder6);
+								containerLoadData2.FillCreatedObject();
+								containerLoadData2.Read();
+								containerLoadData2.FillObject();
+							}
+						}, 16);
+					}
 				}
 				GC.Collect();
 				if (!loadAsLateInitialize)
@@ -192,7 +253,7 @@ namespace TaleWorlds.SaveSystem.Load
 
 		public static bool TryConvertType(Type sourceType, Type targetType, ref object data)
 		{
-			if (LoadContext.<TryConvertType>g__isNum|23_2(sourceType) && LoadContext.<TryConvertType>g__isNum|23_2(targetType))
+			if (LoadContext.<TryConvertType>g__isNum|25_2(sourceType) && LoadContext.<TryConvertType>g__isNum|25_2(targetType))
 			{
 				try
 				{
@@ -204,13 +265,13 @@ namespace TaleWorlds.SaveSystem.Load
 					return false;
 				}
 			}
-			if (LoadContext.<TryConvertType>g__isNum|23_2(sourceType) && targetType == typeof(string))
+			if (LoadContext.<TryConvertType>g__isNum|25_2(sourceType) && targetType == typeof(string))
 			{
-				if (LoadContext.<TryConvertType>g__isInt|23_0(sourceType))
+				if (LoadContext.<TryConvertType>g__isInt|25_0(sourceType))
 				{
 					data = Convert.ToInt64(data).ToString();
 				}
-				else if (LoadContext.<TryConvertType>g__isFloat|23_1(sourceType))
+				else if (LoadContext.<TryConvertType>g__isFloat|25_1(sourceType))
 				{
 					data = Convert.ToDouble(data).ToString(CultureInfo.InvariantCulture);
 				}
@@ -254,21 +315,21 @@ namespace TaleWorlds.SaveSystem.Load
 		}
 
 		[CompilerGenerated]
-		internal static bool <TryConvertType>g__isInt|23_0(Type type)
+		internal static bool <TryConvertType>g__isInt|25_0(Type type)
 		{
 			return type == typeof(long) || type == typeof(int) || type == typeof(short) || type == typeof(ulong) || type == typeof(uint) || type == typeof(ushort);
 		}
 
 		[CompilerGenerated]
-		internal static bool <TryConvertType>g__isFloat|23_1(Type type)
+		internal static bool <TryConvertType>g__isFloat|25_1(Type type)
 		{
 			return type == typeof(double) || type == typeof(float);
 		}
 
 		[CompilerGenerated]
-		internal static bool <TryConvertType>g__isNum|23_2(Type type)
+		internal static bool <TryConvertType>g__isNum|25_2(Type type)
 		{
-			return LoadContext.<TryConvertType>g__isInt|23_0(type) || LoadContext.<TryConvertType>g__isFloat|23_1(type);
+			return LoadContext.<TryConvertType>g__isInt|25_0(type) || LoadContext.<TryConvertType>g__isFloat|25_1(type);
 		}
 
 		private int _objectCount;

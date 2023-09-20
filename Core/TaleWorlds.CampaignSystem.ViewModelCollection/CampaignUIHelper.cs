@@ -19,10 +19,13 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Settlements.Workshops;
 using TaleWorlds.CampaignSystem.Siege;
+using TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDesign.Order;
 using TaleWorlds.Core;
 using TaleWorlds.Core.ViewModelCollection.Generic;
 using TaleWorlds.Core.ViewModelCollection.Information;
+using TaleWorlds.Core.ViewModelCollection.Information.RundownTooltip;
 using TaleWorlds.Library;
+using TaleWorlds.Library.Information;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
 
@@ -50,8 +53,12 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				{
 					ValueTuple<string, float> valueTuple = lines[i];
 					string item = valueTuple.Item1;
-					string changeValueString = CampaignUIHelper.GetChangeValueString(valueTuple.Item2);
-					properties.Add(new TooltipProperty(item, changeValueString, 0, false, TooltipProperty.TooltipPropertyFlags.None));
+					float item2 = valueTuple.Item2;
+					if ((double)MathF.Abs(item2) >= 0.01)
+					{
+						string changeValueString = CampaignUIHelper.GetChangeValueString(item2);
+						properties.Add(new TooltipProperty(item, changeValueString, 0, false, TooltipProperty.TooltipPropertyFlags.None));
+					}
 				}
 			}
 		}
@@ -359,19 +366,24 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 		public static List<TooltipProperty> GetArmyFoodTooltip(Army army)
 		{
 			List<TooltipProperty> list = new List<TooltipProperty>();
-			float num = (float)army.LeaderParty.ItemRoster.TotalFood;
+			list.Add(new TooltipProperty(new TextObject("{=Q8dhryRX}Parties' Food", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.Title));
+			float num = army.LeaderParty.Food;
 			foreach (MobileParty mobileParty in army.LeaderParty.AttachedParties)
 			{
-				num += (float)mobileParty.ItemRoster.TotalFood;
+				num += mobileParty.Food;
 			}
 			list.Add(new TooltipProperty(GameTexts.FindText("str_total_army_food", null).ToString(), CampaignUIHelper.FloatToString(num), 0, false, TooltipProperty.TooltipPropertyFlags.None));
-			float num2 = army.LeaderParty.FoodChange;
-			foreach (MobileParty mobileParty2 in army.LeaderParty.AttachedParties)
+			list.Add(new TooltipProperty("", string.Empty, 0, false, TooltipProperty.TooltipPropertyFlags.DefaultSeperator));
+			double num2 = 0.0;
+			foreach (MobileParty mobileParty2 in army.Parties)
 			{
-				num2 += mobileParty2.FoodChange;
+				float num3 = mobileParty2.Party.MobileParty.Food / -mobileParty2.Party.MobileParty.FoodChange;
+				num2 += (double)Math.Max(num3, 0f);
+				string daysUntilNoFood = CampaignUIHelper.GetDaysUntilNoFood(mobileParty2.Party.MobileParty.Food, mobileParty2.Party.MobileParty.FoodChange);
+				list.Add(new TooltipProperty(mobileParty2.Party.MobileParty.Name.ToString(), daysUntilNoFood, 0, false, TooltipProperty.TooltipPropertyFlags.None));
 			}
-			list.Add(new TooltipProperty(GameTexts.FindText("str_total_army_food_consumption", null).ToString(), CampaignUIHelper.FloatToString(num2), 0, false, TooltipProperty.TooltipPropertyFlags.None));
-			list.Add(new TooltipProperty(GameTexts.FindText("str_total_days_until_no_food", null).ToString(), CampaignUIHelper.GetDaysUntilNoFood(num, num2), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+			list.Add(new TooltipProperty("", string.Empty, 0, false, TooltipProperty.TooltipPropertyFlags.RundownSeperator));
+			list.Add(new TooltipProperty(new TextObject("{=rwKBR4NE}Average Days Until Food Runs Out", null).ToString(), MathF.Ceiling(num2 / (double)army.LeaderPartyAndAttachedPartiesCount).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
 			return list;
 		}
 
@@ -573,9 +585,15 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
-		public static List<TooltipProperty> GetGoldTooltip(Clan clan)
+		public static TooltipTriggerVM GetDenarTooltip()
 		{
-			return CampaignUIHelper.GetTooltipForAccumulatingProperty(CampaignUIHelper._goldStr.ToString(), (float)clan.Gold, Campaign.Current.Models.ClanFinanceModel.CalculateClanGoldChange(clan, true, false, true));
+			ClanFinanceModel clanFinanceModel = Campaign.Current.Models.ClanFinanceModel;
+			Func<ExplainedNumber> func = () => clanFinanceModel.CalculateClanGoldChange(Clan.PlayerClan, true, false, false);
+			Func<ExplainedNumber> func2 = () => clanFinanceModel.CalculateClanGoldChange(Clan.PlayerClan, true, false, true);
+			RundownTooltipVM.ValueCategorization valueCategorization = RundownTooltipVM.ValueCategorization.LargeIsBetter;
+			TextObject changeStr = CampaignUIHelper._changeStr;
+			TextObject totalStr = CampaignUIHelper._totalStr;
+			return new TooltipTriggerVM(typeof(ExplainedNumber), new object[] { func, func2, changeStr, totalStr, valueCategorization });
 		}
 
 		public static List<TooltipProperty> GetPartyMoraleTooltip(MobileParty mainParty)
@@ -862,13 +880,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			List<TooltipProperty> list = new List<TooltipProperty>();
 			if (troop.Character != null)
 			{
-				string text = PartyBase.MainParty.PrisonRoster.GetElementXp(troop.Character).ToString();
+				int elementXp = PartyBase.MainParty.PrisonRoster.GetElementXp(troop.Character);
 				int conformityNeededToRecruitPrisoner = troop.Character.ConformityNeededToRecruitPrisoner;
-				list.Add(new TooltipProperty(GameTexts.FindText("str_party_troop_current_conformity", null).ToString(), text, 0, false, TooltipProperty.TooltipPropertyFlags.None));
-				string text2 = "CONFORMITY_AMOUNT";
-				int num = conformityNeededToRecruitPrisoner;
-				GameTexts.SetVariable(text2, num.ToString());
-				list.Add(new TooltipProperty("", GameTexts.FindText("str_party_troop_conformity_explanation", null).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.MultiLine));
+				int num = ((elementXp >= conformityNeededToRecruitPrisoner * troop.Number) ? conformityNeededToRecruitPrisoner : (elementXp % conformityNeededToRecruitPrisoner));
+				list.Add(new TooltipProperty(GameTexts.FindText("str_party_troop_current_conformity", null).ToString(), num.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				list.Add(new TooltipProperty(GameTexts.FindText("str_party_troop_recruit_conformity_cost", null).ToString(), conformityNeededToRecruitPrisoner.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				list.Add(new TooltipProperty(GameTexts.FindText("str_party_recruitable_troops", null).ToString(), MathF.Min(elementXp / conformityNeededToRecruitPrisoner, troop.Number).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				if (elementXp < conformityNeededToRecruitPrisoner * troop.Number)
+				{
+					GameTexts.SetVariable("CONFORMITY_AMOUNT", (conformityNeededToRecruitPrisoner - num).ToString());
+					list.Add(new TooltipProperty("", GameTexts.FindText("str_party_troop_conformity_explanation", null).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.MultiLine));
+				}
 			}
 			return list;
 		}
@@ -884,12 +906,18 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			List<TooltipProperty> list = new List<TooltipProperty>();
 			if (troop.Character != null && troop.Character.UpgradeTargets.Length != 0)
 			{
+				int xp = troop.Xp;
 				int upgradeXpCost = troop.Character.GetUpgradeXpCost(PartyBase.MainParty, 0);
-				list.Add(new TooltipProperty(GameTexts.FindText("str_party_troop_current_xp", null).ToString(), (troop.Xp % upgradeXpCost).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				int num = ((xp >= upgradeXpCost * troop.Number) ? upgradeXpCost : (xp % upgradeXpCost));
+				list.Add(new TooltipProperty(GameTexts.FindText("str_party_troop_current_xp", null).ToString(), num.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
 				list.Add(new TooltipProperty(GameTexts.FindText("str_party_troop_upgrade_xp_cost", null).ToString(), upgradeXpCost.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
-				int num = upgradeXpCost - troop.Xp % upgradeXpCost;
-				GameTexts.SetVariable("XP_AMOUNT", num);
-				list.Add(new TooltipProperty("", GameTexts.FindText("str_party_troop_xp_explanation", null).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.MultiLine));
+				list.Add(new TooltipProperty(GameTexts.FindText("str_party_upgradable_troops", null).ToString(), MathF.Min(xp / upgradeXpCost, troop.Number).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				if (xp < upgradeXpCost * troop.Number)
+				{
+					int num2 = upgradeXpCost - num;
+					GameTexts.SetVariable("XP_AMOUNT", num2);
+					list.Add(new TooltipProperty("", GameTexts.FindText("str_party_troop_xp_explanation", null).ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.MultiLine));
+				}
 			}
 			return list;
 		}
@@ -916,7 +944,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 					return list;
 				}
 			}
-			Debug.FailedAssert("Only towns' consumptions are tracked", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CampaignUIHelper.cs", "GetSettlementConsumptionTooltip", 1116);
+			Debug.FailedAssert("Only towns' consumptions are tracked", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CampaignUIHelper.cs", "GetSettlementConsumptionTooltip", 1157);
 			return list;
 		}
 
@@ -1140,7 +1168,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				{
 					list.Add(new TooltipProperty(governorPerksForHero[i].Name.ToString(), governorPerksForHero[i].PrimaryDescription.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
 				}
-				else if (governorPerksForHero[i].SecondaryRole == SkillEffect.PerkRole.Governor)
+				if (governorPerksForHero[i].SecondaryRole == SkillEffect.PerkRole.Governor)
 				{
 					list.Add(new TooltipProperty(governorPerksForHero[i].Name.ToString(), governorPerksForHero[i].SecondaryDescription.ToString(), 0, false, TooltipProperty.TooltipPropertyFlags.None));
 				}
@@ -1294,7 +1322,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 		public static List<ValueTuple<string, TextObject>> GetItemUsageSetFlagDetails(ItemObject.ItemUsageSetFlags flags, CharacterObject character = null)
 		{
 			List<ValueTuple<string, TextObject>> list = new List<ValueTuple<string, TextObject>>();
-			if (flags.HasAnyFlag(ItemObject.ItemUsageSetFlags.RequiresNoMount) && (character == null || !character.GetPerkValue(DefaultPerks.Bow.MountedArchery)))
+			if (flags.HasAnyFlag(ItemObject.ItemUsageSetFlags.RequiresNoMount) && (character == null || !character.GetPerkValue(DefaultPerks.Bow.HorseMaster)))
 			{
 				list.Add(new ValueTuple<string, TextObject>("WeaponFlagIcons\\cant_use_on_horseback", GameTexts.FindText("str_inventory_flag_cant_use_with_mounts", null)));
 			}
@@ -1353,6 +1381,20 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			return list;
 		}
 
+		public static string GetFormattedItemPropertyText(float propertyValue, bool typeRequiresInteger)
+		{
+			bool flag = propertyValue >= 100f || (propertyValue % 1f).ApproximatelyEqualsTo(0f, 0.001f);
+			if (typeRequiresInteger || flag)
+			{
+				return propertyValue.ToString("F0");
+			}
+			if (propertyValue >= 10f)
+			{
+				return propertyValue.ToString("F1");
+			}
+			return propertyValue.ToString("F2");
+		}
+
 		public static List<TooltipProperty> GetCraftingHeroTooltip(Hero hero, CraftingOrder order)
 		{
 			object obj = order != null && !order.IsOrderAvailableForHero(hero);
@@ -1368,6 +1410,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 					select h).ToList<Hero>();
 				if (list2.Count > 0)
 				{
+					GameTexts.SetVariable("SKILL", GameTexts.FindText("str_crafting", null).ToString());
 					list.Add(new TooltipProperty(GameTexts.FindText("str_crafting_hero_not_enough_skills", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
 					CampaignUIHelper.TooltipAddEmptyLine(list, false);
 					list.Add(new TooltipProperty(GameTexts.FindText("str_crafting_following_can_craft_order", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
@@ -1393,7 +1436,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 
 		public static List<TooltipProperty> GetOrderCannotBeCompletedReasonTooltip(CraftingOrder order, ItemObject item)
 		{
-			CampaignUIHelper.<>c__DisplayClass143_0 CS$<>8__locals1;
+			CampaignUIHelper.<>c__DisplayClass145_0 CS$<>8__locals1;
 			CS$<>8__locals1.order = order;
 			CS$<>8__locals1.properties = new List<TooltipProperty>();
 			CampaignUIHelper.TooltipAddPropertyTitle(CS$<>8__locals1.properties, new TextObject("{=Syha8biz}Order Can Not Be Completed", null).ToString());
@@ -1442,43 +1485,43 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			float num2 = (float)item.PrimaryWeapon.ThrustSpeed;
 			if (num > num2)
 			{
-				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes.ThrustSpeed, num, ref CS$<>8__locals1);
+				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes.ThrustSpeed, num, ref CS$<>8__locals1);
 			}
 			num = (float)CS$<>8__locals1.order.PreCraftedWeaponDesignItem.PrimaryWeapon.SwingSpeed;
 			num2 = (float)item.PrimaryWeapon.SwingSpeed;
 			if (num > num2)
 			{
-				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes.SwingSpeed, num, ref CS$<>8__locals1);
+				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes.SwingSpeed, num, ref CS$<>8__locals1);
 			}
 			num = (float)CS$<>8__locals1.order.PreCraftedWeaponDesignItem.PrimaryWeapon.MissileSpeed;
 			num2 = (float)item.PrimaryWeapon.MissileSpeed;
 			if (num > num2)
 			{
-				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes.MissileSpeed, num, ref CS$<>8__locals1);
+				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes.MissileSpeed, num, ref CS$<>8__locals1);
 			}
 			num = (float)CS$<>8__locals1.order.PreCraftedWeaponDesignItem.PrimaryWeapon.ThrustDamage;
 			num2 = (float)item.PrimaryWeapon.ThrustDamage;
 			if (num > num2)
 			{
-				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes.ThrustDamage, num, ref CS$<>8__locals1);
+				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes.ThrustDamage, num, ref CS$<>8__locals1);
 			}
 			num = (float)CS$<>8__locals1.order.PreCraftedWeaponDesignItem.PrimaryWeapon.SwingDamage;
 			num2 = (float)item.PrimaryWeapon.SwingDamage;
 			if (num > num2)
 			{
-				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes.SwingDamage, num, ref CS$<>8__locals1);
+				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes.SwingDamage, num, ref CS$<>8__locals1);
 			}
 			num = (float)CS$<>8__locals1.order.PreCraftedWeaponDesignItem.PrimaryWeapon.Accuracy;
 			num2 = (float)item.PrimaryWeapon.Accuracy;
 			if (num > num2)
 			{
-				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes.Accuracy, num, ref CS$<>8__locals1);
+				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes.Accuracy, num, ref CS$<>8__locals1);
 			}
 			num = (float)CS$<>8__locals1.order.PreCraftedWeaponDesignItem.PrimaryWeapon.Handling;
 			num2 = (float)item.PrimaryWeapon.Handling;
 			if (num > num2)
 			{
-				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes.Handling, num, ref CS$<>8__locals1);
+				CampaignUIHelper.<GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes.Handling, num, ref CS$<>8__locals1);
 			}
 			bool flag = true;
 			WeaponDescription[] weaponDescriptions = CS$<>8__locals1.order.PreCraftedWeaponDesignItem.WeaponDesign.Template.WeaponDescriptions;
@@ -1514,8 +1557,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 					select h).ToList<Hero>();
 				if (list2.Count > 0)
 				{
-					MathF.Ceiling(order.OrderDifficulty);
-					heroToCheck.GetSkillValue(DefaultSkills.Crafting);
 					GameTexts.SetVariable("HERO", heroToCheck.Name.ToString());
 					list.Add(new TooltipProperty(GameTexts.FindText("str_crafting_player_not_enough_skills", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
 					CampaignUIHelper.TooltipAddEmptyLine(list, false);
@@ -1529,10 +1570,46 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				}
 				else
 				{
-					float num = order.OrderDifficulty / 1.1f - (float)heroToCheck.GetSkillValue(DefaultSkills.Crafting);
-					GameTexts.SetVariable("AMOUNT", MathF.Round(num));
+					int num = MathF.Ceiling(order.OrderDifficulty) - heroToCheck.GetSkillValue(DefaultSkills.Crafting) - 50;
+					GameTexts.SetVariable("AMOUNT", num);
 					list.Add(new TooltipProperty(GameTexts.FindText("str_crafting_no_one_can_craft_order", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
 				}
+			}
+			return list;
+		}
+
+		public static List<TooltipProperty> GetOrdersDisabledReasonTooltip(MBBindingList<CraftingOrderItemVM> craftingOrders, Hero heroToCheck)
+		{
+			List<TooltipProperty> list = new List<TooltipProperty>();
+			if (craftingOrders != null)
+			{
+				if (craftingOrders.Count((CraftingOrderItemVM x) => x.IsEnabled) > 0)
+				{
+					return list;
+				}
+			}
+			bool flag = false;
+			CampaignUIHelper.TooltipAddPropertyTitle(list, GameTexts.FindText("str_crafting_cannot_complete_orders", null).ToString());
+			GameTexts.SetVariable("HERO_NAME", heroToCheck.Name);
+			list.Add(new TooltipProperty(GameTexts.FindText("str_crafting_no_available_orders_for_hero", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
+			CampaignUIHelper.TooltipAddEmptyLine(list, false);
+			IEnumerable<Hero> availableHeroesForCrafting = CraftingHelper.GetAvailableHeroesForCrafting();
+			for (int i = 0; i < availableHeroesForCrafting.Count<Hero>(); i++)
+			{
+				Hero hero = availableHeroesForCrafting.ToList<Hero>()[i];
+				int num = craftingOrders.Count((CraftingOrderItemVM x) => x.CraftingOrder.IsOrderAvailableForHero(hero));
+				if (num > 0)
+				{
+					flag = true;
+					GameTexts.SetVariable("HERO_NAME", hero.Name);
+					GameTexts.SetVariable("NUMBER", num);
+					list.Add(new TooltipProperty(GameTexts.FindText("str_crafting_available_orders_for_other_hero", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
+				}
+			}
+			if (!flag)
+			{
+				GameTexts.SetVariable("SKILL", GameTexts.FindText("str_crafting", null).ToString());
+				list.Add(new TooltipProperty(GameTexts.FindText("str_crafting_no_available_orders_for_party", null).ToString(), "", 0, false, TooltipProperty.TooltipPropertyFlags.None));
 			}
 			return list;
 		}
@@ -1705,6 +1782,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 				bool flag4 = hero.PartyBelongedTo != null && hero.PartyBelongedTo.LeaderHero == hero;
 				TextObject textObject = TextObject.Empty;
 				GameTexts.SetVariable("FACTION", hero.Clan.Kingdom.Name);
+				GameTexts.SetVariable("FACTION_INFORMAL_NAME", hero.Clan.Kingdom.InformalName);
 				if (flag)
 				{
 					textObject = GameTexts.FindText("str_hero_rank_of_faction", 1.ToString());
@@ -1795,6 +1873,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			string abbreviatedValueTextFromValue = CampaignUIHelper.GetAbbreviatedValueTextFromValue(totalHealthyCount);
 			string abbreviatedValueTextFromValue2 = CampaignUIHelper.GetAbbreviatedValueTextFromValue(totalWounded);
 			return abbreviatedValueTextFromValue + ((totalWounded > 0) ? (" + " + abbreviatedValueTextFromValue2 + GameTexts.FindText("str_party_nameplate_wounded_abbr", null).ToString()) : "");
+		}
+
+		public static string GetValueChangeText(float originalValue, float valueChange, string valueFormat = "F0")
+		{
+			string text = originalValue.ToString(valueFormat);
+			TextObject textObject = GameTexts.FindText("str_clan_workshop_material_daily_Change", null).SetTextVariable("IS_POSITIVE", (valueChange >= 0f) ? 1 : 0).SetTextVariable("CHANGE", MathF.Abs(valueChange).ToString(valueFormat));
+			TextObject textObject2 = GameTexts.FindText("str_STR_in_parentheses", null);
+			textObject2.SetTextVariable("STR", textObject.ToString());
+			return GameTexts.FindText("str_STR1_space_STR2", null).SetTextVariable("STR1", text.ToString()).SetTextVariable("STR2", textObject2.ToString())
+				.ToString();
 		}
 
 		public static string GetUpgradeHint(int index, int numOfItems, int availableUpgrades, int upgradeCoinCost, bool hasRequiredPerk, PerkObject requiredPerk, CharacterObject character, TroopRosterElement troop, int partyGoldChangeAmount, string entireStackShortcutKeyText, string fiveStackShortcutKeyText)
@@ -2078,7 +2166,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			{
 				textObject = party.Army.GetBehaviorText(false);
 			}
-			else if (party.DefaultBehavior == AiBehavior.Hold || (party.IsMainParty && Campaign.Current.IsMainPartyWaiting))
+			else if (party.DefaultBehavior == AiBehavior.Hold || party.ShortTermBehavior == AiBehavior.Hold || (party.IsMainParty && Campaign.Current.IsMainPartyWaiting))
 			{
 				textObject = new TextObject("{=RClxLG6N}Holding", null);
 			}
@@ -2533,7 +2621,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 		{
 			if (traitObject != DefaultTraits.Mercy && traitObject != DefaultTraits.Valor && traitObject != DefaultTraits.Honor && traitObject != DefaultTraits.Generosity && traitObject != DefaultTraits.Calculating)
 			{
-				Debug.FailedAssert("Cannot show this trait as text.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CampaignUIHelper.cs", "GetTraitNameText", 2950);
+				Debug.FailedAssert("Cannot show this trait as text.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CampaignUIHelper.cs", "GetTraitNameText", 3057);
 				return "";
 			}
 			int traitLevel = hero.GetTraitLevel(traitObject);
@@ -2548,7 +2636,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 		{
 			if (traitObject != DefaultTraits.Mercy && traitObject != DefaultTraits.Valor && traitObject != DefaultTraits.Honor && traitObject != DefaultTraits.Generosity && traitObject != DefaultTraits.Calculating)
 			{
-				Debug.FailedAssert("Cannot show this trait's tooltip.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CampaignUIHelper.cs", "GetTraitTooltipText", 2975);
+				Debug.FailedAssert("Cannot show this trait's tooltip.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\CampaignUIHelper.cs", "GetTraitTooltipText", 3082);
 				return null;
 			}
 			GameTexts.SetVariable("NEWLINE", "\n");
@@ -2921,6 +3009,51 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 
 		private static Tuple<bool, TextObject> GetIsStringApplicableForHeroName(string name)
 		{
+			if (string.IsNullOrEmpty(name))
+			{
+				return new Tuple<bool, TextObject>(false, new TextObject("{=C9tKA0ul}Character name cannot be empty", null));
+			}
+			bool flag;
+			if (name.Length < 3)
+			{
+				if (!name.Any((char c) => Common.IsCharAsian(c)))
+				{
+					flag = false;
+					goto IL_5A;
+				}
+			}
+			flag = name.Length <= 50;
+			IL_5A:
+			if (!flag)
+			{
+				TextObject textObject = new TextObject("{=*}Character name should be between {MIN} and {MAX} characters", null);
+				textObject.SetTextVariable("MIN", 3);
+				textObject.SetTextVariable("MAX", 50);
+				return new Tuple<bool, TextObject>(false, textObject);
+			}
+			if (!name.All((char x) => (char.IsLetterOrDigit(x) || char.IsWhiteSpace(x) || char.IsPunctuation(x)) && x != '{' && x != '}'))
+			{
+				return new Tuple<bool, TextObject>(false, new TextObject("{=P1hk0m4o}Character name cannot contain special characters", null));
+			}
+			if (name.StartsWith(" ") || name.EndsWith(" "))
+			{
+				return new Tuple<bool, TextObject>(false, new TextObject("{=oofSja21}Character name cannot start or end with a white space", null));
+			}
+			if (name.Contains("  "))
+			{
+				return new Tuple<bool, TextObject>(false, new TextObject("{=wcSSgFyK}Character name cannot contain consecutive white spaces", null));
+			}
+			return new Tuple<bool, TextObject>(true, TextObject.Empty);
+		}
+
+		public static Tuple<bool, string> IsStringApplicableForHeroName(string name)
+		{
+			Tuple<bool, TextObject> isStringApplicableForHeroName = CampaignUIHelper.GetIsStringApplicableForHeroName(name);
+			return new Tuple<bool, string>(isStringApplicableForHeroName.Item1, isStringApplicableForHeroName.Item2.ToString());
+		}
+
+		public static Tuple<bool, TextObject> IsStringApplicableForItemName(string name)
+		{
 			bool flag;
 			if (name.Length < 3)
 			{
@@ -2934,25 +3067,28 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			IL_40:
 			if (!flag)
 			{
-				TextObject textObject = new TextObject("{=TUST9cUX}Character name should be at least {MIN} characters", null);
+				TextObject textObject = new TextObject("{=h0xoKxxo}Item name should be between {MIN} and {MAX} characters.", null);
 				textObject.SetTextVariable("MIN", 3);
+				textObject.SetTextVariable("MAX", 50);
 				return new Tuple<bool, TextObject>(false, textObject);
 			}
 			if (string.IsNullOrEmpty(name))
 			{
-				return new Tuple<bool, TextObject>(false, new TextObject("{=C9tKA0ul}Character name cannot be empty", null));
+				return new Tuple<bool, TextObject>(false, new TextObject("{=QQ03J6sf}Item name can not be empty.", null));
 			}
-			if (!name.All((char x) => char.IsLetterOrDigit(x) || char.IsWhiteSpace(x) || char.IsPunctuation(x)))
+			if (!name.All((char x) => (char.IsLetterOrDigit(x) || char.IsWhiteSpace(x) || char.IsPunctuation(x)) && x != '{' && x != '}'))
 			{
-				return new Tuple<bool, TextObject>(false, new TextObject("{=P1hk0m4o}Character name cannot contain special characters", null));
+				return new Tuple<bool, TextObject>(false, new TextObject("{=NkY3Kq9l}Item name cannot contain special characters.", null));
+			}
+			if (name.StartsWith(" ") || name.EndsWith(" "))
+			{
+				return new Tuple<bool, TextObject>(false, new TextObject("{=2Hbr4TEj}Item name cannot start or end with a white space.", null));
+			}
+			if (name.Contains("  "))
+			{
+				return new Tuple<bool, TextObject>(false, new TextObject("{=Z4GdqdgV}Item name cannot contain consecutive white spaces.", null));
 			}
 			return new Tuple<bool, TextObject>(true, TextObject.Empty);
-		}
-
-		public static Tuple<bool, string> IsStringApplicableForHeroName(string name)
-		{
-			Tuple<bool, TextObject> isStringApplicableForHeroName = CampaignUIHelper.GetIsStringApplicableForHeroName(name);
-			return new Tuple<bool, string>(isStringApplicableForHeroName.Item1, isStringApplicableForHeroName.Item2.ToString());
 		}
 
 		public static CharacterObject GetVisualPartyLeader(PartyBase party)
@@ -2972,7 +3108,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 		}
 
 		[CompilerGenerated]
-		internal static void <GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|143_0(CraftingTemplate.CraftingStatTypes type, float reqValue, ref CampaignUIHelper.<>c__DisplayClass143_0 A_2)
+		internal static void <GetOrderCannotBeCompletedReasonTooltip>g__AddProperty|145_0(CraftingTemplate.CraftingStatTypes type, float reqValue, ref CampaignUIHelper.<>c__DisplayClass145_0 A_2)
 		{
 			TextObject textObject = GameTexts.FindText("str_crafting_stat", type.ToString());
 			TextObject textObject2 = GameTexts.FindText("str_inventory_dmg_type", ((int)A_2.order.PreCraftedWeaponDesignItem.PrimaryWeapon.ThrustDamageType).ToString());
@@ -3132,6 +3268,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection
 			ActiveStoryQuest = 4,
 			TrackedIssue = 8,
 			TrackedStoryQuest = 16
+		}
+
+		public enum SortState
+		{
+			Default,
+			Ascending,
+			Descending
 		}
 
 		public class MobilePartyPrecedenceComparer : IComparer<MobileParty>

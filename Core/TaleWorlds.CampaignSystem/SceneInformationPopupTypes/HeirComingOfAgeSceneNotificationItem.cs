@@ -49,11 +49,11 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return list;
 		}
 
-		public HeirComingOfAgeSceneNotificationItem(Hero mentorHero, Hero heroCameOfAge)
+		public HeirComingOfAgeSceneNotificationItem(Hero mentorHero, Hero heroCameOfAge, CampaignTime creationTime)
 		{
 			this.MentorHero = mentorHero;
 			this.HeroCameOfAge = heroCameOfAge;
-			this._creationCampaignTime = CampaignTime.Now;
+			this._creationCampaignTime = creationTime;
 		}
 
 		private readonly CampaignTime _creationCampaignTime;

@@ -117,13 +117,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 
 		internal void DeployFormationsOfPlayer()
 		{
-			if (!this.Mission.PlayerTeam.IsPlayerGeneral)
+			if (this.Mission.IsSiegeBattle)
 			{
 				this.Mission.AutoDeployTeamUsingTeamAI(this.Mission.PlayerTeam, false);
 			}
-			else if (this.Mission.IsSiegeBattle)
+			else
 			{
-				this.Mission.AutoDeployTeamUsingTeamAI(this.Mission.PlayerTeam, false);
+				this.Mission.AutoDeployTeamUsingDeploymentPlan(this.Mission.PlayerTeam);
 			}
 			AssignPlayerRoleInTeamMissionController missionBehavior = Mission.Current.GetMissionBehavior<AssignPlayerRoleInTeamMissionController>();
 			if (missionBehavior == null)
@@ -450,9 +450,28 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			if (this.Mission.IsSiegeBattle)
 			{
 				this.Mission.AutoDeployTeamUsingTeamAI(this.Mission.PlayerTeam, false);
+				this.AutoDeploySiegeMachines();
 				return;
 			}
 			this.Mission.AutoDeployTeamUsingDeploymentPlan(this.Mission.PlayerTeam);
+		}
+
+		private void AutoDeploySiegeMachines()
+		{
+			this.IsSiegeDeploymentListActive = false;
+			foreach (DeploymentSiegeMachineVM deploymentSiegeMachineVM in this.DeploymentTargets)
+			{
+				if (!(deploymentSiegeMachineVM.MachineType != null))
+				{
+					deploymentSiegeMachineVM.ExecuteAction();
+					DeploymentSiegeMachineVM deploymentSiegeMachineVM2 = this.SiegeDeploymentList.FirstOrDefault((DeploymentSiegeMachineVM d) => d.Machine != null && d.RemainingCount > 0);
+					if (deploymentSiegeMachineVM2 != null)
+					{
+						deploymentSiegeMachineVM2.ExecuteAction();
+					}
+				}
+			}
+			this.IsSiegeDeploymentListActive = false;
 		}
 
 		public void ExecuteDeployAll()

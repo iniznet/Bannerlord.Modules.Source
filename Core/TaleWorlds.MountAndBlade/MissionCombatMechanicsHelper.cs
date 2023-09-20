@@ -127,8 +127,8 @@ namespace TaleWorlds.MountAndBlade
 				AttackCollisionData attackCollisionData = collisionData;
 				if (attackCollisionData.ThrustTipHit && attackerAgent != null && !attackerAgent.HasMount && victimAgent.GetAgentFlags().HasAnyFlag(AgentFlag.CanRear) && victimAgent.MovementVelocity.y > 5f && Vec3.DotProduct(blow.Direction, victimAgent.Frame.rotation.f) < -0.35f)
 				{
-					Vec3 position = blow.Position;
-					if (Vec2.DotProduct(position.AsVec2 - victimAgent.Position.AsVec2, victimAgent.GetMovementDirection()) > 0f)
+					Vec3 globalPosition = blow.GlobalPosition;
+					if (Vec2.DotProduct(globalPosition.AsVec2 - victimAgent.Position.AsVec2, victimAgent.GetMovementDirection()) > 0f)
 					{
 						return (float)collisionData.InflictedDamage >= ManagedParameters.Instance.GetManagedParameter(ManagedParametersEnum.MakesRearAttackDamageThreshold) * damageMultiplierOfCombatDifficulty;
 					}
@@ -760,8 +760,11 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 			baseMagnitude *= num8;
-			float weaponDamageMultiplier = MissionGameModels.Current.AgentStatCalculateModel.GetWeaponDamageMultiplier(attackInformation.AttackerAgentCharacter, attackInformation.AttackerAgentOrigin, attackInformation.AttackerFormation, currentUsageItem);
-			baseMagnitude *= weaponDamageMultiplier;
+			if (attackInformation.AttackerAgent != null)
+			{
+				float weaponDamageMultiplier = MissionGameModels.Current.AgentStatCalculateModel.GetWeaponDamageMultiplier(attackInformation.AttackerAgent, currentUsageItem);
+				baseMagnitude *= weaponDamageMultiplier;
+			}
 			specialMagnitude = MissionCombatMechanicsHelper.ConvertBaseAttackMagnitude(currentUsageItem, strikeType, baseMagnitude);
 		}
 
@@ -780,8 +783,9 @@ namespace TaleWorlds.MountAndBlade
 
 		private static void ComputeBlowMagnitudeMissile(in AttackInformation attackInformation, in AttackCollisionData acd, in MissionWeapon weapon, float momentumRemaining, in Vec2 victimVelocity, out float baseMagnitude, out float specialMagnitude)
 		{
-			AttackCollisionData attackCollisionData = acd;
-			float missileTotalDamage = attackCollisionData.MissileTotalDamage;
+			BasicCharacterObject attackerAgentCharacter = attackInformation.AttackerAgentCharacter;
+			BasicCharacterObject attackerCaptainCharacter = attackInformation.AttackerCaptainCharacter;
+			AttackCollisionData attackCollisionData;
 			float num;
 			if (!attackInformation.IsVictimAgentNull)
 			{
@@ -795,28 +799,25 @@ namespace TaleWorlds.MountAndBlade
 				attackCollisionData = acd;
 				num = attackCollisionData.MissileVelocity.Length;
 			}
-			MissionWeapon missionWeapon = weapon;
-			WeaponComponentData currentUsageItem = missionWeapon.CurrentUsageItem;
+			StrikeMagnitudeCalculationModel strikeMagnitudeModel = Game.Current.BasicModels.StrikeMagnitudeModel;
+			BasicCharacterObject basicCharacterObject = attackerAgentCharacter;
+			BasicCharacterObject basicCharacterObject2 = attackerCaptainCharacter;
+			attackCollisionData = acd;
+			float missileTotalDamage = attackCollisionData.MissileTotalDamage;
 			float num2 = num;
-			float num3 = num;
 			attackCollisionData = acd;
-			float num4 = num3 - attackCollisionData.MissileStartingBaseSpeed;
-			if (num4 > 0f)
+			float missileStartingBaseSpeed = attackCollisionData.MissileStartingBaseSpeed;
+			MissionWeapon missionWeapon = weapon;
+			baseMagnitude = strikeMagnitudeModel.CalculateStrikeMagnitudeForMissile(basicCharacterObject, basicCharacterObject2, missileTotalDamage, num2, missileStartingBaseSpeed, missionWeapon.CurrentUsageItem);
+			baseMagnitude *= momentumRemaining;
+			if (attackInformation.AttackerAgent != null)
 			{
-				float num5 = Game.Current.BasicModels.StrikeMagnitudeModel.CalculateSpeedBonusMultiplierForMissile(attackInformation.AttackerAgentCharacter, currentUsageItem.AmmoClass);
-				num2 += num4 * num5;
+				AgentStatCalculateModel agentStatCalculateModel = MissionGameModels.Current.AgentStatCalculateModel;
+				Agent attackerAgent = attackInformation.AttackerAgent;
+				missionWeapon = weapon;
+				float weaponDamageMultiplier = agentStatCalculateModel.GetWeaponDamageMultiplier(attackerAgent, missionWeapon.CurrentUsageItem);
+				baseMagnitude *= weaponDamageMultiplier;
 			}
-			float num6 = num2;
-			attackCollisionData = acd;
-			num2 = num6 / attackCollisionData.MissileStartingBaseSpeed;
-			baseMagnitude = num2 * num2 * missileTotalDamage * momentumRemaining;
-			AgentStatCalculateModel agentStatCalculateModel = MissionGameModels.Current.AgentStatCalculateModel;
-			BasicCharacterObject attackerAgentCharacter = attackInformation.AttackerAgentCharacter;
-			IAgentOriginBase attackerAgentOrigin = attackInformation.AttackerAgentOrigin;
-			Formation attackerFormation = attackInformation.AttackerFormation;
-			missionWeapon = weapon;
-			float weaponDamageMultiplier = agentStatCalculateModel.GetWeaponDamageMultiplier(attackerAgentCharacter, attackerAgentOrigin, attackerFormation, missionWeapon.CurrentUsageItem);
-			baseMagnitude *= weaponDamageMultiplier;
 			specialMagnitude = baseMagnitude;
 		}
 

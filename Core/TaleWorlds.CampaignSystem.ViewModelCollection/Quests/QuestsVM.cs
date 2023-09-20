@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.Issues;
 using TaleWorlds.CampaignSystem.LogEntries;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
@@ -73,17 +72,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Quests
 			this.OldQuestsSortController = new QuestItemSortControllerVM(ref this._oldQuestsList);
 			this.SortSelector = new SelectorVM<SelectorItemVM>(list, this._viewDataTracker.GetQuestSortTypeSelection(), new Action<SelectorVM<SelectorItemVM>>(this.OnSortOptionChanged));
 			this.RefreshValues();
-			Campaign campaign = Campaign.Current;
-			if (campaign == null)
-			{
-				return;
-			}
-			PlayerUpdateTracker playerUpdateTracker = campaign.PlayerUpdateTracker;
-			if (playerUpdateTracker == null)
-			{
-				return;
-			}
-			playerUpdateTracker.ClearQuestNotification();
 		}
 
 		public override void RefreshValues()
@@ -92,12 +80,16 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Quests
 			this.QuestGiverText = GameTexts.FindText("str_quest_given_by", null).ToString();
 			this.TimeRemainingLbl = GameTexts.FindText("str_time_remaining", null).ToString();
 			this.QuestTitleText = GameTexts.FindText("str_quests", null).ToString();
-			this.OldQuestsText = GameTexts.FindText("str_old_quests", null).ToString();
-			this.ActiveQuestsText = GameTexts.FindText("str_active_quests", null).ToString();
 			this.NoActiveQuestText = GameTexts.FindText("str_no_active_quest", null).ToString();
 			this.SortQuestsText = GameTexts.FindText("str_sort_quests", null).ToString();
 			this.OldQuestsHint = new HintViewModel(GameTexts.FindText("str_old_quests_explanation", null), null);
 			this.DoneLbl = GameTexts.FindText("str_done", null).ToString();
+			GameTexts.SetVariable("RANK", GameTexts.FindText("str_active_quests", null));
+			GameTexts.SetVariable("NUMBER", this.ActiveQuestsList.Count);
+			this.ActiveQuestsText = GameTexts.FindText("str_RANK_with_NUM_between_parenthesis", null).ToString();
+			GameTexts.SetVariable("RANK", GameTexts.FindText("str_old_quests", null));
+			GameTexts.SetVariable("NUMBER", this.OldQuestsList.Count);
+			this.OldQuestsText = GameTexts.FindText("str_RANK_with_NUM_between_parenthesis", null).ToString();
 			this.CurrentQuestStages.ApplyActionOnAllItems(delegate(QuestStageVM x)
 			{
 				x.RefreshValues();
@@ -161,7 +153,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Quests
 			this.TimeRemainingHint = new HintViewModel(new TextObject("{=2nN1QuxZ}This quest will be failed unless completed in this time.", null), null);
 			foreach (QuestStageVM questStageVM2 in this._selectedQuest.Stages)
 			{
-				PlayerUpdateTracker.Current.OnQuestlogExamined(questStageVM2.Log);
+				this._viewDataTracker.OnQuestLogExamined(questStageVM2.Log);
 				questStageVM2.UpdateIsNew();
 				this._selectedQuest.UpdateIsUpdated();
 			}

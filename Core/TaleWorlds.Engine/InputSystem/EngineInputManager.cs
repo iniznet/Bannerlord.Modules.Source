@@ -67,6 +67,21 @@ namespace TaleWorlds.Engine.InputSystem
 			return EngineApplicationInterface.IInput.GetMouseMoveY();
 		}
 
+		float IInputManager.GetGyroX()
+		{
+			return EngineApplicationInterface.IInput.GetGyroX();
+		}
+
+		float IInputManager.GetGyroY()
+		{
+			return EngineApplicationInterface.IInput.GetGyroY();
+		}
+
+		float IInputManager.GetGyroZ()
+		{
+			return EngineApplicationInterface.IInput.GetGyroZ();
+		}
+
 		float IInputManager.GetMouseSensitivity()
 		{
 			return EngineApplicationInterface.IInput.GetMouseSensitivity();
@@ -134,13 +149,23 @@ namespace TaleWorlds.Engine.InputSystem
 			EngineApplicationInterface.IInput.SetCursorFrictionValue(frictionValue);
 		}
 
-		InputKey IInputManager.GetControllerClickKey()
+		InputKey[] IInputManager.GetClickKeys()
 		{
-			if (!EngineApplicationInterface.IScreen.IsEnterButtonCross())
+			InputKey inputKey = (EngineApplicationInterface.IScreen.IsEnterButtonCross() ? InputKey.ControllerRDown : InputKey.ControllerRRight);
+			if (NativeOptions.GetConfig(NativeOptions.NativeOptionsType.EnableTouchpadMouse) != 0f)
 			{
-				return InputKey.ControllerRRight;
+				return new InputKey[]
+				{
+					InputKey.LeftMouseButton,
+					inputKey,
+					InputKey.ControllerLOptionTap
+				};
 			}
-			return InputKey.ControllerRDown;
+			return new InputKey[]
+			{
+				InputKey.LeftMouseButton,
+				inputKey
+			};
 		}
 
 		public void SetRumbleEffect(float[] lowFrequencyLevels, float[] lowFrequencyDurations, int numLowFrequencyElements, float[] highFrequencyLevels, float[] highFrequencyDurations, int numHighFrequencyElements)
@@ -166,6 +191,16 @@ namespace TaleWorlds.Engine.InputSystem
 		public void SetLightbarColor(float red, float green, float blue)
 		{
 			EngineApplicationInterface.IInput.SetLightbarColor(red, green, blue);
+		}
+
+		Input.ControllerTypes IInputManager.GetControllerType()
+		{
+			return (Input.ControllerTypes)EngineApplicationInterface.IInput.GetControllerType();
+		}
+
+		bool IInputManager.IsAnyTouchActive()
+		{
+			return EngineApplicationInterface.IInput.IsAnyTouchActive();
 		}
 	}
 }

@@ -24,13 +24,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors.CommentBehaviors
 				{
 					ChildbirthLogEntry childbirthLogEntry = new ChildbirthLogEntry(mother, null);
 					LogEntry.AddLogEntry(childbirthLogEntry);
-					Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new ChildBornMapNotification(null, childbirthLogEntry.GetEncyclopediaText()));
+					Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new ChildBornMapNotification(null, childbirthLogEntry.GetEncyclopediaText(), CampaignTime.Now));
 				}
 				foreach (Hero hero in aliveChildren)
 				{
 					ChildbirthLogEntry childbirthLogEntry2 = new ChildbirthLogEntry(mother, hero);
 					LogEntry.AddLogEntry(childbirthLogEntry2);
-					Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new ChildBornMapNotification(hero, childbirthLogEntry2.GetEncyclopediaText()));
+					Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new ChildBornMapNotification(hero, childbirthLogEntry2.GetEncyclopediaText(), CampaignTime.Now));
 				}
 			}
 		}

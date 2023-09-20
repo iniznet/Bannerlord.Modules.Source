@@ -118,6 +118,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._dataSource = null;
 			this._gauntletLayer.ReleaseMovie(this._movie);
 			base.MissionScreen.RemoveLayer(this._gauntletLayer);
+			this._gauntletLayer = null;
 			this._orderOfBattleCategory.Unload();
 			base.OnMissionScreenFinalize();
 		}
@@ -155,8 +156,8 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 
 		private void OnPlayerTurnToChooseFormationToLead(Dictionary<int, Agent> lockedFormationIndicesAndSergeants, List<int> remainingFormationIndices)
 		{
-			this._cachedOrderTypeSetting = ManagedOptions.GetConfig(31);
-			ManagedOptions.SetConfig(31, 1f);
+			this._cachedOrderTypeSetting = ManagedOptions.GetConfig(33);
+			ManagedOptions.SetConfig(33, 1f);
 			this._dataSource.Initialize(base.Mission, base.MissionScreen.CombatCamera, new Action<int>(this.SelectFormationAtIndex), new Action<int>(this.DeselectFormationAtIndex), new Action(this.ClearFormationSelection), new Action(this.OnAutoDeploy), new Action(this.OnBeginMission), lockedFormationIndicesAndSergeants);
 			this._orderUIHandler.SetIsOrderPreconfigured(this._dataSource.IsOrderPreconfigured);
 			this._gauntletLayer.InputRestrictions.SetInputRestrictions(true, 7);
@@ -174,7 +175,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission.Singleplayer
 			this._dataSource.OnDeploymentFinalized(flag);
 			if (this._isActive)
 			{
-				ManagedOptions.SetConfig(31, this._cachedOrderTypeSetting);
+				ManagedOptions.SetConfig(33, this._cachedOrderTypeSetting);
 				this._isActive = false;
 				this._gauntletLayer.InputRestrictions.ResetInputRestrictions();
 			}

@@ -8,6 +8,7 @@ using TaleWorlds.CampaignSystem.Extensions;
 using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Roster;
+using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -35,7 +36,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		private bool ConditionsHold(Hero issueGiver)
 		{
-			if (!issueGiver.IsFactionLeader)
+			if (!issueGiver.IsKingdomLeader)
 			{
 				Clan clan = issueGiver.Clan;
 				if (((clan != null) ? clan.Leader : null) != issueGiver)
@@ -60,7 +61,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 		{
 			if (issueParty == null)
 			{
-				Debug.FailedAssert("Cannot compute mounts over infantry ratio as related party is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Issues\\LordNeedsHorsesIssueBehavior.cs", "ComputeMountsOverInfantryCountRatio", 888);
+				Debug.FailedAssert("Cannot compute mounts over infantry ratio as related party is null", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Issues\\LordNeedsHorsesIssueBehavior.cs", "ComputeMountsOverInfantryCountRatio", 917);
 				numInfantry = 0;
 				return float.MaxValue;
 			}
@@ -155,7 +156,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					if (this._numMountsToBeDelivered == 0)
 					{
-						this._numMountsToBeDelivered = MathF.Max(1 + MathF.Ceiling(12f * base.IssueDifficultyMultiplier), 2);
+						this._numMountsToBeDelivered = 1 + MathF.Ceiling(12f * base.IssueDifficultyMultiplier);
 					}
 					return this._numMountsToBeDelivered;
 				}
@@ -189,7 +190,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=TBpMffcv}Campaigning this season has taken even a higher toll on {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?} than it has on my men. The animals will drop dead of exhaustion while my troops soldier on. Yet if we don't keep our stocks up, the enemy will run rings around us.", null);
+					TextObject textObject = new TextObject("{=TBpMffcv}Campaigning this season has taken even a higher toll on {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?} than it has on my men. The animals will drop dead of exhaustion while my troops soldier on. Yet if we don't keep our stocks up, the enemy will run rings around us.[if:convo_undecided_closed][ib:closed]", null);
 					textObject.SetTextVariable("MOUNT_TYPE_IS_CAMEL", LordNeedsHorsesIssueBehavior.IsMountCamel(this._mountObjectToBeDelivered) ? 1 : 0);
 					return textObject;
 				}
@@ -209,7 +210,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=ugHO6Sa6}I need more {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?}, specifically, we need {MOUNT_COUNT} and they need to be {PLURAL(MOUNT_NAME)}, because we know how to use them and how they fit our needs. Bring them to me and a bag of {REWARD}{GOLD_ICON} will be right in your pocket.", null);
+					TextObject textObject = new TextObject("{=ugHO6Sa6}I need more {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?}, specifically, we need {MOUNT_COUNT} and they need to be {PLURAL(MOUNT_NAME)}, because we know how to use them and how they fit our needs. Bring them to me and a bag of {REWARD}{GOLD_ICON} will be right in your pocket.[if:convo_undecided_closed]", null);
 					textObject.SetTextVariable("MOUNT_TYPE_IS_CAMEL", LordNeedsHorsesIssueBehavior.IsMountCamel(this._mountObjectToBeDelivered) ? 1 : 0);
 					textObject.SetTextVariable("MOUNT_COUNT", this.IssueNumMountsToBeDelivered);
 					textObject.SetTextVariable("REWARD", this.RewardGold);
@@ -241,7 +242,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=YHG17dqZ}One of your companions who is good at haggling and riding would be appropriate for this task. {?MOUNT_TYPE_IS_CAMEL}Camels{?}Horses{\\?} should cost no more than {REQUIRED_GOLD_AMOUNT}{GOLD_ICON} denars and this should be covered by yourself. You'll also need some cavalry to bring the {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?}. A purse of {REWARD_GOLD_AMOUNT}{GOLD_ICON} denars will be waiting for you when you get the job done.", null);
+					TextObject textObject = new TextObject("{=YHG17dqZ}One of your companions who is good at haggling and riding would be appropriate for this task. {?MOUNT_TYPE_IS_CAMEL}Camels{?}Horses{\\?} should cost no more than {REQUIRED_GOLD_AMOUNT}{GOLD_ICON} denars and this should be covered by yourself. You'll also need some cavalry to bring the {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?}. A purse of {REWARD_GOLD_AMOUNT}{GOLD_ICON} denars will be waiting for you when you get the job done.[if:convo_undecided_closed]", null);
 					textObject.SetTextVariable("MOUNT_TYPE_IS_CAMEL", LordNeedsHorsesIssueBehavior.IsMountCamel(this._mountObjectToBeDelivered) ? 1 : 0);
 					textObject.SetTextVariable("REQUIRED_GOLD_AMOUNT", this.AlternativeSolutionGoldRequirement);
 					textObject.SetTextVariable("REWARD_GOLD_AMOUNT", this.RewardGold);
@@ -264,7 +265,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=6EJbUGpi}You will be rewarded when your companion returns with the animals we discussed.", null);
+					return new TextObject("{=6EJbUGpi}You will be rewarded when your companion returns with the animals we discussed.[if:convo_approving]", null);
 				}
 			}
 
@@ -272,7 +273,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=YF6PPWlT}Very good. I'm sure your men will bring my {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?} as soon as possible.", null);
+					TextObject textObject = new TextObject("{=YF6PPWlT}Very good. I'm sure your men will bring my {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?} as soon as possible.[if:convo_approving]", null);
 					textObject.SetTextVariable("MOUNT_TYPE_IS_CAMEL", LordNeedsHorsesIssueBehavior.IsMountCamel(this._mountObjectToBeDelivered) ? 1 : 0);
 					return textObject;
 				}
@@ -354,6 +355,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new LordNeedsHorsesIssueBehavior.LordNeedsHorsesIssueQuest(questId, base.IssueOwner, this.IssueNumMountsToBeDelivered, this._mountObjectToBeDelivered, this.RewardGold, CampaignTime.DaysFromNow(20f));
@@ -374,7 +379,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					relationHero = issueGiver;
 					flag |= IssueBase.PreconditionFlags.Relation;
 				}
-				if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader)
+				if (Hero.MainHero.IsKingdomLeader)
 				{
 					flag |= IssueBase.PreconditionFlags.MainHeroIsKingdomLeader;
 				}
@@ -392,7 +397,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			public override bool IssueStayAliveConditions()
 			{
 				int num;
-				return !base.IssueOwner.IsDead && base.IssueOwner.PartyBelongedTo != null && base.IssueOwner.Clan != Clan.PlayerClan && (base.IssueOwner.IsFactionLeader || base.IssueOwner.Clan.Leader == base.IssueOwner) && LordNeedsHorsesIssueBehavior.ComputeMountsOverInfantryCountRatio(base.IssueOwner.PartyBelongedTo, out num) < 0.8f;
+				return !base.IssueOwner.IsDead && base.IssueOwner.PartyBelongedTo != null && base.IssueOwner.Clan != Clan.PlayerClan && (base.IssueOwner.IsKingdomLeader || base.IssueOwner.Clan.Leader == base.IssueOwner) && LordNeedsHorsesIssueBehavior.ComputeMountsOverInfantryCountRatio(base.IssueOwner.PartyBelongedTo, out num) < 0.8f;
 			}
 
 			public override TextObject Title
@@ -422,13 +427,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 				MBList<ItemObject> mblist = new MBList<ItemObject>();
 				foreach (ItemObject itemObject in Items.All)
 				{
-					if (itemObject.IsMountable && itemObject.Culture == issueOwner.Culture && !itemObject.NotMerchandise && (itemObject.Tier == ItemObject.ItemTiers.Tier1 || itemObject.Tier == ItemObject.ItemTiers.Tier2))
+					if (itemObject.IsMountable && itemObject.Culture == issueOwner.Culture && !itemObject.NotMerchandise && itemObject.Tierf > 2f && itemObject.Tierf < 3f)
 					{
 						mblist.Add(itemObject);
 					}
 				}
 				this._mountObjectToBeDelivered = mblist.GetRandomElement<ItemObject>();
-				this._numMountsToBeDelivered = MathF.Max(1 + MathF.Ceiling(12f * base.IssueDifficultyMultiplier), 2);
+				this._numMountsToBeDelivered = 1 + MathF.Ceiling(12f * base.IssueDifficultyMultiplier);
 				if (this._mountObjectToBeDelivered == null)
 				{
 					this._mountObjectToBeDelivered = MBObjectManager.Instance.GetObject<ItemObject>("sumpter_horse");
@@ -536,7 +541,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=GQ96SX4M}{QUEST_GIVER.LINK} told you that {?QUEST_GIVER.GENDER}she{?}he{\\?} needs {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?} for {?QUEST_GIVER.GENDER}her{?}his{\\?} party. {?QUEST_GIVER.GENDER}She{?}He{\\?} asked you to bring {MOUNT_COUNT} {PLURAL(MOUNT_NAME)} to {?QUEST_GIVER.GENDER}her{?}him{\\?}. {?QUEST_GIVER.GENDER}She{?}He{\\?} will pay you {REWARD_GOLD}{GOLD_ICON} denars when the task is done.", null);
+					TextObject textObject = new TextObject("{=GQ96SX4M}{QUEST_GIVER.LINK} told you that {?QUEST_GIVER.GENDER}she{?}he{\\?} needs {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?} for {?QUEST_GIVER.GENDER}her{?}his{\\?} party. {?QUEST_GIVER.GENDER}She{?}He{\\?} asked you to bring {MOUNT_COUNT} {PLURAL(MOUNT_NAME)} to {?QUEST_GIVER.GENDER}her{?}him{\\?} or one of {?QUEST_GIVER.GENDER}her{?}his{\\?} garrison commanders. {?QUEST_GIVER.GENDER}She{?}He{\\?} will pay you {REWARD_GOLD}{GOLD_ICON} denars when the task is done.", null);
 					textObject.SetTextVariable("MOUNT_TYPE_IS_CAMEL", LordNeedsHorsesIssueBehavior.IsMountCamel(this._mountObjectToBeDelivered) ? 1 : 0);
 					textObject.SetTextVariable("MOUNT_COUNT", this._numMountsToBeDelivered);
 					textObject.SetTextVariable("GOLD_ICON", "{=!}<img src=\"General\\Icons\\Coin@2x\" extend=\"8\">");
@@ -580,17 +585,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 					TextObject textObject = new TextObject("{=BFEYIMdi}You had promised to deliver {MOUNT_COUNT} {PLURAL(MOUNT_NAME)} to {QUEST_GIVER.LINK}. But you've failed to complete this task in time. {QUEST_GIVER.LINK} was displeased.", null);
 					textObject.SetTextVariable("MOUNT_COUNT", this._numMountsToBeDelivered);
 					textObject.SetTextVariable("MOUNT_NAME", this._mountObjectToBeDelivered.Name);
-					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
-					return textObject;
-				}
-			}
-
-			private TextObject _onQuestCancelled1LogText
-			{
-				get
-				{
-					TextObject textObject = new TextObject("{=MKBWG06O}{QUEST_GIVER.LINK} had died and your agreement with {?QUEST_GIVER.GENDER}her{?}him{\\?} was canceled. You can no longer deliver the {?MOUNT_TYPE_IS_CAMEL}camels{?}horses{\\?} to {?QUEST_GIVER.GENDER}her{?}him{\\?}.", null);
-					textObject.SetTextVariable("MOUNT_TYPE_IS_CAMEL", LordNeedsHorsesIssueBehavior.IsMountCamel(this._mountObjectToBeDelivered) ? 1 : 0);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					return textObject;
 				}
@@ -664,6 +658,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._numMountsToBeDelivered = numMountsToBeDelivered;
 				this._mountObjectToBeDelivered = mountObjectToBeDelivered;
 				this._playerInventoryVersionNo = MobileParty.MainParty.ItemRoster.VersionNo;
+				this._questGiversAgentCharacterObject = null;
 				base.AddTrackedObject(base.QuestGiver);
 				this.SetDialogs();
 				base.InitializeQuestOnCreation();
@@ -701,7 +696,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=qR3gQrLi}Splendid. We'll need to keep moving around, though, so it might be tricky to find us. My fellow nobles will usually know where to find me though, if you ask them.", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				Campaign.Current.ConversationManager.AddDialogFlow(this.GetGarrisonCommanderDialogFlow(), this);
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine("{=qR3gQrLi}Splendid. We'll need to keep moving around, though, so it might be tricky to find us. My fellow nobles will usually know where to find me though, if you ask them.[if:convo_approving][ib:hip2]", null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.OnQuestAccepted))
 					.CloseDialog();
 				new TextObject(LordNeedsHorsesIssueBehavior.IsMountCamel(this._mountObjectToBeDelivered) ? "{=nysBXpEO}camels" : "{=6YbGQDme}horses", null);
@@ -726,11 +722,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 					.BeginPlayerOptions()
 					.PlayerOption(textObject2, null)
 					.Condition(() => this.GetNumQuestMountsInInventory() >= this._numMountsToBeDelivered)
-					.NpcLine("{=9HJbLneH}Thank you for your help, {PLAYER.NAME}. Here is the purse I promised you. Farewell.", null, null)
+					.NpcLine("{=9HJbLneH}Thank you for your help, {PLAYER.NAME}. Here is the purse I promised you. Farewell.[if:convo_happy][ib:hip]", null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(base.CompleteQuestWithSuccess))
 					.CloseDialog()
 					.PlayerOption(textObject3, null)
-					.NpcLine("{=cH0iAEfq}Please take care of this as quickly as you can. I need those animals.", null, null)
+					.NpcLine("{=cH0iAEfq}Please take care of this as quickly as you can. I need those animals.[if:convo_undecided_closed]", null, null)
 					.CloseDialog()
 					.PlayerOption(textObject4, null)
 					.NpcLine(textObject5, null, null)
@@ -738,6 +734,26 @@ namespace TaleWorlds.CampaignSystem.Issues
 					{
 						this.OnQuestDeclined();
 					})
+					.CloseDialog()
+					.EndPlayerOptions();
+			}
+
+			private DialogFlow GetGarrisonCommanderDialogFlow()
+			{
+				TextObject textObject = new TextObject("{=JxhEOqyT}We were waiting for you, {?PLAYER.GENDER}madam{?}sir{\\?}. Have you brought the horses that our {?ISSUE_OWNER.GENDER}lady{?}lord{\\?} requested?", null);
+				StringHelpers.SetCharacterProperties("ISSUE_OWNER", base.QuestGiver.CharacterObject, textObject, false);
+				return DialogFlow.CreateDialogFlow("start", 300).NpcLine(textObject, null, null).Condition(() => CharacterObject.OneToOneConversationCharacter == this._questGiversAgentCharacterObject)
+					.BeginPlayerOptions()
+					.PlayerOption(new TextObject("{=ZEy3gE7w}Here are your horses.", null), null)
+					.Condition(() => this.GetNumQuestMountsInInventory() >= this._numMountsToBeDelivered)
+					.NpcLine(new TextObject("{=g8qb3Ame}Thank you.", null), null, null)
+					.Consequence(delegate
+					{
+						Campaign.Current.ConversationManager.ConversationEndOneShot += base.CompleteQuestWithSuccess;
+					})
+					.CloseDialog()
+					.PlayerOption(new TextObject("{=G5tyQj6N}Not yet.", null), null)
+					.NpcLine(new TextObject("{=sjTpEzju}Very well. We'll keep waiting.", null), null, null)
 					.CloseDialog()
 					.EndPlayerOptions();
 			}
@@ -757,13 +773,31 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void RegisterEvents()
 			{
-				CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.OnHourlyTickEvent));
 				CampaignEvents.PlayerInventoryExchangeEvent.AddNonSerializedListener(this, new Action<List<ValueTuple<ItemRosterElement, int>>, List<ValueTuple<ItemRosterElement, int>>, bool>(this.OnPlayerInventoryExchange));
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
-				CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 				CampaignEvents.HeroPrisonerTaken.AddNonSerializedListener(this, new Action<PartyBase, Hero>(this.OnHeroPrisonerTaken));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
+				CampaignEvents.SettlementEntered.AddNonSerializedListener(this, new Action<MobileParty, Settlement, Hero>(this.OnSettlementEntered));
+			}
+
+			private void OnSettlementEntered(MobileParty mobileParty, Settlement settlement, Hero hero)
+			{
+				if (hero == Hero.MainHero && mobileParty == MobileParty.MainParty && settlement.IsFortification && settlement.OwnerClan == base.QuestGiver.Clan)
+				{
+					MBList<TroopRosterElement> troopRoster = Settlement.CurrentSettlement.Town.GarrisonParty.MemberRoster.GetTroopRoster();
+					CharacterObject characterObject;
+					if (troopRoster.Count == 0)
+					{
+						characterObject = base.QuestGiver.Culture.Guard;
+					}
+					else
+					{
+						characterObject = troopRoster.MaxBy((TroopRosterElement troop) => troop.Character.Tier).Character;
+					}
+					this._questGiversAgentCharacterObject = characterObject;
+					CampaignMapConversation.OpenConversation(new ConversationCharacterData(CharacterObject.PlayerCharacter, PartyBase.MainParty, false, false, false, false, false, false), new ConversationCharacterData(this._questGiversAgentCharacterObject, null, false, false, false, false, false, false));
+				}
 			}
 
 			private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
@@ -801,7 +835,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnHourlyTickEvent()
+			protected override void HourlyTick()
 			{
 				int versionNo = MobileParty.MainParty.ItemRoster.VersionNo;
 				if (this._playerInventoryVersionNo != versionNo)
@@ -840,14 +874,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this._playerInventoryVersionNo = MobileParty.MainParty.ItemRoster.VersionNo;
 			}
 
-			private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
-			{
-				if (victim == base.QuestGiver)
-				{
-					base.CompleteQuestWithCancel(this._onQuestCancelled1LogText);
-				}
-			}
-
 			private void OnHeroPrisonerTaken(PartyBase capturer, Hero prisoner)
 			{
 				if (prisoner == base.QuestGiver)
@@ -866,7 +892,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancelled2LogText);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancelled2LogText, false);
 			}
 
 			protected override void OnCompleteWithSuccess()
@@ -953,9 +979,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private int _numMountsInInventory;
 
 			private int _playerInventoryVersionNo;
+
+			private CharacterObject _questGiversAgentCharacterObject;
 		}
 
-		public class LordNeedsHorsesIssueBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class LordNeedsHorsesIssueBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public LordNeedsHorsesIssueBehaviorTypeDefiner()
 				: base(510000)

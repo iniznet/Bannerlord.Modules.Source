@@ -1,4 +1,5 @@
 ﻿using System;
+using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.GameMenus;
 using TaleWorlds.CampaignSystem.GameState;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Input;
@@ -84,6 +85,13 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu
 			this.IsWaitActive = Campaign.Current.GameMenuManager.GetVirtualMenuIsWaitActive(this._menuContext);
 			this.IsEnabled = Campaign.Current.GameMenuManager.GetVirtualMenuOptionIsEnabled(this._menuContext, this.Index);
 			this.ItemHint.HintText = Campaign.Current.GameMenuManager.GetVirtualMenuOptionTooltip(this._menuContext, this.Index);
+			this.GameMenuStringId = this._menuContext.GameMenu.StringId;
+			if (PlayerEncounter.Battle != null)
+			{
+				this.BattleSize = PlayerEncounter.Battle.AttackerSide.TroopCount + PlayerEncounter.Battle.DefenderSide.TroopCount;
+				return;
+			}
+			this.BattleSize = -1;
 		}
 
 		[DataSourceProperty]
@@ -240,6 +248,40 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu
 			}
 		}
 
+		[DataSourceProperty]
+		public string GameMenuStringId
+		{
+			get
+			{
+				return this._gameMenuStringId;
+			}
+			set
+			{
+				if (value != this._gameMenuStringId)
+				{
+					this._gameMenuStringId = value;
+					base.OnPropertyChangedWithValue<string>(value, "GameMenuStringId");
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public int BattleSize
+		{
+			get
+			{
+				return this._battleSize;
+			}
+			set
+			{
+				if (value != this._battleSize)
+				{
+					this._battleSize = value;
+					base.OnPropertyChangedWithValue(value, "BattleSize");
+				}
+			}
+		}
+
 		public InputKeyItemVM ShortcutKey
 		{
 			get
@@ -285,6 +327,10 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu
 		private bool _isHighlightEnabled;
 
 		private int _optionLeaveType = -1;
+
+		private string _gameMenuStringId;
+
+		private int _battleSize = -1;
 
 		private InputKeyItemVM _shortcutKey;
 	}

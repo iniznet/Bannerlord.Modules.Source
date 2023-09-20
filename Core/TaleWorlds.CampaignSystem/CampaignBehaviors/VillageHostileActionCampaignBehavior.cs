@@ -41,7 +41,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		public void AddGameMenus(CampaignGameStarter campaignGameSystemStarter)
 		{
-			campaignGameSystemStarter.AddGameMenuOption("village", "hostile_action", "{=GM3tAYMr}Take a hostile action", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_action_on_condition), new GameMenuOption.OnConsequenceDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_action_on_consequence), false, 1, false, null);
+			campaignGameSystemStarter.AddGameMenuOption("village", "hostile_action", "{=GM3tAYMr}Take a hostile action", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_action_on_condition), new GameMenuOption.OnConsequenceDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_action_on_consequence), false, 2, false, null);
 			campaignGameSystemStarter.AddGameMenu("village_hostile_action", "{=YVNZaVCA}What action do you have in mind?", new OnInitDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_menu_on_init), GameOverlays.MenuOverlayType.SettlementWithBoth, GameMenu.MenuFlags.None, null);
 			campaignGameSystemStarter.AddGameMenuOption("village_hostile_action", "raid_village", "{=CTi0ml5F}Raid the village", new GameMenuOption.OnConditionDelegate(this.game_menu_village_hostile_action_raid_village_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_village_hostile_action_raid_village_on_consequence), false, -1, false, null);
 			campaignGameSystemStarter.AddGameMenuOption("village_hostile_action", "force_peasants_to_give_volunteers", "{=RL8z99Dt}Force notables to give you recruits", new GameMenuOption.OnConditionDelegate(this.game_menu_village_hostile_action_force_volunteers_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_village_hostile_action_force_volunteers_on_consequence), false, -1, false, null);
@@ -53,7 +53,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameSystemStarter.AddGameMenuOption("raiding_village", "abandon_army", "{=0vnegjxf}Abandon Army", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.wait_menu_end_raiding_at_army_by_abandoning_on_condition), new GameMenuOption.OnConsequenceDelegate(VillageHostileActionCampaignBehavior.wait_menu_end_raiding_at_army_by_abandoning_on_consequence), true, -1, false, null);
 			campaignGameSystemStarter.AddGameMenu("raid_village_no_resist_warn_player", "{=lOwjyUi5}Raiding this village will cause a war with {KINGDOM}.", new OnInitDelegate(VillageHostileActionCampaignBehavior.game_menu_warn_player_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
 			campaignGameSystemStarter.AddGameMenuOption("raid_village_no_resist_warn_player", "raid_village_warn_continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.game_menu_village_hostile_action_raid_village_warn_continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_village_hostile_action_raid_village_warn_continue_on_consequence), false, -1, false, null);
-			campaignGameSystemStarter.AddGameMenuOption("raid_village_no_resist_warn_player", "raid_village_warn_leave", "{=sP9ohQTs}Forget it", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.back_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_village_hostile_action_raid_village_warn_leave_on_consequence), false, -1, false, null);
+			campaignGameSystemStarter.AddGameMenuOption("raid_village_no_resist_warn_player", "raid_village_warn_leave", "{=sP9ohQTs}Forget it", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.back_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_village_hostile_action_raid_village_warn_leave_on_consequence), true, -1, false, null);
 			campaignGameSystemStarter.AddGameMenu("force_supplies_village", "{=EqFbNha8}The villagers grudgingly bring out what they have for you.", new OnInitDelegate(VillageHostileActionCampaignBehavior.hostile_action_village_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
 			campaignGameSystemStarter.AddGameMenuOption("force_supplies_village", "force_supplies_village_continue", "{=DM6luo3c}Continue", new GameMenuOption.OnConditionDelegate(VillageHostileActionCampaignBehavior.continue_on_condition), new GameMenuOption.OnConsequenceDelegate(this.village_force_supplies_ended_successfully_on_consequence), true, -1, false, null);
 			campaignGameSystemStarter.AddGameMenu("force_volunteers_village", "{=BqkD4YWr}You manage to round up some men from the village who look like they might make decent recruits.", new OnInitDelegate(VillageHostileActionCampaignBehavior.hostile_action_village_on_init), GameOverlays.MenuOverlayType.None, GameMenu.MenuFlags.None, null);
@@ -129,7 +129,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				num += Settlement.CurrentSettlement.Notables.Count;
 			}
-			troopRoster.AddToCounts(Settlement.CurrentSettlement.MapFaction.BasicTroop, num, false, 0, 0, true, -1);
+			troopRoster.AddToCounts(Settlement.CurrentSettlement.Culture.BasicTroop, num, false, 0, 0, true, -1);
 			if (!this._villageLastHostileActionTimeDictionary.ContainsKey(Settlement.CurrentSettlement.StringId))
 			{
 				this._villageLastHostileActionTimeDictionary.Add(Settlement.CurrentSettlement.StringId, CampaignTime.Now);
@@ -198,7 +198,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				if (MobileParty.MainParty.Army == null || (Settlement)MobileParty.MainParty.Army.AiBehaviorObject == null || ((Settlement)MobileParty.MainParty.Army.AiBehaviorObject).MapFaction == null)
 				{
-					MBTextManager.SetTextVariable("VILLAGE_ENCOUNTER_RESULT", TextObject.Empty, false);
+					MBTextManager.SetTextVariable("VILLAGE_ENCOUNTER_RESULT", new TextObject("{=3OW1QQNx}The raid was ended by the battle outside of the village.", null), false);
 					return;
 				}
 				if (((Settlement)MobileParty.MainParty.Army.AiBehaviorObject).MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
@@ -282,7 +282,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				if (this._villageLastHostileActionTimeDictionary[Settlement.CurrentSettlement.StringId].ElapsedDaysUntilNow <= 10f)
 				{
 					args.IsEnabled = false;
-					args.Tooltip = new TextObject("{=mvhyI8Hb}You have already done hostile action to this village recently.", null);
+					args.Tooltip = new TextObject("{=mvhyI8Hb}You have already done hostile action in this village recently.", null);
 				}
 				else
 				{
@@ -312,7 +312,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (this._villageLastHostileActionTimeDictionary.TryGetValue(Settlement.CurrentSettlement.StringId, out campaignTime) && campaignTime.ElapsedDaysUntilNow <= 10f)
 			{
 				args.IsEnabled = false;
-				args.Tooltip = new TextObject("{=mvhyI8Hb}You have already done hostile action to this village recently.", null);
+				args.Tooltip = new TextObject("{=mvhyI8Hb}You have already done hostile action in this village recently.", null);
 			}
 			else if (this._villageLastHostileActionTimeDictionary.ContainsKey(Settlement.CurrentSettlement.StringId))
 			{
@@ -555,6 +555,8 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private VillageHostileActionCampaignBehavior.HostileAction _lastSelectedHostileAction;
 
 		private Dictionary<string, CampaignTime> _villageLastHostileActionTimeDictionary = new Dictionary<string, CampaignTime>();
+
+		private const float IntervalForHostileActionAsDay = 10f;
 
 		private enum HostileAction
 		{

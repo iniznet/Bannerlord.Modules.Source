@@ -32,7 +32,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 		{
 			SiegeEvent siegeEvent = new SiegeEvent(settlement, besiegerParty);
 			this._siegeEvents.Add(siegeEvent);
-			settlement.Party.Visuals.SetMapIconAsDirty();
+			settlement.Party.SetVisualAsDirty();
 			return siegeEvent;
 		}
 
@@ -40,10 +40,6 @@ namespace TaleWorlds.CampaignSystem.Siege
 		{
 			for (int i = 0; i < this._siegeEvents.Count; i++)
 			{
-				if (this._siegeEvents[i].SiegeEventVisual != null)
-				{
-					this._siegeEvents[i].SiegeEventVisual.Tick();
-				}
 				if (this._siegeEvents[i].ReadyToBeRemoved)
 				{
 					this._siegeEvents[i] = this._siegeEvents[this._siegeEvents.Count - 1];

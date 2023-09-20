@@ -7,7 +7,7 @@ using TaleWorlds.TwoDimension;
 
 namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Notification
 {
-	public class MapNotificationItemWidget : Widget
+	public class MapNotificationItemWidget : BrushWidget
 	{
 		public MapNotificationItemWidget(UIContext context)
 			: base(context)
@@ -81,6 +81,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Map.Notification
 			if (!this.IsInspectionForced)
 			{
 				this._removeInitiated = true;
+				base.EventFired("OnRemoveBegin", Array.Empty<object>());
 			}
 		}
 

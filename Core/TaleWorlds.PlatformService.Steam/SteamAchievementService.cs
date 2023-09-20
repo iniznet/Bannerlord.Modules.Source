@@ -43,6 +43,20 @@ namespace TaleWorlds.PlatformService.Steam
 			this._statsStoredElapsed += dt;
 		}
 
+		private bool IsAchievementUnlocked(string id)
+		{
+			SteamUserStats.StoreStats();
+			bool flag;
+			SteamUserStats.GetAchievement(id, out flag);
+			return flag;
+		}
+
+		private void ClearAchievement(string name)
+		{
+			SteamUserStats.ClearAchievement(name);
+			SteamUserStats.StoreStats();
+		}
+
 		public void Initialize()
 		{
 			SteamUserStats.RequestCurrentStats();
@@ -52,7 +66,7 @@ namespace TaleWorlds.PlatformService.Steam
 
 		private void UserStatsReceived(UserStatsReceived_t userStatsReceivedT)
 		{
-			if ((ulong)SteamUtils.GetAppID().m_AppId == userStatsReceivedT.m_nGameID && userStatsReceivedT.m_eResult == 1)
+			if ((ulong)SteamUtils.GetAppID().m_AppId == userStatsReceivedT.m_nGameID && userStatsReceivedT.m_eResult == EResult.k_EResultOK)
 			{
 				this._statsInitialized = true;
 			}
@@ -83,7 +97,7 @@ namespace TaleWorlds.PlatformService.Steam
 				return Task.FromResult<int>(-1);
 			}
 			int num = -1;
-			SteamUserStats.GetStat(name, ref num);
+			SteamUserStats.GetStat(name, out num);
 			return Task.FromResult<int>(num);
 		}
 
@@ -97,7 +111,7 @@ namespace TaleWorlds.PlatformService.Steam
 			foreach (string text in names)
 			{
 				int num = -1;
-				SteamUserStats.GetStat(text, ref num);
+				SteamUserStats.GetStat(text, out num);
 				list.Add(num);
 			}
 			return Task.FromResult<int[]>(list.ToArray());

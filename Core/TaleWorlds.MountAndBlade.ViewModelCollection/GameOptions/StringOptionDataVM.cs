@@ -20,9 +20,9 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 			this.Selector.SelectedIndex = this._initialValue;
 		}
 
-		public override void UpdateData(bool initalUpdate)
+		public override void UpdateData(bool initialUpdate)
 		{
-			base.UpdateData(initalUpdate);
+			base.UpdateData(initialUpdate);
 			IEnumerable<SelectionData> selectableOptionNames = this._selectionOptionData.GetSelectableOptionNames();
 			this.Selector.SetOnChangeAction(null);
 			bool flag = (int)this.Option.GetValue(true) != this.Selector.SelectedIndex;
@@ -41,8 +41,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 						TextObject textObject = Module.CurrentModule.GlobalTextManager.FindText(selectionData.Data, null);
 						list.Add(textObject);
 					}
-					this.Selector.Refresh(list, (int)this.Option.GetValue(!initalUpdate), action);
-					goto IL_183;
+					int num = (int)this.Option.GetValue(!initialUpdate);
+					if (list.Count > 0 && num == -1)
+					{
+						num = 0;
+					}
+					this.Selector.Refresh(list, num, action);
+					goto IL_1B1;
 				}
 			}
 			List<string> list2 = new List<string>();
@@ -58,8 +63,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.GameOptions
 					list2.Add(selectionData2.Data);
 				}
 			}
-			this.Selector.Refresh(list2, (int)this.Option.GetValue(!initalUpdate), action);
-			IL_183:
+			int num2 = (int)this.Option.GetValue(!initialUpdate);
+			if (list2.Count > 0 && num2 == -1)
+			{
+				num2 = 0;
+			}
+			this.Selector.Refresh(list2, num2, action);
+			IL_1B1:
 			if (!flag)
 			{
 				this.Selector.SetOnChangeAction(new Action<SelectorVM<SelectorItemVM>>(this.UpdateValue));

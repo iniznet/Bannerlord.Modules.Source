@@ -29,11 +29,11 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override MissionLobbyComponent.MultiplayerGameType GameType
+		public override MultiplayerGameType GameType
 		{
 			get
 			{
-				return MissionLobbyComponent.MultiplayerGameType.FreeForAll;
+				return MultiplayerGameType.FreeForAll;
 			}
 		}
 

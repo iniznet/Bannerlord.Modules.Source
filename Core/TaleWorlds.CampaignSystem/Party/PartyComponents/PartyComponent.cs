@@ -28,6 +28,14 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 
 		public abstract Settlement HomeSettlement { get; }
 
+		public virtual bool AvoidHostileActions
+		{
+			get
+			{
+				return false;
+			}
+		}
+
 		public virtual int WagePaymentLimit
 		{
 			get
@@ -38,7 +46,7 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 
 		public virtual void SetWagePaymentLimit(int newLimit)
 		{
-			Debug.FailedAssert("Invalid set wage payment limit function usage!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyComponents\\PartyComponent.cs", "SetWagePaymentLimit", 26);
+			Debug.FailedAssert("Invalid set wage payment limit function usage!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Party\\PartyComponents\\PartyComponent.cs", "SetWagePaymentLimit", 28);
 		}
 
 		public virtual Hero Leader

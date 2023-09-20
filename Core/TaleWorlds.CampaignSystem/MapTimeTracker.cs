@@ -41,9 +41,9 @@ namespace TaleWorlds.CampaignSystem
 			}
 		}
 
-		internal MapTimeTracker(CampaignTime intialMapTime)
+		internal MapTimeTracker(CampaignTime initialMapTime)
 		{
-			this._numTicks = intialMapTime.NumTicks;
+			this._numTicks = initialMapTime.NumTicks;
 		}
 
 		internal MapTimeTracker()

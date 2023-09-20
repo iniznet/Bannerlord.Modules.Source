@@ -24,7 +24,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					while (enumerator.MoveNext())
 					{
 						Clan clan = enumerator.Current;
-						if (!clan.IsBanditFaction && !clan.IsMinorFaction && !clan.IsNeutralClan && !clan.IsEliminated && clan != Clan.PlayerClan)
+						if (!clan.IsBanditFaction && !clan.IsMinorFaction && !clan.IsEliminated && clan != Clan.PlayerClan)
 						{
 							List<Hero> list = new List<Hero>();
 							MBList<Hero> mblist = new MBList<Hero>();
@@ -60,7 +60,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 								Hero hero2 = (isFemale ? mblist.GetRandomElement<Hero>() : mblist2.GetRandomElement<Hero>());
 								if (hero2 == null)
 								{
-									Debug.Print("Searching for a template in other clans for child generation in " + clan.Name, 0, Debug.DebugColor.White, 17592186044416UL);
 									IEnumerable<Clan> nonBanditFactions = Clan.NonBanditFactions;
 									Func<Clan, bool> func;
 									if ((func = <>9__0) == null)
@@ -105,7 +104,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 									num2 = 0.49f;
 								}
 							}
-							Debug.Print("Generated a child in " + clan.Name, 0, Debug.DebugColor.White, 17592186044416UL);
 						}
 					}
 				}

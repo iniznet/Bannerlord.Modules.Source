@@ -6,7 +6,7 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.MountAndBlade
 {
-	[EngineStruct("Navigation_data")]
+	[EngineStruct("Navigation_data", false)]
 	[Serializable]
 	public struct NavigationData
 	{

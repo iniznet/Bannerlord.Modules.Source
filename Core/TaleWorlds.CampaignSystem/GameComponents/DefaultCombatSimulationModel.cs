@@ -18,9 +18,10 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 	{
 		public override int SimulateHit(CharacterObject strikerTroop, CharacterObject struckTroop, PartyBase strikerParty, PartyBase struckParty, float strikerAdvantage, MapEvent battle)
 		{
-			float troopPowerBasedOnContext = Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(strikerTroop, battle.EventType, strikerParty.Side, true);
-			float troopPowerBasedOnContext2 = Campaign.Current.Models.MilitaryPowerModel.GetTroopPowerBasedOnContext(struckTroop, battle.EventType, struckParty.Side, true);
-			int num = (int)((0.5f + 0.5f * MBRandom.RandomFloat) * (40f * MathF.Pow(troopPowerBasedOnContext / troopPowerBasedOnContext2, 0.7f) * strikerAdvantage));
+			MilitaryPowerModel militaryPowerModel = Campaign.Current.Models.MilitaryPowerModel;
+			float troopPower = militaryPowerModel.GetTroopPower(strikerTroop, strikerParty.Side, strikerParty.MapEvent.SimulationContext, strikerParty.MapEventSide.LeaderSimulationModifier);
+			float troopPower2 = militaryPowerModel.GetTroopPower(struckTroop, struckParty.Side, struckParty.MapEvent.SimulationContext, struckParty.MapEventSide.LeaderSimulationModifier);
+			int num = (int)((0.5f + 0.5f * MBRandom.RandomFloat) * (40f * MathF.Pow(troopPower / troopPower2, 0.7f) * strikerAdvantage));
 			ExplainedNumber explainedNumber = new ExplainedNumber((float)num, false, null);
 			if (strikerParty.IsMobile && struckParty.IsMobile)
 			{
@@ -90,7 +91,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			{
 				effectiveDamage.AddFactor(DefaultPerks.Scouting.Vanguard.PrimaryBonus, DefaultPerks.Scouting.Vanguard.Name);
 			}
-			if (battle.IsSiegeOutside && flag3 && strikerParty.HasPerk(DefaultPerks.Scouting.Rearguard, false))
+			if ((battle.IsSiegeOutside || battle.IsSallyOut) && flag3 && strikerParty.HasPerk(DefaultPerks.Scouting.Rearguard, false))
 			{
 				PerkHelper.AddPerkBonusForParty(DefaultPerks.Scouting.Rearguard, strikerParty, false, ref effectiveDamage);
 			}
@@ -104,7 +105,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			}
 			if (strikerParty.Army != null && strikerParty.LeaderHero != null && strikerParty.Army.LeaderParty == strikerParty && strikerParty.LeaderHero.GetPerkValue(DefaultPerks.Tactics.TacticalMastery))
 			{
-				PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Tactics.TacticalMastery, strikerParty.LeaderHero.CharacterObject, DefaultSkills.Tactics, true, ref effectiveDamage, 225);
+				PerkHelper.AddEpicPerkBonusForCharacter(DefaultPerks.Tactics.TacticalMastery, strikerParty.LeaderHero.CharacterObject, DefaultSkills.Tactics, true, ref effectiveDamage, Campaign.Current.Models.CharacterDevelopmentModel.MinSkillRequiredForEpicPerkBonus);
 			}
 		}
 

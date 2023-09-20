@@ -8,6 +8,8 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 {
 	public class FloatInputTextWidget : EditableTextWidget
 	{
+		public bool EnableClamp { get; set; }
+
 		public FloatInputTextWidget(UIContext context)
 			: base(context)
 		{
@@ -33,10 +35,9 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 				if (char.IsDigit(c2) || (c2 == '.' && this.GetNumberOfSeperatorsInText(base.RealText) == 0))
 				{
 					float num2;
-					if (num != 60 && num != 62 && float.TryParse(this.GetAppendResult(num), out num2) && num2 <= this.MaxFloat && num2 >= this.MinFloat)
+					if (num != 60 && num != 62 && float.TryParse(this.GetAppendResult(num), out num2))
 					{
-						base.DeleteText(this._editableText.SelectedTextBegin, this._editableText.SelectedTextEnd);
-						base.AppendCharacter(num);
+						this.HandleInput(num);
 					}
 					this._cursorDirection = EditableTextWidget.CursorMovementDirection.None;
 					this._isSelection = false;
@@ -131,7 +132,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			{
 				this._keyboardAction = EditableTextWidget.KeyboardAction.None;
 			}
-			if (Input.IsKeyReleased(InputKey.Enter))
+			if (Input.IsKeyReleased(InputKey.Enter) || Input.IsKeyReleased(InputKey.NumpadEnter))
 			{
 				base.EventFired("TextEntered", Array.Empty<object>());
 				return;
@@ -153,6 +154,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 					{
 						base.DeleteChar(this._keyboardAction == EditableTextWidget.KeyboardAction.Delete);
 					}
+					this.TrySetStringAsFloat(base.RealText);
 					if (tickCount >= this._nextRepeatTime)
 					{
 						this._nextRepeatTime = tickCount + 30;
@@ -176,6 +178,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 				{
 					base.CopyText(this._editableText.SelectedTextBegin, this._editableText.SelectedTextEnd);
 					base.DeleteText(this._editableText.SelectedTextBegin, this._editableText.SelectedTextEnd);
+					this.TrySetStringAsFloat(base.RealText);
 					return;
 				}
 				if (Input.IsKeyPressed(InputKey.V))
@@ -184,6 +187,113 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 					string text = Regex.Replace(Input.GetClipboardText(), "[<>]+", " ");
 					text = new string(text.Where((char c) => char.IsDigit(c)).ToArray<char>());
 					base.AppendText(text);
+					this.TrySetStringAsFloat(base.RealText);
+				}
+			}
+		}
+
+		private void HandleInput(int lastPressedKey)
+		{
+			string text = null;
+			bool flag = false;
+			if (base.MaxLength > -1 && base.Text.Length >= base.MaxLength)
+			{
+				text = base.RealText;
+			}
+			if (text == null)
+			{
+				string text2 = base.RealText;
+				if (this._editableText.SelectedTextBegin != this._editableText.SelectedTextEnd)
+				{
+					if (this._editableText.SelectedTextEnd > base.RealText.Length)
+					{
+						text = Convert.ToChar(lastPressedKey).ToString();
+						flag = true;
+					}
+					else
+					{
+						text2 = base.RealText.Substring(0, this._editableText.SelectedTextBegin) + base.RealText.Substring(this._editableText.SelectedTextEnd, base.RealText.Length - this._editableText.SelectedTextEnd);
+						if (this._editableText.SelectedTextEnd - this._editableText.SelectedTextBegin >= base.RealText.Length)
+						{
+							this._editableText.SetCursorPosition(0, true);
+							this._editableText.ResetSelected();
+							flag = true;
+						}
+						else
+						{
+							this._editableText.SetCursorPosition(this._editableText.SelectedTextBegin, true);
+						}
+						int cursorPosition = this._editableText.CursorPosition;
+						char c = Convert.ToChar(lastPressedKey);
+						text = text2.Substring(0, cursorPosition) + c.ToString() + text2.Substring(cursorPosition, text2.Length - cursorPosition);
+					}
+					this._editableText.ResetSelected();
+				}
+				else
+				{
+					if (this._editableText.CursorPosition == base.RealText.Length)
+					{
+						flag = true;
+					}
+					int cursorPosition2 = this._editableText.CursorPosition;
+					char c2 = Convert.ToChar(lastPressedKey);
+					text = text2.Substring(0, cursorPosition2) + c2.ToString() + text2.Substring(cursorPosition2, text2.Length - cursorPosition2);
+					if (!flag)
+					{
+						this._editableText.SetCursor(cursorPosition2 + 1, true, false);
+					}
+				}
+			}
+			this.TrySetStringAsFloat(text);
+			if (flag)
+			{
+				this._editableText.SetCursorPosition(base.RealText.Length, true);
+			}
+		}
+
+		private bool TrySetStringAsFloat(string str)
+		{
+			float num;
+			if (float.TryParse(str, out num))
+			{
+				this.SetFloat(num);
+				if (this._editableText.SelectedTextEnd - this._editableText.SelectedTextBegin >= base.RealText.Length)
+				{
+					this._editableText.SetCursorPosition(0, true);
+					this._editableText.ResetSelected();
+				}
+				else if (this._editableText.SelectedTextBegin != 0 || this._editableText.SelectedTextEnd != 0)
+				{
+					this._editableText.SetCursorPosition(this._editableText.SelectedTextBegin, true);
+				}
+				if (this._editableText.CursorPosition > base.RealText.Length)
+				{
+					this._editableText.SetCursorPosition(base.RealText.Length, true);
+				}
+				return true;
+			}
+			return false;
+		}
+
+		private void SetFloat(float newFloat)
+		{
+			if (newFloat != this.FloatText)
+			{
+				if (newFloat <= this.MaxFloat && newFloat >= this.MinFloat)
+				{
+					this.FloatText = newFloat;
+					return;
+				}
+				if (this.EnableClamp)
+				{
+					newFloat = ((newFloat > this.MaxFloat) ? this.MaxFloat : this.MinFloat);
+					this.FloatText = newFloat;
+					if (this.FloatText.ToString() != base.RealText)
+					{
+						base.RealText = this.FloatText.ToString("F2");
+						base.Text = this.FloatText.ToString("F2");
+					}
+					base.ResetSelected();
 				}
 			}
 		}
@@ -215,6 +325,7 @@ namespace TaleWorlds.GauntletUI.BaseTypes
 			string text2 = Regex.Replace(text, "[<>]+", " ");
 			text2 = new string(text2.Where((char c) => char.IsDigit(c)).ToArray<char>());
 			base.AppendText(text2);
+			this.TrySetStringAsFloat(text2);
 		}
 
 		[Editor(false)]

@@ -26,9 +26,9 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public override MissionLobbyComponent.MultiplayerGameType GetMissionType()
+		public override MultiplayerGameType GetMissionType()
 		{
-			return MissionLobbyComponent.MultiplayerGameType.TeamDeathmatch;
+			return MultiplayerGameType.TeamDeathmatch;
 		}
 
 		public override void OnBehaviorInitialize()
@@ -72,13 +72,16 @@ namespace TaleWorlds.MountAndBlade
 		{
 			if (blow.DamageType != DamageTypes.Invalid && (agentState == AgentState.Unconscious || agentState == AgentState.Killed) && affectedAgent.IsHuman)
 			{
-				if (affectorAgent != null && affectorAgent.IsEnemyOf(affectedAgent))
+				if (affectorAgent != null)
 				{
-					this._missionScoreboardComponent.ChangeTeamScore(affectorAgent.Team, base.GetScoreForKill(affectedAgent));
-				}
-				else
-				{
-					this._missionScoreboardComponent.ChangeTeamScore(affectedAgent.Team, -base.GetScoreForKill(affectedAgent));
+					if (affectorAgent.IsEnemyOf(affectedAgent))
+					{
+						this._missionScoreboardComponent.ChangeTeamScore(affectorAgent.Team, base.GetScoreForKill(affectedAgent));
+					}
+					else
+					{
+						this._missionScoreboardComponent.ChangeTeamScore(affectedAgent.Team, -base.GetScoreForKill(affectedAgent));
+					}
 				}
 				MissionPeer missionPeer = affectedAgent.MissionPeer;
 				if (missionPeer != null)

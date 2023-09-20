@@ -9,29 +9,29 @@ namespace NetworkMessages.FromServer
 	{
 		public int FlagIndex { get; private set; }
 
-		public Team OwnerTeam { get; private set; }
+		public int OwnerTeamIndex { get; private set; }
 
 		public FlagDominationCapturePointMessage()
 		{
 		}
 
-		public FlagDominationCapturePointMessage(int flagIndex, Team owner)
+		public FlagDominationCapturePointMessage(int flagIndex, int ownerTeamIndex)
 		{
 			this.FlagIndex = flagIndex;
-			this.OwnerTeam = owner;
+			this.OwnerTeamIndex = ownerTeamIndex;
 		}
 
 		protected override void OnWrite()
 		{
 			GameNetworkMessage.WriteIntToPacket(this.FlagIndex, CompressionMission.FlagCapturePointIndexCompressionInfo);
-			GameNetworkMessage.WriteTeamReferenceToPacket(this.OwnerTeam);
+			GameNetworkMessage.WriteTeamIndexToPacket(this.OwnerTeamIndex);
 		}
 
 		protected override bool OnRead()
 		{
 			bool flag = true;
 			this.FlagIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.FlagCapturePointIndexCompressionInfo, ref flag);
-			this.OwnerTeam = GameNetworkMessage.ReadTeamReferenceFromPacket(ref flag);
+			this.OwnerTeamIndex = GameNetworkMessage.ReadTeamIndexFromPacket(ref flag);
 			return flag;
 		}
 

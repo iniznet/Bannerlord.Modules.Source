@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{46AEA771-038E-4892-9D02-1725D2BC2D0B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.MountAndBlade.Multiplayer</RootNamespace>
+    <AssemblyName>TaleWorlds.MountAndBlade.Multiplayer</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="TaleWorlds.AchievementSystem" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Diamond" />
+    <Reference Include="TaleWorlds.Diamond.AccessProvider.Test" />
+    <Reference Include="TaleWorlds.Diamond.ChatSystem.Library" />
+    <Reference Include="TaleWorlds.DotNet" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.ModuleManager" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.Diamond" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.PlatformService" />
+    <Reference Include="TaleWorlds.PlayerServices" />
+    <Reference Include="TaleWorlds.ServiceDiscovery.Client" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Microsoft\CodeAnalysis\EmbeddedAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\BattleSpawnFrameBehavior.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\ConsoleMatchStartEndHandler.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\CustomServerAction.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\DebugAgentScaleOnNetworkTestComponent.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\DedicatedServerConsoleCommandManager.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\DuelSpawnFrameBehavior.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\DuelSpawningBehavior.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\GameNetworkHandler.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\ILobbyStateHandler.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\LobbyGameClientHandler.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\LobbyGameState.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\LobbyGameStateCommunityClient.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\LobbyGameStateCustomGameClient.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\LobbyGameStateMatchmakerClient.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\LobbyGameStatePlayerBasedCustomServer.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\LobbyState.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MissionMatchHistoryComponent.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MissionRecentPlayersComponent.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MPCombatPerkEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerAchievementComponent.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerAdminComponent.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerGame.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerGameLogger.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerGameManager.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerInfo.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerPermissionHandler.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerPreloadHelper.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerReportPlayerManager.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerRidingModel.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerStarter.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\MultiplayerStrikeMagnitudeModel.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\BattleScoreboardData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\CaptainScoreboardData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\CommunityClientOnlineLobbyGameHandler.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\DuelScoreboardData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\FFAScoreboardData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\InternetAvailabilityChecker.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\MissionBasedMultiplayerGameMode.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\MultiplayerMain.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\MultiplayerMissions.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\MultiplayerSubModule.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\NetworkComponents\BaseNetworkComponent.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\SiegeScoreboardData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\SkirmishScoreboardData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Multiplayer\TDMScoreboardData.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\NetworkStatusReplicationComponent.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\AgentStatusCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\ClosestFlagCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\ControllerCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\FlagDominationStatusCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\HealthCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\LastManStandingCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\LastRemainingFlagCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\MoraleCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\MountHealthCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\OwnedFlagCountCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\TroopCountCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Conditions\TroopRoleCondition.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\AlternativeAttackDamageEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\AlternativeEquipmentEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\ArmorEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\DamageEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\DamageInterruptionThresholdEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\DamageTakenEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\DrivenPropertyEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\DrivenPropertyOnSpawnEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\EncumbranceEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\GoldGainOnAssistEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\GoldGainOnKillEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\GoldRecoveryEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\HealthRecoveryEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\HitpointsEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\MountDamageEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\MountDamageTakenEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\MountHealthRecoveryEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\MountManeuverEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\MountSpeedEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\RandomEquipmentEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\RangedAccuracyEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\RangedHeadShotDamageEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\RewardGoldOnAssistEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\RewardGoldOnDeathEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\ShieldDamageEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\ShieldDamageTakenEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\SpeedBonusEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\ThrowingWeaponDamageEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\ThrowingWeaponSpeedEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\Network\Gameplay\Perks\Effects\TroopCountEffect.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\OnCustomServerActionRequestedForServerEntryDelegate.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\TeamDeathmatchSpawnFrameBehavior.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\TeamDeathmatchSpawningBehavior.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

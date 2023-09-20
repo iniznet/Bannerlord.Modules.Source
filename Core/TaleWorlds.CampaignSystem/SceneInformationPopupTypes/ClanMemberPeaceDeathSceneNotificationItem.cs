@@ -49,10 +49,10 @@ namespace TaleWorlds.CampaignSystem.SceneInformationPopupTypes
 			return new List<Banner> { this.DeadHero.ClanBanner };
 		}
 
-		public ClanMemberPeaceDeathSceneNotificationItem(Hero deadHero)
+		public ClanMemberPeaceDeathSceneNotificationItem(Hero deadHero, CampaignTime creationTime)
 		{
 			this.DeadHero = deadHero;
-			this._creationCampaignTime = CampaignTime.Now;
+			this._creationCampaignTime = creationTime;
 		}
 
 		private const int NumberOfAudienceHeroes = 5;

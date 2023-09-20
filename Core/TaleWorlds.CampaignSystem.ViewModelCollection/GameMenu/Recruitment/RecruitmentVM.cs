@@ -109,9 +109,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			this.PartyWage = MobileParty.MainParty.TotalWage;
 			if (num > 0)
 			{
-				GameTexts.SetVariable("NUM1", this.PartyWage.ToString());
-				GameTexts.SetVariable("NUM2", "+" + num.ToString());
-				this.PartyWageText = GameTexts.FindText("str_value_change", null).ToString();
+				this.PartyWageText = CampaignUIHelper.GetValueChangeText((float)this.PartyWage, (float)num, "F0");
 			}
 			else
 			{
@@ -136,22 +134,17 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 						}
 					}
 				}
-				num2 = (double)(MathF.Round(Campaign.Current.Models.PartySpeedCalculatingModel.CalculateFinalSpeed(MobileParty.MainParty, Campaign.Current.Models.PartySpeedCalculatingModel.CalculateBaseSpeed(MobileParty.MainParty, false, 0, 0)).ResultNumber, 1) - MathF.Round(Campaign.Current.Models.PartySpeedCalculatingModel.CalculateFinalSpeed(MobileParty.MainParty, Campaign.Current.Models.PartySpeedCalculatingModel.CalculateBaseSpeed(MobileParty.MainParty, false, num3, num4)).ResultNumber, 1));
+				ExplainedNumber explainedNumber = Campaign.Current.Models.PartySpeedCalculatingModel.CalculateBaseSpeed(MobileParty.MainParty, false, num3, num4);
+				ExplainedNumber explainedNumber2 = Campaign.Current.Models.PartySpeedCalculatingModel.CalculateFinalSpeed(MobileParty.MainParty, explainedNumber);
+				ExplainedNumber explainedNumber3 = Campaign.Current.Models.PartySpeedCalculatingModel.CalculateBaseSpeed(MobileParty.MainParty, false, 0, 0);
+				ExplainedNumber explainedNumber4 = Campaign.Current.Models.PartySpeedCalculatingModel.CalculateFinalSpeed(MobileParty.MainParty, explainedNumber3);
+				num2 = (double)(MathF.Round(explainedNumber2.ResultNumber, 1) - MathF.Round(explainedNumber4.ResultNumber, 1));
 			}
 			this.PartySpeedText = MobileParty.MainParty.Speed.ToString("0.0");
 			this.PartySpeedHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetPartySpeedTooltip());
 			if (num2 != 0.0)
 			{
-				GameTexts.SetVariable("NUM1", this.PartySpeedText);
-				if (num2 < 0.0)
-				{
-					GameTexts.SetVariable("NUM2", num2.ToString("0.0"));
-				}
-				else
-				{
-					GameTexts.SetVariable("NUM2", "+" + num2.ToString("0.0"));
-				}
-				this.PartySpeedText = GameTexts.FindText("str_value_change", null).ToString();
+				this.PartySpeedText = CampaignUIHelper.GetValueChangeText(MobileParty.MainParty.Speed, (float)num2, "0.0");
 			}
 			int partySizeLimit = PartyBase.MainParty.PartySizeLimit;
 			this.CurrentPartySize = PartyBase.MainParty.NumberOfAllMembers + this.TroopsInCart.Count;
@@ -201,7 +194,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Recruitment
 			int num = this.TroopsInCart.Sum((RecruitVolunteerTroopVM t) => t.Cost);
 			if (num > Hero.MainHero.Gold)
 			{
-				Debug.FailedAssert("Execution shouldn't come here. The checks should happen before", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\GameMenu\\Recruitment\\RecruitmentVM.cs", "OnDone", 235);
+				Debug.FailedAssert("Execution shouldn't come here. The checks should happen before", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\GameMenu\\Recruitment\\RecruitmentVM.cs", "OnDone", 229);
 				return;
 			}
 			foreach (RecruitVolunteerTroopVM recruitVolunteerTroopVM in this.TroopsInCart)

@@ -43,7 +43,6 @@ namespace TaleWorlds.Core
 			base.AddClassDefinition(typeof(WeaponComponent), 45, null);
 			base.AddClassDefinition(typeof(WeaponComponentData), 46, null);
 			base.AddClassDefinition(typeof(InformationData), 50, null);
-			base.AddClassDefinition(typeof(Crafting.OverrideData), 51, null);
 			base.AddClassDefinition(typeof(MBFastRandom), 52, null);
 			base.AddClassDefinition(typeof(BannerComponent), 53, null);
 		}

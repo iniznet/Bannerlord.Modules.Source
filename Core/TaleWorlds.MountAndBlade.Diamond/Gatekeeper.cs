@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using TaleWorlds.Diamond.Rest;
 using TaleWorlds.Library;
-using TaleWorlds.Library.Http;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
@@ -33,10 +32,8 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			int num;
 			try
 			{
-				HttpGetRequest getRequest = new HttpGetRequest("https://taleworldswebsiteassets.blob.core.windows.net/upload/blconfig.json");
-				await getRequest.DoTask().ConfigureAwait(false);
-				string responseData = getRequest.ResponseData;
-				num = new RestDataJsonConverter().ReadJson<BannerlordConfig>(responseData).AdmittancePercentage;
+				string text = await HttpHelper.DownloadStringTaskAsync("https://taleworldswebsiteassets.blob.core.windows.net/upload/blconfig.json").ConfigureAwait(false);
+				num = new RestDataJsonConverter().ReadJson<BannerlordConfig>(text).AdmittancePercentage;
 			}
 			catch (Exception)
 			{

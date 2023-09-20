@@ -58,18 +58,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		private ItemConsumptionBehavior.CategoryItems CategoryItemsCache
-		{
-			get
-			{
-				if (this._categoryItems == null)
-				{
-					this._categoryItems = new ItemConsumptionBehavior.CategoryItems();
-				}
-				return this._categoryItems;
-			}
-		}
-
 		private void MakeConsumptionInTown(Town town, Dictionary<ItemCategory, int> saleLog)
 		{
 			Dictionary<ItemCategory, float> dictionary = new Dictionary<ItemCategory, float>();
@@ -237,36 +225,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				float item2 = supplyDemandForCategory.Item2;
 				marketData.SetSupplyDemand(itemCategory, item, item2);
 			}
-		}
-
-		private ItemConsumptionBehavior.CategoryItems _categoryItems;
-
-		private class CategoryItems
-		{
-			public CategoryItems()
-			{
-				this.ItemDict = new Dictionary<ItemCategory, List<ItemObject>>();
-				foreach (ItemObject itemObject in Items.All)
-				{
-					List<ItemObject> list;
-					this.ItemDict.TryGetValue(itemObject.GetItemCategory(), out list);
-					if (list == null)
-					{
-						list = new List<ItemObject>();
-						this.ItemDict[itemObject.GetItemCategory()] = list;
-					}
-					list.Add(itemObject);
-				}
-			}
-
-			public List<ItemObject> GetItemListOfCategory(ItemCategory category)
-			{
-				List<ItemObject> list;
-				this.ItemDict.TryGetValue(category, out list);
-				return list;
-			}
-
-			private Dictionary<ItemCategory, List<ItemObject>> ItemDict;
 		}
 	}
 }

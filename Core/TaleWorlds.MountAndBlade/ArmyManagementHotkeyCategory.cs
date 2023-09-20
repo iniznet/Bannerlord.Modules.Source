@@ -3,7 +3,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class ArmyManagementHotkeyCategory : GameKeyContext
+	public sealed class ArmyManagementHotkeyCategory : GameKeyContext
 	{
 		public ArmyManagementHotkeyCategory()
 			: base("ArmyManagementHotkeyCategory", 108, GameKeyContext.GameKeyContextType.Default)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using TaleWorlds.Library;
 
@@ -288,7 +289,7 @@ namespace TaleWorlds.InputSystem
 
 		internal bool CanUse(InputKey key)
 		{
-			if (key == Input.GetControllerClickKey())
+			if (Input.GetClickKeys().Any((InputKey k) => k == key))
 			{
 				return this.IsMouseButtonAllowed || this.IsControllerAllowed;
 			}
@@ -556,9 +557,9 @@ namespace TaleWorlds.InputSystem
 			return this.IsKeysAllowed && (Input.IsKeyDown(InputKey.LeftAlt) || Input.IsKeyDown(InputKey.RightAlt));
 		}
 
-		public InputKey GetControllerClickKey()
+		public InputKey[] GetClickKeys()
 		{
-			return Input.GetControllerClickKey();
+			return Input.GetClickKeys();
 		}
 
 		private Dictionary<string, HotKey> _registeredHotKeys = new Dictionary<string, HotKey>();

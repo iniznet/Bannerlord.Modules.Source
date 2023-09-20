@@ -111,7 +111,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectVisibility(this, value));
+					GameNetwork.WriteMessage(new SetMissionObjectVisibility(base.Id, value));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				base.GameEntity.SetVisibilityExcludeParents(value);
@@ -139,7 +139,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetMissionObjectDisabled(this));
+				GameNetwork.WriteMessage(new SetMissionObjectDisabled(base.Id));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			base.SetDisabledAndMakeInvisible(false);
@@ -160,7 +160,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectFrame(this, ref frame));
+					GameNetwork.WriteMessage(new SetMissionObjectFrame(base.Id, ref frame));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this.SetSynchState(SynchedMissionObject.SynchState.SynchronizeCompleted);
@@ -184,7 +184,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectGlobalFrame(this, ref frame));
+					GameNetwork.WriteMessage(new SetMissionObjectGlobalFrame(base.Id, ref frame));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this.SetSynchState(SynchedMissionObject.SynchState.SynchronizeCompleted);
@@ -205,7 +205,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectFrameOverTime(this, ref frame, duration));
+					GameNetwork.WriteMessage(new SetMissionObjectFrameOverTime(base.Id, ref frame, duration));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this._initialSynchFlags |= SynchedMissionObject.SynchFlags.SynchTransform;
@@ -224,7 +224,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectGlobalFrameOverTime(this, ref frame, duration));
+					GameNetwork.WriteMessage(new SetMissionObjectGlobalFrameOverTime(base.Id, ref frame, duration));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this._initialSynchFlags |= SynchedMissionObject.SynchFlags.SynchTransform;
@@ -249,7 +249,7 @@ namespace TaleWorlds.MountAndBlade
 				if (flag)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectAnimationAtChannel(this, channelNo, animationIndex, animationSpeed));
+					GameNetwork.WriteMessage(new SetMissionObjectAnimationAtChannel(base.Id, channelNo, animationIndex, animationSpeed));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 					this._initialSynchFlags |= SynchedMissionObject.SynchFlags.SynchAnimation;
 				}
@@ -264,7 +264,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectAnimationChannelParameter(this, channelNo, parameter));
+					GameNetwork.WriteMessage(new SetMissionObjectAnimationChannelParameter(base.Id, channelNo, parameter));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				base.GameEntity.Skeleton.SetAnimationParameterAtChannel(channelNo, parameter);
@@ -279,7 +279,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectAnimationPaused(this, true));
+					GameNetwork.WriteMessage(new SetMissionObjectAnimationPaused(base.Id, true));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				base.GameEntity.PauseSkeletonAnimation();
@@ -294,7 +294,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectAnimationPaused(this, false));
+					GameNetwork.WriteMessage(new SetMissionObjectAnimationPaused(base.Id, false));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				base.GameEntity.ResumeSkeletonAnimation();
@@ -307,7 +307,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new BurstMissionObjectParticles(this, false));
+				GameNetwork.WriteMessage(new BurstMissionObjectParticles(base.Id, false));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			base.GameEntity.BurstEntityParticle(doChildren);
@@ -318,7 +318,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new SetMissionObjectImpulse(this, localPosition, impulse));
+				GameNetwork.WriteMessage(new SetMissionObjectImpulse(base.Id, localPosition, impulse));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 			base.GameEntity.ApplyLocalImpulseToDynamicBody(localPosition, impulse);
@@ -332,7 +332,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new AddMissionObjectBodyFlags(this, flags, applyToChildren));
+					GameNetwork.WriteMessage(new AddMissionObjectBodyFlags(base.Id, flags, applyToChildren));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				base.GameEntity.AddBodyFlags(flags, applyToChildren);
@@ -347,7 +347,7 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new RemoveMissionObjectBodyFlags(this, flags, applyToChildren));
+					GameNetwork.WriteMessage(new RemoveMissionObjectBodyFlags(base.Id, flags, applyToChildren));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				base.GameEntity.RemoveBodyFlags(flags, applyToChildren);
@@ -369,66 +369,12 @@ namespace TaleWorlds.MountAndBlade
 				if (GameNetwork.IsServerOrRecorder)
 				{
 					GameNetwork.BeginBroadcastModuleEvent();
-					GameNetwork.WriteMessage(new SetMissionObjectColors(this, color, color2));
+					GameNetwork.WriteMessage(new SetMissionObjectColors(base.Id, color, color2));
 					GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 				}
 				this.SetTeamColors(color, color2);
 				this._initialSynchFlags |= SynchedMissionObject.SynchFlags.SyncColors;
 			}
-		}
-
-		public virtual bool ReadFromNetwork()
-		{
-			bool flag = true;
-			base.GameEntity.SetVisibilityExcludeParents(GameNetworkMessage.ReadBoolFromPacket(ref flag));
-			if (GameNetworkMessage.ReadBoolFromPacket(ref flag))
-			{
-				MatrixFrame matrixFrame = GameNetworkMessage.ReadMatrixFrameFromPacket(ref flag);
-				base.GameEntity.SetFrame(ref matrixFrame);
-				if (GameNetworkMessage.ReadBoolFromPacket(ref flag))
-				{
-					this._firstFrame = base.GameEntity.GetFrame();
-					this._lastSynchedFrame = GameNetworkMessage.ReadMatrixFrameFromPacket(ref flag);
-					this.SetSynchState(SynchedMissionObject.SynchState.SynchronizeFrameOverTime);
-					this._duration = GameNetworkMessage.ReadFloatFromPacket(CompressionMission.FlagCapturePointDurationCompressionInfo, ref flag);
-					this._timer = 0f;
-					if (this._duration.ApproximatelyEqualsTo(0f, 1E-05f))
-					{
-						this._duration = 0.1f;
-					}
-				}
-			}
-			if (base.GameEntity.Skeleton != null && GameNetworkMessage.ReadBoolFromPacket(ref flag))
-			{
-				int num = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.AnimationIndexCompressionInfo, ref flag);
-				float num2 = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.AnimationSpeedCompressionInfo, ref flag);
-				float num3 = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.AnimationProgressCompressionInfo, ref flag);
-				base.GameEntity.Skeleton.SetAnimationAtChannel(num, 0, num2, 0f, 0f);
-				base.GameEntity.Skeleton.SetAnimationParameterAtChannel(0, num3);
-				if (GameNetworkMessage.ReadBoolFromPacket(ref flag))
-				{
-					base.GameEntity.Skeleton.TickAnimationsAndForceUpdate(0.001f, base.GameEntity.GetGlobalFrame(), true);
-					base.GameEntity.PauseSkeletonAnimation();
-				}
-				else
-				{
-					base.GameEntity.ResumeSkeletonAnimation();
-				}
-			}
-			if (GameNetworkMessage.ReadBoolFromPacket(ref flag))
-			{
-				uint num4 = GameNetworkMessage.ReadUintFromPacket(CompressionGeneric.ColorCompressionInfo, ref flag);
-				uint num5 = GameNetworkMessage.ReadUintFromPacket(CompressionGeneric.ColorCompressionInfo, ref flag);
-				if (flag)
-				{
-					base.GameEntity.SetColor(num4, num5, "use_team_color");
-				}
-			}
-			if (GameNetworkMessage.ReadBoolFromPacket(ref flag))
-			{
-				base.SetDisabledAndMakeInvisible(false);
-			}
-			return flag;
 		}
 
 		public virtual void WriteToNetwork()
@@ -447,6 +393,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 			}
 			Skeleton skeleton = gameEntity.Skeleton;
+			GameNetworkMessage.WriteBoolToPacket(skeleton != null);
 			if (skeleton != null)
 			{
 				int animationIndexAtChannel = skeleton.GetAnimationIndexAtChannel(0);
@@ -465,10 +412,55 @@ namespace TaleWorlds.MountAndBlade
 			GameNetworkMessage.WriteBoolToPacket(this._initialSynchFlags.HasAnyFlag(SynchedMissionObject.SynchFlags.SyncColors));
 			if (this._initialSynchFlags.HasAnyFlag(SynchedMissionObject.SynchFlags.SyncColors))
 			{
-				GameNetworkMessage.WriteUintToPacket(this.Color, CompressionGeneric.ColorCompressionInfo);
-				GameNetworkMessage.WriteUintToPacket(this.Color2, CompressionGeneric.ColorCompressionInfo);
+				GameNetworkMessage.WriteUintToPacket(this.Color, CompressionBasic.ColorCompressionInfo);
+				GameNetworkMessage.WriteUintToPacket(this.Color2, CompressionBasic.ColorCompressionInfo);
 			}
 			GameNetworkMessage.WriteBoolToPacket(base.IsDisabled);
+		}
+
+		public virtual void OnAfterReadFromNetwork(ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> synchedMissionObjectReadableRecord)
+		{
+			BaseSynchedMissionObjectReadableRecord item = synchedMissionObjectReadableRecord.Item1;
+			base.GameEntity.SetVisibilityExcludeParents(item.SetVisibilityExcludeParents);
+			if (item.SynchTransform)
+			{
+				MatrixFrame gameObjectFrame = item.GameObjectFrame;
+				base.GameEntity.SetFrame(ref gameObjectFrame);
+				if (item.SynchronizeFrameOverTime)
+				{
+					this._firstFrame = item.GameObjectFrame;
+					this._lastSynchedFrame = item.LastSynchedFrame;
+					this.SetSynchState(SynchedMissionObject.SynchState.SynchronizeFrameOverTime);
+					this._duration = item.Duration;
+					this._timer = 0f;
+					if (this._duration.ApproximatelyEqualsTo(0f, 1E-05f))
+					{
+						this._duration = 0.1f;
+					}
+				}
+			}
+			if (item.HasSkeleton && item.SynchAnimation)
+			{
+				base.GameEntity.Skeleton.SetAnimationAtChannel(item.AnimationIndex, 0, item.AnimationSpeed, 0f, 0f);
+				base.GameEntity.Skeleton.SetAnimationParameterAtChannel(0, item.AnimationParameter);
+				if (item.IsSkeletonAnimationPaused)
+				{
+					base.GameEntity.Skeleton.TickAnimationsAndForceUpdate(0.001f, base.GameEntity.GetGlobalFrame(), true);
+					base.GameEntity.PauseSkeletonAnimation();
+				}
+				else
+				{
+					base.GameEntity.ResumeSkeletonAnimation();
+				}
+			}
+			if (item.SynchColors)
+			{
+				this.SetTeamColors(item.Color, item.Color2);
+			}
+			if (item.IsDisabled)
+			{
+				base.SetDisabledAndMakeInvisible(false);
+			}
 		}
 
 		private SynchedMissionObject.SynchFlags _initialSynchFlags;

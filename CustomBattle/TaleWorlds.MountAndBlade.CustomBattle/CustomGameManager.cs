@@ -1,5 +1,6 @@
 ﻿using System;
 using TaleWorlds.Core;
+using TaleWorlds.MountAndBlade.Multiplayer;
 
 namespace TaleWorlds.MountAndBlade.CustomBattle
 {
@@ -42,6 +43,11 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			default:
 				return;
 			}
+		}
+
+		public override void OnAfterCampaignStart(Game game)
+		{
+			MultiplayerMain.Initialize(new GameNetworkHandler());
 		}
 
 		public override void OnLoadFinished()

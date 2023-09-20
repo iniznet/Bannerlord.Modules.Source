@@ -1,16 +1,24 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.Diamond
 {
 	[Serializable]
-	public class PSAccessObject
+	public class PSAccessObject : AccessObject
 	{
-		public int IssuerId { get; }
+		[JsonProperty]
+		public int IssuerId { get; private set; }
 
-		public string AuthCode { get; }
+		[JsonProperty]
+		public string AuthCode { get; private set; }
+
+		public PSAccessObject()
+		{
+		}
 
 		public PSAccessObject(int issuerId, string authCode)
 		{
+			base.Type = "PS";
 			this.IssuerId = issuerId;
 			this.AuthCode = authCode;
 		}

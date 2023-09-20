@@ -84,18 +84,38 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			this._wasSiegeControllerScreenVisible = flag2;
 		}
 
+		public override void OnRemoveBehavior()
+		{
+			this.UnregisterEvents();
+			base.OnRemoveBehavior();
+		}
+
 		public override void OnMissionScreenFinalize()
 		{
+			this.UnregisterEvents();
 			base.OnMissionScreenFinalize();
-			base.Mission.Teams.OnPlayerTeamChanged -= this.Mission_OnPlayerTeamChanged;
-			base.Mission.OnMainAgentChanged -= this.OnMainAgentChanged;
+		}
+
+		private void UnregisterEvents()
+		{
+			if (base.Mission != null)
+			{
+				base.Mission.Teams.OnPlayerTeamChanged -= this.Mission_OnPlayerTeamChanged;
+				base.Mission.OnMainAgentChanged -= this.OnMainAgentChanged;
+			}
 			ManagedOptions.OnManagedOptionChanged = (ManagedOptions.OnManagedOptionChangedDelegate)Delegate.Remove(ManagedOptions.OnManagedOptionChanged, new ManagedOptions.OnManagedOptionChangedDelegate(this.OnManagedOptionChanged));
-			base.MissionScreen.OnSpectateAgentFocusIn -= this.HandleSpectateAgentFocusIn;
-			base.MissionScreen.OnSpectateAgentFocusOut -= this.HandleSpectateAgentFocusOut;
+			if (base.MissionScreen != null)
+			{
+				base.MissionScreen.OnSpectateAgentFocusIn -= this.HandleSpectateAgentFocusIn;
+				base.MissionScreen.OnSpectateAgentFocusOut -= this.HandleSpectateAgentFocusOut;
+			}
 			if (this.PlayerOrderController != null)
 			{
 				this.PlayerOrderController.OnSelectedFormationsChanged -= this.OrderController_OnSelectedFormationsChanged;
-				base.Mission.PlayerTeam.OnFormationsChanged -= this.PlayerTeam_OnFormationsChanged;
+				if (base.Mission != null)
+				{
+					base.Mission.PlayerTeam.OnFormationsChanged -= this.PlayerTeam_OnFormationsChanged;
+				}
 			}
 		}
 
@@ -290,7 +310,7 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType optionType)
 		{
-			if (optionType == 11)
+			if (optionType == 12)
 			{
 				foreach (Agent agent in base.Mission.Agents)
 				{
@@ -337,7 +357,7 @@ namespace TaleWorlds.MountAndBlade.View.MissionViews
 			float num = (visibility.Value ? 1f : (-1f));
 			if (agent.MissionPeer == null)
 			{
-				float config = ManagedOptions.GetConfig(11);
+				float config = ManagedOptions.GetConfig(12);
 				mesh.SetVectorArgument2(30f, 0.4f, 0.44f, num * config);
 			}
 		}

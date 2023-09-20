@@ -6,6 +6,7 @@ using TaleWorlds.CampaignSystem.BarterSystem;
 using TaleWorlds.CampaignSystem.BarterSystem.Barterables;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Conversation.Persuasion;
+using TaleWorlds.CampaignSystem.CraftingSystem;
 using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.GameMenus;
@@ -92,7 +93,7 @@ namespace TaleWorlds.CampaignSystem
 		{
 		}
 
-		public virtual void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemObject item, int count, bool showNotification)
+		public virtual void OnHeroOrPartyGaveItem(ValueTuple<Hero, PartyBase> giver, ValueTuple<Hero, PartyBase> receiver, ItemRosterElement itemRosterElement, bool showNotification)
 		{
 		}
 
@@ -208,6 +209,10 @@ namespace TaleWorlds.CampaignSystem
 		{
 		}
 
+		public virtual void CanKingdomBeDiscontinued(Kingdom kingdom, ref bool result)
+		{
+		}
+
 		public virtual void OnBarterAccepted(Hero offererHero, Hero otherHero, List<Barterable> barters)
 		{
 		}
@@ -241,6 +246,10 @@ namespace TaleWorlds.CampaignSystem
 		}
 
 		public virtual void OnMobilePartyCreated(MobileParty party)
+		{
+		}
+
+		public virtual void OnMobilePartyQuestStatusChanged(MobileParty party, bool isUsedByQuest)
 		{
 		}
 
@@ -796,7 +805,7 @@ namespace TaleWorlds.CampaignSystem
 		{
 		}
 
-		public virtual void OnHideoutBattleCompleted(BattleSideEnum winnerSide, MapEvent mapEvent)
+		public virtual void OnHideoutBattleCompleted(BattleSideEnum winnerSide, HideoutEventComponent hideoutEventComponent)
 		{
 		}
 
@@ -808,11 +817,19 @@ namespace TaleWorlds.CampaignSystem
 		{
 		}
 
-		public virtual void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData)
+		public virtual void OnNewItemCrafted(ItemObject itemObject)
 		{
 		}
 
-		public virtual void OnWorkshopChanged(Workshop workshop, Hero oldOwner, WorkshopType oldType)
+		public virtual void OnWorkshopInitialized(Workshop workshop)
+		{
+		}
+
+		public virtual void OnWorkshopOwnerChanged(Workshop workshop, Hero oldOwner)
+		{
+		}
+
+		public virtual void OnWorkshopTypeChanged(Workshop workshop)
 		{
 		}
 
@@ -828,7 +845,7 @@ namespace TaleWorlds.CampaignSystem
 		{
 		}
 
-		public virtual void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
+		public virtual void OnNewItemCrafted(ItemObject itemObject, ItemModifier overriddenItemModifier, bool isCraftingOrderItem)
 		{
 		}
 
@@ -908,6 +925,22 @@ namespace TaleWorlds.CampaignSystem
 		{
 		}
 
+		public virtual void OnHeroUnregistered(Hero hero)
+		{
+		}
+
+		public virtual void OnConfigChanged()
+		{
+		}
+
+		public virtual void OnCraftingOrderCompleted(Town town, CraftingOrder craftingOrder, ItemObject craftedItem, Hero completerHero)
+		{
+		}
+
+		public virtual void OnItemsRefined(Hero hero, Crafting.RefiningFormula refineFormula)
+		{
+		}
+
 		public virtual void CanHeroLeadParty(Hero hero, ref bool result)
 		{
 		}
@@ -925,10 +958,6 @@ namespace TaleWorlds.CampaignSystem
 		}
 
 		public virtual void CanHaveQuestsOrIssues(Hero hero, ref bool result)
-		{
-		}
-
-		public virtual void OnHeroUnregistered(Hero hero)
 		{
 		}
 	}

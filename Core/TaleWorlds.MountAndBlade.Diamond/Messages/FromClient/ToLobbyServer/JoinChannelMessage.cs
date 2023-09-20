@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.MountAndBlade.Diamond;
 
@@ -8,7 +9,12 @@ namespace Messages.FromClient.ToLobbyServer
 	[Serializable]
 	public class JoinChannelMessage : Message
 	{
+		[JsonProperty]
 		public ChatChannelType Channel { get; private set; }
+
+		public JoinChannelMessage()
+		{
+		}
 
 		public JoinChannelMessage(ChatChannelType channel)
 		{

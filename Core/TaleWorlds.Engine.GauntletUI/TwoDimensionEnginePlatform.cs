@@ -290,6 +290,7 @@ namespace TaleWorlds.Engine.GauntletUI
 
 		void ITwoDimensionPlatform.OpenOnScreenKeyboard(string initialText, string descriptionText, int maxLength, int keyboardTypeEnum)
 		{
+			ScreenManager.OnPlatformScreenKeyboardRequested(initialText, descriptionText, maxLength, keyboardTypeEnum);
 		}
 
 		void ITwoDimensionPlatform.BeginDebugPanel(string panelTitle)

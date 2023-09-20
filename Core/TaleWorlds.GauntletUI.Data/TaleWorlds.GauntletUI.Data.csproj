@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D61}</ProjectGuid>
+    <ProjectGuid>{E2D562F0-C899-40B5-B4A8-9F91A8D48C7A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.GauntletUI.Data</RootNamespace>
     <AssemblyName>TaleWorlds.GauntletUI.Data</AssemblyName>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -31,10 +30,12 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="netstandard" />
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <AppDesigner Include="Properties\" />
@@ -60,24 +61,20 @@
     <Compile Include="WidgetInstantiationResultDatabindingExtension.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\netstandard\netstandard.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d4f}</Project>
-      <Name>netstandard</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.GauntletUI.PrefabSystem\TaleWorlds.GauntletUI.PrefabSystem.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d64}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7d}</Project>
       <Name>TaleWorlds.GauntletUI.PrefabSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.GauntletUI\TaleWorlds.GauntletUI.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d62}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c7b}</Project>
       <Name>TaleWorlds.GauntletUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c80}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.TwoDimension\TaleWorlds.TwoDimension.csproj">
-      <Project>{5785c696-e06b-459b-9beb-64ea91564d7f}</Project>
+      <Project>{e2d562f0-c899-40b5-b4a8-9f91a8d48c99}</Project>
       <Name>TaleWorlds.TwoDimension</Name>
     </ProjectReference>
   </ItemGroup>

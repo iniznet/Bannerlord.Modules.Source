@@ -71,7 +71,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 		{
 			get
 			{
-				return this.BesiegerCamp.BesiegerParty.IsMainParty || PlayerSiege.PlayerSiegeEvent == this;
+				return this.BesiegerCamp.LeaderParty.IsMainParty || PlayerSiege.PlayerSiegeEvent == this;
 			}
 		}
 
@@ -99,12 +99,12 @@ namespace TaleWorlds.CampaignSystem.Siege
 			}
 			else
 			{
-				MobileParty besiegerParty = besiegerCamp.BesiegerParty;
-				flag = ((besiegerParty != null) ? besiegerParty.MapEvent : null) != null;
+				MobileParty leaderParty = besiegerCamp.LeaderParty;
+				flag = ((leaderParty != null) ? leaderParty.MapEvent : null) != null;
 			}
 			if (flag)
 			{
-				return this.BesiegerCamp.BesiegerParty.MapEvent.EventType;
+				return this.BesiegerCamp.LeaderParty.MapEvent.EventType;
 			}
 			return MapEvent.BattleTypes.Siege;
 		}
@@ -136,7 +136,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 					mobileParty2.Ai.SetMoveGoToSettlement(mobileParty2.CurrentSettlement);
 				}
 			}
-			this.BesiegedSettlement.Party.Visuals.RefreshLevelMask(this.BesiegedSettlement.Party);
+			this.BesiegedSettlement.Party.SetLevelMaskIsDirty();
 			CampaignEventDispatcher.Instance.OnSiegeEventStarted(this);
 		}
 
@@ -183,13 +183,12 @@ namespace TaleWorlds.CampaignSystem.Siege
 			{
 				return;
 			}
-			if (this.BesiegerCamp.BesiegerParty.MapEvent != null || this.BesiegedSettlement.Party.MapEvent != null)
+			if (this.BesiegerCamp.LeaderParty.MapEvent != null || this.BesiegedSettlement.Party.MapEvent != null)
 			{
 				return;
 			}
 			this.TickSiegeEventSide(this.BesiegerCamp);
 			this.TickSiegeEventSide(this.BesiegedSettlement);
-			this.BesiegerCamp.Tick(dt);
 		}
 
 		private void TickSiegeEventSide(ISiegeEventSide siegeEventSide)
@@ -214,11 +213,6 @@ namespace TaleWorlds.CampaignSystem.Siege
 
 		public void FinalizeSiegeEvent()
 		{
-			ISiegeEventVisual siegeEventVisual = this.SiegeEventVisual;
-			if (siegeEventVisual != null)
-			{
-				siegeEventVisual.OnSiegeEventEnd();
-			}
 			CampaignEventDispatcher.Instance.OnSiegeEventEnded(this);
 			if (PlayerSiege.PlayerSiegeEvent == this)
 			{
@@ -244,10 +238,6 @@ namespace TaleWorlds.CampaignSystem.Siege
 			}
 		}
 
-		public void SiegeTestPreparation()
-		{
-		}
-
 		public bool IsPartyInvolved(PartyBase party)
 		{
 			return this.GetInvolvedPartiesForEventType(this.GetCurrentBattleType()).Contains(party);
@@ -263,23 +253,23 @@ namespace TaleWorlds.CampaignSystem.Siege
 				float siegeEngineHitPoints = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineHitPoints(siegeEventSide.SiegeEvent, siegeEngineType, siegeEventSide.BattleSide);
 				SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress = new SiegeEvent.SiegeEngineConstructionProgress(siegeEngineType, 0f, siegeEngineHitPoints);
 				siegeEngines.DeploySiegeEngineAtIndex(siegeEngineConstructionProgress, deploymentIndex);
-				this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+				this.BesiegedSettlement.Party.SetVisualAsDirty();
 				return;
 			}
 			case SiegeStrategyActionModel.SiegeAction.DeploySiegeEngineFromReserve:
 			{
 				SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress2 = siegeEngines.ReservedSiegeEngines[reserveIndex];
 				siegeEngines.DeploySiegeEngineAtIndex(siegeEngineConstructionProgress2, deploymentIndex);
-				this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+				this.BesiegedSettlement.Party.SetVisualAsDirty();
 				return;
 			}
 			case SiegeStrategyActionModel.SiegeAction.MoveSiegeEngineToReserve:
 				siegeEngines.RemoveDeployedSiegeEngine(deploymentIndex, siegeEngineType.IsRanged, true);
-				this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+				this.BesiegedSettlement.Party.SetVisualAsDirty();
 				return;
 			case SiegeStrategyActionModel.SiegeAction.RemoveDeployedSiegeEngine:
 				siegeEngines.RemoveDeployedSiegeEngine(deploymentIndex, siegeEngineType.IsRanged, false);
-				this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+				this.BesiegedSettlement.Party.SetVisualAsDirty();
 				return;
 			case SiegeStrategyActionModel.SiegeAction.Hold:
 				return;
@@ -316,7 +306,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 					if (siegeEngineConstructionProgress != null && siegeEngineConstructionProgress.SiegeEngine == siegeEngineType && siegeEngineConstructionProgress.IsConstructed)
 					{
 						siegeEventSide.SiegeEngines.RemoveDeployedSiegeEngine(i, true, false);
-						this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+						this.BesiegedSettlement.Party.SetVisualAsDirty();
 						return;
 					}
 				}
@@ -328,7 +318,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 				if (siegeEngineConstructionProgress2 != null && siegeEngineConstructionProgress2.SiegeEngine == siegeEngineType)
 				{
 					siegeEventSide.SiegeEngines.RemoveDeployedSiegeEngine(j, false, false);
-					this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+					this.BesiegedSettlement.Party.SetVisualAsDirty();
 					return;
 				}
 			}
@@ -382,6 +372,8 @@ namespace TaleWorlds.CampaignSystem.Siege
 			if (missionSiegeEngineData != null && missionSiegeEngineData.Any<IMissionSiegeWeapon>())
 			{
 				int num = missionSiegeEngineData.Count<IMissionSiegeWeapon>() - 1;
+				MapEvent battle = PlayerEncounter.Battle;
+				bool flag = battle != null && battle.IsSiegeAmbush;
 				for (int i = side.SiegeEngines.DeployedSiegeEngines.Count - 1; i >= 0; i--)
 				{
 					SiegeEvent.SiegeEngineConstructionProgress siegeEngineConstructionProgress = side.SiegeEngines.DeployedSiegeEngines.ElementAt(i);
@@ -389,11 +381,11 @@ namespace TaleWorlds.CampaignSystem.Siege
 					{
 						IMissionSiegeWeapon missionSiegeWeapon = missionSiegeEngineData.ElementAt(num);
 						num--;
-						if ((siegeEngineConstructionProgress.SiegeEngine.IsRanged || PlayerEncounter.Current.IsSallyOutAmbush) && missionSiegeWeapon.Health > 0f)
+						if ((siegeEngineConstructionProgress.SiegeEngine.IsRanged || flag) && missionSiegeWeapon.Health > 0f)
 						{
 							siegeEngineConstructionProgress.SetHitpoints(missionSiegeWeapon.Health);
 						}
-						else if (!PlayerEncounter.Current.IsSallyOutAmbush || missionSiegeWeapon.Health <= 0f)
+						else if (!flag || missionSiegeWeapon.Health <= 0f)
 						{
 							this.BreakSiegeEngine(side, siegeEngineConstructionProgress.SiegeEngine);
 						}
@@ -410,7 +402,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 			}
 			SiegeEngineType siegeEngine = siegeEngineConstructionProgress.SiegeEngine;
 			CampaignEventDispatcher.Instance.SiegeEngineBuilt(this, siegeSide.BattleSide, siegeEngine);
-			this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+			this.BesiegedSettlement.Party.SetVisualAsDirty();
 		}
 
 		public override string ToString()
@@ -456,7 +448,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 			}
 			if (siegeEventSide.SiegeEngines.ClearRemovedEnginesIfNecessary())
 			{
-				this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
+				this.BesiegedSettlement.Party.SetVisualAsDirty();
 			}
 		}
 
@@ -477,7 +469,7 @@ namespace TaleWorlds.CampaignSystem.Siege
 					{
 						if (targetType != SiegeBombardTargets.RangedEngines)
 						{
-							Debug.FailedAssert("Invalid target type on hit", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Siege\\SiegeEvent.cs", "BombardTick", 982);
+							Debug.FailedAssert("Invalid target type on hit", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Siege\\SiegeEvent.cs", "BombardTick", 937);
 						}
 						else
 						{
@@ -583,8 +575,8 @@ namespace TaleWorlds.CampaignSystem.Siege
 			{
 				this.DoSiegeAction(siegeEventSide, SiegeStrategyActionModel.SiegeAction.RemoveDeployedSiegeEngine, siegeEngine.SiegeEngine, num, -1);
 			}
-			this.BesiegedSettlement.Party.Visuals.SetMapIconAsDirty();
-			CampaignEventDispatcher.Instance.OnSiegeEngineDestroyed(this.BesiegerCamp.BesiegerParty, this.BesiegedSettlement, siegeEventSide.BattleSide, siegeEngine.SiegeEngine);
+			this.BesiegedSettlement.Party.SetVisualAsDirty();
+			CampaignEventDispatcher.Instance.OnSiegeEngineDestroyed(this.BesiegerCamp.LeaderParty, this.BesiegedSettlement, siegeEventSide.BattleSide, siegeEngine.SiegeEngine);
 		}
 
 		private void BombardHitEngine(ISiegeEventSide siegeEventSide, SiegeEngineType attackerEngineType, SiegeEvent.SiegeEngineConstructionProgress damagedEngine)
@@ -592,23 +584,26 @@ namespace TaleWorlds.CampaignSystem.Siege
 			ISiegeEventSide siegeEventSide2 = this.GetSiegeEventSide(siegeEventSide.BattleSide.GetOppositeSide());
 			float siegeEngineDamage = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineDamage(this, siegeEventSide.BattleSide, attackerEngineType, SiegeBombardTargets.RangedEngines);
 			damagedEngine.SetHitpoints(damagedEngine.Hitpoints - siegeEngineDamage);
-			CampaignEventDispatcher.Instance.OnSiegeBombardmentHit(this.BesiegerCamp.BesiegerParty, this.BesiegedSettlement, siegeEventSide.BattleSide, attackerEngineType, SiegeBombardTargets.RangedEngines);
+			CampaignEventDispatcher.Instance.OnSiegeBombardmentHit(this.BesiegerCamp.LeaderParty, this.BesiegedSettlement, siegeEventSide.BattleSide, attackerEngineType, SiegeBombardTargets.RangedEngines);
 			if (damagedEngine.Hitpoints <= 0f)
 			{
 				this.OnSiegeEngineDestroyed(siegeEventSide2, damagedEngine);
 			}
-			Debug.Print(string.Concat(new object[]
+			if (this.IsPlayerSiegeEvent)
 			{
-				this.BesiegedSettlement.Name,
-				" - ",
-				siegeEventSide.BattleSide.ToString(),
-				" ",
-				attackerEngineType.Name,
-				" hit the enemy ranged siege engine(",
-				damagedEngine.SiegeEngine.Name,
-				") for ",
-				siegeEngineDamage
-			}), 0, Debug.DebugColor.Purple, 137438953472UL);
+				Debug.Print(string.Concat(new object[]
+				{
+					this.BesiegedSettlement.Name,
+					" - ",
+					siegeEventSide.BattleSide.ToString(),
+					" ",
+					attackerEngineType.Name,
+					" hit the enemy ranged siege engine(",
+					damagedEngine.SiegeEngine.Name,
+					") for ",
+					siegeEngineDamage
+				}), 0, Debug.DebugColor.Purple, 137438953472UL);
+			}
 		}
 
 		[SaveableField(6)]
@@ -619,8 +614,6 @@ namespace TaleWorlds.CampaignSystem.Siege
 
 		[SaveableField(144)]
 		private bool _isBesiegerDefeated;
-
-		public ISiegeEventVisual SiegeEventVisual;
 
 		public class RangedSiegeEngine
 		{

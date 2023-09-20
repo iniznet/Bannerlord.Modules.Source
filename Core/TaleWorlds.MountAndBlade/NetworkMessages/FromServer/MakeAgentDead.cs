@@ -7,15 +7,15 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class MakeAgentDead : GameNetworkMessage
 	{
-		public Agent Agent { get; private set; }
+		public int AgentIndex { get; private set; }
 
 		public bool IsKilled { get; private set; }
 
 		public ActionIndexValueCache ActionCodeIndex { get; private set; }
 
-		public MakeAgentDead(Agent agent, bool isKilled, ActionIndexValueCache actionCodeIndex)
+		public MakeAgentDead(int agentIndex, bool isKilled, ActionIndexValueCache actionCodeIndex)
 		{
-			this.Agent = agent;
+			this.AgentIndex = agentIndex;
 			this.IsKilled = isKilled;
 			this.ActionCodeIndex = actionCodeIndex;
 		}
@@ -27,7 +27,7 @@ namespace NetworkMessages.FromServer
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.Agent = GameNetworkMessage.ReadAgentReferenceFromPacket(ref flag, false);
+			this.AgentIndex = GameNetworkMessage.ReadAgentIndexFromPacket(ref flag);
 			this.IsKilled = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			this.ActionCodeIndex = new ActionIndexValueCache(GameNetworkMessage.ReadIntFromPacket(CompressionBasic.ActionCodeCompressionInfo, ref flag));
 			return flag;
@@ -35,7 +35,7 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			GameNetworkMessage.WriteAgentReferenceToPacket(this.Agent);
+			GameNetworkMessage.WriteAgentIndexToPacket(this.AgentIndex);
 			GameNetworkMessage.WriteBoolToPacket(this.IsKilled);
 			GameNetworkMessage.WriteIntToPacket(this.ActionCodeIndex.Index, CompressionBasic.ActionCodeCompressionInfo);
 		}
@@ -47,13 +47,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Make Agent Dead on Agent with name: ",
-				this.Agent.Name,
-				" and agent-index: ",
-				this.Agent.Index
-			});
+			return "Make Agent Dead on Agent with agent-index: " + this.AgentIndex;
 		}
 	}
 }

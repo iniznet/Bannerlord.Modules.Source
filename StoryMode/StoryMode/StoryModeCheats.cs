@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using StoryMode.Quests.SecondPhase;
+using StoryMode.Quests.SecondPhase.ConspiracyQuests;
 using StoryMode.StoryModeObjects;
+using StoryMode.StoryModePhases;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Party;
@@ -42,16 +44,16 @@ namespace StoryMode
 			{
 				return "Format is \"storymode.activate_conspiracy_quest\".";
 			}
-			if (Clan.PlayerClan.Kingdom != null)
+			if (StoryModeManager.Current.MainStoryLine.PlayerSupportedKingdom == null)
 			{
-				foreach (QuestBase questBase in Campaign.Current.QuestManager.Quests.Where((QuestBase t) => t is WeakenEmpireQuestBehavior.WeakenEmpireQuest || t is AssembleEmpireQuestBehavior.AssembleEmpireQuest).ToList<QuestBase>())
-				{
-					questBase.CompleteQuestWithCancel(null);
-				}
-				StoryModeManager.Current.MainStoryLine.CompleteSecondPhase();
-				return "success";
+				return " Player supported kingdom doesn't exist.";
 			}
-			return "Player is not in a kingdom";
+			foreach (QuestBase questBase in Campaign.Current.QuestManager.Quests.Where((QuestBase t) => t is WeakenEmpireQuestBehavior.WeakenEmpireQuest || t is AssembleEmpireQuestBehavior.AssembleEmpireQuest).ToList<QuestBase>())
+			{
+				questBase.CompleteQuestWithCancel(null);
+			}
+			StoryModeManager.Current.MainStoryLine.CompleteSecondPhase();
+			return "Success";
 		}
 
 		[CommandLineFunctionality.CommandLineArgumentFunction("add_family_members", "storymode")]
@@ -87,21 +89,22 @@ namespace StoryMode
 			{
 				return CampaignCheats.ErrorType;
 			}
+			string text2 = "Format is \"storymode.weaken_kingdom [KingdomName]\".";
 			if (CampaignCheats.CheckParameters(strings, 0) || CampaignCheats.CheckHelp(strings))
 			{
-				return "Format is \"storymode.weaken_kingdom [KingdomName]\".";
+				return text2;
 			}
-			string text2 = CampaignCheats.ConcatenateString(strings);
+			string text3 = CampaignCheats.ConcatenateString(strings);
 			Kingdom kingdom = null;
 			foreach (Kingdom kingdom2 in Kingdom.All)
 			{
-				if (kingdom2.Name.ToString().Equals(text2, StringComparison.OrdinalIgnoreCase))
+				if (kingdom2.Name.ToString().Replace(" ", "").Equals(text3.Replace(" ", ""), StringComparison.OrdinalIgnoreCase))
 				{
 					kingdom = kingdom2;
 					break;
 				}
-				if (text2.Length >= 2 && kingdom2.Name.ToString().ToLower().Substring(0, 2)
-					.Equals(text2.ToLower().Substring(0, 2)))
+				if (text3.Length >= 2 && kingdom2.Name.ToString().ToLower().Substring(0, 2)
+					.Equals(text3.ToLower().Substring(0, 2)))
 				{
 					kingdom = kingdom2;
 					break;
@@ -120,9 +123,9 @@ namespace StoryMode
 						mobileParty.MemberRoster.RemoveTroop(troopRosterElement.Character, mobileParty.MemberRoster.GetTroopCount(troopRosterElement.Character) / 2, default(UniqueTroopDescriptor), 0);
 					}
 				}
-				return "success";
+				return "Success";
 			}
-			return "Cant find kingdom";
+			return "Kingdom is not found\n" + text2;
 		}
 
 		[CommandLineFunctionality.CommandLineArgumentFunction("reinforce_kingdom", "storymode")]
@@ -137,15 +140,16 @@ namespace StoryMode
 			{
 				return CampaignCheats.ErrorType;
 			}
+			string text2 = "Format is \"storymode.reinforce_kingdom [KingdomName]\".";
 			if (CampaignCheats.CheckParameters(strings, 0) || CampaignCheats.CheckHelp(strings))
 			{
-				return "Format is \"storymode.reinforce_kingdom [KingdomName]\".";
+				return text2;
 			}
-			string text2 = CampaignCheats.ConcatenateString(strings);
+			string text3 = CampaignCheats.ConcatenateString(strings);
 			Kingdom kingdom = null;
 			foreach (Kingdom kingdom2 in Kingdom.All)
 			{
-				if (kingdom2.Name.ToString().Equals(text2, StringComparison.OrdinalIgnoreCase))
+				if (kingdom2.Name.ToString().Replace(" ", "").Equals(text3.Replace(" ", ""), StringComparison.OrdinalIgnoreCase))
 				{
 					kingdom = kingdom2;
 					break;
@@ -171,9 +175,37 @@ namespace StoryMode
 						mobileParty.MemberRoster.AddToCounts(troopRosterElement.Character, 200, false, 0, 0, true, -1);
 					}
 				}
-				return "success";
+				return "Success";
 			}
-			return "Cant find kingdom";
+			return "Kingdom is not found\n" + text2;
+		}
+
+		[CommandLineFunctionality.CommandLineArgumentFunction("start_conspiracy_quest_destroy_raiders", "storymode")]
+		public static string StartDestroyRaidersConspiracyQuest(List<string> strings)
+		{
+			string text = "";
+			if (!CampaignCheats.CheckCheatUsage(ref text))
+			{
+				return text;
+			}
+			new DestroyRaidersConspiracyQuest("cheat_quest", StoryModeHeroes.ImperialMentor).StartQuest();
+			return "Success";
+		}
+
+		[CommandLineFunctionality.CommandLineArgumentFunction("start_next_second_phase_quest", "storymode")]
+		public static string SecondPhaseStartNextQuest(List<string> strings)
+		{
+			string text = "";
+			if (!CampaignCheats.CheckCheatUsage(ref text))
+			{
+				return text;
+			}
+			if (SecondPhase.Instance != null)
+			{
+				SecondPhase.Instance.CreateNextConspiracyQuest();
+				return "Success";
+			}
+			return "Second phase not found.";
 		}
 	}
 }

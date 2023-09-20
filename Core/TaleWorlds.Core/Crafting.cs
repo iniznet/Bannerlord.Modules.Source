@@ -5,7 +5,6 @@ using System.Xml;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.ObjectSystem;
-using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.Core
 {
@@ -170,7 +169,7 @@ namespace TaleWorlds.Core
 			{
 				this.CurrentWeaponDesign = new WeaponDesign(this.CurrentWeaponDesign.Template, this.CurrentWeaponDesign.WeaponName, this.CurrentWeaponDesign.UsedPieces.ToArray<WeaponDesignElement>());
 			}
-			this.SetItemObject(null, null);
+			this.SetItemObject(null);
 		}
 
 		public bool Undo()
@@ -221,15 +220,11 @@ namespace TaleWorlds.Core
 			return new TextObject("{=!}RANDOM_NAME", null);
 		}
 
-		public static void GenerateItem(WeaponDesign weaponDesignTemplate, TextObject name, BasicCultureObject culture, ItemModifierGroup itemModifierGroup, ref ItemObject itemObject, Crafting.OverrideData overridenData)
+		public static void GenerateItem(WeaponDesign weaponDesignTemplate, TextObject name, BasicCultureObject culture, ItemModifierGroup itemModifierGroup, ref ItemObject itemObject)
 		{
 			if (itemObject == null)
 			{
 				itemObject = new ItemObject();
-			}
-			if (overridenData == null)
-			{
-				overridenData = new Crafting.OverrideData(0f, 0, 0, 0, 0);
 			}
 			WeaponDesignElement[] array = new WeaponDesignElement[weaponDesignTemplate.UsedPieces.Length];
 			for (int i = 0; i < weaponDesignTemplate.UsedPieces.Length; i++)
@@ -240,10 +235,9 @@ namespace TaleWorlds.Core
 			WeaponDesign weaponDesign = new WeaponDesign(weaponDesignTemplate.Template, name, array);
 			float num = MathF.Round(weaponDesign.UsedPieces.Sum((WeaponDesignElement selectedUsablePiece) => selectedUsablePiece.ScaledWeight), 2);
 			float num2 = (weaponDesign.UsedPieces[3].IsValid ? weaponDesign.UsedPieces[3].CraftingPiece.Appearance : weaponDesign.UsedPieces[0].CraftingPiece.Appearance);
-			overridenData.WeightOverriden += num;
 			itemObject.StringId = ((!string.IsNullOrEmpty(itemObject.StringId)) ? itemObject.StringId : weaponDesign.HashedCode);
-			ItemObject.InitCraftedItemObject(ref itemObject, name, culture, Crafting.GetItemFlags(weaponDesign), overridenData.WeightOverriden, num2, weaponDesign, weaponDesign.Template.ItemType);
-			itemObject = Crafting.CraftedItemGenerationHelper.GenerateCraftedItem(itemObject, weaponDesign, itemModifierGroup, overridenData);
+			ItemObject.InitCraftedItemObject(ref itemObject, name, culture, Crafting.GetItemFlags(weaponDesign), num, num2, weaponDesign, weaponDesign.Template.ItemType);
+			itemObject = Crafting.CraftedItemGenerationHelper.GenerateCraftedItem(itemObject, weaponDesign, itemModifierGroup);
 			if (itemObject != null)
 			{
 				if (itemObject.IsCraftedByPlayer)
@@ -260,21 +254,21 @@ namespace TaleWorlds.Core
 			return weaponDesign.UsedPieces[0].CraftingPiece.AdditionalItemFlags;
 		}
 
-		private void SetItemObject(Crafting.OverrideData overridenData, ItemObject itemObject = null)
+		private void SetItemObject(ItemObject itemObject = null)
 		{
 			if (itemObject == null)
 			{
 				itemObject = new ItemObject();
 			}
-			Crafting.GenerateItem(this.CurrentWeaponDesign, this.CraftedWeaponName, this.CurrentCulture, this.CurrentItemModifierGroup, ref itemObject, overridenData);
+			Crafting.GenerateItem(this.CurrentWeaponDesign, this.CraftedWeaponName, this.CurrentCulture, this.CurrentItemModifierGroup, ref itemObject);
 			this._craftedItemObject = itemObject;
 		}
 
-		public ItemObject GetCurrentCraftedItemObject(bool forceReCreate = false, Crafting.OverrideData overrideData = null)
+		public ItemObject GetCurrentCraftedItemObject(bool forceReCreate = false)
 		{
 			if (forceReCreate)
 			{
-				this.SetItemObject(overrideData, null);
+				this.SetItemObject(null);
 			}
 			return this._craftedItemObject;
 		}
@@ -309,7 +303,7 @@ namespace TaleWorlds.Core
 					}
 					else
 					{
-						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatasFromTemplate", 1215);
+						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatasFromTemplate", 1169);
 					}
 					break;
 				}
@@ -384,7 +378,7 @@ namespace TaleWorlds.Core
 					}
 					else
 					{
-						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatas", 1300);
+						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatas", 1254);
 					}
 					break;
 				}
@@ -497,7 +491,7 @@ namespace TaleWorlds.Core
 			return flag;
 		}
 
-		public static ItemObject CreatePreCraftedWeapon(ItemObject itemObject, WeaponDesignElement[] usedPieces, string templateId, TextObject weaponName, Crafting.OverrideData overridenData, ItemModifierGroup itemModifierGroup)
+		public static ItemObject CreatePreCraftedWeapon(ItemObject itemObject, WeaponDesignElement[] usedPieces, string templateId, TextObject weaponName, ItemModifierGroup itemModifierGroup)
 		{
 			for (int i = 0; i < usedPieces.Length; i++)
 			{
@@ -512,16 +506,16 @@ namespace TaleWorlds.Core
 			crafting.CurrentWeaponDesign = weaponDesign;
 			crafting.CurrentItemModifierGroup = itemModifierGroup;
 			crafting._history = new List<WeaponDesign> { weaponDesign };
-			crafting.SetItemObject(overridenData, itemObject);
+			crafting.SetItemObject(itemObject);
 			return crafting._craftedItemObject;
 		}
 
-		public static ItemObject InitializePreCraftedWeaponOnLoad(ItemObject itemObject, WeaponDesign craftedData, TextObject itemName, BasicCultureObject culture, Crafting.OverrideData overrideData = null)
+		public static ItemObject InitializePreCraftedWeaponOnLoad(ItemObject itemObject, WeaponDesign craftedData, TextObject itemName, BasicCultureObject culture)
 		{
 			Crafting crafting = new Crafting(craftedData.Template, culture, itemName);
 			crafting.CurrentWeaponDesign = craftedData;
 			crafting._history = new List<WeaponDesign> { craftedData };
-			crafting.SetItemObject(overrideData, itemObject);
+			crafting.SetItemObject(itemObject);
 			return crafting._craftedItemObject;
 		}
 
@@ -561,83 +555,6 @@ namespace TaleWorlds.Core
 
 		private ItemObject _craftedItemObject;
 
-		public class OverrideData
-		{
-			internal static void AutoGeneratedStaticCollectObjectsOverrideData(object o, List<object> collectedObjects)
-			{
-				((Crafting.OverrideData)o).AutoGeneratedInstanceCollectObjects(collectedObjects);
-			}
-
-			protected virtual void AutoGeneratedInstanceCollectObjects(List<object> collectedObjects)
-			{
-			}
-
-			internal static object AutoGeneratedGetMemberValueWeightOverriden(object o)
-			{
-				return ((Crafting.OverrideData)o).WeightOverriden;
-			}
-
-			internal static object AutoGeneratedGetMemberValueSwingSpeedOverriden(object o)
-			{
-				return ((Crafting.OverrideData)o).SwingSpeedOverriden;
-			}
-
-			internal static object AutoGeneratedGetMemberValueThrustSpeedOverriden(object o)
-			{
-				return ((Crafting.OverrideData)o).ThrustSpeedOverriden;
-			}
-
-			internal static object AutoGeneratedGetMemberValueSwingDamageOverriden(object o)
-			{
-				return ((Crafting.OverrideData)o).SwingDamageOverriden;
-			}
-
-			internal static object AutoGeneratedGetMemberValueThrustDamageOverriden(object o)
-			{
-				return ((Crafting.OverrideData)o).ThrustDamageOverriden;
-			}
-
-			internal static object AutoGeneratedGetMemberValueHandling(object o)
-			{
-				return ((Crafting.OverrideData)o).Handling;
-			}
-
-			public static Crafting.OverrideData Invalid
-			{
-				get
-				{
-					return new Crafting.OverrideData(0f, 0, 0, 0, 0);
-				}
-			}
-
-			public OverrideData(float weightOverriden = 0f, int swingSpeedOverriden = 0, int thrustSpeedOverriden = 0, int swingDamageOverriden = 0, int thrustDamageOverriden = 0)
-			{
-				this.WeightOverriden = weightOverriden;
-				this.SwingSpeedOverriden = swingSpeedOverriden;
-				this.ThrustSpeedOverriden = thrustSpeedOverriden;
-				this.SwingDamageOverriden = swingDamageOverriden;
-				this.ThrustDamageOverriden = thrustDamageOverriden;
-			}
-
-			[SaveableField(10)]
-			public float WeightOverriden;
-
-			[SaveableField(20)]
-			public int SwingSpeedOverriden;
-
-			[SaveableField(30)]
-			public int ThrustSpeedOverriden;
-
-			[SaveableField(40)]
-			public int SwingDamageOverriden;
-
-			[SaveableField(50)]
-			public int ThrustDamageOverriden;
-
-			[SaveableField(60)]
-			public int Handling;
-		}
-
 		public class RefiningFormula
 		{
 			public RefiningFormula(CraftingMaterials input1, int input1Count, CraftingMaterials input2, int input2Count, CraftingMaterials output, int outputCount = 1, CraftingMaterials output2 = CraftingMaterials.IronOre, int output2Count = 0)
@@ -671,23 +588,23 @@ namespace TaleWorlds.Core
 
 		private static class CraftedItemGenerationHelper
 		{
-			public static ItemObject GenerateCraftedItem(ItemObject item, WeaponDesign craftedData, ItemModifierGroup itemModifierGroup, Crafting.OverrideData overridenData)
+			public static ItemObject GenerateCraftedItem(ItemObject item, WeaponDesign weaponDesign, ItemModifierGroup itemModifierGroup)
 			{
-				foreach (WeaponDesignElement weaponDesignElement in craftedData.UsedPieces)
+				foreach (WeaponDesignElement weaponDesignElement in weaponDesign.UsedPieces)
 				{
-					if ((weaponDesignElement.IsValid && !craftedData.Template.Pieces.Contains(weaponDesignElement.CraftingPiece)) || (weaponDesignElement.CraftingPiece.IsInitialized && !weaponDesignElement.IsValid))
+					if ((weaponDesignElement.IsValid && !weaponDesign.Template.Pieces.Contains(weaponDesignElement.CraftingPiece)) || (weaponDesignElement.CraftingPiece.IsInitialized && !weaponDesignElement.IsValid))
 					{
 						Debug.Print(weaponDesignElement.CraftingPiece.StringId + " is not a valid valid anymore.", 0, Debug.DebugColor.White, 17592186044416UL);
 						return null;
 					}
 				}
 				bool flag = false;
-				foreach (WeaponDescription weaponDescription in craftedData.Template.WeaponDescriptions)
+				foreach (WeaponDescription weaponDescription in weaponDesign.Template.WeaponDescriptions)
 				{
 					int num = 4;
-					for (int j = 0; j < craftedData.UsedPieces.Length; j++)
+					for (int j = 0; j < weaponDesign.UsedPieces.Length; j++)
 					{
-						if (!craftedData.UsedPieces[j].IsValid)
+						if (!weaponDesign.UsedPieces[j].IsValid)
 						{
 							num--;
 						}
@@ -695,7 +612,7 @@ namespace TaleWorlds.Core
 					foreach (CraftingPiece craftingPiece in weaponDescription.AvailablePieces)
 					{
 						int pieceType = (int)craftingPiece.PieceType;
-						if (craftedData.UsedPieces[pieceType].CraftingPiece == craftingPiece)
+						if (weaponDesign.UsedPieces[pieceType].CraftingPiece == craftingPiece)
 						{
 							num--;
 						}
@@ -706,8 +623,9 @@ namespace TaleWorlds.Core
 					}
 					if (num <= 0)
 					{
-						WeaponComponentData weaponComponentData = new WeaponComponentData(item, weaponDescription.WeaponClass, weaponDescription.WeaponFlags | craftedData.WeaponFlags);
-						Crafting.CraftedItemGenerationHelper.CraftingStats.FillWeapon(item, weaponComponentData, weaponDescription, flag, overridenData);
+						WeaponFlags weaponFlags = weaponDescription.WeaponFlags | weaponDesign.WeaponFlags;
+						WeaponComponentData weaponComponentData;
+						Crafting.CraftedItemGenerationHelper.CraftingStats.FillWeapon(item, weaponDescription, weaponFlags, flag, out weaponComponentData);
 						item.AddWeapon(weaponComponentData, itemModifierGroup);
 						flag = true;
 					}
@@ -717,18 +635,19 @@ namespace TaleWorlds.Core
 
 			private struct CraftingStats
 			{
-				public static void FillWeapon(ItemObject item, WeaponComponentData weapon, WeaponDescription weaponDescription, bool isAlternative, Crafting.OverrideData overridenData)
+				public static void FillWeapon(ItemObject item, WeaponDescription weaponDescription, WeaponFlags weaponFlags, bool isAlternative, out WeaponComponentData filledWeapon)
 				{
+					filledWeapon = new WeaponComponentData(item, weaponDescription.WeaponClass, weaponFlags);
 					Crafting.CraftedItemGenerationHelper.CraftingStats craftingStats = new Crafting.CraftedItemGenerationHelper.CraftingStats
 					{
 						_craftedData = item.WeaponDesign,
 						_weaponDescription = weaponDescription
 					};
-					craftingStats.CalculateStats(overridenData);
-					craftingStats.SetWeaponData(weapon, isAlternative);
+					craftingStats.CalculateStats();
+					craftingStats.SetWeaponData(filledWeapon, isAlternative);
 				}
 
-				private void CalculateStats(Crafting.OverrideData overridenData)
+				private void CalculateStats()
 				{
 					WeaponDesign craftedData = this._craftedData;
 					this._stoppingTorque = 10f;
@@ -777,13 +696,7 @@ namespace TaleWorlds.Core
 						this.CalculateSwingBaseDamage(out this._currentWeaponSwingDamage);
 						this.CalculateThrustBaseDamage(out this._currentWeaponThrustDamage, false);
 					}
-					this._currentWeaponSwingSpeed += (float)overridenData.SwingSpeedOverriden / 4.5454545f;
-					this._currentWeaponThrustSpeed += (float)overridenData.ThrustSpeedOverriden / 11.764706f;
-					this._currentWeaponSwingDamage += (float)overridenData.SwingDamageOverriden;
-					this._currentWeaponThrustDamage += (float)overridenData.ThrustDamageOverriden;
-					this._currentWeaponHandling += (float)overridenData.Handling;
 					this._currentWeaponSweetSpot = this.CalculateSweetSpot();
-					this._currentWeaponWeight += overridenData.WeightOverriden;
 				}
 
 				private void SetWeaponData(WeaponComponentData weapon, bool isAlternative)
@@ -1047,7 +960,7 @@ namespace TaleWorlds.Core
 						return;
 					default:
 						damage = 0f;
-						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "CalculateMissileDamage", 550);
+						Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "CalculateMissileDamage", 508);
 						return;
 					}
 				}
@@ -1066,7 +979,7 @@ namespace TaleWorlds.Core
 					{
 						return weaponTiers;
 					}
-					Debug.FailedAssert("Couldn't calculate weapon tier", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "CalculateWeaponTier", 571);
+					Debug.FailedAssert("Couldn't calculate weapon tier", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "CalculateWeaponTier", 529);
 					return WeaponComponentData.WeaponTiers.Tier1;
 				}
 
@@ -1109,7 +1022,7 @@ namespace TaleWorlds.Core
 					{
 						return this._currentWeaponThrustSpeed * 3.6f;
 					}
-					Debug.FailedAssert("Weapon is not a missile.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "CalculateMissileSpeed", 622);
+					Debug.FailedAssert("Weapon is not a missile.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "CalculateMissileSpeed", 580);
 					return 10f;
 				}
 

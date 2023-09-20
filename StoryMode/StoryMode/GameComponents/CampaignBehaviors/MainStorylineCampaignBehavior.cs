@@ -1,8 +1,12 @@
 ﻿using System;
 using StoryMode.Quests.PlayerClanQuests;
 using StoryMode.StoryModeObjects;
+using StoryMode.StoryModePhases;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
 
 namespace StoryMode.GameComponents.CampaignBehaviors
 {
@@ -31,6 +35,32 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			{
 				DisableHeroAction.Apply(StoryModeHeroes.LittleBrother);
 				StoryModeHeroes.LittleBrother.ChangeState(0);
+			}
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.2.0", 24202))
+			{
+				FirstPhase instance = FirstPhase.Instance;
+				if (instance != null && instance.AllPiecesCollected)
+				{
+					ItemObject @object = Campaign.Current.ObjectManager.GetObject<ItemObject>("dragon_banner");
+					bool flag = false;
+					foreach (ItemRosterElement itemRosterElement in MobileParty.MainParty.ItemRoster)
+					{
+						if (itemRosterElement.EquipmentElement.Item == @object)
+						{
+							flag = true;
+							break;
+						}
+					}
+					if (!flag)
+					{
+						FirstPhase firstPhase = StoryModeManager.Current.MainStoryLine.FirstPhase;
+						if (firstPhase == null)
+						{
+							return;
+						}
+						firstPhase.MergeDragonBanner();
+					}
+				}
 			}
 		}
 

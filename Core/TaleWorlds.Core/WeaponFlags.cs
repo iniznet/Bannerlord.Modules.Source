@@ -27,6 +27,7 @@ namespace TaleWorlds.Core
 		CanPenetrateShield = 131072UL,
 		CantReloadOnHorseback = 262144UL,
 		AutoReload = 524288UL,
+		CanKillEvenIfBlunt = 1048576UL,
 		TwoHandIdleOnMount = 2097152UL,
 		NoBlood = 4194304UL,
 		PenaltyWithShield = 8388608UL,

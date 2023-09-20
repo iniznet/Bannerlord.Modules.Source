@@ -139,10 +139,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					this.RemoveTeleportationData(teleportationData, true, true);
 				}
 			}
-			if (mobileParty.ActualClan == Clan.PlayerClan)
-			{
-				CampaignEventDispatcher.Instance.OnPartyLeaderChangeOfferCanceled(mobileParty);
-			}
 		}
 
 		private void OnSettlementOwnerChanged(Settlement settlement, bool openToClaim, Hero newOwner, Hero oldOwner, Hero capturerHero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
@@ -268,7 +264,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		{
 			if (isCanceled)
 			{
-				if (data.TeleportingHero.IsTraveling)
+				if (data.TeleportingHero.IsTraveling && data.TeleportingHero.DeathMark == KillCharacterAction.KillCharacterActionDetail.None)
 				{
 					MakeHeroFugitiveAction.Apply(data.TeleportingHero);
 				}
@@ -322,7 +318,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private List<TeleportationCampaignBehavior.TeleportationData> _teleportationList = new List<TeleportationCampaignBehavior.TeleportationData>();
 
-		public class TeleportationCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class TeleportationCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public TeleportationCampaignBehaviorTypeDefiner()
 				: base(151000)

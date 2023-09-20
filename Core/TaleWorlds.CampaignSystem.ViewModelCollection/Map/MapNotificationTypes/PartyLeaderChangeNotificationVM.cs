@@ -30,9 +30,20 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 				base.ExecuteRemove();
 			};
 			CampaignEvents.OnPartyLeaderChangeOfferCanceledEvent.AddNonSerializedListener(this, new Action<MobileParty>(this.OnPartyLeaderChangeOfferCanceled));
+			CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, new Action<MobileParty, PartyBase>(this.OnMobilePartyDestroyed));
 		}
 
 		private void OnPartyLeaderChangeOfferCanceled(MobileParty party)
+		{
+			this.CheckAndExecuteRemove(party);
+		}
+
+		private void OnMobilePartyDestroyed(MobileParty party, PartyBase destroyerParty)
+		{
+			this.CheckAndExecuteRemove(party);
+		}
+
+		private void CheckAndExecuteRemove(MobileParty party)
 		{
 			if (Campaign.Current.CampaignInformationManager.InformationDataExists<PartyLeaderChangeNotification>((PartyLeaderChangeNotification x) => x.Party == party))
 			{

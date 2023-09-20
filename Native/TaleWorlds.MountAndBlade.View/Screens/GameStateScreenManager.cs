@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
+using TaleWorlds.Library;
 using TaleWorlds.ScreenSystem;
 
 namespace TaleWorlds.MountAndBlade.View.Screens
@@ -32,7 +33,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 
 		private void OnManagedOptionChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
-			if (changedManagedOptionsType == 25)
+			if (changedManagedOptionsType == 26)
 			{
 				if (!BannerlordConfig.ForceVSyncInMenus)
 				{
@@ -48,7 +49,7 @@ namespace TaleWorlds.MountAndBlade.View.Screens
 
 		private void CheckAssemblyScreens(Assembly assembly)
 		{
-			foreach (Type type in assembly.GetTypes())
+			foreach (Type type in Extensions.GetTypesSafe(assembly, null))
 			{
 				object[] customAttributes = type.GetCustomAttributes(typeof(GameStateScreen), false);
 				if (customAttributes != null && customAttributes.Length != 0)

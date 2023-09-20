@@ -17,29 +17,5 @@ namespace TaleWorlds.MountAndBlade
 				return myPeer.VirtualPlayer;
 			}
 		}
-
-		bool INetworkCommunication.IsServer
-		{
-			get
-			{
-				return GameNetwork.IsServer;
-			}
-		}
-
-		bool INetworkCommunication.IsClient
-		{
-			get
-			{
-				return GameNetwork.IsClient;
-			}
-		}
-
-		bool INetworkCommunication.MultiplayerDisabled
-		{
-			get
-			{
-				return GameNetwork.MultiplayerDisabled;
-			}
-		}
 	}
 }

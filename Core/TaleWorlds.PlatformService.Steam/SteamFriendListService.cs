@@ -71,11 +71,11 @@ namespace TaleWorlds.PlatformService.Steam
 		{
 			if (SteamAPI.IsSteamRunning() && this._steamPlatformServices.Initialized)
 			{
-				int friendCount = SteamFriends.GetFriendCount(4);
+				int friendCount = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
 				int num;
 				for (int i = 0; i < friendCount; i = num)
 				{
-					yield return SteamFriends.GetFriendByIndex(i, 4).ToPlayerId();
+					yield return SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate).ToPlayerId();
 					num = i + 1;
 				}
 			}

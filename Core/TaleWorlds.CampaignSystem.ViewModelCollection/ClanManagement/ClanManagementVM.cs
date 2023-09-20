@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Helpers;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Settlements.Workshops;
@@ -12,6 +11,7 @@ using TaleWorlds.Core.ViewModelCollection.Information;
 using TaleWorlds.Core.ViewModelCollection.Tutorial;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.Library.Information;
 using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
@@ -25,7 +25,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 			this._openBannerEditor = openBannerEditor;
 			this._showHeroOnMap = showHeroOnMap;
 			this._clan = Hero.MainHero.Clan;
-			this._playerUpdateTracker = PlayerUpdateTracker.Current;
 			this.CardSelectionPopup = new ClanCardSelectionPopupVM();
 			this.ClanMembers = new ClanMembersVM(new Action(this.RefreshCategoryValues), this._showHeroOnMap);
 			this.ClanFiefs = new ClanFiefsVM(new Action(this.RefreshCategoryValues), new Action<ClanCardSelectionInfo>(this.CardSelectionPopup.Open));
@@ -52,7 +51,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				this.IsRenownProgressComplete = true;
 			}
 			this.RenownHint = new BasicTooltipViewModel(() => CampaignUIHelper.GetClanRenownTooltip(Clan.PlayerClan));
-			this.GoldChangeTooltip = new BasicTooltipViewModel(() => CampaignUIHelper.GetGoldTooltip(Clan.PlayerClan));
+			this.GoldChangeTooltip = CampaignUIHelper.GetDenarTooltip();
 			this.RefreshDailyValues();
 			this.CanChooseBanner = true;
 			TextObject textObject2;
@@ -927,7 +926,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 		}
 
 		[DataSourceProperty]
-		public BasicTooltipViewModel GoldChangeTooltip
+		public TooltipTriggerVM GoldChangeTooltip
 		{
 			get
 			{
@@ -938,7 +937,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 				if (value != this._goldChangeTooltip)
 				{
 					this._goldChangeTooltip = value;
-					base.OnPropertyChangedWithValue<BasicTooltipViewModel>(value, "GoldChangeTooltip");
+					base.OnPropertyChangedWithValue<TooltipTriggerVM>(value, "GoldChangeTooltip");
 				}
 			}
 		}
@@ -1309,8 +1308,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 
 		private readonly Clan _clan;
 
-		private PlayerUpdateTracker _playerUpdateTracker;
-
 		private readonly int _categoryCount;
 
 		private int _currentCategory;
@@ -1415,7 +1412,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.ClanManagement
 
 		private string _expenseText;
 
-		private BasicTooltipViewModel _goldChangeTooltip;
+		private TooltipTriggerVM _goldChangeTooltip;
 
 		private InputKeyItemVM _doneInputKey;
 

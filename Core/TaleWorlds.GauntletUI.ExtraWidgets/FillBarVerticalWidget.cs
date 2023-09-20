@@ -17,9 +17,17 @@ namespace TaleWorlds.GauntletUI.ExtraWidgets
 			if (this.FillWidget != null)
 			{
 				float y = this.FillWidget.ParentWidget.Size.Y;
-				float num = Mathf.Clamp(Mathf.Clamp((float)this.InitialAmount, 0f, (float)this.MaxAmount) / (float)this.MaxAmount, 0f, 1f);
+				float num = 0f;
+				if (this.MaxAmount != 0)
+				{
+					num = Mathf.Clamp(Mathf.Clamp((float)this.InitialAmount, 0f, (float)this.MaxAmount) / (float)this.MaxAmount, 0f, 1f);
+				}
 				float num2 = (this._isCurrentValueSet ? Mathf.Clamp((float)(this.CurrentAmount - this.InitialAmount), (float)(-(float)this.MaxAmount), (float)this.MaxAmount) : 0f);
-				float num3 = (this._isCurrentValueSet ? Mathf.Clamp(num2 / (float)this.MaxAmount, -1f, 1f) : 0f);
+				float num3 = 0f;
+				if (this.MaxAmount != 0)
+				{
+					num3 = (this._isCurrentValueSet ? Mathf.Clamp(num2 / (float)this.MaxAmount, -1f, 1f) : 0f);
+				}
 				if (this.IsDirectionUpward)
 				{
 					this.FillWidget.VerticalAlignment = VerticalAlignment.Bottom;

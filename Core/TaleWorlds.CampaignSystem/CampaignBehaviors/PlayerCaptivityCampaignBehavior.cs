@@ -250,6 +250,11 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				GameMenu.SwitchToMenu("menu_captivity_transfer_to_town");
 				return;
 			}
+			if ((PlayerCaptivity.CaptorParty.IsSettlement && PlayerCaptivity.CaptorParty.Settlement.IsVillage) || (PlayerCaptivity.CaptorParty.IsMobile && (PlayerCaptivity.CaptorParty.MobileParty.IsVillager || PlayerCaptivity.CaptorParty.MobileParty.IsCaravan)))
+			{
+				GameMenu.SwitchToMenu("menu_captivity_end_no_more_enemies");
+				return;
+			}
 			float playerProgress = Campaign.Current.PlayerProgress;
 			float num = (0.4f + playerProgress * 0.4f) * 24f;
 			num *= (Hero.MainHero.PartyBelongedToAsPrisoner.IsSettlement ? 2f : ((Hero.MainHero.PartyBelongedToAsPrisoner.IsMobile && Hero.MainHero.PartyBelongedToAsPrisoner.LeaderHero != null) ? 1.5f : 1f));
@@ -311,7 +316,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					}
 					if (Hero.MainHero.PartyBelongedToAsPrisoner.IsMobile && Hero.MainHero.GetPerkValue(DefaultPerks.Roguery.FleetFooted))
 					{
-						num5 *= 1f + DefaultPerks.Roguery.FleetFooted.SecondaryBonus * 0.01f;
+						num5 *= 1f + DefaultPerks.Roguery.FleetFooted.SecondaryBonus;
 					}
 				}
 				if (randomFloat < num5)

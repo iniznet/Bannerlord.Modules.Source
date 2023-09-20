@@ -589,7 +589,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 			this.OnGameLoad();
 		}
 
+		internal void HourlyTickWithIssueManager()
+		{
+			this.HourlyTick();
+		}
+
 		protected abstract void OnGameLoad();
+
+		protected abstract void HourlyTick();
 
 		protected abstract QuestBase GenerateIssueQuest(string questId);
 
@@ -787,8 +794,23 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		private void AlternativeSolutionEndWithSuccess()
 		{
+			if (this.AlternativeSolutionHero == null)
+			{
+				Debug.Print("AlternativeSolutionHero is null for " + base.StringId, 0, Debug.DebugColor.White, 17592186044416UL);
+				Debug.Print("AlternativeSolutionSentTroops:", 0, Debug.DebugColor.White, 17592186044416UL);
+				foreach (TroopRosterElement troopRosterElement in this.AlternativeSolutionSentTroops.GetTroopRoster())
+				{
+					Debug.Print(string.Concat(new object[]
+					{
+						"troop id: ",
+						troopRosterElement.Character.StringId,
+						" count:",
+						troopRosterElement.Number
+					}), 0, Debug.DebugColor.White, 17592186044416UL);
+				}
+			}
 			int totalManCount = this.AlternativeSolutionSentTroops.TotalManCount;
-			this.AlternativeSolutionSentTroops.KillNumberOfMenRandomly(this._alternativeSolutionCasualtyCount, false);
+			this.AlternativeSolutionSentTroops.KillNumberOfNonHeroTroopsRandomly(this._alternativeSolutionCasualtyCount);
 			float num = 0.5f;
 			float num2 = 1.2f - (float)this.AlternativeSolutionBaseNeededMenCount / (float)this.AlternativeSolutionSentTroops.TotalManCount;
 			foreach (FlattenedTroopRosterElement flattenedTroopRosterElement in this.AlternativeSolutionSentTroops.ToFlattenedRoster())
@@ -801,7 +823,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					this.AlternativeSolutionSentTroops.WoundTroop(flattenedTroopRosterElement.Troop, 1, default(UniqueTroopDescriptor));
 				}
-				if (this.AlternativeSolutionHero != null && flattenedTroopRosterElement.Troop == this.AlternativeSolutionHero.CharacterObject && this.AlternativeSolutionHero.IsAlive)
+				if (flattenedTroopRosterElement.Troop == this.AlternativeSolutionHero.CharacterObject && this.AlternativeSolutionHero.IsAlive)
 				{
 					this.AlternativeSolutionHero.AddSkillXp(this._companionRewardSkill, (float)this.CompanionSkillRewardXP);
 				}
@@ -814,9 +836,9 @@ namespace TaleWorlds.CampaignSystem.Issues
 			while (num5 < num3 && list.Count > 0)
 			{
 				List<ValueTuple<TroopRosterElement, float>> list2 = new List<ValueTuple<TroopRosterElement, float>>();
-				foreach (TroopRosterElement troopRosterElement in list)
+				foreach (TroopRosterElement troopRosterElement2 in list)
 				{
-					list2.Add(new ValueTuple<TroopRosterElement, float>(troopRosterElement, (float)troopRosterElement.Number));
+					list2.Add(new ValueTuple<TroopRosterElement, float>(troopRosterElement2, (float)troopRosterElement2.Number));
 				}
 				int num6 = this.AlternativeSolutionSentTroops.FindIndexOfTroop(MBRandom.ChooseWeighted<TroopRosterElement>(list2).Character);
 				this.AlternativeSolutionSentTroops.SetElementXp(num6, num4 + this.AlternativeSolutionSentTroops.GetElementXp(num6));
@@ -901,7 +923,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			int totalManCount = this.AlternativeSolutionSentTroops.TotalManCount;
 			if (this.AlternativeSolutionHasCasualties)
 			{
-				this.AlternativeSolutionSentTroops.KillNumberOfMenRandomly(this._alternativeSolutionCasualtyCount, false);
+				this.AlternativeSolutionSentTroops.KillNumberOfNonHeroTroopsRandomly(this._alternativeSolutionCasualtyCount);
 				this.AlternativeSolutionHero.MakeWounded(null, KillCharacterAction.KillCharacterActionDetail.None);
 			}
 			if (this.AlternativeSolutionHasCasualties && this._alternativeSolutionCasualtyCount > 0)

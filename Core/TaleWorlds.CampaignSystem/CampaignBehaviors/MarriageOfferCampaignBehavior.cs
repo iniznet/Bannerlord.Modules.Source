@@ -12,33 +12,9 @@ using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
-	public class MarriageOfferCampaignBehavior : CampaignBehaviorBase
+	public class MarriageOfferCampaignBehavior : CampaignBehaviorBase, IMarriageOfferCampaignBehavior, ICampaignBehavior
 	{
-		private static TextObject DecisionPopUpTitleText
-		{
-			get
-			{
-				return new TextObject("{=ho5EndaV}Decision", null);
-			}
-		}
-
-		private static TextObject DecisionPopUpAffirmativeText
-		{
-			get
-			{
-				return new TextObject("{=Y94H6XnK}Accept", null);
-			}
-		}
-
-		private static TextObject DecisionPopUpNegativeText
-		{
-			get
-			{
-				return new TextObject("{=cOgmdp9e}Decline", null);
-			}
-		}
-
-		private bool _isThereActiveMarriageOffer
+		internal bool IsThereActiveMarriageOffer
 		{
 			get
 			{
@@ -48,7 +24,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		public override void RegisterEvents()
 		{
-			CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, new Action(this.OnGameLoadFinished));
 			CampaignEvents.DailyTickClanEvent.AddNonSerializedListener(this, new Action<Clan>(this.DailyTickClan));
 			CampaignEvents.OnMarriageOfferedToPlayerEvent.AddNonSerializedListener(this, new Action<Hero, Hero>(this.OnMarriageOfferedToPlayer));
 			CampaignEvents.OnMarriageOfferCanceledEvent.AddNonSerializedListener(this, new Action<Hero, Hero>(this.OnMarriageOfferCanceled));
@@ -71,12 +46,63 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			dataStore.SyncData<CampaignTime>("_lastMarriageOfferTime", ref this._lastMarriageOfferTime);
 		}
 
-		private void OnGameLoadFinished()
+		public void CreateMarriageOffer(Hero currentOfferedPlayerClanHero, Hero currentOfferedOtherClanHero)
 		{
-			if (this._isThereActiveMarriageOffer && !Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero))
+			this._currentOfferedPlayerClanHero = currentOfferedPlayerClanHero;
+			this._currentOfferedOtherClanHero = currentOfferedOtherClanHero;
+			this._lastMarriageOfferTime = CampaignTime.Now;
+			this.MarriageOfferPanelExplanationText.SetCharacterProperties("CLAN_MEMBER", this._currentOfferedPlayerClanHero.CharacterObject, false);
+			this.MarriageOfferPanelExplanationText.SetTextVariable("OFFERING_CLAN_NAME", this._currentOfferedOtherClanHero.Clan.Name);
+			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new MarriageOfferMapNotification(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero, this.MarriageOfferPanelExplanationText));
+		}
+
+		public MBBindingList<TextObject> GetMarriageAcceptedConsequences()
+		{
+			MBBindingList<TextObject> mbbindingList = new MBBindingList<TextObject>();
+			TextObject textObject = GameTexts.FindText("str_marriage_consequence_hero_join_clan", null);
+			if (Campaign.Current.Models.MarriageModel.GetClanAfterMarriage(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero) == this._currentOfferedPlayerClanHero.Clan)
 			{
-				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
+				textObject.SetCharacterProperties("HERO", this._currentOfferedOtherClanHero.CharacterObject, false);
+				textObject.SetTextVariable("CLAN_NAME", this._currentOfferedPlayerClanHero.Clan.Name);
 			}
+			else
+			{
+				textObject.SetCharacterProperties("HERO", this._currentOfferedPlayerClanHero.CharacterObject, false);
+				textObject.SetTextVariable("CLAN_NAME", this._currentOfferedOtherClanHero.Clan.Name);
+			}
+			mbbindingList.Add(textObject);
+			TextObject textObject2 = GameTexts.FindText("str_marriage_consequence_clan_relation", null);
+			textObject2.SetTextVariable("CLAN_NAME", this._currentOfferedOtherClanHero.Clan.Name);
+			textObject2.SetTextVariable("AMOUNT", 10.ToString("+0;-#"));
+			mbbindingList.Add(textObject2);
+			return mbbindingList;
+		}
+
+		public void OnMarriageOfferAcceptedOnPopUp()
+		{
+			if (this._currentOfferedPlayerClanHero != Hero.MainHero)
+			{
+				Hero hero = (this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero);
+				Hero hero2 = (this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
+				MBInformationManager.ShowSceneNotification(new MarriageSceneNotificationItem(hero, hero2, CampaignTime.Now, SceneNotificationData.RelevantContextType.Any));
+			}
+			ChangeRelationAction.ApplyPlayerRelation(this._currentOfferedOtherClanHero.Clan.Leader, 10, true, true);
+			MarriageAction.Apply(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero, true);
+			this.FinalizeMarriageOffer();
+		}
+
+		public void OnMarriageOfferDeclinedOnPopUp()
+		{
+			CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
+		}
+
+		public void OnMarriageOfferedToPlayer(Hero suitor, Hero maiden)
+		{
+		}
+
+		public void OnMarriageOfferCanceled(Hero suitor, Hero maiden)
+		{
+			this.FinalizeMarriageOffer();
 		}
 
 		private void DailyTickClan(Clan consideringClan)
@@ -97,19 +123,9 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 		}
 
-		private void OnMarriageOfferedToPlayer(Hero suitor, Hero maiden)
-		{
-			this.CreateMarriageOfferDecisionPopUp();
-		}
-
-		private void OnMarriageOfferCanceled(Hero suitor, Hero maiden)
-		{
-			this.FinalizeMarriageOffer();
-		}
-
 		private void HourlyTick()
 		{
-			if (this._isThereActiveMarriageOffer && this._lastMarriageOfferTime.ElapsedHoursUntilNow >= 48f)
+			if (this.IsThereActiveMarriageOffer && this._lastMarriageOfferTime.ElapsedHoursUntilNow >= 48f)
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -117,7 +133,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnHeroPrisonerTaken(PartyBase capturer, Hero prisoner)
 		{
-			if (this._isThereActiveMarriageOffer && (prisoner == Hero.MainHero || prisoner == this._currentOfferedPlayerClanHero || prisoner == this._currentOfferedOtherClanHero))
+			if (this.IsThereActiveMarriageOffer && (prisoner == Hero.MainHero || prisoner == this._currentOfferedPlayerClanHero || prisoner == this._currentOfferedOtherClanHero))
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -125,7 +141,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnHeroesMarried(Hero hero1, Hero hero2, bool showNotification = true)
 		{
-			if (this._isThereActiveMarriageOffer && ((hero1 == this._currentOfferedPlayerClanHero && hero2 == this._currentOfferedOtherClanHero) || (hero1 == this._currentOfferedOtherClanHero && hero2 == this._currentOfferedPlayerClanHero)))
+			if (this.IsThereActiveMarriageOffer && ((hero1 == this._currentOfferedPlayerClanHero && hero2 == this._currentOfferedOtherClanHero) || (hero1 == this._currentOfferedOtherClanHero && hero2 == this._currentOfferedPlayerClanHero)))
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -133,7 +149,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification = true)
 		{
-			if (this._isThereActiveMarriageOffer && (victim == Hero.MainHero || victim == this._currentOfferedPlayerClanHero || victim == this._currentOfferedOtherClanHero))
+			if (this.IsThereActiveMarriageOffer && (victim == Hero.MainHero || victim == this._currentOfferedPlayerClanHero || victim == this._currentOfferedOtherClanHero))
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -141,7 +157,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnArmyCreated(Army army)
 		{
-			if (this._isThereActiveMarriageOffer)
+			if (this.IsThereActiveMarriageOffer)
 			{
 				MobileParty partyBelongedTo = this._currentOfferedPlayerClanHero.PartyBelongedTo;
 				if (((partyBelongedTo != null) ? partyBelongedTo.Army : null) == null)
@@ -158,7 +174,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
 		{
-			if (this._isThereActiveMarriageOffer)
+			if (this.IsThereActiveMarriageOffer)
 			{
 				MobileParty partyBelongedTo = this._currentOfferedPlayerClanHero.PartyBelongedTo;
 				if (((partyBelongedTo != null) ? partyBelongedTo.MapEvent : null) == null)
@@ -175,7 +191,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void CharacterBecameFugitive(Hero hero)
 		{
-			if (this._isThereActiveMarriageOffer && (!this._currentOfferedPlayerClanHero.IsActive || !this._currentOfferedOtherClanHero.IsActive))
+			if (this.IsThereActiveMarriageOffer && (!this._currentOfferedPlayerClanHero.IsActive || !this._currentOfferedOtherClanHero.IsActive))
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -183,7 +199,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail declareWarDetail)
 		{
-			if (this._isThereActiveMarriageOffer && (!Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero) || !Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(Clan.PlayerClan, this._currentOfferedOtherClanHero.Clan)))
+			if (this.IsThereActiveMarriageOffer && (!Campaign.Current.Models.MarriageModel.IsCoupleSuitableForMarriage(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero) || !Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(Clan.PlayerClan, this._currentOfferedOtherClanHero.Clan)))
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -191,7 +207,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnHeroRelationChanged(Hero effectiveHero, Hero effectiveHeroGainedRelationWith, int relationChange, bool showNotification, ChangeRelationAction.ChangeRelationDetail detail, Hero originalHero, Hero originalGainedRelationWith)
 		{
-			if (this._isThereActiveMarriageOffer && (effectiveHero.Clan == this._currentOfferedPlayerClanHero.Clan || effectiveHero.Clan == this._currentOfferedOtherClanHero.Clan) && (effectiveHeroGainedRelationWith.Clan == this._currentOfferedPlayerClanHero.Clan || effectiveHeroGainedRelationWith.Clan == this._currentOfferedOtherClanHero.Clan) && !Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(this._currentOfferedPlayerClanHero.Clan, this._currentOfferedOtherClanHero.Clan))
+			if (this.IsThereActiveMarriageOffer && (effectiveHero.Clan == this._currentOfferedPlayerClanHero.Clan || effectiveHero.Clan == this._currentOfferedOtherClanHero.Clan) && (effectiveHeroGainedRelationWith.Clan == this._currentOfferedPlayerClanHero.Clan || effectiveHeroGainedRelationWith.Clan == this._currentOfferedOtherClanHero.Clan) && !Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(this._currentOfferedPlayerClanHero.Clan, this._currentOfferedOtherClanHero.Clan))
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -199,7 +215,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
 		{
-			if (this._isThereActiveMarriageOffer && (this._currentOfferedPlayerClanHero.Clan == clan || this._currentOfferedOtherClanHero.Clan == clan) && !Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(this._currentOfferedPlayerClanHero.Clan, this._currentOfferedOtherClanHero.Clan))
+			if (this.IsThereActiveMarriageOffer && (this._currentOfferedPlayerClanHero.Clan == clan || this._currentOfferedOtherClanHero.Clan == clan) && !Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(this._currentOfferedPlayerClanHero.Clan, this._currentOfferedOtherClanHero.Clan))
 			{
 				CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
 			}
@@ -207,7 +223,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private bool CanOfferMarriageForClan(Clan consideringClan)
 		{
-			return !this._isThereActiveMarriageOffer && this._lastMarriageOfferTime.ElapsedWeeksUntilNow >= 1f && !Hero.MainHero.IsPrisoner && consideringClan != Clan.PlayerClan && Campaign.Current.Models.MarriageModel.IsClanSuitableForMarriage(consideringClan) && Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(Clan.PlayerClan, consideringClan);
+			return !this.IsThereActiveMarriageOffer && this._lastMarriageOfferTime.ElapsedWeeksUntilNow >= 1f && !Hero.MainHero.IsPrisoner && consideringClan != Clan.PlayerClan && Campaign.Current.Models.MarriageModel.IsClanSuitableForMarriage(consideringClan) && Campaign.Current.Models.MarriageModel.ShouldNpcMarriageBetweenClansBeAllowed(Clan.PlayerClan, consideringClan);
 		}
 
 		private bool ConsiderMarriageForPlayerClanMember(Hero playerClanHero, Clan consideringClan)
@@ -232,49 +248,6 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return false;
 		}
 
-		private void CreateMarriageOffer(Hero currentOfferedPlayerClanHero, Hero currentOfferedOtherClanHero)
-		{
-			this._currentOfferedPlayerClanHero = currentOfferedPlayerClanHero;
-			this._currentOfferedOtherClanHero = currentOfferedOtherClanHero;
-			this._lastMarriageOfferTime = CampaignTime.Now;
-			MarriageOfferCampaignBehavior.MarriageOfferPanelExplanationText.SetCharacterProperties("CLAN_MEMBER", this._currentOfferedPlayerClanHero.CharacterObject, false);
-			MarriageOfferCampaignBehavior.MarriageOfferPanelExplanationText.SetCharacterProperties("OFFERED_HERO", this._currentOfferedOtherClanHero.CharacterObject, false);
-			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new MarriageOfferMapNotification(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero, MarriageOfferCampaignBehavior.MarriageOfferPanelExplanationText));
-		}
-
-		private void CreateMarriageOfferDecisionPopUp()
-		{
-			TextObject textObject;
-			if (this._currentOfferedOtherClanHero == this._currentOfferedPlayerClanHero.Clan.Leader)
-			{
-				textObject = MarriageOfferCampaignBehavior.DecisionPopUpExplanationTextForLeaderOffer;
-			}
-			else
-			{
-				textObject = MarriageOfferCampaignBehavior.DecisionPopUpExplanationTextForRegularOffer;
-				textObject.SetCharacterProperties("OFFERED_HERO", this._currentOfferedOtherClanHero.CharacterObject, false);
-			}
-			textObject.SetTextVariable("CLAN_NAME", this._currentOfferedOtherClanHero.Clan.Name);
-			textObject.SetCharacterProperties("CLAN_LEADER", this._currentOfferedOtherClanHero.Clan.Leader.CharacterObject, false);
-			textObject.SetCharacterProperties("PLAYER_CLAN_HERO", this._currentOfferedPlayerClanHero.CharacterObject, false);
-			InformationManager.ShowInquiry(new InquiryData(MarriageOfferCampaignBehavior.DecisionPopUpTitleText.ToString(), textObject.ToString(), true, true, MarriageOfferCampaignBehavior.DecisionPopUpAffirmativeText.ToString(), MarriageOfferCampaignBehavior.DecisionPopUpNegativeText.ToString(), new Action(this.OnMarriageOfferAcceptedOnPopUp), new Action(this.OnMarriageOfferDeclinedOnPopUp), "", 0f, null, null, null), false, false);
-		}
-
-		private void OnMarriageOfferAcceptedOnPopUp()
-		{
-			Hero hero = (this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero);
-			Hero hero2 = (this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
-			MBInformationManager.ShowSceneNotification(new MarriageSceneNotificationItem(hero, hero2, SceneNotificationData.RelevantContextType.Any));
-			ChangeRelationAction.ApplyPlayerRelation(this._currentOfferedOtherClanHero.Clan.Leader, 10, true, true);
-			MarriageAction.Apply(this._currentOfferedPlayerClanHero, this._currentOfferedOtherClanHero, true);
-			this.FinalizeMarriageOffer();
-		}
-
-		private void OnMarriageOfferDeclinedOnPopUp()
-		{
-			CampaignEventDispatcher.Instance.OnMarriageOfferCanceled(this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedOtherClanHero : this._currentOfferedPlayerClanHero, this._currentOfferedPlayerClanHero.IsFemale ? this._currentOfferedPlayerClanHero : this._currentOfferedOtherClanHero);
-		}
-
 		private void FinalizeMarriageOffer()
 		{
 			this._currentOfferedPlayerClanHero = null;
@@ -287,11 +260,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private const float MapNotificationAutoDeclineDurationInHours = 48f;
 
-		private static TextObject DecisionPopUpExplanationTextForLeaderOffer = new TextObject("{=EQSIg1W3}A courier arrives from {CLAN_LEADER.NAME}, head of the {CLAN_NAME}. {?CLAN_LEADER.GENDER}She{?}He{\\?} proposes that {?CLAN_LEADER.GENDER}herself{?}himself{\\?} marry {PLAYER_CLAN_HERO.NAME}, from your clan. The couple appear to be compatible. Do you accept?", null);
-
-		private static TextObject DecisionPopUpExplanationTextForRegularOffer = new TextObject("{=bipaJ1c4}A courier arrives from {CLAN_LEADER.NAME}, head of the {CLAN_NAME}. {?CLAN_LEADER.GENDER}She{?}He{\\?} proposes that {?CLAN_LEADER.GENDER}her{?}his{\\?} {?OFFERED_HERO.GENDER}kinswoman{?}kinsman{\\?} {OFFERED_HERO.NAME} marry {PLAYER_CLAN_HERO.NAME}, from your clan. The couple appear to be compatible. Do you accept?", null);
-
-		private static TextObject MarriageOfferPanelExplanationText = new TextObject("{=CZwrlJMJ}A courier with a marriage offer for {CLAN_MEMBER.NAME} from {OFFERED_HERO.NAME} has arrived.", null);
+		private readonly TextObject MarriageOfferPanelExplanationText = new TextObject("{=CZwrlJMJ}A courier with a marriage offer for {CLAN_MEMBER.NAME} from {OFFERING_CLAN_NAME} has arrived.", null);
 
 		private Hero _currentOfferedPlayerClanHero;
 

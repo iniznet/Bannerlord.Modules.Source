@@ -170,7 +170,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				return this.MinimumFlankWidth;
+				return (float)(this.UnitCount - 1) * (this.owner.UnitDiameter + this.owner.Interval) + this.owner.UnitDiameter;
 			}
 		}
 
@@ -178,7 +178,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			get
 			{
-				return this.FlankWidth;
+				return (float)(MathF.Max(1, MathF.Ceiling(MathF.Sqrt((float)(this.UnitCount / ColumnFormation.ArrangementAspectRatio)))) - 1) * (this.owner.UnitDiameter + this.owner.Interval) + this.owner.UnitDiameter;
 			}
 		}
 
@@ -224,7 +224,7 @@ namespace TaleWorlds.MountAndBlade
 			rankIndex = this.RankCount - 1;
 			for (int i = 0; i < this.ColumnCount; i++)
 			{
-				int columnOffsetFromColumnIndex = ColumnFormation.GetColumnOffsetFromColumnIndex(i, this.isExpandingFromRightSide);
+				int columnOffsetFromColumnIndex = ColumnFormation.GetColumnOffsetFromColumnIndex(i, this.isExpandingFromRightSide ^ (this.ColumnCount % 2 == 1));
 				fileIndex = this.VanguardFileIndex + columnOffsetFromColumnIndex;
 				if (this._units2D[fileIndex, rankIndex] == null && this.IsUnitPositionAvailable(fileIndex, rankIndex))
 				{
@@ -332,7 +332,7 @@ namespace TaleWorlds.MountAndBlade
 				num++;
 				if (num > 10)
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\ColumnFormation.cs", "AddUnit", 370);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\ColumnFormation.cs", "AddUnit", 371);
 				}
 				int num2;
 				int num3;
@@ -877,7 +877,7 @@ namespace TaleWorlds.MountAndBlade
 
 		public void SwitchUnitLocationsWithUnpositionedUnit(IFormationUnit firstUnit, IFormationUnit secondUnit)
 		{
-			Debug.FailedAssert("Column formation should NOT have an unpositioned unit", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\ColumnFormation.cs", "SwitchUnitLocationsWithUnpositionedUnit", 1168);
+			Debug.FailedAssert("Column formation should NOT have an unpositioned unit", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\ColumnFormation.cs", "SwitchUnitLocationsWithUnpositionedUnit", 1169);
 		}
 
 		public void SwitchUnitLocationsWithBackMostUnit(IFormationUnit unit)
@@ -926,12 +926,14 @@ namespace TaleWorlds.MountAndBlade
 				this._units2D.ResetWithNewCount(this.ColumnCount, num);
 				this.ReconstructUnitsFromUnits2D();
 			}
+			Vec2? localPositionOfUnitOrDefault = this.GetLocalPositionOfUnitOrDefault(unitIndex);
 			Action onShapeChanged = this.OnShapeChanged;
-			if (onShapeChanged != null)
+			if (onShapeChanged == null)
 			{
-				onShapeChanged();
+				return localPositionOfUnitOrDefault;
 			}
-			return null;
+			onShapeChanged();
+			return localPositionOfUnitOrDefault;
 		}
 
 		public void InvalidateCacheOfUnitAux(Vec2 roundedLocalPosition)
@@ -953,7 +955,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return ((formationUnit as Agent).Position.AsVec2 - (this.owner as Formation).QuerySystem.MedianPosition.AsVec2).Normalized();
 			}
-			Debug.FailedAssert("Unexpected case", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\ColumnFormation.cs", "CalculateArrangementOrientation", 1251);
+			Debug.FailedAssert("Unexpected case", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Formation\\ColumnFormation.cs", "CalculateArrangementOrientation", 1254);
 			return this.GetLocalDirectionOfUnit(formationUnit.FormationFileIndex, formationUnit.FormationRankIndex);
 		}
 
@@ -985,7 +987,7 @@ namespace TaleWorlds.MountAndBlade
 					{
 						IFormationUnit formationUnit = this._units2D[j, i];
 						int num = rankCount - i - 1;
-						int num2 = j;
+						int num2 = this.FileCount - j - 1;
 						IFormationUnit formationUnit2 = this._units2D[num2, num];
 						if (formationUnit2 == null)
 						{
@@ -1070,6 +1072,10 @@ namespace TaleWorlds.MountAndBlade
 
 		public virtual void RearrangeFrom(IFormationArrangement arrangement)
 		{
+			if (arrangement is LineFormation)
+			{
+				this.FlankWidth = (float)MathF.Max(0, MathF.Ceiling(MathF.Sqrt((float)(arrangement.UnitCount / 5))) - 1) * (this.owner.UnitDiameter + this.owner.Interval) + this.owner.UnitDiameter;
+			}
 		}
 
 		public virtual void RearrangeTo(IFormationArrangement arrangement)
@@ -1470,6 +1476,8 @@ namespace TaleWorlds.MountAndBlade
 			{
 			}
 		}
+
+		public static readonly int ArrangementAspectRatio = 5;
 
 		private readonly IFormation owner;
 

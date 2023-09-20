@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
@@ -8,12 +9,13 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	{
 		public static MatchmakingQueueStats Empty { get; private set; } = new MatchmakingQueueStats();
 
+		[JsonIgnore]
 		public int TotalCount
 		{
 			get
 			{
 				int num = 0;
-				foreach (MatchmakingQueueRegionStats matchmakingQueueRegionStats in this._regionStats)
+				foreach (MatchmakingQueueRegionStats matchmakingQueueRegionStats in this.RegionStats)
 				{
 					num += matchmakingQueueRegionStats.TotalCount;
 				}
@@ -21,19 +23,20 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonIgnore]
 		public int AverageWaitTime
 		{
 			get
 			{
 				int num = 0;
 				int num2 = 0;
-				if (this._regionStats.Count > 0)
+				if (this.RegionStats.Count > 0)
 				{
-					foreach (MatchmakingQueueRegionStats matchmakingQueueRegionStats in this._regionStats)
+					foreach (MatchmakingQueueRegionStats matchmakingQueueRegionStats in this.RegionStats)
 					{
 						num2 += matchmakingQueueRegionStats.AverageWaitTime;
 					}
-					num = num2 / this._regionStats.Count;
+					num = num2 / this.RegionStats.Count;
 				}
 				return num;
 			}
@@ -41,17 +44,17 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public MatchmakingQueueStats()
 		{
-			this._regionStats = new List<MatchmakingQueueRegionStats>();
+			this.RegionStats = new List<MatchmakingQueueRegionStats>();
 		}
 
 		public void AddRegionStats(MatchmakingQueueRegionStats matchmakingQueueRegionStats)
 		{
-			this._regionStats.Add(matchmakingQueueRegionStats);
+			this.RegionStats.Add(matchmakingQueueRegionStats);
 		}
 
 		public MatchmakingQueueRegionStats GetRegionStats(string region)
 		{
-			foreach (MatchmakingQueueRegionStats matchmakingQueueRegionStats in this._regionStats)
+			foreach (MatchmakingQueueRegionStats matchmakingQueueRegionStats in this.RegionStats)
 			{
 				if (matchmakingQueueRegionStats.Region.ToLower() == region.ToLower())
 				{
@@ -77,14 +80,15 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public string[] GetRegionNames()
 		{
-			string[] array = new string[this._regionStats.Count];
-			for (int i = 0; i < this._regionStats.Count; i++)
+			string[] array = new string[this.RegionStats.Count];
+			for (int i = 0; i < this.RegionStats.Count; i++)
 			{
-				array[i] = this._regionStats[i].Region;
+				array[i] = this.RegionStats[i].Region;
 			}
 			return array;
 		}
 
-		private List<MatchmakingQueueRegionStats> _regionStats;
+		[JsonProperty]
+		public List<MatchmakingQueueRegionStats> RegionStats;
 	}
 }

@@ -68,7 +68,7 @@ namespace TaleWorlds.CampaignSystem.BarterSystem
 			{
 				if (!this.CanPlayerBarterWithHero(other))
 				{
-					Debug.FailedAssert("Barter with the hero is on cooldown.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\BarterSystem\\BarterManager.cs", "StartBarterOffer", 87);
+					Debug.FailedAssert("Barter with the hero is on cooldown.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\BarterSystem\\BarterManager.cs", "StartBarterOffer", 83);
 					return;
 				}
 				this.ClearHeroCooldowns();

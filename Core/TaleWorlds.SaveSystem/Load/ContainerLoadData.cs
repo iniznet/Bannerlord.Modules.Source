@@ -141,8 +141,17 @@ namespace TaleWorlds.SaveSystem.Load
 					if (elementLoadData.SavedMemberType == SavedMemberType.CustomStruct)
 					{
 						int num = (int)elementLoadData.Data;
-						ObjectLoadData objectLoadData2 = this._childStructs[num];
-						elementLoadData.SetCustomStructData(objectLoadData2.Target);
+						ObjectLoadData objectLoadData2;
+						object obj;
+						if (this._childStructs.TryGetValue(num, out objectLoadData2))
+						{
+							obj = objectLoadData2.Target;
+						}
+						else
+						{
+							obj = ContainerLoadData.GetDefaultObject(this._saveId, this.Context, false);
+						}
+						elementLoadData.SetCustomStructData(obj);
 					}
 					object dataToUse = elementLoadData.GetDataToUse();
 					if (list != null)
@@ -158,14 +167,32 @@ namespace TaleWorlds.SaveSystem.Load
 					if (elementLoadData2.SavedMemberType == SavedMemberType.CustomStruct)
 					{
 						int num2 = (int)elementLoadData2.Data;
-						ObjectLoadData objectLoadData3 = this._childStructs[num2];
-						elementLoadData2.SetCustomStructData(objectLoadData3.Target);
+						ObjectLoadData objectLoadData3;
+						object obj2;
+						if (this._childStructs.TryGetValue(num2, out objectLoadData3))
+						{
+							obj2 = objectLoadData3.Target;
+						}
+						else
+						{
+							obj2 = ContainerLoadData.GetDefaultObject(this._saveId, this.Context, false);
+						}
+						elementLoadData2.SetCustomStructData(obj2);
 					}
 					if (elementLoadData3.SavedMemberType == SavedMemberType.CustomStruct)
 					{
 						int num3 = (int)elementLoadData3.Data;
-						ObjectLoadData objectLoadData4 = this._childStructs[num3];
-						elementLoadData3.SetCustomStructData(objectLoadData4.Target);
+						ObjectLoadData objectLoadData4;
+						object obj3;
+						if (this._childStructs.TryGetValue(num3, out objectLoadData4))
+						{
+							obj3 = objectLoadData4.Target;
+						}
+						else
+						{
+							obj3 = ContainerLoadData.GetDefaultObject(this._saveId, this.Context, true);
+						}
+						elementLoadData3.SetCustomStructData(obj3);
 					}
 					object dataToUse2 = elementLoadData2.GetDataToUse();
 					object dataToUse3 = elementLoadData3.GetDataToUse();
@@ -181,8 +208,17 @@ namespace TaleWorlds.SaveSystem.Load
 					if (elementLoadData4.SavedMemberType == SavedMemberType.CustomStruct)
 					{
 						int num4 = (int)elementLoadData4.Data;
-						ObjectLoadData objectLoadData5 = this._childStructs[num4];
-						elementLoadData4.SetCustomStructData(objectLoadData5.Target);
+						ObjectLoadData objectLoadData5;
+						object obj4;
+						if (this._childStructs.TryGetValue(num4, out objectLoadData5))
+						{
+							obj4 = objectLoadData5.Target;
+						}
+						else
+						{
+							obj4 = ContainerLoadData.GetDefaultObject(this._saveId, this.Context, false);
+						}
+						elementLoadData4.SetCustomStructData(obj4);
 					}
 					object dataToUse4 = elementLoadData4.GetDataToUse();
 					array.SetValue(dataToUse4, i);
@@ -194,13 +230,37 @@ namespace TaleWorlds.SaveSystem.Load
 					if (elementLoadData5.SavedMemberType == SavedMemberType.CustomStruct)
 					{
 						int num5 = (int)elementLoadData5.Data;
-						ObjectLoadData objectLoadData6 = this._childStructs[num5];
-						elementLoadData5.SetCustomStructData(objectLoadData6.Target);
+						ObjectLoadData objectLoadData6;
+						object obj5;
+						if (this._childStructs.TryGetValue(num5, out objectLoadData6))
+						{
+							obj5 = objectLoadData6.Target;
+						}
+						else
+						{
+							obj5 = ContainerLoadData.GetDefaultObject(this._saveId, this.Context, false);
+						}
+						elementLoadData5.SetCustomStructData(obj5);
 					}
 					object dataToUse5 = elementLoadData5.GetDataToUse();
 					collection.GetType().GetMethod("Enqueue").Invoke(collection, new object[] { dataToUse5 });
 				}
 			}
+		}
+
+		private static object GetDefaultObject(SaveId saveId, LoadContext context, bool getValueId = false)
+		{
+			ContainerSaveId containerSaveId = (ContainerSaveId)saveId;
+			TypeDefinitionBase typeDefinitionBase;
+			if (getValueId)
+			{
+				typeDefinitionBase = context.DefinitionContext.TryGetTypeDefinition(containerSaveId.ValueId);
+			}
+			else
+			{
+				typeDefinitionBase = context.DefinitionContext.TryGetTypeDefinition(containerSaveId.KeyId);
+			}
+			return Activator.CreateInstance(((StructDefinition)typeDefinitionBase).Type);
 		}
 
 		private SaveId _saveId;

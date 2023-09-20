@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using TaleWorlds.Library;
 using TaleWorlds.TwoDimension.BitmapFont;
 
 namespace TaleWorlds.TwoDimension
@@ -12,6 +11,8 @@ namespace TaleWorlds.TwoDimension
 		public ILanguage CurrentLanguage { get; set; }
 
 		public float ScaleToFitTextInLayout { get; private set; } = 1f;
+
+		public int LineCount { get; private set; }
 
 		public DrawObject2D DrawObject2D
 		{
@@ -196,7 +197,7 @@ namespace TaleWorlds.TwoDimension
 				{
 					this._scaleValue = (float)this._fontSize / (float)this.Font.Size;
 					float num = 0f;
-					int num2 = 1;
+					this.LineCount = 1;
 					float lineHeight = this.LineHeight;
 					float emptyCharacterWidth = this.EmptyCharacterWidth;
 					for (int i = 0; i < this._tokens.Count; i++)
@@ -204,7 +205,8 @@ namespace TaleWorlds.TwoDimension
 						TextToken textToken = this._tokens[i];
 						if (textToken.Type == TextToken.TokenType.NewLine)
 						{
-							num2++;
+							int num2 = this.LineCount;
+							this.LineCount = num2 + 1;
 							if (num > this._preferredSize.X)
 							{
 								this._preferredSize.X = num;
@@ -229,7 +231,8 @@ namespace TaleWorlds.TwoDimension
 										int num4 = Math.Max(0, this._tokens.Count - 2);
 										int num5 = Math.Max(0, this._tokens.Count - 1);
 										float totalWordWidthBetweenIndices = TextHelper.GetTotalWordWidthBetweenIndices(num4, num5, this._tokens, new Func<TextToken, Font>(this.GetFontForTextToken), this.ExtraPaddingHorizontal, this._scaleValue);
-										num2++;
+										int num2 = this.LineCount;
+										this.LineCount = num2 + 1;
 										num = totalWordWidthBetweenIndices + num3;
 									}
 									else
@@ -240,7 +243,8 @@ namespace TaleWorlds.TwoDimension
 											this._preferredSize.X = num - totalWordWidthBetweenIndices2;
 										}
 										num = totalWordWidthBetweenIndices2 + num3;
-										num2++;
+										int num2 = this.LineCount;
+										this.LineCount = num2 + 1;
 									}
 								}
 								else
@@ -258,7 +262,7 @@ namespace TaleWorlds.TwoDimension
 					{
 						this._preferredSize.X = num;
 					}
-					this._preferredSize.Y = (float)num2 * lineHeight;
+					this._preferredSize.Y = (float)this.LineCount * lineHeight;
 				}
 				this._preferredSize = new Vector2((float)Math.Ceiling((double)this._preferredSize.X) + 1f, (float)Math.Ceiling((double)this._preferredSize.Y) + 1f);
 				this._preferredSizeNeedsUpdate = false;
@@ -377,10 +381,6 @@ namespace TaleWorlds.TwoDimension
 							textOutput.AddToken(textToken, num6, this._scaleValue, "Default", -1f);
 							num2 += num6;
 						}
-					}
-					else
-					{
-						Debug.FailedAssert("Unexpected token " + textToken.Type, "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.TwoDimension\\BitmapFont\\Text.cs", "RecalculateTextMesh", 460);
 					}
 				}
 			}

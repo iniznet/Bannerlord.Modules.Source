@@ -195,7 +195,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.GameMenu.Overlay
 				string text = "LOCATION";
 				Hero heroObject2 = this.Character.HeroObject;
 				GameTexts.SetVariable(text, (((heroObject2 != null) ? heroObject2.CurrentSettlement : null) != null) ? this.Character.HeroObject.CurrentSettlement.Name.ToString() : "");
-				this.DescriptionText = GameTexts.FindText("str_character_in_town", null).ToString();
+				Hero heroObject3 = this.Character.HeroObject;
+				this.DescriptionText = ((heroObject3 != null && !heroObject3.IsSpecial) ? GameTexts.FindText("str_character_in_town", null).ToString() : string.Empty);
 				string text2 = "LOCATION";
 				LocationComplex locationComplex = LocationComplex.Current;
 				TextObject textObject4;

@@ -31,11 +31,11 @@ namespace TaleWorlds.Diamond.Rest
 			string text = null;
 			if (jObject["TypeName"] != null)
 			{
-				text = Extensions.Value<string>(jObject["TypeName"]);
+				text = jObject["TypeName"].Value<string>();
 			}
 			else if (jObject["typeName"] != null)
 			{
-				text = Extensions.Value<string>(jObject["typeName"]);
+				text = jObject["typeName"].Value<string>();
 			}
 			if (text != null)
 			{
@@ -59,7 +59,7 @@ namespace TaleWorlds.Diamond.Rest
 			{
 				throw new ArgumentNullException("serializer");
 			}
-			if (reader.TokenType == 11)
+			if (reader.TokenType == JsonToken.Null)
 			{
 				return null;
 			}

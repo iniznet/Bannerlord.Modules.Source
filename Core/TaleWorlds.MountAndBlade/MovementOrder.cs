@@ -9,6 +9,8 @@ namespace TaleWorlds.MountAndBlade
 {
 	public struct MovementOrder
 	{
+		public Formation TargetFormation { get; private set; }
+
 		public Agent _targetAgent { get; }
 
 		public OrderType OrderType
@@ -382,50 +384,6 @@ namespace TaleWorlds.MountAndBlade
 			}
 		}
 
-		public static void SetDefensiveArrangementMoveBehaviorValues(Agent unit)
-		{
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 8f, 5f, 20f, 6f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Melee, 4f, 5f, 0f, 20f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Ranged, 0f, 7f, 0f, 20f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.ChargeHorseback, 0f, 7f, 0f, 30f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.RangedHorseback, 0f, 15f, 0f, 30f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityMelee, 5f, 12f, 7.5f, 30f, 9f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
-		}
-
-		public static void SetFollowBehaviorValues(Agent unit)
-		{
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 7f, 5f, 20f, 6f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Melee, 6f, 7f, 4f, 20f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Ranged, 0f, 7f, 0f, 20f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.ChargeHorseback, 0f, 7f, 0f, 30f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.RangedHorseback, 0f, 15f, 0f, 30f, 0f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityMelee, 5f, 12f, 7.5f, 30f, 9f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
-		}
-
-		public static void SetDefaultMoveBehaviorValues(Agent unit)
-		{
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 7f, 5f, 20f, 6f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Melee, 8f, 7f, 5f, 20f, 0.01f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Ranged, 0.02f, 7f, 0.04f, 20f, 0.03f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.ChargeHorseback, 10f, 7f, 5f, 30f, 0.05f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.RangedHorseback, 0.02f, 15f, 0.065f, 30f, 0.055f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityMelee, 5f, 12f, 7.5f, 30f, 9f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
-		}
-
-		private static void SetChargeBehaviorValues(Agent unit)
-		{
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.GoToPos, 3f, 7f, 5f, 20f, 6f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Melee, 8f, 7f, 4f, 20f, 1f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.Ranged, 2f, 7f, 4f, 20f, 5f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.ChargeHorseback, 2f, 25f, 5f, 30f, 5f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.RangedHorseback, 0f, 10f, 3f, 20f, 6f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityMelee, 5f, 12f, 7.5f, 30f, 9f);
-			unit.SetAIBehaviorValues(HumanAIComponent.AISimpleBehaviorKind.AttackEntityRanged, 0.55f, 12f, 0.8f, 30f, 0.45f);
-		}
-
 		private static void RetreatAux(Formation formation)
 		{
 			for (int i = formation.Detachments.Count - 1; i >= 0; i--)
@@ -436,7 +394,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (agent.IsAIControlled)
 				{
-					agent.Retreat();
+					agent.Retreat(true);
 				}
 			});
 		}
@@ -465,19 +423,19 @@ namespace TaleWorlds.MountAndBlade
 			{
 				vec += f.Direction * -2f;
 			}
-			if (this._followState == MovementOrder.FollowState.Move && f.IsMounted())
+			if (this._followState == MovementOrder.FollowState.Move && f.PhysicalClass.IsMounted())
 			{
 				vec += 2f * this._targetAgent.Velocity.AsVec2;
 			}
 			else if (this._followState == MovementOrder.FollowState.Move)
 			{
-				f.IsMounted();
+				f.PhysicalClass.IsMounted();
 			}
 			WorldPosition worldPosition = this._targetAgent.GetWorldPosition();
 			worldPosition.SetVec2(worldPosition.AsVec2 - f.GetMiddleFrontUnitPositionOffset() + vec);
 			if (this._followState == MovementOrder.FollowState.Stop || this._followState == MovementOrder.FollowState.Depart)
 			{
-				float num = (f.IsCavalry() ? 4f : 2.5f);
+				float num = (f.PhysicalClass.IsMounted() ? 4f : 2.5f);
 				if (Mission.Current.IsTeleportingAgents || worldPosition.AsVec2.DistanceSquared(this._lastPosition.AsVec2) > num * num)
 				{
 					this._lastPosition = worldPosition;
@@ -493,6 +451,29 @@ namespace TaleWorlds.MountAndBlade
 		public Vec2 GetPosition(Formation f)
 		{
 			return this.CreateNewOrderWorldPosition(f, WorldPosition.WorldPositionEnforcedCache.None).AsVec2;
+		}
+
+		public Vec2 GetTargetVelocity()
+		{
+			switch (this.OrderEnum)
+			{
+			case MovementOrder.MovementOrderEnum.AttackEntity:
+			case MovementOrder.MovementOrderEnum.Charge:
+			case MovementOrder.MovementOrderEnum.ChargeToTarget:
+			case MovementOrder.MovementOrderEnum.FollowEntity:
+			case MovementOrder.MovementOrderEnum.Move:
+			case MovementOrder.MovementOrderEnum.Retreat:
+			case MovementOrder.MovementOrderEnum.Stop:
+			case MovementOrder.MovementOrderEnum.Advance:
+			case MovementOrder.MovementOrderEnum.FallBack:
+				return Vec2.Zero;
+			case MovementOrder.MovementOrderEnum.Follow:
+			case MovementOrder.MovementOrderEnum.Guard:
+				return this._targetAgent.AverageVelocity.AsVec2;
+			default:
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\MovementOrder.cs", "GetTargetVelocity", 847);
+				return Vec2.Zero;
+			}
 		}
 
 		public WorldPosition CreateNewOrderWorldPosition(Formation f, WorldPosition.WorldPositionEnforcedCache worldPositionEnforcedCache)
@@ -643,7 +624,7 @@ namespace TaleWorlds.MountAndBlade
 				formation.FormAttackEntityDetachment(this.TargetEntity);
 				break;
 			case MovementOrder.MovementOrderEnum.ChargeToTarget:
-				formation.TargetFormation = this.TargetFormation;
+				formation.SetTargetFormation(this.TargetFormation);
 				break;
 			case MovementOrder.MovementOrderEnum.Follow:
 				formation.Arrangement.ReserveMiddleFrontUnitPosition(this._targetAgent);
@@ -664,22 +645,11 @@ namespace TaleWorlds.MountAndBlade
 				MovementOrder.RetreatAux(formation);
 				break;
 			}
-			if (this.OrderEnum == MovementOrder.MovementOrderEnum.Charge || this.OrderEnum == MovementOrder.MovementOrderEnum.ChargeToTarget)
+			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
+			formation.ApplyActionOnEachUnit(delegate(Agent agent)
 			{
-				formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetChargeBehaviorValues), null);
-				return;
-			}
-			if (this.OrderEnum == MovementOrder.MovementOrderEnum.Follow || formation.ArrangementOrder.OrderEnum == ArrangementOrder.ArrangementOrderEnum.Column)
-			{
-				formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetFollowBehaviorValues), null);
-				return;
-			}
-			if (formation.ArrangementOrder.OrderEnum != ArrangementOrder.ArrangementOrderEnum.ShieldWall && formation.ArrangementOrder.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Circle && formation.ArrangementOrder.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Square)
-			{
-				formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetDefaultMoveBehaviorValues), null);
-				return;
-			}
-			formation.ApplyActionOnEachUnit(new Action<Agent>(MovementOrder.SetDefensiveArrangementMoveBehaviorValues), null);
+				agent.RefreshBehaviorValues(orderEnum, formation.ArrangementOrder.OrderEnum);
+			}, null);
 		}
 
 		public void OnCancel(Formation formation)
@@ -721,7 +691,7 @@ namespace TaleWorlds.MountAndBlade
 				break;
 			}
 			case MovementOrder.MovementOrderEnum.ChargeToTarget:
-				formation.TargetFormation = null;
+				formation.SetTargetFormation(null);
 				return;
 			case MovementOrder.MovementOrderEnum.Follow:
 				formation.Arrangement.ReleaseMiddleFrontUnitPosition();
@@ -779,27 +749,14 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (isJoining)
 			{
-				if (this.OrderEnum == MovementOrder.MovementOrderEnum.Retreat)
+				if (this.OrderEnum != MovementOrder.MovementOrderEnum.Retreat)
 				{
-					if (unit.IsAIControlled)
-					{
-						unit.Retreat();
-						return;
-					}
+					unit.RefreshBehaviorValues(this.OrderEnum, formation.ArrangementOrder.OrderEnum);
+					return;
 				}
-				else
+				if (unit.IsAIControlled)
 				{
-					if (this.OrderEnum == MovementOrder.MovementOrderEnum.Charge || this.OrderEnum == MovementOrder.MovementOrderEnum.ChargeToTarget)
-					{
-						MovementOrder.SetChargeBehaviorValues(unit);
-						return;
-					}
-					if (formation.ArrangementOrder.OrderEnum != ArrangementOrder.ArrangementOrderEnum.ShieldWall && formation.ArrangementOrder.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Circle && formation.ArrangementOrder.OrderEnum != ArrangementOrder.ArrangementOrderEnum.Square)
-					{
-						MovementOrder.SetDefaultMoveBehaviorValues(unit);
-						return;
-					}
-					MovementOrder.SetDefensiveArrangementMoveBehaviorValues(unit);
+					unit.Retreat(false);
 					return;
 				}
 			}
@@ -838,14 +795,13 @@ namespace TaleWorlds.MountAndBlade
 			case MovementOrder.MovementOrderEnum.ChargeToTarget:
 				return this.TargetFormation.CountOfUnits > 0;
 			case MovementOrder.MovementOrderEnum.Follow:
+			case MovementOrder.MovementOrderEnum.Guard:
 				return this._targetAgent.IsActive();
 			case MovementOrder.MovementOrderEnum.FollowEntity:
 			{
 				UsableMachine firstScriptOfType3 = this.TargetEntity.GetFirstScriptOfType<UsableMachine>();
 				return firstScriptOfType3 == null || !firstScriptOfType3.IsDestroyed;
 			}
-			case MovementOrder.MovementOrderEnum.Guard:
-				return this._targetAgent.IsActive();
 			default:
 				return true;
 			}
@@ -871,7 +827,7 @@ namespace TaleWorlds.MountAndBlade
 		private void TickOccasionally(Formation formation, float dt)
 		{
 			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
-			if (orderEnum != MovementOrder.MovementOrderEnum.Charge)
+			if (orderEnum - MovementOrder.MovementOrderEnum.Charge > 1)
 			{
 				if (orderEnum == MovementOrder.MovementOrderEnum.FallBack && !Mission.Current.IsPositionInsideBoundaries(this.GetPosition(formation)))
 				{
@@ -1169,16 +1125,17 @@ namespace TaleWorlds.MountAndBlade
 			MovementOrder.MovementOrderEnum orderEnum = this.OrderEnum;
 			if (orderEnum - MovementOrder.MovementOrderEnum.Advance > 1)
 			{
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\MovementOrder.cs", "GetDirectionAux", 1854);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\MovementOrder.cs", "GetDirectionAux", 1784);
 				return Vec2.One;
 			}
 			FormationQuerySystem querySystem = f.QuerySystem;
-			FormationQuerySystem closestEnemyFormation = querySystem.ClosestEnemyFormation;
-			if (closestEnemyFormation == null)
+			Formation targetFormation = f.TargetFormation;
+			FormationQuerySystem formationQuerySystem = ((targetFormation != null) ? targetFormation.QuerySystem : null) ?? querySystem.ClosestEnemyFormation;
+			if (formationQuerySystem == null)
 			{
 				return Vec2.One;
 			}
-			return (closestEnemyFormation.MedianPosition.AsVec2 - querySystem.AveragePosition).Normalized();
+			return (formationQuerySystem.MedianPosition.AsVec2 - querySystem.AveragePosition).Normalized();
 		}
 
 		private WorldPosition GetPositionAux(Formation f, WorldPosition.WorldPositionEnforcedCache worldPositionEnforcedCache)
@@ -1188,7 +1145,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (orderEnum != MovementOrder.MovementOrderEnum.FallBack)
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\MovementOrder.cs", "GetPositionAux", 1922);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\AI\\Orders\\MovementOrder.cs", "GetPositionAux", 1855);
 					return WorldPosition.Invalid;
 				}
 				if (Mission.Current.Mode == MissionMode.Deployment)
@@ -1207,35 +1164,42 @@ namespace TaleWorlds.MountAndBlade
 					return f.CreateNewOrderWorldPosition(worldPositionEnforcedCache);
 				}
 				FormationQuerySystem querySystem = f.QuerySystem;
-				FormationQuerySystem closestEnemyFormation = querySystem.ClosestEnemyFormation;
-				if (closestEnemyFormation == null)
+				Formation targetFormation = f.TargetFormation;
+				FormationQuerySystem formationQuerySystem = ((targetFormation != null) ? targetFormation.QuerySystem : null) ?? querySystem.ClosestEnemyFormation;
+				WorldPosition worldPosition;
+				if (formationQuerySystem == null)
 				{
-					return f.CreateNewOrderWorldPosition(worldPositionEnforcedCache);
-				}
-				WorldPosition medianPosition2 = closestEnemyFormation.MedianPosition;
-				if (querySystem.IsRangedFormation || querySystem.IsRangedCavalryFormation)
-				{
-					if (medianPosition2.AsVec2.DistanceSquared(querySystem.AveragePosition) <= querySystem.MissileRangeAdjusted * querySystem.MissileRangeAdjusted)
+					Agent closestEnemyAgent = querySystem.ClosestEnemyAgent;
+					if (closestEnemyAgent == null)
 					{
-						Vec2 directionAux2 = this.GetDirectionAux(f);
-						medianPosition2.SetVec2(medianPosition2.AsVec2 - directionAux2 * querySystem.MissileRangeAdjusted);
+						return f.CreateNewOrderWorldPosition(worldPositionEnforcedCache);
 					}
+					worldPosition = closestEnemyAgent.GetWorldPosition();
 				}
 				else
 				{
-					Vec2 vec = (closestEnemyFormation.AveragePosition - f.QuerySystem.AveragePosition).Normalized();
+					worldPosition = formationQuerySystem.MedianPosition;
+				}
+				if (querySystem.IsRangedFormation || querySystem.IsRangedCavalryFormation || querySystem.HasThrowing)
+				{
+					Vec2 directionAux2 = this.GetDirectionAux(f);
+					worldPosition.SetVec2(worldPosition.AsVec2 - directionAux2 * querySystem.MissileRangeAdjusted);
+				}
+				else if (formationQuerySystem != null)
+				{
+					Vec2 vec = (formationQuerySystem.AveragePosition - f.QuerySystem.AveragePosition).Normalized();
 					float num = 2f;
-					if (closestEnemyFormation.FormationPower < f.QuerySystem.FormationPower * 0.2f)
+					if (formationQuerySystem.FormationPower < f.QuerySystem.FormationPower * 0.2f)
 					{
 						num = 0.1f;
 					}
-					medianPosition2.SetVec2(medianPosition2.AsVec2 - vec * num);
+					worldPosition.SetVec2(worldPosition.AsVec2 - vec * num);
 				}
-				return medianPosition2;
+				return worldPosition;
 			}
 		}
 
-		public static readonly MovementOrder MovermentOrderNull = new MovementOrder(MovementOrder.MovementOrderEnum.Invalid);
+		public static readonly MovementOrder MovementOrderNull = new MovementOrder(MovementOrder.MovementOrderEnum.Invalid);
 
 		public static readonly MovementOrder MovementOrderCharge = new MovementOrder(MovementOrder.MovementOrderEnum.Charge);
 
@@ -1262,8 +1226,6 @@ namespace TaleWorlds.MountAndBlade
 		private bool _getPositionIsNavmeshlessCache;
 
 		private WorldPosition _getPositionFirstSectionCache;
-
-		public Formation TargetFormation;
 
 		public GameEntity TargetEntity;
 

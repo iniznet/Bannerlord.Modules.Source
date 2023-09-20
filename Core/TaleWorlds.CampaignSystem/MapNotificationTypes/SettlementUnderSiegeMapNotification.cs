@@ -45,7 +45,7 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 		{
 			get
 			{
-				return "";
+				return "event:/ui/notification/settlement_under_siege";
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 		public SettlementUnderSiegeMapNotification(SiegeEvent siegeEvent, TextObject descriptionText)
 			: base(descriptionText)
 		{
-			this.BesiegerParty = siegeEvent.BesiegerCamp.BesiegerParty;
+			this.BesiegerParty = siegeEvent.BesiegerCamp.LeaderParty;
 			this.BesiegedSettlement = siegeEvent.BesiegedSettlement;
 		}
 	}

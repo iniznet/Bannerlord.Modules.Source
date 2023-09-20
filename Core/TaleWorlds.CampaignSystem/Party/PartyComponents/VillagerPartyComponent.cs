@@ -105,7 +105,7 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 			}
 			if (flag && this.Village.Bound.Town.Governor.GetPerkValue(DefaultPerks.Scouting.VillageNetwork))
 			{
-				villagerPartySize = MathF.Round((float)villagerPartySize * (1f + DefaultPerks.Scouting.VillageNetwork.SecondaryBonus * 0.01f));
+				villagerPartySize = MathF.Round((float)villagerPartySize * (1f + DefaultPerks.Scouting.VillageNetwork.SecondaryBonus));
 			}
 			if ((float)villagerPartySize > this.Village.Hearth)
 			{
@@ -113,7 +113,7 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 			}
 			this.Village.Hearth -= (float)((villagerPartySize + 1) / 2);
 			base.Party.MobileParty.InitializeMobilePartyAroundPosition(villagerPartyTemplate, this.Village.Owner.Settlement.Position2D, 1f, 0f, villagerPartySize);
-			base.Party.Visuals.SetMapIconAsDirty();
+			base.Party.SetVisualAsDirty();
 			base.Party.MobileParty.InitializePartyTrade(0);
 			float num = 10000f;
 			ItemObject itemObject = null;

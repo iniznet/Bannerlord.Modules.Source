@@ -6,7 +6,6 @@ using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.Diamond;
-using TaleWorlds.MountAndBlade.GauntletUI.Multiplayer;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer;
@@ -47,9 +46,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 
 		private void OnManagedOptionsChanged(ManagedOptions.ManagedOptionsType changedManagedOptionsType)
 		{
-			bool flag = changedManagedOptionsType == 41 && Mission.Current != null && BannerlordConfig.HideBattleUI;
-			bool flag2 = changedManagedOptionsType == 43 && !GameNetwork.IsMultiplayer && !BannerlordConfig.EnableSingleplayerChatBox;
-			bool flag3 = changedManagedOptionsType == 44 && GameNetwork.IsMultiplayer && !BannerlordConfig.EnableMultiplayerChatBox;
+			bool flag = changedManagedOptionsType == 43 && Mission.Current != null && BannerlordConfig.HideBattleUI;
+			bool flag2 = changedManagedOptionsType == 45 && !GameNetwork.IsMultiplayer && !BannerlordConfig.EnableSingleplayerChatBox;
+			bool flag3 = changedManagedOptionsType == 46 && GameNetwork.IsMultiplayer && !BannerlordConfig.EnableMultiplayerChatBox;
 			if (flag || flag2 || flag3)
 			{
 				this._dataSource.Clear();
@@ -113,24 +112,9 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 					inputContext = missionScreen.SceneLayer.Input;
 				}
 			}
-			else if (ScreenManager.TopScreen is MultiplayerIntermissionScreen)
+			else if (ScreenManager.TopScreen is IGauntletChatLogHandlerScreen)
 			{
-				MultiplayerIntermissionScreen multiplayerIntermissionScreen = (MultiplayerIntermissionScreen)ScreenManager.TopScreen;
-				if (multiplayerIntermissionScreen.Layer != null)
-				{
-					this._isTeamChatAvailable = false;
-					flag = true;
-					inputContext = multiplayerIntermissionScreen.Layer.Input;
-				}
-			}
-			else if (ScreenManager.TopScreen is MultiplayerLobbyGauntletScreen)
-			{
-				MultiplayerLobbyGauntletScreen multiplayerLobbyGauntletScreen = (MultiplayerLobbyGauntletScreen)ScreenManager.TopScreen;
-				if (multiplayerLobbyGauntletScreen.LobbyLayer != null)
-				{
-					flag = true;
-					inputContext = multiplayerLobbyGauntletScreen.LobbyLayer.Input;
-				}
+				((IGauntletChatLogHandlerScreen)ScreenManager.TopScreen).TryUpdateChatLogLayerParameters(ref this._isTeamChatAvailable, ref flag, ref inputContext);
 			}
 			else if (ScreenManager.TopScreen is GauntletInitialScreen)
 			{
@@ -168,18 +152,18 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 			bool flag4 = false;
 			if (flag)
 			{
-				if (!inputContext.IsCategoryRegistered(HotKeyManager.GetCategory("ChatLogHotKeyCategory")))
+				if (inputContext != null && !inputContext.IsCategoryRegistered(HotKeyManager.GetCategory("ChatLogHotKeyCategory")))
 				{
 					inputContext.RegisterHotKeyCategory(HotKeyManager.GetCategory("ChatLogHotKeyCategory"));
 				}
 				if (flag2)
 				{
-					if (inputContext.IsGameKeyReleased(6) && this._canFocusWhileInMission)
+					if (inputContext != null && inputContext.IsGameKeyReleased(6) && this._canFocusWhileInMission)
 					{
 						this._dataSource.TypeToChannelAll(true);
 						flag3 = true;
 					}
-					else if (inputContext.IsGameKeyReleased(7) && this._canFocusWhileInMission && this._isTeamChatAvailable)
+					else if (inputContext != null && inputContext.IsGameKeyReleased(7) && this._canFocusWhileInMission && this._isTeamChatAvailable)
 					{
 						this._dataSource.TypeToChannelTeam(true);
 						flag3 = true;
@@ -199,7 +183,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 						this._dataSource.StopTyping(false);
 						flag4 = true;
 					}
-					if ((inputContext.IsGameKeyDownAndReleased(8) || inputContext.IsHotKeyDownAndReleased("FinalizeChatAlternative")) && this._canFocusWhileInMission)
+					if (inputContext != null && (inputContext.IsGameKeyDownAndReleased(8) || inputContext.IsHotKeyDownAndReleased("FinalizeChatAlternative")) && this._canFocusWhileInMission)
 					{
 						if (this._dataSource.ActiveChannelType == -1)
 						{
@@ -223,7 +207,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 						}
 					}
 				}
-				else if ((inputContext.IsGameKeyReleased(8) || inputContext.IsHotKeyReleased("FinalizeChatAlternative")) && this._canFocusWhileInMission)
+				else if (inputContext != null && (inputContext.IsGameKeyReleased(8) || inputContext.IsHotKeyReleased("FinalizeChatAlternative")) && this._canFocusWhileInMission)
 				{
 					if (!this._dataSource.IsInspectingMessages)
 					{

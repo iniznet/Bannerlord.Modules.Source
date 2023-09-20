@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SandBox.CampaignBehaviors;
 using StoryMode.Quests.ThirdPhase;
 using TaleWorlds.AchievementSystem;
 using TaleWorlds.CampaignSystem;
@@ -16,6 +17,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Settlements.Buildings;
 using TaleWorlds.CampaignSystem.Settlements.Workshops;
 using TaleWorlds.Core;
+using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -28,33 +30,27 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		public override void SyncData(IDataStore dataStore)
 		{
 			dataStore.SyncData<bool>("_deactivateAchievements", ref this._deactivateAchievements);
-			if (this._deactivateAchievements)
-			{
-				this.DeactivateAchievements(false);
-				Debug.Print("Achievements were disabled in save file!", 0, 0, 17592186044416UL);
-			}
 		}
 
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnCharacterCreationIsOverEvent.AddNonSerializedListener(this, new Action(this.CacheHighestSkillValue));
-			CampaignEvents.OnWorkshopChangedEvent.AddNonSerializedListener(this, new Action<Workshop, Hero, WorkshopType>(this.ProgressOwnedWorkshopCount));
+			CampaignEvents.WorkshopOwnerChangedEvent.AddNonSerializedListener(this, new Action<Workshop, Hero>(this.ProgressOwnedWorkshopCount));
 			CampaignEvents.MobilePartyCreated.AddNonSerializedListener(this, new Action<MobileParty>(this.ProgressOwnedCaravanCount));
 			CampaignEvents.OnSettlementOwnerChangedEvent.AddNonSerializedListener(this, new Action<Settlement, bool, Hero, Hero, Hero, ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail>(this.OnSettlementOwnerChanged));
 			CampaignEvents.KingdomCreatedEvent.AddNonSerializedListener(this, new Action<Kingdom>(this.ProgressCreatedKingdomCount));
 			CampaignEvents.HeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnHeroKilled));
 			CampaignEvents.BeforeHeroKilledEvent.AddNonSerializedListener(this, new Action<Hero, Hero, KillCharacterAction.KillCharacterActionDetail, bool>(this.OnBeforeHeroKilled));
 			CampaignEvents.ClanTierIncrease.AddNonSerializedListener(this, new Action<Clan, bool>(this.ProgressClanTier));
-			CampaignEvents.OnHideoutBattleCompletedEvent.AddNonSerializedListener(this, new Action<BattleSideEnum, MapEvent>(this.OnHideoutBattleCompleted));
+			CampaignEvents.OnHideoutBattleCompletedEvent.AddNonSerializedListener(this, new Action<BattleSideEnum, HideoutEventComponent>(this.OnHideoutBattleCompleted));
 			CampaignEvents.HeroGainedSkill.AddNonSerializedListener(this, new Action<Hero, SkillObject, int, bool>(this.ProgressHeroSkillValue));
-			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
 			CampaignEvents.PlayerInventoryExchangeEvent.AddNonSerializedListener(this, new Action<List<ValueTuple<ItemRosterElement, int>>, List<ValueTuple<ItemRosterElement, int>>, bool>(this.PlayerInventoryExchange));
 			CampaignEvents.TournamentFinished.AddNonSerializedListener(this, new Action<CharacterObject, MBReadOnlyList<CharacterObject>, Town, ItemObject>(this.OnTournamentFinish));
 			CampaignEvents.SiegeCompletedEvent.AddNonSerializedListener(this, new Action<Settlement, MobileParty, bool, MapEvent.BattleTypes>(this.OnSiegeCompleted));
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
 			CampaignEvents.OnQuestCompletedEvent.AddNonSerializedListener(this, new Action<QuestBase, QuestBase.QuestCompleteDetails>(this.OnQuestCompleted));
 			CampaignEvents.OnBuildingLevelChangedEvent.AddNonSerializedListener(this, new Action<Town, Building, int>(this.OnBuildingLevelChanged));
-			CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, Crafting.OverrideData, bool>(this.OnNewItemCrafted));
+			CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, ItemModifier, bool>(this.OnNewItemCrafted));
 			CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 			CampaignEvents.OnClanDestroyedEvent.AddNonSerializedListener(this, new Action<Clan>(this.OnClanDestroyed));
 			CampaignEvents.OnPlayerTradeProfitEvent.AddNonSerializedListener(this, new Action<int>(this.ProgressTotalTradeProfit));
@@ -68,9 +64,9 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			CampaignEvents.HeroCreated.AddNonSerializedListener(this, new Action<Hero, bool>(this.OnHeroCreated));
 			CampaignEvents.OnIssueUpdatedEvent.AddNonSerializedListener(this, new Action<IssueBase, IssueBase.IssueUpdateDetails, Hero>(this.OnIssueUpdated));
 			CampaignEvents.RulingClanChanged.AddNonSerializedListener(this, new Action<Kingdom, Clan>(this.OnRulingClanChanged));
+			CampaignEvents.OnConfigChangedEvent.AddNonSerializedListener(this, new Action(this.OnConfigChanged));
 			StoryModeEvents.OnStoryModeTutorialEndedEvent.AddNonSerializedListener(this, new Action(this.CheckTutorialFinished));
 			StoryModeEvents.OnBannerPieceCollectedEvent.AddNonSerializedListener(this, new Action(this.ProgressAssembledDragonBanner));
-			StoryModeEvents.OnConfigChangedEvent.AddNonSerializedListener(this, new Action(this.OnConfigChanged));
 		}
 
 		private void OnRulingClanChanged(Kingdom kingdom, Clan newRulingCLan)
@@ -86,9 +82,9 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		private void OnHideoutBattleCompleted(BattleSideEnum winnerSide, MapEvent mapEvent)
+		private void OnHideoutBattleCompleted(BattleSideEnum winnerSide, HideoutEventComponent hideoutEventComponent)
 		{
-			if (mapEvent.InvolvedParties.Contains(PartyBase.MainParty) && winnerSide == mapEvent.PlayerSide)
+			if (hideoutEventComponent.MapEvent.InvolvedParties.Contains(PartyBase.MainParty) && winnerSide == hideoutEventComponent.MapEvent.PlayerSide)
 			{
 				this.ProgressHideoutClearedCount();
 			}
@@ -101,9 +97,10 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private void OnConfigChanged()
 		{
-			if (!this.CheckAchievementSystemActivity())
+			TextObject textObject;
+			if (!this.CheckAchievementSystemActivity(out textObject))
 			{
-				this.DeactivateAchievements(true);
+				this.DeactivateAchievements(textObject, true, false);
 			}
 		}
 
@@ -121,13 +118,14 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private void OnGameLoadFinished()
 		{
-			if (this.CheckAchievementSystemActivity())
+			TextObject textObject;
+			if (this.CheckAchievementSystemActivity(out textObject))
 			{
 				this.CacheAndInitializeAchievementVariables();
 				this.CacheHighestSkillValue();
 				return;
 			}
-			this.DeactivateAchievements(true);
+			this.DeactivateAchievements(textObject, true, false);
 		}
 
 		private async void CacheAndInitializeAchievementVariables()
@@ -207,19 +205,20 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 			else
 			{
-				this.DeactivateAchievements(true);
+				this.DeactivateAchievements(new TextObject("{=4wS8eYYe}Achievements are disabled temporarily for this session due to service disconnection.", null), true, true);
 				Debug.Print("Achievements are disabled because current platform does not support achievements!", 0, 0, 17592186044416UL);
 			}
 		}
 
 		private void OnNewGameCreatedPartialFollowUpEnd(CampaignGameStarter starter)
 		{
-			if (this.CheckAchievementSystemActivity())
+			TextObject textObject;
+			if (this.CheckAchievementSystemActivity(out textObject))
 			{
 				this.CacheAndInitializeAchievementVariables();
 				return;
 			}
-			this.DeactivateAchievements(true);
+			this.DeactivateAchievements(textObject, true, false);
 		}
 
 		private void OnDailyTick()
@@ -240,9 +239,9 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			this.ProgressOwnedFortificationCount();
 		}
 
-		private void OnNewItemCrafted(ItemObject itemObject, Crafting.OverrideData overrideData, bool isCraftingOrderItem)
+		private void OnNewItemCrafted(ItemObject itemObject, ItemModifier overriddenItemModifier, bool isCraftingOrderItem)
 		{
-			this.ProgressHighestTierSwordCrafted(itemObject, overrideData);
+			this.ProgressHighestTierSwordCrafted(itemObject);
 		}
 
 		private void OnBuildingLevelChanged(Town town, Building building, int levelChange)
@@ -281,55 +280,19 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		{
 			if (this._butter != null)
 			{
-				int num = 0;
-				bool flag = false;
-				foreach (ValueTuple<ItemRosterElement, int> valueTuple in purchasedItems)
+				int itemNumber = PartyBase.MainParty.ItemRoster.GetItemNumber(this._butter);
+				if (itemNumber > 0)
 				{
-					ItemRosterElement item = valueTuple.Item1;
-					if (item.EquipmentElement.Item == this._butter)
-					{
-						flag = true;
-					}
-				}
-				if (flag)
-				{
-					int num2 = PartyBase.MainParty.ItemRoster.FindIndexOfItem(this._butter);
-					if (num2 != -1)
-					{
-						num = PartyBase.MainParty.ItemRoster.GetElementNumber(num2);
-					}
-					this.SetStatInternal("ButtersInInventoryCount", num);
+					this.SetStatInternal("ButtersInInventoryCount", itemNumber);
 				}
 			}
 		}
 
-		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
+		public bool CheckAchievementSystemActivity(out TextObject reason)
 		{
-			if (!this.CheckAchievementSystemActivity())
-			{
-				this.DeactivateAchievements(true);
-			}
-		}
-
-		private bool CheckAchievementSystemActivity()
-		{
-			bool flag = this.CheckIfModulesAreDefault() && !Game.Current.CheatMode && !this._deactivateAchievements;
-			if (!flag)
-			{
-				if (!this.CheckIfModulesAreDefault())
-				{
-					Debug.Print("Achievements were disabled because !CheckIfModulesAreDefault", 0, 0, 17592186044416UL);
-				}
-				if (Game.Current.CheatMode)
-				{
-					Debug.Print("Achievements were disabled because Game.Current.CheatMode", 0, 0, 17592186044416UL);
-				}
-				if (this._deactivateAchievements)
-				{
-					Debug.Print("Achievements were disabled because _deactivateAchievements was true", 0, 0, 17592186044416UL);
-				}
-			}
-			return flag;
+			reason = TextObject.Empty;
+			DumpIntegrityCampaignBehavior behavior = Campaign.Current.CampaignBehaviorManager.GetBehavior<DumpIntegrityCampaignBehavior>();
+			return (!this._deactivateAchievements && behavior != null && DumpIntegrityCampaignBehavior.IsGameIntegrityAchieved(ref reason)) || MBDebug.IsTestMode();
 		}
 
 		private void OnSettlementEnter(MobileParty party, Settlement settlement, Hero hero)
@@ -406,7 +369,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private void OnAgentHit(Agent affectorAgent, WeaponComponentData attackerWeapon, BoneBodyPartType victimBoneBodyPartType, int hitDistance)
 		{
-			if (affectorAgent == Agent.Main && attackerWeapon != null && !attackerWeapon.IsMeleeWeapon && victimBoneBodyPartType == null && hitDistance > this._cachedFarthestHeadShot)
+			if (affectorAgent != null && affectorAgent == Agent.Main && attackerWeapon != null && !attackerWeapon.IsMeleeWeapon && victimBoneBodyPartType == null && hitDistance > this._cachedFarthestHeadShot)
 			{
 				this.SetStatInternal("FarthestHeadShot", hitDistance);
 				this._cachedFarthestHeadShot = hitDistance;
@@ -415,7 +378,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent)
 		{
-			if (affectorAgent == Agent.Main)
+			if (affectorAgent != null && affectorAgent == Agent.Main && affectedAgent.IsHuman)
 			{
 				string text = "DefeatedTroopCount";
 				int num = this._cachedDefeatedTroopCount + 1;
@@ -524,7 +487,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		{
 			if (mapEvent.IsPlayerMapEvent && mapEvent.Winner == mapEvent.GetMapEventSide(mapEvent.PlayerSide))
 			{
-				if (mapEvent.GetMapEventSide(mapEvent.DefeatedSide).Parties.Any((MapEventParty x) => x.Party.MobileParty != null && x.Party.MobileParty.Army != null))
+				if (mapEvent.GetMapEventSide(mapEvent.DefeatedSide).Parties.Any((MapEventParty x) => x.Party.MobileParty != null && x.Party.MobileParty.AttachedTo != null))
 				{
 					string text = "SuccessfulBattlesAgainstArmyCount";
 					int num = this._cachedSuccessfulBattlesAgainstArmyCount + 1;
@@ -538,7 +501,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		{
 			if (mapEvent.IsPlayerMapEvent && mapEvent.Winner == mapEvent.GetMapEventSide(mapEvent.PlayerSide))
 			{
-				if (mapEvent.GetMapEventSide(mapEvent.DefeatedSide).Parties.Any((MapEventParty x) => x.Party.MobileParty != null && x.Party.MobileParty.Army != null) && mapEvent.GetMapEventSide(mapEvent.PlayerSide).Parties.Count == 1)
+				if (mapEvent.GetMapEventSide(mapEvent.DefeatedSide).Parties.Any((MapEventParty x) => x.Party.MobileParty != null && x.Party.MobileParty.AttachedTo != null) && mapEvent.GetMapEventSide(mapEvent.PlayerSide).Parties.Count == 1)
 				{
 					string text = "DefeatedArmyWhileAloneCount";
 					int num = this._cachedSuccessfulBattlesAgainstArmyAloneCount + 1;
@@ -628,7 +591,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		private void ProgressHighestTierSwordCrafted(ItemObject itemObject, Crafting.OverrideData overrideData)
+		private void ProgressHighestTierSwordCrafted(ItemObject itemObject)
 		{
 			WeaponComponentData primaryWeapon = itemObject.WeaponComponent.PrimaryWeapon;
 			if (primaryWeapon.WeaponClass == 2 || primaryWeapon.WeaponClass == 3)
@@ -762,7 +725,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 
 		private void ProgressKingOrQueenKilledInBattle(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail)
 		{
-			if (killer == Hero.MainHero && victim.IsFactionLeader && detail == 4)
+			if (killer == Hero.MainHero && victim.IsKingdomLeader && detail == 4)
 			{
 				string text = "KingOrQueenKilledInBattle";
 				int num = this._cachedKingOrQueenKilledInBattle + 1;
@@ -782,7 +745,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			}
 		}
 
-		private void ProgressOwnedWorkshopCount(Workshop workshop, Hero oldOwner, WorkshopType oldType)
+		private void ProgressOwnedWorkshopCount(Workshop workshop, Hero oldOwner)
 		{
 			if (workshop.Owner == Hero.MainHero)
 			{
@@ -809,7 +772,7 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 		private void ProgressOwnedFortificationCount()
 		{
 			int num;
-			if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader)
+			if (Hero.MainHero.IsKingdomLeader)
 			{
 				num = Hero.MainHero.MapFaction.Fiefs.Count;
 			}
@@ -853,13 +816,17 @@ namespace StoryMode.GameComponents.CampaignBehaviors
 			return flag;
 		}
 
-		private void DeactivateAchievements(bool showMessage = true)
+		public void DeactivateAchievements(TextObject reason = null, bool showMessage = true, bool temporarily = false)
 		{
-			this._deactivateAchievements = true;
+			this._deactivateAchievements = !temporarily || this._deactivateAchievements;
 			CampaignEventDispatcher.Instance.RemoveListeners(this);
 			if (showMessage)
 			{
-				MBInformationManager.AddQuickInformation(new TextObject("{=Z9mcDuDi}Achievements are disabled!", null), 0, null, "");
+				if (reason == null || reason == TextObject.Empty)
+				{
+					reason = new TextObject("{=Z9mcDuDi}Achievements are disabled!", null);
+				}
+				MBInformationManager.AddQuickInformation(reason, 4000, null, "");
 			}
 		}
 

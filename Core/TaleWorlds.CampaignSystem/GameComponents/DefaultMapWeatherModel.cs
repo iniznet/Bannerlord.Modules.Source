@@ -8,9 +8,50 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 {
 	public class DefaultMapWeatherModel : MapWeatherModel
 	{
-		public void InitializeSnowAmountData(byte[] snowAmountData)
+		public override CampaignTime WeatherUpdatePeriod
 		{
-			this._snowAmountData = snowAmountData;
+			get
+			{
+				return CampaignTime.Hours(4f);
+			}
+		}
+
+		public override CampaignTime WeatherUpdateFrequency
+		{
+			get
+			{
+				return new CampaignTime(this.WeatherUpdatePeriod.NumTicks / (long)(this.DefaultWeatherNodeDimension * this.DefaultWeatherNodeDimension));
+			}
+		}
+
+		public override int DefaultWeatherNodeDimension
+		{
+			get
+			{
+				return 32;
+			}
+		}
+
+		private CampaignTime PreviousRainDataCheckForWetness
+		{
+			get
+			{
+				return CampaignTime.Hours(24f);
+			}
+		}
+
+		private uint GetSeed(CampaignTime campaignTime, Vec2 position)
+		{
+			campaignTime += new CampaignTime((long)Campaign.Current.UniqueGameId.GetHashCode());
+			int num;
+			int num2;
+			this.GetNodePositionForWeather(position, out num, out num2);
+			uint num3 = (uint)(campaignTime.ToHours / this.WeatherUpdatePeriod.ToHours);
+			if (campaignTime.ToSeconds % this.WeatherUpdatePeriod.ToSeconds < this.WeatherUpdateFrequency.ToSeconds * (double)(num * this.DefaultWeatherNodeDimension + num2))
+			{
+				num3 -= 1U;
+			}
+			return num3;
 		}
 
 		public override AtmosphereState GetInterpolatedAtmosphereState(CampaignTime timeOfYear, Vec3 pos)
@@ -23,65 +64,45 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return this._atmosphereGrid.GetInterpolatedStateInfo(pos);
 		}
 
-		public override AtmosphereInfo GetAtmosphereModel(CampaignTime timeOfYear, Vec3 pos)
+		private Vec2 GetNodePositionForWeather(Vec2 pos, out int xIndex, out int yIndex)
+		{
+			if (Campaign.Current.MapSceneWrapper != null)
+			{
+				Vec2 terrainSize = Campaign.Current.MapSceneWrapper.GetTerrainSize();
+				float num = terrainSize.X / (float)this.DefaultWeatherNodeDimension;
+				float num2 = terrainSize.Y / (float)this.DefaultWeatherNodeDimension;
+				xIndex = (int)(pos.x / num);
+				yIndex = (int)(pos.y / num2);
+				float num3 = (float)xIndex * num;
+				float num4 = (float)yIndex * num2;
+				return new Vec2(num3, num4);
+			}
+			xIndex = 0;
+			yIndex = 0;
+			return Vec2.Zero;
+		}
+
+		public override AtmosphereInfo GetAtmosphereModel(Vec3 position)
 		{
 			float hourOfDayNormalized = this.GetHourOfDayNormalized();
-			float seasonTimeFactor = this.GetSeasonTimeFactor();
-			DefaultMapWeatherModel.SunPosition sunPosition = this.GetSunPosition(hourOfDayNormalized, seasonTimeFactor);
-			float environmentMultiplier = this.GetEnvironmentMultiplier(sunPosition, seasonTimeFactor);
-			float num = this.GetModifiedEnvironmentMultiplier(environmentMultiplier);
-			num = MathF.Max(MathF.Pow(num, 1.5f), 0.001f);
+			float num;
+			float num2;
+			this.GetSeasonTimeFactorOfCampaignTime(CampaignTime.Now, out num, out num2, true);
+			DefaultMapWeatherModel.SunPosition sunPosition = this.GetSunPosition(hourOfDayNormalized, num);
+			float environmentMultiplier = this.GetEnvironmentMultiplier(sunPosition);
+			float num3 = this.GetModifiedEnvironmentMultiplier(environmentMultiplier);
+			num3 = MathF.Max(MathF.Pow(num3, 1.5f), 0.001f);
 			Vec3 sunColor = this.GetSunColor(environmentMultiplier);
-			int num2 = -1;
-			string text = "field_battle";
-			if (Settlement.CurrentSettlement != null && !Settlement.CurrentSettlement.IsHideout)
-			{
-				text = Settlement.CurrentSettlement.Culture.StringId;
-				if (text != "empire" && text != "aserai" && text != "sturgia" && text != "vlandia" && text != "khuzait" && text != "battania")
-				{
-					text = "field_battle";
-				}
-				if (text == "aserai")
-				{
-					num2 = 1;
-				}
-			}
-			AtmosphereState interpolatedAtmosphereState = this.GetInterpolatedAtmosphereState(timeOfYear, pos);
-			float temperature = this.GetTemperature(ref interpolatedAtmosphereState, seasonTimeFactor);
-			float humidity = this.GetHumidity(ref interpolatedAtmosphereState, seasonTimeFactor);
-			int num3 = 0;
-			if (humidity > 20f)
-			{
-				num3 = 1;
-			}
-			if (humidity > 40f)
-			{
-				num3 = 2;
-			}
-			if (humidity > 60f)
-			{
-				num3 = 3;
-			}
-			int num4 = timeOfYear.GetSeasonOfYear;
-			float num5 = 0f;
-			if (num2 != -1)
-			{
-				num4 = num2;
-			}
-			else
-			{
-				float normalizedSnowValueInPos = this.GetNormalizedSnowValueInPos(pos);
-				if ((double)normalizedSnowValueInPos > 0.55)
-				{
-					num4 = 3;
-					num5 = MBMath.SmoothStep(0.6f, 1f, normalizedSnowValueInPos);
-				}
-				else if (num4 == 3)
-				{
-					num4 = 1;
-				}
-			}
-			AtmosphereInfo atmosphereInfo = new AtmosphereInfo();
+			AtmosphereState interpolatedAtmosphereState = this.GetInterpolatedAtmosphereState(CampaignTime.Now, position);
+			float temperature = this.GetTemperature(ref interpolatedAtmosphereState, num);
+			float humidity = this.GetHumidity(ref interpolatedAtmosphereState, num);
+			ValueTuple<CampaignTime.Seasons, bool, float, float> seasonRainAndSnowDataForOpeningMission = this.GetSeasonRainAndSnowDataForOpeningMission(position.AsVec2);
+			CampaignTime.Seasons item = seasonRainAndSnowDataForOpeningMission.Item1;
+			bool item2 = seasonRainAndSnowDataForOpeningMission.Item2;
+			float item3 = seasonRainAndSnowDataForOpeningMission.Item3;
+			float item4 = seasonRainAndSnowDataForOpeningMission.Item4;
+			string selectedAtmosphereId = this.GetSelectedAtmosphereId(item, item2, item4, item3);
+			AtmosphereInfo atmosphereInfo = default(AtmosphereInfo);
 			atmosphereInfo.SunInfo.Altitude = sunPosition.Altitude;
 			atmosphereInfo.SunInfo.Angle = sunPosition.Angle;
 			atmosphereInfo.SunInfo.Color = sunColor;
@@ -89,34 +110,197 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			atmosphereInfo.SunInfo.Size = this.GetSunSize(environmentMultiplier);
 			atmosphereInfo.SunInfo.RayStrength = this.GetSunRayStrength(environmentMultiplier);
 			atmosphereInfo.SunInfo.MaxBrightness = this.GetSunBrightness(1f, true);
-			atmosphereInfo.RainInfo.Density = num5;
-			atmosphereInfo.SnowInfo.Density = num5;
-			atmosphereInfo.AmbientInfo.EnvironmentMultiplier = MathF.Max(num * 0.5f, 0.001f);
-			atmosphereInfo.AmbientInfo.AmbientColor = this.GetAmbientFogColor(num);
+			atmosphereInfo.RainInfo.Density = item3;
+			atmosphereInfo.SnowInfo.Density = item4;
+			atmosphereInfo.AmbientInfo.EnvironmentMultiplier = MathF.Max(num3 * 0.5f, 0.001f);
+			atmosphereInfo.AmbientInfo.AmbientColor = this.GetAmbientFogColor(num3);
 			atmosphereInfo.AmbientInfo.MieScatterStrength = this.GetMieScatterStrength(environmentMultiplier);
 			atmosphereInfo.AmbientInfo.RayleighConstant = this.GetRayleighConstant(environmentMultiplier);
 			atmosphereInfo.SkyInfo.Brightness = this.GetSkyBrightness(hourOfDayNormalized, environmentMultiplier);
-			atmosphereInfo.FogInfo.Density = this.GetFogDensity(environmentMultiplier, pos);
-			atmosphereInfo.FogInfo.Color = this.GetFogColor(num);
+			atmosphereInfo.FogInfo.Density = this.GetFogDensity(environmentMultiplier, position);
+			atmosphereInfo.FogInfo.Color = this.GetFogColor(num3);
 			atmosphereInfo.FogInfo.Falloff = 1.48f;
 			atmosphereInfo.TimeInfo.TimeOfDay = this.GetHourOfDay();
-			atmosphereInfo.TimeInfo.WinterTimeFactor = this.GetWinterTimeFactor(timeOfYear);
-			atmosphereInfo.TimeInfo.DrynessFactor = this.GetDrynessFactor(timeOfYear);
+			atmosphereInfo.TimeInfo.WinterTimeFactor = this.GetWinterTimeFactor(CampaignTime.Now);
+			atmosphereInfo.TimeInfo.DrynessFactor = this.GetDrynessFactor(CampaignTime.Now);
 			atmosphereInfo.TimeInfo.NightTimeFactor = this.GetNightTimeFactor();
-			atmosphereInfo.TimeInfo.Season = num4;
+			atmosphereInfo.TimeInfo.Season = (int)item;
 			atmosphereInfo.AreaInfo.Temperature = temperature;
 			atmosphereInfo.AreaInfo.Humidity = humidity;
-			atmosphereInfo.AreaInfo.AreaType = num3;
-			atmosphereInfo.PostProInfo.MinExposure = MBMath.Lerp(-3f, -2f, this.GetExposureCoefBetweenDayNight(), 1E-05f);
-			atmosphereInfo.PostProInfo.MaxExposure = MBMath.Lerp(2f, 0f, num, 1E-05f);
-			atmosphereInfo.PostProInfo.BrightpassThreshold = MBMath.Lerp(0.7f, 0.9f, num, 1E-05f);
+			atmosphereInfo.PostProInfo.MinExposure = MBMath.Lerp(-3f, -2f, this.GetExposureCoefficientBetweenDayNight(), 1E-05f);
+			atmosphereInfo.PostProInfo.MaxExposure = MBMath.Lerp(2f, 0f, num3, 1E-05f);
+			atmosphereInfo.PostProInfo.BrightpassThreshold = MBMath.Lerp(0.7f, 0.9f, num3, 1E-05f);
 			atmosphereInfo.PostProInfo.MiddleGray = 0.1f;
-			atmosphereInfo.AtmosphereTypeName = text;
+			atmosphereInfo.InterpolatedAtmosphereName = selectedAtmosphereId;
 			return atmosphereInfo;
 		}
 
-		public override void LogAtmosphere(AtmosphereInfo atmoshere)
+		public void InitializeSnowAndRainAmountData(byte[] snowAndRainAmountData)
 		{
+			this._snowAndRainAmountData = snowAndRainAmountData;
+		}
+
+		public override MapWeatherModel.WeatherEvent UpdateWeatherForPosition(Vec2 position, CampaignTime ct)
+		{
+			ValueTuple<float, float> snowAndRainDataFromTexture = this.GetSnowAndRainDataFromTexture(position, ct);
+			float item = snowAndRainDataFromTexture.Item1;
+			float item2 = snowAndRainDataFromTexture.Item2;
+			if (item > 0.55f)
+			{
+				return this.SetIsBlizzardOrSnowFromFunction(item, ct, position);
+			}
+			return this.SetIsRainingOrWetFromFunction(item2, ct, position);
+		}
+
+		private MapWeatherModel.WeatherEvent SetIsBlizzardOrSnowFromFunction(float snowValue, CampaignTime campaignTime, in Vec2 position)
+		{
+			int num;
+			int num2;
+			Vec2 nodePositionForWeather = this.GetNodePositionForWeather(position, out num, out num2);
+			if (snowValue >= 0.65000004f)
+			{
+				float num3 = (snowValue - 0.55f) / 0.45f;
+				uint seed = this.GetSeed(campaignTime, position);
+				bool currentWeatherInAdjustedPosition = this.GetCurrentWeatherInAdjustedPosition(seed, num3, 0.1f, nodePositionForWeather);
+				this._weatherDataCache[num2 * 32 + num] = (currentWeatherInAdjustedPosition ? MapWeatherModel.WeatherEvent.Blizzard : MapWeatherModel.WeatherEvent.Snowy);
+			}
+			else
+			{
+				this._weatherDataCache[num2 * 32 + num] = ((snowValue > 0.55f) ? MapWeatherModel.WeatherEvent.Snowy : MapWeatherModel.WeatherEvent.Clear);
+			}
+			return this._weatherDataCache[num2 * 32 + num];
+		}
+
+		private MapWeatherModel.WeatherEvent SetIsRainingOrWetFromFunction(float rainValue, CampaignTime campaignTime, in Vec2 position)
+		{
+			int num;
+			int num2;
+			Vec2 nodePositionForWeather = this.GetNodePositionForWeather(position, out num, out num2);
+			if (rainValue >= 0.6f)
+			{
+				float num3 = (rainValue - 0.6f) / 0.39999998f;
+				uint seed = this.GetSeed(campaignTime, position);
+				this._weatherDataCache[num2 * 32 + num] = MapWeatherModel.WeatherEvent.Clear;
+				if (this.GetCurrentWeatherInAdjustedPosition(seed, num3, 0.45f, nodePositionForWeather))
+				{
+					this._weatherDataCache[num2 * 32 + num] = MapWeatherModel.WeatherEvent.HeavyRain;
+				}
+				else
+				{
+					CampaignTime campaignTime2 = new CampaignTime(campaignTime.NumTicks - this.WeatherUpdatePeriod.NumTicks);
+					uint num4 = this.GetSeed(campaignTime2, position);
+					float num5 = (this.GetSnowAndRainDataFromTexture(position, campaignTime2).Item2 - 0.6f) / 0.39999998f;
+					while (campaignTime.NumTicks - campaignTime2.NumTicks < this.PreviousRainDataCheckForWetness.NumTicks)
+					{
+						if (this.GetCurrentWeatherInAdjustedPosition(num4, num5, 0.45f, nodePositionForWeather))
+						{
+							this._weatherDataCache[num2 * 32 + num] = MapWeatherModel.WeatherEvent.LightRain;
+							break;
+						}
+						campaignTime2 = new CampaignTime(campaignTime2.NumTicks - this.WeatherUpdatePeriod.NumTicks);
+						num4 = this.GetSeed(campaignTime2, position);
+						num5 = (this.GetSnowAndRainDataFromTexture(position, campaignTime2).Item2 - 0.6f) / 0.39999998f;
+					}
+				}
+			}
+			else
+			{
+				this._weatherDataCache[num2 * 32 + num] = MapWeatherModel.WeatherEvent.Clear;
+			}
+			return this._weatherDataCache[num2 * 32 + num];
+		}
+
+		private bool GetCurrentWeatherInAdjustedPosition(uint seed, float frequency, float chanceModifier, in Vec2 adjustedPosition)
+		{
+			float num = frequency * chanceModifier;
+			float mapDiagonal = Campaign.MapDiagonal;
+			Vec2 vec = adjustedPosition;
+			float num2 = mapDiagonal * vec.X;
+			vec = adjustedPosition;
+			return num > MBRandom.RandomFloatWithSeed(seed, (uint)(num2 + vec.Y));
+		}
+
+		private string GetSelectedAtmosphereId(CampaignTime.Seasons selectedSeason, bool isRaining, float snowValue, float rainValue)
+		{
+			string text = "semicloudy_field_battle";
+			if (Settlement.CurrentSettlement != null && (Settlement.CurrentSettlement.IsFortification || Settlement.CurrentSettlement.IsVillage))
+			{
+				text = "semicloudy_" + Settlement.CurrentSettlement.Culture.StringId;
+			}
+			if (selectedSeason == CampaignTime.Seasons.Winter)
+			{
+				if (snowValue >= 0.85f)
+				{
+					text = "dense_snowy";
+				}
+				else
+				{
+					text = "semi_snowy";
+				}
+			}
+			else
+			{
+				if (rainValue > 0.6f)
+				{
+					text = "wet";
+				}
+				if (isRaining)
+				{
+					if (rainValue >= 0.85f)
+					{
+						text = "dense_rainy";
+					}
+					else
+					{
+						text = "semi_rainy";
+					}
+				}
+			}
+			return text;
+		}
+
+		private ValueTuple<CampaignTime.Seasons, bool, float, float> GetSeasonRainAndSnowDataForOpeningMission(Vec2 position)
+		{
+			CampaignTime.Seasons seasons = CampaignTime.Now.GetSeasonOfYear;
+			MapWeatherModel.WeatherEvent weatherEventInPosition = this.GetWeatherEventInPosition(position);
+			float num = 0f;
+			float num2 = 0.85f;
+			bool flag = false;
+			switch (weatherEventInPosition)
+			{
+			case MapWeatherModel.WeatherEvent.Clear:
+				if (seasons == CampaignTime.Seasons.Winter)
+				{
+					seasons = ((CampaignTime.Now.GetDayOfSeason > 10) ? CampaignTime.Seasons.Spring : CampaignTime.Seasons.Autumn);
+				}
+				break;
+			case MapWeatherModel.WeatherEvent.LightRain:
+				if (seasons == CampaignTime.Seasons.Winter)
+				{
+					seasons = ((CampaignTime.Now.GetDayOfSeason > 10) ? CampaignTime.Seasons.Spring : CampaignTime.Seasons.Autumn);
+				}
+				num = 0.7f;
+				break;
+			case MapWeatherModel.WeatherEvent.HeavyRain:
+				if (seasons == CampaignTime.Seasons.Winter)
+				{
+					seasons = ((CampaignTime.Now.GetDayOfSeason > 10) ? CampaignTime.Seasons.Spring : CampaignTime.Seasons.Autumn);
+				}
+				flag = true;
+				num = 0.85f + MBRandom.RandomFloatRanged(0f, 0.14999998f);
+				break;
+			case MapWeatherModel.WeatherEvent.Snowy:
+				seasons = CampaignTime.Seasons.Winter;
+				num = 0.55f;
+				num2 = 0.55f + MBRandom.RandomFloatRanged(0f, 0.3f);
+				break;
+			case MapWeatherModel.WeatherEvent.Blizzard:
+				seasons = CampaignTime.Seasons.Winter;
+				num = 0.85f;
+				num2 = 0.85f;
+				break;
+			}
+			return new ValueTuple<CampaignTime.Seasons, bool, float, float>(seasons, flag, num, num2);
 		}
 
 		private DefaultMapWeatherModel.SunPosition GetSunPosition(float hourNorm, float seasonFactor)
@@ -185,33 +369,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Min(MathF.Max(MathF.Sin(MathF.Pow((envMultiplier - 0.001f) / 0.999f, 0.4f) * 3.1415927f / 2f) - 0.15f, 0.01f), 0.5f);
 		}
 
-		private float GetRainDensity(float humidity, float temperature)
-		{
-			if (temperature <= 0f)
-			{
-				return 0f;
-			}
-			if (humidity >= 40f)
-			{
-				return MBMath.InverseLerp(40f, 100f, humidity);
-			}
-			return 0f;
-		}
-
-		private float GetSnowDensity(float humidity, float temperature)
-		{
-			if (temperature > 0f)
-			{
-				return 0f;
-			}
-			if (humidity >= 40f)
-			{
-				return MBMath.InverseLerp(40f, 100f, humidity);
-			}
-			return 0f;
-		}
-
-		private float GetEnvironmentMultiplier(DefaultMapWeatherModel.SunPosition sunPos, float seasonFactor)
+		private float GetEnvironmentMultiplier(DefaultMapWeatherModel.SunPosition sunPos)
 		{
 			float num;
 			if (this._sunIsMoon)
@@ -321,7 +479,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MathF.Min(num / 0.1f, 1f);
 		}
 
-		private float GetExposureCoefBetweenDayNight()
+		private float GetExposureCoefficientBetweenDayNight()
 		{
 			float hourOfDay = this.GetHourOfDay();
 			float num = 0f;
@@ -340,31 +498,70 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return num;
 		}
 
-		private float GetNormalizedSnowValueInPos(Vec3 pos)
+		private int GetTextureDataIndexForPosition(Vec2 position)
 		{
 			Vec2 terrainSize = Campaign.Current.MapSceneWrapper.GetTerrainSize();
-			int num = MathF.Floor(pos.x / terrainSize.X * 1024f);
-			int num2 = MathF.Floor(pos.y / terrainSize.Y * 1024f);
+			int num = MathF.Floor(position.x / terrainSize.X * 1024f);
+			int num2 = MathF.Floor(position.y / terrainSize.Y * 1024f);
 			num = MBMath.ClampIndex(num, 0, 1024);
-			num2 = MBMath.ClampIndex(num2, 0, 1024);
-			float num3 = (float)this._snowAmountData[num2 * 1024 + num] / 255f;
-			float num4 = MBMath.Lerp(0.55f, -0.1f, Campaign.Current.Models.MapWeatherModel.GetSeasonTimeFactor(), 1E-05f);
-			float num5 = MBMath.SmoothStep(num4 - 0.65f, num4 + 0.65f, num3);
-			return MBMath.Lerp(0f, num5, num5, 1E-05f);
+			return MBMath.ClampIndex(num2, 0, 1024) * 1024 + num;
 		}
 
-		public override bool GetIsSnowTerrainInPos(Vec3 pos)
+		public ValueTuple<float, float> GetSnowAndRainDataFromTexture(Vec2 position, CampaignTime ct)
 		{
-			return this.GetNormalizedSnowValueInPos(pos) > 0.55f;
+			int num;
+			int num2;
+			Vec2 nodePositionForWeather = this.GetNodePositionForWeather(position, out num, out num2);
+			int textureDataIndexForPosition = this.GetTextureDataIndexForPosition(position);
+			int textureDataIndexForPosition2 = this.GetTextureDataIndexForPosition(nodePositionForWeather);
+			byte b = this._snowAndRainAmountData[textureDataIndexForPosition * 2];
+			float num3 = (float)this._snowAndRainAmountData[textureDataIndexForPosition2 * 2 + 1];
+			float num4 = (float)b / 255f;
+			float num5 = num3 / 255f;
+			float num6;
+			float num7;
+			Campaign.Current.Models.MapWeatherModel.GetSeasonTimeFactorOfCampaignTime(ct, out num6, out num7, true);
+			float num8 = MBMath.Lerp(0.55f, -0.1f, num6, 1E-05f);
+			float num9 = MBMath.Lerp(0.7f, 0.3f, num7, 1E-05f);
+			float num10 = MBMath.SmoothStep(num8 - 0.65f, num8 + 0.65f, num4);
+			float num11 = MBMath.SmoothStep(num9 - 0.45f, num9 + 0.45f, num5);
+			return new ValueTuple<float, float>(MBMath.Lerp(0f, num10, num10, 1E-05f), num11);
+		}
+
+		public override MapWeatherModel.WeatherEvent GetWeatherEventInPosition(Vec2 pos)
+		{
+			int num;
+			int num2;
+			this.GetNodePositionForWeather(pos, out num, out num2);
+			return this._weatherDataCache[num2 * 32 + num];
+		}
+
+		public override MapWeatherModel.WeatherEventEffectOnTerrain GetWeatherEffectOnTerrainForPosition(Vec2 pos)
+		{
+			switch (this.GetWeatherEventInPosition(pos))
+			{
+			case MapWeatherModel.WeatherEvent.Clear:
+				return MapWeatherModel.WeatherEventEffectOnTerrain.Default;
+			case MapWeatherModel.WeatherEvent.LightRain:
+				return MapWeatherModel.WeatherEventEffectOnTerrain.Wet;
+			case MapWeatherModel.WeatherEvent.HeavyRain:
+				return MapWeatherModel.WeatherEventEffectOnTerrain.Wet;
+			case MapWeatherModel.WeatherEvent.Snowy:
+				return MapWeatherModel.WeatherEventEffectOnTerrain.Wet;
+			case MapWeatherModel.WeatherEvent.Blizzard:
+				return MapWeatherModel.WeatherEventEffectOnTerrain.Wet;
+			default:
+				return MapWeatherModel.WeatherEventEffectOnTerrain.Default;
+			}
 		}
 
 		private float GetWinterTimeFactor(CampaignTime timeOfYear)
 		{
 			float num = 0f;
-			if (timeOfYear.GetSeasonOfYear == 3)
+			if (timeOfYear.GetSeasonOfYear == CampaignTime.Seasons.Winter)
 			{
 				float num2 = MathF.Abs((float)Math.IEEERemainder(CampaignTime.Now.ToSeasons, 1.0));
-				num = MBMath.SplitLerp(0f, 0.35f, 0f, 0.5f, num2, 1E-05f);
+				num = MBMath.SplitLerp(0f, 0.75f, 0f, 0.5f, num2, 1E-05f);
 			}
 			return num;
 		}
@@ -375,42 +572,67 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			float num2 = MathF.Abs((float)Math.IEEERemainder(CampaignTime.Now.ToSeasons, 1.0));
 			switch (timeOfYear.GetSeasonOfYear)
 			{
-			case 1:
+			case CampaignTime.Seasons.Summer:
 			{
 				float num3 = MBMath.ClampFloat(num2 * 2f, 0f, 1f);
 				num = MBMath.Lerp(0f, 1f, num3, 1E-05f);
 				break;
 			}
-			case 2:
+			case CampaignTime.Seasons.Autumn:
 				num = 1f;
 				break;
-			case 3:
+			case CampaignTime.Seasons.Winter:
 				num = MBMath.Lerp(1f, 0f, num2, 1E-05f);
 				break;
 			}
 			return num;
 		}
 
-		public override float GetSeasonTimeFactor()
+		public override void GetSeasonTimeFactorOfCampaignTime(CampaignTime ct, out float timeFactorForSnow, out float timeFactorForRain, bool snapCampaignTimeToWeatherPeriod = true)
 		{
-			float num = (float)CampaignTime.Now.ToSeasons % 4f;
-			float num2 = 0f;
-			if (num > 1.5f && (double)num <= 3.5)
+			if (snapCampaignTimeToWeatherPeriod)
 			{
-				float num3 = (num - 1.5f) / 2f;
-				num2 = MBMath.Lerp(0f, 1f, num3, 1E-05f);
+				ct = CampaignTime.Hours((float)((int)(ct.ToHours / this.WeatherUpdatePeriod.ToHours / 2.0) * (int)this.WeatherUpdatePeriod.ToHours * 2));
 			}
-			else if (num <= 1.5f)
+			float num = (float)ct.ToSeasons % 4f;
+			timeFactorForSnow = this.CalculateTimeFactorForSnow(num);
+			timeFactorForRain = this.CalculateTimeFactorForRain(num);
+		}
+
+		private float CalculateTimeFactorForSnow(float yearProgress)
+		{
+			float num = 0f;
+			if (yearProgress > 1.5f && (double)yearProgress <= 3.5)
 			{
-				float num3 = num / 1.5f;
-				num2 = MBMath.Lerp(0.75f, 0f, num3, 1E-05f);
+				num = MBMath.Map(yearProgress, 1.5f, 3.5f, 0f, 1f);
 			}
-			else if (num > 3.5f)
+			else if (yearProgress <= 1.5f)
 			{
-				float num3 = (num - 3.5f) * 2f;
-				num2 = MBMath.Lerp(1f, 0.75f, num3, 1E-05f);
+				num = MBMath.Map(yearProgress, 0f, 1.5f, 0.75f, 0f);
 			}
-			return num2;
+			else if (yearProgress > 3.5f)
+			{
+				num = MBMath.Map(yearProgress, 3.5f, 4f, 1f, 0.75f);
+			}
+			return num;
+		}
+
+		private float CalculateTimeFactorForRain(float yearProgress)
+		{
+			float num = 0f;
+			if (yearProgress > 1f && (double)yearProgress <= 2.5)
+			{
+				num = MBMath.Map(yearProgress, 1f, 2.5f, 0f, 1f);
+			}
+			else if (yearProgress <= 1f)
+			{
+				num = MBMath.Map(yearProgress, 0f, 1f, 1f, 0f);
+			}
+			else if (yearProgress > 2.5f)
+			{
+				num = 1f;
+			}
+			return num;
 		}
 
 		private float GetTemperature(ref AtmosphereState gridInfo, float seasonFactor)
@@ -437,37 +659,53 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			return MBMath.ClampFloat(humidityAverage + num2, 0f, 100f);
 		}
 
-		private byte[] _snowAmountData = new byte[1048576];
+		private const float SunRiseNorm = 0.083333336f;
 
-		private const float _sunRiseNorm = 0.083333336f;
+		private const float SunSetNorm = 0.9166667f;
 
-		private const float _sunSetNorm = 0.9166667f;
+		private const float DayTime = 20f;
 
-		private const float _dayTime = 20f;
+		private const float MinSunAngle = 0f;
 
-		private const float _nightTime = 4f;
+		private const float MaxSunAngle = 50f;
 
-		private const float _dayTimeNorm = 0.8333333f;
+		private const float MinEnvironmentMultiplier = 0.001f;
 
-		private const float _nightTimeNorm = 0.16666667f;
+		private const float DayEnvironmentMultiplier = 1f;
 
-		private const float _nightTimeBeforeMidnightNorm = 0.08333331f;
+		private const float NightEnvironmentMultiplier = 0.001f;
 
-		private const float _minSunAngle = 0f;
+		private const float SnowStartThreshold = 0.55f;
 
-		private const float _maxSunAngle = 50f;
+		private const float DenseSnowStartThreshold = 0.85f;
 
-		private const float _minEnvMultiplier = 0.001f;
+		private const float NoSnowDelta = 0.1f;
 
-		private const float _dayEnvMulFactor = 1f;
+		private const float WetThreshold = 0.6f;
 
-		private const float _nightEnvMulFactor = 0.001f;
+		private const float WetThresholdForTexture = 0.3f;
 
-		private bool _sunIsMoon;
+		private const float LightRainStartThreshold = 0.7f;
 
-		private const float _maxSnowCoverage = 0.35f;
+		private const float DenseRainStartThreshold = 0.85f;
+
+		private const float SnowFrequencyModifier = 0.1f;
+
+		private const float RainFrequencyModifier = 0.45f;
+
+		private const float MaxSnowCoverage = 0.75f;
+
+		private const int SnowAndRainDataTextureDimension = 1024;
+
+		private const int WeatherNodeDimension = 32;
+
+		private MapWeatherModel.WeatherEvent[] _weatherDataCache = new MapWeatherModel.WeatherEvent[1024];
 
 		private AtmosphereGrid _atmosphereGrid;
+
+		private byte[] _snowAndRainAmountData = new byte[2097152];
+
+		private bool _sunIsMoon;
 
 		private struct SunPosition
 		{

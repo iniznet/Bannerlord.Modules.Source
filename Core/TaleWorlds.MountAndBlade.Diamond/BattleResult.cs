@@ -10,14 +10,14 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	{
 		public BattleResult()
 		{
-			this.PlayerEntries = new Dictionary<PlayerId, BattlePlayerEntry>();
+			this.PlayerEntries = new Dictionary<string, BattlePlayerEntry>();
 			this.IsCancelled = false;
 		}
 
 		public void AddOrUpdatePlayerEntry(PlayerId playerId, int teamNo, string gameMode, Guid party)
 		{
 			BattlePlayerEntry battlePlayerEntry;
-			if (this.PlayerEntries.TryGetValue(playerId, out battlePlayerEntry))
+			if (this.PlayerEntries.TryGetValue(playerId.ToString(), out battlePlayerEntry))
 			{
 				battlePlayerEntry.TeamNo = teamNo;
 				battlePlayerEntry.Party = party;
@@ -40,19 +40,19 @@ namespace TaleWorlds.MountAndBlade.Diamond
 				battlePlayerEntry.LastJoinTime = DateTime.Now;
 				battlePlayerEntry.PlayTime = 0;
 				battlePlayerEntry.Disconnected = false;
-				this.PlayerEntries.Add(playerId, battlePlayerEntry);
+				this.PlayerEntries.Add(playerId.ToString(), battlePlayerEntry);
 			}
 		}
 
 		public bool TryGetPlayerEntry(PlayerId playerId, out BattlePlayerEntry battlePlayerEntry)
 		{
-			return this.PlayerEntries.TryGetValue(playerId, out battlePlayerEntry);
+			return this.PlayerEntries.TryGetValue(playerId.ToString(), out battlePlayerEntry);
 		}
 
 		public void HandlePlayerDisconnect(PlayerId playerId)
 		{
 			BattlePlayerEntry battlePlayerEntry;
-			if (this.PlayerEntries.TryGetValue(playerId, out battlePlayerEntry))
+			if (this.PlayerEntries.TryGetValue(playerId.ToString(), out battlePlayerEntry))
 			{
 				battlePlayerEntry.Disconnected = true;
 				battlePlayerEntry.PlayTime += (int)(DateTime.Now - battlePlayerEntry.LastJoinTime).TotalSeconds;
@@ -129,6 +129,6 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public PremadeGameType PremadeGameType { get; private set; }
 
-		public Dictionary<PlayerId, BattlePlayerEntry> PlayerEntries { get; private set; }
+		public Dictionary<string, BattlePlayerEntry> PlayerEntries { get; private set; }
 	}
 }

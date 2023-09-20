@@ -156,7 +156,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			{
 				list.Add(new InquiryElement(siegeEngineType, siegeEngineType.Name.ToString(), null));
 			}
-			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=MVOWsP48}Select a Melee Machine", null).ToString(), string.Empty, list, false, 1, GameTexts.FindText("str_done", null).ToString(), "", delegate(List<InquiryElement> selectedElements)
+			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=MVOWsP48}Select a Melee Machine", null).ToString(), string.Empty, list, false, 1, 1, GameTexts.FindText("str_done", null).ToString(), "", delegate(List<InquiryElement> selectedElements)
 			{
 				CustomBattleSiegeMachineVM selectedSlot2 = selectedSlot;
 				InquiryElement inquiryElement = selectedElements.FirstOrDefault<InquiryElement>();
@@ -172,7 +172,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			{
 				list.Add(new InquiryElement(siegeEngineType, siegeEngineType.Name.ToString(), null));
 			}
-			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=SLZzfNPr}Select a Ranged Machine", null).ToString(), string.Empty, list, false, 1, GameTexts.FindText("str_done", null).ToString(), "", delegate(List<InquiryElement> selectedElements)
+			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=SLZzfNPr}Select a Ranged Machine", null).ToString(), string.Empty, list, false, 1, 1, GameTexts.FindText("str_done", null).ToString(), "", delegate(List<InquiryElement> selectedElements)
 			{
 				CustomBattleSiegeMachineVM selectedSlot2 = selectedSlot;
 				InquiryElement inquiryElement = selectedElements.FirstOrDefault<InquiryElement>();
@@ -188,7 +188,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 			{
 				list.Add(new InquiryElement(siegeEngineType, siegeEngineType.Name.ToString(), null));
 			}
-			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=SLZzfNPr}Select a Ranged Machine", null).ToString(), string.Empty, list, false, 1, GameTexts.FindText("str_done", null).ToString(), "", delegate(List<InquiryElement> selectedElements)
+			MBInformationManager.ShowMultiSelectionInquiry(new MultiSelectionInquiryData(new TextObject("{=SLZzfNPr}Select a Ranged Machine", null).ToString(), string.Empty, list, false, 1, 1, GameTexts.FindText("str_done", null).ToString(), "", delegate(List<InquiryElement> selectedElements)
 			{
 				CustomBattleSiegeMachineVM selectedSlot2 = selectedSlot;
 				InquiryElement inquiryElement = selectedElements.FirstOrDefault<InquiryElement>();

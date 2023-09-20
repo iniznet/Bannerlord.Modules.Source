@@ -53,7 +53,6 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.WeaponCrafting.WeaponDes
 		public void ExecuteSelect()
 		{
 			this._selectWeaponPiece(this);
-			this.IsNewlyUnlocked = false;
 		}
 
 		[DataSourceProperty]

@@ -386,7 +386,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard
 
 		private bool _isRoutedSelected;
 
-		public enum SortState
+		private enum SortState
 		{
 			Default,
 			Ascending,

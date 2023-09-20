@@ -10,14 +10,14 @@ namespace NetworkMessages.FromServer
 	{
 		public MissionObjectId ObjectId { get; private set; }
 
-		public MissionObject Parent { get; private set; }
+		public MissionObjectId ParentId { get; private set; }
 
 		public MatrixFrame Frame { get; private set; }
 
-		public StopPhysicsAndSetFrameOfMissionObject(MissionObjectId objectId, MissionObject parent, MatrixFrame frame)
+		public StopPhysicsAndSetFrameOfMissionObject(MissionObjectId objectId, MissionObjectId parentId, MatrixFrame frame)
 		{
 			this.ObjectId = objectId;
-			this.Parent = parent;
+			this.ParentId = parentId;
 			this.Frame = frame;
 		}
 
@@ -29,7 +29,7 @@ namespace NetworkMessages.FromServer
 		{
 			bool flag = true;
 			this.ObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
-			this.Parent = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.ParentId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.Frame = GameNetworkMessage.ReadNonUniformTransformFromPacket(CompressionBasic.PositionCompressionInfo, CompressionBasic.LowResQuaternionCompressionInfo, ref flag);
 			return flag;
 		}
@@ -37,7 +37,7 @@ namespace NetworkMessages.FromServer
 		protected override void OnWrite()
 		{
 			GameNetworkMessage.WriteMissionObjectIdToPacket(this.ObjectId);
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.Parent);
+			GameNetworkMessage.WriteMissionObjectIdToPacket((this.ParentId.Id >= 0) ? this.ParentId : MissionObjectId.Invalid);
 			GameNetworkMessage.WriteNonUniformTransformToPacket(this.Frame, CompressionBasic.PositionCompressionInfo, CompressionBasic.LowResQuaternionCompressionInfo);
 		}
 
@@ -48,14 +48,7 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			object[] array = new object[4];
-			array[0] = "Stop physics and set frame of MissionObject with ID: ";
-			array[1] = this.ObjectId;
-			array[2] = " Parent Index: ";
-			int num = 3;
-			MissionObject parent = this.Parent;
-			array[num] = ((parent != null) ? parent.Id.ToString() : null) ?? "-1";
-			return string.Concat(array);
+			return string.Concat(new object[] { "Stop physics and set frame of MissionObject with ID: ", this.ObjectId, " Parent Index: ", this.ParentId });
 		}
 	}
 }

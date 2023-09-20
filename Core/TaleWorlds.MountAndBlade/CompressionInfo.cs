@@ -6,7 +6,7 @@ namespace TaleWorlds.MountAndBlade
 {
 	public class CompressionInfo
 	{
-		[EngineStruct("Integer_compression_info")]
+		[EngineStruct("Integer_compression_info", false)]
 		public struct Integer
 		{
 			public Integer(int minimumValue, int maximumValue, bool maximumValueGiven)
@@ -39,14 +39,17 @@ namespace TaleWorlds.MountAndBlade
 				return this.maximumValue;
 			}
 
+			[CustomEngineStructMemberData("min_value")]
 			private readonly int minimumValue;
 
+			[CustomEngineStructMemberData("max_value")]
 			private readonly int maximumValue;
 
+			[CustomEngineStructMemberData("num_bits")]
 			private readonly int numberOfBits;
 		}
 
-		[EngineStruct("Unsigned_integer_compression_info")]
+		[EngineStruct("Unsigned_integer_compression_info", false)]
 		public struct UnsignedInteger
 		{
 			public UnsignedInteger(uint minimumValue, uint maximumValue, bool maximumValueGiven)
@@ -74,14 +77,17 @@ namespace TaleWorlds.MountAndBlade
 				return this.numberOfBits;
 			}
 
+			[CustomEngineStructMemberData("min_value")]
 			private readonly uint minimumValue;
 
+			[CustomEngineStructMemberData("max_value")]
 			private readonly uint maximumValue;
 
+			[CustomEngineStructMemberData("num_bits")]
 			private readonly int numberOfBits;
 		}
 
-		[EngineStruct("Integer64_compression_info")]
+		[EngineStruct("Integer64_compression_info", false)]
 		public struct LongInteger
 		{
 			public LongInteger(long minimumValue, long maximumValue, bool maximumValueGiven)
@@ -109,14 +115,17 @@ namespace TaleWorlds.MountAndBlade
 				return this.numberOfBits;
 			}
 
+			[CustomEngineStructMemberData("min_value")]
 			private readonly long minimumValue;
 
+			[CustomEngineStructMemberData("max_value")]
 			private readonly long maximumValue;
 
+			[CustomEngineStructMemberData("num_bits")]
 			private readonly int numberOfBits;
 		}
 
-		[EngineStruct("Unsigned_integer64_compression_info")]
+		[EngineStruct("Unsigned_integer64_compression_info", false)]
 		public struct UnsignedLongInteger
 		{
 			public UnsignedLongInteger(ulong minimumValue, ulong maximumValue, bool maximumValueGiven)
@@ -144,14 +153,17 @@ namespace TaleWorlds.MountAndBlade
 				return this.numberOfBits;
 			}
 
+			[CustomEngineStructMemberData("min_value")]
 			private readonly ulong minimumValue;
 
+			[CustomEngineStructMemberData("max_value")]
 			private readonly ulong maximumValue;
 
+			[CustomEngineStructMemberData("num_bits")]
 			private readonly int numberOfBits;
 		}
 
-		[EngineStruct("Float_compression_info")]
+		[EngineStruct("Float_compression_info", false)]
 		public struct Float
 		{
 			public static CompressionInfo.Float FullPrecision { get; } = new CompressionInfo.Float(true);
@@ -204,12 +216,16 @@ namespace TaleWorlds.MountAndBlade
 				return this.precision;
 			}
 
+			[CustomEngineStructMemberData("min_value")]
 			private readonly float minimumValue;
 
+			[CustomEngineStructMemberData("max_value")]
 			private readonly float maximumValue;
 
+			[CustomEngineStructMemberData(true)]
 			private readonly float precision;
 
+			[CustomEngineStructMemberData("num_bits")]
 			private readonly int numberOfBits;
 		}
 	}

@@ -48,6 +48,14 @@ namespace TaleWorlds.MountAndBlade
 
 		public bool IsOnlyCoreContentEnabled { get; private set; }
 
+		public bool MultiplayerRequested
+		{
+			get
+			{
+				return this.StartupInfo.StartupType == GameStartupType.Multiplayer || PlatformServices.SessionInvitationType == SessionInvitationType.Multiplayer || PlatformServices.IsPlatformRequestedMultiplayer;
+			}
+		}
+
 		public GameStartupInfo StartupInfo { get; private set; }
 
 		private Module()
@@ -182,6 +190,7 @@ namespace TaleWorlds.MountAndBlade
 			MBDebug.Print("MBModuleBase Initialize begin...", 0, Debug.DebugColor.White, 17592186044416UL);
 			MBDebug.Print("MBModuleBase Initialize end...", 0, Debug.DebugColor.White, 17592186044416UL);
 			GameNetwork.FindGameNetworkMessages();
+			GameNetwork.FindSynchedMissionObjectTypes();
 			HasTableauCache.CollectTableauCacheTypes();
 			MBDebug.Print("Module Initialize end...", 0, Debug.DebugColor.White, 17592186044416UL);
 			MBDebug.TestModeEnabled = Utilities.CommandLineArgumentExists("/runTest");
@@ -191,8 +200,20 @@ namespace TaleWorlds.MountAndBlade
 			EngineController.ConfigChange += this.OnConfigChanged;
 			EngineController.OnConstrainedStateChanged += this.OnConstrainedStateChange;
 			ScreenManager.FocusGained += this.OnFocusGained;
+			ScreenManager.PlatformTextRequested += this.OnPlatformTextRequested;
+			PlatformServices.Instance.OnTextEnteredFromPlatform += this.OnTextEnteredFromPlatform;
 			SaveManager.InitializeGlobalDefinitionContext();
 			this.EnsureAsyncJobsAreFinished();
+		}
+
+		private void OnPlatformTextRequested(string initialText, string descriptionText, int maxLength, int keyboardTypeEnum)
+		{
+			IPlatformServices instance = PlatformServices.Instance;
+			if (instance == null)
+			{
+				return;
+			}
+			instance.ShowGamepadTextInput(descriptionText, initialText, (uint)maxLength, keyboardTypeEnum == 2);
 		}
 
 		private void SetWindowTitle()
@@ -278,17 +299,37 @@ namespace TaleWorlds.MountAndBlade
 					this.StartupInfo.ServerRegion = text4;
 					this.StartupInfo.Permission = num3;
 				}
+				else if (text == "/dedicatedcommunityserver".ToLower())
+				{
+					int num4 = Convert.ToInt32(array[i + 1]);
+					i++;
+					this.StartupInfo.StartupType = GameStartupType.GameServer;
+					this.StartupInfo.DedicatedServerType = DedicatedServerType.Community;
+					this.StartupInfo.ServerPort = num4;
+				}
 				else if (text == "/dedicatedcustomserverconfigfile".ToLower())
 				{
 					string text5 = array[i + 1];
 					i++;
 					this.StartupInfo.CustomGameServerConfigFile = text5;
 				}
-				else if (text == "/dedicatedcustomserverauthtoken".ToLower())
+				else if (text == "/dedicatedcustomservernameoverride".ToLower())
 				{
 					string text6 = array[i + 1];
 					i++;
-					this.StartupInfo.CustomGameServerAuthToken = text6;
+					this.StartupInfo.CustomGameServerNameOverride = text6;
+				}
+				else if (text == "/dedicatedcustomserverpasswordoverride".ToLower())
+				{
+					string text7 = array[i + 1];
+					i++;
+					this.StartupInfo.CustomGameServerPasswordOverride = text7;
+				}
+				else if (text == "/dedicatedcustomserverauthtoken".ToLower())
+				{
+					string text8 = array[i + 1];
+					i++;
+					this.StartupInfo.CustomGameServerAuthToken = text8;
 				}
 				else if (text == "/dedicatedcustomserverDontAllowOptionalModules".ToLower())
 				{
@@ -304,9 +345,9 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else if (text == "/customserverhost")
 				{
-					string text7 = array[i + 1];
+					string text9 = array[i + 1];
 					i++;
-					this.StartupInfo.CustomServerHostIP = text7;
+					this.StartupInfo.CustomServerHostIP = text9;
 				}
 				else if (text == "/singleplayer".ToLower())
 				{
@@ -323,8 +364,8 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else if (text == "/overridenusername".ToLower())
 				{
-					string text8 = array[i + 1];
-					this.StartupInfo.OverridenUserName = text8;
+					string text10 = array[i + 1];
+					this.StartupInfo.OverridenUserName = text10;
 					i++;
 				}
 				else if (text.StartsWith("-AUTH_PASSWORD".ToLowerInvariant()))
@@ -334,6 +375,12 @@ namespace TaleWorlds.MountAndBlade
 				else if (text == "/continuegame".ToLower())
 				{
 					this.StartupInfo.IsContinueGame = true;
+				}
+				else if (text == "/serverbandwidthlimitmbps".ToLower())
+				{
+					double num5 = Convert.ToDouble(array[i + 1]);
+					this.StartupInfo.ServerBandwidthLimitInMbps = num5;
+					i++;
 				}
 			}
 		}
@@ -415,7 +462,10 @@ namespace TaleWorlds.MountAndBlade
 
 		private void OnNetworkTick(float dt)
 		{
-			NetworkMain.Tick(dt);
+			foreach (MBSubModuleBase mbsubModuleBase in this.SubModules)
+			{
+				mbsubModuleBase.OnNetworkTick(dt);
+			}
 		}
 
 		[MBCallback]
@@ -618,26 +668,24 @@ namespace TaleWorlds.MountAndBlade
 			{
 				mbsubModuleBase.OnBeforeInitialModuleScreenSetAsRoot();
 			}
-			if (GameNetwork.IsDedicatedServer)
+			if (!GameNetwork.IsDedicatedServer)
 			{
-				MBGameManager.StartNewGame(new MultiplayerGameManager());
-				return;
-			}
-			string text = ModuleHelper.GetModuleFullPath("Native") + "Videos/TWLogo_and_Partners.ivf";
-			string text2 = ModuleHelper.GetModuleFullPath("Native") + "Videos/TWLogo_and_Partners.ogg";
-			if (!this._splashScreenPlayed && File.Exists(text) && (text2 == "" || File.Exists(text2)) && !Debugger.IsAttached)
-			{
-				VideoPlaybackState videoPlaybackState = this.GlobalGameStateManager.CreateState<VideoPlaybackState>();
-				videoPlaybackState.SetStartingParameters(text, text2, string.Empty, 30f, true);
-				videoPlaybackState.SetOnVideoFinisedDelegate(delegate
+				string text = ModuleHelper.GetModuleFullPath("Native") + "Videos/TWLogo_and_Partners.ivf";
+				string text2 = ModuleHelper.GetModuleFullPath("Native") + "Videos/TWLogo_and_Partners.ogg";
+				if (!this._splashScreenPlayed && File.Exists(text) && (text2 == "" || File.Exists(text2)) && !Debugger.IsAttached)
 				{
-					this.OnInitialModuleScreenActivated(true);
-				});
-				this.GlobalGameStateManager.CleanAndPushState(videoPlaybackState, 0);
-				this._splashScreenPlayed = true;
-				return;
+					VideoPlaybackState videoPlaybackState = this.GlobalGameStateManager.CreateState<VideoPlaybackState>();
+					videoPlaybackState.SetStartingParameters(text, text2, string.Empty, 30f, true);
+					videoPlaybackState.SetOnVideoFinisedDelegate(delegate
+					{
+						this.OnInitialModuleScreenActivated(true);
+					});
+					this.GlobalGameStateManager.CleanAndPushState(videoPlaybackState, 0);
+					this._splashScreenPlayed = true;
+					return;
+				}
+				this.OnInitialModuleScreenActivated(false);
 			}
-			this.OnInitialModuleScreenActivated(false);
 		}
 
 		private void OnInitialModuleScreenActivated(bool isFromSplashScreenVideo)
@@ -661,11 +709,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				PlatformServices.OnPlatformMultiplayerRequestHandled();
 			}
-			if (!this.IsOnlyCoreContentEnabled && (this.StartupInfo.StartupType == GameStartupType.Multiplayer || PlatformServices.SessionInvitationType == SessionInvitationType.Multiplayer || PlatformServices.IsPlatformRequestedMultiplayer))
-			{
-				MBGameManager.StartNewGame(new MultiplayerGameManager());
-			}
-			else
+			if (this.IsOnlyCoreContentEnabled || !this.MultiplayerRequested)
 			{
 				this.GlobalGameStateManager.CleanAndPushState(this.GlobalGameStateManager.CreateState<InitialState>(), 0);
 			}
@@ -726,7 +770,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				if (this.CheckAssemblyForMissionMethods(assembly))
 				{
-					foreach (Type type in assembly.GetTypes())
+					foreach (Type type in assembly.GetTypesSafe(null))
 					{
 						object[] customAttributes = type.GetCustomAttributes(typeof(MissionManager), true);
 						if (customAttributes != null && customAttributes.Length != 0)
@@ -803,7 +847,7 @@ namespace TaleWorlds.MountAndBlade
 			else if (ApplicationPlatform.CurrentPlatform == Platform.WindowsGOG)
 			{
 				assembly = AssemblyLoader.LoadFrom(ManagedDllFolder.Name + "TaleWorlds.PlatformService.GOG.dll", true);
-				platformInitParams.Add("AchievementDataXmlPath", ModuleHelper.GetModuleFullPath("Native") + "ModuleData/gog_achievement_data.xml");
+				platformInitParams.Add("AchievementDataXmlPath", ModuleHelper.GetModuleFullPath("Native") + "ModuleData/AchievementData/gog_achievement_data.xml");
 			}
 			else if (ApplicationPlatform.CurrentPlatform == Platform.GDKDesktop || ApplicationPlatform.CurrentPlatform == Platform.Durango)
 			{
@@ -812,6 +856,7 @@ namespace TaleWorlds.MountAndBlade
 			else if (ApplicationPlatform.CurrentPlatform == Platform.Orbis)
 			{
 				assembly = AssemblyLoader.LoadFrom(ManagedDllFolder.Name + "TaleWorlds.PlatformService.PS.dll", true);
+				platformInitParams.Add("AchievementDataXmlPath", ModuleHelper.GetModuleFullPath("Native") + "ModuleData/AchievementData/ps_achievement_data.xml");
 			}
 			else if (ApplicationPlatform.CurrentPlatform == Platform.WindowsNoPlatform)
 			{
@@ -824,9 +869,9 @@ namespace TaleWorlds.MountAndBlade
 			}
 			if (assembly != null)
 			{
-				Type[] types = assembly.GetTypes();
+				List<Type> typesSafe = assembly.GetTypesSafe(null);
 				Type type = null;
-				foreach (Type type2 in types)
+				foreach (Type type2 in typesSafe)
 				{
 					if (type2.GetInterfaces().Contains(typeof(IPlatformServices)))
 					{
@@ -978,7 +1023,7 @@ namespace TaleWorlds.MountAndBlade
 				{
 					return this.StartupInfo.DedicatedServerType == DedicatedServerType.None;
 				}
-				if (text == "both")
+				if (text == "both" || text == "all")
 				{
 					return this.StartupInfo.DedicatedServerType != DedicatedServerType.None;
 				}
@@ -989,6 +1034,10 @@ namespace TaleWorlds.MountAndBlade
 				if (text == "matchmaker")
 				{
 					return this.StartupInfo.DedicatedServerType == DedicatedServerType.Matchmaker;
+				}
+				if (text == "community")
+				{
+					return this.StartupInfo.DedicatedServerType == DedicatedServerType.Community;
 				}
 				break;
 			}
@@ -1019,7 +1068,7 @@ namespace TaleWorlds.MountAndBlade
 		[MBCallback]
 		internal static void MBThrowException()
 		{
-			Debug.FailedAssert("MBThrowException", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Module.cs", "MBThrowException", 1364);
+			Debug.FailedAssert("MBThrowException", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Module.cs", "MBThrowException", 1418);
 		}
 
 		[MBCallback]
@@ -1059,6 +1108,11 @@ namespace TaleWorlds.MountAndBlade
 			ScreenManager.OnFinalize();
 			BannerlordConfig.Save();
 			this.FinalizeSubModules();
+			IPlatformServices instance = PlatformServices.Instance;
+			if (instance != null)
+			{
+				instance.Terminate();
+			}
 			Common.MemoryCleanupGC(false);
 			GC.WaitForPendingFinalizers();
 		}
@@ -1106,6 +1160,11 @@ namespace TaleWorlds.MountAndBlade
 		private void OnFocusGained()
 		{
 			PlatformServices.Instance.OnFocusGained();
+		}
+
+		private void OnTextEnteredFromPlatform(string text)
+		{
+			ScreenManager.OnOnscreenKeyboardDone(text);
 		}
 
 		[MBCallback]
@@ -1359,13 +1418,6 @@ namespace TaleWorlds.MountAndBlade
 		{
 			this._multiplayerGameModesWithNames = new Dictionary<string, MultiplayerGameMode>();
 			this._multiplayerGameTypes = new List<MultiplayerGameTypeInfo>();
-			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("FreeForAll"));
-			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("TeamDeathmatch"));
-			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("Duel"));
-			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("Siege"));
-			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("Captain"));
-			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("Skirmish"));
-			this.AddMultiplayerGameMode(new MissionBasedMultiplayerGameMode("Battle"));
 		}
 
 		public MultiplayerGameMode GetMultiplayerGameMode(string gameType)

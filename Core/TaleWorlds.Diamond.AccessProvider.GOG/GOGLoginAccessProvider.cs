@@ -17,7 +17,8 @@ namespace TaleWorlds.Diamond.AccessProvider.GOG
 			{
 				IUser user = GalaxyInstance.User();
 				IFriends friends = GalaxyInstance.Friends();
-				this._gogId = user.GetGalaxyID().ToUint64();
+				this._gogId = user.GetGalaxyID().GetRealID();
+				this._oldId = user.GetGalaxyID().ToUint64();
 				this._gogUserName = friends.GetPersonaName();
 			}
 		}
@@ -42,9 +43,7 @@ namespace TaleWorlds.Diamond.AccessProvider.GOG
 			if (user.IsLoggedOn())
 			{
 				EncryptedAppTicketListener encryptedAppTicketListener = new EncryptedAppTicketListener();
-				string text = "I Own Bannerlord";
-				byte[] bytes = Encoding.Unicode.GetBytes(text);
-				user.RequestEncryptedAppTicket(bytes, (uint)bytes.Length, encryptedAppTicketListener);
+				user.RequestEncryptedAppTicket(null, 0U, encryptedAppTicketListener);
 				while (!encryptedAppTicketListener.GotResult)
 				{
 					GalaxyInstance.ProcessData();
@@ -53,7 +52,10 @@ namespace TaleWorlds.Diamond.AccessProvider.GOG
 				byte[] array = new byte[4096];
 				uint num = 0U;
 				user.GetEncryptedAppTicket(array, (uint)array.Length, ref num);
-				return AccessObjectResult.CreateSuccess(new GOGAccessObject(this._gogUserName, this._gogId, array));
+				byte[] array2 = new byte[num];
+				Array.Copy(array, array2, (long)((ulong)num));
+				string @string = Encoding.ASCII.GetString(array2);
+				return AccessObjectResult.CreateSuccess(new GOGAccessObject(this._gogUserName, this._gogId, this._oldId, @string));
 			}
 			return AccessObjectResult.CreateFailed(new TextObject("{=hU361b7v}Not logged in on GOG.", null));
 		}
@@ -61,6 +63,8 @@ namespace TaleWorlds.Diamond.AccessProvider.GOG
 		private string _gogUserName;
 
 		private ulong _gogId;
+
+		private ulong _oldId;
 
 		private PlatformInitParams _initParams;
 	}

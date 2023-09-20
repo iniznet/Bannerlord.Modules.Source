@@ -79,6 +79,14 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			}
 		}
 
+		public OrderSetVM LastSelectedOrderSet
+		{
+			get
+			{
+				return this.OrderSets.FirstOrDefault((OrderSetVM o) => o.OrderSetType == this.LastSelectedOrderSetType);
+			}
+		}
+
 		public bool PlayerHasAnyTroopUnderThem
 		{
 			get
@@ -115,9 +123,35 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			this.TroopController = new MissionOrderTroopControllerVM(this, this._isMultiplayer, this.IsDeployment, new Action(this.OnTransferFinished));
 			this.PopulateOrderSets();
 			this.Team.OnFormationAIActiveBehaviorChanged += this.TeamOnFormationAIActiveBehaviorChanged;
+			OrderTroopItemVM.OnSelectionChange += this.OnTroopItemSelectionStateChanged;
 			this.RefreshValues();
 			this.Mission.OnMainAgentChanged += this.MissionOnMainAgentChanged;
 			this.CanUseShortcuts = this._isMultiplayer;
+		}
+
+		public override void RefreshValues()
+		{
+			base.RefreshValues();
+			this.ReturnText = new TextObject("{=EmVbbIUc}Return", null).ToString();
+			foreach (OrderSetVM orderSetVM in this.OrderSetsWithOrdersByType.Values)
+			{
+				orderSetVM.RefreshValues();
+			}
+		}
+
+		public override void OnFinalize()
+		{
+			base.OnFinalize();
+			OrderTroopItemVM.OnSelectionChange -= this.OnTroopItemSelectionStateChanged;
+			this.Mission.OnMainAgentChanged -= this.MissionOnMainAgentChanged;
+			this.DeploymentController.OnFinalize();
+			this.TroopController.OnFinalize();
+			this._deploymentPoints.Clear();
+			foreach (OrderSetVM orderSetVM in this._orderSets)
+			{
+				orderSetVM.OnFinalize();
+			}
+			this.InputRestrictions = null;
 		}
 
 		private void PopulateOrderSets()
@@ -227,12 +261,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 						flag2 = true;
 						break;
 					}
-					if (!dictionary.ContainsKey(formation.PrimaryClass))
+					if (!dictionary.ContainsKey(formation.PhysicalClass))
 					{
-						TextObject localizedName = formation.PrimaryClass.GetLocalizedName();
+						TextObject localizedName = formation.PhysicalClass.GetLocalizedName();
 						TextObject textObject = GameTexts.FindText("str_troop_group_name_definite", null);
 						textObject.SetTextVariable("FORMATION_CLASS", localizedName);
-						dictionary.Add(formation.PrimaryClass, textObject);
+						dictionary.Add(formation.PhysicalClass, textObject);
 					}
 					formations[i] = null;
 				}
@@ -276,13 +310,11 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 			InformationManager.DisplayMessage(new InformationMessage(GameTexts.FindText("str_formation_ai_behavior_text", name).ToString()));
 		}
 
-		public override void RefreshValues()
+		private void OnTroopItemSelectionStateChanged(OrderTroopItemVM troopItem, bool isSelected)
 		{
-			base.RefreshValues();
-			this.ReturnText = new TextObject("{=EmVbbIUc}Return", null).ToString();
-			foreach (OrderSetVM orderSetVM in this.OrderSetsWithOrdersByType.Values)
+			for (int i = 0; i < this.TroopController.TroopList.Count; i++)
 			{
-				orderSetVM.RefreshValues();
+				this.TroopController.TroopList[i].IsTargetRelevant = this.TroopController.TroopList[i].IsSelected;
 			}
 		}
 
@@ -370,7 +402,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				});
 				bool isDeployment = this._isDeployment;
 				this.IsToggleOrderShown = false;
-				this.UpdateTitleOrdersKeyVisualVisibility(false);
+				this.UpdateTitleOrdersKeyVisualVisibility();
 				if (!this.IsDeployment)
 				{
 					this.InputRestrictions.ResetInputRestrictions();
@@ -469,7 +501,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		{
 			if (this.LastSelectedOrderItem != orderItem || !fromSelection)
 			{
-				bool flag = false;
 				this._onBeforeOrderDelegate();
 				if (this.LastSelectedOrderItem != null)
 				{
@@ -478,7 +509,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				if (orderItem.IsTitle)
 				{
 					this.LastSelectedOrderSetType = orderSetType;
-					flag = true;
 				}
 				this.LastSelectedOrderItem = orderItem;
 				if (this.LastSelectedOrderItem != null)
@@ -491,17 +521,13 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 						this.OrderSetsWithOrdersByType[this.LastSelectedOrderSetType].ShowOrders = true;
 					}
 				}
-				if (orderSetType == this.LastSelectedOrderSetType)
-				{
-					this.LastSelectedOrderSetType = orderItem.OrderSetType;
-				}
 				if (this.LastSelectedOrderItem != null && this.LastSelectedOrderItem.OrderSubType != OrderSubType.None && !fromSelection)
 				{
 					OrderSetVM orderSetVM;
 					if (this.LastSelectedOrderItem.OrderSubType == OrderSubType.Return && this.OrderSetsWithOrdersByType.TryGetValue(this.LastSelectedOrderSetType, out orderSetVM))
 					{
-						this.UpdateTitleOrdersKeyVisualVisibility(false);
 						orderSetVM.ShowOrders = false;
+						this.UpdateTitleOrdersKeyVisualVisibility();
 						this.LastSelectedOrderSetType = OrderSetType.None;
 					}
 					else if (this._currentActivationType == MissionOrderVM.ActivationType.Hold && this.LastSelectedOrderSetType != OrderSetType.None)
@@ -532,17 +558,28 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				}
 				if (!fromSelection)
 				{
-					this.UpdateTitleOrdersKeyVisualVisibility(flag);
+					this.UpdateTitleOrdersKeyVisualVisibility();
 				}
 			}
 		}
 
-		private void UpdateTitleOrdersKeyVisualVisibility(bool isTitleOrderSelected)
+		private void UpdateTitleOrdersKeyVisualVisibility()
 		{
+			bool flag = this.OrderSets.Any((OrderSetVM o) => o.ShowOrders && o.Orders.Count > 0);
+			bool? flag2 = null;
+			if (flag)
+			{
+				flag2 = new bool?(false);
+			}
 			for (int i = 0; i < this.OrderSets.Count; i++)
 			{
-				this.OrderSets[i].TitleOrder.ShortcutKey.SetForcedVisibility(isTitleOrderSelected ? new bool?(false) : null);
+				this.OrderSets[i].TitleOrder.ShortcutKey.SetForcedVisibility(flag2);
 			}
+		}
+
+		public void SetFocusedFormations(MBReadOnlyList<Formation> focusedFormationsCache)
+		{
+			this._focusedFormationsCache = focusedFormationsCache;
 		}
 
 		public void ApplySelectedOrder()
@@ -557,8 +594,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				OrderSetVM orderSetVM;
 				if (this.OrderSetsWithOrdersByType.TryGetValue(this.LastSelectedOrderSetType, out orderSetVM))
 				{
-					this.UpdateTitleOrdersKeyVisualVisibility(false);
 					orderSetVM.ShowOrders = false;
+					this.UpdateTitleOrdersKeyVisualVisibility();
 					this.LastSelectedOrderSetType = OrderSetType.None;
 				}
 				else
@@ -585,20 +622,20 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 							OrderSiegeMachineVM orderSiegeMachineVM = enumerator.Current;
 							list.Add(GameTexts.FindText("str_siege_engine", orderSiegeMachineVM.MachineClass));
 						}
-						goto IL_1B5;
+						goto IL_1B4;
 					}
 				}
 				foreach (OrderTroopItemVM orderTroopItemVM in this.TroopController.TroopList.Where((OrderTroopItemVM item) => item.IsSelected))
 				{
-					list.Add(GameTexts.FindText("str_formation_class_string", orderTroopItemVM.Formation.PrimaryClass.GetName()));
+					list.Add(GameTexts.FindText("str_formation_class_string", orderTroopItemVM.Formation.PhysicalClass.GetName()));
 				}
 			}
-			IL_1B5:
+			IL_1B4:
 			if (!list.IsEmpty<TextObject>())
 			{
 				TextObject textObject = new TextObject("{=ApD0xQXT}{STR1}: {STR2}", null);
 				textObject.SetTextVariable("STR1", GameTexts.GameTextHelper.MergeTextObjectsWithComma(list, false));
-				textObject.SetTextVariable("STR2", this.LastSelectedOrderItem.TooltipText);
+				textObject.SetTextVariable("STR2", this.LastSelectedOrderItem.MainTitle);
 				InformationManager.DisplayMessage(new InformationMessage(textObject.ToString()));
 			}
 			if (this.LastSelectedOrderSetType != OrderSetType.None)
@@ -623,85 +660,101 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					if (this.Mission.IsFormationUnitPositionAvailable(ref worldPosition, this.Team))
 					{
 						this.OrderController.SetOrderWithTwoPositions(OrderType.MoveToLineSegment, worldPosition, worldPosition);
-						goto IL_7C8;
+						goto IL_830;
 					}
-					goto IL_7C8;
+					goto IL_830;
 				}
 				case OrderSubType.Charge:
+				{
+					MBReadOnlyList<Formation> focusedFormationsCache = this._focusedFormationsCache;
+					if (focusedFormationsCache != null && focusedFormationsCache.Count > 0)
+					{
+						this.OrderController.SetOrderWithFormation(OrderType.Charge, this._focusedFormationsCache[0]);
+						goto IL_830;
+					}
 					this.OrderController.SetOrder(OrderType.Charge);
-					goto IL_7C8;
+					goto IL_830;
+				}
 				case OrderSubType.FollowMe:
 					this.OrderController.SetOrderWithAgent(OrderType.FollowMe, Agent.Main);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.Advance:
+				{
+					MBReadOnlyList<Formation> focusedFormationsCache2 = this._focusedFormationsCache;
+					if (focusedFormationsCache2 != null && focusedFormationsCache2.Count > 0)
+					{
+						this.OrderController.SetOrderWithFormation(OrderType.Advance, this._focusedFormationsCache[0]);
+						goto IL_830;
+					}
 					this.OrderController.SetOrder(OrderType.Advance);
-					goto IL_7C8;
+					goto IL_830;
+				}
 				case OrderSubType.Fallback:
 					this.OrderController.SetOrder(OrderType.FallBack);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.Stop:
 					this.OrderController.SetOrder(OrderType.StandYourGround);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.Retreat:
 					this.OrderController.SetOrder(OrderType.Retreat);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormLine:
 					this.OrderController.SetOrder(OrderType.ArrangementLine);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormClose:
 					this.OrderController.SetOrder(OrderType.ArrangementCloseOrder);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormLoose:
 					this.OrderController.SetOrder(OrderType.ArrangementLoose);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormCircular:
 					this.OrderController.SetOrder(OrderType.ArrangementCircular);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormSchiltron:
 					this.OrderController.SetOrder(OrderType.ArrangementSchiltron);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormV:
 					this.OrderController.SetOrder(OrderType.ArrangementVee);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormColumn:
 					this.OrderController.SetOrder(OrderType.ArrangementColumn);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FormScatter:
 					this.OrderController.SetOrder(OrderType.ArrangementScatter);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.ToggleStart:
 				case OrderSubType.ToggleEnd:
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.ToggleFacing:
 					if (OrderController.GetActiveFacingOrderOf(this.OrderController.SelectedFormations.FirstOrDefault<Formation>()) == OrderType.LookAtDirection)
 					{
 						this.OrderController.SetOrder(OrderType.LookAtEnemy);
-						goto IL_7C8;
+						goto IL_830;
 					}
 					this.OrderController.SetOrderWithPosition(OrderType.LookAtDirection, new WorldPosition(this.Mission.Scene, UIntPtr.Zero, this._getOrderFlagPosition(), false));
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.ToggleFire:
 					if (this.LastSelectedOrderItem.SelectionState == 3)
 					{
 						this.OrderController.SetOrder(OrderType.FireAtWill);
-						goto IL_7C8;
+						goto IL_830;
 					}
 					this.OrderController.SetOrder(OrderType.HoldFire);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.ToggleMount:
 					if (this.LastSelectedOrderItem.SelectionState == 3)
 					{
 						this.OrderController.SetOrder(OrderType.Mount);
-						goto IL_7C8;
+						goto IL_830;
 					}
 					this.OrderController.SetOrder(OrderType.Dismount);
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.ToggleAI:
 				{
 					if (this.LastSelectedOrderItem.SelectionState == 3)
 					{
 						this.OrderController.SetOrder(OrderType.AIControlOff);
-						goto IL_7C8;
+						goto IL_830;
 					}
 					this.OrderController.SetOrder(OrderType.AIControlOn);
 					using (List<Formation>.Enumerator enumerator4 = this.OrderController.SelectedFormations.GetEnumerator())
@@ -711,7 +764,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 							Formation formation = enumerator4.Current;
 							this.TeamOnFormationAIActiveBehaviorChanged(formation);
 						}
-						goto IL_7C8;
+						goto IL_830;
 					}
 					break;
 				}
@@ -719,12 +772,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					break;
 				case OrderSubType.ActivationFaceDirection:
 					this.OrderController.SetOrderWithPosition(OrderType.LookAtDirection, new WorldPosition(this.Mission.Scene, UIntPtr.Zero, this._getOrderFlagPosition(), false));
-					goto IL_7C8;
+					goto IL_830;
 				case OrderSubType.FaceEnemy:
 					this.OrderController.SetOrder(OrderType.LookAtEnemy);
-					goto IL_7C8;
+					goto IL_830;
 				default:
-					goto IL_7C8;
+					goto IL_830;
 				}
 				if (!this.IsDeployment)
 				{
@@ -781,25 +834,28 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					this.OrderController.SiegeWeaponController.SetOrder(SiegeWeaponOrderType.FireAtWalls);
 				}
 			}
-			IL_7C8:
+			IL_830:
 			if (this.ActiveTargetState == 0)
 			{
-				using (IEnumerator<OrderTroopItemVM> enumerator2 = this.TroopController.TroopList.Where((OrderTroopItemVM item) => item.IsSelected).GetEnumerator())
+				IEnumerable<OrderTroopItemVM> enumerable = this.TroopController.TroopList.Where((OrderTroopItemVM item) => item.IsSelected);
+				enumerable.Count<OrderTroopItemVM>();
+				using (IEnumerator<OrderTroopItemVM> enumerator2 = enumerable.GetEnumerator())
 				{
 					while (enumerator2.MoveNext())
 					{
 						OrderTroopItemVM orderTroopItemVM4 = enumerator2.Current;
 						this.TroopController.SetTroopActiveOrders(orderTroopItemVM4);
+						orderTroopItemVM4.IsTargetRelevant = orderTroopItemVM4.IsSelected;
 					}
-					goto IL_895;
+					goto IL_912;
 				}
 			}
 			foreach (OrderSiegeMachineVM orderSiegeMachineVM2 in this.DeploymentController.SiegeMachineList.Where((OrderSiegeMachineVM item) => item.IsSelected))
 			{
 				this.DeploymentController.SetSiegeMachineActiveOrders(orderSiegeMachineVM2);
 			}
-			IL_895:
-			this.UpdateTitleOrdersKeyVisualVisibility(false);
+			IL_912:
+			this.UpdateTitleOrdersKeyVisualVisibility();
 			this.LastSelectedOrderItem = null;
 			this.LastSelectedOrderSetType = OrderSetType.None;
 		}
@@ -829,6 +885,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				{
 					this.TroopController.IntervalUpdate();
 				}
+				this.TroopController.RefreshTroopFormationTargetVisuals();
 			}
 			this.DeploymentController.Update();
 			this.DisplayFormationAIFeedback();
@@ -842,7 +899,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				{
 					if (this.LastSelectedOrderItem != null)
 					{
-						this.UpdateTitleOrdersKeyVisualVisibility(false);
+						this.UpdateTitleOrdersKeyVisualVisibility();
 						this.OrderSetsWithOrdersByType[this.LastSelectedOrderSetType].ShowOrders = false;
 						this.LastSelectedOrderItem = null;
 						return;
@@ -853,7 +910,7 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					this.LastSelectedOrderItem = null;
 					if (this.LastSelectedOrderSetType != OrderSetType.None)
 					{
-						this.UpdateTitleOrdersKeyVisualVisibility(false);
+						this.UpdateTitleOrdersKeyVisualVisibility();
 						this.OrderSetsWithOrdersByType[this.LastSelectedOrderSetType].ShowOrders = false;
 						this.LastSelectedOrderSetType = OrderSetType.None;
 						return;
@@ -934,20 +991,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 				this.TryCloseToggleOrder(false);
 				this.Mission.IsOrderMenuOpen = false;
 			}
-		}
-
-		public override void OnFinalize()
-		{
-			base.OnFinalize();
-			this.Mission.OnMainAgentChanged -= this.MissionOnMainAgentChanged;
-			this.DeploymentController.OnFinalize();
-			this.TroopController.OnFinalize();
-			this._deploymentPoints.Clear();
-			foreach (OrderSetVM orderSetVM in this._orderSets)
-			{
-				orderSetVM.OnFinalize();
-			}
-			this.InputRestrictions = null;
 		}
 
 		internal void OnDeployAll()
@@ -1102,54 +1145,6 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 					text = text + " " + formation.FormationIndex.GetName();
 				}
 			}
-		}
-
-		internal static OrderType GetOrderOverrideForUI(Formation formation, OrderSetType setType)
-		{
-			OrderType overridenOrderType = formation.Team.PlayerOrderController.GetOverridenOrderType(formation);
-			switch (overridenOrderType)
-			{
-			case OrderType.Move:
-			case OrderType.Charge:
-			case OrderType.StandYourGround:
-			case OrderType.FollowMe:
-			case OrderType.GuardMe:
-			case OrderType.Retreat:
-			case OrderType.Advance:
-			case OrderType.FallBack:
-				if (setType == OrderSetType.Movement)
-				{
-					return overridenOrderType;
-				}
-				break;
-			case OrderType.LookAtEnemy:
-			case OrderType.LookAtDirection:
-			case OrderType.HoldFire:
-			case OrderType.FireAtWill:
-			case OrderType.Mount:
-			case OrderType.Dismount:
-			case OrderType.AIControlOn:
-			case OrderType.AIControlOff:
-				if (setType == OrderSetType.Toggle)
-				{
-					return overridenOrderType;
-				}
-				break;
-			case OrderType.ArrangementLine:
-			case OrderType.ArrangementCloseOrder:
-			case OrderType.ArrangementLoose:
-			case OrderType.ArrangementCircular:
-			case OrderType.ArrangementSchiltron:
-			case OrderType.ArrangementVee:
-			case OrderType.ArrangementColumn:
-			case OrderType.ArrangementScatter:
-				if (setType == OrderSetType.Form)
-				{
-					return overridenOrderType;
-				}
-				break;
-			}
-			return OrderType.None;
 		}
 
 		public void OnDeploymentFinished()
@@ -1426,6 +1421,8 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Order
 		private readonly bool _isMultiplayer;
 
 		private OrderSetVM _movementSet;
+
+		private MBReadOnlyList<Formation> _focusedFormationsCache;
 
 		private OrderSetVM _facingSet;
 

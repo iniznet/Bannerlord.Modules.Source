@@ -8,7 +8,7 @@ namespace TaleWorlds.CampaignSystem.ComponentInterfaces
 	{
 		public abstract float GetSurgeryChance(PartyBase party, CharacterObject character);
 
-		public abstract float GetSurvivalChance(PartyBase party, CharacterObject agentCharacter, DamageTypes damageType, PartyBase enemyParty = null);
+		public abstract float GetSurvivalChance(PartyBase party, CharacterObject agentCharacter, DamageTypes damageType, bool canDamageKillEvenIfBlunt, PartyBase enemyParty = null);
 
 		public abstract int GetSkillXpFromHealingTroop(PartyBase party);
 

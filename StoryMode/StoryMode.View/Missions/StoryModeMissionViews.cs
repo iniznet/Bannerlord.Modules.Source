@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using SandBox.View;
 using SandBox.View.Missions;
-using SandBox.View.Missions.Sound.Components;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
-using TaleWorlds.MountAndBlade.View.MissionViews.Sound;
-using TaleWorlds.MountAndBlade.View.MissionViews.Sound.Components;
 
 namespace StoryMode.View.Missions
 {
@@ -31,11 +28,6 @@ namespace StoryMode.View.Missions
 				ViewCreator.CreateMissionMainAgentEquipmentController(mission),
 				ViewCreator.CreateMissionMainAgentCheerBarkControllerView(mission),
 				ViewCreator.CreateMissionAgentLockVisualizerView(mission),
-				new MusicMissionView(new MusicBaseComponent[]
-				{
-					new MusicMissionSettlementComponent(),
-					new MusicMissionAlleyFightComponent()
-				}),
 				ViewCreator.CreateMissionBoundaryCrossingView(),
 				SandBoxViewCreator.CreateMissionBarterView(),
 				ViewCreator.CreateMissionLeaveView(),

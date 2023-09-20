@@ -52,7 +52,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				targetParty.ChangePartyLeader(hero);
 				targetParty.PartyComponent.ClearCachedName();
 				targetParty.SetCustomName(null);
-				targetParty.Party.Visuals.SetMapIconAsDirty();
+				targetParty.Party.SetVisualAsDirty();
 				if (targetParty.IsDisbanding)
 				{
 					DisbandPartyAction.CancelDisband(targetParty);
@@ -91,7 +91,7 @@ namespace TaleWorlds.CampaignSystem.Actions
 				if (detail == TeleportHeroAction.TeleportationDetail.DelayedTeleportToPartyAsPartyLeader)
 				{
 					TextObject textObject = new TextObject("{=ithcVNfA}{CLAN_NAME}{.o} Party", null);
-					textObject.SetTextVariable("CLAN_NAME", (targetParty.ActualClan != null) ? targetParty.ActualClan.Name : CampaignData.NeutralFaction.Name);
+					textObject.SetTextVariable("CLAN_NAME", (targetParty.ActualClan != null) ? targetParty.ActualClan.Name : CampaignData.NeutralFactionName);
 					targetParty.SetCustomName(textObject);
 				}
 				hero.ChangeState(Hero.CharacterStates.Traveling);

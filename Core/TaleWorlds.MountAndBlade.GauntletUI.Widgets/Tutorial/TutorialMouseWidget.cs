@@ -32,7 +32,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			if (this._animQueue.Count > 0)
 			{
 				base.IsVisible = true;
-				base.ParentWidget.ParentWidget.AlphaFactor = 0.1f;
+				base.ParentWidget.ParentWidget.AlphaFactor = 0.5f;
 				this._animQueue.Peek().ForEach(delegate(MouseAnimStage a)
 				{
 					a.Tick(dt);
@@ -49,23 +49,28 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 			}
 		}
 
-		private void Reset()
+		private void ResetAll()
 		{
 			this._animQueue.Clear();
-			base.PositionXOffset = 0f;
-			base.PositionYOffset = 0f;
-			this.SetGlobalAlphaRecursively(0f);
+			this.ResetAnim();
 			this.GhostMouseVisualWidget.SetGlobalAlphaRecursively(0f);
 			this.HorizontalArrowWidget.SetGlobalAlphaRecursively(0f);
 			this.VerticalArrowWidget.SetGlobalAlphaRecursively(0f);
+			base.ParentWidget.ParentWidget.AlphaFactor = 0f;
+		}
+
+		private void ResetAnim()
+		{
+			base.PositionXOffset = 0f;
+			base.PositionYOffset = 0f;
+			this.SetGlobalAlphaRecursively(0f);
 			this.RightMouseClickVisualWidget.SetGlobalAlphaRecursively(0f);
 			this.LeftMouseClickVisualWidget.SetGlobalAlphaRecursively(0f);
-			base.ParentWidget.ParentWidget.AlphaFactor = 0f;
 		}
 
 		private void UpdateAnimQueue()
 		{
-			this.Reset();
+			this.ResetAnim();
 			switch (this.CurrentObjectiveType)
 			{
 			case 1:
@@ -141,7 +146,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 					MouseAnimStage.CreateMovementStage(0.15f, new Vec2(-20f, 0f), this),
 					MouseAnimStage.CreateFadeInStage(0.15f, this.RightMouseClickVisualWidget, false)
 				});
-				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(1f) });
+				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(2f) });
 				return;
 			case 6:
 				this.HorizontalArrowWidget.HorizontalFlip = false;
@@ -156,7 +161,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 					MouseAnimStage.CreateMovementStage(0.15f, new Vec2(20f, 0f), this),
 					MouseAnimStage.CreateFadeInStage(0.15f, this.RightMouseClickVisualWidget, false)
 				});
-				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(1f) });
+				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(2f) });
 				return;
 			case 7:
 				this.VerticalArrowWidget.VerticalFlip = true;
@@ -171,7 +176,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 					MouseAnimStage.CreateMovementStage(0.15f, new Vec2(0f, -20f), this),
 					MouseAnimStage.CreateFadeInStage(0.15f, this.RightMouseClickVisualWidget, false)
 				});
-				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(1f) });
+				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(2f) });
 				return;
 			case 8:
 				this.VerticalArrowWidget.VerticalFlip = false;
@@ -186,7 +191,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 					MouseAnimStage.CreateMovementStage(0.15f, new Vec2(0f, 20f), this),
 					MouseAnimStage.CreateFadeInStage(0.15f, this.RightMouseClickVisualWidget, false)
 				});
-				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(1f) });
+				this._animQueue.Enqueue(new List<MouseAnimStage> { MouseAnimStage.CreateStayStage(2f) });
 				return;
 			default:
 				return;
@@ -206,6 +211,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 				{
 					this._currentObjectiveType = value;
 					base.OnPropertyChanged(value, "CurrentObjectiveType");
+					this.ResetAll();
 					this.UpdateAnimQueue();
 				}
 			}
@@ -223,7 +229,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Tutorial
 
 		private const float MovementTime = 0.15f;
 
-		private const float ParentActiveAlpha = 0.1f;
+		private const float ParentActiveAlpha = 0.5f;
 
 		private Queue<List<MouseAnimStage>> _animQueue = new Queue<List<MouseAnimStage>>();
 

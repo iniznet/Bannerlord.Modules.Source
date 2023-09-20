@@ -18,7 +18,8 @@ namespace TaleWorlds.MountAndBlade
 
 		protected override void CalculateCurrentOrder()
 		{
-			if (this._switchedToShieldWallRecently && !this._switchedToShieldWallTimer.Check(Mission.Current.CurrentTime) && base.Formation.QuerySystem.FormationDispersedness > 2f)
+			FormationQuerySystem.FormationIntegrityDataGroup formationIntegrityData = base.Formation.QuerySystem.FormationIntegrityData;
+			if (this._switchedToShieldWallRecently && !this._switchedToShieldWallTimer.Check(Mission.Current.CurrentTime) && formationIntegrityData.DeviationOfPositionsExcludeFarAgents > formationIntegrityData.AverageMaxUnlimitedSpeedExcludeFarAgents * 0.5f)
 			{
 				WorldPosition medianPosition = base.Formation.QuerySystem.MedianPosition;
 				if (this._reformPosition.IsValid)
@@ -85,10 +86,20 @@ namespace TaleWorlds.MountAndBlade
 						}
 					}
 				}
+				FormationQuerySystem formationQuerySystem = (flag2 ? base.Formation.QuerySystem.ClosestEnemyFormation : base.Formation.QuerySystem.Team.MedianTargetFormation);
+				if (formationQuerySystem != null)
+				{
+					WorldPosition medianPosition3 = formationQuerySystem.MedianPosition;
+					medianPosition3.SetVec2(medianPosition3.AsVec2 + formationQuerySystem.Formation.Direction * formationQuerySystem.Formation.Depth * 0.5f);
+					Vec2 vec4 = -formationQuerySystem.Formation.Direction;
+					base.CurrentOrder = MovementOrder.MovementOrderMove(medianPosition3);
+					this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(vec4);
+					return;
+				}
 				WorldPosition worldPosition = (flag2 ? base.Formation.QuerySystem.ClosestEnemyFormation.MedianPosition : base.Formation.QuerySystem.Team.MedianTargetFormationPosition);
-				Vec2 vec4 = (base.Formation.QuerySystem.Team.MedianTargetFormationPosition.AsVec2 - base.Formation.QuerySystem.AveragePosition).Normalized();
+				Vec2 vec5 = (base.Formation.QuerySystem.Team.MedianTargetFormationPosition.AsVec2 - base.Formation.QuerySystem.AveragePosition).Normalized();
 				base.CurrentOrder = MovementOrder.MovementOrderMove(worldPosition);
-				this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(vec4);
+				this.CurrentFacingOrder = FacingOrder.FacingOrderLookAtDirection(vec5);
 			}
 		}
 
@@ -101,7 +112,6 @@ namespace TaleWorlds.MountAndBlade
 			base.Formation.ArrangementOrder = ArrangementOrder.ArrangementOrderLine;
 			base.Formation.FiringOrder = FiringOrder.FiringOrderFireAtWill;
 			base.Formation.FormOrder = FormOrder.FormOrderWide;
-			base.Formation.WeaponUsageOrder = WeaponUsageOrder.WeaponUsageOrderUseAny;
 		}
 
 		public override void TickOccasionally()
@@ -109,7 +119,7 @@ namespace TaleWorlds.MountAndBlade
 			this.CalculateCurrentOrder();
 			base.Formation.SetMovementOrder(base.CurrentOrder);
 			base.Formation.FacingOrder = this.CurrentFacingOrder;
-			if (base.Formation.IsInfantry())
+			if (base.Formation.PhysicalClass.IsMeleeInfantry())
 			{
 				bool flag = false;
 				if (base.Formation.QuerySystem.ClosestEnemyFormation != null && base.Formation.QuerySystem.IsUnderRangedAttack)

@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TaleWorlds.MountAndBlade.Diamond
 {
 	[Serializable]
 	public class MatchmakingQueueRegionStats
 	{
-		public string Region { get; private set; }
+		[JsonProperty]
+		public string Region { get; set; }
 
+		[JsonIgnore]
 		public int TotalCount
 		{
 			get
 			{
 				int num = 0;
-				foreach (MatchmakingQueueGameTypeStats matchmakingQueueGameTypeStats in this._gameTypeStats)
+				foreach (MatchmakingQueueGameTypeStats matchmakingQueueGameTypeStats in this.GameTypeStats)
 				{
 					num += matchmakingQueueGameTypeStats.Count;
 				}
@@ -21,25 +24,29 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
-		public int MaxWaitTime { get; private set; }
+		[JsonProperty]
+		public int MaxWaitTime { get; set; }
 
-		public int MinWaitTime { get; private set; }
+		[JsonProperty]
+		public int MinWaitTime { get; set; }
 
-		public int MedianWaitTime { get; private set; }
+		[JsonProperty]
+		public int MedianWaitTime { get; set; }
 
-		public int AverageWaitTime { get; private set; }
+		[JsonProperty]
+		public int AverageWaitTime { get; set; }
 
 		public MatchmakingQueueRegionStats(string region)
 		{
 			this.Region = region;
-			this._gameTypeStats = new List<MatchmakingQueueGameTypeStats>();
+			this.GameTypeStats = new List<MatchmakingQueueGameTypeStats>();
 		}
 
 		public MatchmakingQueueGameTypeStats GetQueueCountObjectOf(string[] gameTypes)
 		{
 			if (gameTypes != null)
 			{
-				foreach (MatchmakingQueueGameTypeStats matchmakingQueueGameTypeStats in this._gameTypeStats)
+				foreach (MatchmakingQueueGameTypeStats matchmakingQueueGameTypeStats in this.GameTypeStats)
 				{
 					if (matchmakingQueueGameTypeStats.EqualWith(gameTypes))
 					{
@@ -52,7 +59,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public void AddStats(MatchmakingQueueGameTypeStats matchmakingQueueGameTypeStats)
 		{
-			this._gameTypeStats.Add(matchmakingQueueGameTypeStats);
+			this.GameTypeStats.Add(matchmakingQueueGameTypeStats);
 		}
 
 		public int GetQueueCountOf(string[] gameTypes)
@@ -60,7 +67,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			int num = 0;
 			if (gameTypes != null)
 			{
-				foreach (MatchmakingQueueGameTypeStats matchmakingQueueGameTypeStats in this._gameTypeStats)
+				foreach (MatchmakingQueueGameTypeStats matchmakingQueueGameTypeStats in this.GameTypeStats)
 				{
 					if (matchmakingQueueGameTypeStats.HasAnyGameType(gameTypes))
 					{
@@ -79,6 +86,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this.MedianWaitTime = medianWaitTime;
 		}
 
-		private List<MatchmakingQueueGameTypeStats> _gameTypeStats;
+		[JsonProperty]
+		public List<MatchmakingQueueGameTypeStats> GameTypeStats;
 	}
 }

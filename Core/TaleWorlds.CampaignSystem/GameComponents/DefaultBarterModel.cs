@@ -38,7 +38,7 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 		{
 			int num = (int)hero.GetRelationWithPlayer();
 			float num2 = MathF.Clamp((float)(num + this.MaximumOverpayRelationBonus), -100f, 100f);
-			int num3 = 0;
+			float num3 = 0f;
 			int num4 = num;
 			while ((float)num4 < num2)
 			{
@@ -46,24 +46,24 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 				if (overpayAmount >= (float)num5)
 				{
 					overpayAmount -= (float)num5;
-					num3++;
+					num3 += 1f;
 					num4++;
 				}
 				else
 				{
 					if (MBRandom.RandomFloat <= overpayAmount / (float)num5)
 					{
-						num3++;
+						num3 += 1f;
 						break;
 					}
 					break;
 				}
 			}
-			if (Hero.MainHero.GetPerkValue(DefaultPerks.Charm.Tribute) && MBRandom.RandomFloat < 0.2f)
+			if (Hero.MainHero.GetPerkValue(DefaultPerks.Charm.Tribute))
 			{
-				num3 += (int)DefaultPerks.Charm.Tribute.PrimaryBonus;
+				num3 *= 1f + DefaultPerks.Charm.Tribute.PrimaryBonus;
 			}
-			return num3;
+			return MathF.Ceiling(num3);
 		}
 
 		public override ExplainedNumber GetBarterPenalty(IFaction faction, ItemBarterable itemBarterable, Hero otherHero, PartyBase otherParty)

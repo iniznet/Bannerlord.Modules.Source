@@ -1,47 +1,50 @@
 ﻿using System;
 using TaleWorlds.CampaignSystem.Settlements.Workshops;
-using TaleWorlds.Localization;
 
 namespace TaleWorlds.CampaignSystem.Actions
 {
 	public static class ChangeOwnerOfWorkshopAction
 	{
-		private static void ApplyInternal(Workshop workshop, Hero newOwner, WorkshopType workshopType, int capital, bool upgradable, int cost, TextObject customName, ChangeOwnerOfWorkshopAction.ChangeOwnerOfWorkshopDetail detail)
+		private static void ApplyInternal(Workshop workshop, Hero newOwner, WorkshopType workshopType, int capital, int cost)
 		{
 			Hero owner = workshop.Owner;
-			workshop.SetWorkshop(newOwner, workshopType, capital, upgradable, 0, 1, customName);
-			if (cost > 0 && detail != ChangeOwnerOfWorkshopAction.ChangeOwnerOfWorkshopDetail.Death)
+			workshop.ChangeOwnerOfWorkshop(newOwner, workshopType, capital);
+			if (newOwner == Hero.MainHero)
 			{
 				GiveGoldAction.ApplyBetweenCharacters(newOwner, owner, cost, false);
 			}
+			if (owner == Hero.MainHero)
+			{
+				GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, cost, false);
+			}
+			CampaignEventDispatcher.Instance.OnWorkshopOwnerChanged(workshop, owner);
 		}
 
-		public static void ApplyByBankruptcy(Workshop workshop, Hero newOwner, WorkshopType workshopType, int capital, bool upgradable, int cost, TextObject customName = null)
+		public static void ApplyByBankruptcy(Workshop workshop, Hero newOwner, WorkshopType workshopType, int cost)
 		{
-			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshopType, capital, upgradable, cost, customName, ChangeOwnerOfWorkshopAction.ChangeOwnerOfWorkshopDetail.Bankruptcy);
+			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshopType, Campaign.Current.Models.WorkshopModel.InitialCapital, cost);
 		}
 
-		public static void ApplyByTrade(Workshop workshop, Hero newOwner, WorkshopType workshopType, int capital, bool upgradable, int cost, TextObject customName = null)
+		public static void ApplyByPlayerBuying(Workshop workshop)
 		{
-			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshopType, capital, upgradable, cost, customName, ChangeOwnerOfWorkshopAction.ChangeOwnerOfWorkshopDetail.Trade);
+			int costForPlayer = Campaign.Current.Models.WorkshopModel.GetCostForPlayer(workshop);
+			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, Hero.MainHero, workshop.WorkshopType, Campaign.Current.Models.WorkshopModel.InitialCapital, costForPlayer);
 		}
 
-		public static void ApplyByDeath(Workshop workshop, Hero newOwner, TextObject customName = null)
+		public static void ApplyByPlayerSelling(Workshop workshop, Hero newOwner, WorkshopType workshopType)
 		{
-			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshop.WorkshopType, workshop.Capital, workshop.Upgradable, 0, customName, ChangeOwnerOfWorkshopAction.ChangeOwnerOfWorkshopDetail.Death);
+			int costForNotable = Campaign.Current.Models.WorkshopModel.GetCostForNotable(workshop);
+			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshopType, Campaign.Current.Models.WorkshopModel.InitialCapital, costForNotable);
 		}
 
-		public static void ApplyByWarDeclaration(Workshop workshop, Hero newOwner, WorkshopType workshopType, int capital, bool upgradable, TextObject customName = null)
+		public static void ApplyByDeath(Workshop workshop, Hero newOwner)
 		{
-			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshopType, capital, upgradable, 0, customName, ChangeOwnerOfWorkshopAction.ChangeOwnerOfWorkshopDetail.WarDeclaration);
+			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshop.WorkshopType, workshop.Capital, 0);
 		}
 
-		public enum ChangeOwnerOfWorkshopDetail
+		public static void ApplyByWar(Workshop workshop, Hero newOwner, WorkshopType workshopType)
 		{
-			Death,
-			Bankruptcy,
-			Trade,
-			WarDeclaration
+			ChangeOwnerOfWorkshopAction.ApplyInternal(workshop, newOwner, workshopType, Campaign.Current.Models.WorkshopModel.InitialCapital, 0);
 		}
 	}
 }

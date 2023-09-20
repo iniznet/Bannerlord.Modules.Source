@@ -98,9 +98,9 @@ namespace TaleWorlds.MountAndBlade
 			}
 			base.SetScriptComponentToTick(this.GetTickRequirement());
 			GameEntity gameEntity = base.GameEntity.CollectChildrenEntitiesWithTag("targeting_entity").FirstOrDefault<GameEntity>();
-			this._targetingPositionOffset = ((gameEntity != null) ? new Vec3?(gameEntity.GlobalPosition) : null) - (base.GameEntity.GlobalBoxMax + base.GameEntity.GlobalBoxMin) * 0.5f;
+			this._targetingPositionOffset = ((gameEntity != null) ? new Vec3?(gameEntity.GlobalPosition) : null) - (base.GameEntity.PhysicsGlobalBoxMax + base.GameEntity.PhysicsGlobalBoxMin) * 0.5f;
 			GameEntity gameEntity2 = base.GameEntity.CollectChildrenEntitiesWithTag("targeting_entity").FirstOrDefault<GameEntity>();
-			this._targetingPositionOffset = ((gameEntity2 != null) ? new Vec3?(gameEntity2.GlobalPosition) : null) - (base.GameEntity.GlobalBoxMax + base.GameEntity.GlobalBoxMin) * 0.5f;
+			this._targetingPositionOffset = ((gameEntity2 != null) ? new Vec3?(gameEntity2.GlobalPosition) : null) - (base.GameEntity.PhysicsGlobalBoxMax + base.GameEntity.PhysicsGlobalBoxMin) * 0.5f;
 			this.EnemyRangeToStopUsing = 5f;
 		}
 
@@ -272,41 +272,29 @@ namespace TaleWorlds.MountAndBlade
 							}
 							else if (!this._isValidated)
 							{
-								if (this.GetDetachmentWeightAux(team.Side) == -3.4028235E+38f)
+								if (!this.HasToBeDefendedByUser(team.Side) && this.GetDetachmentWeightAux(team.Side) == -3.4028235E+38f)
 								{
 									for (int j = this._forcedUseFormations.Count - 1; j >= 0; j--)
 									{
 										Formation formation8 = this._forcedUseFormations[j];
-										if (formation8.Team.Side == this.Side)
+										if (formation8.Team.Side == this.Side && !this.IsAnyUserBelongsToFormation(formation8))
 										{
-											bool flag2 = false;
-											foreach (StandingPoint standingPoint2 in base.StandingPoints)
+											if (isParallel)
 											{
-												if (standingPoint2.UserAgent != null && standingPoint2.UserAgent.Formation == formation8)
+												if (base.IsUsedByFormation(formation8))
 												{
-													flag2 = true;
+													this._needsSingleThreadTickOnce = true;
 													break;
 												}
+												this._forcedUseFormations.Remove(formation8);
 											}
-											if (!flag2)
+											else
 											{
-												if (isParallel)
+												if (base.IsUsedByFormation(formation8))
 												{
-													if (base.IsUsedByFormation(formation8))
-													{
-														this._needsSingleThreadTickOnce = true;
-														break;
-													}
-													this._forcedUseFormations.Remove(formation8);
+													formation8.StopUsingMachine(this, !formation8.IsAIControlled);
 												}
-												else
-												{
-													if (base.IsUsedByFormation(formation8))
-													{
-														formation8.StopUsingMachine(this, !formation8.IsAIControlled);
-													}
-													this._forcedUseFormations.Remove(formation8);
-												}
+												this._forcedUseFormations.Remove(formation8);
 											}
 										}
 									}
@@ -324,6 +312,18 @@ namespace TaleWorlds.MountAndBlade
 					}
 				}
 			}
+		}
+
+		protected virtual bool IsAnyUserBelongsToFormation(Formation formation)
+		{
+			foreach (StandingPoint standingPoint in base.StandingPoints)
+			{
+				if (standingPoint.UserAgent != null && standingPoint.UserAgent.Formation == formation)
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		protected internal override void OnTickParallel(float dt)
@@ -416,12 +416,12 @@ namespace TaleWorlds.MountAndBlade
 
 		public override bool AutoAttachUserToFormation(BattleSideEnum sideEnum)
 		{
-			return !base.IsDisabledDueToEnemyInRange(sideEnum);
+			return base.Ai.HasActionCompleted || !base.IsDisabledDueToEnemyInRange(sideEnum);
 		}
 
 		public override bool HasToBeDefendedByUser(BattleSideEnum sideEnum)
 		{
-			return base.IsDisabledDueToEnemyInRange(sideEnum);
+			return !base.Ai.HasActionCompleted && base.IsDisabledDueToEnemyInRange(sideEnum);
 		}
 
 		protected float GetUserMultiplierOfWeapon()
@@ -440,7 +440,7 @@ namespace TaleWorlds.MountAndBlade
 			{
 				return 0.4f;
 			}
-			Debug.FailedAssert("Invalid weapon type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\SiegeWeapon.cs", "GetDistanceMultiplierOfWeapon", 541);
+			Debug.FailedAssert("Invalid weapon type", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Objects\\Siege\\SiegeWeapon.cs", "GetDistanceMultiplierOfWeapon", 544);
 			return 1f;
 		}
 

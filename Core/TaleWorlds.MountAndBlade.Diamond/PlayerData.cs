@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade.Diamond.MultiplayerBadges;
 using TaleWorlds.PlayerServices;
@@ -9,9 +10,9 @@ namespace TaleWorlds.MountAndBlade.Diamond
 	[Serializable]
 	public class PlayerData
 	{
-		public PlayerId PlayerId { get; private set; }
+		public PlayerId PlayerId { get; set; }
 
-		public PlayerId OwnerPlayerId { get; private set; }
+		public PlayerId OwnerPlayerId { get; set; }
 
 		public string Sigil { get; set; }
 
@@ -32,14 +33,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			this._bodyProperties = bodyProperties.ClampForMultiplayer();
 		}
 
-		public string BodyPropertiesAsString
-		{
-			get
-			{
-				return this.BodyProperties.ToString();
-			}
-		}
-
+		[JsonIgnore]
 		public int ShownBadgeIndex
 		{
 			get
@@ -59,6 +53,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public bool IsFemale { get; set; }
 
+		[JsonIgnore]
 		public int KillCount
 		{
 			get
@@ -75,6 +70,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonIgnore]
 		public int DeathCount
 		{
 			get
@@ -91,6 +87,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonIgnore]
 		public int AssistCount
 		{
 			get
@@ -107,6 +104,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonIgnore]
 		public int WinCount
 		{
 			get
@@ -123,6 +121,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonIgnore]
 		public int LoseCount
 		{
 			get
@@ -163,6 +162,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 
 		public bool IsMuted { get; set; }
 
+		[JsonIgnore]
 		public int Level
 		{
 			get
@@ -171,6 +171,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonIgnore]
 		public int ExperienceToNextLevel
 		{
 			get
@@ -179,6 +180,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			}
 		}
 
+		[JsonIgnore]
 		public int ExperienceInCurrentLevel
 		{
 			get

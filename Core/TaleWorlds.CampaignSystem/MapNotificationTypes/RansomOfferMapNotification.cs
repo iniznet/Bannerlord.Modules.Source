@@ -35,7 +35,13 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 			}
 		}
 
-		public override string SoundEventPath { get; }
+		public override string SoundEventPath
+		{
+			get
+			{
+				return "event:/ui/notification/ransom_offer";
+			}
+		}
 
 		public RansomOfferMapNotification(Hero captiveHero, TextObject descriptionText)
 			: base(descriptionText)

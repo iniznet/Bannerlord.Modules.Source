@@ -206,7 +206,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=Vg7Ftrdl}You might say that... I work from dawn to late into the night but even so I can barely put bread on the table. Why's that? Because I can't sell my product at a fair price. The law says that I can only sell to local merchants, and at a fixed rate too, so that even when other prices are high I'm still making the same.", null);
+					return new TextObject("{=Vg7Ftrdl}You might say that... I work from dawn to late into the night but even so I can barely put bread on the table. Why's that? Because I can't sell my product at a fair price. The law says that I can only sell to local merchants, and at a fixed rate too, so that even when other prices are high I'm still making the same.[if:convo_annoyed]", null);
 				}
 			}
 
@@ -235,7 +235,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=Gzx35bRY}If you aren't going towards {TARGET_SETTLEMENT}, maybe you could have some of your men take my goods and bring back the profit? It shouldn't take more than {ALTERNATIVE_SOLUTION_MEN_AMOUNT} men and one of your trusted lieutenants with decent grasp of trade. They can go and be back in about {RETURN_DAYS} days.", null);
+					TextObject textObject = new TextObject("{=Gzx35bRY}If you aren't going towards {TARGET_SETTLEMENT}, maybe you could have some of your men take my goods and bring back the profit? It shouldn't take more than {ALTERNATIVE_SOLUTION_MEN_AMOUNT} men and one of your trusted lieutenants with decent grasp of trade. They can go and be back in about {RETURN_DAYS} days.[if:convo_annoyed]", null);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("ALTERNATIVE_SOLUTION_MEN_AMOUNT", base.GetTotalAlternativeSolutionNeededMenCount());
 					textObject.SetTextVariable("RETURN_DAYS", base.GetTotalAlternativeSolutionDurationInDays());
@@ -495,7 +495,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					hero.AddPower((float)((int)(-10f * base.IssueDifficultyMultiplier)));
 					ChangeRelationAction.ApplyPlayerRelation(hero, -10, true, true);
 				}
-				base.IssueOwner.CurrentSettlement.Prosperity += 30f;
+				base.IssueOwner.CurrentSettlement.Town.Prosperity += 30f;
 			}
 
 			private void ApplyLordSolutionSuccessRewards()
@@ -517,7 +517,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						}
 					}
 				}
-				base.IssueOwner.CurrentSettlement.Prosperity += 3f;
+				base.IssueOwner.CurrentSettlement.Town.Prosperity += 3f;
 			}
 
 			private void ApplyFailureEffects()
@@ -527,14 +527,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					hero.AddPower(3f);
 				}
-				base.IssueOwner.CurrentSettlement.Prosperity -= 20f;
-			}
-
-			protected override void AfterIssueCreation()
-			{
+				base.IssueOwner.CurrentSettlement.Town.Prosperity -= 20f;
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -767,9 +767,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 				Campaign.Current.ConversationManager.AddDialogFlow(this.GetDeliveryDialogFlow(), this);
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=7KshRCtM}Excellent. I'll have the goods delivered to you right away.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=7KshRCtM}Excellent. I'll have the goods delivered to you right away.[if:convo_nonchalant]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=6qKJ6Uzr}I believe the goods have been delivered to you.", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
@@ -815,7 +819,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				if (base.QuestGiver.CurrentSettlement.Owner != Hero.MainHero)
 				{
-					TextObject textObject = new TextObject("{=riYecgOn}We have heard rumors that you have purchased goods from {QUEST_GIVER.NAME}. Well, our laws require that only merchants resident in the city can buy goods directly from the artisans.", null);
+					TextObject textObject = new TextObject("{=riYecgOn}We have heard rumors that you have purchased goods from {QUEST_GIVER.NAME}. Well, our laws require that only merchants resident in the city can buy goods directly from the artisans.[if:convo_annoyed][ib:hip]", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					TextObject textObject2 = new TextObject("{=5AvvGkk4}I'm sure what you did was an honest mistake, but there are laws. Hand over the contraband to me, and this will be the end of it.", null);
 					if (this._counterOfferHero.CharacterObject.GetPersona() == DefaultTraits.PersonaCurt)
@@ -827,14 +831,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 						.NpcLine(textObject2, null, null)
 						.BeginPlayerOptions()
 						.PlayerOption(new TextObject("{=mWLA9sfT}I don't want to break the law. You can take the goods.", null), null)
-						.NpcLine(new TextObject("{=xeboujso}That's the right call. You seem a responsible type.", null), null, null)
+						.NpcLine(new TextObject("{=xeboujso}That's the right call. You seem a responsible type.[if:convo_nonchalant]", null), null, null)
 						.Consequence(delegate
 						{
 							Campaign.Current.ConversationManager.ConversationEndOneShot += this.QuestFailedWithRefusal;
 						})
 						.CloseDialog()
 						.PlayerOption(new TextObject("{=fe0uGUZb}That's just robbery under the cover of law. I'm not giving you anything.", null), null)
-						.NpcLine(new TextObject("{=U9z7rvX5}Respectfully, you're making a big mistake and I think you're going to regret it.", null), null, null)
+						.NpcLine(new TextObject("{=U9z7rvX5}Respectfully, you're making a big mistake and I think you're going to regret it.[if:convo_furious]", null), null, null)
 						.Consequence(delegate
 						{
 							Campaign.Current.ConversationManager.ConversationEndOneShot += this.RefuseCounterOfferConsequences;
@@ -842,7 +846,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						.CloseDialog()
 						.EndPlayerOptions();
 				}
-				TextObject textObject3 = new TextObject("{=DidANRmb}My {?PLAYER.GENDER}lady{?}lord{\\?}, we have heard rumors that you have purchased goods from {QUEST_GIVER.NAME}. Surely this cannot be true. Our laws require that only merchants resident in the city can buy goods directly from the artisans.", null);
+				TextObject textObject3 = new TextObject("{=DidANRmb}My {?PLAYER.GENDER}lady{?}lord{\\?}, we have heard rumors that you have purchased goods from {QUEST_GIVER.NAME}.[ib:demure] Surely this cannot be true. Our laws require that only merchants resident in the city can buy goods directly from the artisans.", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject3, false);
 				TextObject textObject4 = new TextObject("{=bbz2eyAO}Perhaps, my {?PLAYER.GENDER}lady{?}lord{\\?}, it was a mistake? If you were to relinquish the goods, it would avoid a situation that might appear, well, a bit unseemly.", null);
 				return DialogFlow.CreateDialogFlow("start", 125).NpcLine(new TextObject("{=KSeIOHDh}(One of the merchants in the town comes to talk as you are preparing to depart.)", null), null, null).Condition(() => this._counterOfferHero == Hero.OneToOneConversationHero && !this._counterOfferRefused)
@@ -880,17 +884,17 @@ namespace TaleWorlds.CampaignSystem.Issues
 				npcSecondLine.SetTextVariable("REQUESTED_AMOUNT", this._amountOfRawGoodsToBeDelivered - this._deliveredRawGoods);
 				npcSecondLine.SetTextVariable("RAW_MATERIALS", this._rawMaterialsToBeDelivered.Name);
 				TextObject textObject3 = new TextObject("{=jidYZW2s}Most of the goods are here, but I lost some of them along the way. I have {AVAILABLE_AMOUNT} with me.", null);
-				TextObject textObject4 = new TextObject("{=bPcO3Km2}Yes, things come up, but my agreement with {QUEST_GIVER.LINK} was for a fixed amount of goods. I don't want to negotiate a new deal. Please come back when you can get the full amount.", null);
+				TextObject textObject4 = new TextObject("{=bPcO3Km2}Yes, things come up, but my agreement with {QUEST_GIVER.LINK} was for a fixed amount of goods. I don't want to negotiate a new deal. Please come back when you can get the full amount.[if:convo_nervous2][ib:closed]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject4, false);
 				TextObject playerDeliverItemsFully = new TextObject("{=yKz5e5H4}Yes. I have the goods right here. I brought {REQUESTED_AMOUNT} {.%}{?(REQUESTED_AMOUNT > 1)}{PLURAL(RAW_MATERIALS)}{?}{RAW_MATERIALS}{\\?}{.%} as we agreed.", null);
 				playerDeliverItemsFully.SetTextVariable("REQUESTED_AMOUNT", this._amountOfRawGoodsToBeDelivered - this._deliveredRawGoods);
 				playerDeliverItemsFully.SetTextVariable("RAW_MATERIALS", this._rawMaterialsToBeDelivered.Name);
-				TextObject textObject5 = new TextObject("{=S60sDU3j}Very good! Here is your money. Thank you.", null);
+				TextObject textObject5 = new TextObject("{=S60sDU3j}Very good! Here is your money. Thank you.[if:convo_grateful]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject5, false);
 				TextObject textObject6 = new TextObject("{=4uKTfTg9}Sorry. I don't have anything for you this time.", null);
-				TextObject textObject7 = new TextObject("{=JTfaqKyX}Well, try to bring it soon.", null);
+				TextObject textObject7 = new TextObject("{=JTfaqKyX}Well, try to bring it soon.[if:convo_thinking][ib:closed]", null);
 				TextObject textObject8 = new TextObject("{=GVJS9ewr}You know, these goods are worth more to me than what you'll paying. I will keep them.", null);
-				TextObject textObject9 = new TextObject("{=kWZ3cskl}What? That's a breach of contract. {QUEST_GIVER.LINK} will certainly hear about this...", null);
+				TextObject textObject9 = new TextObject("{=kWZ3cskl}What? That's a breach of contract. {QUEST_GIVER.LINK} will certainly hear about this...[if:convo_grave][ib:aggressive]", null);
 				StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject9, false);
 				return DialogFlow.CreateDialogFlow("hero_main_options", 125).PlayerLine(textObject, null).Condition(delegate
 				{
@@ -997,11 +1001,6 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					ChangeCrimeRatingAction.Apply(base.QuestGiver.CurrentSettlement.MapFaction, 5f, true);
 				}
-				foreach (Hero hero in base.QuestGiver.CurrentSettlement.Notables.Where((Hero x) => x.IsMerchant && x != this._counterOfferHero))
-				{
-					ChangeRelationAction.ApplyPlayerRelation(hero, -5, true, true);
-				}
-				ChangeRelationAction.ApplyPlayerRelation(this._counterOfferHero, -10, true, true);
 				this._counterOfferHero.AddPower(-10f);
 				this._counterOfferRefused = true;
 			}
@@ -1032,7 +1031,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancelledDueToWarLogText);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._onQuestCancelledDueToWarLogText, false);
 			}
 
 			private void OnHeroKilled(Hero victim, Hero killer, KillCharacterAction.KillCharacterActionDetail detail, bool showNotification)
@@ -1062,7 +1061,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			public override void OnFailed()
 			{
 				base.QuestGiver.AddPower(-10f);
-				base.QuestGiver.CurrentSettlement.Prosperity -= 20f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity -= 20f;
 				foreach (Hero hero in base.QuestGiver.CurrentSettlement.Notables.Where((Hero x) => x.IsMerchant))
 				{
 					hero.AddPower(5f);
@@ -1090,7 +1089,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					hero.AddPower(-5f);
 					ChangeRelationAction.ApplyPlayerRelation(hero, -5, true, true);
 				}
-				base.QuestGiver.CurrentSettlement.Prosperity += 20f;
+				base.QuestGiver.CurrentSettlement.Town.Prosperity += 20f;
 				base.AddLog(this._successQuestLogText, false);
 				base.RemoveTrackedObject(this._targetSettlement);
 				base.RemoveTrackedObject(this._targetHero);
@@ -1100,6 +1099,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			protected override void OnTimedOut()
 			{
 				this.OnFailed();
+				this.RelationshipChangeWithQuestGiver = -5;
 				base.AddLog(this._failQuestLogText, false);
 			}
 

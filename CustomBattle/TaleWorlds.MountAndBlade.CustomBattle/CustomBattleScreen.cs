@@ -5,6 +5,7 @@ using TaleWorlds.Engine.GauntletUI;
 using TaleWorlds.GauntletUI.Data;
 using TaleWorlds.InputSystem;
 using TaleWorlds.MountAndBlade.CustomBattle.CustomBattle;
+using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 
@@ -39,7 +40,7 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 		{
 			base.OnInitialize();
 			this._dataSource = new CustomBattleMenuVM(this._customBattleState);
-			this._dataSource.SetStartInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Start"));
+			this._dataSource.SetStartInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Confirm"));
 			this._dataSource.SetCancelInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Exit"));
 			this._dataSource.SetResetInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Reset"));
 			this._dataSource.SetRandomizeInputKey(HotKeyManager.GetCategory("GenericPanelGameKeyCategory").GetHotKey("Randomize"));
@@ -79,16 +80,19 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 				{
 					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.TroopTypeSelectionPopUp.ExecuteCancel();
 						return;
 					}
 					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Confirm"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.TroopTypeSelectionPopUp.ExecuteDone();
 						return;
 					}
 					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Reset"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.TroopTypeSelectionPopUp.ExecuteReset();
 						return;
 					}
@@ -97,16 +101,19 @@ namespace TaleWorlds.MountAndBlade.CustomBattle
 				{
 					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Exit"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.ExecuteBack();
 						return;
 					}
 					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Randomize"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.ExecuteRandomize();
 						return;
 					}
-					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Start"))
+					if (this._gauntletLayer.Input.IsHotKeyDownAndReleased("Confirm"))
 					{
+						UISoundsHelper.PlayUISound("event:/ui/default");
 						this._dataSource.ExecuteStart();
 					}
 				}

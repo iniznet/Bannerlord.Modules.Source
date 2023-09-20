@@ -224,7 +224,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return Clan.PlayerClan.Kingdom == null && Clan.PlayerClan.Tier == Campaign.Current.Models.ClanTierModel.MercenaryEligibleTier;
 		}
 
-		private void CreateMercenaryOffer(Kingdom kingdom)
+		public void CreateMercenaryOffer(Kingdom kingdom)
 		{
 			this._currentMercenaryOffer = new Tuple<Kingdom, CampaignTime>(kingdom, CampaignTime.Now);
 			VassalAndMercenaryOfferCampaignBehavior.MercenaryOfferPanelNotificationText.SetCharacterProperties("OFFERED_KINGDOM_LEADER", kingdom.Leader.CharacterObject, false);
@@ -258,9 +258,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			return (Clan.PlayerClan.Kingdom == null || Clan.PlayerClan.IsUnderMercenaryService) && Clan.PlayerClan.Tier >= Campaign.Current.Models.ClanTierModel.VassalEligibleTier;
 		}
 
-		private void CreateVassalOffer(Kingdom kingdom)
+		public void CreateVassalOffer(Kingdom kingdom)
 		{
 			this._vassalOffers.Add(kingdom, CampaignTime.Now);
+			VassalAndMercenaryOfferCampaignBehavior.VassalOfferPanelNotificationText.SetTextVariable("OFFERED_KINGDOM_NAME", kingdom.Name);
 			VassalAndMercenaryOfferCampaignBehavior.VassalOfferPanelNotificationText.SetCharacterProperties("OFFERED_KINGDOM_LEADER", kingdom.Leader.CharacterObject, false);
 			Campaign.Current.CampaignInformationManager.NewMapNoticeAdded(new VassalOfferMapNotification(kingdom, VassalAndMercenaryOfferCampaignBehavior.VassalOfferPanelNotificationText));
 		}
@@ -285,7 +286,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameStarter.AddDialogLine("vassal_offer_king_response_to_decline_during_oath", "vassal_offer_king_response_to_accept_start_oath_decline", "lord_start", "{=vueZBBYB}Indeed. I am not sure why you didn't make up your mind before coming to speak with me.", null, new ConversationSentence.OnConsequenceDelegate(this.vassal_conversation_end_consequence), 100, null);
 			campaignGameStarter.AddDialogLine("vassal_offer_king_response_to_decline_continue", "vassal_offer_king_response_to_decline", "lord_start", "{=Lo2kJuhK}I am sorry to hear that.", null, null, 100, null);
 			campaignGameStarter.AddDialogLine("invalid_vassal_offer_start", "start", "invalid_vassal_offer_player_response", "{=!}{INVALID_REASON}[if:idle_angry][ib:closed]", new ConversationSentence.OnConditionDelegate(this.invalid_vassal_offer_start_condition), null, int.MaxValue, null);
-			campaignGameStarter.AddPlayerLine("vassal_offer_player_accepts_response", "invalid_vassal_offer_player_response", "lord_start", "{=AmBEgOyq}I see...", null, new ConversationSentence.OnConsequenceDelegate(this.vassal_conversation_end_consequence), 100, null, null);
+			campaignGameStarter.AddPlayerLine("vassal_offer_player_accepts_response_2", "invalid_vassal_offer_player_response", "lord_start", "{=AmBEgOyq}I see...", null, new ConversationSentence.OnConsequenceDelegate(this.vassal_conversation_end_consequence), 100, null, null);
 		}
 
 		private bool valid_vassal_offer_start_condition()
@@ -293,7 +294,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (Hero.OneToOneConversationHero != null)
 			{
 				IFaction mapFaction = Hero.OneToOneConversationHero.MapFaction;
-				if (mapFaction == null || mapFaction.IsKingdomFaction)
+				if ((mapFaction == null || mapFaction.IsKingdomFaction) && Campaign.Current.CurrentConversationContext != ConversationContext.FreedHero)
 				{
 					KeyValuePair<Kingdom, CampaignTime> keyValuePair = this._vassalOffers.FirstOrDefault(delegate(KeyValuePair<Kingdom, CampaignTime> o)
 					{
@@ -416,7 +417,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			if (Hero.OneToOneConversationHero != null)
 			{
 				IFaction mapFaction = Hero.OneToOneConversationHero.MapFaction;
-				if ((mapFaction == null || mapFaction.IsKingdomFaction) && (PlayerEncounter.Current == null || PlayerEncounter.Current.EncounterState != PlayerEncounterState.CaptureHeroes))
+				if ((mapFaction == null || mapFaction.IsKingdomFaction) && (PlayerEncounter.Current == null || (PlayerEncounter.Current.EncounterState != PlayerEncounterState.FreeHeroes && PlayerEncounter.Current.EncounterState != PlayerEncounterState.CaptureHeroes)))
 				{
 					Kingdom offerKingdom = (Kingdom)Hero.OneToOneConversationHero.MapFaction;
 					KeyValuePair<Kingdom, CampaignTime> keyValuePair = this._vassalOffers.FirstOrDefault((KeyValuePair<Kingdom, CampaignTime> o) => o.Key == offerKingdom);
@@ -472,7 +473,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private static readonly TextObject MercenaryOfferPanelNotificationText = new TextObject("{=FA2QZc7Q}A courier arrives, bearing a message from {OFFERED_KINGDOM_LEADER.NAME}. {?OFFERED_KINGDOM_LEADER.GENDER}She{?}He{\\?} is offering you a contract as a mercenary.", null);
 
-		private static readonly TextObject VassalOfferPanelNotificationText = new TextObject("{=7ouzFASf}A courier arrives, bearing a message from {OFFERED_KINGDOM_LEADER.NAME}. {?OFFERED_KINGDOM_LEADER.GENDER}She{?}He{\\?} remarks on your growing reputation, and asks if you would consider pledging yourself as a vassal of the {OFFERED_KINGDOM_LEADER.NAME}. You should speak in person if you are interested.", null);
+		private static readonly TextObject VassalOfferPanelNotificationText = new TextObject("{=7ouzFASf}A courier arrives, bearing a message from {OFFERED_KINGDOM_LEADER.NAME}. {?OFFERED_KINGDOM_LEADER.GENDER}She{?}He{\\?} remarks on your growing reputation, and asks if you would consider pledging yourself as a vassal of the {OFFERED_KINGDOM_NAME}. You should speak in person if you are interested.", null);
 
 		private Tuple<Kingdom, CampaignTime> _currentMercenaryOffer;
 

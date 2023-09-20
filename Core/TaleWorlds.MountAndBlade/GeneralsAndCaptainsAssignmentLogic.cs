@@ -87,14 +87,17 @@ namespace TaleWorlds.MountAndBlade
 		protected virtual Formation PickBestRegularFormationToLead(Agent agent, List<Formation> candidateFormations)
 		{
 			Formation formation = null;
-			float num = 0f;
+			int num = 0;
 			foreach (Formation formation2 in candidateFormations)
 			{
-				int countOfUnits = formation2.CountOfUnits;
-				if ((float)countOfUnits > num)
+				if (!(agent.HasMount ^ formation2.CalculateHasSignificantNumberOfMounted))
 				{
-					num = (float)countOfUnits;
-					formation = formation2;
+					int countOfUnits = formation2.CountOfUnits;
+					if (countOfUnits > num)
+					{
+						num = countOfUnits;
+						formation = formation2;
+					}
 				}
 			}
 			return formation;
@@ -113,22 +116,17 @@ namespace TaleWorlds.MountAndBlade
 			int numRegularFormations = 8;
 			List<Formation> list2 = team.FormationsIncludingEmpty.WhereQ((Formation f) => f.CountOfUnits > 0 && f.FormationIndex < (FormationClass)numRegularFormations).ToList<Formation>();
 			List<Agent> list3 = new List<Agent>();
-			foreach (Agent agent4 in list)
+			foreach (Agent agent3 in list)
 			{
 				Formation formation = null;
 				BattleBannerBearersModel battleBannerBearersModel = MissionGameModels.Current.BattleBannerBearersModel;
-				if (agent4 == team.GeneralAgent && team.GeneralsFormation != null)
+				if (agent3 == team.GeneralAgent && team.BodyGuardFormation != null && team.BodyGuardFormation.CountOfUnits > 0)
 				{
-					int num = ((battleBannerBearersModel != null) ? battleBannerBearersModel.GetMinimumFormationTroopCountToBearBanners() : 0);
-					num = Math.Max(num, this.MinimumAgentCountToLeadGeneralFormation);
-					if (team.GeneralsFormation.CountOfUnits >= num)
-					{
-						formation = team.GeneralsFormation;
-					}
+					formation = team.BodyGuardFormation;
 				}
 				if (formation == null)
 				{
-					formation = this.PickBestRegularFormationToLead(agent4, list2);
+					formation = this.PickBestRegularFormationToLead(agent3, list2);
 					if (formation != null)
 					{
 						list2.Remove(formation);
@@ -136,23 +134,30 @@ namespace TaleWorlds.MountAndBlade
 				}
 				if (formation != null)
 				{
-					list3.Add(agent4);
-					this.OnCaptainAssignedToFormation(agent4, formation);
+					list3.Add(agent3);
+					this.OnCaptainAssignedToFormation(agent3, formation);
 				}
 			}
 			foreach (Agent agent2 in list3)
 			{
 				list.Remove(agent2);
 			}
-			foreach (Agent agent3 in list)
+			using (List<Agent>.Enumerator enumerator = list.GetEnumerator())
 			{
-				if (list2.IsEmpty<Formation>())
+				while (enumerator.MoveNext())
 				{
-					break;
+					Agent candidate = enumerator.Current;
+					if (list2.IsEmpty<Formation>())
+					{
+						break;
+					}
+					Formation formation2 = list2.FirstOrDefault((Formation f) => f.CalculateHasSignificantNumberOfMounted == candidate.HasMount);
+					if (formation2 != null)
+					{
+						this.OnCaptainAssignedToFormation(candidate, formation2);
+						list2.Remove(formation2);
+					}
 				}
-				Formation formation2 = list2[list2.Count - 1];
-				this.OnCaptainAssignedToFormation(agent3, formation2);
-				list2.Remove(formation2);
 			}
 		}
 
@@ -187,7 +192,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			Agent generalAgent = team.GeneralAgent;
 			Formation formation = team.GetFormation(FormationClass.NumberOfRegularFormations);
-			base.Mission.SpawnFormation(formation);
+			base.Mission.SetFormationPositioningFromDeploymentPlan(formation);
 			WorldPosition worldPosition = formation.CreateNewOrderWorldPosition(WorldPosition.WorldPositionEnforcedCache.GroundVec3);
 			formation.SetMovementOrder(MovementOrder.MovementOrderMove(worldPosition));
 			formation.SetControlledByAI(true, false);

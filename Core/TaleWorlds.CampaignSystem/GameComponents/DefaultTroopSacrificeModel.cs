@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Helpers;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.ComponentInterfaces;
@@ -14,6 +13,22 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 {
 	public class DefaultTroopSacrificeModel : TroopSacrificeModel
 	{
+		public override int BreakOutArmyLeaderRelationPenalty
+		{
+			get
+			{
+				return -5;
+			}
+		}
+
+		public override int BreakOutArmyMemberRelationPenalty
+		{
+			get
+			{
+				return -1;
+			}
+		}
+
 		public override int GetLostTroopCountForBreakingInBesiegedSettlement(MobileParty party, SiegeEvent siegeEvent)
 		{
 			return this.GetLostTroopCount(party, siegeEvent);
@@ -60,31 +75,19 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 			ExplainedNumber explainedNumber = new ExplainedNumber(1f, false, null);
 			SkillHelper.AddSkillBonusForCharacter(DefaultSkills.Tactics, DefaultSkillEffects.TacticsTroopSacrificeReduction, CharacterObject.PlayerCharacter, ref explainedNumber, -1, true, 0);
 			float num2 = explainedNumber.ResultNumber - 1f;
-			MobileParty besiegerParty = siegeEvent.BesiegerCamp.BesiegerParty;
-			float num3;
-			if (besiegerParty.Army != null)
+			float num3 = 0f;
+			foreach (PartyBase partyBase in siegeEvent.BesiegerCamp.GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege))
 			{
-				num3 = besiegerParty.Army.LeaderParty.Party.TotalStrength;
-				using (List<MobileParty>.Enumerator enumerator = besiegerParty.Army.LeaderParty.AttachedParties.GetEnumerator())
-				{
-					while (enumerator.MoveNext())
-					{
-						MobileParty mobileParty = enumerator.Current;
-						num3 += mobileParty.Party.TotalStrength;
-					}
-					goto IL_C0;
-				}
+				num3 += partyBase.TotalStrength;
 			}
-			num3 = besiegerParty.Party.TotalStrength;
-			IL_C0:
 			float num4;
 			int num5;
 			if (party.Army != null)
 			{
 				num4 = party.Army.LeaderParty.Party.TotalStrength;
-				foreach (MobileParty mobileParty2 in party.Army.LeaderParty.AttachedParties)
+				foreach (MobileParty mobileParty in party.Army.LeaderParty.AttachedParties)
 				{
-					num4 += mobileParty2.Party.TotalStrength;
+					num4 += mobileParty.Party.TotalStrength;
 				}
 				num5 = party.Army.TotalRegularCount;
 			}

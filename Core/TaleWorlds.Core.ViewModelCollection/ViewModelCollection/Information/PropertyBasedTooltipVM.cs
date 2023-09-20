@@ -5,39 +5,21 @@ using TaleWorlds.Library;
 
 namespace TaleWorlds.Core.ViewModelCollection.Information
 {
-	public class PropertyBasedTooltipVM : TooltipVM
+	public class PropertyBasedTooltipVM : TooltipBaseVM
 	{
-		public PropertyBasedTooltipVM()
+		public PropertyBasedTooltipVM(Type invokedType, object[] invokedArgs)
+			: base(invokedType, invokedArgs)
 		{
 			this.TooltipPropertyList = new MBBindingList<TooltipProperty>();
+			this._isPeriodicRefreshEnabled = true;
+			this._periodicRefreshDelay = 2f;
+			this.Refresh();
 		}
 
-		public override void OnShowTooltip(Type type, object[] args)
-		{
-			if (PropertyBasedTooltipVM._tooltipActions.ContainsKey(type) && (!(this._shownType == type) || this._typeArgs == null || !args.SequenceEqual(this._typeArgs) || !base.IsActive))
-			{
-				if (base.IsActive)
-				{
-					this.OnHideTooltip();
-				}
-				this._typeArgs = args;
-				this._shownType = type;
-				this._showTimer = 0.1f;
-			}
-		}
-
-		public override void OnHideTooltip()
+		protected override void OnFinalizeInternal()
 		{
 			base.IsActive = false;
-			this._typeArgs = null;
-			this._shownType = null;
-			this._showTimer = -1f;
 			this.TooltipPropertyList.Clear();
-		}
-
-		public static void AddTooltipType(Type type, Action<PropertyBasedTooltipVM, object[]> action)
-		{
-			PropertyBasedTooltipVM._tooltipActions.Add(type, action);
 		}
 
 		public static void AddKeyType(string keyID, Func<string> getKeyText)
@@ -54,39 +36,13 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 			return "";
 		}
 
-		public void UpdateTooltip(List<TooltipProperty> list)
+		protected override void OnPeriodicRefresh()
 		{
-			this.Mode = 0;
-			foreach (TooltipProperty tooltipProperty in list.Where((TooltipProperty p) => (p.OnlyShowWhenExtended && base.IsExtended) || (!p.OnlyShowWhenExtended && p.OnlyShowWhenNotExtended && !base.IsExtended) || (!p.OnlyShowWhenExtended && !p.OnlyShowWhenNotExtended)))
+			base.OnPeriodicRefresh();
+			foreach (TooltipProperty tooltipProperty in this.TooltipPropertyList)
 			{
-				this.AddPropertyDuplicate(tooltipProperty);
-			}
-		}
-
-		public override void Tick(float dt)
-		{
-			base.Tick(dt);
-			if (this._showTimer >= 0f)
-			{
-				this._showTimer -= dt;
-				if (this._showTimer < 0f)
-				{
-					this._showTimer = -1f;
-					this.Refresh();
-				}
-			}
-			if (base.IsActive && this._refreshTimer >= 0f)
-			{
-				this._refreshTimer -= dt;
-				if (this._refreshTimer < 0f)
-				{
-					this._refreshTimer = 2f;
-					foreach (TooltipProperty tooltipProperty in this.TooltipPropertyList)
-					{
-						tooltipProperty.RefreshDefinition();
-						tooltipProperty.RefreshValue();
-					}
-				}
+				tooltipProperty.RefreshDefinition();
+				tooltipProperty.RefreshValue();
 			}
 		}
 
@@ -102,21 +58,26 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 
 		private void Refresh()
 		{
-			Action<PropertyBasedTooltipVM, object[]> action;
-			if (this._shownType != null && PropertyBasedTooltipVM._tooltipActions.TryGetValue(this._shownType, out action))
+			base.InvokeRefreshData<PropertyBasedTooltipVM>(this);
+			if (this.TooltipPropertyList.Count > 0)
 			{
-				action(this, this._typeArgs);
-				if (this.TooltipPropertyList.Count > 0)
-				{
-					base.IsActive = true;
-					return;
-				}
+				base.IsActive = true;
 			}
-			else
+		}
+
+		public static void RefreshGenericPropertyBasedTooltip(PropertyBasedTooltipVM propertyBasedTooltip, object[] args)
+		{
+			IEnumerable<TooltipProperty> enumerable = args[0] as List<TooltipProperty>;
+			propertyBasedTooltip.Mode = 0;
+			Func<TooltipProperty, bool> <>9__0;
+			Func<TooltipProperty, bool> func;
+			if ((func = <>9__0) == null)
 			{
-				string text = "Unsupported tooltip type: ";
-				Type shownType = this._shownType;
-				Debug.FailedAssert(text + ((shownType != null) ? shownType.Name : null), "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core.ViewModelCollection\\Information\\PropertyBasedTooltipVM.cs", "Refresh", 144);
+				func = (<>9__0 = (TooltipProperty p) => (p.OnlyShowWhenExtended && propertyBasedTooltip.IsExtended) || (!p.OnlyShowWhenExtended && p.OnlyShowWhenNotExtended && !propertyBasedTooltip.IsExtended) || (!p.OnlyShowWhenExtended && !p.OnlyShowWhenNotExtended));
+			}
+			foreach (TooltipProperty tooltipProperty in enumerable.Where(func))
+			{
+				propertyBasedTooltip.AddPropertyDuplicate(tooltipProperty);
 			}
 		}
 
@@ -217,20 +178,6 @@ namespace TaleWorlds.Core.ViewModelCollection.Information
 				}
 			}
 		}
-
-		private float _showTimer = -1f;
-
-		private const float _showDelay = 0.1f;
-
-		private float _refreshTimer;
-
-		private const float _refreshDelay = 2f;
-
-		private Type _shownType;
-
-		private object[] _typeArgs;
-
-		private static Dictionary<Type, Action<PropertyBasedTooltipVM, object[]>> _tooltipActions = new Dictionary<Type, Action<PropertyBasedTooltipVM, object[]>>();
 
 		private static Dictionary<string, Func<string>> _keyTextGetters = new Dictionary<string, Func<string>>();
 

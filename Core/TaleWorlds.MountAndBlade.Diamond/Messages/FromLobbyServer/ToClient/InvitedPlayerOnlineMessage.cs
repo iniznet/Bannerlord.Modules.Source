@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.PlayerServices;
 
@@ -8,7 +9,12 @@ namespace Messages.FromLobbyServer.ToClient
 	[Serializable]
 	public class InvitedPlayerOnlineMessage : Message
 	{
-		public PlayerId PlayerId { get; private set; }
+		[JsonProperty]
+		public PlayerId PlayerId { get; set; }
+
+		public InvitedPlayerOnlineMessage()
+		{
+		}
 
 		public InvitedPlayerOnlineMessage(PlayerId playerId)
 		{

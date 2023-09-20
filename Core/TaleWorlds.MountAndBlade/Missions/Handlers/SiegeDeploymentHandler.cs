@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using TaleWorlds.Core;
+using TaleWorlds.Engine;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade.AI;
 
 namespace TaleWorlds.MountAndBlade.Missions.Handlers
@@ -34,7 +36,13 @@ namespace TaleWorlds.MountAndBlade.Missions.Handlers
 			{
 				deploymentPoint.OnDeploymentStateChanged += this.OnDeploymentStateChange;
 			}
-			base.Mission.IsFormationUnitPositionAvailable_AdditionalCondition += base.Mission_IsFormationUnitPositionAvailable_AdditionalCondition;
+			base.Mission.IsFormationUnitPositionAvailable_AdditionalCondition += this.Mission_IsFormationUnitPositionAvailable_AdditionalCondition;
+		}
+
+		public override void OnRemoveBehavior()
+		{
+			base.OnRemoveBehavior();
+			base.Mission.IsFormationUnitPositionAvailable_AdditionalCondition -= this.Mission_IsFormationUnitPositionAvailable_AdditionalCondition;
 		}
 
 		public override void FinishDeployment()
@@ -142,6 +150,18 @@ namespace TaleWorlds.MountAndBlade.Missions.Handlers
 		public int GetDeployableWeaponCountOfPlayer(Type weapon)
 		{
 			return this.GetWeaponsControllerOfSide(this.isPlayerAttacker ? BattleSideEnum.Attacker : BattleSideEnum.Defender).GetMaxDeployableWeaponCount(weapon) - this.PlayerDeploymentPoints.Count((DeploymentPoint dp) => dp.IsDeployed && MissionSiegeWeaponsController.GetWeaponType(dp.DeployedWeapon) == weapon);
+		}
+
+		protected bool Mission_IsFormationUnitPositionAvailable_AdditionalCondition(WorldPosition position, Team team)
+		{
+			if (team != null && team.IsPlayerTeam && team.Side == BattleSideEnum.Defender)
+			{
+				Scene scene = base.Mission.Scene;
+				Vec3 globalPosition = scene.FindEntityWithTag("defender_infantry").GlobalPosition;
+				WorldPosition worldPosition = new WorldPosition(scene, UIntPtr.Zero, globalPosition, false);
+				return scene.DoesPathExistBetweenPositions(worldPosition, position);
+			}
+			return true;
 		}
 
 		private void OnDeploymentStateChange(DeploymentPoint deploymentPoint, SynchedMissionObject targetObject)

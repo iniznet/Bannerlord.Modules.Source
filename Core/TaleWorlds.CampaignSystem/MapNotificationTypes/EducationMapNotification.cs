@@ -42,7 +42,7 @@ namespace TaleWorlds.CampaignSystem.MapNotificationTypes
 		{
 			get
 			{
-				return "event:/ui/notification/child_born";
+				return "event:/ui/notification/education";
 			}
 		}
 

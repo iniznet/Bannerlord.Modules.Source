@@ -9,10 +9,13 @@ namespace TaleWorlds.DotNet
 
 		public string EngineType { get; set; }
 
-		public DefineAsEngineStruct(Type type, string engineType)
+		public bool IgnoreMemberOffsetTest { get; set; }
+
+		public DefineAsEngineStruct(Type type, string engineType, bool ignoreMemberOffsetTest = false)
 		{
 			this.Type = type;
 			this.EngineType = engineType;
+			this.IgnoreMemberOffsetTest = ignoreMemberOffsetTest;
 		}
 	}
 }

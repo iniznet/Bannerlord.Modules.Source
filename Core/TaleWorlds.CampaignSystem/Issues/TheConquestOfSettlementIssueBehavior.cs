@@ -35,7 +35,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 		private bool ConditionsHold(Hero issueGiver, out Settlement targetSettlement)
 		{
 			targetSettlement = null;
-			if (issueGiver.IsLord && issueGiver.IsFactionLeader && !issueGiver.IsPrisoner && issueGiver.GetMapPoint() != null)
+			if (issueGiver.IsLord && issueGiver.MapFaction.IsKingdomFaction && issueGiver.IsFactionLeader && !issueGiver.IsPrisoner && issueGiver.GetMapPoint() != null)
 			{
 				if (issueGiver.Clan.Settlements.Any((Settlement x) => x.IsFortification))
 				{
@@ -118,7 +118,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=Oi20UrO2}Our war with the {TARGET_SETTLEMENT_FACTION_INFORMAL_NAME} is going well enough. But there are some who say that we don't have enough to show for all the blood and silver we've spent. A clear victory at this stage would do a lot of good. I think I would like to see our banner flying from the towers of {TARGET_SETTLEMENT}.", null);
+					TextObject textObject = new TextObject("{=Oi20UrO2}Our war with the {TARGET_SETTLEMENT_FACTION_INFORMAL_NAME} is going well enough. But there are some who say that we don't have enough to show for all the blood and silver we've spent. A clear victory at this stage would do a lot of good. I think I would like to see our banner flying from the towers of {TARGET_SETTLEMENT}.[ib:normal2][if:convo_thinking]", null);
 					textObject.SetTextVariable("TARGET_SETTLEMENT_FACTION_INFORMAL_NAME", this._targetSettlement.MapFaction.InformalName);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
 					return textObject;
@@ -139,7 +139,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=yf3NVFi0}Yes, they are. That's why I am offering you the sum of {REWARD_GOLD}{GOLD_ICON} if you can take {TARGET_SETTLEMENT} within {TIME_LIMIT} days. I count you among the most resourceful of my captains. I think you can do this, with courage, Heaven's favor and a bit of luck. Can I tell my other lords that you will do this?", null);
+					TextObject textObject = new TextObject("{=yf3NVFi0}Yes, they are. That's why I am offering you the sum of {REWARD_GOLD}{GOLD_ICON} if you can take {TARGET_SETTLEMENT} within {TIME_LIMIT} days.[if:convo_thinking] I count you among the most resourceful of my captains. I think you can do this, with courage, Heaven's favor and a bit of luck. Can I tell my other lords that you will do this?", null);
 					textObject.SetTextVariable("REWARD_GOLD", this.RewardGold);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
 					textObject.SetTextVariable("TIME_LIMIT", 60);
@@ -193,10 +193,18 @@ namespace TaleWorlds.CampaignSystem.Issues
 				{
 					return -1f;
 				}
+				if (issueEffect == DefaultIssueEffects.SettlementLoyalty)
+				{
+					return -1f;
+				}
 				return 0f;
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -237,7 +245,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			public override bool IssueStayAliveConditions()
 			{
-				if (this._targetSettlement.MapFaction.IsAtWarWith(base.IssueOwner.MapFaction))
+				if (this._targetSettlement.MapFaction.IsAtWarWith(base.IssueOwner.MapFaction) && base.IssueOwner.MapFaction.IsKingdomFaction)
 				{
 					return base.IssueOwner.Clan.Settlements.Any((Settlement x) => x.IsFortification);
 				}
@@ -349,7 +357,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=1NtZ4BJh}{QUEST_GIVER.LINK}: Thank you. My lords see the conquest of {TARGET_SETTLEMENT} was a stepping stone toward further victories. {?QUEST_GIVER.GENDER}She{?}He{\\?} is grateful for your service. Because your side has contributed less than others {?QUEST_GIVER.GENDER}She{?}He{\\?} gave you {LESSER_REWARD}{GOLD_ICON} of denars.", null);
+					TextObject textObject = new TextObject("{=1NtZ4BJh}{QUEST_GIVER.LINK}: Thank you. My lords see the conquest of {TARGET_SETTLEMENT} was a stepping stone toward further victories. {?QUEST_GIVER.GENDER}She{?}He{\\?} is grateful for your service. Because you didn't lead the army {?QUEST_GIVER.GENDER}She{?}He{\\?} gave you {LESSER_REWARD}{GOLD_ICON} of denars.", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					textObject.SetTextVariable("TARGET_SETTLEMENT", this._targetSettlement.Name);
 					return textObject;
@@ -421,7 +429,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=QP3BbOW3}Very good. You have my blessing to summon an army if you wish, or, if you prefer to strike quickly, you may do so on your own...", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=QP3BbOW3}Very good. You have my blessing to summon an army if you wish, or, if you prefer to strike quickly, you may do so on your own...[ib:hip][if:convo_mocking_aristocratic]", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				TextObject textObject = new TextObject("{=ICNtSonV}How are your preparations to take {TARGET_SETTLEMENT} coming along, {PLAYER.NAME}? I have assured my other lords that you will take it, so it will look bad if you fail.", null);
@@ -456,6 +464,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				base.AddTrackedObject(this._targetSettlement);
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void RegisterEvents()
 			{
 				CampaignEvents.WarDeclared.AddNonSerializedListener(this, new Action<IFaction, IFaction, DeclareWarAction.DeclareWarDetail>(this.OnWarDeclared));
@@ -483,15 +495,11 @@ namespace TaleWorlds.CampaignSystem.Issues
 						this.QuestSuccess(2);
 						return;
 					}
-				}
-				else
-				{
-					this.TargetSettlementTakenByAnotherFaction.SetTextVariable("NEW_OWNER_FACTION", newOwner.MapFaction.EncyclopediaLinkWithName);
-					if (newOwner.MapFaction != base.QuestGiver.MapFaction)
+					if (newOwner.MapFaction != base.QuestGiver.MapFaction && !newOwner.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
 					{
 						TextObject targetSettlementTakenByAnotherFaction = this.TargetSettlementTakenByAnotherFaction;
 						targetSettlementTakenByAnotherFaction.SetTextVariable("NEW_OWNER_FACTION", newOwner.MapFaction.EncyclopediaLinkWithName);
-						base.AddLog(targetSettlementTakenByAnotherFaction, false);
+						base.CompleteQuestWithCancel(targetSettlementTakenByAnotherFaction);
 					}
 				}
 			}
@@ -509,8 +517,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 						}
 						if (siegeSettlement.Party.MapEvent.InvolvedParties.Contains(PartyBase.MainParty))
 						{
-							float playerPartyContributionRate = attackerParty.MapEventSide.GetPlayerPartyContributionRate();
-							this.QuestLesserSuccess(playerPartyContributionRate);
+							this.QuestLesserSuccess();
 							return;
 						}
 						base.CompleteQuestWithCancel(this.TargetSettlementTakenByPlayerFaction);
@@ -525,10 +532,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void QuestLesserSuccess(float playerContribution)
+			private void QuestLesserSuccess()
 			{
 				TextObject questLesserSuccessLog = this.QuestLesserSuccessLog;
-				int num = (int)((float)this.RewardGold * playerContribution);
+				int num = this.RewardGold / 4;
 				questLesserSuccessLog.SetTextVariable("LESSER_REWARD", num);
 				base.AddLog(questLesserSuccessLog, false);
 				GainRenownAction.Apply(Hero.MainHero, 5f, false);
@@ -591,7 +598,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredQuestCancelLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.PlayerDeclaredWarQuestLogText, this.WarDeclaredQuestCancelLog, false);
 			}
 
 			protected override void InitializeQuestOnGameLoad()

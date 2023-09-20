@@ -55,19 +55,28 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		public override void RegisterEvents()
 		{
 			CampaignEvents.OnSessionLaunchedEvent.AddNonSerializedListener(this, new Action<CampaignGameStarter>(this.OnSessionLaunched));
-			CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.AISiegeEventStarted));
+			CampaignEvents.OnSiegeEventStartedEvent.AddNonSerializedListener(this, new Action<SiegeEvent>(this.OnSiegeEventStarted));
 			CampaignEvents.SiegeEngineBuiltEvent.AddNonSerializedListener(this, new Action<SiegeEvent, BattleSideEnum, SiegeEngineType>(this.OnSiegeEngineBuilt));
 			CampaignEvents.OnSiegeEngineDestroyedEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement, BattleSideEnum, SiegeEngineType>(this.OnSiegeEngineDestroyed));
 			CampaignEvents.OnSiegeBombardmentHitEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement, BattleSideEnum, SiegeEngineType, SiegeBombardTargets>(this.OnSiegeEngineHit));
 			CampaignEvents.OnSiegeBombardmentWallHitEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement, BattleSideEnum, SiegeEngineType, bool>(this.OnSiegeBombardmentWallHit));
 			CampaignEvents.MakePeace.AddNonSerializedListener(this, new Action<IFaction, IFaction, MakePeaceAction.MakePeaceDetail>(this.OnPeaceDeclared));
+			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
 		}
 
 		private void OnPeaceDeclared(IFaction faction1, IFaction faction2, MakePeaceAction.MakePeaceDetail detail)
 		{
-			if (Campaign.Current.Models.EncounterGameMenuModel.GetGenericStateMenu() == "menu_siege_strategies")
+			if (Game.Current.GameStateManager.ActiveState != null && Campaign.Current.Models.EncounterGameMenuModel.GetGenericStateMenu() == "menu_siege_strategies")
 			{
 				Campaign.Current.CurrentMenuContext.Refresh();
+			}
+		}
+
+		private void OnSettlementLeft(MobileParty party, Settlement settlement)
+		{
+			if (settlement.SiegeEvent != null && party == MobileParty.MainParty)
+			{
+				this.SetDefaultTactics(settlement.SiegeEvent, BattleSideEnum.Defender);
 			}
 		}
 
@@ -143,50 +152,31 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private int KillRandomTroopsOfEnemy(ISiegeEventSide siegeEventSide, int count)
 		{
 			SiegeEvent siegeEvent = siegeEventSide.SiegeEvent;
-			int num = siegeEventSide.GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege).Sum((PartyBase p) => p.NumberOfRegularMembers);
+			IEnumerable<PartyBase> involvedPartiesForEventType = siegeEventSide.GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege);
+			int num = involvedPartiesForEventType.Sum((PartyBase p) => p.NumberOfRegularMembers);
 			if (num == 0 || count == 0)
 			{
 				return 0;
 			}
 			int num2 = 0;
-			foreach (PartyBase partyBase in siegeEventSide.GetInvolvedPartiesForEventType(MapEvent.BattleTypes.Siege))
+			int num3 = MBRandom.RandomInt(involvedPartiesForEventType.Count<PartyBase>() - 1);
+			for (int i = 0; i < involvedPartiesForEventType.Count<PartyBase>(); i++)
 			{
+				PartyBase partyBase = involvedPartiesForEventType.ElementAt((i + num3) % involvedPartiesForEventType.Count<PartyBase>());
 				float siegeBombardmentHitSurgeryChance = Campaign.Current.Models.PartyHealingModel.GetSiegeBombardmentHitSurgeryChance(partyBase);
-				float num3 = (float)partyBase.NumberOfRegularMembers / (float)num;
+				float num4 = (float)partyBase.NumberOfRegularMembers / (float)num;
 				float randomFloat = MBRandom.RandomFloat;
-				int num4 = MathF.Min(MBRandom.RoundRandomized((float)(count - num2) * (num3 + randomFloat)), count);
-				if (num4 > 0)
+				int num5 = MathF.Min(MBRandom.RoundRandomized((float)(count - num2) * (num4 + randomFloat)), count);
+				if (num5 > 0)
 				{
-					int num5 = MathF.Round((float)num4 * siegeBombardmentHitSurgeryChance);
-					num2 += num4;
-					num4 -= num5;
-					siegeEventSide.OnTroopsKilledOnSide(num4);
-					partyBase.MemberRoster.KillNumberOfMenRandomly(num4, false);
-					Debug.Print(string.Concat(new object[]
+					int num6 = MathF.Round((float)num5 * siegeBombardmentHitSurgeryChance);
+					num2 += num5;
+					num5 -= num6;
+					siegeEventSide.OnTroopsKilledOnSide(num5);
+					partyBase.MemberRoster.KillNumberOfNonHeroTroopsRandomly(num5);
+					if (num6 > 0)
 					{
-						siegeEvent.BesiegedSettlement.Name,
-						" - ",
-						siegeEventSide.BattleSide.ToString(),
-						" ",
-						partyBase.Name,
-						" => ",
-						num4,
-						" casualties"
-					}), 0, Debug.DebugColor.Purple, 137438953472UL);
-					if (num5 > 0)
-					{
-						partyBase.MemberRoster.WoundNumberOfTroopsRandomly(num5);
-						Debug.Print(string.Concat(new object[]
-						{
-							siegeEvent.BesiegedSettlement.Name,
-							" - ",
-							siegeEventSide.BattleSide.ToString(),
-							" ",
-							partyBase.Name,
-							" => ",
-							num5,
-							" wounded casualties"
-						}), 0, Debug.DebugColor.Purple, 137438953472UL);
+						partyBase.MemberRoster.WoundNumberOfTroopsRandomly(num6);
 					}
 				}
 				if (num2 >= count)
@@ -204,26 +194,13 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			BesiegerCamp besiegerCamp = siegeEvent.BesiegerCamp;
 			MobileParty effectiveSiegePartyForSide = Campaign.Current.Models.SiegeEventModel.GetEffectiveSiegePartyForSide(siegeEvent, siegeEventSide.BattleSide);
 			ISiegeEventSide siegeEventSide2 = siegeEvent.GetSiegeEventSide(siegeEventSide.BattleSide.GetOppositeSide());
-			siegeEvent.GetSiegeEventSide(siegeEventSide.BattleSide.GetOppositeSide());
 			float siegeEngineHitChance = Campaign.Current.Models.SiegeEventModel.GetSiegeEngineHitChance(attackerEngineType, siegeEventSide.BattleSide, SiegeBombardTargets.People, besiegedSettlement.Town);
 			if (MBRandom.RandomFloat < siegeEngineHitChance)
 			{
 				int colleteralDamageCasualties = Campaign.Current.Models.SiegeEventModel.GetColleteralDamageCasualties(attackerEngineType, effectiveSiegePartyForSide);
-				int num = this.KillRandomTroopsOfEnemy(siegeEventSide2, colleteralDamageCasualties);
-				if (num > 0)
+				if (this.KillRandomTroopsOfEnemy(siegeEventSide2, colleteralDamageCasualties) > 0)
 				{
-					CampaignEventDispatcher.Instance.OnSiegeBombardmentHit(besiegerCamp.BesiegerParty, besiegedSettlement, siegeEventSide.BattleSide, attackerEngineType, SiegeBombardTargets.People);
-					Debug.Print(string.Concat(new object[]
-					{
-						besiegedSettlement.Name,
-						" - ",
-						siegeEventSide.BattleSide.ToString(),
-						" ",
-						attackerEngineType.Name,
-						" hit the enemy engine. A total of ",
-						num,
-						" casualties"
-					}), 0, Debug.DebugColor.Purple, 137438953472UL);
+					CampaignEventDispatcher.Instance.OnSiegeBombardmentHit(besiegerCamp.LeaderParty, besiegedSettlement, siegeEventSide.BattleSide, attackerEngineType, SiegeBombardTargets.People);
 				}
 			}
 		}
@@ -237,7 +214,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.AddGameMenus(campaignGameStarter);
 		}
 
-		private void AISiegeEventStarted(SiegeEvent siegeEvent)
+		private void OnSiegeEventStarted(SiegeEvent siegeEvent)
 		{
 			this.SetDefaultTactics(siegeEvent, BattleSideEnum.Attacker);
 			this.SetDefaultTactics(siegeEvent, BattleSideEnum.Defender);
@@ -322,18 +299,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 		private bool menu_siege_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
-			return (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && ((PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapFaction)) || (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Attacker));
+			return (MobileParty.MainParty.Army == null || MobileParty.MainParty.Army.LeaderParty == MobileParty.MainParty) && ((PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapFaction)) || (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Attacker));
 		}
 
 		private bool menu_siege_strategies_passive_wait_leave_on_condition(MenuCallbackArgs args)
 		{
 			args.optionLeaveType = GameMenuOption.LeaveType.Leave;
-			return PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Attacker && (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty) && MobileParty.MainParty.BesiegedSettlement.SiegeEvent.BesiegerCamp.BesiegerParty != MobileParty.MainParty;
+			return PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Attacker && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty;
 		}
 
 		private void menu_break_siege_on_init(MenuCallbackArgs args)
 		{
-			if (MobileParty.MainParty.SiegeEvent.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
+			if (MobileParty.MainParty.SiegeEvent.BesiegerCamp.LeaderParty == MobileParty.MainParty)
 			{
 				MBTextManager.SetTextVariable("SIEGE_LEAVE_TEXT", this._removeSiegeCompletelyText, false);
 			}
@@ -410,6 +387,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 							}
 						}
 					}
+					args.Tooltip = TooltipHelper.GetSendTroopsPowerContextTooltipForSiege();
 					if (!flag)
 					{
 						args.IsEnabled = false;
@@ -489,7 +467,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			}
 			else
 			{
-				if (MobileParty.MainParty.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
+				if (MobileParty.MainParty.BesiegerCamp.LeaderParty == MobileParty.MainParty)
 				{
 					GameMenu.SwitchToMenu("menu_siege_strategies_break_siege");
 					return;
@@ -510,7 +488,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				return false;
 			}
-			if (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapFaction))
+			if (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapFaction))
 			{
 				return false;
 			}
@@ -523,7 +501,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					args.Tooltip = new TextObject("{=rO704KOG}There is no one with the authority to talk to you.", null);
 				}
 			}
-			if (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapEvent != null)
+			if (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapEvent != null)
 			{
 				args.IsEnabled = false;
 				args.Tooltip = new TextObject("{=1UO0yMBr}You can not parley during an ongoing battle.", null);
@@ -543,18 +521,18 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				return false;
 			}
-			if (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapFaction))
+			if (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapFaction))
 			{
 				args.IsEnabled = false;
 				args.Tooltip = new TextObject("{=UqaNs3ck}You are not at war with the besiegers.", null);
 			}
-			if (Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(PlayerSiege.PlayerSiegeEvent, PlayerSiege.PlayerSide) != Hero.MainHero && (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapEvent == null || !PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapEvent.IsSallyOut))
+			if (Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(PlayerSiege.PlayerSiegeEvent, PlayerSiege.PlayerSide) != Hero.MainHero && (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapEvent == null || !PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapEvent.IsSallyOut))
 			{
 				args.IsEnabled = false;
 				TextObject textObject = new TextObject("{=OmGHXuZB}You are not in command of the defenders.", null);
 				args.Tooltip = textObject;
 			}
-			if (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapEvent != null && PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapEvent.IsSallyOut)
+			if (PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapEvent != null && PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapEvent.IsSallyOut)
 			{
 				args.Text.SetTextVariable("SALLY_OUT_BUTTON_TEXT", new TextObject("{=fyNNCOFK}Join the sally out", null));
 			}
@@ -568,12 +546,12 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private static void menu_sally_out_on_consequence(MenuCallbackArgs args)
 		{
-			MobileParty besiegerParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.BesiegerParty;
-			if (besiegerParty.Party.MapEvent != null)
+			MobileParty leaderParty = Settlement.CurrentSettlement.SiegeEvent.BesiegerCamp.LeaderParty;
+			if (leaderParty.Party.MapEvent != null)
 			{
-				besiegerParty.Party.MapEvent.FinalizeEvent();
+				leaderParty.Party.MapEvent.FinalizeEvent();
 			}
-			EncounterManager.StartPartyEncounter(MobileParty.MainParty.Party, besiegerParty.Party);
+			EncounterManager.StartPartyEncounter(MobileParty.MainParty.Party, leaderParty.Party);
 		}
 
 		private static bool menu_defender_siege_break_out_on_condition(MenuCallbackArgs args)
@@ -582,12 +560,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				return false;
 			}
-			if (Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(PlayerSiege.PlayerSiegeEvent, PlayerSiege.PlayerSide) != Hero.MainHero)
+			if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty)
 			{
-				args.Tooltip = new TextObject("{=OmGHXuZB}You are not in command of the defenders.", null);
-				args.IsEnabled = false;
+				args.IsEnabled = true;
+				TextObject textObject = new TextObject("{=!}If you break out from the siege, you will also leave the army. This is a dishonorable act and you will lose relations with all army member lords.{newline}• Army Leader: {ARMY_LEADER_RELATION_PENALTY}{newline}• Army Members: {ARMY_MEMBER_RELATION_PENALTY}", null);
+				textObject.SetTextVariable("ARMY_LEADER_RELATION_PENALTY", Campaign.Current.Models.TroopSacrificeModel.BreakOutArmyLeaderRelationPenalty);
+				textObject.SetTextVariable("ARMY_MEMBER_RELATION_PENALTY", Campaign.Current.Models.TroopSacrificeModel.BreakOutArmyMemberRelationPenalty);
+				args.Tooltip = textObject;
 			}
-			if (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.BesiegerParty.MapFaction))
+			if (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && !MobileParty.MainParty.MapFaction.IsAtWarWith(PlayerSiege.PlayerSiegeEvent.BesiegerCamp.LeaderParty.MapFaction))
 			{
 				return false;
 			}
@@ -602,7 +583,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				args.IsEnabled = false;
 			}
 			args.optionLeaveType = GameMenuOption.LeaveType.LeaveTroopsAndFlee;
-			return Hero.MainHero.MapFaction != siegeEvent.BesiegerCamp.BesiegerParty.MapFaction;
+			return Hero.MainHero.MapFaction != siegeEvent.BesiegerCamp.LeaderParty.MapFaction;
 		}
 
 		private static void menu_defender_siege_break_out_on_consequence(MenuCallbackArgs args)
@@ -623,16 +604,24 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void SetDefaultTactics(SiegeEvent siegeEvent, BattleSideEnum side)
 		{
-			IEnumerable<SiegeStrategy> enumerable = ((side == BattleSideEnum.Attacker) ? DefaultSiegeStrategies.AllAttackerStrategies : DefaultSiegeStrategies.AllDefenderStrategies);
+			Hero leaderOfSiegeEvent = Campaign.Current.Models.EncounterModel.GetLeaderOfSiegeEvent(siegeEvent, side);
 			SiegeStrategy siegeStrategy = null;
-			float num = float.MinValue;
-			foreach (SiegeStrategy siegeStrategy2 in enumerable)
+			if (leaderOfSiegeEvent == Hero.MainHero)
 			{
-				float num2 = Campaign.Current.Models.SiegeEventModel.GetSiegeStrategyScore(siegeEvent, side, siegeStrategy2) * (0.5f + 0.5f * MBRandom.RandomFloat);
-				if (num2 > num)
+				siegeStrategy = DefaultSiegeStrategies.Custom;
+			}
+			else
+			{
+				IEnumerable<SiegeStrategy> enumerable = ((side == BattleSideEnum.Attacker) ? DefaultSiegeStrategies.AllAttackerStrategies : DefaultSiegeStrategies.AllDefenderStrategies);
+				float num = float.MinValue;
+				foreach (SiegeStrategy siegeStrategy2 in enumerable)
 				{
-					num = num2;
-					siegeStrategy = siegeStrategy2;
+					float num2 = Campaign.Current.Models.SiegeEventModel.GetSiegeStrategyScore(siegeEvent, side, siegeStrategy2) * (0.5f + 0.5f * MBRandom.RandomFloat);
+					if (num2 > num)
+					{
+						num = num2;
+						siegeStrategy = siegeStrategy2;
+					}
 				}
 			}
 			this.SetTactic(siegeEvent, side, siegeStrategy);

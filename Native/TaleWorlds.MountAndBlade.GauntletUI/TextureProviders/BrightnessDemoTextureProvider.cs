@@ -57,14 +57,14 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.TextureProviders
 			sceneTableau.OnTick(dt);
 		}
 
-		public override void Clear()
+		public override void Clear(bool clearNextFrame)
 		{
 			BrightnessDemoTableau sceneTableau = this._sceneTableau;
 			if (sceneTableau != null)
 			{
 				sceneTableau.OnFinalize();
 			}
-			base.Clear();
+			base.Clear(clearNextFrame);
 		}
 
 		public override void SetTargetSize(int width, int height)

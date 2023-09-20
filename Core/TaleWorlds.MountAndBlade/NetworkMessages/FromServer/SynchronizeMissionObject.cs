@@ -7,11 +7,17 @@ namespace NetworkMessages.FromServer
 	[DefineGameNetworkMessageType(GameNetworkMessageSendType.FromServer)]
 	public sealed class SynchronizeMissionObject : GameNetworkMessage
 	{
-		public SynchedMissionObject MissionObject { get; private set; }
+		public MissionObjectId MissionObjectId { get; private set; }
 
-		public SynchronizeMissionObject(SynchedMissionObject missionObject)
+		public int RecordTypeIndex { get; private set; }
+
+		public ValueTuple<BaseSynchedMissionObjectReadableRecord, ISynchedMissionObjectReadableRecord> RecordPair { get; private set; }
+
+		public SynchronizeMissionObject(SynchedMissionObject synchedMissionObject)
 		{
-			this.MissionObject = missionObject;
+			this._synchedMissionObject = synchedMissionObject;
+			this.MissionObjectId = synchedMissionObject.Id;
+			this.RecordTypeIndex = GameNetwork.GetSynchedMissionObjectReadableRecordIndexFromType(synchedMissionObject.GetType());
 		}
 
 		public SynchronizeMissionObject()
@@ -20,13 +26,17 @@ namespace NetworkMessages.FromServer
 
 		protected override void OnWrite()
 		{
-			base.WriteSynchedMissionObjectToPacket(this.MissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket(this.MissionObjectId);
+			GameNetworkMessage.WriteIntToPacket(this.RecordTypeIndex, CompressionMission.SynchedMissionObjectReadableRecordTypeIndex);
+			this._synchedMissionObject.WriteToNetwork();
 		}
 
 		protected override bool OnRead()
 		{
 			bool flag = true;
-			this.MissionObject = GameNetworkMessage.ReadSynchedMissionObjectFromPacket(ref flag);
+			this.MissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
+			this.RecordTypeIndex = GameNetworkMessage.ReadIntFromPacket(CompressionMission.SynchedMissionObjectReadableRecordTypeIndex, ref flag);
+			this.RecordPair = BaseSynchedMissionObjectReadableRecord.CreateFromNetworkWithTypeIndex(this.RecordTypeIndex);
 			return flag;
 		}
 
@@ -37,13 +47,9 @@ namespace NetworkMessages.FromServer
 
 		protected override string OnGetLogFormat()
 		{
-			return string.Concat(new object[]
-			{
-				"Synchronize MissionObject with Id: ",
-				this.MissionObject.Id.Id,
-				" and name: ",
-				(this.MissionObject.GameEntity != null) ? this.MissionObject.GameEntity.Name : "null entity"
-			});
+			return "Synchronize MissionObject with Id: " + this.MissionObjectId;
 		}
+
+		private SynchedMissionObject _synchedMissionObject;
 	}
 }

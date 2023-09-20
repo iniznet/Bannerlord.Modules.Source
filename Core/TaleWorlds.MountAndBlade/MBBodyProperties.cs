@@ -148,15 +148,15 @@ namespace TaleWorlds.MountAndBlade
 			MBBodyProperties.GetParamsFromKey(ref faceGenerationParams, bodyProperties, false, false);
 			if (hair > -1)
 			{
-				faceGenerationParams._currentHair = hair;
+				faceGenerationParams.CurrentHair = hair;
 			}
 			if (beard > -1)
 			{
-				faceGenerationParams._curBeard = beard;
+				faceGenerationParams.CurrentBeard = beard;
 			}
 			if (tattoo > -1)
 			{
-				faceGenerationParams._curFaceTattoo = tattoo;
+				faceGenerationParams.CurrentFaceTattoo = tattoo;
 			}
 			MBBodyProperties.ProduceNumericKeyWithParams(faceGenerationParams, false, false, ref bodyProperties);
 		}
@@ -186,10 +186,10 @@ namespace TaleWorlds.MountAndBlade
 				array[i] = (MBBodyProperties.GenerationType)MBRandom.RandomInt(2);
 			}
 			MBBodyProperties.GetParamsFromKey(ref faceGenerationParams, childBodyProperties, false, false);
-			int faceGenInstancesLength = MBBodyProperties.GetFaceGenInstancesLength(race, faceGenerationParams._currentGender, (int)faceGenerationParams._curAge);
+			int faceGenInstancesLength = MBBodyProperties.GetFaceGenInstancesLength(race, faceGenerationParams.CurrentGender, (int)faceGenerationParams.CurrentAge);
 			for (int j = 0; j < faceGenInstancesLength; j++)
 			{
-				DeformKeyData deformKeyData = MBBodyProperties.GetDeformKeyData(j, race, faceGenerationParams._currentGender, (int)faceGenerationParams._curAge);
+				DeformKeyData deformKeyData = MBBodyProperties.GetDeformKeyData(j, race, faceGenerationParams.CurrentGender, (int)faceGenerationParams.CurrentAge);
 				if (deformKeyData.GroupId >= 0 && deformKeyData.GroupId != 0 && deformKeyData.GroupId != 5 && deformKeyData.GroupId != 6)
 				{
 					float num = MBRandom.RandomFloat * MathF.Min(faceGenerationParams.KeyWeights[j], 1f - faceGenerationParams.KeyWeights[j]);
@@ -210,29 +210,29 @@ namespace TaleWorlds.MountAndBlade
 					}
 				}
 			}
-			faceGenerationParams2._curAge = faceGenerationParams._curAge + (float)MBRandom.RandomInt(18, 25);
+			faceGenerationParams2.CurrentAge = faceGenerationParams.CurrentAge + (float)MBRandom.RandomInt(18, 25);
 			float num2;
-			faceGenerationParams2.SetRandomParamsExceptKeys(race, 0, (int)faceGenerationParams2._curAge, out num2);
-			faceGenerationParams2._curFaceTattoo = 0;
-			faceGenerationParams3._curAge = faceGenerationParams._curAge + (float)MBRandom.RandomInt(18, 22);
+			faceGenerationParams2.SetRandomParamsExceptKeys(race, 0, (int)faceGenerationParams2.CurrentAge, out num2);
+			faceGenerationParams2.CurrentFaceTattoo = 0;
+			faceGenerationParams3.CurrentAge = faceGenerationParams.CurrentAge + (float)MBRandom.RandomInt(18, 22);
 			float num3;
-			faceGenerationParams3.SetRandomParamsExceptKeys(race, 1, (int)faceGenerationParams3._curAge, out num3);
-			faceGenerationParams3._curFaceTattoo = 0;
-			faceGenerationParams3._heightMultiplier = faceGenerationParams2._heightMultiplier * MBRandom.RandomFloatRanged(0.7f, 0.9f);
-			if (faceGenerationParams3._currentHair == 0)
+			faceGenerationParams3.SetRandomParamsExceptKeys(race, 1, (int)faceGenerationParams3.CurrentAge, out num3);
+			faceGenerationParams3.CurrentFaceTattoo = 0;
+			faceGenerationParams3.HeightMultiplier = faceGenerationParams2.HeightMultiplier * MBRandom.RandomFloatRanged(0.7f, 0.9f);
+			if (faceGenerationParams3.CurrentHair == 0)
 			{
-				faceGenerationParams3._currentHair = 1;
+				faceGenerationParams3.CurrentHair = 1;
 			}
-			float num4 = MBRandom.RandomFloat * MathF.Min(faceGenerationParams._curSkinColorOffset, 1f - faceGenerationParams._curSkinColorOffset);
+			float num4 = MBRandom.RandomFloat * MathF.Min(faceGenerationParams.CurrentSkinColorOffset, 1f - faceGenerationParams.CurrentSkinColorOffset);
 			if (MBRandom.RandomInt(2) == 1)
 			{
-				faceGenerationParams2._curSkinColorOffset = faceGenerationParams._curSkinColorOffset + num4;
-				faceGenerationParams3._curSkinColorOffset = faceGenerationParams._curSkinColorOffset - num4;
+				faceGenerationParams2.CurrentSkinColorOffset = faceGenerationParams.CurrentSkinColorOffset + num4;
+				faceGenerationParams3.CurrentSkinColorOffset = faceGenerationParams.CurrentSkinColorOffset - num4;
 			}
 			else
 			{
-				faceGenerationParams2._curSkinColorOffset = faceGenerationParams._curSkinColorOffset - num4;
-				faceGenerationParams3._curSkinColorOffset = faceGenerationParams._curSkinColorOffset + num4;
+				faceGenerationParams2.CurrentSkinColorOffset = faceGenerationParams.CurrentSkinColorOffset - num4;
+				faceGenerationParams3.CurrentSkinColorOffset = faceGenerationParams.CurrentSkinColorOffset + num4;
 			}
 			MBBodyProperties.ProduceNumericKeyWithParams(faceGenerationParams3, false, false, ref motherBodyProperties);
 			MBBodyProperties.ProduceNumericKeyWithParams(faceGenerationParams2, false, false, ref fatherBodyProperties);
@@ -242,7 +242,7 @@ namespace TaleWorlds.MountAndBlade
 		{
 			FaceGenerationParams faceGenerationParams = default(FaceGenerationParams);
 			MBBodyProperties.GetParamsFromKey(ref faceGenerationParams, bodyProperties, false, false);
-			faceGenerationParams._curAge = age;
+			faceGenerationParams.CurrentAge = age;
 			BodyProperties bodyProperties2 = default(BodyProperties);
 			MBBodyProperties.ProduceNumericKeyWithParams(faceGenerationParams, false, false, ref bodyProperties2);
 			return bodyProperties2;

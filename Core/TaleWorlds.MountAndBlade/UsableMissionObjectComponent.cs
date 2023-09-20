@@ -49,14 +49,5 @@ namespace TaleWorlds.MountAndBlade
 		protected internal virtual void OnMissionReset()
 		{
 		}
-
-		protected internal virtual bool ReadFromNetwork()
-		{
-			return true;
-		}
-
-		protected internal virtual void WriteToNetwork()
-		{
-		}
 	}
 }

@@ -19,19 +19,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnPrisonerDonatedToSettlement(MobileParty donatingParty, FlattenedTroopRoster donatedPrisoners, Settlement donatedSettlement)
 		{
-			float num = 0f;
-			foreach (FlattenedTroopRosterElement flattenedTroopRosterElement in donatedPrisoners)
+			if (donatedSettlement.OwnerClan != Clan.PlayerClan || donatingParty.ActualClan != Clan.PlayerClan)
 			{
-				if (flattenedTroopRosterElement.Troop.IsHero)
-				{
-					num += Campaign.Current.Models.PrisonerDonationModel.CalculateRelationGainAfterHeroPrisonerDonate(donatingParty.Party, flattenedTroopRosterElement.Troop.HeroObject, donatedSettlement);
-				}
-				else
+				float num = 0f;
+				foreach (FlattenedTroopRosterElement flattenedTroopRosterElement in donatedPrisoners)
 				{
 					num += Campaign.Current.Models.PrisonerDonationModel.CalculateInfluenceGainAfterPrisonerDonation(donatingParty.Party, flattenedTroopRosterElement.Troop, donatedSettlement);
 				}
+				GainKingdomInfluenceAction.ApplyForDonatePrisoners(donatingParty, num);
 			}
-			GainKingdomInfluenceAction.ApplyForDonatePrisoners(donatingParty, num);
 		}
 	}
 }

@@ -20,11 +20,11 @@ namespace TaleWorlds.Core
 			}
 		}
 
-		public static BannerEffect IncreasedDamageAgainstMountedTroops
+		public static BannerEffect IncreasedMeleeDamageAgainstMountedTroops
 		{
 			get
 			{
-				return DefaultBannerEffects.Instance._increasedDamageAgainstMountedTroops;
+				return DefaultBannerEffects.Instance._increasedMeleeDamageAgainstMountedTroops;
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace TaleWorlds.Core
 		private void RegisterAll()
 		{
 			this._increasedMeleeDamage = this.Create("IncreasedMeleeDamage");
-			this._increasedDamageAgainstMountedTroops = this.Create("IncreasedDamageAgainstMountedTroops");
+			this._increasedMeleeDamageAgainstMountedTroops = this.Create("IncreasedMeleeDamageAgainstMountedTroops");
 			this._increasedRangedDamage = this.Create("IncreasedRangedDamage");
 			this._increasedChargeDamage = this.Create("IncreasedChargeDamage");
 			this._decreasedRangedAccuracyPenalty = this.Create("DecreasedRangedAccuracyPenalty");
@@ -129,13 +129,13 @@ namespace TaleWorlds.Core
 		private void InitializeAll()
 		{
 			this._increasedMeleeDamage.Initialize("{=unaWKloT}Increased Melee Damage", "{=8ZNOgT8Z}{BONUS_AMOUNT}% melee damage to troops in your formation.", 0.05f, 0.1f, 0.15f, BannerEffect.EffectIncrementType.AddFactor);
-			this._increasedDamageAgainstMountedTroops.Initialize("{=2bHoiaoe}Increased Damage Against Mounted Troops", "{=9RZLSV3E}{BONUS_AMOUNT}% damage by melee troops in your formation against cavalry.", 0.1f, 0.2f, 0.3f, BannerEffect.EffectIncrementType.AddFactor);
+			this._increasedMeleeDamageAgainstMountedTroops.Initialize("{=*}Increased Melee Damage Against Mounted Troops", "{=*}{BONUS_AMOUNT}% melee damage by troops in your formation against cavalry.", 0.1f, 0.2f, 0.3f, BannerEffect.EffectIncrementType.AddFactor);
 			this._increasedRangedDamage.Initialize("{=Ch5NpCd0}Increased Ranged Damage", "{=labbKop6}{BONUS_AMOUNT}% ranged damage to troops in your formation.", 0.04f, 0.06f, 0.08f, BannerEffect.EffectIncrementType.AddFactor);
 			this._increasedChargeDamage.Initialize("{=O2oBC9sH}Increased Charge Damage", "{=Z2xgnrDa}{BONUS_AMOUNT}% charge damage to mounted troops in your formation.", 0.1f, 0.2f, 0.3f, BannerEffect.EffectIncrementType.AddFactor);
 			this._decreasedRangedAccuracyPenalty.Initialize("{=MkBPRCuF}Decreased Ranged Accuracy Penalty", "{=Gu0Wxxul}{BONUS_AMOUNT}% accuracy penalty for ranged troops in your formation.", -0.04f, -0.06f, -0.08f, BannerEffect.EffectIncrementType.AddFactor);
-			this._decreasedMoraleShock.Initialize("{=nOMT0Cw6}Decreased Morale Shock", "{=Lso8j7Iv}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.1f, -0.2f, -0.3f, BannerEffect.EffectIncrementType.AddFactor);
+			this._decreasedMoraleShock.Initialize("{=nOMT0Cw6}Decreased Morale Shock", "{=W0agPHes}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.1f, -0.2f, -0.3f, BannerEffect.EffectIncrementType.AddFactor);
 			this._decreasedMeleeAttackDamage.Initialize("{=a3Vc59WV}Decreased Taken Melee Attack Damage", "{=ORFrCYSn}{BONUS_AMOUNT}% damage by melee attacks to troops in your formation.", -0.05f, -0.1f, -0.15f, BannerEffect.EffectIncrementType.AddFactor);
-			this._decreasedRangedAttackDamage.Initialize("{=p0JFbL7G}Decreased Taken Ranged Attack Damage", "{=q7NmR3AP}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.05f, -0.1f, -0.15f, BannerEffect.EffectIncrementType.AddFactor);
+			this._decreasedRangedAttackDamage.Initialize("{=p0JFbL7G}Decreased Taken Ranged Attack Damage", "{=W0agPHes}{BONUS_AMOUNT}% morale penalty from casualties to troops in your formation.", -0.05f, -0.1f, -0.15f, BannerEffect.EffectIncrementType.AddFactor);
 			this._decreasedShieldDamage.Initialize("{=T79exjaP}Decreased Taken Shield Damage", "{=klGEDUmw}{BONUS_AMOUNT}% damage to shields of troops in your formation.", -0.15f, -0.25f, -0.3f, BannerEffect.EffectIncrementType.AddFactor);
 			this._increasedTroopMovementSpeed.Initialize("{=PbJAOKKZ}Increased Troop Movement Speed", "{=nqWulUTP}{BONUS_AMOUNT}% movement speed to infantry in your formation.", 0.15f, 0.25f, 0.3f, BannerEffect.EffectIncrementType.AddFactor);
 			this._increasedMountMovementSpeed.Initialize("{=nMfxbc0Y}Increased Mount Movement Speed", "{=g0l7W5xQ}{BONUS_AMOUNT}% movement speed to mounts in your formation.", 0.05f, 0.08f, 0.1f, BannerEffect.EffectIncrementType.AddFactor);
@@ -143,7 +143,7 @@ namespace TaleWorlds.Core
 
 		private BannerEffect _increasedMeleeDamage;
 
-		private BannerEffect _increasedDamageAgainstMountedTroops;
+		private BannerEffect _increasedMeleeDamageAgainstMountedTroops;
 
 		private BannerEffect _increasedRangedDamage;
 

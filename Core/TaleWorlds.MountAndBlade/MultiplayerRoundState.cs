@@ -9,6 +9,7 @@ namespace TaleWorlds.MountAndBlade
 		InProgress,
 		Ending,
 		Ended,
-		MatchEnded
+		MatchEnded,
+		NumberOfRoundStates
 	}
 }

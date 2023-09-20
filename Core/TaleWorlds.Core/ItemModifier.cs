@@ -22,11 +22,33 @@ namespace TaleWorlds.Core
 		[CachedData]
 		public TextObject Name { get; private set; }
 
+		public int Damage { get; private set; }
+
+		public int Speed { get; private set; }
+
+		public int MissileSpeed { get; private set; }
+
+		public int Armor { get; private set; }
+
+		public short HitPoints { get; private set; }
+
+		public short StackCount { get; private set; }
+
+		public float MountSpeed { get; private set; }
+
+		public float Maneuver { get; private set; }
+
+		public float ChargeDamage { get; private set; }
+
+		public float MountHitPoints { get; private set; }
+
 		public float LootDropScore { get; private set; }
 
 		public float ProductionDropScore { get; private set; }
 
 		public float PriceMultiplier { get; private set; }
+
+		public ItemQuality ItemQuality { get; private set; }
 
 		public ItemModifier()
 		{
@@ -37,16 +59,17 @@ namespace TaleWorlds.Core
 		{
 			base.Deserialize(objectManager, node);
 			this.Name = new TextObject(XmlHelper.ReadString(node, "name"), null);
-			this._damage = XmlHelper.ReadInt(node, "damage");
-			this._speed = XmlHelper.ReadInt(node, "speed");
-			this._missileSpeed = XmlHelper.ReadInt(node, "missile_speed");
-			this._armor = XmlHelper.ReadInt(node, "armor");
-			this._mountSpeed = XmlHelper.ReadFloat(node, "horse_speed", 0f);
-			this._maneuver = XmlHelper.ReadFloat(node, "maneuver", 0f);
-			this._chargeDamage = XmlHelper.ReadFloat(node, "charge_damage", 0f);
-			this._mountHitPoints = XmlHelper.ReadFloat(node, "horse_hit_points", 0f);
-			this._hitPoints = (short)XmlHelper.ReadInt(node, "hit_points");
-			this._stackCount = (short)XmlHelper.ReadInt(node, "stack_count");
+			this.Damage = XmlHelper.ReadInt(node, "damage");
+			this.Speed = XmlHelper.ReadInt(node, "speed");
+			this.MissileSpeed = XmlHelper.ReadInt(node, "missile_speed");
+			this.Armor = XmlHelper.ReadInt(node, "armor");
+			this.MountSpeed = XmlHelper.ReadFloat(node, "horse_speed", 0f);
+			this.Maneuver = XmlHelper.ReadFloat(node, "maneuver", 0f);
+			this.ChargeDamage = XmlHelper.ReadFloat(node, "charge_damage", 0f);
+			this.MountHitPoints = XmlHelper.ReadFloat(node, "horse_hit_points", 0f);
+			this.HitPoints = (short)XmlHelper.ReadInt(node, "hit_points");
+			this.StackCount = (short)XmlHelper.ReadInt(node, "stack_count");
+			this.ItemQuality = this.ReadItemQuality(node);
 			this.LootDropScore = (float)XmlHelper.ReadInt(node, "loot_drop_score");
 			this.ProductionDropScore = (float)XmlHelper.ReadInt(node, "production_drop_score");
 			this.PriceMultiplier = XmlHelper.ReadFloat(node, "price_factor", 1f);
@@ -56,6 +79,92 @@ namespace TaleWorlds.Core
 				return;
 			}
 			itemModifierGroup.AddItemModifier(this);
+		}
+
+		private ItemQuality ReadItemQuality(XmlNode node)
+		{
+			string text = XmlHelper.ReadString(node, "quality");
+			uint num = <PrivateImplementationDetails>.ComputeStringHash(text);
+			if (num <= 1297810548U)
+			{
+				if (num != 706781102U)
+				{
+					if (num != 802765055U)
+					{
+						if (num != 1297810548U)
+						{
+							return ItemQuality.Common;
+						}
+						if (!(text == "common"))
+						{
+							return ItemQuality.Common;
+						}
+					}
+					else
+					{
+						if (!(text == "inferior"))
+						{
+							return ItemQuality.Common;
+						}
+						return ItemQuality.Inferior;
+					}
+				}
+				else
+				{
+					if (!(text == "masterwork"))
+					{
+						return ItemQuality.Common;
+					}
+					return ItemQuality.Masterwork;
+				}
+			}
+			else if (num <= 2166136261U)
+			{
+				if (num != 1432300394U)
+				{
+					if (num != 2166136261U)
+					{
+						return ItemQuality.Common;
+					}
+					if (text == null)
+					{
+						return ItemQuality.Common;
+					}
+					if (text.Length != 0)
+					{
+						return ItemQuality.Common;
+					}
+				}
+				else
+				{
+					if (!(text == "legendary"))
+					{
+						return ItemQuality.Common;
+					}
+					return ItemQuality.Legendary;
+				}
+			}
+			else if (num != 2413655645U)
+			{
+				if (num != 3203434221U)
+				{
+					return ItemQuality.Common;
+				}
+				if (!(text == "fine"))
+				{
+					return ItemQuality.Common;
+				}
+				return ItemQuality.Fine;
+			}
+			else
+			{
+				if (!(text == "poor"))
+				{
+					return ItemQuality.Common;
+				}
+				return ItemQuality.Poor;
+			}
+			return ItemQuality.Common;
 		}
 
 		public bool Equals(ItemModifier other)
@@ -83,82 +192,62 @@ namespace TaleWorlds.Core
 
 		public int ModifyDamage(int baseDamage)
 		{
-			int num = baseDamage + this._damage;
+			int num = baseDamage + this.Damage;
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public int ModifySpeed(int baseSpeed)
 		{
-			int num = baseSpeed + this._speed;
+			int num = baseSpeed + this.Speed;
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public int ModifyMountSpeed(int baseSpeed)
 		{
-			int num = ItemModifier.ModifyFactor(baseSpeed, this._mountSpeed);
+			int num = ItemModifier.ModifyFactor(baseSpeed, this.MountSpeed);
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public int ModifyMountManeuver(int baseManeuver)
 		{
-			int num = ItemModifier.ModifyFactor(baseManeuver, this._maneuver);
+			int num = ItemModifier.ModifyFactor(baseManeuver, this.Maneuver);
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public int ModifyMountCharge(int baseCharge)
 		{
-			int num = ItemModifier.ModifyFactor(baseCharge, this._chargeDamage);
+			int num = ItemModifier.ModifyFactor(baseCharge, this.ChargeDamage);
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public int ModifyMountHitPoints(int baseCharge)
 		{
-			int num = ItemModifier.ModifyFactor(baseCharge, this._mountHitPoints);
+			int num = ItemModifier.ModifyFactor(baseCharge, this.MountHitPoints);
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public int ModifyMissileSpeed(int baseSpeed)
 		{
-			int num = baseSpeed + this._missileSpeed;
+			int num = baseSpeed + this.MissileSpeed;
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public int ModifyArmor(int armorValue)
 		{
-			int num = armorValue + this._armor;
+			int num = armorValue + this.Armor;
 			return MBMath.ClampInt(num, 1, num);
 		}
 
 		public short ModifyHitPoints(short baseHitPoints)
 		{
-			short num = baseHitPoints + this._hitPoints;
+			short num = baseHitPoints + this.HitPoints;
 			return (short)MBMath.ClampInt((int)num, 1, (int)num);
 		}
 
 		public short ModifyStackCount(short baseStackCount)
 		{
-			short num = baseStackCount + this._stackCount;
+			short num = baseStackCount + this.StackCount;
 			return (short)MBMath.ClampInt((int)num, 1, (int)num);
 		}
-
-		private int _damage;
-
-		private int _speed;
-
-		private int _missileSpeed;
-
-		private int _armor;
-
-		private short _hitPoints;
-
-		private short _stackCount;
-
-		private float _mountSpeed;
-
-		private float _maneuver;
-
-		private float _chargeDamage;
-
-		private float _mountHitPoints;
 	}
 }

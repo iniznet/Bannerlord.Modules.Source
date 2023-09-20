@@ -3,7 +3,7 @@ using TaleWorlds.InputSystem;
 
 namespace TaleWorlds.MountAndBlade
 {
-	public class InventoryHotKeyCategory : GameKeyContext
+	public sealed class InventoryHotKeyCategory : GameKeyContext
 	{
 		public InventoryHotKeyCategory()
 			: base("InventoryHotKeyCategory", 108, GameKeyContext.GameKeyContextType.Default)

@@ -153,7 +153,12 @@ namespace TaleWorlds.SaveSystem.Save
 			}
 			foreach (ObjectSaveData objectSaveData in this._childStructs)
 			{
-				objectSaveData.SaveTo(saveEntryFolder, archiveContext);
+				TypeDefinition structDefinition = this.Context.DefinitionContext.GetStructDefinition(objectSaveData.Type);
+				ISavedStruct savedStruct;
+				if (structDefinition == null || !(structDefinition is StructDefinition) || (savedStruct = objectSaveData.Target as ISavedStruct) == null || !savedStruct.IsDefault())
+				{
+					objectSaveData.SaveTo(saveEntryFolder, archiveContext);
+				}
 			}
 		}
 

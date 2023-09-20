@@ -11,7 +11,7 @@ namespace StoryMode.GauntletUI.Tutorial
 		public OrderOfBattleTutorialStep3Tutorial()
 		{
 			base.Type = "OrderOfBattleTutorialStep3";
-			base.Placement = TutorialItemVM.ItemPlacements.Bottom;
+			base.Placement = TutorialItemVM.ItemPlacements.Center;
 			base.HighlightedVisualElementID = "AssignCaptain";
 			base.MouseRequired = false;
 		}
@@ -23,7 +23,7 @@ namespace StoryMode.GauntletUI.Tutorial
 
 		public override bool IsConditionsMetForActivation()
 		{
-			return TutorialHelper.IsOrderOfBattleOpenAndReady && !TutorialHelper.IsPlayerEncounterLeader;
+			return TutorialHelper.IsOrderOfBattleOpenAndReady && !TutorialHelper.IsPlayerEncounterLeader && TutorialHelper.CanPlayerAssignHimselfToFormation;
 		}
 
 		public override void OnOrderOfBattleHeroAssignedToFormation(OrderOfBattleHeroAssignedToFormationEvent obj)

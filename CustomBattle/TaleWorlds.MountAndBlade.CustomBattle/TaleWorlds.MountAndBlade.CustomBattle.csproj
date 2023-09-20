@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{B3A8D9DB-524C-47D1-BD22-2CEE1C894B66}</ProjectGuid>
+    <ProjectGuid>{467BE3A0-A1ED-4C81-929D-29E89CBA915A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.CustomBattle</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.CustomBattle</AssemblyName>
@@ -94,6 +94,12 @@
     <Compile Include="CustomGameManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectionGroup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.MountAndBlade.Multiplayer\TaleWorlds.MountAndBlade.Multiplayer.csproj">
+      <Project>{467be3a0-a1ed-4c81-929d-29e89cba915b}</Project>
+      <Name>TaleWorlds.MountAndBlade.Multiplayer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

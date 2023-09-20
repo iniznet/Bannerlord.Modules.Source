@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using TaleWorlds.CampaignSystem.Actions;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.Encounters;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -19,6 +18,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 			this._onManageArmy = onManageArmy;
 			this._refreshDecision = refreshDecision;
 			this._showArmyOnMap = showArmyOnMap;
+			this._viewDataTracker = Campaign.Current.GetCampaignBehavior<IViewDataTracker>();
 			this._armies = new MBBindingList<KingdomArmyItemVM>();
 			this.PlayerHasArmy = MobileParty.MainParty.Army != null;
 			this.ChangeLeaderCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfChangingLeaderOfArmy();
@@ -64,7 +64,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 
 		public void RefreshArmyList()
 		{
-			base.NotificationCount = PlayerUpdateTracker.Current.NumKingdomArmyNotifications;
+			base.NotificationCount = this._viewDataTracker.NumOfKingdomArmyNotifications;
 			this._kingdom = Hero.MainHero.MapFaction as Kingdom;
 			if (this._kingdom != null)
 			{
@@ -76,11 +76,11 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 						Army army = enumerator.Current;
 						this.Armies.Add(new KingdomArmyItemVM(army, new Action<KingdomArmyItemVM>(this.OnSelection)));
 					}
-					goto IL_9F;
+					goto IL_A0;
 				}
 			}
-			Debug.FailedAssert("Kingdom screen can't open if you're not in kingdom", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\KingdomManagement\\Armies\\KingdomArmyVM.cs", "RefreshArmyList", 79);
-			IL_9F:
+			Debug.FailedAssert("Kingdom screen can't open if you're not in kingdom", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem.ViewModelCollection\\KingdomManagement\\Armies\\KingdomArmyVM.cs", "RefreshArmyList", 81);
+			IL_A0:
 			this.RefreshCanManageArmy();
 			if (this.Armies.Count == 0 && this.CurrentSelectedArmy != null)
 			{
@@ -117,7 +117,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 				}
 				this.CanManageCurrentArmy = false;
 				this.CurrentSelectedArmy = item;
-				base.NotificationCount = PlayerUpdateTracker.Current.NumKingdomArmyNotifications;
+				base.NotificationCount = this._viewDataTracker.NumOfKingdomArmyNotifications;
 				this.DisbandCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfDisbandingArmy();
 				this.ChangeLeaderCost = Campaign.Current.Models.DiplomacyModel.GetInfluenceCostOfChangingLeaderOfArmy();
 				TextObject textObject;
@@ -715,6 +715,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement.Armies
 		private readonly Action _refreshDecision;
 
 		private readonly Action<Army> _showArmyOnMap;
+
+		private readonly IViewDataTracker _viewDataTracker;
 
 		private Kingdom _kingdom;
 

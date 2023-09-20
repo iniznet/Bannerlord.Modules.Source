@@ -404,16 +404,22 @@ namespace TaleWorlds.MountAndBlade
 
 		public void RearrangeFormationsAccordingToFilters(List<Tuple<Formation, int, Team.TroopFilter, List<Agent>>> MassTransferData)
 		{
+			List<Formation> list = new List<Formation>();
 			foreach (Tuple<Formation, int, Team.TroopFilter, List<Agent>> tuple in MassTransferData)
 			{
 				tuple.Item1.OnMassUnitTransferStart();
+				if (tuple.Item1.GetReadonlyMovementOrderReference() == MovementOrder.MovementOrderStop && tuple.Item1.CountOfUnits > 0)
+				{
+					list.Add(tuple.Item1);
+					tuple.Item1.SetMovementOrder(MovementOrder.MovementOrderMove(tuple.Item1.CreateNewOrderWorldPosition(WorldPosition.WorldPositionEnforcedCache.None)));
+				}
 			}
 			List<Agent>[] array = new List<Agent>[MassTransferData.Count];
 			for (int i = 0; i < array.Length; i++)
 			{
 				array[i] = new List<Agent>();
 			}
-			List<Team.FormationPocket> list = new List<Team.FormationPocket>();
+			List<Team.FormationPocket> list2 = new List<Team.FormationPocket>();
 			for (int j = 0; j < MassTransferData.Count; j++)
 			{
 				Team.TroopFilter filter = MassTransferData[j].Item3;
@@ -426,24 +432,24 @@ namespace TaleWorlds.MountAndBlade
 					return (((filter & Team.TroopFilter.HighTier) == Team.TroopFilter.HighTier) ? 7 : 0) + (((filter & Team.TroopFilter.LowTier) == Team.TroopFilter.LowTier) ? 7 : 0) + (((filter & Team.TroopFilter.Shield) == Team.TroopFilter.Shield) ? 10 : 0) + (((filter & Team.TroopFilter.Spear) == Team.TroopFilter.Spear) ? 10 : 0) + (((filter & Team.TroopFilter.Thrown) == Team.TroopFilter.Thrown) ? 10 : 0) + (((filter & Team.TroopFilter.Armor) == Team.TroopFilter.Armor) ? 10 : 0) + (((filter & Team.TroopFilter.Melee) == (Team.TroopFilter)0 || (filter & Team.TroopFilter.Ranged) == (Team.TroopFilter)0) ? 100 : 0) + 1000;
 				};
 				int num = func(null);
-				list.Add(new Team.FormationPocket(func, num, MassTransferData[j].Item2, j));
+				list2.Add(new Team.FormationPocket(func, num, MassTransferData[j].Item2, j));
 			}
-			list.RemoveAll((Team.FormationPocket pfamv) => pfamv.TroopCount <= 0);
-			list = list.OrderBy((Team.FormationPocket pfamv) => pfamv.TroopCount).ToList<Team.FormationPocket>();
-			list = list.OrderByDescending((Team.FormationPocket pfamv) => pfamv.ScoreToSeek).ToList<Team.FormationPocket>();
-			List<IFormationUnit> list2 = new List<IFormationUnit>();
-			list2 = MassTransferData.SelectMany((Tuple<Formation, int, Team.TroopFilter, List<Agent>> mtd) => mtd.Item1.LooseDetachedUnits.Concat(mtd.Item1.Arrangement.GetAllUnits()).Except(mtd.Item4)).ToList<IFormationUnit>();
+			list2.RemoveAll((Team.FormationPocket pfamv) => pfamv.TroopCount <= 0);
+			list2 = list2.OrderBy((Team.FormationPocket pfamv) => pfamv.TroopCount).ToList<Team.FormationPocket>();
+			list2 = list2.OrderByDescending((Team.FormationPocket pfamv) => pfamv.ScoreToSeek).ToList<Team.FormationPocket>();
+			List<IFormationUnit> list3 = new List<IFormationUnit>();
+			list3 = MassTransferData.SelectMany((Tuple<Formation, int, Team.TroopFilter, List<Agent>> mtd) => mtd.Item1.LooseDetachedUnits.Concat(mtd.Item1.Arrangement.GetAllUnits()).Except(mtd.Item4)).ToList<IFormationUnit>();
 			int num2 = MassTransferData.Sum((Tuple<Formation, int, Team.TroopFilter, List<Agent>> mtd) => mtd.Item4.Count);
 			int k = MassTransferData.Sum((Tuple<Formation, int, Team.TroopFilter, List<Agent>> mtd) => mtd.Item1.CountOfUnits) - num2;
-			int num3 = list[0].ScoreToSeek;
+			int num3 = list2[0].ScoreToSeek;
 			while (k > 0)
 			{
 				for (int l = 0; l < k; l++)
 				{
-					Agent agent3 = list2[l] as Agent;
-					for (int m = 0; m < list.Count; m++)
+					Agent agent3 = list3[l] as Agent;
+					for (int m = 0; m < list2.Count; m++)
 					{
-						Team.FormationPocket formationPocket = list[m];
+						Team.FormationPocket formationPocket = list2[m];
 						int num4 = formationPocket.PriorityFunction(agent3);
 						if (num3 <= formationPocket.ScoreToSeek && num4 >= num3)
 						{
@@ -451,10 +457,10 @@ namespace TaleWorlds.MountAndBlade
 							formationPocket.AddTroop();
 							if (formationPocket.IsFormationPocketFilled())
 							{
-								list.RemoveAt(m);
+								list2.RemoveAt(m);
 							}
 							k--;
-							list2[l] = list2[k];
+							list3[l] = list3[k];
 							l--;
 							break;
 						}
@@ -464,16 +470,16 @@ namespace TaleWorlds.MountAndBlade
 						}
 					}
 				}
-				if (list.Count == 0)
+				if (list2.Count == 0)
 				{
 					break;
 				}
-				for (int n = 0; n < list.Count; n++)
+				for (int n = 0; n < list2.Count; n++)
 				{
-					list[n].UpdateScoreToSeek();
+					list2[n].UpdateScoreToSeek();
 				}
-				list.OrderByDescending((Team.FormationPocket pfamv) => pfamv.ScoreToSeek);
-				num3 = list[0].ScoreToSeek;
+				list2.OrderByDescending((Team.FormationPocket pfamv) => pfamv.ScoreToSeek);
+				num3 = list2[0].ScoreToSeek;
 			}
 			for (int num5 = 0; num5 < array.Length; num5++)
 			{
@@ -495,6 +501,10 @@ namespace TaleWorlds.MountAndBlade
 					WorldPosition worldPosition = new WorldPosition(this.Mission.Scene, UIntPtr.Zero, vec, false);
 					tuple2.Item1.SetPositioning(new WorldPosition?(worldPosition), null, null);
 				}
+			}
+			foreach (Formation formation in list)
+			{
+				formation.SetMovementOrder(MovementOrder.MovementOrderStop);
 			}
 		}
 
@@ -565,7 +575,7 @@ namespace TaleWorlds.MountAndBlade
 			if (GameNetwork.IsServerOrRecorder)
 			{
 				GameNetwork.BeginBroadcastModuleEvent();
-				GameNetwork.WriteMessage(new TeamSetIsEnemyOf(this, otherTeam, isEnemyOf));
+				GameNetwork.WriteMessage(new TeamSetIsEnemyOf(this.TeamIndex, otherTeam.TeamIndex, isEnemyOf));
 				GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
 			}
 		}
@@ -608,6 +618,14 @@ namespace TaleWorlds.MountAndBlade
 		public void DeactivateAgent(Agent agent)
 		{
 			this._activeAgents.Remove(agent);
+		}
+
+		public void OnAgentRemoved(Agent agent)
+		{
+			foreach (Formation formation in this.FormationsIncludingSpecialAndEmpty)
+			{
+				formation.AI.OnAgentRemoved(agent);
+			}
 		}
 
 		public bool HasBots

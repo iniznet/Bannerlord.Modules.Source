@@ -17,6 +17,8 @@ namespace TaleWorlds.PlatformService
 
 		string UserId { get; }
 
+		PlayerId PlayerId { get; }
+
 		string UserDisplayName { get; }
 
 		bool UserLoggedIn { get; }
@@ -45,6 +47,8 @@ namespace TaleWorlds.PlatformService
 
 		event Action<bool, TextObject> OnSignInStateUpdated;
 
+		event Action<string> OnTextEnteredFromPlatform;
+
 		Task<ILoginAccessProvider> CreateLobbyClientLoginProvider();
 
 		event Action OnBlockedUserListUpdated;
@@ -62,6 +66,8 @@ namespace TaleWorlds.PlatformService
 		bool IsPlayerProfileCardAvailable(PlayerId providedId);
 
 		void ShowPlayerProfileCard(PlayerId providedId);
+
+		void ShowGamepadTextInput(string descriptionText, string existingText, uint maxChars, bool isObfuscated);
 
 		void GetPlatformId(PlayerId playerId, Action<object> callback);
 

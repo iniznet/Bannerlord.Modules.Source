@@ -407,12 +407,15 @@ namespace Helpers
 			Hero leader = settlement.OwnerClan.Leader;
 			foreach (Hero hero in settlement.Notables)
 			{
-				int num2 = Campaign.Current.Models.VolunteerModel.MaximumIndexHeroCanRecruitFromHero(leader, hero, -101);
-				for (int i = 0; i < num2; i++)
+				if (hero.IsAlive)
 				{
-					if (hero.VolunteerTypes[i] != null)
+					int num2 = Campaign.Current.Models.VolunteerModel.MaximumIndexHeroCanRecruitFromHero(leader, hero, -101);
+					for (int i = 0; i < num2; i++)
 					{
-						num++;
+						if (hero.VolunteerTypes[i] != null)
+						{
+							num++;
+						}
 					}
 				}
 			}
@@ -431,12 +434,15 @@ namespace Helpers
 			Hero leader = settlement.OwnerClan.Leader;
 			foreach (Hero hero in settlement.Notables)
 			{
-				int num = Campaign.Current.Models.VolunteerModel.MaximumIndexHeroCanRecruitFromHero(leader, hero, -101);
-				for (int i = 0; i < num; i++)
+				if (hero.IsAlive)
 				{
-					if (hero.VolunteerTypes[i] != null)
+					int num = Campaign.Current.Models.VolunteerModel.MaximumIndexHeroCanRecruitFromHero(leader, hero, -101);
+					for (int i = 0; i < num; i++)
 					{
-						return true;
+						if (hero.VolunteerTypes[i] != null)
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -455,7 +461,7 @@ namespace Helpers
 			bool flag = false;
 			if (settlement.IsStarving)
 			{
-				flag = settlement.Town.FoodChange < -(settlement.Prosperity / (float)Campaign.Current.Models.SettlementFoodModel.NumberOfProsperityToEatOneFood);
+				flag = settlement.Town.FoodChange < -(settlement.Town.Prosperity / (float)Campaign.Current.Models.SettlementFoodModel.NumberOfProsperityToEatOneFood);
 			}
 			return flag;
 		}

@@ -19,17 +19,17 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 			if (this._firstFrame)
 			{
 				this.UpdateBanner();
+				this.UpdateIcon();
 				this._firstFrame = false;
 			}
 		}
 
 		private void UpdateBanner()
 		{
-			if (string.IsNullOrEmpty(this.FactionCode) || this._bannerWidget == null)
+			if (this._bannerWidget == null)
 			{
 				return;
 			}
-			Color color = Color.ConvertStringToColor(WidgetsMultiplayerHelper.GetFactionColorCode(this.FactionCode.ToLower(), this.UseSecondary));
 			BrushWidget brushWidget;
 			if ((brushWidget = this.BannerWidget as BrushWidget) != null)
 			{
@@ -40,13 +40,13 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 						Style style = enumerator.Current;
 						foreach (StyleLayer styleLayer in style.Layers)
 						{
-							styleLayer.Color = color;
+							styleLayer.Color = this.CultureColor1;
 						}
 					}
 					return;
 				}
 			}
-			this.BannerWidget.Color = color;
+			this.BannerWidget.Color = this.CultureColor1;
 		}
 
 		private void UpdateIcon()
@@ -56,8 +56,43 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 				return;
 			}
 			this.IconWidget.Sprite = base.Context.SpriteData.GetSprite("StdAssets\\FactionIcons\\LargeIcons\\" + this.FactionCode);
-			string factionColorCode = WidgetsMultiplayerHelper.GetFactionColorCode(this.FactionCode.ToLower(), !this.UseSecondary);
-			this.IconWidget.Color = Color.ConvertStringToColor(factionColorCode);
+			this.IconWidget.Color = this.CultureColor2;
+		}
+
+		[DataSourceProperty]
+		public Color CultureColor1
+		{
+			get
+			{
+				return this._cultureColor1;
+			}
+			set
+			{
+				if (value != this._cultureColor1)
+				{
+					this._cultureColor1 = value;
+					base.OnPropertyChanged(value, "CultureColor1");
+					this.UpdateBanner();
+				}
+			}
+		}
+
+		[DataSourceProperty]
+		public Color CultureColor2
+		{
+			get
+			{
+				return this._cultureColor2;
+			}
+			set
+			{
+				if (value != this._cultureColor2)
+				{
+					this._cultureColor2 = value;
+					base.OnPropertyChanged(value, "CultureColor2");
+					this.UpdateIcon();
+				}
+			}
 		}
 
 		[DataSourceProperty]
@@ -74,7 +109,6 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 					this._factionCode = value;
 					base.OnPropertyChanged<string>(value, "FactionCode");
 					this.UpdateIcon();
-					this.UpdateBanner();
 				}
 			}
 		}
@@ -115,30 +149,13 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Multiplayer
 			}
 		}
 
-		[DataSourceProperty]
-		public bool UseSecondary
-		{
-			get
-			{
-				return this._useSecondary;
-			}
-			set
-			{
-				if (value != this._useSecondary)
-				{
-					this._useSecondary = value;
-					base.OnPropertyChanged(value, "UseSecondary");
-					this.UpdateBanner();
-					this.UpdateIcon();
-				}
-			}
-		}
-
 		private bool _firstFrame = true;
 
-		private string _factionCode;
+		private Color _cultureColor1;
 
-		private bool _useSecondary;
+		private Color _cultureColor2;
+
+		private string _factionCode;
 
 		private Widget _bannerWidget;
 

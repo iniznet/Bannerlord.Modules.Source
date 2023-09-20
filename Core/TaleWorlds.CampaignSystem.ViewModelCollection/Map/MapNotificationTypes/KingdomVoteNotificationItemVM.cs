@@ -24,7 +24,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapNotificationTypes
 			this._onInspect = new Action(this.OnInspect);
 			this._onInspectOpenKingdom = delegate
 			{
-				<>4__this.NavigationHandler.OpenKingdom(data.KingdomOfDecision);
+				<>4__this.NavigationHandler.OpenKingdom(data.Decision);
 			};
 		}
 

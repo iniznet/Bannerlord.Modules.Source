@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using TaleWorlds.Library;
 
 namespace TaleWorlds.Engine
@@ -40,6 +41,28 @@ namespace TaleWorlds.Engine
 			if (Debugger.IsAttached && flag)
 			{
 				Debugger.Break();
+			}
+		}
+
+		public static void ContentWarning(string message)
+		{
+			bool flag = EngineApplicationInterface.IDebug.ContentWarning(message);
+			if (Debugger.IsAttached && flag)
+			{
+				Debugger.Break();
+			}
+		}
+
+		[Conditional("_RGL_KEEP_ASSERTS")]
+		public static void ConditionalContentWarning(bool condition, string message)
+		{
+			if (!condition)
+			{
+				bool flag = EngineApplicationInterface.IDebug.ContentWarning(message);
+				if (Debugger.IsAttached && flag)
+				{
+					Debugger.Break();
+				}
 			}
 		}
 
@@ -264,11 +287,45 @@ namespace TaleWorlds.Engine
 			EngineApplicationInterface.IDebug.SetDumpGenerationDisabled(value);
 		}
 
+		public static void EchoCommandWindow(string content)
+		{
+			EngineApplicationInterface.IDebug.EchoCommandWindow(content);
+		}
+
 		[CommandLineFunctionality.CommandLineArgumentFunction("clear", "console")]
 		public static string ClearConsole(List<string> strings)
 		{
 			Console.Clear();
 			return "Debug console cleared.";
+		}
+
+		[CommandLineFunctionality.CommandLineArgumentFunction("echo_command_window", "console")]
+		public static string EchoCommandWindow(List<string> strings)
+		{
+			MBDebug.EchoCommandWindow(strings[0]);
+			return "";
+		}
+
+		[CommandLineFunctionality.CommandLineArgumentFunction("echo_command_window_test", "console")]
+		public static string EchoCommandWindowTest(List<string> strings)
+		{
+			MBDebug.EchoCommandWindowTestAux();
+			return "";
+		}
+
+		private static async void EchoCommandWindowTestAux()
+		{
+			MBDebug.EchoCommandWindow("5...");
+			await Task.Delay(1000);
+			MBDebug.EchoCommandWindow("4...");
+			await Task.Delay(1000);
+			MBDebug.EchoCommandWindow("3...");
+			await Task.Delay(1000);
+			MBDebug.EchoCommandWindow("2...");
+			await Task.Delay(1000);
+			MBDebug.EchoCommandWindow("1...");
+			await Task.Delay(1000);
+			MBDebug.EchoCommandWindow("Tada!");
 		}
 
 		public static int ShowDebugInfoState

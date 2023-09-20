@@ -14,6 +14,8 @@ namespace TaleWorlds.MountAndBlade
 			{
 			case ManagedOptions.ManagedOptionsType.Language:
 				return (float)LocalizedTextManager.GetLanguageIds(NativeConfig.IsDevelopmentMode).IndexOf(BannerlordConfig.Language);
+			case ManagedOptions.ManagedOptionsType.GyroOverrideForAttackDefend:
+				return (float)(BannerlordConfig.GyroOverrideForAttackDefend ? 1 : 0);
 			case ManagedOptions.ManagedOptionsType.ControlBlockDirection:
 				return (float)BannerlordConfig.DefendDirectionControl;
 			case ManagedOptions.ManagedOptionsType.ControlAttackDirection:
@@ -66,6 +68,8 @@ namespace TaleWorlds.MountAndBlade
 				return (float)(BannerlordConfig.ForceVSyncInMenus ? 1 : 0);
 			case ManagedOptions.ManagedOptionsType.EnableVerticalAimCorrection:
 				return (float)(BannerlordConfig.EnableVerticalAimCorrection ? 1 : 0);
+			case ManagedOptions.ManagedOptionsType.ZoomSensitivityModifier:
+				return BannerlordConfig.ZoomSensitivityModifier;
 			case ManagedOptions.ManagedOptionsType.UIScale:
 				return BannerlordConfig.UIScale;
 			case ManagedOptions.ManagedOptionsType.CrosshairType:
@@ -105,7 +109,7 @@ namespace TaleWorlds.MountAndBlade
 			case ManagedOptions.ManagedOptionsType.VoiceLanguage:
 				return (float)LocalizedVoiceManager.GetVoiceLanguageIds().IndexOf(BannerlordConfig.VoiceLanguage);
 			default:
-				Debug.FailedAssert("ManagedOptionsType not found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "GetConfig", 162);
+				Debug.FailedAssert("ManagedOptionsType not found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "GetConfig", 168);
 				return 0f;
 			}
 		}
@@ -116,6 +120,8 @@ namespace TaleWorlds.MountAndBlade
 			{
 			case ManagedOptions.ManagedOptionsType.Language:
 				return (float)LocalizedTextManager.GetLanguageIds(NativeConfig.IsDevelopmentMode).IndexOf(BannerlordConfig.DefaultLanguage);
+			case ManagedOptions.ManagedOptionsType.GyroOverrideForAttackDefend:
+				return 0f;
 			case ManagedOptions.ManagedOptionsType.ControlBlockDirection:
 				return 0f;
 			case ManagedOptions.ManagedOptionsType.ControlAttackDirection:
@@ -168,6 +174,8 @@ namespace TaleWorlds.MountAndBlade
 				return 1f;
 			case ManagedOptions.ManagedOptionsType.EnableVerticalAimCorrection:
 				return 1f;
+			case ManagedOptions.ManagedOptionsType.ZoomSensitivityModifier:
+				return 0.66666f;
 			case ManagedOptions.ManagedOptionsType.UIScale:
 				return 1f;
 			case ManagedOptions.ManagedOptionsType.CrosshairType:
@@ -207,7 +215,7 @@ namespace TaleWorlds.MountAndBlade
 			case ManagedOptions.ManagedOptionsType.VoiceLanguage:
 				return (float)LocalizedVoiceManager.GetVoiceLanguageIds().IndexOf(BannerlordConfig.VoiceLanguage);
 			default:
-				Debug.FailedAssert("ManagedOptionsType not found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "GetDefaultConfig", 263);
+				Debug.FailedAssert("ManagedOptionsType not found", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "GetDefaultConfig", 273);
 				return 0f;
 			}
 		}
@@ -215,7 +223,7 @@ namespace TaleWorlds.MountAndBlade
 		[MBCallback]
 		internal static int GetConfigCount()
 		{
-			return 46;
+			return 48;
 		}
 
 		[MBCallback]
@@ -237,11 +245,14 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "SetConfig", 417);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "SetConfig", 433);
 					BannerlordConfig.Language = list[0];
 				}
 				break;
 			}
+			case ManagedOptions.ManagedOptionsType.GyroOverrideForAttackDefend:
+				BannerlordConfig.GyroOverrideForAttackDefend = value != 0f;
+				break;
 			case ManagedOptions.ManagedOptionsType.ControlBlockDirection:
 				BannerlordConfig.DefendDirectionControl = (int)value;
 				break;
@@ -320,6 +331,9 @@ namespace TaleWorlds.MountAndBlade
 			case ManagedOptions.ManagedOptionsType.EnableVerticalAimCorrection:
 				BannerlordConfig.EnableVerticalAimCorrection = value != 0f;
 				break;
+			case ManagedOptions.ManagedOptionsType.ZoomSensitivityModifier:
+				BannerlordConfig.ZoomSensitivityModifier = value;
+				break;
 			case ManagedOptions.ManagedOptionsType.UIScale:
 				BannerlordConfig.UIScale = value;
 				break;
@@ -383,7 +397,7 @@ namespace TaleWorlds.MountAndBlade
 				}
 				else
 				{
-					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "SetConfig", 435);
+					Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade\\Options\\ManagedOptions\\ManagedOptions.cs", "SetConfig", 451);
 					BannerlordConfig.VoiceLanguage = list[0];
 				}
 				break;
@@ -407,6 +421,7 @@ namespace TaleWorlds.MountAndBlade
 		public enum ManagedOptionsType
 		{
 			Language,
+			GyroOverrideForAttackDefend,
 			ControlBlockDirection,
 			ControlAttackDirection,
 			NumberOfCorpses,
@@ -433,6 +448,7 @@ namespace TaleWorlds.MountAndBlade
 			EnableNetworkAlertIcons,
 			ForceVSyncInMenus,
 			EnableVerticalAimCorrection,
+			ZoomSensitivityModifier,
 			UIScale,
 			CrosshairType,
 			EnableGenericAvatars,

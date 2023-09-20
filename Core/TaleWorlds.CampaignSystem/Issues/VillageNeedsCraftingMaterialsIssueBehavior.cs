@@ -183,7 +183,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=095beaQ5}Yes, there's a lot of work we need to do around the village, and we're short on the materials that our smith needs to make us tools and fittings. Do you think you could get us some? We'll pay well.", null);
+					return new TextObject("{=095beaQ5}Yes, there's a lot of work we need to do around the village, and we're short on the materials that our smith needs to make us tools and fittings. Do you think you could get us some? We'll pay well.[ib:demure][if:convo_dismayed]", null);
 				}
 			}
 
@@ -221,7 +221,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=WzdhPF7M}Well, if we had some extra skilled labor, we could probably melt down old tools and reforge them. That's too much work for just our smith by himself, but maybe he could do it with someone proficient in crafting to help him.", null);
+					return new TextObject("{=WzdhPF7M}Well, if we had some extra skilled labor, we could probably melt down old tools and reforge them. That's too much work for just our smith by himself, but maybe he could do it with someone proficient in crafting to help him.[ib:demure2][if:convo_thinking]", null);
 				}
 			}
 
@@ -245,7 +245,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=xlagNKZ2}Thank you. With their help, we should be able to make what we need.", null);
+					return new TextObject("{=xlagNKZ2}Thank you. With their help, we should be able to make what we need.[if:convo_astonished]", null);
 				}
 			}
 
@@ -253,7 +253,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=P3Uu0Ham}Your companion is still working with our smith. I hope they will finish the order in time.", null);
+					return new TextObject("{=P3Uu0Ham}Your companion is still working with our smith. I hope they will finish the order in time.[if:convo_approving]", null);
 				}
 			}
 
@@ -309,6 +309,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			}
 
 			protected override void OnGameLoad()
+			{
+			}
+
+			protected override void HourlyTick()
 			{
 			}
 
@@ -469,7 +473,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=xvCzjcjU}You failed to deliver {REQUESTED_ITEM_AMOUNT} {?(REQUESTED_ITEM_AMOUNT > 1)}{PLURAL(REQUESTED_ITEM)}{?}{REQUESTED_ITEM}{\\?} to {QUEST_GIVER.LINK} in time.", null);
+					TextObject textObject = new TextObject("{=nmz1ky2D}You failed to deliver {REQUESTED_ITEM_AMOUNT} {?(REQUESTED_ITEM_AMOUNT > 1)}{PLURAL(REQUESTED_ITEM)}{?}{REQUESTED_ITEM}{\\?} to {QUEST_GIVER.LINK} in time.", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					textObject.SetTextVariable("REQUESTED_ITEM_AMOUNT", this._requestedItemAmount);
 					textObject.SetTextVariable("REQUESTED_ITEM", this._requestedItem.Name);
@@ -517,10 +521,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			protected override void SetDialogs()
 			{
-				TextObject textObject = new TextObject("{=UbUokDyI}Thank you. We'd appreciate it if you got the goods to us as quickly as possible. Good luck!", null);
+				TextObject textObject = new TextObject("{=UbUokDyI}Thank you. We'd appreciate it if you got the goods to us as quickly as possible. Good luck![ib:nervous2][if:convo_excited]", null);
 				TextObject textObject2 = new TextObject("{=4c9ySfVj}Did you find what we needed, {?PLAYER.GENDER}madam{?}sir{\\?}?", null);
 				TextObject textObject3 = new TextObject("{=nEGe8rUd}Thank you for your help, {?PLAYER.GENDER}madam{?}sir{\\?}. Here is what we promised.", null);
-				TextObject textObject4 = new TextObject("{=sTfr1C8H}Thank you. But if the storms come before you find them, well, that would be bad for us.", null);
+				TextObject textObject4 = new TextObject("{=sTfr1C8H}Thank you. But if the storms come before you find them, well, that would be bad for us.[ib:nervous2][if:convo_nervous]", null);
 				textObject2.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, false);
 				textObject3.SetCharacterProperties("PLAYER", Hero.MainHero.CharacterObject, false);
 				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(textObject, null, null).Condition(() => CharacterObject.OneToOneConversationCharacter == base.QuestGiver.CharacterObject)
@@ -560,6 +564,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			private void QuestAcceptedConsequences()
 			{
 				base.StartQuest();
@@ -577,7 +585,8 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private void Success()
 			{
 				base.AddLog(this.QuestSuccessLogText, false);
-				GiveItemAction.ApplyForParties(PartyBase.MainParty, Settlement.CurrentSettlement.Party, this._requestedItem, this._requestedItemAmount);
+				ItemRosterElement itemRosterElement = new ItemRosterElement(this._requestedItem, this._requestedItemAmount, null);
+				GiveItemAction.ApplyForParties(PartyBase.MainParty, Settlement.CurrentSettlement.Party, itemRosterElement);
 				GiveGoldAction.ApplyBetweenCharacters(null, Hero.MainHero, this.RewardGold, false);
 				TraitLevelingHelper.OnIssueSolvedThroughQuest(Hero.MainHero, new Tuple<TraitObject, int>[]
 				{
@@ -621,13 +630,31 @@ namespace TaleWorlds.CampaignSystem.Issues
 				CampaignEvents.ClanChangedKingdom.AddNonSerializedListener(this, new Action<Clan, Kingdom, Kingdom, ChangeKingdomAction.ChangeKingdomActionDetail, bool>(this.OnClanChangedKingdom));
 				CampaignEvents.RaidCompletedEvent.AddNonSerializedListener(this, new Action<BattleSideEnum, RaidEventComponent>(this.OnRaidCompleted));
 				CampaignEvents.PlayerInventoryExchangeEvent.AddNonSerializedListener(this, new Action<List<ValueTuple<ItemRosterElement, int>>, List<ValueTuple<ItemRosterElement, int>>, bool>(this.OnPlayerInventoryExchange));
-				CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, Crafting.OverrideData, bool>(this.OnItemCrafted));
+				CampaignEvents.OnNewItemCraftedEvent.AddNonSerializedListener(this, new Action<ItemObject, ItemModifier, bool>(this.OnItemCrafted));
 				CampaignEvents.MapEventStarted.AddNonSerializedListener(this, new Action<MapEvent, PartyBase, PartyBase>(this.OnMapEventStarted));
+				CampaignEvents.OnEquipmentSmeltedByHeroEvent.AddNonSerializedListener(this, new Action<Hero, EquipmentElement>(this.OnEquipmentSmeltedByHero));
+				CampaignEvents.OnItemsRefinedEvent.AddNonSerializedListener(this, new Action<Hero, Crafting.RefiningFormula>(this.OnItemsRefined));
+			}
+
+			private void OnItemsRefined(Hero hero, Crafting.RefiningFormula refiningFormula)
+			{
+				if (hero == Hero.MainHero)
+				{
+					this.UpdateQuestLog();
+				}
+			}
+
+			private void OnEquipmentSmeltedByHero(Hero hero, EquipmentElement equipmentElement)
+			{
+				if (hero == Hero.MainHero)
+				{
+					this.UpdateQuestLog();
+				}
 			}
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.QuestCanceledWarDeclaredLogText, this.QuestCanceledWarDeclaredLogText);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this.QuestCanceledWarDeclaredLogText, this.QuestCanceledWarDeclaredLogText, false);
 			}
 
 			private void OnMapEventStarted(MapEvent mapEvent, PartyBase attackerParty, PartyBase defenderParty)
@@ -638,44 +665,14 @@ namespace TaleWorlds.CampaignSystem.Issues
 				}
 			}
 
-			private void OnItemCrafted(ItemObject item, Crafting.OverrideData overrideData, bool arg3)
+			private void OnItemCrafted(ItemObject item, ItemModifier overriddenItemModifier, bool isCraftingOrderItem)
 			{
-				if (item == this._requestedItem)
-				{
-					this._playerAcceptedQuestLog.UpdateCurrentProgress(this.GetRequiredItemCountOnPlayer());
-					this.CheckIfPlayerReadyToReturnItems();
-				}
+				this.UpdateQuestLog();
 			}
 
 			private void OnPlayerInventoryExchange(List<ValueTuple<ItemRosterElement, int>> purchasedItems, List<ValueTuple<ItemRosterElement, int>> soldItems, bool isTrading)
 			{
-				bool flag = false;
-				foreach (ValueTuple<ItemRosterElement, int> valueTuple in purchasedItems)
-				{
-					ItemRosterElement itemRosterElement = valueTuple.Item1;
-					if (itemRosterElement.EquipmentElement.Item == this._requestedItem)
-					{
-						flag = true;
-						break;
-					}
-				}
-				if (!flag)
-				{
-					foreach (ValueTuple<ItemRosterElement, int> valueTuple2 in soldItems)
-					{
-						ItemRosterElement itemRosterElement = valueTuple2.Item1;
-						if (itemRosterElement.EquipmentElement.Item == this._requestedItem)
-						{
-							flag = true;
-							break;
-						}
-					}
-				}
-				if (flag)
-				{
-					this._playerAcceptedQuestLog.UpdateCurrentProgress(this.GetRequiredItemCountOnPlayer());
-					this.CheckIfPlayerReadyToReturnItems();
-				}
+				this.UpdateQuestLog();
 			}
 
 			private void OnClanChangedKingdom(Clan clan, Kingdom oldKingdom, Kingdom newKingdom, ChangeKingdomAction.ChangeKingdomActionDetail detail, bool showNotification = true)
@@ -706,6 +703,12 @@ namespace TaleWorlds.CampaignSystem.Issues
 					base.RemoveLog(this._playerHasNeededItemsLog);
 					this._playerHasNeededItemsLog = null;
 				}
+			}
+
+			private void UpdateQuestLog()
+			{
+				this._playerAcceptedQuestLog.UpdateCurrentProgress(this.GetRequiredItemCountOnPlayer());
+				this.CheckIfPlayerReadyToReturnItems();
 			}
 
 			[SaveableField(10)]

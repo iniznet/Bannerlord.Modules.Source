@@ -39,7 +39,7 @@ namespace TaleWorlds.CampaignSystem.GameMenus
 		{
 			if (Campaign.Current.CurrentMenuContext != null)
 			{
-				(Game.Current.GameStateManager.ActiveState as MapState).ExitMenuMode();
+				Game.Current.GameStateManager.LastOrDefault<MapState>().ExitMenuMode();
 			}
 		}
 

@@ -31,7 +31,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 		private bool ConditionsHold(Hero issueGiver)
 		{
-			return issueGiver.IsLord && issueGiver.PartyBelongedTo != null && issueGiver.PartyBelongedTo.Army != null && issueGiver.PartyBelongedTo.Army.ArmyOwner == issueGiver && issueGiver.PartyBelongedTo.Army.Cohesion > 80f;
+			return issueGiver.IsLord && issueGiver.MapFaction.IsKingdomFaction && issueGiver.PartyBelongedTo != null && issueGiver.PartyBelongedTo.Army != null && issueGiver.PartyBelongedTo.Army.ArmyOwner == issueGiver && issueGiver.PartyBelongedTo.Army.Cohesion > 80f;
 		}
 
 		private IssueBase OnStartIssue(in PotentialIssueData pid, Hero issueOwner)
@@ -108,7 +108,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					return new TextObject("{=BW7v0g6q}We are about to go on campaign but my quartermaster reports that our food supplies will not be enough to keep us in the field for very long. I can't spare any of my lords, so I need someone else to bring us a large amount of supplies as soon as possible. Can you do this?", null);
+					return new TextObject("{=BW7v0g6q}We are about to go on campaign but my quartermaster reports that our food supplies will not be enough to keep us in the field for very long. I can't spare any of my lords, so I need someone else to bring us a large amount of supplies as soon as possible. Can you do this?[if:convo_grave][ib:closed]", null);
 				}
 			}
 
@@ -173,6 +173,10 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override QuestBase GenerateIssueQuest(string questId)
 			{
 				return new ArmyNeedsSuppliesIssueBehavior.ArmyNeedsSuppliesIssueQuest(questId, base.IssueOwner, CampaignTime.DaysFromNow(15f), this.RewardGold, this.GrainAmount, this.LiveStockAmount, this.WineAmount);
@@ -193,7 +197,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 					flags |= IssueBase.PreconditionFlags.Relation;
 					relationHero = issueGiver;
 				}
-				if (Hero.MainHero.MapFaction.IsKingdomFaction && Hero.MainHero.IsFactionLeader)
+				if (Hero.MainHero.IsKingdomLeader)
 				{
 					flags |= IssueBase.PreconditionFlags.MainHeroIsKingdomLeader;
 				}
@@ -223,7 +227,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			public override bool IssueStayAliveConditions()
 			{
-				if (base.IssueOwner.PartyBelongedTo != null && base.IssueOwner.PartyBelongedTo.Army != null && base.IssueOwner.PartyBelongedTo.Army.ArmyOwner == base.IssueOwner && base.IssueOwner.PartyBelongedTo.Army.Cohesion > 40f && base.IssueOwner.Clan != Clan.PlayerClan)
+				if (base.IssueOwner.PartyBelongedTo != null && base.IssueOwner.PartyBelongedTo.Army != null && base.IssueOwner.PartyBelongedTo.Army.ArmyOwner == base.IssueOwner && base.IssueOwner.PartyBelongedTo.Army.Cohesion > 40f && base.IssueOwner.Clan != Clan.PlayerClan && base.IssueOwner.MapFaction.IsKingdomFaction)
 				{
 					this.NumberOfManInArmy = base.IssueOwner.PartyBelongedTo.Army.TotalRegularCount;
 					return true;
@@ -319,7 +323,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			{
 				get
 				{
-					TextObject textObject = new TextObject("{=GiaTh92Q}{QUEST_GIVER.LINK}, the army commander of the {QUEST_GIVER_FACTION} has told you that they need food supplies for their upcoming military campaign. {?QUEST_GIVER.GENDER}She{?}He{\\?} wanted you to deliver {GRAIN_AMOUNT} sacks of grain and although it's not necessary, to provide {LIVESTOCK_AMOUNT} live stocks and {WINE_AMOUNT} barrels of wine {?QUEST_GIVER.GENDER}she{?}he{\\?} would appreciate it.", null);
+					TextObject textObject = new TextObject("{=GiaTh92Q}{QUEST_GIVER.LINK}, commanding an army of the {QUEST_GIVER_FACTION}, has told you that they need food supplies for their upcoming military campaign. {?QUEST_GIVER.GENDER}She{?}He{\\?} wanted you to deliver {GRAIN_AMOUNT} sacks of grain and although it's not necessary, to provide {LIVESTOCK_AMOUNT} live stocks and {WINE_AMOUNT} barrels of wine {?QUEST_GIVER.GENDER}she{?}he{\\?} would appreciate it.", null);
 					StringHelpers.SetCharacterProperties("QUEST_GIVER", base.QuestGiver.CharacterObject, textObject, false);
 					textObject.SetTextVariable("QUEST_GIVER_FACTION", base.QuestGiver.MapFaction.EncyclopediaLinkWithName);
 					textObject.SetTextVariable("GRAIN_AMOUNT", this._requestedGrainAmount);
@@ -380,9 +384,13 @@ namespace TaleWorlds.CampaignSystem.Issues
 				this.SetDialogs();
 			}
 
+			protected override void HourlyTick()
+			{
+			}
+
 			protected override void SetDialogs()
 			{
-				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=64RFlBFr}Very well. Don't worry, all your expenses will be covered. ", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
+				this.OfferDialogFlow = DialogFlow.CreateDialogFlow("issue_classic_quest_start", 100).NpcLine(new TextObject("{=64RFlBFr}Very well. Don't worry, all your expenses will be covered.[if:convo_approving][ib:hip] ", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.QuestAcceptedConsequences))
 					.CloseDialog();
 				this.DiscussDialogFlow = DialogFlow.CreateDialogFlow("quest_discuss", 100).NpcLine(new TextObject("{=bGbSbqTG}Have you brought our supplies?", null), null, null).Condition(() => Hero.OneToOneConversationHero == base.QuestGiver)
@@ -391,28 +399,28 @@ namespace TaleWorlds.CampaignSystem.Issues
 						this.CalculateAndUpdateRequestedItemsCountInPlayer(false);
 					})
 					.BeginPlayerOptions()
-					.PlayerOption(new TextObject("{=FmjZfigu}Yes commander, I have brought your grain, livestock and wine as you requested.", null), null)
+					.PlayerOption(new TextObject("{=FmjZfigu}Yes. I have brought your grain, livestock and wine as you requested.", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.CheckIfPlayerCollectedEverything))
 					.NpcLine(new TextObject("{=UjS8JnH5}Splendid. I will never forget your service, my friend.", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.CollectedEverythingConsequence))
 					.CloseDialog()
-					.PlayerOption(new TextObject("{=ISOHhXxW}Yes commander, I have brought your grain and wine as you requested.", null), null)
+					.PlayerOption(new TextObject("{=ISOHhXxW}Yes. I have brought your grain and wine as you requested.", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.CheckIfPlayerCollectedGrainWine))
 					.NpcLine(new TextObject("{=1atg831t}Thank you. Your service will be remembered.", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.CollectedGrainAndWineConsequence))
 					.CloseDialog()
-					.PlayerOption(new TextObject("{=YbsVaZkb}Yes commander, I have brought your grain and livestock as you requested.", null), null)
+					.PlayerOption(new TextObject("{=YbsVaZkb}Yes. I have brought your grain and livestock as you requested.", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.CheckIfPlayerCollectedGrainLiveStock))
 					.NpcLine(new TextObject("{=1atg831t}Thank you. Your service will be remembered.", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.CollectedGrainAndLiveStockConsequence))
 					.CloseDialog()
-					.PlayerOption(new TextObject("{=m9a3ZalO}Yes commander, I have brought your grain as you requested.", null), null)
+					.PlayerOption(new TextObject("{=m9a3ZalO}Yes. I have brought your grain as you requested.", null), null)
 					.Condition(new ConversationSentence.OnConditionDelegate(this.CheckIfPlayerCollectedGrain))
 					.NpcLine(new TextObject("{=1atg831t}Thank you. Your service will be remembered.", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(this.CollectedGrainConsequence))
 					.CloseDialog()
-					.PlayerOption(new TextObject("{=PAbVhuKi}Not yet commander. I'm still working on it.", null), null)
-					.NpcLine(new TextObject("{=AV5xVGM5}Good. We need them as soon as possible.", null), null, null)
+					.PlayerOption(new TextObject("{=PAbVhuKi}Not yet. I'm still working on it.", null), null)
+					.NpcLine(new TextObject("{=AV5xVGM5}Good. We need them as soon as possible.[if:convo_undecided_open][ib:closed2]", null), null, null)
 					.Consequence(new ConversationSentence.OnConsequenceDelegate(MapEventHelper.OnConversationEnd))
 					.CloseDialog()
 					.EndPlayerOptions()
@@ -620,7 +628,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 
 			private void OnWarDeclared(IFaction faction1, IFaction faction2, DeclareWarAction.DeclareWarDetail detail)
 			{
-				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog);
+				QuestHelper.CheckWarDeclarationAndFailOrCancelTheQuest(this, faction1, faction2, detail, this._playerDeclaredWarQuestLogText, this._questCanceledWarDeclaredLog, false);
 			}
 
 			public override void OnFailed()
@@ -671,7 +679,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 			private JournalLog _wineLog;
 		}
 
-		public class ArmyNeedsSuppliesIssueTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class ArmyNeedsSuppliesIssueTypeDefiner : SaveableTypeDefiner
 		{
 			public ArmyNeedsSuppliesIssueTypeDefiner()
 				: base(585800)

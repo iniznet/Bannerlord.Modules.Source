@@ -17,19 +17,19 @@ namespace NetworkMessages.FromServer
 
 		public MatrixFrame Frame { get; private set; }
 
-		public MissionObject ParentMissionObject { get; private set; }
+		public MissionObjectId ParentMissionObjectId { get; private set; }
 
 		public bool IsVisible { get; private set; }
 
 		public bool HasLifeTime { get; private set; }
 
-		public SpawnWeaponWithNewEntity(MissionWeapon weapon, Mission.WeaponSpawnFlags weaponSpawnFlags, int forcedIndex, MatrixFrame frame, MissionObject parentMissionObject, bool isVisible, bool hasLifeTime)
+		public SpawnWeaponWithNewEntity(MissionWeapon weapon, Mission.WeaponSpawnFlags weaponSpawnFlags, int forcedIndex, MatrixFrame frame, MissionObjectId parentMissionObjectId, bool isVisible, bool hasLifeTime)
 		{
 			this.Weapon = weapon;
 			this.WeaponSpawnFlags = weaponSpawnFlags;
 			this.ForcedIndex = forcedIndex;
 			this.Frame = frame;
-			this.ParentMissionObject = parentMissionObject;
+			this.ParentMissionObjectId = parentMissionObjectId;
 			this.IsVisible = isVisible;
 			this.HasLifeTime = hasLifeTime;
 		}
@@ -43,9 +43,9 @@ namespace NetworkMessages.FromServer
 			bool flag = true;
 			this.Weapon = ModuleNetworkData.ReadWeaponReferenceFromPacket(MBObjectManager.Instance, ref flag);
 			this.Frame = GameNetworkMessage.ReadMatrixFrameFromPacket(ref flag);
-			this.WeaponSpawnFlags = (Mission.WeaponSpawnFlags)GameNetworkMessage.ReadIntFromPacket(CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo, ref flag);
+			this.WeaponSpawnFlags = (Mission.WeaponSpawnFlags)GameNetworkMessage.ReadUintFromPacket(CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo, ref flag);
 			this.ForcedIndex = GameNetworkMessage.ReadIntFromPacket(CompressionBasic.MissionObjectIDCompressionInfo, ref flag);
-			this.ParentMissionObject = GameNetworkMessage.ReadMissionObjectReferenceFromPacket(ref flag);
+			this.ParentMissionObjectId = GameNetworkMessage.ReadMissionObjectIdFromPacket(ref flag);
 			this.IsVisible = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			this.HasLifeTime = GameNetworkMessage.ReadBoolFromPacket(ref flag);
 			return flag;
@@ -55,9 +55,9 @@ namespace NetworkMessages.FromServer
 		{
 			ModuleNetworkData.WriteWeaponReferenceToPacket(this.Weapon);
 			GameNetworkMessage.WriteMatrixFrameToPacket(this.Frame);
-			GameNetworkMessage.WriteIntToPacket((int)this.WeaponSpawnFlags, CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo);
+			GameNetworkMessage.WriteUintToPacket((uint)this.WeaponSpawnFlags, CompressionMission.SpawnedItemWeaponSpawnFlagCompressionInfo);
 			GameNetworkMessage.WriteIntToPacket(this.ForcedIndex, CompressionBasic.MissionObjectIDCompressionInfo);
-			GameNetworkMessage.WriteMissionObjectReferenceToPacket(this.ParentMissionObject);
+			GameNetworkMessage.WriteMissionObjectIdToPacket((this.ParentMissionObjectId.Id >= 0) ? this.ParentMissionObjectId : MissionObjectId.Invalid);
 			GameNetworkMessage.WriteBoolToPacket(this.IsVisible);
 			GameNetworkMessage.WriteBoolToPacket(this.HasLifeTime);
 		}

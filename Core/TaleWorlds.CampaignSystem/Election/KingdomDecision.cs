@@ -183,6 +183,10 @@ namespace TaleWorlds.CampaignSystem.Election
 
 		public bool ShouldBeCancelled()
 		{
+			if (this.ProposerClan.Kingdom != this.Kingdom)
+			{
+				return true;
+			}
 			if (!this.IsAllowed())
 			{
 				return true;
@@ -339,7 +343,7 @@ namespace TaleWorlds.CampaignSystem.Election
 				num = this.GetInfluenceCostOfSupport(clan, Supporter.SupportWeights.FullyPush);
 				break;
 			default:
-				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Election\\KingdomDecision.cs", "GetInfluenceCost", 329);
+				Debug.FailedAssert("false", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.CampaignSystem\\Election\\KingdomDecision.cs", "GetInfluenceCost", 334);
 				break;
 			}
 			return num;
@@ -401,6 +405,11 @@ namespace TaleWorlds.CampaignSystem.Election
 		public virtual bool OnShowDecision()
 		{
 			return true;
+		}
+
+		public virtual KingdomDecision GetFollowUpDecision()
+		{
+			return null;
 		}
 
 		[SaveableField(0)]

@@ -18,6 +18,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
+using TaleWorlds.SaveSystem;
 
 namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 {
@@ -219,7 +220,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					if (num / partySpottingDifficulty >= 1f)
 					{
 						settlement.Hideout.IsSpotted = true;
-						settlement.Party.UpdateVisibilityAndInspected(0f, false);
+						settlement.Party.UpdateVisibilityAndInspected(0f);
 						CampaignEventDispatcher.Instance.OnHideoutSpotted(MobileParty.MainParty.Party, settlement.Party);
 					}
 				}
@@ -428,7 +429,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 				if ((!sameFactionIsNeeded || hideout.Settlement.Culture == faction.Culture) && (!isInfestedHideoutNeeded || hideout.IsInfested))
 				{
 					int num2 = 1;
-					if (selectingFurtherToOthersNeeded)
+					if (hideout.Settlement.LastThreatTime.ElapsedHoursUntilNow > 36f && selectingFurtherToOthersNeeded)
 					{
 						float num3 = Campaign.MapDiagonalSquared;
 						float num4 = Campaign.MapDiagonalSquared;
@@ -598,7 +599,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void InitBanditParty(MobileParty banditParty, Clan faction, Settlement homeSettlement)
 		{
-			banditParty.Party.Visuals.SetMapIconAsDirty();
+			banditParty.Party.SetVisualAsDirty();
 			banditParty.ActualClan = faction;
 			BanditsCampaignBehavior.CreatePartyTrade(banditParty);
 			foreach (ItemObject itemObject in Items.All)
@@ -660,9 +661,10 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			campaignGameSystemStarter.AddDialogLine("common_encounter_ultimatum_war", "common_encounter_ultimatum_answer", "close_window", "{=n99VA8KP}You'll never take us alive![if:idle_angry][ib:aggressive]", null, new ConversationSentence.OnConsequenceDelegate(this.conversation_bandit_set_hostile_on_consequence), 100, null);
 			campaignGameSystemStarter.AddPlayerLine("common_bandit_join_player_accepted", "bandits_we_can_join_you", "close_window", "{=XdKCuzg1}Very well. You may join us. But I'll be keeping an eye on you lot.", null, delegate
 			{
+				MobileParty party = MobileParty.ConversationParty;
 				Campaign.Current.ConversationManager.ConversationEndOneShot += delegate
 				{
-					this.conversation_bandits_join_player_party_on_consequence();
+					this.conversation_bandits_join_player_party_on_consequence(party);
 				};
 			}, 100, null, null);
 			campaignGameSystemStarter.AddPlayerLine("common_bandit_join_player_declined_1", "bandits_we_can_join_you", "player_do_not_let_bandits_to_join", "{=JZvywHNy}You think I'm daft? I'm not trusting you an inch.", null, null, 100, null, null);
@@ -676,7 +678,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 					this.conversation_bandits_surrender_on_consequence(party);
 				};
 			}, 100, null);
-			campaignGameSystemStarter.AddDialogLine("common_encounter_ultimatum_war", "player_do_not_let_bandits_to_join", "close_window", "{=LDhU5urT}So that's how it is, is it? Right then - I'll make one of you bleed before I go down.[if:idle_angry][ib:aggressive]", null, null, 100, null);
+			campaignGameSystemStarter.AddDialogLine("common_encounter_ultimatum_war_2", "player_do_not_let_bandits_to_join", "close_window", "{=LDhU5urT}So that's how it is, is it? Right then - I'll make one of you bleed before I go down.[if:idle_angry][ib:aggressive]", null, null, 100, null);
 			campaignGameSystemStarter.AddDialogLine("bandit_attacker_try_leave_success", "bandit_attacker_leave", "close_window", "{=IDdyHef9}We'll be on our way, then!", new ConversationSentence.OnConditionDelegate(this.bandit_attacker_try_leave_condition), delegate
 			{
 				PlayerEncounter.LeaveEncounter = true;
@@ -878,73 +880,53 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			this.SetPlayerInteraction(MobileParty.ConversationParty, BanditsCampaignBehavior.PlayerInteraction.Hostile);
 		}
 
-		private void conversation_bandits_surrender_on_consequence(MobileParty conversationParty)
+		private void GetMemberAndPrisonerRostersFromParties(List<MobileParty> parties, ref TroopRoster troopsTakenAsMember, ref TroopRoster troopsTakenAsPrisoner, bool doBanditsJoinPlayerSide)
 		{
-			Dictionary<PartyBase, ItemRoster> dictionary = new Dictionary<PartyBase, ItemRoster>();
-			ItemRoster itemRoster = new ItemRoster(conversationParty.ItemRoster);
-			dictionary.Add(PartyBase.MainParty, itemRoster);
-			bool flag = false;
-			int num = 0;
-			while (num < dictionary.Values.Count && !flag)
-			{
-				int num2 = 0;
-				while (num2 < dictionary.Values.ElementAt(num).Count && !flag)
-				{
-					if (dictionary.Values.ElementAt(num).GetElementNumber(num2) > 0)
-					{
-						flag = true;
-					}
-					num2++;
-				}
-				num++;
-			}
-			if (flag)
-			{
-				InventoryManager.OpenScreenAsLoot(dictionary);
-				conversationParty.ItemRoster.Clear();
-			}
-			int partyTradeGold = conversationParty.PartyTradeGold;
-			if (partyTradeGold > 0)
-			{
-				GiveGoldAction.ApplyForPartyToCharacter(conversationParty.Party, Hero.MainHero, partyTradeGold, false);
-			}
-			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
-			foreach (TroopRosterElement troopRosterElement in conversationParty.MemberRoster.GetTroopRoster())
-			{
-				troopRoster.AddToCounts(troopRosterElement.Character, troopRosterElement.Number, false, 0, 0, true, -1);
-			}
-			PartyScreenManager.OpenScreenAsLoot(TroopRoster.CreateDummyTroopRoster(), troopRoster, conversationParty.Name, troopRoster.TotalManCount, null);
-			DestroyPartyAction.Apply(MobileParty.MainParty.Party, conversationParty);
-			PlayerEncounter.LeaveEncounter = true;
-		}
-
-		private TroopRoster GetTroopsToJoinPlayerParty(List<MobileParty> parties)
-		{
-			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
 			foreach (MobileParty mobileParty in parties)
 			{
-				if (mobileParty.IsBandit && !mobileParty.IsLordParty)
+				for (int i = 0; i < mobileParty.MemberRoster.Count; i++)
 				{
-					for (int i = 0; i < mobileParty.MemberRoster.Count; i++)
+					if (!mobileParty.MemberRoster.GetCharacterAtIndex(i).IsHero)
 					{
-						if (!mobileParty.MemberRoster.GetCharacterAtIndex(i).IsHero)
+						if (doBanditsJoinPlayerSide)
 						{
-							troopRoster.AddToCounts(mobileParty.MemberRoster.GetCharacterAtIndex(i), mobileParty.MemberRoster.GetElementNumber(i), false, 0, 0, true, -1);
+							troopsTakenAsMember.AddToCounts(mobileParty.MemberRoster.GetCharacterAtIndex(i), mobileParty.MemberRoster.GetElementNumber(i), false, 0, 0, true, -1);
 						}
-					}
-					for (int j = 0; j < mobileParty.PrisonRoster.Count; j++)
-					{
-						if (!mobileParty.PrisonRoster.GetCharacterAtIndex(j).IsHero)
+						else
 						{
-							troopRoster.AddToCounts(mobileParty.PrisonRoster.GetCharacterAtIndex(j), mobileParty.PrisonRoster.GetElementNumber(j), false, 0, 0, true, -1);
+							troopsTakenAsPrisoner.AddToCounts(mobileParty.MemberRoster.GetCharacterAtIndex(i), mobileParty.MemberRoster.GetElementNumber(i), false, 0, 0, true, -1);
 						}
 					}
 				}
+				for (int j = mobileParty.PrisonRoster.Count - 1; j > -1; j--)
+				{
+					CharacterObject characterAtIndex = mobileParty.PrisonRoster.GetCharacterAtIndex(j);
+					if (!characterAtIndex.IsHero)
+					{
+						troopsTakenAsMember.AddToCounts(mobileParty.PrisonRoster.GetCharacterAtIndex(j), mobileParty.PrisonRoster.GetElementNumber(j), false, 0, 0, true, -1);
+					}
+					else if (characterAtIndex.HeroObject.Clan == Clan.PlayerClan)
+					{
+						if (doBanditsJoinPlayerSide)
+						{
+							EndCaptivityAction.ApplyByPeace(characterAtIndex.HeroObject, null);
+						}
+						else
+						{
+							EndCaptivityAction.ApplyByReleasedAfterBattle(characterAtIndex.HeroObject);
+						}
+						characterAtIndex.HeroObject.ChangeState(Hero.CharacterStates.Active);
+						AddHeroToPartyAction.Apply(characterAtIndex.HeroObject, MobileParty.MainParty, true);
+					}
+					else if (Clan.PlayerClan.IsAtWarWith(characterAtIndex.HeroObject.Clan))
+					{
+						TransferPrisonerAction.Apply(characterAtIndex, mobileParty.Party, PartyBase.MainParty);
+					}
+				}
 			}
-			return troopRoster;
 		}
 
-		private void conversation_bandits_join_player_party_on_consequence()
+		private void OpenRosterScreenAfterBanditEncounter(MobileParty conversationParty, bool doBanditsJoinPlayerSide)
 		{
 			List<MobileParty> list = new List<MobileParty> { MobileParty.MainParty };
 			List<MobileParty> list2 = new List<MobileParty>();
@@ -956,15 +938,78 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 			{
 				PlayerEncounter.Current.FindAllNpcPartiesWhoWillJoinEvent(ref list, ref list2);
 			}
-			TroopRoster troopsToJoinPlayerParty = this.GetTroopsToJoinPlayerParty(list2);
-			PartyScreenManager.OpenScreenAsLoot(troopsToJoinPlayerParty, TroopRoster.CreateDummyTroopRoster(), PlayerEncounter.EncounteredParty.Name, troopsToJoinPlayerParty.TotalManCount, null);
-			for (int i = list2.Count - 1; i >= 0; i--)
+			TroopRoster troopRoster = TroopRoster.CreateDummyTroopRoster();
+			TroopRoster troopRoster2 = TroopRoster.CreateDummyTroopRoster();
+			this.GetMemberAndPrisonerRostersFromParties(list2, ref troopRoster2, ref troopRoster, doBanditsJoinPlayerSide);
+			if (!doBanditsJoinPlayerSide)
 			{
-				MobileParty mobileParty = list2[i];
-				CampaignEventDispatcher.Instance.OnBanditPartyRecruited(mobileParty);
-				DestroyPartyAction.Apply(MobileParty.MainParty.Party, mobileParty);
+				Dictionary<PartyBase, ItemRoster> dictionary = new Dictionary<PartyBase, ItemRoster>();
+				ItemRoster itemRoster = new ItemRoster();
+				int num = 0;
+				foreach (MobileParty mobileParty in list2)
+				{
+					num += mobileParty.PartyTradeGold;
+					itemRoster.Add(mobileParty.ItemRoster);
+				}
+				GiveGoldAction.ApplyForPartyToCharacter(conversationParty.Party, Hero.MainHero, num, false);
+				dictionary.Add(PartyBase.MainParty, itemRoster);
+				if (itemRoster.Count > 0)
+				{
+					InventoryManager.OpenScreenAsLoot(dictionary);
+					for (int i = 0; i < list2.Count - 1; i++)
+					{
+						list2[i].ItemRoster.Clear();
+					}
+				}
+				PartyScreenManager.OpenScreenWithCondition(new IsTroopTransferableDelegate(this.IsTroopTransferable), new PartyPresentationDoneButtonConditionDelegate(this.DoneButtonCondition), new PartyPresentationDoneButtonDelegate(this.OnDoneClicked), null, PartyScreenLogic.TransferState.Transferable, PartyScreenLogic.TransferState.Transferable, PlayerEncounter.EncounteredParty.Name, troopRoster2.TotalManCount, false, false, PartyScreenMode.Loot, troopRoster2, troopRoster);
+				for (int j = list2.Count - 1; j >= 0; j--)
+				{
+					MobileParty mobileParty2 = list2[j];
+					DestroyPartyAction.Apply(MobileParty.MainParty.Party, mobileParty2);
+				}
+				return;
 			}
+			PartyScreenManager.OpenScreenWithCondition(new IsTroopTransferableDelegate(this.IsTroopTransferable), new PartyPresentationDoneButtonConditionDelegate(this.DoneButtonCondition), new PartyPresentationDoneButtonDelegate(this.OnDoneClicked), null, PartyScreenLogic.TransferState.Transferable, PartyScreenLogic.TransferState.Transferable, PlayerEncounter.EncounteredParty.Name, troopRoster2.TotalManCount, false, false, PartyScreenMode.TroopsManage, troopRoster2, null);
+			for (int k = list2.Count - 1; k >= 0; k--)
+			{
+				MobileParty mobileParty3 = list2[k];
+				CampaignEventDispatcher.Instance.OnBanditPartyRecruited(mobileParty3);
+				DestroyPartyAction.Apply(MobileParty.MainParty.Party, mobileParty3);
+			}
+		}
+
+		private void conversation_bandits_surrender_on_consequence(MobileParty conversationParty)
+		{
+			this.OpenRosterScreenAfterBanditEncounter(conversationParty, false);
 			PlayerEncounter.LeaveEncounter = true;
+		}
+
+		private void conversation_bandits_join_player_party_on_consequence(MobileParty conversationParty)
+		{
+			this.OpenRosterScreenAfterBanditEncounter(conversationParty, true);
+			PlayerEncounter.LeaveEncounter = true;
+		}
+
+		private bool OnDoneClicked(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, FlattenedTroopRoster takenPrisonerRoster, FlattenedTroopRoster releasedPrisonerRoster, bool isForced, PartyBase leftParty, PartyBase rightParty)
+		{
+			return true;
+		}
+
+		private Tuple<bool, TextObject> DoneButtonCondition(TroopRoster leftMemberRoster, TroopRoster leftPrisonRoster, TroopRoster rightMemberRoster, TroopRoster rightPrisonRoster, int leftLimitNum, int rightLimitNum)
+		{
+			foreach (TroopRosterElement troopRosterElement in rightMemberRoster.GetTroopRoster())
+			{
+				if (troopRosterElement.Character.IsHero && troopRosterElement.Character.HeroObject.HeroState == Hero.CharacterStates.Fugitive)
+				{
+					troopRosterElement.Character.HeroObject.ChangeState(Hero.CharacterStates.Active);
+				}
+			}
+			return new Tuple<bool, TextObject>(true, null);
+		}
+
+		private bool IsTroopTransferable(CharacterObject character, PartyScreenLogic.TroopType type, PartyScreenLogic.PartyRosterSide side, PartyBase LeftOwnerParty)
+		{
+			return true;
 		}
 
 		private bool bandit_start_defender_condition()
@@ -1145,13 +1190,15 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private const float BanditLongTermGoldPerBandit = 50f;
 
+		private const int HideoutInfestCooldownAfterFightAsHours = 36;
+
 		private bool _hideoutsAndBanditsAreInitialized;
 
 		private Dictionary<MobileParty, BanditsCampaignBehavior.PlayerInteraction> _interactedBandits = new Dictionary<MobileParty, BanditsCampaignBehavior.PlayerInteraction>();
 
 		private static int _goldAmount;
 
-		public class BanditsCampaignBehaviorTypeDefiner : CampaignBehaviorBase.SaveableCampaignBehaviorTypeDefiner
+		public class BanditsCampaignBehaviorTypeDefiner : SaveableTypeDefiner
 		{
 			public BanditsCampaignBehaviorTypeDefiner()
 				: base(70000)

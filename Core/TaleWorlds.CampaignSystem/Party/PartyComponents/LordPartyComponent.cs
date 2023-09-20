@@ -143,7 +143,7 @@ namespace TaleWorlds.CampaignSystem.Party.PartyComponents
 				num = (int)((float)mobileParty.Party.PartySizeLimit * num3);
 			}
 			mobileParty.InitializeMobilePartyAroundPosition(this.Owner.Clan.DefaultPartyTemplate, position, spawnRadius, 0f, num);
-			mobileParty.Party.Visuals.SetMapIconAsDirty();
+			mobileParty.Party.SetVisualAsDirty();
 			if (spawnSettlement != null)
 			{
 				mobileParty.Ai.SetMoveGoToSettlement(spawnSettlement);

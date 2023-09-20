@@ -86,6 +86,10 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Mission
 		public override void OnMissionScreenTick(float dt)
 		{
 			base.OnMissionScreenTick(dt);
+			if (this._dataSource.IsActive && !this.IsMainAgentAvailable())
+			{
+				this.HandleClosingHold();
+			}
 			if (this.IsMainAgentAvailable() && (!base.MissionScreen.IsRadialMenuActive || this._dataSource.IsActive))
 			{
 				this.TickControls(dt);

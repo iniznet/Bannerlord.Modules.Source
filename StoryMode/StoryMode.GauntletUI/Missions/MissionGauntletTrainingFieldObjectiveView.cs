@@ -4,6 +4,7 @@ using StoryMode.Missions;
 using StoryMode.View.Missions;
 using StoryMode.ViewModelCollection.Missions;
 using TaleWorlds.Engine.GauntletUI;
+using TaleWorlds.InputSystem;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
@@ -28,6 +29,7 @@ namespace StoryMode.GauntletUI.Missions
 			missionBehavior.UIStartTimer = new Action(this.BeginTimer);
 			missionBehavior.UIEndTimer = new Func<float>(this.EndTimer);
 			missionBehavior.CurrentMouseObjectiveTick = new Action<TrainingFieldMissionController.MouseObjectives>(this._dataSource.UpdateCurrentMouseObjective);
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Combine(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
 		public override void OnMissionScreenTick(float dt)
@@ -58,6 +60,7 @@ namespace StoryMode.GauntletUI.Missions
 			base.MissionScreen.RemoveLayer(this._layer);
 			this._dataSource = null;
 			this._layer = null;
+			Input.OnGamepadActiveStateChanged = (Action)Delegate.Remove(Input.OnGamepadActiveStateChanged, new Action(this.OnGamepadActiveStateChanged));
 		}
 
 		public override void OnPhotoModeActivated()
@@ -70,6 +73,16 @@ namespace StoryMode.GauntletUI.Missions
 		{
 			base.OnPhotoModeDeactivated();
 			this._layer._gauntletUIContext.ContextAlpha = 1f;
+		}
+
+		private void OnGamepadActiveStateChanged()
+		{
+			TrainingFieldObjectivesVM dataSource = this._dataSource;
+			if (dataSource == null)
+			{
+				return;
+			}
+			dataSource.UpdateIsGamepadActive();
 		}
 
 		private TrainingFieldObjectivesVM _dataSource;

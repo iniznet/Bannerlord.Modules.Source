@@ -6,9 +6,7 @@ namespace TaleWorlds.MountAndBlade
 {
 	public interface IOnSpawnPerkEffect
 	{
-		float GetTroopCountMultiplier();
-
-		float GetExtraTroopCount();
+		int GetExtraTroopCount();
 
 		List<ValueTuple<EquipmentIndex, EquipmentElement>> GetAlternativeEquipments(bool isPlayer, List<ValueTuple<EquipmentIndex, EquipmentElement>> alternativeEquipments, bool getAll = false);
 

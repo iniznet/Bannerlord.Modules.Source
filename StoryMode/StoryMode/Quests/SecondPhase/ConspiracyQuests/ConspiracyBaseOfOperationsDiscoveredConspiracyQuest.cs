@@ -213,7 +213,7 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 			mobileParty.SetCustomName(new TextObject("{=u1Pkt4HC}Raiders", null));
 			mobileParty.ActualClan = hideout.OwnerClan;
 			mobileParty.Position2D = hideout.Position2D;
-			mobileParty.Party.Visuals.SetMapIconAsDirty();
+			mobileParty.Party.SetVisualAsDirty();
 			EnterSettlementAction.ApplyForParty(mobileParty, hideout);
 			float totalStrength = mobileParty.Party.TotalStrength;
 			int num = (int)(1f * MBRandom.RandomFloat * 20f * totalStrength + 50f);
@@ -228,6 +228,10 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 		{
 			this._baseLocation = SettlementHelper.FindNearestFortification(null, this._hideout);
 			this.SetDialogs();
+		}
+
+		protected override void HourlyTick()
+		{
 		}
 
 		private void InitializeHideout()
@@ -246,7 +250,6 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 					mobileParty.SetPartyUsedByQuest(true);
 					if (mobileParty.IsBanditBossParty)
 					{
-						mobileParty.MemberRoster.GetTroopRoster().First((TroopRosterElement t) => t.Character == this._hideout.Culture.BanditBoss);
 						int num = mobileParty.MemberRoster.TotalManCount - 1;
 						mobileParty.MemberRoster.Clear();
 						base.DistributeConspiracyRaiderTroopsByLevel(partyTemplateObject, mobileParty.Party, num);
@@ -377,18 +380,18 @@ namespace StoryMode.Quests.SecondPhase.ConspiracyQuests
 
 		protected override void SetDialogs()
 		{
-			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=UdHL9YZC}Well well, isn't this the famous {PLAYER.LINK}! You have been a thorn at our side for a while now. It's good that you are here now. It spares us from searching for you.[if:idle_angry][ib:warrior]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.bandit_hideout_boss_fight_start_on_condition))
+			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000015).NpcLine(new TextObject("{=UdHL9YZC}Well well, isn't this the famous {PLAYER.LINK}! You have been a thorn at our side for a while now. It's good that you are here now. It spares us from searching for you.[if:convo_confused_annoyed][ib:hip]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.bandit_hideout_boss_fight_start_on_condition))
 				.BeginPlayerOptions()
 				.PlayerOption(new TextObject("{=bZI82WMt}Let's get this over with! Men Attack!", null), null)
-				.NpcLine(new TextObject("{=H2FMIJmw}My wolves! Kill them!", null), null, null)
+				.NpcLine(new TextObject("{=H2FMIJmw}My wolves! Kill them![ib:aggressive][if:convo_furious]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.bandit_hideout_continue_battle_on_consequence))
 				.CloseDialog()
 				.PlayerOption(new TextObject("{=5PGokzW1}Talk is cheap. If you really want me that bad, I challenge you to a duel.", null), null)
 				.NpcLine(new TextObject("{=karjORwI}To hell with that! Why would I want to duel with you?", null), null, null)
-				.PlayerLine(new TextObject("{=MU2O1SaZ}There is an army waiting for you outside,", null), null)
+				.PlayerLine(new TextObject("{=MU2O1SaZ}There is an army waiting for you outside.", null), null)
 				.PlayerLine(new TextObject("{=tF6VeYaA}If you win, I promise my army won't crush you.", null), null)
 				.PlayerLine(new TextObject("{=fUcwKbW8}If I win I will just kill you and let these poor excuses you call conspirators run away.", null), null)
-				.NpcLine(new TextObject("{=C0xbbPqE}I will duel you for your insolence! Die dog!", null), null, null)
+				.NpcLine(new TextObject("{=C0xbbPqE}I will duel you for your insolence! Die dog![ib:warrior][if:convo_furious]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.bandit_hideout_start_duel_fight_on_consequence))
 				.CloseDialog()
 				.EndPlayerOptions()

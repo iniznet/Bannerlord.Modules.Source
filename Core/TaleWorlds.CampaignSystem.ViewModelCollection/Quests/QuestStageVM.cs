@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
@@ -15,6 +14,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Quests
 			this._onLogNotified = onLogNotified;
 			string text = log.LogText.ToString();
 			GameTexts.SetVariable("ENTRY", text);
+			this._viewDataTracker = Campaign.Current.GetCampaignBehavior<IViewDataTracker>();
 			this.DateText = dateString;
 			this.DescriptionText = log.LogText.ToString();
 			this.IsLastStage = isLastStage;
@@ -34,6 +34,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Quests
 			this.Log = log;
 			this.StageTask = new QuestStageTaskVM(TextObject.Empty, 0, 0, LogType.None);
 			this._onLogNotified = onLogNotified;
+			this._viewDataTracker = Campaign.Current.GetCampaignBehavior<IViewDataTracker>();
 			this.DateText = dateString;
 			this.DescriptionText = description;
 			this.IsLastStage = isLastStage;
@@ -53,7 +54,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Quests
 		{
 			if (this.Log != null)
 			{
-				this.IsNew = PlayerUpdateTracker.Current.UnExaminedQuestLogs.Any((JournalLog l) => l == this.Log);
+				this.IsNew = this._viewDataTracker.UnExaminedQuestLogs.Any((JournalLog l) => l == this.Log);
 			}
 		}
 
@@ -179,6 +180,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Quests
 		public readonly JournalLog Log;
 
 		private readonly Action _onLogNotified;
+
+		private readonly IViewDataTracker _viewDataTracker;
 
 		private string _descriptionText;
 

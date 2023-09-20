@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using TaleWorlds.Diamond;
 using TaleWorlds.PlayerServices;
 
@@ -8,13 +9,21 @@ namespace Messages.FromLobbyServer.ToClient
 	[Serializable]
 	public class PlayerSuggestedToPartyMessage : Message
 	{
-		public PlayerId PlayerId { get; }
+		[JsonProperty]
+		public PlayerId PlayerId { get; private set; }
 
-		public string PlayerName { get; }
+		[JsonProperty]
+		public string PlayerName { get; private set; }
 
-		public PlayerId SuggestingPlayerId { get; }
+		[JsonProperty]
+		public PlayerId SuggestingPlayerId { get; private set; }
 
-		public string SuggestingPlayerName { get; }
+		[JsonProperty]
+		public string SuggestingPlayerName { get; private set; }
+
+		public PlayerSuggestedToPartyMessage()
+		{
+		}
 
 		public PlayerSuggestedToPartyMessage(PlayerId playerId, string playerName, PlayerId suggestingPlayerId, string suggestingPlayerName)
 		{

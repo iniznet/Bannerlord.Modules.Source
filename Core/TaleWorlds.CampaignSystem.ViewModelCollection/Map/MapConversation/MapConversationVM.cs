@@ -10,6 +10,8 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapConversation
 		{
 			this._onContinue = onContinue;
 			this.DialogController = new MissionConversationVM(getContinueInputText, false);
+			this.IsTableauEnabled = false;
+			this.TableauData = null;
 		}
 
 		public void ExecuteContinue()
@@ -107,7 +109,7 @@ namespace TaleWorlds.CampaignSystem.ViewModelCollection.Map.MapConversation
 
 		private object _tableauData;
 
-		private bool _isTableauEnabled = true;
+		private bool _isTableauEnabled;
 
 		private bool _isBarterActive;
 	}

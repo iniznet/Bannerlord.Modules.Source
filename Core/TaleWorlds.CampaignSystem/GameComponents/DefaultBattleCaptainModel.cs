@@ -9,11 +9,11 @@ namespace TaleWorlds.CampaignSystem.GameComponents
 {
 	public class DefaultBattleCaptainModel : BattleCaptainModel
 	{
-		public override float GetCaptainRatingForTroopClasses(Hero hero, TroopClassFlag flag, out List<PerkObject> compatiblePerks)
+		public override float GetCaptainRatingForTroopUsages(Hero hero, TroopUsageFlags flag, out List<PerkObject> compatiblePerks)
 		{
 			float num = 0f;
 			compatiblePerks = new List<PerkObject>();
-			foreach (PerkObject perkObject in PerkHelper.GetCaptainPerksForTroopClasses(flag))
+			foreach (PerkObject perkObject in PerkHelper.GetCaptainPerksForTroopUsages(flag))
 			{
 				if (hero.GetPerkValue(perkObject))
 				{

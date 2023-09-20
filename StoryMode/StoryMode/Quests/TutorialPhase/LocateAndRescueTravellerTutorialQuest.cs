@@ -62,7 +62,6 @@ namespace StoryMode.Quests.TutorialPhase
 			CampaignEvents.GameMenuOpened.AddNonSerializedListener(this, new Action<MenuCallbackArgs>(this.OnGameMenuOpened));
 			CampaignEvents.OnSettlementLeftEvent.AddNonSerializedListener(this, new Action<MobileParty, Settlement>(this.OnSettlementLeft));
 			CampaignEvents.MapEventEnded.AddNonSerializedListener(this, new Action<MapEvent>(this.OnMapEventEnded));
-			CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, new Action(this.HourlyTick));
 			CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, new Action<MobileParty, PartyBase>(this.OnMobilePartyDestroyed));
 		}
 
@@ -75,7 +74,7 @@ namespace StoryMode.Quests.TutorialPhase
 		private MobileParty CreateRaiderParty()
 		{
 			Settlement settlement = SettlementHelper.FindNearestHideout((Settlement x) => x.IsActive, null);
-			MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("locate_and_rescue_traveller_quest_raider_party_" + this._raiderPartyCount, StoryModeHeroes.RadiersClan, settlement.Hideout, false);
+			MobileParty mobileParty = BanditPartyComponent.CreateBanditParty("locate_and_rescue_traveller_quest_raider_party_" + this._raiderPartyCount, settlement.OwnerClan, settlement.Hideout, false);
 			TroopRoster troopRoster = new TroopRoster(mobileParty.Party);
 			TroopRoster troopRoster2 = new TroopRoster(mobileParty.Party);
 			CharacterObject @object = Campaign.Current.ObjectManager.GetObject<CharacterObject>("storymode_quest_raider");
@@ -86,10 +85,11 @@ namespace StoryMode.Quests.TutorialPhase
 			mobileParty.InitializeMobilePartyAroundPosition(troopRoster, troopRoster2, object3.GatePosition, MobileParty.MainParty.SeeingRange * 0.75f, 0f);
 			mobileParty.SetCustomName(new TextObject("{=u1Pkt4HC}Raiders", null));
 			mobileParty.InitializePartyTrade(200);
+			mobileParty.ActualClan = settlement.OwnerClan;
 			SetPartyAiAction.GetActionForPatrollingAroundSettlement(mobileParty, object3);
 			mobileParty.Ai.SetDoNotMakeNewDecisions(true);
 			mobileParty.IgnoreByOtherPartiesTill(CampaignTime.Never);
-			mobileParty.Party.Visuals.SetMapIconAsDirty();
+			mobileParty.Party.SetVisualAsDirty();
 			base.AddTrackedObject(mobileParty);
 			mobileParty.IsActive = true;
 			this._raiderPartyCount++;
@@ -125,18 +125,18 @@ namespace StoryMode.Quests.TutorialPhase
 
 		protected override void SetDialogs()
 		{
-			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000010).NpcLine(new TextObject("{=BdYaRvhm}I don't know who you are, but I'm in your debt. These brigands would've marched us to our deaths.[ib:demure]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.meeting_tacitus_on_condition))
-				.NpcLine(new TextObject("{=9VxUSDQ7}My name's Tacteos. I'm a doctor by trade. I was on, well, a bit of a quest, but now I'm thinking I'm not really made for this kind of thing.[ib:demure]", null), null, null)
-				.NpcLine(new TextObject("{=5LJTeOBT}I was with a caravan and they just came out of the brush. We were surrounded and outnumbered, so we gave up. I figured they'd keep us alive, if just for the ransom. But then they started flogging us along at top speed, without any water, and I was just about ready to drop.[ib:demure]", null), null, null)
-				.NpcLine(new TextObject("{=XdDQdSsW}I could feel the signs of heat-stroke creeping up and I told them but they just flogged me more... If your group hadn't come along... Maybe I have a way to thank you properly.[ib:demure]", null), null, null)
+			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000010).NpcLine(new TextObject("{=BdYaRvhm}I don't know who you are, but I'm in your debt. These brigands would've marched us to our deaths.[ib:nervous2][if:convo_uncomfortable_voice]", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.meeting_tacitus_on_condition))
+				.NpcLine(new TextObject("{=9VxUSDQ7}My name's Tacteos. I'm a doctor by trade. I was on, well, a bit of a quest, but now I'm thinking I'm not really made for this kind of thing.[ib:nervous][if:convo_pondering]", null), null, null)
+				.NpcLine(new TextObject("{=5LJTeOBT}I was with a caravan and they just came out of the brush. We were surrounded and outnumbered, so we gave up. I figured they'd keep us alive, if just for the ransom. But then they started flogging us along at top speed, without any water, and I was just about ready to drop.[ib:nervous2]", null), null, null)
+				.NpcLine(new TextObject("{=XdDQdSsW}I could feel the signs of heat-stroke creeping up and I told them but they just flogged me more... If your group hadn't come along... Maybe I have a way to thank you properly.[ib:normal][if:convo_thinking]", null), null, null)
 				.PlayerLine(new TextObject("{=bkZFbCRx}We're looking for two children captured by the raiders. Can you tell us anything?", null), null)
-				.NpcLine(new TextObject("{=ehnbi5yD}I am afraid I haven't seen any children. But after our caravan was attacked, the chief of the raiders, the one they call Radagos, took and rode off with our more valuable belongings, including a chest that I had.[ib:demure]", null), null, null)
-				.NpcLine(new TextObject("{=RF3NoR3d}He seemed to be controlling more than one band raiding around this area. If this lot has your kin, then I think he'd be the one to know.[ib:demure]", null), null, null)
-				.NpcLine(new TextObject("{=K75sH3vW}And since I have nothing of value left to repay your help, I'll tell you this. If you do catch up with and defeat that ruffian, you may be able to recover my chest. It contains a valuable ornament which I was told could be of great value, if you knew where to sell it.[ib:demure]", null), null, null)
-				.NpcLine(new TextObject("{=8GCW5IRO}I was trying to find out more about it, but, as I say, I've had all my urge for travelling flogged out of me. Right now I don't think I'd venture more than 20 paces from a well as long as I live.[ib:demure]", null), null, null)
+				.NpcLine(new TextObject("{=ehnbi5yD}I am afraid I haven't seen any children. But after our caravan was attacked, the chief of the raiders, the one they call Radagos, took and rode off with our more valuable belongings, including a chest that I had.[ib:closed][if:convo_empathic_voice]", null), null, null)
+				.NpcLine(new TextObject("{=RF3NoR3d}He seemed to be controlling more than one band raiding around this area. If this lot has your kin, then I think he'd be the one to know.[if:convo_pondering]", null), null, null)
+				.NpcLine(new TextObject("{=K75sH3vW}And since I have nothing of value left to repay your help, I'll tell you this. If you do catch up with and defeat that ruffian, you may be able to recover my chest. It contains a valuable ornament which I was told could be of great value, if you knew where to sell it.[if:convo_pondering]", null), null, null)
+				.NpcLine(new TextObject("{=8GCW5IRO}I was trying to find out more about it, but, as I say, I've had all my urge for travelling flogged out of me. Right now I don't think I'd venture more than 20 paces from a well as long as I live.[ib:closed2][if:convo_shocked]", null), null, null)
 				.PlayerLine(new TextObject("{=Zyn5FrTR}We'll keep that in mind.", null), null)
-				.NpcLine(new TextObject("{=vJyTsFdU}It doesn't look like much and I suspect this lot would give it away for a few coins, but I got it from a mercenary whom I treated once, and swore it was related to 'Neretzes's Folly'. I don't know what that means, except that Neretzes was, of course, the emperor who died in battle some years back. Maybe you can find out its true value.[ib:demure]", null), null, null)
-				.NpcLine(new TextObject("{=tsjQtWsO}Thanks for saving me again. I hope our paths will cross again![ib:demure]", null), null, null)
+				.NpcLine(new TextObject("{=vJyTsFdU}It doesn't look like much and I suspect this lot would give it away for a few coins, but I got it from a mercenary whom I treated once, and swore it was related to 'Neretzes's Folly'. I don't know what that means, except that Neretzes was, of course, the emperor who died in battle some years back. Maybe you can find out its true value.[if:convo_calm_friendly]", null), null, null)
+				.NpcLine(new TextObject("{=tsjQtWsO}Thanks for saving me again. I hope our paths will cross again![ib:normal2][if:convo_calm_friendly]", null), null, null)
 				.Consequence(new ConversationSentence.OnConsequenceDelegate(this.meeting_tacitus_on_consequence))
 				.CloseDialog(), this);
 			Campaign.Current.ConversationManager.AddDialogFlow(DialogFlow.CreateDialogFlow("start", 1000010).NpcLine(new TextObject("{=!}Start encounter.", null), null, null).Condition(new ConversationSentence.OnConditionDelegate(this.meeting_with_raider_party_on_condition))
@@ -220,22 +220,16 @@ namespace StoryMode.Quests.TutorialPhase
 		private void AddGameMenus()
 		{
 			base.AddGameMenu("encounter_raiders_quest", new TextObject("{=mU1bC1mp}You encountered the raider party.", null), new OnInitDelegate(this.game_menu_encounter_on_init), 4, 0);
-			base.AddGameMenuOption("encounter_raiders_quest", "encounter_raiders_quest_attack", new TextObject("{=1r0tDsrR}Attack!", null), new GameMenuOption.OnConditionDelegate(this.game_menu_encounter_attack_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_encounter_attack_on_consequence), false, -1, null);
-			base.AddGameMenuOption("encounter_raiders_quest", "encounter_raiders_quest_send_troops", new TextObject("{=z3VamNrX}Send in your troops.", null), new GameMenuOption.OnConditionDelegate(this.game_menu_encounter_send_troops_on_condition), null, false, -1, null);
-			base.AddGameMenuOption("encounter_raiders_quest", "encounter_raiders_quest_leave", new TextObject("{=2YYRyrOO}Leave...", null), new GameMenuOption.OnConditionDelegate(this.game_menu_encounter_leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_encounter_leave_on_consequence), true, -1, null);
+			base.AddGameMenuOption("encounter_raiders_quest", "encounter_raiders_quest_attack", new TextObject("{=1r0tDsrR}Attack!", null), new GameMenuOption.OnConditionDelegate(this.game_menu_encounter_attack_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_encounter_attack_on_consequence), false, -1);
+			base.AddGameMenuOption("encounter_raiders_quest", "encounter_raiders_quest_send_troops", new TextObject("{=z3VamNrX}Send in your troops.", null), new GameMenuOption.OnConditionDelegate(this.game_menu_encounter_send_troops_on_condition), null, false, -1);
+			base.AddGameMenuOption("encounter_raiders_quest", "encounter_raiders_quest_leave", new TextObject("{=2YYRyrOO}Leave...", null), new GameMenuOption.OnConditionDelegate(this.game_menu_encounter_leave_on_condition), new GameMenuOption.OnConsequenceDelegate(this.game_menu_encounter_leave_on_consequence), true, -1);
 		}
 
 		private void game_menu_encounter_on_init(MenuCallbackArgs args)
 		{
-			bool flag = false;
 			if (PlayerEncounter.Battle == null)
 			{
 				PlayerEncounter.StartBattle();
-				flag = true;
-			}
-			if (PlayerEncounter.BattleState == null && !flag)
-			{
-				PlayerEncounter.LeaveEncounter = true;
 			}
 			PlayerEncounter.Update();
 		}
@@ -248,7 +242,7 @@ namespace StoryMode.Quests.TutorialPhase
 
 		private void game_menu_encounter_leave_on_consequence(MenuCallbackArgs args)
 		{
-			MenuHelper.EncounterLeaveConsequence(args);
+			MenuHelper.EncounterLeaveConsequence();
 		}
 
 		private bool game_menu_encounter_attack_on_condition(MenuCallbackArgs args)
@@ -347,7 +341,7 @@ namespace StoryMode.Quests.TutorialPhase
 			}
 		}
 
-		private void HourlyTick()
+		protected override void HourlyTick()
 		{
 			if (4 > MobileParty.MainParty.MemberRoster.TotalManCount)
 			{

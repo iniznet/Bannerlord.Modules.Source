@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TaleWorlds.Library;
 
 namespace TaleWorlds.TwoDimension
 {
@@ -62,10 +61,6 @@ namespace TaleWorlds.TwoDimension
 							else if (num2 > num)
 							{
 								list.AddRange(TextToken.CreateTokenArrayFromWord(text.Substring(num, num2 - num)));
-							}
-							else
-							{
-								Debug.FailedAssert("This shouldn't happen. Notify Emre", "C:\\Develop\\MB3\\TaleWorlds.Shared\\Source\\GauntletUI\\TaleWorlds.TwoDimension\\BitmapFont\\RichTextParser.cs", "Parse", 74);
 							}
 						}
 						list.Add(TextToken.CreateTag(richTextTag));
