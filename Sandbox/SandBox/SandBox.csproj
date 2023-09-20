@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{EE0B7271-0F72-456A-800C-3BE0D2E0AE42}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SandBox</RootNamespace>
+    <AssemblyName>SandBox</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="TaleWorlds.CampaignSystem" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.DotNet" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.LinQuick" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.ModuleManager" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.SaveSystem" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AgentNavigator.cs" />
+    <Compile Include="AI\AgentBehaviorManager.cs" />
+    <Compile Include="AI\PassageAI.cs" />
+    <Compile Include="AI\UsablePlaceAI.cs" />
+    <Compile Include="BoardGames\AI\BoardGameAIBaghChal.cs" />
+    <Compile Include="BoardGames\AI\BoardGameAIBase.cs" />
+    <Compile Include="BoardGames\AI\BoardGameAIKonane.cs" />
+    <Compile Include="BoardGames\AI\BoardGameAIMuTorere.cs" />
+    <Compile Include="BoardGames\AI\BoardGameAIPuluc.cs" />
+    <Compile Include="BoardGames\AI\BoardGameAISeega.cs" />
+    <Compile Include="BoardGames\AI\BoardGameAITablut.cs" />
+    <Compile Include="BoardGames\AI\TreeNodeTablut.cs" />
+    <Compile Include="BoardGames\BoardGameBaghChal.cs" />
+    <Compile Include="BoardGames\BoardGameBase.cs" />
+    <Compile Include="BoardGames\BoardGameKonane.cs" />
+    <Compile Include="BoardGames\BoardGameMuTorere.cs" />
+    <Compile Include="BoardGames\BoardGamePuluc.cs" />
+    <Compile Include="BoardGames\BoardGameSeega.cs" />
+    <Compile Include="BoardGames\BoardGameSide.cs" />
+    <Compile Include="BoardGames\BoardGameTablut.cs" />
+    <Compile Include="BoardGames\CapturedPawnsPool.cs" />
+    <Compile Include="BoardGames\GameOverEnum.cs" />
+    <Compile Include="BoardGames\MissionLogics\MissionBoardGameLogic.cs" />
+    <Compile Include="BoardGames\Move.cs" />
+    <Compile Include="BoardGames\Objects\BoardGameDecal.cs" />
+    <Compile Include="BoardGames\Objects\Tile.cs" />
+    <Compile Include="BoardGames\Pawns\PawnBaghChal.cs" />
+    <Compile Include="BoardGames\Pawns\PawnBase.cs" />
+    <Compile Include="BoardGames\Pawns\PawnKonane.cs" />
+    <Compile Include="BoardGames\Pawns\PawnMuTorere.cs" />
+    <Compile Include="BoardGames\Pawns\PawnPuluc.cs" />
+    <Compile Include="BoardGames\Pawns\PawnSeega.cs" />
+    <Compile Include="BoardGames\Pawns\PawnTablut.cs" />
+    <Compile Include="BoardGames\PlayerTurn.cs" />
+    <Compile Include="BoardGames\TileBaseInformation.cs" />
+    <Compile Include="BoardGames\Tiles\Tile1D.cs" />
+    <Compile Include="BoardGames\Tiles\Tile2D.cs" />
+    <Compile Include="BoardGames\Tiles\TileBase.cs" />
+    <Compile Include="BoardGames\Tiles\TileMuTorere.cs" />
+    <Compile Include="BoardGames\Tiles\TilePuluc.cs" />
+    <Compile Include="CampaignAgentComponent.cs" />
+    <Compile Include="CampaignBehaviors\AlleyCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\ArenaMasterCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\BarberCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\BoardGameCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\ClanMemberRolesCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\CommonTownsfolkCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\CommonVillagersCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\CompanionRolesCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\ControllerEffectsCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\ConversationAnimationToolCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\DefaultCutscenesCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\DefaultNotificationsCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\GuardsCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\HeirSelectionCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\HideoutConversationsCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\LordConversationsCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\RetirementCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\SettlementMusiciansCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\StatisticsCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\TradersCampaignBehavior.cs" />
+    <Compile Include="CampaignBehaviors\WorkshopsCharactersCampaignBehavior.cs" />
+    <Compile Include="CampaignMapSiegePrefabEntityCache.cs" />
+    <Compile Include="CampaignMissionManager.cs" />
+    <Compile Include="Conversation\ConversationMission.cs" />
+    <Compile Include="Conversation\MissionLogics\ConversationMissionLogic.cs" />
+    <Compile Include="Conversation\MissionLogics\MissionConversationLogic.cs" />
+    <Compile Include="EditorSceneMissionManager.cs" />
+    <Compile Include="GameComponents\SandboxAgentApplyDamageModel.cs" />
+    <Compile Include="GameComponents\SandboxAgentDecideKilledOrUnconsciousModel.cs" />
+    <Compile Include="GameComponents\SandboxAgentStatCalculateModel.cs" />
+    <Compile Include="GameComponents\SandboxApplyWeatherEffectsModel.cs" />
+    <Compile Include="GameComponents\SandboxAutoBlockModel.cs" />
+    <Compile Include="GameComponents\SandboxBattleInitializationModel.cs" />
+    <Compile Include="GameComponents\SandboxBattleMoraleModel.cs" />
+    <Compile Include="GameComponents\SandboxBattleSpawnModel.cs" />
+    <Compile Include="GameComponents\SandboxMissionDifficultyModel.cs" />
+    <Compile Include="Issues\FamilyFeudIssueBehavior.cs" />
+    <Compile Include="Issues\IssueQuestTasks\ArenaDuelQuestTask.cs" />
+    <Compile Include="Issues\IssueQuestTasks\BeginConversationInitiatedByAIQuestTask.cs" />
+    <Compile Include="Issues\IssueQuestTasks\FollowAgentQuestTask.cs" />
+    <Compile Include="Issues\NotableWantsDaughterFoundIssueBehavior.cs" />
+    <Compile Include="Issues\ProdigalSonIssueBehavior.cs" />
+    <Compile Include="Issues\RivalGangMovingInIssueBehavior.cs" />
+    <Compile Include="Issues\RuralNotableInnAndOutIssueBehavior.cs" />
+    <Compile Include="Issues\SnareTheWealthyIssueBehavior.cs" />
+    <Compile Include="Issues\TheSpyPartyIssueQuestBehavior.cs" />
+    <Compile Include="LocationCharacterMissionExtensions.cs" />
+    <Compile Include="MapScene.cs" />
+    <Compile Include="MapSceneCreator.cs" />
+    <Compile Include="Microsoft\CodeAnalysis\EmbeddedAttribute.cs" />
+    <Compile Include="Missions\AgentBehaviors\AgentBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\AgentBehaviorGroup.cs" />
+    <Compile Include="Missions\AgentBehaviors\AlarmedBehaviorGroup.cs" />
+    <Compile Include="Missions\AgentBehaviors\BehaviorSets.cs" />
+    <Compile Include="Missions\AgentBehaviors\ChangeLocationBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\DailyBehaviorGroup.cs" />
+    <Compile Include="Missions\AgentBehaviors\EscortAgentBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\FightBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\FleeBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\FollowAgentBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\InterruptingBehaviorGroup.cs" />
+    <Compile Include="Missions\AgentBehaviors\NotableSpawnPointHandler.cs" />
+    <Compile Include="Missions\AgentBehaviors\PatrollingGuardBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\ScriptBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\StandGuardBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\TalkBehavior.cs" />
+    <Compile Include="Missions\AgentBehaviors\WalkingBehavior.cs" />
+    <Compile Include="Missions\AgentControllers\AmbushBattleAgentController.cs" />
+    <Compile Include="Missions\AgentControllers\AmbushMissionController.cs" />
+    <Compile Include="Missions\AgentControllers\AmbushMissionEventDelegate.cs" />
+    <Compile Include="Missions\Handlers\AmbushBattleDeploymentHandler.cs" />
+    <Compile Include="Missions\MissionLogics\AmbushIntroLogic.cs" />
+    <Compile Include="Missions\MissionLogics\Arena\ArenaAgentStateDeciderLogic.cs" />
+    <Compile Include="Missions\MissionLogics\Arena\ArenaDuelMissionBehavior.cs" />
+    <Compile Include="Missions\MissionLogics\Arena\ArenaDuelMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\Arena\ArenaPracticeFightMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\BattleAgentLogic.cs" />
+    <Compile Include="Missions\MissionLogics\BattleSurgeonLogic.cs" />
+    <Compile Include="Missions\MissionLogics\CampaignMissionComponent.cs" />
+    <Compile Include="Missions\MissionLogics\CampaignSiegeStateHandler.cs" />
+    <Compile Include="Missions\MissionLogics\CombatMissionWithDialogueController.cs" />
+    <Compile Include="Missions\MissionLogics\HeroSkillHandler.cs" />
+    <Compile Include="Missions\MissionLogics\HideoutCinematicController.cs" />
+    <Compile Include="Missions\MissionLogics\HideoutMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\HouseMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\IndoorMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\ItemCatalogController.cs" />
+    <Compile Include="Missions\MissionLogics\LeaveMissionLogic.cs" />
+    <Compile Include="Missions\MissionLogics\LocationItemSpawnHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionAgentHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionAgentLookHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionAlleyHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionBasicTeamLogic.cs" />
+    <Compile Include="Missions\MissionLogics\MissionCaravanOrVillagerTacticsHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionCrimeHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionDebugConsoleCommands.cs" />
+    <Compile Include="Missions\MissionLogics\MissionDebugHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionFightHandler.cs" />
+    <Compile Include="Missions\MissionLogics\MissionSettlementPrepareLogic.cs" />
+    <Compile Include="Missions\MissionLogics\MountAgentLogic.cs" />
+    <Compile Include="Missions\MissionLogics\RetirementMissionLogic.cs" />
+    <Compile Include="Missions\MissionLogics\SandBoxBattleMissionSpawnHandler.cs" />
+    <Compile Include="Missions\MissionLogics\SandboxGeneralsAndCaptainsAssignmentLogic.cs" />
+    <Compile Include="Missions\MissionLogics\SandboxHighlightsController.cs" />
+    <Compile Include="Missions\MissionLogics\SandBoxMissionHandler.cs" />
+    <Compile Include="Missions\MissionLogics\SandBoxMissionSpawnHandler.cs" />
+    <Compile Include="Missions\MissionLogics\SandBoxSallyOutMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\SandBoxSiegeMissionSpawnHandler.cs" />
+    <Compile Include="Missions\MissionLogics\SearchBodyMissionHandler.cs" />
+    <Compile Include="Missions\MissionLogics\SneakTeam3MissionController.cs" />
+    <Compile Include="Missions\MissionLogics\Test\ArmorAndColorTestMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\Test\FacialAnimationTestController.cs" />
+    <Compile Include="Missions\MissionLogics\Test\TestMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\Towns\AlleyFightMissionHandler.cs" />
+    <Compile Include="Missions\MissionLogics\Towns\PrisonBreakMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\Towns\TownAmbushMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\Towns\TownCenterMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\Towns\WorkshopMissionHandler.cs" />
+    <Compile Include="Missions\MissionLogics\VillageMissionController.cs" />
+    <Compile Include="Missions\MissionLogics\VisualTrackerMissionBehavior.cs" />
+    <Compile Include="Missions\MissionLogics\WhileEnteringSettlementBattleMissionController.cs" />
+    <Compile Include="ModuleManager.cs" />
+    <Compile Include="Objects\AnimationPoints\AnimationPoint.cs" />
+    <Compile Include="Objects\AnimationPoints\ChairUsePoint.cs" />
+    <Compile Include="Objects\AnimationPoints\PlayMusicPoint.cs" />
+    <Compile Include="Objects\AreaMarkers\CommonAreaMarker.cs" />
+    <Compile Include="Objects\AreaMarkers\WorkshopAreaMarker.cs" />
+    <Compile Include="Objects\Cinematics\HideoutBossFightBehavior.cs" />
+    <Compile Include="Objects\Cinematics\SkeletonAnimatedCamera.cs" />
+    <Compile Include="Objects\DefaultMusicInstrumentData.cs" />
+    <Compile Include="Objects\InstrumentData.cs" />
+    <Compile Include="Objects\PassageUsePoint.cs" />
+    <Compile Include="Objects\SettlementMusicData.cs" />
+    <Compile Include="Objects\Usables\Chair.cs" />
+    <Compile Include="Objects\Usables\MusicianGroup.cs" />
+    <Compile Include="Objects\Usables\Passage.cs" />
+    <Compile Include="Objects\Usables\PatrolArea.cs" />
+    <Compile Include="Objects\Usables\SmithingMachine.cs" />
+    <Compile Include="Objects\Usables\UsablePlace.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SandboxBattleBannerBearersModel.cs" />
+    <Compile Include="SandBoxEditorMissionTester.cs" />
+    <Compile Include="SandBoxGameManager.cs" />
+    <Compile Include="SandBoxHelpers.cs" />
+    <Compile Include="SandBoxMissionManager.cs" />
+    <Compile Include="SandBoxMissions.cs" />
+    <Compile Include="SandBoxSaveHelper.cs" />
+    <Compile Include="SandBoxSaveManager.cs" />
+    <Compile Include="SandBoxSubModule.cs" />
+    <Compile Include="Sandbox\AutoGeneratedSaveManager.cs" />
+    <Compile Include="Source\Missions\AgentBehaviors\BoardGameAgentBehavior.cs" />
+    <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
+    <Compile Include="TestMissions.cs" />
+    <Compile Include="Tournaments\AgentControllers\ArcheryTournamentAgentController.cs" />
+    <Compile Include="Tournaments\AgentControllers\JoustingAgentController.cs" />
+    <Compile Include="Tournaments\AgentControllers\TownHorseRaceAgentController.cs" />
+    <Compile Include="Tournaments\ITournamentGameBehavior.cs" />
+    <Compile Include="Tournaments\MissionLogics\TournamentArcheryMissionController.cs" />
+    <Compile Include="Tournaments\MissionLogics\TournamentBehavior.cs" />
+    <Compile Include="Tournaments\MissionLogics\TournamentFightMissionController.cs" />
+    <Compile Include="Tournaments\MissionLogics\TournamentJoustingMissionController.cs" />
+    <Compile Include="Tournaments\MissionLogics\TownHorseRaceMissionController.cs" />
+    <Compile Include="Tournaments\TournamentMissionStarter.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

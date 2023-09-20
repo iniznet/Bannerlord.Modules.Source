@@ -1,0 +1,641 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using NetworkMessages.FromServer;
+using TaleWorlds.Engine;
+using TaleWorlds.InputSystem;
+using TaleWorlds.Library;
+using TaleWorlds.MountAndBlade.Network.Messages;
+
+namespace TaleWorlds.MountAndBlade
+{
+	// Token: 0x0200035C RID: 860
+	public class SiegeWeaponMovementComponent : UsableMissionObjectComponent
+	{
+		// Token: 0x17000871 RID: 2161
+		// (get) Token: 0x06002EDF RID: 11999 RVA: 0x000BE3F5 File Offset: 0x000BC5F5
+		public bool HasApproachedTarget
+		{
+			get
+			{
+				return !this._pathTracker.PathExists() || this._pathTracker.PathTraveledPercentage > 0.7f;
+			}
+		}
+
+		// Token: 0x17000872 RID: 2162
+		// (get) Token: 0x06002EE0 RID: 12000 RVA: 0x000BE418 File Offset: 0x000BC618
+		// (set) Token: 0x06002EE1 RID: 12001 RVA: 0x000BE420 File Offset: 0x000BC620
+		public Vec3 Velocity { get; private set; }
+
+		// Token: 0x06002EE2 RID: 12002 RVA: 0x000BE42C File Offset: 0x000BC62C
+		protected internal override void OnAdded(Scene scene)
+		{
+			base.OnAdded(scene);
+			this._path = scene.GetPathWithName(this.PathEntityName);
+			MatrixFrame matrixFrame = this.MainObject.GameEntity.GetFrame();
+			Vec3 scaleVector = matrixFrame.rotation.GetScaleVector();
+			this._wheels = this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("wheel");
+			this._standingPoints = this.MainObject.GameEntity.CollectObjectsWithTag("move");
+			this._pathTracker = new PathTracker(this._path, scaleVector);
+			this._pathTracker.Reset();
+			this.SetTargetFrame();
+			MatrixFrame globalFrame = this.MainObject.GameEntity.GetGlobalFrame();
+			this._standingPointLocalIKFrames = new MatrixFrame[this._standingPoints.Count];
+			for (int i = 0; i < this._standingPoints.Count; i++)
+			{
+				MatrixFrame[] standingPointLocalIKFrames = this._standingPointLocalIKFrames;
+				int num = i;
+				matrixFrame = this._standingPoints[i].GameEntity.GetGlobalFrame();
+				standingPointLocalIKFrames[num] = matrixFrame.TransformToLocal(globalFrame);
+				this._standingPoints[i].AddComponent(new ClearHandInverseKinematicsOnStopUsageComponent());
+			}
+			this.Velocity = Vec3.Zero;
+		}
+
+		// Token: 0x06002EE3 RID: 12003 RVA: 0x000BE554 File Offset: 0x000BC754
+		public void HighlightPath()
+		{
+			MatrixFrame[] array = new MatrixFrame[this._path.NumberOfPoints];
+			this._path.GetPoints(array);
+			for (int i = 1; i < this._path.NumberOfPoints; i++)
+			{
+				MatrixFrame matrixFrame = array[i];
+			}
+		}
+
+		// Token: 0x06002EE4 RID: 12004 RVA: 0x000BE5A4 File Offset: 0x000BC7A4
+		public void SetupGhostEntity()
+		{
+			Path pathWithName = this.MainObject.Scene.GetPathWithName(this.PathEntityName);
+			Vec3 scaleVector = this.MainObject.GameEntity.GetFrame().rotation.GetScaleVector();
+			this._pathTracker = new PathTracker(pathWithName, scaleVector);
+			this._ghostEntityPathTracker = new PathTracker(pathWithName, scaleVector);
+			this._ghostObjectPos = ((pathWithName != null) ? pathWithName.GetTotalLength() : 0f);
+			this._wheels = this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("wheel");
+		}
+
+		// Token: 0x17000873 RID: 2163
+		// (get) Token: 0x06002EE5 RID: 12005 RVA: 0x000BE637 File Offset: 0x000BC837
+		public bool HasArrivedAtTarget
+		{
+			get
+			{
+				return !this._pathTracker.PathExists() || this._pathTracker.HasReachedEnd;
+			}
+		}
+
+		// Token: 0x06002EE6 RID: 12006 RVA: 0x000BE654 File Offset: 0x000BC854
+		private void SetPath()
+		{
+			Path pathWithName = this.MainObject.Scene.GetPathWithName(this.PathEntityName);
+			Vec3 scaleVector = this.MainObject.GameEntity.GetFrame().rotation.GetScaleVector();
+			this._pathTracker = new PathTracker(pathWithName, scaleVector);
+			this._ghostEntityPathTracker = new PathTracker(pathWithName, scaleVector);
+			this._ghostObjectPos = ((pathWithName != null) ? pathWithName.GetTotalLength() : 0f);
+			this.UpdateGhostObject(0f);
+		}
+
+		// Token: 0x17000874 RID: 2164
+		// (get) Token: 0x06002EE7 RID: 12007 RVA: 0x000BE6D7 File Offset: 0x000BC8D7
+		// (set) Token: 0x06002EE8 RID: 12008 RVA: 0x000BE6DF File Offset: 0x000BC8DF
+		public float CurrentSpeed { get; private set; }
+
+		// Token: 0x17000875 RID: 2165
+		// (get) Token: 0x06002EE9 RID: 12009 RVA: 0x000BE6E8 File Offset: 0x000BC8E8
+		// (set) Token: 0x06002EEA RID: 12010 RVA: 0x000BE6F0 File Offset: 0x000BC8F0
+		public int MovementSoundCodeID { get; set; }
+
+		// Token: 0x17000876 RID: 2166
+		// (get) Token: 0x06002EEB RID: 12011 RVA: 0x000BE6F9 File Offset: 0x000BC8F9
+		// (set) Token: 0x06002EEC RID: 12012 RVA: 0x000BE701 File Offset: 0x000BC901
+		public float MinSpeed { get; set; }
+
+		// Token: 0x17000877 RID: 2167
+		// (get) Token: 0x06002EED RID: 12013 RVA: 0x000BE70A File Offset: 0x000BC90A
+		// (set) Token: 0x06002EEE RID: 12014 RVA: 0x000BE712 File Offset: 0x000BC912
+		public float MaxSpeed { get; set; }
+
+		// Token: 0x17000878 RID: 2168
+		// (get) Token: 0x06002EEF RID: 12015 RVA: 0x000BE71B File Offset: 0x000BC91B
+		// (set) Token: 0x06002EF0 RID: 12016 RVA: 0x000BE723 File Offset: 0x000BC923
+		public string PathEntityName { get; set; }
+
+		// Token: 0x17000879 RID: 2169
+		// (get) Token: 0x06002EF1 RID: 12017 RVA: 0x000BE72C File Offset: 0x000BC92C
+		// (set) Token: 0x06002EF2 RID: 12018 RVA: 0x000BE734 File Offset: 0x000BC934
+		public float GhostEntitySpeedMultiplier { get; set; }
+
+		// Token: 0x1700087A RID: 2170
+		// (set) Token: 0x06002EF3 RID: 12019 RVA: 0x000BE73D File Offset: 0x000BC93D
+		public float WheelDiameter
+		{
+			set
+			{
+				this._wheelDiameter = value;
+				this._wheelCircumference = this._wheelDiameter * 3.1415927f;
+			}
+		}
+
+		// Token: 0x1700087B RID: 2171
+		// (get) Token: 0x06002EF4 RID: 12020 RVA: 0x000BE758 File Offset: 0x000BC958
+		// (set) Token: 0x06002EF5 RID: 12021 RVA: 0x000BE760 File Offset: 0x000BC960
+		public SynchedMissionObject MainObject { get; set; }
+
+		// Token: 0x06002EF6 RID: 12022 RVA: 0x000BE769 File Offset: 0x000BC969
+		protected internal override void OnEditorTick(float dt)
+		{
+			base.OnEditorTick(dt);
+			this.UpdateGhostObject(dt);
+		}
+
+		// Token: 0x06002EF7 RID: 12023 RVA: 0x000BE779 File Offset: 0x000BC979
+		public void SetGhostVisibility(bool isVisible)
+		{
+			this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("ghost_object").FirstOrDefault<GameEntity>().SetVisibilityExcludeParents(isVisible);
+		}
+
+		// Token: 0x06002EF8 RID: 12024 RVA: 0x000BE79B File Offset: 0x000BC99B
+		public void OnEditorInit()
+		{
+			this.SetPath();
+			this._wheels = this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("wheel");
+		}
+
+		// Token: 0x06002EF9 RID: 12025 RVA: 0x000BE7C0 File Offset: 0x000BC9C0
+		private void UpdateGhostObject(float dt)
+		{
+			if (this._pathTracker.HasChanged)
+			{
+				this.SetPath();
+				this._pathTracker.Advance(this._pathTracker.GetPathLength());
+				this._ghostEntityPathTracker.Advance(this._ghostEntityPathTracker.GetPathLength());
+			}
+			List<GameEntity> list = this.MainObject.GameEntity.CollectChildrenEntitiesWithTag("ghost_object");
+			if (this.MainObject.GameEntity.IsSelectedOnEditor())
+			{
+				if (this._pathTracker.IsValid)
+				{
+					float num = 10f;
+					if (Input.DebugInput.IsShiftDown())
+					{
+						num = 1f;
+					}
+					if (Input.DebugInput.IsKeyDown(InputKey.MouseScrollUp))
+					{
+						this._ghostObjectPos += dt * num;
+					}
+					else if (Input.DebugInput.IsKeyDown(InputKey.MouseScrollDown))
+					{
+						this._ghostObjectPos -= dt * num;
+					}
+					this._ghostObjectPos = MBMath.ClampFloat(this._ghostObjectPos, 0f, this._pathTracker.GetPathLength());
+				}
+				else
+				{
+					this._ghostObjectPos = 0f;
+				}
+			}
+			if (list.Count > 0)
+			{
+				GameEntity gameEntity = list[0];
+				IPathHolder pathHolder;
+				if ((pathHolder = this.MainObject as IPathHolder) != null && pathHolder.EditorGhostEntityMove)
+				{
+					if (this._ghostEntityPathTracker.IsValid)
+					{
+						this._ghostEntityPathTracker.Advance(0.05f * this.GhostEntitySpeedMultiplier);
+						MatrixFrame matrixFrame = MatrixFrame.Identity;
+						matrixFrame = this.LinearInterpolatedIK(ref this._ghostEntityPathTracker);
+						gameEntity.SetGlobalFrame(matrixFrame);
+						if (this._ghostEntityPathTracker.HasReachedEnd)
+						{
+							this._ghostEntityPathTracker.Reset();
+							return;
+						}
+					}
+				}
+				else if (this._pathTracker.IsValid)
+				{
+					this._pathTracker.Advance(this._ghostObjectPos);
+					MatrixFrame matrixFrame2 = this.LinearInterpolatedIK(ref this._pathTracker);
+					GameEntity gameEntity2 = gameEntity;
+					MatrixFrame matrixFrame3 = this.FindGroundFrameForWheels(ref matrixFrame2);
+					gameEntity2.SetGlobalFrame(matrixFrame3);
+					this._pathTracker.Reset();
+				}
+			}
+		}
+
+		// Token: 0x06002EFA RID: 12026 RVA: 0x000BE9A0 File Offset: 0x000BCBA0
+		private void RotateWheels(float angleInRadian)
+		{
+			foreach (GameEntity gameEntity in this._wheels)
+			{
+				MatrixFrame frame = gameEntity.GetFrame();
+				frame.rotation.RotateAboutSide(angleInRadian);
+				gameEntity.SetFrame(ref frame);
+				this.MainObject.GameEntity.RecomputeBoundingBox();
+			}
+		}
+
+		// Token: 0x06002EFB RID: 12027 RVA: 0x000BEA18 File Offset: 0x000BCC18
+		private MatrixFrame LinearInterpolatedIK(ref PathTracker pathTracker)
+		{
+			MatrixFrame matrixFrame;
+			Vec3 vec;
+			pathTracker.CurrentFrameAndColor(out matrixFrame, out vec);
+			MatrixFrame matrixFrame2 = this.FindGroundFrameForWheels(ref matrixFrame);
+			return MatrixFrame.Lerp(matrixFrame, matrixFrame2, vec.x);
+		}
+
+		// Token: 0x06002EFC RID: 12028 RVA: 0x000BEA46 File Offset: 0x000BCC46
+		public void SetDistanceTraveledAsClient(float distance)
+		{
+			this._advancementError = distance - this._pathTracker.TotalDistanceTraveled;
+		}
+
+		// Token: 0x06002EFD RID: 12029 RVA: 0x000BEA5B File Offset: 0x000BCC5B
+		public override bool IsOnTickRequired()
+		{
+			return true;
+		}
+
+		// Token: 0x06002EFE RID: 12030 RVA: 0x000BEA60 File Offset: 0x000BCC60
+		protected internal override void OnTick(float dt)
+		{
+			base.OnTick(dt);
+			if (this._ghostEntityPathTracker != null)
+			{
+				this.UpdateGhostObject(dt);
+			}
+			if (!this._pathTracker.PathExists() || this._pathTracker.HasReachedEnd)
+			{
+				this.CurrentSpeed = 0f;
+				if (!GameNetwork.IsClientOrReplay)
+				{
+					foreach (StandingPoint standingPoint in this._standingPoints)
+					{
+						standingPoint.SetIsDeactivatedSynched(true);
+					}
+				}
+			}
+			this.TickSound();
+		}
+
+		// Token: 0x06002EFF RID: 12031 RVA: 0x000BEAFC File Offset: 0x000BCCFC
+		public void TickParallelManually(float dt)
+		{
+			if (this._pathTracker.PathExists() && !this._pathTracker.HasReachedEnd)
+			{
+				int num = 0;
+				foreach (StandingPoint standingPoint in this._standingPoints)
+				{
+					if (standingPoint.HasUser && !standingPoint.UserAgent.IsInBeingStruckAction)
+					{
+						num++;
+					}
+				}
+				if (num > 0)
+				{
+					int count = this._standingPoints.Count;
+					this.CurrentSpeed = MBMath.Lerp(this.MinSpeed, this.MaxSpeed, (float)(num - 1) / (float)(count - 1), 1E-05f);
+					MatrixFrame globalFrame = this.MainObject.GameEntity.GetGlobalFrame();
+					for (int i = 0; i < this._standingPoints.Count; i++)
+					{
+						StandingPoint standingPoint2 = this._standingPoints[i];
+						if (standingPoint2.HasUser)
+						{
+							Agent userAgent = standingPoint2.UserAgent;
+							ActionIndexValueCache actionIndexValueCache = userAgent.GetCurrentActionValue(0);
+							ActionIndexValueCache actionIndexValueCache2 = userAgent.GetCurrentActionValue(1);
+							if (actionIndexValueCache != SiegeWeaponMovementComponent.act_usage_siege_machine_push)
+							{
+								if (userAgent.SetActionChannel(0, SiegeWeaponMovementComponent.act_usage_siege_machine_push, false, 0UL, 0f, this.CurrentSpeed, MBAnimation.GetAnimationBlendInPeriod(MBActionSet.GetAnimationIndexOfAction(userAgent.ActionSet, SiegeWeaponMovementComponent.act_usage_siege_machine_push)) * this.CurrentSpeed, 0.4f, 0f, false, -0.2f, 0, true))
+								{
+									actionIndexValueCache = ActionIndexValueCache.Create(SiegeWeaponMovementComponent.act_usage_siege_machine_push);
+								}
+								else if (MBMath.IsBetween((int)userAgent.GetCurrentActionType(0), 47, 51) && actionIndexValueCache != SiegeWeaponMovementComponent.act_strike_bent_over && userAgent.SetActionChannel(0, SiegeWeaponMovementComponent.act_strike_bent_over, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true))
+								{
+									actionIndexValueCache = ActionIndexValueCache.Create(SiegeWeaponMovementComponent.act_strike_bent_over);
+								}
+							}
+							if (actionIndexValueCache2 != SiegeWeaponMovementComponent.act_usage_siege_machine_push)
+							{
+								if (userAgent.SetActionChannel(1, SiegeWeaponMovementComponent.act_usage_siege_machine_push, false, 0UL, 0f, this.CurrentSpeed, MBAnimation.GetAnimationBlendInPeriod(MBActionSet.GetAnimationIndexOfAction(userAgent.ActionSet, SiegeWeaponMovementComponent.act_usage_siege_machine_push)) * this.CurrentSpeed, 0.4f, 0f, false, -0.2f, 0, true))
+								{
+									actionIndexValueCache2 = ActionIndexValueCache.Create(SiegeWeaponMovementComponent.act_usage_siege_machine_push);
+								}
+								else if (MBMath.IsBetween((int)userAgent.GetCurrentActionType(1), 47, 51) && actionIndexValueCache2 != SiegeWeaponMovementComponent.act_strike_bent_over && userAgent.SetActionChannel(1, SiegeWeaponMovementComponent.act_strike_bent_over, false, 0UL, 0f, 1f, -0.2f, 0.4f, 0f, false, -0.2f, 0, true))
+								{
+									actionIndexValueCache2 = ActionIndexValueCache.Create(SiegeWeaponMovementComponent.act_strike_bent_over);
+								}
+							}
+							if (actionIndexValueCache == SiegeWeaponMovementComponent.act_usage_siege_machine_push)
+							{
+								userAgent.SetCurrentActionSpeed(0, this.CurrentSpeed);
+							}
+							if (actionIndexValueCache2 == SiegeWeaponMovementComponent.act_usage_siege_machine_push)
+							{
+								userAgent.SetCurrentActionSpeed(1, this.CurrentSpeed);
+							}
+							if ((actionIndexValueCache == SiegeWeaponMovementComponent.act_usage_siege_machine_push || actionIndexValueCache == SiegeWeaponMovementComponent.act_strike_bent_over) && (actionIndexValueCache2 == SiegeWeaponMovementComponent.act_usage_siege_machine_push || actionIndexValueCache2 == SiegeWeaponMovementComponent.act_strike_bent_over))
+							{
+								standingPoint2.UserAgent.SetHandInverseKinematicsFrameForMissionObjectUsage(this._standingPointLocalIKFrames[i], globalFrame, 0f);
+							}
+							else
+							{
+								standingPoint2.UserAgent.ClearHandInverseKinematics();
+								if (!GameNetwork.IsClientOrReplay && userAgent.Controller != Agent.ControllerType.AI)
+								{
+									userAgent.StopUsingGameObjectMT(false, Agent.StopUsingGameObjectFlags.AutoAttachAfterStoppingUsingGameObject);
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					this.CurrentSpeed = this._advancementError;
+				}
+				if (!this.CurrentSpeed.ApproximatelyEqualsTo(0f, 1E-05f))
+				{
+					float num2 = this.CurrentSpeed * dt;
+					if (!this._advancementError.ApproximatelyEqualsTo(0f, 1E-05f))
+					{
+						float num3 = 3f * this.CurrentSpeed * dt * (float)MathF.Sign(this._advancementError);
+						if (MathF.Abs(num3) >= MathF.Abs(this._advancementError))
+						{
+							num3 = this._advancementError;
+							this._advancementError = 0f;
+						}
+						else
+						{
+							this._advancementError -= num3;
+						}
+						num2 += num3;
+					}
+					this._pathTracker.Advance(num2);
+					this.SetTargetFrame();
+					float num4 = num2 / this._wheelCircumference * 2f * 3.1415927f;
+					this.RotateWheels(num4);
+					if (GameNetwork.IsServerOrRecorder && this._pathTracker.TotalDistanceTraveled - this._lastSynchronizedDistance > 1f)
+					{
+						this._lastSynchronizedDistance = this._pathTracker.TotalDistanceTraveled;
+						GameNetwork.BeginBroadcastModuleEvent();
+						GameNetwork.WriteMessage(new SetSiegeMachineMovementDistance(this.MainObject as UsableMachine, this._lastSynchronizedDistance));
+						GameNetwork.EndBroadcastModuleEvent(GameNetwork.EventBroadcastFlags.AddToMissionRecord, null);
+					}
+				}
+			}
+		}
+
+		// Token: 0x06002F00 RID: 12032 RVA: 0x000BEFA4 File Offset: 0x000BD1A4
+		public MatrixFrame GetInitialFrame()
+		{
+			PathTracker pathTracker = new PathTracker(this._path, Vec3.One);
+			pathTracker.Reset();
+			return this.LinearInterpolatedIK(ref pathTracker);
+		}
+
+		// Token: 0x06002F01 RID: 12033 RVA: 0x000BEFD0 File Offset: 0x000BD1D0
+		private void SetTargetFrame()
+		{
+			if (!this._pathTracker.PathExists())
+			{
+				return;
+			}
+			MatrixFrame matrixFrame = this.LinearInterpolatedIK(ref this._pathTracker);
+			GameEntity gameEntity = this.MainObject.GameEntity;
+			this.Velocity = gameEntity.GlobalPosition;
+			gameEntity.SetGlobalFrameMT(matrixFrame);
+			gameEntity.RecomputeBoundingBox();
+			this.Velocity = (gameEntity.GlobalPosition - this.Velocity).NormalizedCopy() * this.CurrentSpeed;
+		}
+
+		// Token: 0x06002F02 RID: 12034 RVA: 0x000BF048 File Offset: 0x000BD248
+		public MatrixFrame GetTargetFrame()
+		{
+			float totalDistanceTraveled = this._pathTracker.TotalDistanceTraveled;
+			this._pathTracker.Advance(1000000f);
+			MatrixFrame currentFrame = this._pathTracker.CurrentFrame;
+			this._pathTracker.Reset();
+			this._pathTracker.Advance(totalDistanceTraveled);
+			return currentFrame;
+		}
+
+		// Token: 0x06002F03 RID: 12035 RVA: 0x000BF093 File Offset: 0x000BD293
+		public void SetDestinationNavMeshIdState(bool enabled)
+		{
+			if (this.NavMeshIdToDisableOnDestination != -1)
+			{
+				Mission.Current.Scene.SetAbilityOfFacesWithId(this.NavMeshIdToDisableOnDestination, enabled);
+			}
+		}
+
+		// Token: 0x06002F04 RID: 12036 RVA: 0x000BF0B4 File Offset: 0x000BD2B4
+		public void MoveToTargetAsClient()
+		{
+			if (this._pathTracker.IsValid)
+			{
+				float totalDistanceTraveled = this._pathTracker.TotalDistanceTraveled;
+				this._pathTracker.Advance(1000000f);
+				this.SetTargetFrame();
+				float num = (this._pathTracker.TotalDistanceTraveled - totalDistanceTraveled) / this._wheelCircumference * 2f * 3.1415927f;
+				this.RotateWheels(num);
+			}
+		}
+
+		// Token: 0x06002F05 RID: 12037 RVA: 0x000BF118 File Offset: 0x000BD318
+		private void TickSound()
+		{
+			if (this.CurrentSpeed > 0f)
+			{
+				this.PlayMovementSound();
+				return;
+			}
+			this.StopMovementSound();
+		}
+
+		// Token: 0x06002F06 RID: 12038 RVA: 0x000BF134 File Offset: 0x000BD334
+		private void PlayMovementSound()
+		{
+			if (!this._isMoveSoundPlaying)
+			{
+				this._movementSound = SoundEvent.CreateEvent(this.MovementSoundCodeID, this.MainObject.GameEntity.Scene);
+				this._movementSound.Play();
+				this._isMoveSoundPlaying = true;
+			}
+			this._movementSound.SetPosition(this.MainObject.GameEntity.GlobalPosition);
+		}
+
+		// Token: 0x06002F07 RID: 12039 RVA: 0x000BF198 File Offset: 0x000BD398
+		private void StopMovementSound()
+		{
+			if (this._isMoveSoundPlaying)
+			{
+				this._movementSound.Stop();
+				this._isMoveSoundPlaying = false;
+			}
+		}
+
+		// Token: 0x06002F08 RID: 12040 RVA: 0x000BF1B4 File Offset: 0x000BD3B4
+		protected internal override void OnMissionReset()
+		{
+			base.OnMissionReset();
+			this.CurrentSpeed = 0f;
+			this._lastSynchronizedDistance = 0f;
+			this._advancementError = 0f;
+			this._pathTracker.Reset();
+			this.SetTargetFrame();
+		}
+
+		// Token: 0x06002F09 RID: 12041 RVA: 0x000BF1F0 File Offset: 0x000BD3F0
+		protected internal override bool ReadFromNetwork()
+		{
+			bool flag = true;
+			flag = flag && base.ReadFromNetwork();
+			float num = GameNetworkMessage.ReadFloatFromPacket(CompressionBasic.PositionCompressionInfo, ref flag);
+			if (flag)
+			{
+				this._pathTracker.TotalDistanceTraveled = num;
+				this._pathTracker.TotalDistanceTraveled += 0.05f;
+				this.SetTargetFrame();
+			}
+			return flag;
+		}
+
+		// Token: 0x06002F0A RID: 12042 RVA: 0x000BF246 File Offset: 0x000BD446
+		protected internal override void WriteToNetwork()
+		{
+			GameNetworkMessage.WriteFloatToPacket(this._pathTracker.TotalDistanceTraveled, CompressionBasic.PositionCompressionInfo);
+		}
+
+		// Token: 0x06002F0B RID: 12043 RVA: 0x000BF25D File Offset: 0x000BD45D
+		private MatrixFrame FindGroundFrameForWheels(ref MatrixFrame frame)
+		{
+			return SiegeWeaponMovementComponent.FindGroundFrameForWheelsStatic(ref frame, this.AxleLength, this._wheelDiameter, this.MainObject.GameEntity, this._wheels, this.MainObject.Scene);
+		}
+
+		// Token: 0x06002F0C RID: 12044 RVA: 0x000BF290 File Offset: 0x000BD490
+		public static MatrixFrame FindGroundFrameForWheelsStatic(ref MatrixFrame frame, float axleLength, float wheelDiameter, GameEntity gameEntity, List<GameEntity> wheels, Scene scene)
+		{
+			Vec3.StackArray8Vec3 stackArray8Vec = default(Vec3.StackArray8Vec3);
+			bool visibilityExcludeParents = gameEntity.GetVisibilityExcludeParents();
+			if (visibilityExcludeParents)
+			{
+				gameEntity.SetVisibilityExcludeParents(false);
+			}
+			int num = 0;
+			using (new TWSharedMutexReadLock(Scene.PhysicsAndRayCastLock))
+			{
+				foreach (GameEntity gameEntity2 in wheels)
+				{
+					Vec3 vec = frame.TransformToParent(gameEntity2.GetFrame().origin);
+					Vec3 vec2 = vec + frame.rotation.s * axleLength + (wheelDiameter * 0.5f + 0.5f) * frame.rotation.u;
+					Vec3 vec3 = vec - frame.rotation.s * axleLength + (wheelDiameter * 0.5f + 0.5f) * frame.rotation.u;
+					vec2.z = scene.GetGroundHeightAtPositionMT(vec2, BodyFlags.CommonCollisionExcludeFlags);
+					vec3.z = scene.GetGroundHeightAtPositionMT(vec3, BodyFlags.CommonCollisionExcludeFlags);
+					stackArray8Vec[num++] = vec2;
+					stackArray8Vec[num++] = vec3;
+				}
+			}
+			if (visibilityExcludeParents)
+			{
+				gameEntity.SetVisibilityExcludeParents(true);
+			}
+			float num2 = 0f;
+			float num3 = 0f;
+			float num4 = 0f;
+			float num5 = 0f;
+			float num6 = 0f;
+			Vec3 vec4 = default(Vec3);
+			for (int i = 0; i < num; i++)
+			{
+				vec4 += stackArray8Vec[i];
+			}
+			vec4 /= (float)num;
+			for (int j = 0; j < num; j++)
+			{
+				Vec3 vec5 = stackArray8Vec[j] - vec4;
+				num2 += vec5.x * vec5.x;
+				num3 += vec5.x * vec5.y;
+				num4 += vec5.y * vec5.y;
+				num5 += vec5.x * vec5.z;
+				num6 += vec5.y * vec5.z;
+			}
+			float num7 = num2 * num4 - num3 * num3;
+			float num8 = (num6 * num3 - num5 * num4) / num7;
+			float num9 = (num3 * num5 - num2 * num6) / num7;
+			MatrixFrame matrixFrame;
+			matrixFrame.origin = vec4;
+			matrixFrame.rotation.u = new Vec3(num8, num9, 1f, -1f);
+			matrixFrame.rotation.u.Normalize();
+			matrixFrame.rotation.f = frame.rotation.f;
+			matrixFrame.rotation.f = matrixFrame.rotation.f - Vec3.DotProduct(matrixFrame.rotation.f, matrixFrame.rotation.u) * matrixFrame.rotation.u;
+			matrixFrame.rotation.f.Normalize();
+			matrixFrame.rotation.s = Vec3.CrossProduct(matrixFrame.rotation.f, matrixFrame.rotation.u);
+			matrixFrame.rotation.s.Normalize();
+			return matrixFrame;
+		}
+
+		// Token: 0x0400132B RID: 4907
+		public const string GhostObjectTag = "ghost_object";
+
+		// Token: 0x0400132C RID: 4908
+		private static readonly ActionIndexCache act_strike_bent_over = ActionIndexCache.Create("act_strike_bent_over");
+
+		// Token: 0x0400132D RID: 4909
+		private static readonly ActionIndexCache act_usage_siege_machine_push = ActionIndexCache.Create("act_usage_siege_machine_push");
+
+		// Token: 0x0400132E RID: 4910
+		private const string WheelTag = "wheel";
+
+		// Token: 0x0400132F RID: 4911
+		public const string MoveStandingPointTag = "move";
+
+		// Token: 0x04001330 RID: 4912
+		public float AxleLength = 2.45f;
+
+		// Token: 0x04001331 RID: 4913
+		public int NavMeshIdToDisableOnDestination = -1;
+
+		// Token: 0x04001332 RID: 4914
+		private float _ghostObjectPos;
+
+		// Token: 0x04001333 RID: 4915
+		private List<GameEntity> _wheels;
+
+		// Token: 0x04001334 RID: 4916
+		private List<StandingPoint> _standingPoints;
+
+		// Token: 0x04001335 RID: 4917
+		private MatrixFrame[] _standingPointLocalIKFrames;
+
+		// Token: 0x04001336 RID: 4918
+		private SoundEvent _movementSound;
+
+		// Token: 0x04001337 RID: 4919
+		private float _wheelCircumference;
+
+		// Token: 0x04001338 RID: 4920
+		private bool _isMoveSoundPlaying;
+
+		// Token: 0x04001339 RID: 4921
+		private float _wheelDiameter;
+
+		// Token: 0x0400133A RID: 4922
+		private Path _path;
+
+		// Token: 0x0400133B RID: 4923
+		private PathTracker _pathTracker;
+
+		// Token: 0x0400133C RID: 4924
+		private PathTracker _ghostEntityPathTracker;
+
+		// Token: 0x0400133D RID: 4925
+		private float _advancementError;
+
+		// Token: 0x0400133E RID: 4926
+		private float _lastSynchronizedDistance;
+	}
+}

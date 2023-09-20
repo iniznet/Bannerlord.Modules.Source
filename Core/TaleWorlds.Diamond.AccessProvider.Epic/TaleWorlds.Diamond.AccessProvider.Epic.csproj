@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.Diamond.AccessProvider.Epic</RootNamespace>
+    <AssemblyName>TaleWorlds.Diamond.AccessProvider.Epic</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Epic.OnlineServices">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\Epic.OnlineServices.dll</HintPath>
+    </Reference>
+    <Reference Include="netstandard" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EpicAccessParameters.cs" />
+    <Compile Include="EpicLoginAccessProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.Diamond\TaleWorlds.Diamond.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081e4}</Project>
+      <Name>TaleWorlds.Diamond</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f1}</Project>
+      <Name>TaleWorlds.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-311642108201}</Project>
+      <Name>TaleWorlds.PlayerServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

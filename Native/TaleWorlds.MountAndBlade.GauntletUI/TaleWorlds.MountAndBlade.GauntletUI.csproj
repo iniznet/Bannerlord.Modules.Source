@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{6556BCCC-43E6-4DB6-9CC3-81BFBB5C092A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.MountAndBlade.GauntletUI</RootNamespace>
+    <AssemblyName>TaleWorlds.MountAndBlade.GauntletUI</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Core.ViewModelCollection" />
+    <Reference Include="TaleWorlds.DotNet" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.Engine.GauntletUI" />
+    <Reference Include="TaleWorlds.GauntletUI" />
+    <Reference Include="TaleWorlds.GauntletUI.Data" />
+    <Reference Include="TaleWorlds.GauntletUI.ExtraWidgets" />
+    <Reference Include="TaleWorlds.GauntletUI.PrefabSystem" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.ModuleManager" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.Diamond" />
+    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI.Widgets" />
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.PlatformService" />
+    <Reference Include="TaleWorlds.PlayerServices" />
+    <Reference Include="TaleWorlds.ScreenSystem" />
+    <Reference Include="TaleWorlds.TwoDimension" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BodyGenerator\BodyGeneratorView.cs" />
+    <Compile Include="BodyGenerator\GauntletBodyGeneratorScreen.cs" />
+    <Compile Include="ChatLogMessageManager.cs" />
+    <Compile Include="DebugStatsVM.cs" />
+    <Compile Include="GamepadCursorViewModel.cs" />
+    <Compile Include="GauntletChatLogView.cs" />
+    <Compile Include="GauntletCreditsScreen.cs" />
+    <Compile Include="GauntletDebugStats.cs" />
+    <Compile Include="GauntletGameNotification.cs" />
+    <Compile Include="GauntletGamepadCursor.cs" />
+    <Compile Include="GauntletInformationView.cs" />
+    <Compile Include="GauntletInitialScreen.cs" />
+    <Compile Include="GauntletOptionsScreen.cs" />
+    <Compile Include="GauntletProfileSelectionScreen.cs" />
+    <Compile Include="GauntletQueryManager.cs" />
+    <Compile Include="GauntletUISubModule.cs" />
+    <Compile Include="GauntletVideoPlaybackScreen.cs" />
+    <Compile Include="KeybindingPopup.cs" />
+    <Compile Include="LoadingWindowManager.cs" />
+    <Compile Include="LoadingWindowViewModel.cs" />
+    <Compile Include="MissionGauntletVoiceChat.cs" />
+    <Compile Include="Mission\MissionGauntletAgentStatus.cs" />
+    <Compile Include="Mission\MissionGauntletBattleUIBase.cs" />
+    <Compile Include="Mission\MissionGauntletBoundaryCrossingView.cs" />
+    <Compile Include="Mission\MissionGauntletCameraFadeView.cs" />
+    <Compile Include="Mission\MissionGauntletCategoryLoadManager.cs" />
+    <Compile Include="Mission\MissionGauntletCrosshair.cs" />
+    <Compile Include="Mission\MissionGauntletEscapeMenuBase.cs" />
+    <Compile Include="Mission\MissionGauntletMainAgentCheerControllerView.cs" />
+    <Compile Include="Mission\MissionGauntletMainAgentEquipDropView.cs" />
+    <Compile Include="Mission\MissionGauntletMainAgentEquipmentControllerView.cs" />
+    <Compile Include="Mission\MissionGauntletOptionsUIHandler.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletAdminPanel.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletClassLoadout.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletCultureSelection.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletDeathCard.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletDuelUI.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletEndOfBattle.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletEndOfRoundUIHandler.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletKillNotificationUIHandler.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletMultiplayerEscapeMenu.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletMultiplayerFFAView.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletMultiplayerHUDExtension.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletMultiplayerMarkerUIHandler.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletMultiplayerOrderUIHandler.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletMultiplayerScoreboard.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletPollingProgress.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletServerStatus.cs" />
+    <Compile Include="Mission\Multiplayer\MissionGauntletTeamSelection.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletAgentLockVisualizerView.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletBattleScore.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletFormationMarker.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletKillNotificationSingleplayerUIHandler.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletLeaveView.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletOrderOfBattleUIHandler.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletPhotoMode.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletSiegeEngineMarker.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletSingleplayerEscapeMenu.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletSingleplayerOrderUIHandler.cs" />
+    <Compile Include="Mission\Singleplayer\MissionGauntletSpectatorControl.cs" />
+    <Compile Include="Multiplayer\MultiplayerAdminInformationScreen.cs" />
+    <Compile Include="Multiplayer\MultiplayerIntermissionScreen.cs" />
+    <Compile Include="Multiplayer\MultiplayerLobbyGauntletScreen.cs" />
+    <Compile Include="Multiplayer\MultiplayerReportPlayerScreen.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SceneNotification\GauntletSceneNotification.cs" />
+    <Compile Include="SceneNotification\NativeSceneNotificationContextProvider.cs" />
+    <Compile Include="TextureProviders\BrightnessDemoTextureProvider.cs" />
+    <Compile Include="TextureProviders\CharacterTableauTextureProvider.cs" />
+    <Compile Include="TextureProviders\ImageIdentifierTextureProvider.cs" />
+    <Compile Include="TextureProviders\ItemTableauTextureProvider.cs" />
+    <Compile Include="TextureProviders\OnlineImageTextureProvider.cs" />
+    <Compile Include="TextureProviders\SaveLoadHeroTableauTextureProvider.cs" />
+    <Compile Include="TextureProviders\SceneTextureProvider.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.MountAndBlade.View\TaleWorlds.MountAndBlade.View.csproj">
+      <Project>{6556bccc-43e6-4db6-9cc3-81bfbb5c092c}</Project>
+      <Name>TaleWorlds.MountAndBlade.View</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

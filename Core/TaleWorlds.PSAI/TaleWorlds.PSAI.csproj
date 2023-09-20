@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-311642108202}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>psai</RootNamespace>
+    <AssemblyName>TaleWorlds.PSAI</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Editor\AudioData.cs" />
+    <Compile Include="Editor\CompatibilityReason.cs" />
+    <Compile Include="Editor\CompatibilitySetting.cs" />
+    <Compile Include="Editor\CompatibilityType.cs" />
+    <Compile Include="Editor\Group.cs" />
+    <Compile Include="Editor\ProjectProperties.cs" />
+    <Compile Include="Editor\PsaiMusicEntity.cs" />
+    <Compile Include="Editor\PsaiProject.cs" />
+    <Compile Include="Editor\Segment.cs" />
+    <Compile Include="Editor\Theme.cs" />
+    <Compile Include="net\AudioData.cs" />
+    <Compile Include="net\AudioPlaybackLayerChannelStandalone.cs" />
+    <Compile Include="net\ChannelState.cs" />
+    <Compile Include="net\FadeData.cs" />
+    <Compile Include="net\Follower.cs" />
+    <Compile Include="net\IAudioPlaybackLayerChannel.cs" />
+    <Compile Include="net\IPlatformLayer.cs" />
+    <Compile Include="net\Logik.cs" />
+    <Compile Include="net\PlatformLayerStandalone.cs" />
+    <Compile Include="net\PlaybackChannel.cs" />
+    <Compile Include="net\PsaiCore.cs" />
+    <Compile Include="net\PsaiInfo.cs" />
+    <Compile Include="net\PsaiPlayMode.cs" />
+    <Compile Include="net\PsaiResult.cs" />
+    <Compile Include="net\PsaiState.cs" />
+    <Compile Include="net\PsaiTimer.cs" />
+    <Compile Include="net\Segment.cs" />
+    <Compile Include="net\SegmentInfo.cs" />
+    <Compile Include="net\SegmentSuitability.cs" />
+    <Compile Include="net\Soundtrack.cs" />
+    <Compile Include="net\SoundtrackInfo.cs" />
+    <Compile Include="net\Theme.cs" />
+    <Compile Include="net\ThemeInfo.cs" />
+    <Compile Include="net\ThemeInterruptionBehavior.cs" />
+    <Compile Include="net\ThemeQueueEntry.cs" />
+    <Compile Include="net\ThemeType.cs" />
+    <Compile Include="net\Weighting.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.Engine\TaleWorlds.Engine.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081e6}</Project>
+      <Name>TaleWorlds.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

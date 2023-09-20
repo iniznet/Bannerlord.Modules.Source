@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{A0ACAF46-D640-45BD-A670-5EE0032444FB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>StoryMode.GauntletUI</RootNamespace>
+    <AssemblyName>StoryMode.GauntletUI</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="SandBox">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.dll</HintPath>
+    </Reference>
+    <Reference Include="SandBox.GauntletUI">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.GauntletUI.dll</HintPath>
+    </Reference>
+    <Reference Include="SandBox.View">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.View.dll</HintPath>
+    </Reference>
+    <Reference Include="SandBox.ViewModelCollection">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\SandBox\bin\Win64_Shipping_Client\SandBox.ViewModelCollection.dll</HintPath>
+    </Reference>
+    <Reference Include="TaleWorlds.CampaignSystem" />
+    <Reference Include="TaleWorlds.CampaignSystem.ViewModelCollection" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Core.ViewModelCollection" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.Engine.GauntletUI" />
+    <Reference Include="TaleWorlds.GauntletUI" />
+    <Reference Include="TaleWorlds.GauntletUI.Data" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.View">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\Native\bin\Win64_Shipping_Client\TaleWorlds.MountAndBlade.View.dll</HintPath>
+    </Reference>
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.ScreenSystem" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Missions\MissionGauntletTrainingFieldObjectiveView.cs" />
+    <Compile Include="Permissions\StoryModePermissionsSystem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StoryModeGauntletUISubModule.cs" />
+    <Compile Include="Tutorial\ArmyCohesionStep1Tutorial.cs" />
+    <Compile Include="Tutorial\ArmyCohesionStep2Tutorial.cs" />
+    <Compile Include="Tutorial\AssignRolesTutorial.cs" />
+    <Compile Include="Tutorial\BombardmentStep1Tutorial.cs" />
+    <Compile Include="Tutorial\BuyingFoodStep1Tutorial.cs" />
+    <Compile Include="Tutorial\BuyingFoodStep2Tutorial.cs" />
+    <Compile Include="Tutorial\BuyingFoodStep3Tutorial.cs" />
+    <Compile Include="Tutorial\ChoosingPerkUpgradesStep1Tutorial.cs" />
+    <Compile Include="Tutorial\ChoosingPerkUpgradesStep2Tutorial.cs" />
+    <Compile Include="Tutorial\ChoosingPerkUpgradesStep3Tutorial.cs" />
+    <Compile Include="Tutorial\ChoosingSkillFocusStep1Tutorial.cs" />
+    <Compile Include="Tutorial\ChoosingSkillFocusStep2Tutorial.cs" />
+    <Compile Include="Tutorial\CivilianEquipmentTutorial.cs" />
+    <Compile Include="Tutorial\CraftingOrdersTutorial.cs" />
+    <Compile Include="Tutorial\CraftingStep1Tutorial.cs" />
+    <Compile Include="Tutorial\CreateArmyStep1Tutorial.cs" />
+    <Compile Include="Tutorial\CreateArmyStep2Tutorial.cs" />
+    <Compile Include="Tutorial\CreateArmyStep3Tutorial.cs" />
+    <Compile Include="Tutorial\CrimeTutorial.cs" />
+    <Compile Include="Tutorial\EncyclopediaFiltersTutorial.cs" />
+    <Compile Include="Tutorial\EncyclopediaFogOfWarTutorial.cs" />
+    <Compile Include="Tutorial\EncyclopediaHomeTutorial.cs" />
+    <Compile Include="Tutorial\EncyclopediaPageTutorial.cs" />
+    <Compile Include="Tutorial\EncyclopediaSearchTutorial.cs" />
+    <Compile Include="Tutorial\EncyclopediaSortTutorial.cs" />
+    <Compile Include="Tutorial\EncyclopediaTrackTutorial.cs" />
+    <Compile Include="Tutorial\EnterVillageTutorial.cs" />
+    <Compile Include="Tutorial\GauntletTutorialSystem.cs" />
+    <Compile Include="Tutorial\GettingCompanionsStep1Tutorial.cs" />
+    <Compile Include="Tutorial\GettingCompanionsStep2Tutorial.cs" />
+    <Compile Include="Tutorial\GettingCompanionsStep3Tutorial.cs" />
+    <Compile Include="Tutorial\InventoryBannerItemTutorial.cs" />
+    <Compile Include="Tutorial\KingdomDecisionVotingTutorial.cs" />
+    <Compile Include="Tutorial\MovementInMissionTutorial.cs" />
+    <Compile Include="Tutorial\NavigateOnMapTutorialStep1.cs" />
+    <Compile Include="Tutorial\NavigateOnMapTutorialStep2.cs" />
+    <Compile Include="Tutorial\OrderHideoutTutorial.cs" />
+    <Compile Include="Tutorial\OrderOfBattleTutorialStep1Tutorial.cs" />
+    <Compile Include="Tutorial\OrderOfBattleTutorialStep2Tutorial.cs" />
+    <Compile Include="Tutorial\OrderOfBattleTutorialStep3Tutorial.cs" />
+    <Compile Include="Tutorial\OrderTutorialStep1.cs" />
+    <Compile Include="Tutorial\OrderTutorialStep2.cs" />
+    <Compile Include="Tutorial\PartySpeedTutorial.cs" />
+    <Compile Include="Tutorial\PressLeaveToReturnFromMissionTutorial1.cs" />
+    <Compile Include="Tutorial\PressLeaveToReturnFromMissionTutorial2.cs" />
+    <Compile Include="Tutorial\QuestScreenTutorial.cs" />
+    <Compile Include="Tutorial\RaidVillageStep1Tutorial.cs" />
+    <Compile Include="Tutorial\RansomingPrisonersStep1Tutorial.cs" />
+    <Compile Include="Tutorial\RansomingPrisonersStep2Tutorial.cs" />
+    <Compile Include="Tutorial\RecruitmentStep1Tutorial.cs" />
+    <Compile Include="Tutorial\RecruitmentStep2Tutorial.cs" />
+    <Compile Include="Tutorial\SeeMarkersInMissionTutorial.cs" />
+    <Compile Include="Tutorial\TakingPrisonersTutorial.cs" />
+    <Compile Include="Tutorial\TalkToNotableTutorialStep1.cs" />
+    <Compile Include="Tutorial\TalkToNotableTutorialStep2.cs" />
+    <Compile Include="Tutorial\TutorialHelper.cs" />
+    <Compile Include="Tutorial\TutorialItemBase.cs" />
+    <Compile Include="Tutorial\UpgradingTroopsStep1Tutorial.cs" />
+    <Compile Include="Tutorial\UpgradingTroopsStep2Tutorial.cs" />
+    <Compile Include="Tutorial\UpgradingTroopsStep3Tutorial.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StoryMode.ViewModelCollection\StoryMode.ViewModelCollection.csproj">
+      <Project>{a0acaf46-d640-45bd-a670-5ee0032444fd}</Project>
+      <Name>StoryMode.ViewModelCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StoryMode.View\StoryMode.View.csproj">
+      <Project>{a0acaf46-d640-45bd-a670-5ee0032444fc}</Project>
+      <Name>StoryMode.View</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StoryMode\StoryMode.csproj">
+      <Project>{a0acaf46-d640-45bd-a670-5ee0032444fa}</Project>
+      <Name>StoryMode</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

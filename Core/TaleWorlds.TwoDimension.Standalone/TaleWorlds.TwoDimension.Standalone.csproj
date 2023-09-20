@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-311642108208}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.TwoDimension.Standalone</RootNamespace>
+    <AssemblyName>TaleWorlds.TwoDimension.Standalone</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="StbSharp">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\StbSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FrameworkDomain.cs" />
+    <Compile Include="GraphicsContext.cs" />
+    <Compile Include="GraphicsForm.cs" />
+    <Compile Include="IMessageCommunicator.cs" />
+    <Compile Include="InputData.cs" />
+    <Compile Include="LayeredWindowController.cs" />
+    <Compile Include="Native\AutoPinner.cs" />
+    <Compile Include="Native\OpenGL\ArrayType.cs" />
+    <Compile Include="Native\OpenGL\AttribueMask.cs" />
+    <Compile Include="Native\OpenGL\BeginMode.cs" />
+    <Compile Include="Native\OpenGL\BlendingDestinationFactor.cs" />
+    <Compile Include="Native\OpenGL\BlendingSourceFactor.cs" />
+    <Compile Include="Native\OpenGL\BufferBindingTarget.cs" />
+    <Compile Include="Native\OpenGL\ContextParameter.cs" />
+    <Compile Include="Native\OpenGL\DataType.cs" />
+    <Compile Include="Native\OpenGL\HintMode.cs" />
+    <Compile Include="Native\OpenGL\MatrixMode.cs" />
+    <Compile Include="Native\OpenGL\Opengl32.cs" />
+    <Compile Include="Native\OpenGL\Opengl32ARB.cs" />
+    <Compile Include="Native\OpenGL\PixelFormat.cs" />
+    <Compile Include="Native\OpenGL\ShaderType.cs" />
+    <Compile Include="Native\OpenGL\ShadingModel.cs" />
+    <Compile Include="Native\OpenGL\Target.cs" />
+    <Compile Include="Native\OpenGL\TextureInternalFormat.cs" />
+    <Compile Include="Native\OpenGL\TextureMagFilter.cs" />
+    <Compile Include="Native\OpenGL\TextureParameterName.cs" />
+    <Compile Include="Native\OpenGL\TextureUnit.cs" />
+    <Compile Include="Native\OpenGL\TextureWrapParameter.cs" />
+    <Compile Include="Native\Windows\AlphaFormatFlags.cs" />
+    <Compile Include="Native\Windows\BitmapInfo.cs" />
+    <Compile Include="Native\Windows\BitmapInfoHeader.cs" />
+    <Compile Include="Native\Windows\BlendFunction.cs" />
+    <Compile Include="Native\Windows\BlurBehindConstraints.cs" />
+    <Compile Include="Native\Windows\Dwmapi.cs" />
+    <Compile Include="Native\Windows\DwmBlurBehind.cs" />
+    <Compile Include="Native\Windows\Gdi32.cs" />
+    <Compile Include="Native\Windows\Kernel32.cs" />
+    <Compile Include="Native\Windows\NativeMessage.cs" />
+    <Compile Include="Native\Windows\PixelFormatDescriptor.cs" />
+    <Compile Include="Native\Windows\PixelFormatDescriptorFlags.cs" />
+    <Compile Include="Native\Windows\PixelFormatDescriptorLayerTypes.cs" />
+    <Compile Include="Native\Windows\PixelFormatDescriptorPixelTypes.cs" />
+    <Compile Include="Native\Windows\Point.cs" />
+    <Compile Include="Native\Windows\User32.cs" />
+    <Compile Include="Native\Windows\WindowClass.cs" />
+    <Compile Include="Native\Windows\WindowMessage.cs" />
+    <Compile Include="Native\Windows\WindowShowStyle.cs" />
+    <Compile Include="Native\Windows\WindowStyle.cs" />
+    <Compile Include="Native\Windows\WndProc.cs" />
+    <Compile Include="OpenGLTexture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Shader.cs" />
+    <Compile Include="StandaloneInputManager.cs" />
+    <Compile Include="TwoDimensionPlatform.cs" />
+    <Compile Include="VertexArrayObject.cs" />
+    <Compile Include="WindowsForm.cs" />
+    <Compile Include="WindowsFormMessageHandler.cs" />
+    <Compile Include="WindowsFramework.cs" />
+    <Compile Include="WindowsFrameworkThreadConfig.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ee}</Project>
+      <Name>TaleWorlds.InputSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.TwoDimension\TaleWorlds.TwoDimension.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-311642108207}</Project>
+      <Name>TaleWorlds.TwoDimension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

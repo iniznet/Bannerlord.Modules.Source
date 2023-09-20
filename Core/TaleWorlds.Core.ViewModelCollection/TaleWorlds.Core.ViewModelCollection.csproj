@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081DD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.Core</RootNamespace>
+    <AssemblyName>TaleWorlds.Core.ViewModelCollection</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ImageIdentifierVM.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModelCollection\BannerEditor\BannerColorVM.cs" />
+    <Compile Include="ViewModelCollection\BannerEditor\BannerIconVM.cs" />
+    <Compile Include="ViewModelCollection\BannerEditor\BannerViewModel.cs" />
+    <Compile Include="ViewModelCollection\BattleResultVM.cs" />
+    <Compile Include="ViewModelCollection\CharacterEquipmentItemVM.cs" />
+    <Compile Include="ViewModelCollection\CharacterViewModel.cs" />
+    <Compile Include="ViewModelCollection\CharacterWithActionViewModel.cs" />
+    <Compile Include="ViewModelCollection\ControlCharacterCreationStage.cs" />
+    <Compile Include="ViewModelCollection\ControlCharacterCreationStageReturnInt.cs" />
+    <Compile Include="ViewModelCollection\ControlCharacterCreationStageWithInt.cs" />
+    <Compile Include="ViewModelCollection\ControlCharacterCreationStageWithString.cs" />
+    <Compile Include="ViewModelCollection\CraftingItemViewModel.cs" />
+    <Compile Include="ViewModelCollection\Generic\BindingListFloatItem.cs" />
+    <Compile Include="ViewModelCollection\Generic\BindingListStringItem.cs" />
+    <Compile Include="ViewModelCollection\Generic\BoolItemWithActionVM.cs" />
+    <Compile Include="ViewModelCollection\Generic\StringItemWithActionVM.cs" />
+    <Compile Include="ViewModelCollection\Generic\StringItemWithEnabledAndHintVM.cs" />
+    <Compile Include="ViewModelCollection\Generic\StringItemWithHintVM.cs" />
+    <Compile Include="ViewModelCollection\Generic\StringPairItemVM.cs" />
+    <Compile Include="ViewModelCollection\Generic\StringPairItemWithActionVM.cs" />
+    <Compile Include="ViewModelCollection\Information\BasicTooltipViewModel.cs" />
+    <Compile Include="ViewModelCollection\Information\GameNotificationItemVM.cs" />
+    <Compile Include="ViewModelCollection\Information\GameNotificationVM.cs" />
+    <Compile Include="ViewModelCollection\Information\HintViewModel.cs" />
+    <Compile Include="ViewModelCollection\Information\HintVM.cs" />
+    <Compile Include="ViewModelCollection\Information\InformationVM.cs" />
+    <Compile Include="ViewModelCollection\Information\InquiryElementVM.cs" />
+    <Compile Include="ViewModelCollection\Information\PropertyBasedTooltipVM.cs" />
+    <Compile Include="ViewModelCollection\Information\SceneNotificationVM.cs" />
+    <Compile Include="ViewModelCollection\Information\TooltipProperty.cs" />
+    <Compile Include="ViewModelCollection\ItemCollectionElementViewModel.cs" />
+    <Compile Include="ViewModelCollection\ItemVM.cs" />
+    <Compile Include="ViewModelCollection\PowerLevelComparer.cs" />
+    <Compile Include="ViewModelCollection\Selector\SelectorItemVM.cs" />
+    <Compile Include="ViewModelCollection\Selector\SelectorVM.cs" />
+    <Compile Include="ViewModelCollection\Tutorial\ElementNotificationVM.cs" />
+    <Compile Include="ViewModelCollection\Tutorial\TutorialNotificationElementChangeEvent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081dc}</Project>
+      <Name>TaleWorlds.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f1}</Project>
+      <Name>TaleWorlds.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081fc}</Project>
+      <Name>TaleWorlds.ObjectSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-311642108201}</Project>
+      <Name>TaleWorlds.PlayerServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

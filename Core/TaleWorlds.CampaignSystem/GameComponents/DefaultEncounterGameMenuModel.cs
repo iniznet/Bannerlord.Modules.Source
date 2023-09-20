@@ -1,0 +1,298 @@
+﻿using System;
+using System.Linq;
+using TaleWorlds.CampaignSystem.ComponentInterfaces;
+using TaleWorlds.CampaignSystem.Encounters;
+using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.CampaignSystem.Siege;
+using TaleWorlds.Core;
+
+namespace TaleWorlds.CampaignSystem.GameComponents
+{
+	// Token: 0x02000108 RID: 264
+	public class DefaultEncounterGameMenuModel : EncounterGameMenuModel
+	{
+		// Token: 0x0600157E RID: 5502 RVA: 0x0006548E File Offset: 0x0006368E
+		protected PartyBase GetEncounteredPartyBase(PartyBase attackerParty, PartyBase defenderParty)
+		{
+			if (attackerParty == PartyBase.MainParty || defenderParty == PartyBase.MainParty)
+			{
+				if (attackerParty != PartyBase.MainParty)
+				{
+					return attackerParty;
+				}
+				return defenderParty;
+			}
+			else
+			{
+				if (defenderParty.MapEvent == null)
+				{
+					return attackerParty;
+				}
+				return defenderParty;
+			}
+		}
+
+		// Token: 0x0600157F RID: 5503 RVA: 0x000654B8 File Offset: 0x000636B8
+		public override string GetEncounterMenu(PartyBase attackerParty, PartyBase defenderParty, out bool startBattle, out bool joinBattle)
+		{
+			PartyBase encounteredPartyBase = this.GetEncounteredPartyBase(attackerParty, defenderParty);
+			joinBattle = false;
+			startBattle = false;
+			if (defenderParty == null)
+			{
+				return "camp";
+			}
+			if (encounteredPartyBase.IsSettlement)
+			{
+				Settlement settlement = encounteredPartyBase.Settlement;
+				if (settlement.IsVillage)
+				{
+					if (encounteredPartyBase.MapEvent != null && encounteredPartyBase.MapEvent.IsRaid)
+					{
+						if (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && encounteredPartyBase.MapEvent.AttackerSide.LeaderParty == MobileParty.MainParty.Army.LeaderParty.Party && encounteredPartyBase.MapEvent.DefenderSide.TroopCount <= 0)
+						{
+							joinBattle = true;
+							if (!encounteredPartyBase.MapEvent.IsRaid)
+							{
+								return "army_wait";
+							}
+							return "raiding_village";
+						}
+						else
+						{
+							if ((MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && attackerParty == MobileParty.MainParty.Army.LeaderParty.Party) || (MobileParty.MainParty.CurrentSettlement == settlement && MobileParty.MainParty.MapFaction == settlement.MapFaction))
+							{
+								joinBattle = true;
+								return "encounter";
+							}
+							return "join_encounter";
+						}
+					}
+					else
+					{
+						if (settlement.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army != null && attackerParty == MobileParty.MainParty.Army.LeaderParty.Party && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty)
+						{
+							return "army_wait_at_settlement";
+						}
+						return "village_outside";
+					}
+				}
+				else if (settlement.IsFortification)
+				{
+					if (PlayerSiege.PlayerSiegeEvent != null && PlayerSiege.PlayerSide == BattleSideEnum.Defender && settlement.Party.MapEvent == null)
+					{
+						return "menu_siege_strategies";
+					}
+					if (settlement.Party.SiegeEvent != null && ((settlement.Party.MapEvent == null && (settlement.Town.GarrisonParty == null || settlement.Town.GarrisonParty.MapEvent == null || settlement.Town.GarrisonParty.MapEvent.IsSallyOut)) || MobileParty.MainParty.MapFaction == settlement.MapFaction))
+					{
+						if (settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
+						{
+							return "continue_siege_after_attack";
+						}
+						if (MobileParty.MainParty.BesiegedSettlement == null && MobileParty.MainParty.CurrentSettlement == null)
+						{
+							if (settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent != null && settlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty.MapEvent.IsSiegeOutside)
+							{
+								return "join_encounter";
+							}
+							return "join_siege_event";
+						}
+					}
+					if (settlement.Party.MapEvent != null)
+					{
+						if ((MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && attackerParty == MobileParty.MainParty.Army.LeaderParty.Party) || (MobileParty.MainParty.CurrentSettlement == settlement && MobileParty.MainParty.MapFaction == settlement.MapFaction))
+						{
+							return "encounter";
+						}
+						return "join_encounter";
+					}
+					else
+					{
+						if (settlement.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && !settlement.SettlementComponent.IsTaken)
+						{
+							return "army_wait_at_settlement";
+						}
+						if (settlement.SettlementComponent.IsTaken)
+						{
+							return "menu_settlement_taken";
+						}
+						if (settlement.IsCastle)
+						{
+							return "castle_outside";
+						}
+						return "town_outside";
+					}
+				}
+				else
+				{
+					if (settlement.IsHideout)
+					{
+						return "hideout_place";
+					}
+					if (settlement.SettlementComponent is RetirementSettlementComponent)
+					{
+						return "retirement_place";
+					}
+					return "";
+				}
+			}
+			else if (encounteredPartyBase.MapEvent != null)
+			{
+				if (MobileParty.MainParty.CurrentSettlement != null || (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty))
+				{
+					joinBattle = true;
+					return "encounter";
+				}
+				if (encounteredPartyBase.SiegeEvent != null && encounteredPartyBase.MapEvent.IsSiegeAssault)
+				{
+					return "join_siege_event";
+				}
+				return "join_encounter";
+			}
+			else
+			{
+				if (encounteredPartyBase.IsMobile && ((encounteredPartyBase.MobileParty.IsGarrison && MobileParty.MainParty.BesiegedSettlement != null) || (MobileParty.MainParty.CurrentSettlement != null && encounteredPartyBase.MobileParty.BesiegedSettlement == MobileParty.MainParty.CurrentSettlement)))
+				{
+					startBattle = true;
+					joinBattle = false;
+					return "encounter";
+				}
+				if (encounteredPartyBase.IsMobile)
+				{
+					return "encounter_meeting";
+				}
+				return null;
+			}
+		}
+
+		// Token: 0x06001580 RID: 5504 RVA: 0x0006592B File Offset: 0x00063B2B
+		public override string GetRaidCompleteMenu()
+		{
+			return "village_loot_complete";
+		}
+
+		// Token: 0x06001581 RID: 5505 RVA: 0x00065934 File Offset: 0x00063B34
+		public override string GetNewPartyJoinMenu(MobileParty newParty)
+		{
+			if (!PartyBase.MainParty.MapEvent.IsRaid || PartyBase.MainParty.MapEvent.AttackerSide.LeaderParty.MapFaction == PartyBase.MainParty.MapEvent.MapEventSettlement.MapFaction)
+			{
+				return null;
+			}
+			if (MobileParty.MainParty.CurrentSettlement != null || (MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty))
+			{
+				return "encounter";
+			}
+			return "join_encounter";
+		}
+
+		// Token: 0x06001582 RID: 5506 RVA: 0x000659BC File Offset: 0x00063BBC
+		public override string GetGenericStateMenu()
+		{
+			MobileParty mainParty = MobileParty.MainParty;
+			if (PlayerEncounter.Current != null && PlayerEncounter.CurrentBattleSimulation != null)
+			{
+				return null;
+			}
+			if (mainParty.MapEvent != null)
+			{
+				return "encounter";
+			}
+			if (mainParty.BesiegerCamp != null)
+			{
+				return "menu_siege_strategies";
+			}
+			if (mainParty.AttachedTo == null)
+			{
+				if (mainParty.CurrentSettlement != null)
+				{
+					Settlement currentSettlement = mainParty.CurrentSettlement;
+					if (currentSettlement.IsFortification)
+					{
+						if (currentSettlement.Party.SiegeEvent != null && ((currentSettlement.Party.MapEvent == null && (currentSettlement.Town.GarrisonParty == null || currentSettlement.Town.GarrisonParty.MapEvent == null)) || MobileParty.MainParty.MapFaction == currentSettlement.MapFaction))
+						{
+							if (currentSettlement.Party.SiegeEvent.BesiegerCamp.BesiegerParty == MobileParty.MainParty)
+							{
+								return "continue_siege_after_attack";
+							}
+							if (MobileParty.MainParty.BesiegedSettlement == null && MobileParty.MainParty.CurrentSettlement == null)
+							{
+								return "join_siege_event";
+							}
+							if (mainParty.CurrentSettlement.Party.MapEvent != null && mainParty.CurrentSettlement.Party.MapEvent.InvolvedParties.Contains(PartyBase.MainParty))
+							{
+								return "encounter";
+							}
+							if (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting)
+							{
+								return "encounter_interrupted_siege_preparations";
+							}
+							return "menu_siege_strategies";
+						}
+						else if (currentSettlement.Party.MapEvent != null)
+						{
+							if (MobileParty.MainParty.MapFaction == currentSettlement.MapFaction)
+							{
+								return "encounter";
+							}
+							return "join_encounter";
+						}
+						else
+						{
+							if (currentSettlement.MapFaction == MobileParty.MainParty.MapFaction && MobileParty.MainParty.Army != null && MobileParty.MainParty.Army.LeaderParty != MobileParty.MainParty && !currentSettlement.SettlementComponent.IsTaken)
+							{
+								return "army_wait_at_settlement";
+							}
+							if (currentSettlement.SettlementComponent.IsTaken)
+							{
+								return "menu_settlement_taken";
+							}
+							if (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting && currentSettlement.IsFortification)
+							{
+								return "town_wait_menus";
+							}
+							if (currentSettlement.IsCastle)
+							{
+								return "castle_outside";
+							}
+							return "town_outside";
+						}
+					}
+					else if (currentSettlement.IsHideout)
+					{
+						return "hideout_place";
+					}
+				}
+				else if (Settlement.CurrentSettlement != null)
+				{
+					Settlement currentSettlement2 = Settlement.CurrentSettlement;
+					if (currentSettlement2.IsVillage)
+					{
+						if (currentSettlement2.IsUnderRaid)
+						{
+							return "encounter_interrupted_raid_started";
+						}
+						if (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting)
+						{
+							return "village_wait_menus";
+						}
+					}
+				}
+				return null;
+			}
+			if ((mainParty.AttachedTo.CurrentSettlement != null && !mainParty.AttachedTo.CurrentSettlement.IsUnderSiege) || (mainParty.AttachedTo.LastVisitedSettlement != null && mainParty.AttachedTo.LastVisitedSettlement.IsVillage && mainParty.AttachedTo.LastVisitedSettlement.Position2D.DistanceSquared(mainParty.AttachedTo.Position2D) < 1f))
+			{
+				return "army_wait_at_settlement";
+			}
+			if (mainParty.AttachedTo.CurrentSettlement == null || !mainParty.AttachedTo.CurrentSettlement.IsUnderSiege)
+			{
+				return "army_wait";
+			}
+			if (PlayerEncounter.Current != null && PlayerEncounter.Current.IsPlayerWaiting)
+			{
+				return "encounter_interrupted_siege_preparations";
+			}
+			return "menu_siege_strategies";
+		}
+	}
+}

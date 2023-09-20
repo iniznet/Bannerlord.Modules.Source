@@ -1,0 +1,431 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.MountAndBlade.Diamond</RootNamespace>
+    <AssemblyName>TaleWorlds.MountAndBlade.Diamond</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Announcement.cs" />
+    <Compile Include="AnnouncementType.cs" />
+    <Compile Include="AnotherPlayerData.cs" />
+    <Compile Include="AnotherPlayerState.cs" />
+    <Compile Include="AvailableCustomGames.cs" />
+    <Compile Include="AvailableScenes.cs" />
+    <Compile Include="BannerlordConfig.cs" />
+    <Compile Include="BattleJoinType.cs" />
+    <Compile Include="BattlePeer.cs" />
+    <Compile Include="BattlePeerQuitType.cs" />
+    <Compile Include="BattlePlayerEntry.cs" />
+    <Compile Include="BattlePlayerStatsBase.cs" />
+    <Compile Include="BattlePlayerStatsBattle.cs" />
+    <Compile Include="BattlePlayerStatsCaptain.cs" />
+    <Compile Include="BattlePlayerStatsDuel.cs" />
+    <Compile Include="BattlePlayerStatsSiege.cs" />
+    <Compile Include="BattlePlayerStatsSkirmish.cs" />
+    <Compile Include="BattlePlayerStatsTeamDeathmatch.cs" />
+    <Compile Include="BattleResult.cs" />
+    <Compile Include="BattleServer.cs" />
+    <Compile Include="BattleServerInformationForClient.cs" />
+    <Compile Include="ChatChannelType.cs" />
+    <Compile Include="ChatManager.cs" />
+    <Compile Include="ChatRoomInformationForClient.cs" />
+    <Compile Include="ClanAnnouncement.cs" />
+    <Compile Include="ClanCreationAnswer.cs" />
+    <Compile Include="ClanCreationPlayerData.cs" />
+    <Compile Include="ClanCreationProgress.cs" />
+    <Compile Include="ClanHomeInfo.cs" />
+    <Compile Include="ClanInfo.cs" />
+    <Compile Include="ClanLeaderboardEntry.cs" />
+    <Compile Include="ClanLeaderboardInfo.cs" />
+    <Compile Include="ClanPlayer.cs" />
+    <Compile Include="ClanPlayerInfo.cs" />
+    <Compile Include="ClanPlayerRole.cs" />
+    <Compile Include="ClanStats.cs" />
+    <Compile Include="CosmeticItemInfo.cs" />
+    <Compile Include="CosmeticsManager.cs" />
+    <Compile Include="CustomBattleId.cs" />
+    <Compile Include="CustomBattleServer.cs" />
+    <Compile Include="CustomGameJoinResponse.cs" />
+    <Compile Include="DisconnectInfo.cs" />
+    <Compile Include="DisconnectType.cs" />
+    <Compile Include="Feature.cs" />
+    <Compile Include="Features.cs" />
+    <Compile Include="FriendInfo.cs" />
+    <Compile Include="FriendStatus.cs" />
+    <Compile Include="GameLog.cs" />
+    <Compile Include="GameLogType.cs" />
+    <Compile Include="GameServerEntry.cs" />
+    <Compile Include="GameServerProperties.cs" />
+    <Compile Include="Gatekeeper.cs" />
+    <Compile Include="IBadgeComponent.cs" />
+    <Compile Include="IBattleServerSessionHandler.cs" />
+    <Compile Include="IChatClientHandler.cs" />
+    <Compile Include="ICustomBattleServerSessionHandler.cs" />
+    <Compile Include="ILobbyClientSessionHandler.cs" />
+    <Compile Include="InteractionType.cs" />
+    <Compile Include="InventoryData.cs" />
+    <Compile Include="InventoryItemType.cs" />
+    <Compile Include="ItemData.cs" />
+    <Compile Include="ItemInnerData.cs" />
+    <Compile Include="ItemList.cs" />
+    <Compile Include="ItemType.cs" />
+    <Compile Include="JoinGameData.cs" />
+    <Compile Include="LobbyClient.cs" />
+    <Compile Include="LobbyClientConnectResult.cs" />
+    <Compile Include="LobbyNotification.cs" />
+    <Compile Include="MatchmakingQueueGameTypeStats.cs" />
+    <Compile Include="MatchmakingQueueRegionStats.cs" />
+    <Compile Include="MatchmakingQueueStats.cs" />
+    <Compile Include="MatchmakingWaitTimeRegionStats.cs" />
+    <Compile Include="MatchmakingWaitTimeStats.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\BattleReadyResponseMessage.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\BattleServerReadyResponseMessage.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\FriendlyDamageKickPlayerResponseMessage.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\NewPlayerMessage.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\PlayerDisconnectedFromLobbyMessage.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\PlayerFledBattleMessage.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\RequestMaxAllowedPriorityResponse.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\StartBattleMessage.cs" />
+    <Compile Include="Messages\FromBattleServerManager\ToBattleServer\TerminateOperationMatchmakingMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleCancelledDueToPlayerQuitMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleEndedMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleEndingMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleInitializedMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleReadyMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleServerReadyMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleServerStatsUpdateMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\BattleStartedMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\FriendlyDamageKickPlayerMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\KickPlayerMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\NewPlayerResponseMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\PlayerDisconnectedMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\PlayerFledBattleAnswerMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\RequestMaxAllowedPriorityMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\SendBattleResultToPlayerMessage.cs" />
+    <Compile Include="Messages\FromBattleServer\ToBattleServerManager\StopAcceptingNewPlayersMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AcceptClanCreationRequestMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AcceptClanInvitationMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AcceptJoinPremadeGameRequestMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AcceptPartyInvitationMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AddClanAnnouncementMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AddFriendByUsernameAndIdMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AddFriendMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\AssignAsClanOfficerMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\BattleResultSeenMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\BuyCosmeticMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\CancelBattleRequestMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\CancelCreatingPremadeGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ChangeClanFactionMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ChangeClanSigilMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ChangeGameTypesMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ChangePlayerSigilMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ChangeRegionMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ChangeUsernameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ChannelMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\CheckClanNameValidMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\CheckClanTagValidMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ClanGameCreationCancelledMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ClanMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ClientDisconnectedMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\CreateClanMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\CreatePremadeGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\DeclineClanCreationRequestMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\DeclineClanInvitationMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\DeclineJoinPremadeGameRequestMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\DeclinePartyInvitationMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\DestroyClanMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\DisbandPartyMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\EditClanAnnouncementMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\EndHostingCustomGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\FindGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\FriendRequestResponseMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetAnotherPlayerDataMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetAnotherPlayerStateMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetAvailableScenesMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetAverageMatchmakingWaitTimesMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetBannerlordIDMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetClanHomeInfoMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetClanLeaderboardMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetDedicatedCustomServerAuthTokenMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetFriendListMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetOfficialServerProviderNameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetOtherPlayersStateMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetPlayerBadgesMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetPlayerByUsernameAndIdMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetPlayerClanInfo.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetPlayerCountInQueue.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetPlayerGameTypeRankInfoMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetPlayerStatsMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetPremadeGameListMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetRankedLeaderboardMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetRecentPlayersStatusMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetServerStatusMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\GetUserCosmeticsInfoMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\InitializeSession.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\InviteToClanMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\InviteToGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\InviteToPartyMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\JoinChannelMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\KickFromClanMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\KickPlayerFromPartyMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\LeaveChannelMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\PartyMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\PromotePlayerToPartyLeaderMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\PSPlayerJoinedToPlayerSessionMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\PSPlayerJoinedToPlayerSessionMessageResult.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\QuitFromCustomGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\QuitFromMatchmakerGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RegisterCustomGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RejoinBattleRequestMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RemoveClanAnnouncementMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RemoveClanOfficerRoleForPlayerMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RemoveFriendMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ReportPlayerMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RequestCustomGameServerListMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RequestJoinCustomGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\RequestToJoinPremadeGameMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\ResponseCustomGameClientConnectionMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\SetClanInformationMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\Test_AddChatRoomUser.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\Test_CreateChatRoomMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\Test_DeleteChatRoomMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\Test_RemoveChatRoomUser.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\UpdateCharacterMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\UpdateNotificationsMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\UpdateShownBadgeIdMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\UpdateUsedCosmeticItemsMessage.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\UpdateUsingClanSigil.cs" />
+    <Compile Include="Messages\FromClient\ToLobbyServer\WhisperMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\ClientQuitFromCustomGameMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\ClientWantsToConnectCustomGameMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\CustomBattleServerReadyResponseMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\CustomBattleServerStatsUpdateMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\RegisterCustomGameMessageResponseMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\ResponseCustomGameClientConnectionMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\SetChatFilterListsMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServerManager\ToCustomBattleServer\TerminateOperationCustomMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\AddGameLogsMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\CustomBattleFinishedMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\CustomBattleServerFinishingMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\CustomBattleServerReadyMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\CustomBattleStartedMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\PlayerDisconnectedMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\RegisterCustomGameMessage.cs" />
+    <Compile Include="Messages\FromCustomBattleServer\ToCustomBattleServerManager\UpdateGamePropertiesMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\AdminMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\BattleOverMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\BattleResultMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\BattleServerLostMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\BuyCosmeticMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CancelBattleResponseMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CancelFindGameMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ChannelMessageReceivedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ChatRoomClosedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CheckClanParameterValidResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CheckClanTagValidResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClanCreationFailedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClanCreationRequestAnsweredMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClanCreationRequestMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClanCreationSuccessfulMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClanDisbandedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClanInfoChangedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClanMessageReceivedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClientQuitFromCustomGameMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ClientWantsToConnectCustomGameMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CreateClanAnswerMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CreatePremadeGameAnswerMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CreatePremadeGameMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CustomBattleOverMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\CustomGameServerListResponse.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\DisconnectedFromChatRoomMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\EndHostingCustomGameResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\EnterBattleWithPartyAnswer.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\EnterCustomBattleWithPartyAnswer.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\FindGameAnswerMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\FriendListMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetAnotherPlayerDataMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetAnotherPlayerStateMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetAvailableScenesResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetAverageMatchmakingWaitTimesResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetBannerlordIDMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetClanHomeInfoResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetClanLeaderboardResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetDedicatedCustomServerAuthTokenMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetOfficialServerProviderNameResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetOtherPlayersStateMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetPlayerBadgesMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetPlayerByUsernameAndIdMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetPlayerClanInfoResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetPlayerCountInQueueResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetPlayerGameTypeRankInfoMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetPlayerStatsMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetPremadeGameListResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetRankedLeaderboardMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\GetUserCosmeticsInfoMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\InitializeSessionResponse.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\InvitationToClanMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\InvitationToPartyMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\InvitedPlayerOnlineMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\JoinBattleMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\JoinChatRoomMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\JoinCustomGameResultMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\JoinPremadeGameAnswerMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\JoinPremadeGameRequestMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\JoinPremadeGameRequestResultMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\KickedFromClanMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\LobbyNotificationsMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\MatchmakerDisabledMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PartyInvitationInvalidMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PartyMessageReceivedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PendingBattleRejoinMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerAssignedPartyLeaderMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerInvitedToPartyMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerMMRUpdateMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerQuitFromMatchmakerGameResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerRemovedFromCustomGame.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerRemovedFromMatchmakerGame.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerRemovedFromPartyMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayersAddedToPartyMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PlayerSuggestedToPartyMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PremadeGameEligibilityStatusMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\PromoteToClanLeaderMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\RecentPlayerStatusesMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\RegisterCustomGameResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\RejoinBattleRequestAnswerMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\RejoinRequestRejectedMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ServerStatusMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\ShowAnnouncementMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\SigilChangeAnswerMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\SystemMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\UpdatePlayerDataMessage.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\UpdateShownBadgeIdMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\UpdateUsedCosmeticItemsMessageResult.cs" />
+    <Compile Include="Messages\FromLobbyServer\ToClient\WhisperReceivedMessage.cs" />
+    <Compile Include="Messages\PeerTypes.cs" />
+    <Compile Include="ModuleInfoModel.cs" />
+    <Compile Include="ModuleInfoModelExtensions.cs" />
+    <Compile Include="MultiplayerBadges\Badge.cs" />
+    <Compile Include="MultiplayerBadges\BadgeCondition.cs" />
+    <Compile Include="MultiplayerBadges\BadgeManager.cs" />
+    <Compile Include="MultiplayerBadges\BadgeOwnerKillTracker.cs" />
+    <Compile Include="MultiplayerBadges\BadgeType.cs" />
+    <Compile Include="MultiplayerBadges\ConditionalBadge.cs" />
+    <Compile Include="MultiplayerBadges\ConditionGroupType.cs" />
+    <Compile Include="MultiplayerBadges\ConditionType.cs" />
+    <Compile Include="MultiplayerBadges\ConditionValueType.cs" />
+    <Compile Include="MultiplayerBadges\GameBadgeTracker.cs" />
+    <Compile Include="MultiplayerBadges\KillData.cs" />
+    <Compile Include="MultiplayerBadges\KillTracker.cs" />
+    <Compile Include="MultipleBattleResult.cs" />
+    <Compile Include="NotEnoughPlayersInfo.cs" />
+    <Compile Include="NotificationType.cs" />
+    <Compile Include="Parameters.cs" />
+    <Compile Include="PartyPlayerInLobbyClient.cs" />
+    <Compile Include="PartyRemoveReason.cs" />
+    <Compile Include="PermaMuteList.cs" />
+    <Compile Include="PlayerBattleInfo.cs" />
+    <Compile Include="PlayerBattleServerInformation.cs" />
+    <Compile Include="PlayerData.cs" />
+    <Compile Include="PlayerDataExperience.cs" />
+    <Compile Include="PlayerJoinGameData.cs" />
+    <Compile Include="PlayerJoinGameResponseDataFromHost.cs" />
+    <Compile Include="PlayerLeaderboardData.cs" />
+    <Compile Include="PlayerNotEligibleError.cs" />
+    <Compile Include="PlayerNotEligibleInfo.cs" />
+    <Compile Include="PlayerReportType.cs" />
+    <Compile Include="PlayerSessionId.cs" />
+    <Compile Include="PlayerStatsBase.cs" />
+    <Compile Include="PlayerStatsBattle.cs" />
+    <Compile Include="PlayerStatsCaptain.cs" />
+    <Compile Include="PlayerStatsDuel.cs" />
+    <Compile Include="PlayerStatsRanked.cs" />
+    <Compile Include="PlayerStatsSiege.cs" />
+    <Compile Include="PlayerStatsSkirmish.cs" />
+    <Compile Include="PlayerStatsTeamDeathmatch.cs" />
+    <Compile Include="PremadeGameEntry.cs" />
+    <Compile Include="PremadeGameList.cs" />
+    <Compile Include="PremadeGameType.cs" />
+    <Compile Include="Progress.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Ranked\GameTypeRankInfo.cs" />
+    <Compile Include="Ranked\RankBarInfo.cs" />
+    <Compile Include="Ranked\Ranks.cs" />
+    <Compile Include="RecentPlayerInfo.cs" />
+    <Compile Include="RecentPlayersManager.cs" />
+    <Compile Include="ServerInfoMessage.cs" />
+    <Compile Include="ServerInfoMessageExtensions.cs" />
+    <Compile Include="ServerNotification.cs" />
+    <Compile Include="ServerNotificationType.cs" />
+    <Compile Include="ServerStatus.cs" />
+    <Compile Include="StringValidationError.cs" />
+    <Compile Include="SupportedFeatures.cs" />
+    <Compile Include="WaitTimeStatType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081dc}</Project>
+      <Name>TaleWorlds.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Diamond.ChatSystem.Library\TaleWorlds.Diamond.ChatSystem.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081e3}</Project>
+      <Name>TaleWorlds.Diamond.ChatSystem.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Diamond\TaleWorlds.Diamond.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081e4}</Project>
+      <Name>TaleWorlds.Diamond</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f1}</Project>
+      <Name>TaleWorlds.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.ModuleManager\TaleWorlds.ModuleManager.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f2}</Project>
+      <Name>TaleWorlds.ModuleManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.PlayerServices\TaleWorlds.PlayerServices.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-311642108201}</Project>
+      <Name>TaleWorlds.PlayerServices</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

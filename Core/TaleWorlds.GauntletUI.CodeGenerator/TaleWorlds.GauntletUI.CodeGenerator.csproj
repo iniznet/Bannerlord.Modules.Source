@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081E8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.GauntletUI.CodeGenerator</RootNamespace>
+    <AssemblyName>TaleWorlds.GauntletUI.CodeGenerator</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BindingPathTargetDetails.cs" />
+    <Compile Include="ConstantGenerationContext.cs" />
+    <Compile Include="GeneratedBindCommandInfo.cs" />
+    <Compile Include="GeneratedBindCommandParameterInfo.cs" />
+    <Compile Include="GeneratedBindDataInfo.cs" />
+    <Compile Include="ParameterGenerationContext.cs" />
+    <Compile Include="PrefabDependency.cs" />
+    <Compile Include="PrefabDependencyContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UICodeGenerationContext.cs" />
+    <Compile Include="UICodeGenerationDatabindingVariantExtension.cs" />
+    <Compile Include="UICodeGenerationVariantExtension.cs" />
+    <Compile Include="VariableCollection.cs" />
+    <Compile Include="WidgetCodeGenerationInfo.cs" />
+    <Compile Include="WidgetCodeGenerationInfoChildSearchResult.cs" />
+    <Compile Include="WidgetCodeGenerationInfoDatabindingExtension.cs" />
+    <Compile Include="WidgetCodeGenerationInfoExtension.cs" />
+    <Compile Include="WidgetTemplateGenerateContext.cs" />
+    <Compile Include="WidgetTemplateGenerateContextType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.GauntletUI.Data\TaleWorlds.GauntletUI.Data.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081e9}</Project>
+      <Name>TaleWorlds.GauntletUI.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.GauntletUI.PrefabSystem\TaleWorlds.GauntletUI.PrefabSystem.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ec}</Project>
+      <Name>TaleWorlds.GauntletUI.PrefabSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.GauntletUI\TaleWorlds.GauntletUI.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ea}</Project>
+      <Name>TaleWorlds.GauntletUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.TwoDimension\TaleWorlds.TwoDimension.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-311642108207}</Project>
+      <Name>TaleWorlds.TwoDimension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

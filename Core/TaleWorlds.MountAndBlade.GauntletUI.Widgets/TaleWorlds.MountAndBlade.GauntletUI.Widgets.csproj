@@ -1,0 +1,436 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.MountAndBlade.GauntletUI.Widgets</RootNamespace>
+    <AssemblyName>TaleWorlds.MountAndBlade.GauntletUI.Widgets</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>E:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\bin\Win64_Shipping_Client\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AutoHideRichTextWidget.cs" />
+    <Compile Include="AutoHideTextWidget.cs" />
+    <Compile Include="AutoHideZeroTextWidget.cs" />
+    <Compile Include="BannerIconTextureWidget.cs" />
+    <Compile Include="BannerlordCustomWidgetManager.cs" />
+    <Compile Include="Barter\BarterItemCountControlButtonWidget.cs" />
+    <Compile Include="Barter\BarterItemCountTextWidget.cs" />
+    <Compile Include="Barter\BarterItemVisualBrushWidget.cs" />
+    <Compile Include="Barter\BarterTupleItemButtonWidget.cs" />
+    <Compile Include="BoardGame\BoardGameInstructionVisualWidget.cs" />
+    <Compile Include="BoolBrushChangerBrushWidget.cs" />
+    <Compile Include="BoolStateChangerWidget.cs" />
+    <Compile Include="BrightnessDemoWidget.cs" />
+    <Compile Include="ChangeAmountTextWidget.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationGenericStageScreenWidget.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationStageSelectionBarListPanel.cs" />
+    <Compile Include="CharacterCreation\Culture\CharacterCreationBackgroundGradientBrushWidget.cs" />
+    <Compile Include="CharacterCreation\Culture\CharacterCreationCultureVisualBrushWidget.cs" />
+    <Compile Include="CharacterCreation\Culture\CharacterCreationFirstStageFadeOutWidget.cs" />
+    <Compile Include="CharacterCreation\Options\CharacterCreationOptionsItemWidget.cs" />
+    <Compile Include="CharacterDeveloper\CharacterDeveloperAttributeInspectionPopupWidget.cs" />
+    <Compile Include="CharacterDeveloper\CharacterDeveloperPerksContainerWidget.cs" />
+    <Compile Include="CharacterDeveloper\CharacterDeveloperPerkSelectionItemButtonWidget.cs" />
+    <Compile Include="CharacterDeveloper\CharacterDeveloperPerkSelectionWidget.cs" />
+    <Compile Include="CharacterDeveloper\CharacterDeveloperSkillVerticalSeperatorWidget.cs" />
+    <Compile Include="CharacterDeveloper\PerkItemButtonWidget.cs" />
+    <Compile Include="CharacterDeveloper\PerkSelectionBarWidget.cs" />
+    <Compile Include="CharacterDeveloper\SkillGridItemButtonWidget.cs" />
+    <Compile Include="CharacterDeveloper\SkillPointsContainerListPanel.cs" />
+    <Compile Include="CharacterDeveloper\SkillProgressFillBarWidget.cs" />
+    <Compile Include="CharacterTableauWidget.cs" />
+    <Compile Include="Chat\ChatCollapsableListPanel.cs" />
+    <Compile Include="Chat\ChatLogItemWidget.cs" />
+    <Compile Include="Chat\ChatLogWidget.cs" />
+    <Compile Include="CircleLoadingAnimWidget.cs" />
+    <Compile Include="CircularAutoScrollablePanelWidget.cs" />
+    <Compile Include="Clan\ClanFinancePaymentSliderWidget.cs" />
+    <Compile Include="Clan\ClanFinanceTextWidget.cs" />
+    <Compile Include="Clan\ClanLordStatusWidget.cs" />
+    <Compile Include="Clan\ClanPartyRoleSelectionPopupWidget.cs" />
+    <Compile Include="Clan\ClanPartyRoleSelectionToggleWidget.cs" />
+    <Compile Include="Clan\ClanScreenWidget.cs" />
+    <Compile Include="Clan\ClanWorkshopTypeVisualBrushWidget.cs" />
+    <Compile Include="ClickableCharacterTableauWidget.cs" />
+    <Compile Include="ColorButtonWidget.cs" />
+    <Compile Include="ContainerPageControlButtonListWidget.cs" />
+    <Compile Include="ContainerPageControlWidget.cs" />
+    <Compile Include="ContextMenuBrushWidget.cs" />
+    <Compile Include="ContextMenuItemWidget.cs" />
+    <Compile Include="Conversation\ConversationAnswersContainerWidget.cs" />
+    <Compile Include="Conversation\ConversationItemImageWidget.cs" />
+    <Compile Include="Conversation\ConversationNameButtonWidget.cs" />
+    <Compile Include="Conversation\ConversationOptionListPanel.cs" />
+    <Compile Include="Conversation\ConversationPersuasionProgressRichTextWidget.cs" />
+    <Compile Include="Conversation\ConversationScreenButtonWidget.cs" />
+    <Compile Include="Conversation\PersuasionResultChanceContainerListPanel.cs" />
+    <Compile Include="CounterTextBrushWidget.cs" />
+    <Compile Include="Crafting\CardSelectionPopupButtonWidget.cs" />
+    <Compile Include="Crafting\CraftedWeaponDesignResultListPanel.cs" />
+    <Compile Include="Crafting\CraftingCardHighlightBrushWidget.cs" />
+    <Compile Include="Crafting\CraftingDifficultyBarParentWidget.cs" />
+    <Compile Include="Crafting\CraftingItemStatSliderWidget.cs" />
+    <Compile Include="Crafting\CraftingMaterialVisualBrushWidget.cs" />
+    <Compile Include="Crafting\CraftingPieceItemButtonWidget.cs" />
+    <Compile Include="Crafting\CraftingPieceItemImageWidget.cs" />
+    <Compile Include="Crafting\CraftingPieceTypeSelectorButtonWidget.cs" />
+    <Compile Include="Crafting\CraftingScreenWidget.cs" />
+    <Compile Include="Crafting\CraftingWeaponTypeIconWidget.cs" />
+    <Compile Include="Credits\CreditsItemWidget.cs" />
+    <Compile Include="Credits\CreditsWidget.cs" />
+    <Compile Include="CustomBattle\CustomBattleSliderLockButtonWidget.cs" />
+    <Compile Include="DebugValueUpdateSlider.cs" />
+    <Compile Include="DoubleTabControlListPanel.cs" />
+    <Compile Include="DropdownButtonWidget.cs" />
+    <Compile Include="EncyclopediaTroopScrollablePanel.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaCharacterTableauWidget.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaDividerButtonWidget.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaFilterListItemButtonWidget.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaHeroTraitVisualWidget.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaListItemButtonWidget.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaListWidget.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaSearchBarBrushWidget.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaUnitTreeNodeItemBrushWidget.cs" />
+    <Compile Include="EquipmentTypeVisualBrushWidget.cs" />
+    <Compile Include="EscapeMenu\EscapeMenuButtonWidget.cs" />
+    <Compile Include="FiefStatTypeVisualBrushWidget.cs" />
+    <Compile Include="GameMenuItemWidget.cs" />
+    <Compile Include="GameMenu\GameMenuTroopSelectionItemButtonWidget.cs" />
+    <Compile Include="GameMenu\GameMenuWidget.cs" />
+    <Compile Include="GameMenu\SettlementMenuPartyCharacterListsButtonWidget.cs" />
+    <Compile Include="GameOver\GameOverCategoryIconBrushWidget.cs" />
+    <Compile Include="GameOver\GameOverScreenWidget.cs" />
+    <Compile Include="GamepadCursorMarkerWidget.cs" />
+    <Compile Include="GamepadCursorParentWidget.cs" />
+    <Compile Include="GamepadCursorWidget.cs" />
+    <Compile Include="GatherArmy\BoostCohesionPopupWidget.cs" />
+    <Compile Include="GatherArmy\BoostItemButtonWidget.cs" />
+    <Compile Include="GatherArmy\GatherArmyTupleButtonWidget.cs" />
+    <Compile Include="HintWidget.cs" />
+    <Compile Include="HoverToggleWidget.cs" />
+    <Compile Include="IconOffsetButtonWidget.cs" />
+    <Compile Include="ImageIdentifierWidget.cs" />
+    <Compile Include="Information\GameNotificationWidget.cs" />
+    <Compile Include="Information\MultiSelectionElementsWidget.cs" />
+    <Compile Include="Information\TooltipPropertyWidget.cs" />
+    <Compile Include="Information\TooltipWidget.cs" />
+    <Compile Include="InitialMenuAnimControllerWidget.cs" />
+    <Compile Include="Inventory\InventoryAlternativeUsageContainer.cs" />
+    <Compile Include="Inventory\InventoryBooleanRadioListPanel.cs" />
+    <Compile Include="Inventory\InventoryCenterPanelWidget.cs" />
+    <Compile Include="Inventory\InventoryEquippedItemControlsBrushWidget.cs" />
+    <Compile Include="Inventory\InventoryEquippedItemSlotWidget.cs" />
+    <Compile Include="Inventory\InventoryImageIdentifierWidget.cs" />
+    <Compile Include="Inventory\InventoryItemButtonWidget.cs" />
+    <Compile Include="Inventory\InventoryItemPreviewWidget.cs" />
+    <Compile Include="Inventory\InventoryItemTupleWidget.cs" />
+    <Compile Include="Inventory\InventoryItemValueTextWidget.cs" />
+    <Compile Include="Inventory\InventoryListPanel.cs" />
+    <Compile Include="Inventory\InventoryScreenWidget.cs" />
+    <Compile Include="Inventory\InventoryTransferButtonWidget.cs" />
+    <Compile Include="Inventory\InventoryTupleExtensionControlsWidget.cs" />
+    <Compile Include="Inventory\InventoryTwoWaySliderWidget.cs" />
+    <Compile Include="ItemTableauWidget.cs" />
+    <Compile Include="ItemTypeVisualBrushWidget.cs" />
+    <Compile Include="Kingdom\DecisionSupporterGridWidget.cs" />
+    <Compile Include="Kingdom\DecisionSupportStrengthListPanel.cs" />
+    <Compile Include="Kingdom\KingdomCardItemContainerWidget.cs" />
+    <Compile Include="Kingdom\KingdomClanTypeVisualBrushWidget.cs" />
+    <Compile Include="Kingdom\KingdomDecisionFactionTypeVisualBrushWidget.cs" />
+    <Compile Include="Kingdom\KingdomDecisionOptionWidget.cs" />
+    <Compile Include="Kingdom\KingdomDecisionPopupWidget.cs" />
+    <Compile Include="Kingdom\KingdomTabControlListPanel.cs" />
+    <Compile Include="Kingdom\KingdomTributeIconWidget.cs" />
+    <Compile Include="ListPanelDropdownWidget.cs" />
+    <Compile Include="Loading\LoadingWindowWidget.cs" />
+    <Compile Include="MapBar\MapTimeImageBrushWidget.cs" />
+    <Compile Include="Map\MapBar\MapBarCustomValueTextWidget.cs" />
+    <Compile Include="Map\MapBar\MapBarGatherArmyBrushWidget.cs" />
+    <Compile Include="Map\MapBar\MapBarTextWidget.cs" />
+    <Compile Include="Map\MapBar\MapBarUnreadBrushWidget.cs" />
+    <Compile Include="Map\MapBar\MapCurrentTimeVisualWidget.cs" />
+    <Compile Include="Map\MapBar\MapInfoBarWidget.cs" />
+    <Compile Include="Map\MapBar\MapInfoSilhouetteWidget.cs" />
+    <Compile Include="Map\MapConversation\MapConversationScreenButtonWidget.cs" />
+    <Compile Include="Map\MapConversation\MapConversationTableauWidget.cs" />
+    <Compile Include="Map\MapEvents\MapEventVisualItemWidget.cs" />
+    <Compile Include="Map\MapEventVisualBrushWidget.cs" />
+    <Compile Include="Map\Menu\Overlay\ArmyOverlayCohesionFillBarWidget.cs" />
+    <Compile Include="Map\Menu\TownManagement\ShopVisualIconBrushWidget.cs" />
+    <Compile Include="Map\Menu\TownManagement\VillageTypeVisualIconBrushWidget.cs" />
+    <Compile Include="Map\MobilePartyTrackerItemWidget.cs" />
+    <Compile Include="Map\Notification\MapNotificationContainerWidget.cs" />
+    <Compile Include="Map\Notification\MapNotificationItemWidget.cs" />
+    <Compile Include="Map\Siege\MapSiegeConstructionControllerWidget.cs" />
+    <Compile Include="Map\Siege\MapSiegeMachineButtonWidget.cs" />
+    <Compile Include="Map\Siege\MapSiegePOIBrushWidget.cs" />
+    <Compile Include="Map\Siege\MapSiegeQueueIndexTextWidget.cs" />
+    <Compile Include="Map\Siege\MapSiegeScreenWidget.cs" />
+    <Compile Include="Menu\Overlay\ArmyOverlayWidget.cs" />
+    <Compile Include="Menu\Overlay\GameMenuPartyItemButtonWidget.cs" />
+    <Compile Include="Menu\Overlay\OverlayBaseWidget.cs" />
+    <Compile Include="Menu\Overlay\OverlayPopupWidget.cs" />
+    <Compile Include="Menu\Overlay\PowerLevelComparerWidget.cs" />
+    <Compile Include="Menu\Overlay\SettlementOverlayWallIconBrushWidget.cs" />
+    <Compile Include="Menu\Overlay\SettlementOverlayWidget.cs" />
+    <Compile Include="Menu\Recruitment\RecruitTroopPanelButtonWidget.cs" />
+    <Compile Include="Menu\TownManagement\AutoClosePopupClosingWidget.cs" />
+    <Compile Include="Menu\TownManagement\AutoClosePopupWidget.cs" />
+    <Compile Include="Menu\TownManagement\DescriptionItemVisualBrushWidget.cs" />
+    <Compile Include="Menu\TownManagement\DevelopmentItemButtonWidget.cs" />
+    <Compile Include="Menu\TownManagement\DevelopmentItemVisualWidget.cs" />
+    <Compile Include="Menu\TownManagement\DevelopmentNameTextWidget.cs" />
+    <Compile Include="Menu\TownManagement\DevelopmentQueueVisualIconWidget.cs" />
+    <Compile Include="Menu\TownManagement\DevelopmentRingVisualButtonWidget.cs" />
+    <Compile Include="Menu\TownManagement\SliderPopupWidget.cs" />
+    <Compile Include="Mission\AgentAmmoTextWidget.cs" />
+    <Compile Include="Mission\AgentHealthWidget.cs" />
+    <Compile Include="Mission\AgentLockVisualBrushWidget.cs" />
+    <Compile Include="Mission\AgentWeaponPassiveUsageVisualBrushWidget.cs" />
+    <Compile Include="Mission\CompassElementWidget.cs" />
+    <Compile Include="Mission\CompassMarkerTextWidget.cs" />
+    <Compile Include="Mission\CompassWidget.cs" />
+    <Compile Include="Mission\Conversation\PersuasionChanceVisualListPanel.cs" />
+    <Compile Include="Mission\CrosshairWidget.cs" />
+    <Compile Include="Mission\DamageFeed\MissionAgentDamageFeedItemWidget.cs" />
+    <Compile Include="Mission\DamageFeed\MissionAgentDamageFeedWidget.cs" />
+    <Compile Include="Mission\FlagMarker\MultiplayerMissionMarkerListPanel.cs" />
+    <Compile Include="Mission\FlagMarker\SiegeEngineVisualWidget.cs" />
+    <Compile Include="Mission\FormationMarkerListPanel.cs" />
+    <Compile Include="Mission\KillFeed\General\SingleplayerGeneralKillFeedItemWidget.cs" />
+    <Compile Include="Mission\KillFeed\General\SingleplayerGeneralKillFeedWidget.cs" />
+    <Compile Include="Mission\KillFeed\Personal\SingleplayerPersonalKillFeedItemWidget.cs" />
+    <Compile Include="Mission\KillFeed\Personal\SingleplayerPersonalKillFeedWidget.cs" />
+    <Compile Include="Mission\MissionLeaveBarSliderWidget.cs" />
+    <Compile Include="Mission\MissionSiegeEngineMarkerWidget.cs" />
+    <Compile Include="Mission\NameMarker\AlwaysVisibleNameMarkerListPanel.cs" />
+    <Compile Include="Mission\NameMarker\DuelTargetMarkerListPanel.cs" />
+    <Compile Include="Mission\NameMarker\MarkerRect.cs" />
+    <Compile Include="Mission\NameMarker\NameMarkerListPanel.cs" />
+    <Compile Include="Mission\NameMarker\NameMarkerScreenWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleFormationClassBrushWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleFormationClassContainerWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleFormationClassLockBrushWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleFormationFilterVisualBrushWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleFormationItemListPanel.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleFormationMarkerBrushWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleHeroButtonWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleHeroDragWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleHeroDropWidget.cs" />
+    <Compile Include="Mission\OrderOfBattle\OrderOfBattleScreenWidget.cs" />
+    <Compile Include="Mission\Order\OrderFormationClassVisualBrushWidget.cs" />
+    <Compile Include="Mission\ReloadBarHeightAdjustmentWidget.cs" />
+    <Compile Include="Mission\TakenDamageItemBrushWidget.cs" />
+    <Compile Include="Multiplayer\AdminMessage\MultiplayerAdminMessageItemWidget.cs" />
+    <Compile Include="Multiplayer\AdminMessage\MultiplayerAdminMessageWidget.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\ClassLoadoutAlternativeUsageItemTabButtonWidget.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\ClassLoadoutTroopTupleCultureColorBrushWidget.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\MultiplayerClassLoadoutItemTabControllerButtonWidget.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\MultiplayerClassLoadoutItemTabListPanel.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\MultiplayerClassLoadoutTroopCardBrushWidget.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\MultiplayerClassLoadoutTroopInfoBrushWidget.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\MultiplayerClassLoadoutTroopSubclassButtonWidget.cs" />
+    <Compile Include="Multiplayer\ClassLoadout\MultiplayerClassLoadoutTroopTupleVisualWidget.cs" />
+    <Compile Include="Multiplayer\HUD\DuelArenaFlagVisualBrushWidget.cs" />
+    <Compile Include="Multiplayer\HUD\HUDExtensionBrushWidget.cs" />
+    <Compile Include="Multiplayer\HUD\MoraleArrowBrushWidget.cs" />
+    <Compile Include="Multiplayer\HUD\MoraleWidget.cs" />
+    <Compile Include="Multiplayer\HUD\MultiplayerDeathCardWidget.cs" />
+    <Compile Include="Multiplayer\HUD\ServerStatusItemBrushWidget.cs" />
+    <Compile Include="Multiplayer\KillFeed\MultiplayerDuelKillFeedItemWidget.cs" />
+    <Compile Include="Multiplayer\KillFeed\MultiplayerGeneralKillFeedItemWidget.cs" />
+    <Compile Include="Multiplayer\KillFeed\MultiplayerGeneralKillFeedWidget.cs" />
+    <Compile Include="Multiplayer\KillFeed\MultiplayerPersonalKillFeedItemWidget.cs" />
+    <Compile Include="Multiplayer\KillFeed\MultiplayerPersonalKillFeedWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Armory\MultiplayerLobbyArmoryCosmeticItemBrushWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Armory\MultiplayerLobbyArmoryCosmeticItemButtonWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Armory\MultiplayerLobbyArmoryCosmeticObtainPopupWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Armory\MultiplayerLobbyArmoryCosmeticTierVisualBrushWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Armory\MultiplayerLobbyClassFilterClassItemWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Armory\MultiplayerLobbyClassFilterFactionItemButtonWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Clan\MultiplayerLobbyClanMemberRankVisualBrushWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Friend\MultiplayerLobbyFriendGroupToggleWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Friend\MultiplayerLobbyFriendGroupWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Friend\MultiplayerLobbyFriendsPanelWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Matchmaking\MultiplayerLobbyMatchmakingRegionConnectionQualityTextWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\Matchmaking\MultiplayerLobbyMatchmakingScreenWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyAfterBattleExperiencePanelWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyAfterBattlePopupWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyAnimatedRankChangeWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyBadgeButtonWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyBadgeProgressInformationWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyBattleRewardWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyCosmeticAnimationControllerWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyCosmeticAnimationPartWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyCustomServerScreenWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyGameTypeCardButtonWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyGameTypeCardListPanel.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyGameTypeItemButtonWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyHomeScreenWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyMaskedIntTextWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyMenuWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyProfileScreenWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyRankItemButtonWidget.cs" />
+    <Compile Include="Multiplayer\Lobby\MultiplayerLobbyScreenWidget.cs" />
+    <Compile Include="Multiplayer\MaterialValueOffsetImageWidget.cs" />
+    <Compile Include="Multiplayer\MaterialValueOffsetTextWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerBattleResultColorizedWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerEndOfBattleScreenWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerEndOfRoundPanelBrushWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerFactionBannerWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerIntermissionNextMapImageWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerItemTabButtonWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerPlayerBadgeVisualWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerPollProgressionWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerTeamPlayerAvatarButtonWidget.cs" />
+    <Compile Include="Multiplayer\MultiplayerTroopTypeIconWidget.cs" />
+    <Compile Include="Multiplayer\Perks\MultiplayerPerkContainerPanelWidget.cs" />
+    <Compile Include="Multiplayer\Perks\MultiplayerPerkItemToggleWidget.cs" />
+    <Compile Include="Multiplayer\Perks\MultiplayerPerkPopupWidget.cs" />
+    <Compile Include="Multiplayer\Scoreboard\MultiplayerScoreboardAnimatedFillBarWidget.cs" />
+    <Compile Include="Multiplayer\Scoreboard\MultiplayerScoreboardEndOfBattlePanelWidget.cs" />
+    <Compile Include="Multiplayer\Scoreboard\MultiplayerScoreboardScreenWidget.cs" />
+    <Compile Include="Multiplayer\Scoreboard\MultiplayerScoreboardSideWidget.cs" />
+    <Compile Include="Multiplayer\Scoreboard\MultiplayerScoreboardStatsListPanel.cs" />
+    <Compile Include="Multiplayer\Scoreboard\MultiplayerScoreboardStatsParentWidget.cs" />
+    <Compile Include="Multiplayer\Scoreboard\MultiplayerScoreboardStripedBackgroundWidget.cs" />
+    <Compile Include="Multiplayer\WidgetsMultiplayerHelper.cs" />
+    <Compile Include="Nameplate\Notifications\NameplateNotificationListPanel.cs" />
+    <Compile Include="Nameplate\PartyNameplateWidget.cs" />
+    <Compile Include="Nameplate\SettlementNameplateEventVisualBrushWidget.cs" />
+    <Compile Include="Nameplate\SettlementNameplateItemWidget.cs" />
+    <Compile Include="Nameplate\SettlementNameplateManagerWidget.cs" />
+    <Compile Include="Nameplate\SettlementNameplateWidget.cs" />
+    <Compile Include="NavigatableGridWidget.cs" />
+    <Compile Include="NavigatableListPanel.cs" />
+    <Compile Include="NavigationAutoScrollWidget.cs" />
+    <Compile Include="NavigationForcedScopeCollectionTargeter.cs" />
+    <Compile Include="NavigationScopeTargeter.cs" />
+    <Compile Include="NavigationTargetSwitcher.cs" />
+    <Compile Include="NumericUpDownWidget.cs" />
+    <Compile Include="Options\Gamepad\OptionsGamepadCategoryWidget.cs" />
+    <Compile Include="Options\Gamepad\OptionsGamepadKeyLocationWidget.cs" />
+    <Compile Include="Options\Gamepad\OptionsGamepadOptionItemListPanel.cs" />
+    <Compile Include="Options\Gamepad\OptionsGamepadVisualWidget.cs" />
+    <Compile Include="Options\OptionsBrightnessImageSliderWidget.cs" />
+    <Compile Include="Options\OptionsItemWidget.cs" />
+    <Compile Include="Options\OptionsKeyItemListPanel.cs" />
+    <Compile Include="Options\OptionsScreenWidget.cs" />
+    <Compile Include="Order\OrderItemButtonWidget.cs" />
+    <Compile Include="Order\OrderReturnButtonWidget.cs" />
+    <Compile Include="Order\OrderSiegeDeploymentItemButtonWidget.cs" />
+    <Compile Include="Order\OrderSiegeDeploymentScreenWidget.cs" />
+    <Compile Include="Order\OrderSiegeMachineItemButtonWidget.cs" />
+    <Compile Include="Order\OrderTroopItemBrushWidget.cs" />
+    <Compile Include="ParallaxContainerWidget.cs" />
+    <Compile Include="ParallaxItemBrushWidget.cs" />
+    <Compile Include="Party\PartyFormationDropdownWidget.cs" />
+    <Compile Include="Party\PartyHeaderToggleWidget.cs" />
+    <Compile Include="Party\PartyHealthFillBarWidget.cs" />
+    <Compile Include="Party\PartyManageTroopPopupWidget.cs" />
+    <Compile Include="Party\PartyQuestProgressWidget.cs" />
+    <Compile Include="Party\PartyScreenWidget.cs" />
+    <Compile Include="Party\PartyTroopManagementItemButtonWidget.cs" />
+    <Compile Include="Party\PartyTroopTupleButtonWidget.cs" />
+    <Compile Include="Party\PartyUpgradeButtonWidget.cs" />
+    <Compile Include="Party\PartyUpgradeCostRichTextWidget.cs" />
+    <Compile Include="Party\PartyUpgradeRequirementWidget.cs" />
+    <Compile Include="Party\PartyUpgradesContainerWidget.cs" />
+    <Compile Include="Popup\TextQueryParentWidget.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quest\QuestItemButtonWidget.cs" />
+    <Compile Include="Quest\QuestMarkerBrushWidget.cs" />
+    <Compile Include="Quest\QuestProgressVisualWidget.cs" />
+    <Compile Include="Quest\QuestStageItemWidget.cs" />
+    <Compile Include="RadioContainerWidget.cs" />
+    <Compile Include="RainbowRichTextWidget.cs" />
+    <Compile Include="SaveLoad\SavedGameTupleButtonWidget.cs" />
+    <Compile Include="SaveLoad\SaveLoadHeroTableauWidget.cs" />
+    <Compile Include="SaveLoad\SaveLoadMainHeroVisualWidget.cs" />
+    <Compile Include="SaveLoad\SaveLoadScreenWidget.cs" />
+    <Compile Include="SceneWidget.cs" />
+    <Compile Include="ScoreboardAnimatedTextWidget.cs" />
+    <Compile Include="Scoreboard\ScoreboardBattleResultTitleBackgroundWidget.cs" />
+    <Compile Include="Scoreboard\ScoreboardBattleRewardsWidget.cs" />
+    <Compile Include="Scoreboard\ScoreboardGainedSkillsListPanel.cs" />
+    <Compile Include="Scoreboard\ScoreboardScreenWidget.cs" />
+    <Compile Include="Scoreboard\ScoreboardSkillItemHoverToggleWidget.cs" />
+    <Compile Include="ScreenBackgroundBrushWidget.cs" />
+    <Compile Include="SelectorWidget.cs" />
+    <Compile Include="SettlementStatTextWidget.cs" />
+    <Compile Include="SkillIconVisualWidget.cs" />
+    <Compile Include="SortButtonWidget.cs" />
+    <Compile Include="TabControlWidget.cs" />
+    <Compile Include="ToggleButtonWidget.cs" />
+    <Compile Include="ToggleStateButtonWidget.cs" />
+    <Compile Include="Tournament\TournamentMatchWidget.cs" />
+    <Compile Include="Tournament\TournamentParticipantBrushWidget.cs" />
+    <Compile Include="Tournament\TournamentScreenWidget.cs" />
+    <Compile Include="Tutorial\ElementNotificationWidget.cs" />
+    <Compile Include="Tutorial\MouseAnimStage.cs" />
+    <Compile Include="Tutorial\TrainingFieldObjectivesScreenWidget.cs" />
+    <Compile Include="Tutorial\TutorialArrowWidget.cs" />
+    <Compile Include="Tutorial\TutorialHighlightItemBrushWidget.cs" />
+    <Compile Include="Tutorial\TutorialMouseWidget.cs" />
+    <Compile Include="Tutorial\TutorialPanelImageWidget.cs" />
+    <Compile Include="Tutorial\TutorialScreenWidget.cs" />
+    <Compile Include="Tutorial\TutorialStickWidget.cs" />
+    <Compile Include="WarningTextWidget.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.GauntletUI.ExtraWidgets\TaleWorlds.GauntletUI.ExtraWidgets.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081eb}</Project>
+      <Name>TaleWorlds.GauntletUI.ExtraWidgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.GauntletUI\TaleWorlds.GauntletUI.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ea}</Project>
+      <Name>TaleWorlds.GauntletUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ee}</Project>
+      <Name>TaleWorlds.InputSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.TwoDimension\TaleWorlds.TwoDimension.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-311642108207}</Project>
+      <Name>TaleWorlds.TwoDimension</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

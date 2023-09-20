@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{34C3F40D-C8C1-426B-BC73-3116421081DB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>TaleWorlds.CampaignSystem.ViewModelCollection</RootNamespace>
+    <AssemblyName>TaleWorlds.CampaignSystem.ViewModelCollection</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionCampaignOptionData.cs" />
+    <Compile Include="ArmyManagement\ArmyCohesionBoostedByPlayerEvent.cs" />
+    <Compile Include="ArmyManagement\ArmyManagementBoostEventVM.cs" />
+    <Compile Include="ArmyManagement\ArmyManagementItemVM.cs" />
+    <Compile Include="ArmyManagement\ArmyManagementSortControllerVM.cs" />
+    <Compile Include="ArmyManagement\ArmyManagementVM.cs" />
+    <Compile Include="ArmyManagement\PartyAddedToArmyByPlayerEvent.cs" />
+    <Compile Include="BannerEditorVM.cs" />
+    <Compile Include="Barter\BarterItemVM.cs" />
+    <Compile Include="Barter\BarterVM.cs" />
+    <Compile Include="BooleanCampaignOptionData.cs" />
+    <Compile Include="CampaignOptionData.cs" />
+    <Compile Include="CampaignOptionDataType.cs" />
+    <Compile Include="CampaignOptionDisableStatus.cs" />
+    <Compile Include="CampaignOptionEnableState.cs" />
+    <Compile Include="CampaignOptionItemVM.cs" />
+    <Compile Include="CampaignOptionsControllerVM.cs" />
+    <Compile Include="CampaignOptionsDifficultyPresets.cs" />
+    <Compile Include="CampaignOptionsManager.cs" />
+    <Compile Include="CampaignOptionsVM.cs" />
+    <Compile Include="CampaignUIHelper.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationClanNamingStageVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationCultureFeatVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationCultureStageVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationCultureVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationGainedAttributeItemVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationGainedPropertiesVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationGainedSkillItemVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationGainGroupItemVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationGenericStageVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationOptionVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationReviewStageItemVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationReviewStageVM.cs" />
+    <Compile Include="CharacterCreation\CharacterCreationStageBaseVM.cs" />
+    <Compile Include="CharacterCreation\OptionsStage\CharacterCreationOptionsStageVM.cs" />
+    <Compile Include="CharacterDeveloper\AttributeBoundSkillItemVM.cs" />
+    <Compile Include="CharacterDeveloper\CharacterAttributeItemVM.cs" />
+    <Compile Include="CharacterDeveloper\CharacterDeveloperVM.cs" />
+    <Compile Include="CharacterDeveloper\CharacterVM.cs" />
+    <Compile Include="CharacterDeveloper\FocusAddedByPlayerEvent.cs" />
+    <Compile Include="CharacterDeveloper\PerkSelection\PerkSelectedByPlayerEvent.cs" />
+    <Compile Include="CharacterDeveloper\PerkSelection\PerkSelectionItemVM.cs" />
+    <Compile Include="CharacterDeveloper\PerkSelection\PerkSelectionToggleEvent.cs" />
+    <Compile Include="CharacterDeveloper\PerkSelection\PerkSelectionVM.cs" />
+    <Compile Include="CharacterDeveloper\PerkVM.cs" />
+    <Compile Include="CharacterDeveloper\SkillVM.cs" />
+    <Compile Include="ClanManagement\CardSelectionItemSpriteType.cs" />
+    <Compile Include="ClanManagement\Categories\ClanFiefsVM.cs" />
+    <Compile Include="ClanManagement\Categories\ClanIncomeVM.cs" />
+    <Compile Include="ClanManagement\Categories\ClanMembersVM.cs" />
+    <Compile Include="ClanManagement\Categories\ClanPartiesVM.cs" />
+    <Compile Include="ClanManagement\ClanCardSelectionInfo.cs" />
+    <Compile Include="ClanManagement\ClanCardSelectionItemInfo.cs" />
+    <Compile Include="ClanManagement\ClanCardSelectionItemPropertyInfo.cs" />
+    <Compile Include="ClanManagement\ClanCardSelectionPopupItemPropertyVM.cs" />
+    <Compile Include="ClanManagement\ClanCardSelectionPopupItemVM.cs" />
+    <Compile Include="ClanManagement\ClanCardSelectionPopupVM.cs" />
+    <Compile Include="ClanManagement\ClanFinanceExpenseItemVM.cs" />
+    <Compile Include="ClanManagement\ClanFinanceIncomeItemBaseVM.cs" />
+    <Compile Include="ClanManagement\ClanFinance\ClanFinanceAlleyItemVM.cs" />
+    <Compile Include="ClanManagement\ClanFinance\ClanFinanceCommonAreaItemVM.cs" />
+    <Compile Include="ClanManagement\ClanFinance\ClanFinanceMercenaryItemVM.cs" />
+    <Compile Include="ClanManagement\ClanFinance\ClanFinanceTownItemVM.cs" />
+    <Compile Include="ClanManagement\ClanFinance\ClanFinanceWorkshopItemVM.cs" />
+    <Compile Include="ClanManagement\ClanLordItemVM.cs" />
+    <Compile Include="ClanManagement\ClanLordStatusItemVM.cs" />
+    <Compile Include="ClanManagement\ClanManagementVM.cs" />
+    <Compile Include="ClanManagement\ClanPartyItemVM.cs" />
+    <Compile Include="ClanManagement\ClanPartyMemberItemVM.cs" />
+    <Compile Include="ClanManagement\ClanRoleAssignedThroughClanScreenEvent.cs" />
+    <Compile Include="ClanManagement\ClanRoleItemVM.cs" />
+    <Compile Include="ClanManagement\ClanRoleMemberItemVM.cs" />
+    <Compile Include="ClanManagement\ClanSettlementItemVM.cs" />
+    <Compile Include="ClanManagement\IncomeTypes.cs" />
+    <Compile Include="ClanManagement\Supporters\ClanSupporterGroupVM.cs" />
+    <Compile Include="ClanManagement\Supporters\ClanSupporterItemVM.cs" />
+    <Compile Include="ClanManagement\TaxType.cs" />
+    <Compile Include="Conversation\ConversationAggressivePartyItemVM.cs" />
+    <Compile Include="Conversation\ConversationItemVM.cs" />
+    <Compile Include="Conversation\MissionConversationVM.cs" />
+    <Compile Include="Conversation\PersuasionOptionVM.cs" />
+    <Compile Include="Conversation\PersuasionVM.cs" />
+    <Compile Include="DefaultCampaignOptionsProvider.cs" />
+    <Compile Include="Education\EducationGainedAttributeItemVM.cs" />
+    <Compile Include="Education\EducationGainedPropertiesVM.cs" />
+    <Compile Include="Education\EducationGainedSkillItemVM.cs" />
+    <Compile Include="Education\EducationGainGroupItemVM.cs" />
+    <Compile Include="Education\EducationOptionVM.cs" />
+    <Compile Include="Education\EducationReviewItemVM.cs" />
+    <Compile Include="Education\EducationReviewVM.cs" />
+    <Compile Include="Education\EducationVM.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaHomeVM.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaLinkVM.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaNavigatorVM.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaPageChangedEvent.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaPages.cs" />
+    <Compile Include="Encyclopedia\EncyclopediaSearchResultVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaDwellingVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaFactionVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaFamilyMemberVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaHistoryEventVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaSettlementVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaSkillVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaTraitItemVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaTroopTreeNodeVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaUnitEquipmentSetSelectorItemVM.cs" />
+    <Compile Include="Encyclopedia\Items\EncyclopediaUnitVM.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaFilterGroupVM.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaListFilterVM.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaListItemComparer.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaListItemVM.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaListSelectorItemVM.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaListSelectorVM.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaListSortControllerVM.cs" />
+    <Compile Include="Encyclopedia\List\EncyclopediaListVM.cs" />
+    <Compile Include="Encyclopedia\List\ListTypeVM.cs" />
+    <Compile Include="Encyclopedia\OnEncyclopediaFilterActivatedEvent.cs" />
+    <Compile Include="Encyclopedia\OnEncyclopediaListSortedEvent.cs" />
+    <Compile Include="Encyclopedia\OnEncyclopediaSearchActivatedEvent.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaClanPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaConceptPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaContentPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaFactionPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaHeroPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaPageArgs.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaSettlementPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaUnitPageVM.cs" />
+    <Compile Include="Encyclopedia\Pages\EncyclopediaViewModel.cs" />
+    <Compile Include="Encyclopedia\Pages\HeroRelationComparer.cs" />
+    <Compile Include="Encyclopedia\PlayerToggleTrackSettlementFromEncyclopediaEvent.cs" />
+    <Compile Include="GameMenu\GameMenuItemProgressVM.cs" />
+    <Compile Include="GameMenu\GameMenuItemVM.cs" />
+    <Compile Include="GameMenu\GameMenuPlunderItemVM.cs" />
+    <Compile Include="GameMenu\GameMenuVM.cs" />
+    <Compile Include="GameMenu\Overlay\ArmyMenuOverlayVM.cs" />
+    <Compile Include="GameMenu\Overlay\EncounterMenuOverlayVM.cs" />
+    <Compile Include="GameMenu\Overlay\GameMenuOverlay.cs" />
+    <Compile Include="GameMenu\Overlay\GameMenuOverlayActionVM.cs" />
+    <Compile Include="GameMenu\Overlay\GameMenuPartyItemVM.cs" />
+    <Compile Include="GameMenu\Overlay\MenuOverlay.cs" />
+    <Compile Include="GameMenu\Overlay\OverlayType.cs" />
+    <Compile Include="GameMenu\Overlay\SettlementMenuOverlayVM.cs" />
+    <Compile Include="GameMenu\Recruitment\RecruitmentVM.cs" />
+    <Compile Include="GameMenu\Recruitment\RecruitVolunteerOwnerVM.cs" />
+    <Compile Include="GameMenu\Recruitment\RecruitVolunteerTroopVM.cs" />
+    <Compile Include="GameMenu\Recruitment\RecruitVolunteerVM.cs" />
+    <Compile Include="GameMenu\TournamentLeaderboard\TournamentLeaderboardEntryItemVM.cs" />
+    <Compile Include="GameMenu\TournamentLeaderboard\TournamentLeaderboardSortControllerVM.cs" />
+    <Compile Include="GameMenu\TournamentLeaderboard\TournamentLeaderboardVM.cs" />
+    <Compile Include="GameMenu\TownManagement\SettlementBuildingProjectVM.cs" />
+    <Compile Include="GameMenu\TownManagement\SettlementDailyProjectVM.cs" />
+    <Compile Include="GameMenu\TownManagement\SettlementGovernorSelectionItemVM.cs" />
+    <Compile Include="GameMenu\TownManagement\SettlementGovernorSelectionVM.cs" />
+    <Compile Include="GameMenu\TownManagement\SettlementProjectSelectionVM.cs" />
+    <Compile Include="GameMenu\TownManagement\SettlementProjectVM.cs" />
+    <Compile Include="GameMenu\TownManagement\TownManagementDescriptionItemVM.cs" />
+    <Compile Include="GameMenu\TownManagement\TownManagementReserveControlVM.cs" />
+    <Compile Include="GameMenu\TownManagement\TownManagementShopItemVM.cs" />
+    <Compile Include="GameMenu\TownManagement\TownManagementVillageItemVM.cs" />
+    <Compile Include="GameMenu\TownManagement\TownManagementVM.cs" />
+    <Compile Include="GameMenu\TroopSelection\GameMenuTroopSelectionVM.cs" />
+    <Compile Include="GameMenu\TroopSelection\TroopItemComparer.cs" />
+    <Compile Include="GameMenu\TroopSelection\TroopSelectionItemVM.cs" />
+    <Compile Include="HeroViewModel.cs" />
+    <Compile Include="HeroVM.cs" />
+    <Compile Include="ICampaignOptionData.cs" />
+    <Compile Include="ICampaignOptionProvider.cs" />
+    <Compile Include="Input\InputKeyItemVM.cs" />
+    <Compile Include="Inventory\InventoryCharacterSelectorItemVM.cs" />
+    <Compile Include="Inventory\InventoryEquipmentTypeChangedEvent.cs" />
+    <Compile Include="Inventory\InventoryFilterChangedEvent.cs" />
+    <Compile Include="Inventory\InventoryItemInspectedEvent.cs" />
+    <Compile Include="Inventory\InventoryTradeVM.cs" />
+    <Compile Include="Inventory\ItemFlagVM.cs" />
+    <Compile Include="Inventory\ItemMenuTooltipPropertyVM.cs" />
+    <Compile Include="Inventory\ItemMenuVM.cs" />
+    <Compile Include="Inventory\ItemPreviewVM.cs" />
+    <Compile Include="Inventory\SPInventorySortControllerVM.cs" />
+    <Compile Include="Inventory\SPInventoryVM.cs" />
+    <Compile Include="Inventory\SPItemVM.cs" />
+    <Compile Include="KingdomManagement\Armies\KingdomArmyItemVM.cs" />
+    <Compile Include="KingdomManagement\Armies\KingdomArmyPartyItemVM.cs" />
+    <Compile Include="KingdomManagement\Armies\KingdomArmySortControllerVM.cs" />
+    <Compile Include="KingdomManagement\Armies\KingdomArmyVM.cs" />
+    <Compile Include="KingdomManagement\Armies\KingdomSettlementVillageItemVM.cs" />
+    <Compile Include="KingdomManagement\Clans\KingdomClanFiefItemVM.cs" />
+    <Compile Include="KingdomManagement\Clans\KingdomClanItemVM.cs" />
+    <Compile Include="KingdomManagement\Clans\KingdomClanSortControllerVM.cs" />
+    <Compile Include="KingdomManagement\Clans\KingdomClanVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\DecisionOptionVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\DecisionSupporterVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\DecisionItemBaseVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\DeclareWarDecisionItemVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\ExpelClanDecisionItemVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\KingdomPolicyDecisionItemVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\KingSelectionDecisionItemVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\MakePeaceDecisionItemVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\PolicyDecisionItemVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\ItemTypes\SettlementDecisionItemVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\KingdomDecisionsVM.cs" />
+    <Compile Include="KingdomManagement\Decisions\PlayerSelectedAKingdomDecisionOptionEvent.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomDiplomacyFactionItemVM.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomDiplomacyItemVM.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomDiplomacyVM.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomTruceItemVM.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomWarComparableStatVM.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomWarItemVM.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomWarLogItemVM.cs" />
+    <Compile Include="KingdomManagement\Diplomacy\KingdomWarSortControllerVM.cs" />
+    <Compile Include="KingdomManagement\KingdomCategoryVM.cs" />
+    <Compile Include="KingdomManagement\KingdomGiftFiefPopupVM.cs" />
+    <Compile Include="KingdomManagement\KingdomItemVM.cs" />
+    <Compile Include="KingdomManagement\KingdomManagementVM.cs" />
+    <Compile Include="KingdomManagement\Policies\KingdomPoliciesVM.cs" />
+    <Compile Include="KingdomManagement\Policies\KingdomPolicyItemVM.cs" />
+    <Compile Include="KingdomManagement\Settlements\KingdomSettlementItemVM.cs" />
+    <Compile Include="KingdomManagement\Settlements\KingdomSettlementSortControllerVM.cs" />
+    <Compile Include="KingdomManagement\Settlements\KingdomSettlementVM.cs" />
+    <Compile Include="Map\MapBar\MapBarShortcuts.cs" />
+    <Compile Include="Map\MapBar\MapBarVM.cs" />
+    <Compile Include="Map\MapBar\MapInfoVM.cs" />
+    <Compile Include="Map\MapBar\MapNavigationVM.cs" />
+    <Compile Include="Map\MapBar\MapTimeControlVM.cs" />
+    <Compile Include="Map\MapConversation\MapConversationVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\AlleyLeaderDiedMapNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\AlleyUnderAttackMapNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\ArmyCreationNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\ArmyDispersionItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\DeathNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\EducationNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\HeirComeOfAgeNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\KingdomDestroyedNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\KingdomVoteNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\MapNotificationItemBaseVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\MarriageNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\MarriageOfferNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\MercenaryOfferMapNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\NewBornNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\PartyLeaderChangeNotificationVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\PeaceNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\PeaceOfferNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\QuestNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\RansomNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\RebellionNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\SettlementOwnerChangedNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\SettlementUnderSiegeMapNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\TraitChangedNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\VassalOfferMapNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationTypes\WarNotificationItemVM.cs" />
+    <Compile Include="Map\MapNotificationVM.cs" />
+    <Compile Include="Microsoft\CodeAnalysis\EmbeddedAttribute.cs" />
+    <Compile Include="NumericCampaignOptionData.cs" />
+    <Compile Include="Party\PartyCharacterVM.cs" />
+    <Compile Include="Party\PartyCompositionVM.cs" />
+    <Compile Include="Party\PartySortControllerVM.cs" />
+    <Compile Include="Party\PartyTradeVM.cs" />
+    <Compile Include="Party\PartyTroopManagerPopUp\PartyRecruitTroopVM.cs" />
+    <Compile Include="Party\PartyTroopManagerPopUp\PartyTroopManagerItemVM.cs" />
+    <Compile Include="Party\PartyTroopManagerPopUp\PartyTroopManagerVM.cs" />
+    <Compile Include="Party\PartyTroopManagerPopUp\PartyUpgradeTroopVM.cs" />
+    <Compile Include="Party\PartyVM.cs" />
+    <Compile Include="Party\PlayerMoveTroopEvent.cs" />
+    <Compile Include="Party\PlayerRequestUpgradeTroopEvent.cs" />
+    <Compile Include="Party\PlayerToggledUpgradePopupEvent.cs" />
+    <Compile Include="Party\TroopSortSelectorItemVM.cs" />
+    <Compile Include="Party\UpgradeRequirementsVM.cs" />
+    <Compile Include="Party\UpgradeTargetVM.cs" />
+    <Compile Include="PlayerInspectedPartySpeedEvent.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyBasedTooltipVMExtensions.cs" />
+    <Compile Include="Quests\QuestItemSortControllerVM.cs" />
+    <Compile Include="Quests\QuestItemVM.cs" />
+    <Compile Include="Quests\QuestMarkerVM.cs" />
+    <Compile Include="Quests\QuestStageTaskVM.cs" />
+    <Compile Include="Quests\QuestStageVM.cs" />
+    <Compile Include="Quests\QuestsVM.cs" />
+    <Compile Include="SelectableFiefItemPropertyVM.cs" />
+    <Compile Include="SelectableItemPropertyVM.cs" />
+    <Compile Include="SelectionCampaignOptionData.cs" />
+    <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
+    <Compile Include="UIColors.cs" />
+    <Compile Include="WeaponCrafting\CraftingAvailableHeroItemVM.cs" />
+    <Compile Include="WeaponCrafting\CraftingListPropertyItem.cs" />
+    <Compile Include="WeaponCrafting\CraftingResourceItemVM.cs" />
+    <Compile Include="WeaponCrafting\CraftingSecondaryUsageItemVM.cs" />
+    <Compile Include="WeaponCrafting\CraftingVM.cs" />
+    <Compile Include="WeaponCrafting\Refinement\RefinementActionItemVM.cs" />
+    <Compile Include="WeaponCrafting\Refinement\RefinementVM.cs" />
+    <Compile Include="WeaponCrafting\Smelting\SmeltingItemVM.cs" />
+    <Compile Include="WeaponCrafting\Smelting\SmeltingSortControllerVM.cs" />
+    <Compile Include="WeaponCrafting\Smelting\SmeltingVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\CraftingHistoryVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\CraftingItemFlagVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\CraftingOrderSelectionOpenedEvent.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\CraftingPieceListVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\CraftingPieceVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\CraftingWeaponClassSelectionOpenedEvent.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\CraftingWeaponResultPopupToggledEvent.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\Order\CraftingOrderItemVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\Order\CraftingOrderPopupVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\Order\OrderDifficultyComparer.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\TierFilterTypeVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\WeaponAttributeVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\WeaponClassSelectionPopupVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\WeaponClassVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\WeaponDesignResultPopupVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\WeaponDesignResultPropertyItemVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\WeaponDesignSelectorVM.cs" />
+    <Compile Include="WeaponCrafting\WeaponDesign\WeaponDesignVM.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TaleWorlds.CampaignSystem\TaleWorlds.CampaignSystem.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081da}</Project>
+      <Name>TaleWorlds.CampaignSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Core.ViewModelCollection\TaleWorlds.Core.ViewModelCollection.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081dd}</Project>
+      <Name>TaleWorlds.Core.ViewModelCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Core\TaleWorlds.Core.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081dc}</Project>
+      <Name>TaleWorlds.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.InputSystem\TaleWorlds.InputSystem.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ee}</Project>
+      <Name>TaleWorlds.InputSystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081ef}</Project>
+      <Name>TaleWorlds.Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.Localization\TaleWorlds.Localization.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081f1}</Project>
+      <Name>TaleWorlds.Localization</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaleWorlds.ObjectSystem\TaleWorlds.ObjectSystem.csproj">
+      <Project>{34c3f40d-c8c1-426b-bc73-3116421081fc}</Project>
+      <Name>TaleWorlds.ObjectSystem</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
