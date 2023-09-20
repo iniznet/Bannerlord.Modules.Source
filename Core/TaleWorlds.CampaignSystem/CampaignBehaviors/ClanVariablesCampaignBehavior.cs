@@ -150,7 +150,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 21456))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0", 26219))
 			{
 				foreach (Clan clan in Clan.All)
 				{
@@ -206,7 +206,7 @@ namespace TaleWorlds.CampaignSystem.CampaignBehaviors
 
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 21456))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.0", 26219))
 			{
 				for (int i = Clan.All.Count - 1; i >= 0; i--)
 				{

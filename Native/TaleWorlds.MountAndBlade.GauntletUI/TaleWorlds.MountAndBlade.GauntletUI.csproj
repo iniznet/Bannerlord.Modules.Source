@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{73C49261-7B08-4E59-81CC-B2F0BF5692A0}</ProjectGuid>
+    <ProjectGuid>{433AFC94-04BD-40EA-B2CA-C8D6E593F02D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.MountAndBlade.GauntletUI</RootNamespace>
     <AssemblyName>TaleWorlds.MountAndBlade.GauntletUI</AssemblyName>
@@ -137,7 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TaleWorlds.MountAndBlade.View\TaleWorlds.MountAndBlade.View.csproj">
-      <Project>{73c49261-7b08-4e59-81cc-b2f0bf5692a2}</Project>
+      <Project>{433afc94-04bd-40ea-b2ca-c8d6e593f02f}</Project>
       <Name>TaleWorlds.MountAndBlade.View</Name>
     </ProjectReference>
   </ItemGroup>

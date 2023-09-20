@@ -44,7 +44,7 @@ namespace TaleWorlds.PlatformService.Epic
 					return "";
 				}
 				string text;
-				this._epicAccountId.ToString(out text);
+				this._epicAccountId.ToString(ref text);
 				return text;
 			}
 		}
@@ -99,9 +99,9 @@ namespace TaleWorlds.PlatformService.Epic
 			Result result = PlatformInterface.Initialize(new InitializeOptions
 			{
 				ProductName = "Bannerlord",
-				ProductVersion = "1.0"
+				ProductVersion = "1.1.6.26219"
 			});
-			if (result != Result.Success)
+			if (result != null)
 			{
 				this._initFailReason = new TextObject("{=BJ1626h7}Epic platform initialization failed: {FAILREASON}.", null);
 				this._initFailReason.SetTextVariable("FAILREASON", result.ToString());
@@ -126,18 +126,18 @@ namespace TaleWorlds.PlatformService.Epic
 			{
 				this._epicFriendListService.UserStatusChanged(EpicPlatformServices.EpicAccountIdToPlayerId(callbackInfo.TargetUserId));
 			});
-			Epic.OnlineServices.Auth.Credentials credentials = new Epic.OnlineServices.Auth.Credentials
+			Credentials credentials = new Credentials
 			{
-				Type = LoginCredentialType.ExchangeCode,
+				Type = 1,
 				Token = this.ExchangeCode
 			};
 			bool failed = false;
-			this._platform.GetAuthInterface().Login(new Epic.OnlineServices.Auth.LoginOptions
+			this._platform.GetAuthInterface().Login(new LoginOptions
 			{
 				Credentials = credentials
-			}, null, delegate(Epic.OnlineServices.Auth.LoginCallbackInfo callbackInfo)
+			}, null, delegate(LoginCallbackInfo callbackInfo)
 			{
-				if (callbackInfo.ResultCode != Result.Success)
+				if (callbackInfo.ResultCode != null)
 				{
 					failed = true;
 					Debug.Print("Epic AuthInterface.Login Failed:" + callbackInfo.ResultCode, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -150,7 +150,7 @@ namespace TaleWorlds.PlatformService.Epic
 					TargetUserId = epicAccountId
 				}, null, delegate(QueryUserInfoCallbackInfo queryCallbackInfo)
 				{
-					if (queryCallbackInfo.ResultCode != Result.Success)
+					if (queryCallbackInfo.ResultCode != null)
 					{
 						failed = true;
 						Debug.Print("Epic UserInfoInterface.QueryUserInfo Failed:" + queryCallbackInfo.ResultCode, 0, Debug.DebugColor.White, 17592186044416UL);
@@ -161,7 +161,7 @@ namespace TaleWorlds.PlatformService.Epic
 					{
 						LocalUserId = epicAccountId,
 						TargetUserId = epicAccountId
-					}, out userInfoData);
+					}, ref userInfoData);
 					this._epicUserName = userInfoData.DisplayName;
 					this._epicAccountId = epicAccountId;
 				});
@@ -216,20 +216,20 @@ namespace TaleWorlds.PlatformService.Epic
 		{
 			bool failed = false;
 			Token token;
-			this._platform.GetAuthInterface().CopyUserAuthToken(new CopyUserAuthTokenOptions(), this._epicAccountId, out token);
+			this._platform.GetAuthInterface().CopyUserAuthToken(new CopyUserAuthTokenOptions(), this._epicAccountId, ref token);
 			this._accessToken = token.AccessToken;
 			this._platform.GetConnectInterface().RemoveNotifyAuthExpiration(this._refreshConnectionCallbackId);
 			OnCreateUserCallback <>9__1;
-			this._platform.GetConnectInterface().Login(new Epic.OnlineServices.Connect.LoginOptions
+			this._platform.GetConnectInterface().Login(new LoginOptions
 			{
-				Credentials = new Epic.OnlineServices.Connect.Credentials
+				Credentials = new Credentials
 				{
 					Token = this._accessToken,
-					Type = ExternalCredentialType.Epic
+					Type = 0
 				}
-			}, null, delegate(Epic.OnlineServices.Connect.LoginCallbackInfo data)
+			}, null, delegate(LoginCallbackInfo data)
 			{
-				if (data.ResultCode == Result.InvalidUser)
+				if (data.ResultCode == 3)
 				{
 					ConnectInterface connectInterface = this._platform.GetConnectInterface();
 					CreateUserOptions createUserOptions = new CreateUserOptions();
@@ -240,7 +240,7 @@ namespace TaleWorlds.PlatformService.Epic
 					{
 						onCreateUserCallback = (<>9__1 = delegate(CreateUserCallbackInfo res)
 						{
-							if (res.ResultCode != Result.Success)
+							if (res.ResultCode != null)
 							{
 								failed = true;
 								return;
@@ -251,7 +251,7 @@ namespace TaleWorlds.PlatformService.Epic
 					connectInterface.CreateUser(createUserOptions, obj, onCreateUserCallback);
 					return;
 				}
-				if (data.ResultCode != Result.Success)
+				if (data.ResultCode != null)
 				{
 					failed = true;
 					return;
@@ -425,7 +425,7 @@ namespace TaleWorlds.PlatformService.Epic
 			}
 			else
 			{
-				flag = info.Status == Status.Online;
+				flag = info.Status == 1;
 			}
 			return flag;
 		}
@@ -454,7 +454,7 @@ namespace TaleWorlds.PlatformService.Epic
 				DisplayName = name
 			}, null, delegate(QueryUserInfoByDisplayNameCallbackInfo callbackInfo)
 			{
-				if (callbackInfo.ResultCode == Result.Success)
+				if (callbackInfo.ResultCode == null)
 				{
 					id = new PlayerId?(EpicPlatformServices.EpicAccountIdToPlayerId(callbackInfo.TargetUserId));
 					return;
@@ -478,7 +478,7 @@ namespace TaleWorlds.PlatformService.Epic
 				LocalUserId = this._epicAccountId
 			}, null, delegate(QueryFriendsCallbackInfo callbackInfo)
 			{
-				if (callbackInfo.ResultCode == Result.Success)
+				if (callbackInfo.ResultCode == null)
 				{
 					int friendsCount = this._platform.GetFriendsInterface().GetFriendsCount(new GetFriendsCountOptions
 					{
@@ -533,7 +533,7 @@ namespace TaleWorlds.PlatformService.Epic
 			{
 				Name = name,
 				TargetUserId = this._localUserId
-			}, out stat) == Result.Success)
+			}, ref stat) == null)
 			{
 				return Task.FromResult<int>(stat.Value);
 			}
@@ -577,7 +577,7 @@ namespace TaleWorlds.PlatformService.Epic
 					TargetUserId = this._localUserId
 				}, null, delegate(IngestStatCompleteCallbackInfo data)
 				{
-					if (data.ResultCode != Result.Success)
+					if (data.ResultCode != null)
 					{
 						foreach (IngestData ingestData in stats)
 						{
@@ -597,7 +597,7 @@ namespace TaleWorlds.PlatformService.Epic
 		private static PlayerId EpicAccountIdToPlayerId(EpicAccountId epicAccountId)
 		{
 			string text;
-			epicAccountId.ToString(out text);
+			epicAccountId.ToString(ref text);
 			return new PlayerId(3, text);
 		}
 
@@ -618,13 +618,13 @@ namespace TaleWorlds.PlatformService.Epic
 				TargetUserId = targetUserId
 			}, null, delegate(QueryUserInfoCallbackInfo callbackInfo)
 			{
-				if (callbackInfo.ResultCode == Result.Success)
+				if (callbackInfo.ResultCode == null)
 				{
 					this._platform.GetUserInfoInterface().CopyUserInfo(new CopyUserInfoOptions
 					{
 						LocalUserId = this._epicAccountId,
 						TargetUserId = targetUserId
-					}, out userInfoData);
+					}, ref userInfoData);
 				}
 				done = true;
 			});
@@ -646,7 +646,7 @@ namespace TaleWorlds.PlatformService.Epic
 				TargetUserId = targetUserId
 			}, null, delegate(QueryPresenceCallbackInfo callbackInfo)
 			{
-				if (callbackInfo.ResultCode == Result.Success && this._platform.GetPresenceInterface().HasPresence(new HasPresenceOptions
+				if (callbackInfo.ResultCode == null && this._platform.GetPresenceInterface().HasPresence(new HasPresenceOptions
 				{
 					LocalUserId = this._epicAccountId,
 					TargetUserId = targetUserId
@@ -656,7 +656,7 @@ namespace TaleWorlds.PlatformService.Epic
 					{
 						LocalUserId = this._epicAccountId,
 						TargetUserId = targetUserId
-					}, out info);
+					}, ref info);
 				}
 				done = true;
 			});

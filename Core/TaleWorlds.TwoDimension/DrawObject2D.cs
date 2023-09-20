@@ -171,7 +171,8 @@ namespace TaleWorlds.TwoDimension
 			float[] array2 = new float[num * 2];
 			uint[] array3 = new uint[num];
 			DrawObject2D.FillLineTopologyMeshWithPolygonCoordinates(array, array3, DrawObject2D._circlePolygonPoints);
-			Vector2 vector2 = new Vector2(1f, 0f);
+			Vector2 vector2;
+			vector2..ctor(1f, 0f);
 			vector2.X *= radius;
 			vector2.Y *= radius;
 			array[array.Length - 4] = 0f;

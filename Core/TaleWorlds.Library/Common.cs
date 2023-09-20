@@ -153,7 +153,7 @@ namespace TaleWorlds.Library
 
 		public static byte[] SerializeObjectAsJson(object o)
 		{
-			string text = JsonConvert.SerializeObject(o, Formatting.Indented);
+			string text = JsonConvert.SerializeObject(o, 1);
 			return Encoding.UTF8.GetBytes(text);
 		}
 

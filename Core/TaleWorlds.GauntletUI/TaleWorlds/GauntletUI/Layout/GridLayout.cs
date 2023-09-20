@@ -63,7 +63,7 @@ namespace TaleWorlds.GauntletUI.Layout
 				{
 					num6 = measureSpec.Y / (float)num2;
 				}
-				measureSpec = new Vector2(num5, num6);
+				measureSpec..ctor(num5, num6);
 				foreach (Widget widget2 in gridWidget.Children)
 				{
 					if (widget2.IsVisible)
@@ -71,7 +71,7 @@ namespace TaleWorlds.GauntletUI.Layout
 						widget2.Measure(measureSpec);
 					}
 				}
-				vector = new Vector2((float)num3 * num5, (float)num2 * num6);
+				vector..ctor((float)num3 * num5, (float)num2 * num6);
 			}
 			return vector;
 		}

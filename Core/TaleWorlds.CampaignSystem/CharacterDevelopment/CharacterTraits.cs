@@ -127,7 +127,7 @@ namespace TaleWorlds.CampaignSystem.CharacterDevelopment
 
 		protected override void AfterLoad()
 		{
-			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.1.0", 21456))
+			if (MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.1.0", 26219))
 			{
 				List<KeyValuePair<TraitObject, int>> list = this._attributes.ToMBList<KeyValuePair<TraitObject, int>>();
 				int num = 0;

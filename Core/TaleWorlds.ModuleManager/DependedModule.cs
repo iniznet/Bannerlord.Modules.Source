@@ -20,7 +20,7 @@ namespace TaleWorlds.ModuleManager
 
 		public void UpdateVersionChangeSet()
 		{
-			this.Version = new ApplicationVersion(this.Version.ApplicationVersionType, this.Version.Major, this.Version.Minor, this.Version.Revision, 21456);
+			this.Version = new ApplicationVersion(this.Version.ApplicationVersionType, this.Version.Major, this.Version.Minor, this.Version.Revision, 26219);
 		}
 	}
 }

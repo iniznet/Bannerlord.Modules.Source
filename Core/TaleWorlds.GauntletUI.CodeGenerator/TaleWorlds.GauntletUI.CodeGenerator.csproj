@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{5A194119-597E-4968-AABB-BAA5C557F973}</ProjectGuid>
+    <ProjectGuid>{5785C696-E06B-459B-9BEB-64EA91564D60}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>TaleWorlds.GauntletUI.CodeGenerator</RootNamespace>
     <AssemblyName>TaleWorlds.GauntletUI.CodeGenerator</AssemblyName>
@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoStdLib>true</NoStdLib>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System.Xml" />
@@ -58,24 +60,28 @@
     <Compile Include="WidgetTemplateGenerateContextType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\mscorlib\mscorlib.csproj">
+      <Project>{5785c696-e06b-459b-9beb-64ea91564d4e}</Project>
+      <Name>mscorlib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.GauntletUI.Data\TaleWorlds.GauntletUI.Data.csproj">
-      <Project>{5a194119-597e-4968-aabb-baa5c557f974}</Project>
+      <Project>{5785c696-e06b-459b-9beb-64ea91564d61}</Project>
       <Name>TaleWorlds.GauntletUI.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.GauntletUI.PrefabSystem\TaleWorlds.GauntletUI.PrefabSystem.csproj">
-      <Project>{5a194119-597e-4968-aabb-baa5c557f977}</Project>
+      <Project>{5785c696-e06b-459b-9beb-64ea91564d64}</Project>
       <Name>TaleWorlds.GauntletUI.PrefabSystem</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.GauntletUI\TaleWorlds.GauntletUI.csproj">
-      <Project>{5a194119-597e-4968-aabb-baa5c557f975}</Project>
+      <Project>{5785c696-e06b-459b-9beb-64ea91564d62}</Project>
       <Name>TaleWorlds.GauntletUI</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.Library\TaleWorlds.Library.csproj">
-      <Project>{5a194119-597e-4968-aabb-baa5c557f97a}</Project>
+      <Project>{5785c696-e06b-459b-9beb-64ea91564d67}</Project>
       <Name>TaleWorlds.Library</Name>
     </ProjectReference>
     <ProjectReference Include="..\TaleWorlds.TwoDimension\TaleWorlds.TwoDimension.csproj">
-      <Project>{5a194119-597e-4968-aabb-baa5c557f992}</Project>
+      <Project>{5785c696-e06b-459b-9beb-64ea91564d7f}</Project>
       <Name>TaleWorlds.TwoDimension</Name>
     </ProjectReference>
   </ItemGroup>

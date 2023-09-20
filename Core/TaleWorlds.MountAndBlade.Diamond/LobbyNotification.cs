@@ -49,7 +49,7 @@ namespace TaleWorlds.MountAndBlade.Diamond
 			string text = "{}";
 			try
 			{
-				text = JsonConvert.SerializeObject(this.Parameters, Formatting.None);
+				text = JsonConvert.SerializeObject(this.Parameters, 0);
 			}
 			catch (Exception)
 			{

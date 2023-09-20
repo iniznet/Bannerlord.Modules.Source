@@ -906,11 +906,11 @@ namespace SandBox.CampaignBehaviors
 
 		private void UpdateTotalTimePlayedInSeconds()
 		{
-			ulong num = (ulong)((long)(DateTime.Now - this._lastGameplayTimeCheck).Seconds);
-			if (num > 0UL)
+			int seconds = (DateTime.Now - this._lastGameplayTimeCheck).Seconds;
+			if (seconds > 0)
 			{
-				this._totalTimePlayedInSeconds += num;
-				this._lastGameplayTimeCheck.AddSeconds(num);
+				this._totalTimePlayedInSeconds += (ulong)((long)seconds);
+				this._lastGameplayTimeCheck = DateTime.Now;
 			}
 		}
 

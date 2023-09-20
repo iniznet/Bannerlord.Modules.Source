@@ -71,10 +71,10 @@ namespace TaleWorlds.Library
 				[VirtualDirectory("Parameters")]
 				public class Parameters
 				{
-					[VirtualFile("Environment", "AS_irYb6U6uI24y.HucZCv7CvahQ79hhN3W_.q.Tl5LD7nSWfpD1q1UaZt_if5tnwE42NFiGpgBSZvt9IfZKdnNRMxN8YBsZkq3F8rByvPNBEJTPS7kkoCqbj9mQK9w8KSsxBSAh4V8FUl_QMOvtq3y.37CaHiQ5hsrAzuok5g0-")]
+					[VirtualFile("Environment", "Hv_Vp7wj3pHzimvCVGckW.tGxD_meNQ2RShr6kjmP3M.aSo8SXmfrtk_iqfYbgiP8SqEFY8WxnOY_9X9MUVMFLyP2aZeUjwQ2NXGsrvabRlpVVYmVpvzlKX1zppg7v8bzs8ffwQK_vfXp7T9sQLSEP5lGcBKnjbqEh97dtf4c.o-")]
 					public string Environment;
 
-					[VirtualFile("Version.xml", "<Version>\t<Singleplayer Value=\"v1.1.5\"/></Version>")]
+					[VirtualFile("Version.xml", "<Version>\t<Singleplayer Value=\"v1.1.6\"/></Version>")]
 					public string Version;
 
 					[VirtualFile("ClientProfile.xml", "<ClientProfile Value=\"DigitalOcean.Discovery\"/>")]
@@ -86,7 +86,7 @@ namespace TaleWorlds.Library
 						[VirtualDirectory("DigitalOcean.Discovery")]
 						public class DigitalOceanDiscovery
 						{
-							[VirtualFile("LobbyClient.xml", "<Configuration>\t<SessionProvider Type=\"ThreadedRest\" />\t<Clients>\t\t<Client Type=\"LobbyClient\" />\t</Clients>\t<Parameters>\t\t<Parameter Name=\"LobbyClient.ServiceDiscovery.Address\" Value=\"https://bannerlord-service-discovery.bannerlord-services-2.net:5100/\" />\t\t\t\t<Parameter Name=\"LobbyClient.Address\" Value=\"service://bannerlord.lobby/\" />\t\t<Parameter Name=\"LobbyClient.Port\" Value=\"443\" />\t\t<Parameter Name=\"LobbyClient.IsSecure\" Value=\"true\" />\t</Parameters></Configuration>")]
+							[VirtualFile("LobbyClient.xml", "<Configuration>\t<SessionProvider Type=\"ThreadedRest\" />\t<Clients>\t\t<Client Type=\"LobbyClient\" />\t</Clients>\t<Parameters>\t\t<Parameter Name=\"LobbyClient.ServiceDiscovery.Address\" Value=\"https://bannerlord-service-discovery.bannerlord-services-3.net/\" />\t\t\t\t<Parameter Name=\"LobbyClient.Address\" Value=\"service://bannerlord.lobby/\" />\t\t<Parameter Name=\"LobbyClient.Port\" Value=\"443\" />\t\t<Parameter Name=\"LobbyClient.IsSecure\" Value=\"true\" />\t</Parameters></Configuration>")]
 							public string LobbyClient;
 						}
 					}

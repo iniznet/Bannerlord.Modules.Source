@@ -232,16 +232,17 @@ namespace TaleWorlds.GauntletUI.Layout
 					else if (child2.IsVisible && ((alignmentAxis == AlignmentAxis.Horizontal && child2.WidthSizePolicy == SizePolicy.StretchToParent) || (alignmentAxis == AlignmentAxis.Vertical && child2.HeightSizePolicy == SizePolicy.StretchToParent)))
 					{
 						ContainerItemDescription itemDescription2 = this.GetItemDescription(widget, child2, j);
-						Vector2 vector = new Vector2(0f, 0f);
+						Vector2 vector;
+						vector..ctor(0f, 0f);
 						if (num6 <= 0f)
 						{
 							if (alignmentAxis == AlignmentAxis.Horizontal)
 							{
-								vector = new Vector2(0f, measureSpec.Y);
+								vector..ctor(0f, measureSpec.Y);
 							}
 							else if (alignmentAxis == AlignmentAxis.Vertical)
 							{
-								vector = new Vector2(measureSpec.X, 0f);
+								vector..ctor(measureSpec.X, 0f);
 							}
 						}
 						else if (alignmentAxis == AlignmentAxis.Horizontal)
@@ -251,7 +252,7 @@ namespace TaleWorlds.GauntletUI.Layout
 							{
 								num8 = num6;
 							}
-							vector = new Vector2(num8, measureSpec.Y);
+							vector..ctor(num8, measureSpec.Y);
 						}
 						else if (alignmentAxis == AlignmentAxis.Vertical)
 						{
@@ -260,7 +261,7 @@ namespace TaleWorlds.GauntletUI.Layout
 							{
 								num9 = num6;
 							}
-							vector = new Vector2(measureSpec.X, num9);
+							vector..ctor(measureSpec.X, num9);
 						}
 						child2.Measure(vector);
 						num7--;

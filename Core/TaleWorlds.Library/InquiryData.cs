@@ -36,6 +36,12 @@ namespace TaleWorlds.Library
 			this.AffirmativeAction = newAffirmativeAction;
 		}
 
+		public bool HasSameContentWith(object other)
+		{
+			InquiryData inquiryData;
+			return (inquiryData = other as InquiryData) != null && (this.TitleText == inquiryData.TitleText && this.Text == inquiryData.Text && this.IsAffirmativeOptionShown == inquiryData.IsAffirmativeOptionShown && this.IsNegativeOptionShown == inquiryData.IsNegativeOptionShown && this.GetIsAffirmativeOptionEnabled == inquiryData.GetIsAffirmativeOptionEnabled && this.GetIsNegativeOptionEnabled == inquiryData.GetIsNegativeOptionEnabled && this.AffirmativeText == inquiryData.AffirmativeText && this.NegativeText == inquiryData.NegativeText && this.AffirmativeAction == inquiryData.AffirmativeAction && this.NegativeAction == inquiryData.NegativeAction && this.SoundEventPath == inquiryData.SoundEventPath && this.ExpireTime == inquiryData.ExpireTime) && this.TimeoutAction == inquiryData.TimeoutAction;
+		}
+
 		public string TitleText;
 
 		public string Text;

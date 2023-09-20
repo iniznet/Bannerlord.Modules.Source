@@ -192,7 +192,7 @@ namespace SandBox
 				for (int i = 0; i < Campaign.Current.UsedGameVersions.Count; i++)
 				{
 					string text = "";
-					if (i < Campaign.Current.UsedGameVersions.Count - 1 && ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i], 21456) > ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i + 1], 21456))
+					if (i < Campaign.Current.UsedGameVersions.Count - 1 && ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i], 26219) > ApplicationVersion.FromString(Campaign.Current.UsedGameVersions[i + 1], 26219))
 					{
 						text = "Error";
 					}

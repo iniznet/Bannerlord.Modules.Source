@@ -22,6 +22,12 @@ namespace TaleWorlds.Core
 			this.Hint = hint;
 		}
 
+		public bool HasSameContentWith(object other)
+		{
+			InquiryElement inquiryElement;
+			return (inquiryElement = other as InquiryElement) != null && (this.Title == inquiryElement.Title && this.ImageIdentifier.Equals(inquiryElement.ImageIdentifier) && this.Identifier == inquiryElement.Identifier && this.IsEnabled == inquiryElement.IsEnabled) && this.Hint == inquiryElement.Hint;
+		}
+
 		public readonly string Title;
 
 		public readonly ImageIdentifier ImageIdentifier;

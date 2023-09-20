@@ -20,6 +20,12 @@ namespace TaleWorlds.Library
 			this.DefaultInputText = defaultInputText;
 		}
 
+		public bool HasSameContentWith(object other)
+		{
+			TextInquiryData textInquiryData;
+			return (textInquiryData = other as TextInquiryData) != null && (this.TitleText == textInquiryData.TitleText && this.Text == textInquiryData.Text && this.IsAffirmativeOptionShown == textInquiryData.IsAffirmativeOptionShown && this.IsNegativeOptionShown == textInquiryData.IsNegativeOptionShown && this.AffirmativeText == textInquiryData.AffirmativeText && this.NegativeText == textInquiryData.NegativeText && this.AffirmativeAction == textInquiryData.AffirmativeAction && this.NegativeAction == textInquiryData.NegativeAction && this.TextCondition == textInquiryData.TextCondition && this.IsInputObfuscated == textInquiryData.IsInputObfuscated && this.SoundEventPath == textInquiryData.SoundEventPath) && this.DefaultInputText == textInquiryData.DefaultInputText;
+		}
+
 		public string TitleText;
 
 		public string Text = "";

@@ -46,7 +46,7 @@ namespace TaleWorlds.Diamond.AccessProvider.Steam
 			}
 			byte[] array = new byte[1024];
 			uint num;
-			if (SteamUser.GetAuthSessionTicket(array, 1024, out num) == HAuthTicket.Invalid)
+			if (SteamUser.GetAuthSessionTicket(array, 1024, ref num) == HAuthTicket.Invalid)
 			{
 				return AccessObjectResult.CreateFailed(new TextObject("{=XSU8Bbbb}Invalid Steam session.", null));
 			}

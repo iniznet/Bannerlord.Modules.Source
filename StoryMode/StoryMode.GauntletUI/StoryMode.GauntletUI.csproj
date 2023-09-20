@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{A1AE8B58-11E0-46FF-B9DD-8FD04EC1D7DB}</ProjectGuid>
+    <ProjectGuid>{8A7E1649-8670-4DC7-88B9-E44E240D775C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>StoryMode.GauntletUI</RootNamespace>
     <AssemblyName>StoryMode.GauntletUI</AssemblyName>
@@ -125,15 +125,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\StoryMode.ViewModelCollection\StoryMode.ViewModelCollection.csproj">
-      <Project>{a1ae8b58-11e0-46ff-b9dd-8fd04ec1d7dd}</Project>
+      <Project>{8a7e1649-8670-4dc7-88b9-e44e240d775e}</Project>
       <Name>StoryMode.ViewModelCollection</Name>
     </ProjectReference>
     <ProjectReference Include="..\StoryMode.View\StoryMode.View.csproj">
-      <Project>{a1ae8b58-11e0-46ff-b9dd-8fd04ec1d7dc}</Project>
+      <Project>{8a7e1649-8670-4dc7-88b9-e44e240d775d}</Project>
       <Name>StoryMode.View</Name>
     </ProjectReference>
     <ProjectReference Include="..\StoryMode\StoryMode.csproj">
-      <Project>{a1ae8b58-11e0-46ff-b9dd-8fd04ec1d7da}</Project>
+      <Project>{8a7e1649-8670-4dc7-88b9-e44e240d775b}</Project>
       <Name>StoryMode</Name>
     </ProjectReference>
   </ItemGroup>

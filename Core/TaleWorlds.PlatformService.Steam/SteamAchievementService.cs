@@ -52,7 +52,7 @@ namespace TaleWorlds.PlatformService.Steam
 
 		private void UserStatsReceived(UserStatsReceived_t userStatsReceivedT)
 		{
-			if ((ulong)SteamUtils.GetAppID().m_AppId == userStatsReceivedT.m_nGameID && userStatsReceivedT.m_eResult == EResult.k_EResultOK)
+			if ((ulong)SteamUtils.GetAppID().m_AppId == userStatsReceivedT.m_nGameID && userStatsReceivedT.m_eResult == 1)
 			{
 				this._statsInitialized = true;
 			}
@@ -83,7 +83,7 @@ namespace TaleWorlds.PlatformService.Steam
 				return Task.FromResult<int>(-1);
 			}
 			int num = -1;
-			SteamUserStats.GetStat(name, out num);
+			SteamUserStats.GetStat(name, ref num);
 			return Task.FromResult<int>(num);
 		}
 
@@ -97,7 +97,7 @@ namespace TaleWorlds.PlatformService.Steam
 			foreach (string text in names)
 			{
 				int num = -1;
-				SteamUserStats.GetStat(text, out num);
+				SteamUserStats.GetStat(text, ref num);
 				list.Add(num);
 			}
 			return Task.FromResult<int[]>(list.ToArray());

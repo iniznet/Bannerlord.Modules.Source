@@ -175,7 +175,8 @@ namespace TaleWorlds.GauntletUI
 
 		public void LateUpdate(float dt)
 		{
-			Vector2 vector = new Vector2(this.TwoDimensionContext.Width, this.TwoDimensionContext.Height);
+			Vector2 vector;
+			vector..ctor(this.TwoDimensionContext.Width, this.TwoDimensionContext.Height);
 			this.EventManager.CalculateCanvas(vector, dt);
 			this.EventManager.LateUpdate(dt);
 			this.EventManager.RecalculateCanvas();

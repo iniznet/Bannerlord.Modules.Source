@@ -112,27 +112,6 @@ namespace TaleWorlds.CampaignSystem
 			return "Success";
 		}
 
-		[CommandLineFunctionality.CommandLineArgumentFunction("change_hero_race", "campaign")]
-		public static string ChangeHeroRace(List<string> strings)
-		{
-			if (!CampaignCheats.CheckCheatUsage(ref CampaignCheats.ErrorType))
-			{
-				return CampaignCheats.ErrorType;
-			}
-			if (CampaignCheats.CheckParameters(strings, 0) || CampaignCheats.CheckHelp(strings))
-			{
-				return "Format is \"campaign.change_hero_race [Race Id] [HeroName]\".";
-			}
-			string text = strings[0];
-			Hero hero = CampaignCheats.GetHero(CampaignCheats.ConcatenateString(strings.GetRange(1, strings.Count - 1)));
-			if (hero != null)
-			{
-				hero.CharacterObject.Race = FaceGen.GetRaceOrDefault(text);
-				return "Success";
-			}
-			return "Hero is not found";
-		}
-
 		[CommandLineFunctionality.CommandLineArgumentFunction("make_hero_wounded", "campaign")]
 		public static string MakeHeroWounded(List<string> strings)
 		{

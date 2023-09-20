@@ -1520,7 +1520,7 @@ namespace TaleWorlds.CampaignSystem
 		{
 			this.OwnedCaravans = new List<CaravanPartyComponent>();
 			this.OwnedAlleys = new List<Alley>();
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 21456))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.7.3.0", 26219))
 			{
 				this.PreferredUpgradeFormation = FormationClass.NumberOfAllFormations;
 			}
@@ -1528,7 +1528,7 @@ namespace TaleWorlds.CampaignSystem
 			{
 				this._firstName = this.Name;
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 21456))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.8.0.0", 26219))
 			{
 				object memberValueBySaveId;
 				bool flag;
@@ -1569,7 +1569,7 @@ namespace TaleWorlds.CampaignSystem
 			{
 				this.CurrentSettlement.AddHeroWithoutParty(this);
 			}
-			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("v1.1.0", 21456) && this.FirstName != null && this.Name != null && this != Hero.MainHero)
+			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("v1.1.0", 26219) && this.FirstName != null && this.Name != null && this != Hero.MainHero)
 			{
 				if (this.Name.Attributes == null || !this.Name.Attributes.ContainsKey("FIRSTNAME"))
 				{
@@ -1586,72 +1586,75 @@ namespace TaleWorlds.CampaignSystem
 		{
 			this._heroPerks.ClearChangedPerks(this);
 			this.HeroDeveloper.AfterLoad();
-			if (this != Hero.MainHero && this.IsPrisoner && this != Hero.MainHero && this.IsPrisoner && this.PartyBelongedToAsPrisoner == null && this.CurrentSettlement != null)
+			if (MBSaveLoad.LastLoadedGameVersion <= ApplicationVersion.FromString("v1.3.0", 26219))
 			{
-				this.PartyBelongedToAsPrisoner = this.CurrentSettlement.Party;
-			}
-			MobileParty mainParty = MobileParty.MainParty;
-			if (this != Hero.MainHero && this.PartyBelongedTo == mainParty && !mainParty.MemberRoster.Contains(this.CharacterObject))
-			{
-				MakeHeroFugitiveAction.Apply(this);
-			}
-			if (mainParty.MemberRoster.Contains(this.CharacterObject) && this.PartyBelongedTo != mainParty)
-			{
-				mainParty.MemberRoster.RemoveTroop(this.CharacterObject, mainParty.MemberRoster.GetElementNumber(this.CharacterObject), default(UniqueTroopDescriptor), 0);
-				if (!Campaign.Current.IssueManager.IssueSolvingCompanionList.Contains(this))
+				if (this != Hero.MainHero && this.IsPrisoner && this != Hero.MainHero && this.IsPrisoner && this.PartyBelongedToAsPrisoner == null && this.CurrentSettlement != null)
 				{
-					MobileParty partyBelongedTo = this.PartyBelongedTo;
-					if (partyBelongedTo != null && !partyBelongedTo.IsCaravan)
+					this.PartyBelongedToAsPrisoner = this.CurrentSettlement.Party;
+				}
+				MobileParty mainParty = MobileParty.MainParty;
+				if (this != Hero.MainHero && this.PartyBelongedTo == mainParty && !mainParty.MemberRoster.Contains(this.CharacterObject))
+				{
+					MakeHeroFugitiveAction.Apply(this);
+				}
+				if (mainParty.MemberRoster.Contains(this.CharacterObject) && this.PartyBelongedTo != mainParty)
+				{
+					mainParty.MemberRoster.RemoveTroop(this.CharacterObject, mainParty.MemberRoster.GetElementNumber(this.CharacterObject), default(UniqueTroopDescriptor), 0);
+					if (!Campaign.Current.IssueManager.IssueSolvingCompanionList.Contains(this))
 					{
-						MakeHeroFugitiveAction.Apply(this);
-					}
-				}
-			}
-			if (this.Spouse != null && (this.Spouse.Clan != this.Clan || this.Clan == CampaignData.NeutralFaction || this.Age < (float)Campaign.Current.Models.AgeModel.HeroComesOfAge))
-			{
-				Hero spouse = this.Spouse;
-				this.Spouse = null;
-				this._exSpouses.Remove(spouse);
-				spouse._exSpouses.Remove(this);
-				MBReadOnlyList<LogEntry> gameActionLogs = Campaign.Current.LogEntryHistory.GameActionLogs;
-				for (int i = gameActionLogs.Count - 1; i >= 0; i--)
-				{
-					CharacterMarriedLogEntry characterMarriedLogEntry;
-					if ((characterMarriedLogEntry = gameActionLogs[i] as CharacterMarriedLogEntry) != null && (characterMarriedLogEntry.IsVisibleInEncyclopediaPageOf<Hero>(this) || characterMarriedLogEntry.IsVisibleInEncyclopediaPageOf<Hero>(this)))
-					{
-						Campaign.Current.LogEntryHistory.DeleteLogAtIndex(i);
-					}
-				}
-				Hero hero = this.Mother ?? this.Father;
-				if (hero != null)
-				{
-					this.Clan = hero.Clan;
-				}
-				else if (this.Age < (float)Campaign.Current.Models.AgeModel.HeroComesOfAge)
-				{
-					KillCharacterAction.ApplyByRemove(this, false, true);
-				}
-				else
-				{
-					Clan clan = null;
-					int num = int.MaxValue;
-					for (int j = 0; j < Clan.All.Count<Clan>(); j++)
-					{
-						Clan clan2 = Clan.All[j];
-						if (clan2 != Clan.PlayerClan && clan2 != CampaignData.NeutralFaction && !clan2.IsBanditFaction && !clan2.IsRebelClan && !clan2.IsEliminated && this.Culture == clan2.Culture && clan2.Heroes.Count < num)
+						MobileParty partyBelongedTo = this.PartyBelongedTo;
+						if (partyBelongedTo != null && !partyBelongedTo.IsCaravan)
 						{
-							num = clan2.Heroes.Count;
-							clan = clan2;
+							MakeHeroFugitiveAction.Apply(this);
 						}
 					}
-					if (clan == null)
+				}
+				if (this.Spouse != null && (this.Spouse.Clan != this.Clan || this.Clan == CampaignData.NeutralFaction || this.Age < (float)Campaign.Current.Models.AgeModel.HeroComesOfAge))
+				{
+					Hero spouse = this.Spouse;
+					this.Spouse = null;
+					this._exSpouses.Remove(spouse);
+					spouse._exSpouses.Remove(this);
+					MBReadOnlyList<LogEntry> gameActionLogs = Campaign.Current.LogEntryHistory.GameActionLogs;
+					for (int i = gameActionLogs.Count - 1; i >= 0; i--)
 					{
-						clan = Clan.All.GetRandomElementWithPredicate((Clan currentClan) => currentClan != Clan.PlayerClan && currentClan != CampaignData.NeutralFaction && !currentClan.IsBanditFaction && !currentClan.IsRebelClan && !currentClan.IsEliminated);
+						CharacterMarriedLogEntry characterMarriedLogEntry;
+						if ((characterMarriedLogEntry = gameActionLogs[i] as CharacterMarriedLogEntry) != null && (characterMarriedLogEntry.IsVisibleInEncyclopediaPageOf<Hero>(this) || characterMarriedLogEntry.IsVisibleInEncyclopediaPageOf<Hero>(this)))
+						{
+							Campaign.Current.LogEntryHistory.DeleteLogAtIndex(i);
+						}
 					}
-					this.Clan = clan;
+					Hero hero = this.Mother ?? this.Father;
+					if (hero != null)
+					{
+						this.Clan = hero.Clan;
+					}
+					else if (this.Age < (float)Campaign.Current.Models.AgeModel.HeroComesOfAge && !this.IsDead)
+					{
+						KillCharacterAction.ApplyByRemove(this, false, true);
+					}
+					else
+					{
+						Clan clan = null;
+						int num = int.MaxValue;
+						for (int j = 0; j < Clan.All.Count<Clan>(); j++)
+						{
+							Clan clan2 = Clan.All[j];
+							if (clan2 != Clan.PlayerClan && clan2 != CampaignData.NeutralFaction && !clan2.IsBanditFaction && !clan2.IsRebelClan && !clan2.IsEliminated && this.Culture == clan2.Culture && clan2.Heroes.Count < num)
+							{
+								num = clan2.Heroes.Count;
+								clan = clan2;
+							}
+						}
+						if (clan == null)
+						{
+							clan = Clan.All.GetRandomElementWithPredicate((Clan currentClan) => currentClan != Clan.PlayerClan && currentClan != CampaignData.NeutralFaction && !currentClan.IsBanditFaction && !currentClan.IsRebelClan && !currentClan.IsEliminated);
+						}
+						this.Clan = clan;
+					}
 				}
 			}
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 21456) && !this.IsDead && this.CurrentSettlement == null && this.IsNotable && this.BornSettlement != null)
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("v1.1.1", 26219) && !this.IsDead && this.CurrentSettlement == null && this.IsNotable && this.BornSettlement != null)
 			{
 				TeleportHeroAction.ApplyImmediateTeleportToSettlement(this, this.BornSettlement);
 				if (!this.IsActive)

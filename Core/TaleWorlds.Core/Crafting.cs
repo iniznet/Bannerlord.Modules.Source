@@ -122,7 +122,6 @@ namespace TaleWorlds.Core
 
 		public void SwitchToPiece(WeaponDesignElement piece)
 		{
-			this.SelectedPieces[(int)piece.CraftingPiece.PieceType].SetScale(100);
 			CraftingPiece.PieceTypes pieceType = piece.CraftingPiece.PieceType;
 			WeaponDesignElement[] array = new WeaponDesignElement[4];
 			for (int i = 0; i < array.Length; i++)
@@ -130,6 +129,7 @@ namespace TaleWorlds.Core
 				if (pieceType == (CraftingPiece.PieceTypes)i)
 				{
 					array[i] = piece.GetCopy();
+					array[i].SetScale(100);
 				}
 				else
 				{
@@ -309,7 +309,7 @@ namespace TaleWorlds.Core
 					}
 					else
 					{
-						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatasFromTemplate", 1216);
+						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatasFromTemplate", 1215);
 					}
 					break;
 				}
@@ -384,7 +384,7 @@ namespace TaleWorlds.Core
 					}
 					else
 					{
-						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatas", 1301);
+						Debug.FailedAssert("Missile damage type is missing.", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.Core\\Crafting.cs", "GetStatDatas", 1300);
 					}
 					break;
 				}

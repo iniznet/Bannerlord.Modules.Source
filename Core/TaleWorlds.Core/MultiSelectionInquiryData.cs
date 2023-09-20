@@ -19,6 +19,31 @@ namespace TaleWorlds.Core
 			this.SoundEventPath = soundEventPath;
 		}
 
+		public bool HasSameContentWith(object other)
+		{
+			MultiSelectionInquiryData multiSelectionInquiryData;
+			if ((multiSelectionInquiryData = other as MultiSelectionInquiryData) != null)
+			{
+				bool flag = true;
+				if (this.InquiryElements.Count == multiSelectionInquiryData.InquiryElements.Count)
+				{
+					for (int i = 0; i < this.InquiryElements.Count; i++)
+					{
+						if (!this.InquiryElements[i].HasSameContentWith(multiSelectionInquiryData.InquiryElements[i]))
+						{
+							flag = false;
+						}
+					}
+				}
+				else
+				{
+					flag = false;
+				}
+				return this.TitleText == multiSelectionInquiryData.TitleText && this.DescriptionText == multiSelectionInquiryData.DescriptionText && flag && this.IsExitShown == multiSelectionInquiryData.IsExitShown && this.AffirmativeText == multiSelectionInquiryData.AffirmativeText && this.NegativeText == multiSelectionInquiryData.NegativeText && this.AffirmativeAction == multiSelectionInquiryData.AffirmativeAction && this.NegativeAction == multiSelectionInquiryData.NegativeAction && this.MinSelectableOptionCount == multiSelectionInquiryData.MinSelectableOptionCount && this.MaxSelectableOptionCount == multiSelectionInquiryData.MaxSelectableOptionCount && this.SoundEventPath == multiSelectionInquiryData.SoundEventPath;
+			}
+			return false;
+		}
+
 		public readonly string TitleText;
 
 		public readonly string DescriptionText;

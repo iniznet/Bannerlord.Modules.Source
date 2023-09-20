@@ -794,7 +794,8 @@ namespace TaleWorlds.GauntletUI
 					if (!this.IsDragging && this.LatestMouseDownWidget.PreviewEvent(GauntletEvent.DragBegin))
 					{
 						Vector2 vector = this._lastClickPosition - this.MousePosition;
-						Vector2 vector2 = new Vector2(vector.X, vector.Y);
+						Vector2 vector2;
+						vector2..ctor(vector.X, vector.Y);
 						if (vector2.LengthSquared() > 100f * this.Context.Scale)
 						{
 							this.DispatchEvent(this.LatestMouseDownWidget, GauntletEvent.DragBegin);
@@ -1008,7 +1009,8 @@ namespace TaleWorlds.GauntletUI
 
 		public static bool HitTest(Widget widget, Vector2 position)
 		{
-			Vector2 vector = new Vector2(position.X - widget.EventManager.Root.Left, position.Y - widget.EventManager.Root.Top);
+			Vector2 vector;
+			vector..ctor(position.X - widget.EventManager.Root.Left, position.Y - widget.EventManager.Root.Top);
 			return EventManager.AnyWidgetsAt(widget, vector);
 		}
 
@@ -1037,7 +1039,8 @@ namespace TaleWorlds.GauntletUI
 					for (int i = widget.ChildCount - 1; i >= 0; i--)
 					{
 						Widget child = widget.GetChild(i);
-						Vector2 vector = new Vector2(position.X - widget.Left, position.Y - widget.Top);
+						Vector2 vector;
+						vector..ctor(position.X - widget.Left, position.Y - widget.Top);
 						if (!child.IsHidden && !child.IsDisabled && EventManager.AnyWidgetsAt(child, vector))
 						{
 							return true;
@@ -1058,7 +1061,8 @@ namespace TaleWorlds.GauntletUI
 					for (int i = widget.ChildCount - 1; i >= 0; i = num - 1)
 					{
 						Widget child = widget.GetChild(i);
-						Vector2 vector = new Vector2(position.X - widget.Left, position.Y - widget.Top);
+						Vector2 vector;
+						vector..ctor(position.X - widget.Left, position.Y - widget.Top);
 						if (!child.IsHidden && !child.IsDisabled && EventManager.IsPointInsideMeasuredArea(child, vector))
 						{
 							foreach (Widget widget2 in EventManager.AllEnabledWidgetsAt(child, vector))
@@ -1087,7 +1091,8 @@ namespace TaleWorlds.GauntletUI
 				for (int i = widget.ChildCount - 1; i >= 0; i = num - 1)
 				{
 					Widget child = widget.GetChild(i);
-					Vector2 vector = new Vector2(position.X - widget.Left, position.Y - widget.Top);
+					Vector2 vector;
+					vector..ctor(position.X - widget.Left, position.Y - widget.Top);
 					if (child.IsVisible && EventManager.IsPointInsideMeasuredArea(child, vector))
 					{
 						foreach (Widget widget2 in EventManager.AllVisibleWidgetsAt(child, vector))

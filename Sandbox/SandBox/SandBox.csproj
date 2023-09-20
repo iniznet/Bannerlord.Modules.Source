@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
-    <ProjectGuid>{610693D8-C30F-45EA-88C6-E1FD21AC4990}</ProjectGuid>
+    <ProjectGuid>{FE195B9E-CA19-44AB-B31A-DE533EF3A548}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>SandBox</RootNamespace>
     <AssemblyName>SandBox</AssemblyName>

@@ -181,7 +181,7 @@ namespace TaleWorlds.PlatformService.Steam
 				{
 					uint num;
 					uint num2;
-					SteamUtils.GetImageSize(userAvatar, out num, out num2);
+					SteamUtils.GetImageSize(userAvatar, ref num, ref num2);
 					if (num != 0U)
 					{
 						uint num3 = num * num2 * 4U;
@@ -311,7 +311,7 @@ namespace TaleWorlds.PlatformService.Steam
 		internal Task<bool> GetUserOnlineStatus(PlayerId providedId)
 		{
 			SteamUtils.GetAppID();
-			if (SteamFriends.GetFriendPersonaState(new CSteamID(providedId.Part4)) != EPersonaState.k_EPersonaStateOffline)
+			if (SteamFriends.GetFriendPersonaState(new CSteamID(providedId.Part4)) != null)
 			{
 				return Task.FromResult<bool>(true);
 			}
@@ -322,7 +322,7 @@ namespace TaleWorlds.PlatformService.Steam
 		{
 			AppId_t appID = SteamUtils.GetAppID();
 			FriendGameInfo_t friendGameInfo_t;
-			if (SteamFriends.GetFriendGamePlayed(new CSteamID(providedId.Part4), out friendGameInfo_t) && friendGameInfo_t.m_gameID.AppID() == appID)
+			if (SteamFriends.GetFriendGamePlayed(new CSteamID(providedId.Part4), ref friendGameInfo_t) && friendGameInfo_t.m_gameID.AppID() == appID)
 			{
 				return Task.FromResult<bool>(true);
 			}
@@ -332,12 +332,12 @@ namespace TaleWorlds.PlatformService.Steam
 		internal async Task<PlayerId> GetUserWithName(string name)
 		{
 			await Task.Delay(0);
-			int num = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+			int num = SteamFriends.GetFriendCount(4);
 			CSteamID csteamID = default(CSteamID);
 			int num2 = 0;
 			for (int i = 0; i < num; i++)
 			{
-				CSteamID friendByIndex = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+				CSteamID friendByIndex = SteamFriends.GetFriendByIndex(i, 4);
 				if (SteamFriends.GetFriendPersonaName(friendByIndex).Equals(name))
 				{
 					csteamID = friendByIndex;
@@ -378,7 +378,7 @@ namespace TaleWorlds.PlatformService.Steam
 			{
 				uint num;
 				uint num2;
-				SteamUtils.GetImageSize(userAvatar, out num, out num2);
+				SteamUtils.GetImageSize(userAvatar, ref num, ref num2);
 				if (num != 0U)
 				{
 					uint num3 = num * num2 * 4U;
@@ -434,19 +434,19 @@ namespace TaleWorlds.PlatformService.Steam
 
 		private static void UserInformationUpdated(PersonaStateChange_t pCallback)
 		{
-			if ((pCallback.m_nChangeFlags & EPersonaChange.k_EPersonaChangeAvatar) != (EPersonaChange)0)
+			if ((pCallback.m_nChangeFlags & 64) != null)
 			{
 				SteamPlatformServices._avatarUpdates.Add(new CSteamID(pCallback.m_ulSteamID));
 				SteamPlatformServices.Instance.OnAvatarUpdateReceived(pCallback.m_ulSteamID);
 				return;
 			}
-			if ((pCallback.m_nChangeFlags & EPersonaChange.k_EPersonaChangeName) != (EPersonaChange)0)
+			if ((pCallback.m_nChangeFlags & 1) != null)
 			{
 				SteamPlatformServices._nameUpdates.Add(new CSteamID(pCallback.m_ulSteamID));
 				SteamPlatformServices.Instance.OnNameUpdateReceived(new CSteamID(pCallback.m_ulSteamID).ToPlayerId());
 				return;
 			}
-			if ((pCallback.m_nChangeFlags & EPersonaChange.k_EPersonaChangeGamePlayed) != (EPersonaChange)0)
+			if ((pCallback.m_nChangeFlags & 16) != null)
 			{
 				SteamPlatformServices.HandleOnUserStatusChanged(new CSteamID(pCallback.m_ulSteamID).ToPlayerId());
 			}

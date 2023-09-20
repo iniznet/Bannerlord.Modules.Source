@@ -41,7 +41,7 @@ namespace TaleWorlds.CampaignSystem.Issues
 		private void OnGameLoaded(CampaignGameStarter campaignGameStarter)
 		{
 			this.InitializeOnStart();
-			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.9.1", 21456))
+			if (MBSaveLoad.IsUpdatingGameVersion && MBSaveLoad.LastLoadedGameVersion < ApplicationVersion.FromString("e1.9.1", 26219))
 			{
 				for (int i = MobileParty.All.Count - 1; i >= 0; i--)
 				{

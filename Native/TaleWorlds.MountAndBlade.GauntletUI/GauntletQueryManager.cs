@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.Engine.GauntletUI;
@@ -117,6 +118,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				this.HandleQueryCreated(data.SoundEventPath, pauseGameActiveState);
 				return;
 			}
+			if (data == null)
+			{
+				Debug.FailedAssert("Trying to create query with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateQuery", 123);
+				return;
+			}
+			if (GauntletQueryManager.CheckIfQueryDataIsEqual(GauntletQueryManager._activeQueryData, data) || this._inquiryQueue.Any((Tuple<Type, object, bool, bool> x) => GauntletQueryManager.CheckIfQueryDataIsEqual(x.Item2, data)))
+			{
+				Debug.FailedAssert("Trying to create query but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateQuery", 128);
+				return;
+			}
 			if (prioritize)
 			{
 				this.QueueAndShowNewData(data, pauseGameActiveState, prioritize);
@@ -136,6 +147,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				this.HandleQueryCreated(data.SoundEventPath, pauseGameActiveState);
 				return;
 			}
+			if (data == null)
+			{
+				Debug.FailedAssert("Trying to create textQuery with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateTextQuery", 158);
+				return;
+			}
+			if (GauntletQueryManager.CheckIfQueryDataIsEqual(GauntletQueryManager._activeQueryData, data) || this._inquiryQueue.Any((Tuple<Type, object, bool, bool> x) => GauntletQueryManager.CheckIfQueryDataIsEqual(x.Item2, data)))
+			{
+				Debug.FailedAssert("Trying to create textQuery but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateTextQuery", 163);
+				return;
+			}
 			if (prioritize)
 			{
 				this.QueueAndShowNewData(data, pauseGameActiveState, prioritize);
@@ -153,6 +174,16 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				GauntletQueryManager._activeDataSource = this._multiSelectionQueryPopUpVM;
 				GauntletQueryManager._activeQueryData = data;
 				this.HandleQueryCreated(data.SoundEventPath, pauseGameActiveState);
+				return;
+			}
+			if (data == null)
+			{
+				Debug.FailedAssert("Trying to create multiSelectionQuery with null data!", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateMultiSelectionQuery", 193);
+				return;
+			}
+			if (GauntletQueryManager.CheckIfQueryDataIsEqual(GauntletQueryManager._activeQueryData, data) || this._inquiryQueue.Any((Tuple<Type, object, bool, bool> x) => GauntletQueryManager.CheckIfQueryDataIsEqual(x.Item2, data)))
+			{
+				Debug.FailedAssert("Trying to create multiSelectionQuery but it is already present! Title: " + data.TitleText, "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CreateMultiSelectionQuery", 198);
 				return;
 			}
 			if (prioritize)
@@ -218,7 +249,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 					action(tuple.Item2, tuple.Item3, tuple.Item4);
 					return;
 				}
-				Debug.FailedAssert("Invalid data type for query", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CloseQuery", 256);
+				Debug.FailedAssert("Invalid data type for query", "C:\\Develop\\MB3\\Source\\Bannerlord\\TaleWorlds.MountAndBlade.GauntletUI\\GauntletQueryManager.cs", "CloseQuery", 290);
 			}
 		}
 
@@ -252,6 +283,22 @@ namespace TaleWorlds.MountAndBlade.GauntletUI
 				queue.Enqueue(t2.Dequeue());
 			}
 			return queue;
+		}
+
+		private static bool CheckIfQueryDataIsEqual(object queryData1, object queryData2)
+		{
+			InquiryData inquiryData;
+			if ((inquiryData = queryData1 as InquiryData) != null)
+			{
+				return inquiryData.HasSameContentWith(queryData2);
+			}
+			TextInquiryData textInquiryData;
+			if ((textInquiryData = queryData1 as TextInquiryData) != null)
+			{
+				return textInquiryData.HasSameContentWith(queryData2);
+			}
+			MultiSelectionInquiryData multiSelectionInquiryData;
+			return (multiSelectionInquiryData = queryData1 as MultiSelectionInquiryData) != null && multiSelectionInquiryData.HasSameContentWith(queryData2);
 		}
 
 		private bool _isInitialized;

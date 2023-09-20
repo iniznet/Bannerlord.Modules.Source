@@ -63,7 +63,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 				if (this._frame < 3)
 				{
 					this._tooltipPosition = base.EventManager.MousePosition;
-					vector = new Vector2(-2000f, -2000f);
+					vector..ctor(-2000f, -2000f);
 				}
 				else
 				{
@@ -81,7 +81,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 				{
 					horizontalAlignment = HorizontalAlignment.Right;
 					num -= 0f;
-					vector = new Vector2(-(base.EventManager.PageSize.X - vector.X), vector.Y);
+					vector..ctor(-(base.EventManager.PageSize.X - vector.X), vector.Y);
 				}
 				VerticalAlignment verticalAlignment;
 				float num2;
@@ -94,7 +94,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 				{
 					verticalAlignment = VerticalAlignment.Bottom;
 					num2 = 0f;
-					vector = new Vector2(vector.X, -(base.EventManager.PageSize.Y - vector.Y));
+					vector..ctor(vector.X, -(base.EventManager.PageSize.Y - vector.Y));
 				}
 				vector += new Vector2(num, num2);
 				if (this._frame > 3)
@@ -102,7 +102,7 @@ namespace TaleWorlds.MountAndBlade.GauntletUI.Widgets.Information
 					if (base.Size.Y > base.EventManager.PageSize.Y)
 					{
 						verticalAlignment = VerticalAlignment.Center;
-						vector = new Vector2(vector.X, 0f);
+						vector..ctor(vector.X, 0f);
 					}
 					else
 					{

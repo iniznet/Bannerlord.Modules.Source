@@ -45,7 +45,7 @@ namespace TaleWorlds.Diamond.AccessProvider.Epic
 					return null;
 				}
 				string text;
-				this._epicAccountId.ToString(out text);
+				this._epicAccountId.ToString(ref text);
 				return text;
 			}
 		}

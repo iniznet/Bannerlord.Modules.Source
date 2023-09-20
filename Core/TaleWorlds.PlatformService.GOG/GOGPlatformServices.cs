@@ -245,7 +245,7 @@ namespace TaleWorlds.PlatformService.GOG
 				uint num2 = 184U;
 				uint num3 = 4U * num * num2;
 				byte[] array = new byte[num3];
-				GalaxyInstance.Friends().GetFriendAvatarImageRGBA(galaxyID, AvatarType.AVATAR_TYPE_LARGE, array, num3);
+				GalaxyInstance.Friends().GetFriendAvatarImageRGBA(galaxyID, 4, array, num3);
 				AvatarData avatarData2 = new AvatarData(array, num, num2);
 				Dictionary<PlayerId, AvatarData> avatarCache = this._avatarCache;
 				lock (avatarCache)

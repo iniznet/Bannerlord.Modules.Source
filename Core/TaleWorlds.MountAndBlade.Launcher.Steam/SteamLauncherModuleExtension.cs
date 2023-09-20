@@ -34,7 +34,7 @@ namespace TaleWorlds.MountAndBlade.Launcher.Steam
 						ulong num2;
 						string text;
 						uint num3;
-						if (SteamUGC.GetItemInstallInfo(array[num], out num2, out text, 4096U, out num3))
+						if (SteamUGC.GetItemInstallInfo(array[num], ref num2, ref text, 4096U, ref num3))
 						{
 							this._modulePaths.Add(text);
 						}

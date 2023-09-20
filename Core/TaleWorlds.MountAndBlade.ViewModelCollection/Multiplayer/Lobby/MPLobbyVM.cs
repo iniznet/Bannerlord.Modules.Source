@@ -207,9 +207,12 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby
 			this.Friends.OnFinalize();
 			this.Home.OnFindGameRequested -= this.AutoFindGameRequested;
 			this.Profile.OnFindGameRequested -= this.AutoFindGameRequested;
-			this._lobbyState.UnregisterForCustomServerAction(new Func<GameServerEntry, List<CustomServerAction>>(this.OnServerActionRequested));
-			LobbyState lobbyState = this._lobbyState;
-			lobbyState.OnUserGeneratedContentPrivilegeUpdated = (Action<bool>)Delegate.Remove(lobbyState.OnUserGeneratedContentPrivilegeUpdated, new Action<bool>(this.OnUserGeneratedContentPrivilegeUpdated));
+			if (this._lobbyState != null)
+			{
+				this._lobbyState.UnregisterForCustomServerAction(new Func<GameServerEntry, List<CustomServerAction>>(this.OnServerActionRequested));
+				LobbyState lobbyState = this._lobbyState;
+				lobbyState.OnUserGeneratedContentPrivilegeUpdated = (Action<bool>)Delegate.Remove(lobbyState.OnUserGeneratedContentPrivilegeUpdated, new Action<bool>(this.OnUserGeneratedContentPrivilegeUpdated));
+			}
 			MPLobbyRejoinVM rejoin = this.Rejoin;
 			rejoin.OnRejoinRequested = (Action)Delegate.Remove(rejoin.OnRejoinRequested, new Action(this.OnRejoinRequested));
 			this.Menu.OnFinalize();
@@ -461,15 +464,18 @@ namespace TaleWorlds.MountAndBlade.ViewModelCollection.Multiplayer.Lobby
 		{
 			if (NetworkMain.GameClient.CurrentState != LobbyClient.State.WaitingToJoinCustomGame && NetworkMain.GameClient.CurrentState != LobbyClient.State.WaitingToJoinPremadeGame && NetworkMain.GameClient.CurrentState != LobbyClient.State.Connected && NetworkMain.GameClient.CurrentState != LobbyClient.State.SessionRequested && NetworkMain.GameClient.CurrentState != LobbyClient.State.Working)
 			{
-				while (NetworkMain.GameClient.CurrentState != LobbyClient.State.AtLobby)
+				while (NetworkMain.GameClient.CurrentState == LobbyClient.State.RequestingToSearchBattle || NetworkMain.GameClient.CurrentState == LobbyClient.State.RequestingToCancelSearchBattle)
 				{
-					if (NetworkMain.GameClient.CurrentState == LobbyClient.State.SearchingBattle)
+					await Task.Yield();
+				}
+				if (NetworkMain.GameClient.CurrentState == LobbyClient.State.SearchingBattle)
+				{
+					if (!NetworkMain.GameClient.IsInParty || NetworkMain.GameClient.IsPartyLeader)
 					{
 						NetworkMain.GameClient.CancelFindGame();
 					}
-					await Task.Yield();
 				}
-				if (!this._isDisconnecting)
+				else if (!this._isDisconnecting)
 				{
 					if (Input.IsGamepadActive)
 					{
